@@ -1,0 +1,75 @@
+# coldpress.yaml — Project Configuration Template
+# Copy this to your project root and customize.
+# This is the ONLY config file coldpress-os reads from your project.
+
+# ─── Project Identity ───────────────────────────────────────────────
+project:
+  name: ""                          # e.g., "My Project"
+  slug: ""                          # e.g., "my-project" (kebab-case)
+  type: ""                          # from data/classification/project-types.csv
+                                    #   web_app | mobile_app | api_service | library
+                                    #   cli_tool | design_system | framework | course | other
+  domain: ""                        # from data/classification/domain-complexity.csv
+                                    #   edtech | fintech | healthtech | ecommerce | saas
+                                    #   social | media | devtools | enterprise | iot
+                                    #   gaming | ai_ml | other
+  pattern: ""                       # a (three-tier) | b (single-repo) | c (framework) | d (non-code)
+
+# ─── User ───────────────────────────────────────────────────────────
+user:
+  name: ""                          # e.g., "Aastha"
+  communication_language: "English"
+  document_output_language: "English"
+
+# ─── Stack Pack ─────────────────────────────────────────────────────
+stack_pack: ""                      # e.g., "convex" — activates skills/stack-packs/{pack}/
+                                    # Leave empty if no stack pack applies
+
+# ─── Agent Configuration ───────────────────────────────────────────
+# Mode settings passed by Butler when dispatching subagents.
+# These control how each subagent operates for this project.
+agents:
+  analyst:
+    mode: "full"                    # full — complete interview + research
+                                    # brief — product brief + trigger map only
+                                    # creative — brainstorming / design thinking / problem solving
+                                    # strategic — innovation strategy / blue ocean
+  developer:
+    mode: "standard"                # standard — story-driven, TDD, full ceremony
+                                    # quick — lean spec, rapid implementation, minimal docs
+  qa:
+    depth: "rapid"                  # rapid — coverage-first, pragmatic test generation
+                                    # strategic — risk-based, ATDD, CI/CD governance, NFRs
+  ux-designer:
+    mode: "standard"                # standard — UX spec from PRD (wireframes, components)
+                                    # full-spec — WDS flow (scenarios, sketches, Object IDs, design system)
+
+# ─── Sacred Documents ──────────────────────────────────────────────
+# Paths relative to project root. These get governance protection.
+sacred_docs:
+  context: "docs/context.md"
+  tech_stack: "docs/tech-stack.md"
+  prd: "_output/planning/prd.md"
+  architecture: "_output/planning/architecture.md"
+  pert: "_output/tracking/pert-chart.md"
+
+# ─── Output Directories ────────────────────────────────────────────
+# Where skills write their artifacts. Relative to project root.
+output:
+  planning: "_output/planning/"
+  design: "_output/design/"
+  implementation: "_output/implementation/"
+  testing: "_output/testing/"
+  tracking: "_output/tracking/"
+  handoffs: "_output/handoffs/"
+
+# ─── Stack Pack Overrides ──────────────────────────────────────────
+# Add stack-pack-specific config below. Key = stack_pack value.
+
+# convex:
+#   project_id: ""
+#   deployment: ""
+
+# supabase:
+#   project_ref: ""
+#   db_url: ""

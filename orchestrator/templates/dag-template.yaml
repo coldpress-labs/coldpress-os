@@ -1,0 +1,48 @@
+# DAG Template — coldpress-os Orchestrator
+#
+# Copy this file to your project's orchestration/ directory and fill in tasks.
+# See orchestrator/engine/dag-parser.md for full documentation.
+
+dag:
+  id: "{project-slug}-{scope}"
+  scope: "epics"                        # epics | research | planning | testing | deployment
+  created: "{date}"
+  project: "{project-name}"
+
+  tasks:
+    # Wave 1 — Root tasks (no dependencies)
+    - id: "epic-1"
+      name: "{Epic 1 Title}"
+      depends_on: []
+      estimated_duration: "2w"
+      agent: "developer"
+      description: "{Brief description}"
+      output: "_output/implementation/epic-1/"
+
+    # Wave 2 — Depends on Wave 1
+    - id: "epic-2"
+      name: "{Epic 2 Title}"
+      depends_on: ["epic-1"]
+      estimated_duration: "2w"
+      agent: "developer"
+      description: "{Brief description}"
+      output: "_output/implementation/epic-2/"
+
+    - id: "epic-3"
+      name: "{Epic 3 Title — parallel with epic-2}"
+      depends_on: ["epic-1"]
+      estimated_duration: "2w"
+      agent: "developer"
+      description: "{Brief description}"
+      output: "_output/implementation/epic-3/"
+
+    # Wave 3 — Depends on Wave 2
+    - id: "epic-4"
+      name: "{Epic 4 Title}"
+      depends_on: ["epic-2", "epic-3"]
+      estimated_duration: "2w"
+      agent: "developer"
+      description: "{Brief description}"
+      output: "_output/implementation/epic-4/"
+
+    # Add more tasks as needed...

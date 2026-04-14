@@ -1,0 +1,10 @@
+project_type,required_docs,optional_docs,notes
+web_app,"context.md,tech-stack.md,prd.md,architecture.md,ux-design-spec.md","api-docs.md,deployment-guide.md",Full lifecycle recommended
+mobile_app,"context.md,tech-stack.md,prd.md,architecture.md,ux-design-spec.md","platform-guide.md,store-submission.md",Include platform-specific guides
+api_backend,"context.md,tech-stack.md,prd.md,architecture.md","api-docs.md,data-model.md",UX spec optional
+full_stack,"context.md,tech-stack.md,prd.md,architecture.md,ux-design-spec.md","api-docs.md,deployment-guide.md",Same as web_app
+cli_tool,"context.md,tech-stack.md,prd.md","architecture.md,man-page.md",Lighter documentation needs
+desktop_app,"context.md,tech-stack.md,prd.md,architecture.md,ux-design-spec.md","installer-guide.md",Include platform packaging
+library,"context.md,tech-stack.md,architecture.md","api-docs.md,contribution-guide.md",PRD optional for pure libraries
+design_system,"context.md,prd.md,ux-design-spec.md","tech-stack.md,component-catalog.md",Focus on design documentation
+course,"context.md,prd.md","curriculum.md,lesson-plan.md",Non-code deliverable

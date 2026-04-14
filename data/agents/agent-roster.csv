@@ -1,0 +1,10 @@
+name,slug,persona,model,primary_phases,available_phases,origin,merges
+Analyst,analyst,analyst,sonnet,"2,4","2,3,4,8",consolidated,"vera,moxie,nova,leni,iggy,crux"
+PM,pm,pm,sonnet,"4,5","4,5,6,8",consolidated,rex
+UX Designer,ux-designer,ux-designer,sonnet,4,"2,4,6,8",consolidated,"iris,lyla"
+Architect,architect,architect,opus,"3,4","3,4,5,6,7",consolidated,"arch,crux"
+Developer,developer,developer,sonnet,6,6,consolidated,"cody,blitz"
+QA,qa,qa,sonnet,"6,7","6,7",consolidated,"abby,zane"
+Scrum Master,scrum-master,scrum-master,haiku,"5,8","5,6,8",consolidated,atlas
+Communicator,communicator,communicator,sonnet,"4,8","4,6,8",consolidated,"granger,quill,kai"
+Valet,valet,meta,sonnet,,meta,new,valet
