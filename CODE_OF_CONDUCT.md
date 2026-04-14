@@ -62,8 +62,4 @@ available under a [Creative Commons Attribution 4.0 International license](https
 
 ---
 
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2026-04-15 | Alfred | Initial CODE_OF_CONDUCT.md — Contributor Covenant 2.1 adoption ahead of public release |
+*Last updated: 2026-04-15*

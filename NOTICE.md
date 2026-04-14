@@ -209,11 +209,3 @@ For a file-by-file classification of which artifacts came from which upstream
 (or are original to ColdPress Labs), see
 [docs/attribution-audit.md](docs/attribution-audit.md).
 
----
-
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 2.0 | 2026-04-15 | Alfred | Added CIS and WDS as distinct upstream sections following provenance investigation. Expanded BMAD section with persona list and utility-skill borrowing. Restructured as three numbered sections with consistent field tables. |
-| 1.0 | 2026-04-15 | Alfred | Initial NOTICE.md — BMAD-METHOD attribution established ahead of public release |

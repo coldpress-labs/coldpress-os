@@ -136,13 +136,3 @@ MIT — see [LICENSE](./LICENSE).
 
 **Built by ColdPress Labs.** Built with intention. Scaled with purpose.
 
----
-
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 4.0 | 2026-04-15 | Alfred | Added README badges (license, status, version, upstream, maker). Added Acknowledgments section crediting all three upstream projects (BMAD-METHOD, CIS, WDS) with links to NOTICE.md and attribution-audit.md. Added License section. Expanded Contributing section to link CONTRIBUTING.md and CODE_OF_CONDUCT.md. Prepared for public release. |
-| 3.0 | 2026-04-14 | Alfred | Removed MAO acronym. Renamed mao-scaffold → agent-scaffold. |
-| 2.0 | 2026-04-13 | Alfred | Updated agent count (18→9), added Documentation section linking all guides, corrected terminology to "subagents" |
-| 1.0 | 2026-04-07 | Alfred | Initial README — architecture overview, quick start, key concepts |

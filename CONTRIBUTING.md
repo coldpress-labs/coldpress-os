@@ -125,10 +125,4 @@ you agree to uphold it.
 
 ---
 
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.2 | 2026-04-15 | Alfred | Added SECURITY.md callout in the Report a bug section — vulnerability reports now explicitly routed to private email. |
-| 1.1 | 2026-04-15 | Alfred | Contact section: added canonical `coldpressai.com` URL and `team@coldpressai.com` email. |
-| 1.0 | 2026-04-15 | Alfred | Initial CONTRIBUTING.md — pre-alpha contribution guidelines ahead of public release |
+*Last updated: 2026-04-15*

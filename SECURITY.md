@@ -69,8 +69,4 @@ coldpress-os.
 
 ---
 
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2026-04-15 | Alfred | Initial SECURITY.md — private disclosure policy established ahead of public release |
+*Last updated: 2026-04-15*
