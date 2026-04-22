@@ -22,7 +22,7 @@ It is consumed by projects as a **read-only git submodule**. Projects override a
 
 ```bash
 # In your project's devSandbox repo:
-git submodule add https://github.com/coldpress-ai/coldpress-os.git coldpress-os
+git submodule add https://github.com/coldpress-labs/coldpress-os.git coldpress-os
 
 # Then tell Claude:
 # "Run coldpress-os init"

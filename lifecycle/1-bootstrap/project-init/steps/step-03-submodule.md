@@ -12,7 +12,7 @@ Install coldpress-os as a read-only git submodule.
 
 ## Instructions
 
-1. **Add submodule:** `git submodule add https://github.com/coldpress-ai/coldpress-os.git coldpress-os`
+1. **Add submodule:** `git submodule add https://github.com/coldpress-labs/coldpress-os.git coldpress-os`
 2. **Pin to latest stable commit** (or tag if available).
 3. **Verify submodule** is populated and readable.
 4. **If submodule fails** (no remote repo yet), offer to copy coldpress-os locally instead.

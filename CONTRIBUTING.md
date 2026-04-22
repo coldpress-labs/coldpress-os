@@ -26,7 +26,7 @@ Until then, expect breaking changes on any minor bump.
 > Email `team@coldpressai.com` instead — see [SECURITY.md](SECURITY.md)
 > for the full disclosure policy.
 
-Open a [GitHub Issue](https://github.com/coldpress-ai/coldpress-os/issues)
+Open a [GitHub Issue](https://github.com/coldpress-labs/coldpress-os/issues)
 using the **Bug Report** template. Please include:
 
 - The coldpress-os version/commit SHA you're on
@@ -119,7 +119,7 @@ you agree to uphold it.
 
 ## Contact
 
-- **Issues & PRs:** https://github.com/coldpress-ai/coldpress-os
+- **Issues & PRs:** https://github.com/coldpress-labs/coldpress-os
 - **Maintainer:** ColdPress Labs — https://coldpressai.com
 - **Email:** team@coldpressai.com
 

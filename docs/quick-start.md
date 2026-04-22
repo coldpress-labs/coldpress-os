@@ -33,7 +33,7 @@ git init
 
 ```bash
 # Option A: Git submodule (recommended for real projects)
-git submodule add https://github.com/coldpress-ai/coldpress-os.git coldpress-os
+git submodule add https://github.com/coldpress-labs/coldpress-os.git coldpress-os
 
 # Option B: Local copy (for testing or when the repo isn't published yet)
 cp -r /path/to/coldpress-os ./coldpress-os
