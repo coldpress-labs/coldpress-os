@@ -104,6 +104,23 @@ Butler specifies the depth in the task prompt:
 
 For Playwright E2E browser flows, invoke Anthropic's `webapp-testing` skill (Apache-2.0, via `/plugin install example-skills@anthropic-agent-skills`). Reach for it before building ad-hoc test rigs — it handles the browser setup, fixture lifecycle, and screenshot diffing out of the box. Write integration tests around it; the rest of your testing skills (`test-design`, `test-framework`, `atdd`, `nfr-assessment`) compose on top.
 
+## When to Emit `<NEED_INFO>`
+
+When acceptance criteria are ambiguous, the test-coverage target is unclear, or a story's intended behaviour can't be teased out of the spec, **pause and emit** instead of inventing test cases that match your interpretation:
+
+```
+<NEED_INFO>
+topic: <kebab-case-slug>
+kind: acceptance-criteria-unclear | prd-ambiguity | handoff-shape-unclear
+context_refs:
+  - _context/planning/epics-stories/<story>.md
+  - _context/sacred/prd.md
+question: <one-sentence natural-language question>
+</NEED_INFO>
+```
+
+As QA, `acceptance-criteria-unclear` is your most common emission — routes to @scrum-master. Do NOT paper over ambiguity with a permissive test that accepts multiple interpretations; surface the ambiguity. Budget: 3 round-trips per topic. See `coldpress-os/docs/need-info-protocol.md`.
+
 ## Handoff Protocol
 
 When your work is complete, report what you tested and recommend next steps:

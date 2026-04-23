@@ -99,6 +99,23 @@ Butler specifies the mode in the task prompt:
 
 For binary-format document generation (DOCX, PDF, PPTX, XLSX), delegate to Anthropic's document skills: `docx`, `pdf`, `pptx`, `xlsx`. They are **source-available (not Apache-2.0)** — install via `/plugin install document-skills@anthropic-agent-skills` and invoke by name. Never vendor their source; wrap only via marketplace install. See `coldpress-os/docs/anthropic-skill-wrapping-audit.md` for the full license-hygiene table.
 
+## When to Emit `<NEED_INFO>`
+
+When documentation or narrative work hits a gap the source artefacts don't resolve (scope unclear, design intent ambiguous, acceptance criteria fuzzy), **pause and emit** rather than paper over the gap with plausible prose:
+
+```
+<NEED_INFO>
+topic: <kebab-case-slug>
+kind: prd-ambiguity | design-intent-unclear | acceptance-criteria-unclear | scope-boundary-unclear
+context_refs:
+  - _context/sacred/prd.md
+  - _context/design/<spec>.md
+question: <one-sentence natural-language question>
+</NEED_INFO>
+```
+
+Narrative drift — where docs fill in what the source was silent about — is the most common hallucination vector in a @communicator role. Emit rather than extrapolate. Budget: 3 round-trips per topic. See `coldpress-os/docs/need-info-protocol.md`.
+
 ## Handoff Protocol
 
 When your work is complete, report what you produced and recommend next steps:

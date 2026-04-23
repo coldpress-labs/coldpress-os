@@ -150,6 +150,27 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 **Deferred — real-module validation against CIS, WDS, and BMAD's `bmm` core** pending local fixture availability. The adapter's heuristics may need tweaking for real-world BMAD conventions; add a fixture per module under `test/fixtures/` + smoke tests when they land (matches Block Y scanner-install-deferred precedent).
 
+### Added — Wave 5 Block AA (§5.4 `<NEED_INFO>` protocol)
+
+**Claim:** coldpress-os is the only BMAD-family framework with a named, protocol-level hallucination mitigation. Ports ChatDev's Communicative Dehallucination pattern as a first-class orchestrator message type across all 9 subagents.
+
+- **`schemas/need-info.schema.ts`** — Zod types for `NeedInfoMessage`, `NeedInfoResolution`, `NeedInfoBudget`. 10 canonical uncertainty kinds (`prd-ambiguity`, `architecture-unclear`, `tech-stack-unclear`, `scope-boundary-unclear`, `acceptance-criteria-unclear`, `design-intent-unclear`, `process-step-unclear`, `credential-missing`, `handoff-shape-unclear`, `other`). `topic` is a kebab-case slug used by the retry-budget for bookkeeping. `DEFAULT_RETRY_BUDGET = 3`.
+- **`src/need-info/parse.ts`** — pure-function parser. Extracts `<NEED_INFO>…</NEED_INFO>` tags from subagent text in two surface forms: **rich** (fenced YAML inside the tag with `topic` / `kind` / `context_refs[]` / `question`) or **terse** (just the question, routes to `kind: "other"` → human). Handles malformed payloads by collecting issues into `issues[]` instead of throwing. `renderNeedInfo()` round-trips a message back to canonical rich form; `deriveTopic()` produces stable kebab-case slugs from question text.
+- **`src/need-info/route.ts`** — routing lookup. `NEED_INFO_ROUTES` maps each `kind` to its default upstream owner (one of the 9 subagents, or `"human"` for escalation). Budget-exhausted routing ALWAYS forces `"human"` regardless of kind. Full-coverage invariant — test enforces every Zod enum value has a route entry.
+- **`src/need-info/budget.ts`** — `NeedInfoBudgetTracker` class for per-topic retry bookkeeping. Default limit 3; `spend(topic)` increments and reports whether the limit was crossed; `reset(topic)` clears on resolution; topics are independent. In-memory by default; the `NeedInfoBudget` shape is serialisable for future YAML persistence at `.coldpress/need-info/budgets.yaml`.
+- **`orchestrator/engine/need-info-routing.md`** — canonical routing-table doc (10 rows, one per `kind`). Documents the retry budget, the two surface forms, how subagents invoke the protocol, how to add a new `kind`. Kept in lockstep with `src/need-info/route.ts` — test enforces it.
+- **`docs/need-info-protocol.md`** — 4-layer protocol write-up: schema, parser, routing+budget, agent convention. Integration notes with phase-gate protocol (§5.0), handoff schemas (Wave 2 Block L), and sacred-doc governance (§5.2). Codifies what's NOT in this protocol: no auto-resolution, no nested NEED_INFOs, no cross-project routing.
+- **All 9 subagent templates updated** (`template/.claude/agents/*.md`) — each carries a `## When to Emit <NEED_INFO>` section tailored to its role. Developer is the primary emitter; PM / Architect / Scrum-Master / UX-Designer / Valet are primary receivers; Analyst / QA / Communicator emit when upstream inputs are ambiguous. Every section references `coldpress-os/docs/need-info-protocol.md` using bare-inline-code convention (matches existing template path refs).
+
+**Runtime orchestration deferred to Wave 6:** the schema + parser + router + budget are the stable substrate; full orchestrator dispatch (catching live emissions, suspending/resuming the emitter) requires the orchestrator shell Wave 6 delivers. For now the protocol is available to orchestration-aware skills and human consumers reading `_context/audit/need-info-log.md`.
+
+**Tests**
+
+- **34 new tests** in `test/need-info.test.ts` — covers schema invariants (kinds enum, message shape, resolution enum, budget shape), parser (terse + rich forms, malformed payloads, topic derivation, multi-tag parsing, render round-trip), routing (coverage invariant, canonical routes, budget-exhausted override), budget tracker (spend/exhaust/reset/independence/snapshot), and the 9-subagent convention (every template agent carries a NEED_INFO section + protocol-doc reference).
+- Total: **294 tests across 18 suites.**
+
+No new runtime deps; no new CLI surface this block (consistent with "substrate-only" scope — runtime wiring is Wave 6).
+
 ### Deferred (tracked for Wave 3 Block O2 / future waves)
 
 - **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.

@@ -119,3 +119,24 @@ Butler will specify which mode to operate in via the task prompt:
 - **Strategic mode:** Blue Ocean analysis, business model innovation, competitive disruption
 
 Select methods from the appropriate data asset CSV based on the mode and project context.
+
+## When to Emit `<NEED_INFO>`
+
+When a required input is missing, ambiguous, or contradicts an existing artefact, **pause and emit** instead of hallucinating forward:
+
+```
+<NEED_INFO>
+topic: <kebab-case-slug>
+kind: prd-ambiguity | scope-boundary-unclear | other
+context_refs:
+  - <repo-relative-path>
+question: <one-sentence natural-language question>
+</NEED_INFO>
+```
+
+As Analyst, expect to emit:
+- `prd-ambiguity` — when a PRD-referenced requirement is too vague to research (routes to `@pm`).
+- `scope-boundary-unclear` — when a discovery question spans product scope (routes to `@pm`).
+- `other` — when the uncertainty doesn't fit a named `kind` (routes to human).
+
+Do not proceed with a guess. Budget: 3 round-trips per `topic` before automatic escalation. See `coldpress-os/docs/need-info-protocol.md`.

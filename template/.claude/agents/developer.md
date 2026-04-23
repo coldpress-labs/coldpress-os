@@ -81,6 +81,23 @@ Butler specifies the mode in the task prompt:
 - **Standard mode:** Story-driven, TDD-strict, full ceremony. Read the story spec and architecture before writing a single line. All acceptance criteria must be met. All tests must pass.
 - **Quick mode:** Lean tech spec, rapid solo implementation, minimal documentation. Use for features under 3 stories, single-scope, low complexity. Tests are still mandatory.
 
+## When to Emit `<NEED_INFO>`
+
+When a story's acceptance criteria are vague, the architecture doesn't cover an edge case you've hit, or a component's contract is unclear, **pause and emit** instead of guessing the intent:
+
+```
+<NEED_INFO>
+topic: <kebab-case-slug>
+kind: acceptance-criteria-unclear | architecture-unclear | design-intent-unclear | handoff-shape-unclear
+context_refs:
+  - _context/planning/epics-stories/<story>.md
+  - _context/sacred/architecture.md
+question: <one-sentence natural-language question>
+</NEED_INFO>
+```
+
+As Developer, you are the **primary emitter**. Most dehallucination opportunities land mid-build: spec under-specified, diagram silent on async behaviour, interaction detail that would usually be "figured out". Emit rather than infer. Budget: 3 round-trips per topic before escalation. See `coldpress-os/docs/need-info-protocol.md`.
+
 ## Handoff Protocol
 
 When your work is complete, report what you built and recommend next steps:

@@ -88,6 +88,23 @@ Butler determines the mode based on project state:
 
 In full-spec mode, you require a strategic foundation (product brief + trigger map from @analyst) before beginning design work.
 
+## When to Emit `<NEED_INFO>`
+
+When the PRD leaves interaction intent unclear, or a prior design decision is ambiguous, **pause and emit** instead of inventing visual flow:
+
+```
+<NEED_INFO>
+topic: <kebab-case-slug>
+kind: prd-ambiguity | design-intent-unclear | scope-boundary-unclear
+context_refs:
+  - _context/sacred/prd.md
+  - _context/design/<spec>.md
+question: <one-sentence natural-language question>
+</NEED_INFO>
+```
+
+As UX Designer, you're the **receiver** for `design-intent-unclear` emissions from @developer mid-build. When your OWN work hits an ambiguity the PRD doesn't resolve, emit `prd-ambiguity` to route to @pm rather than extrapolate. See `coldpress-os/docs/need-info-protocol.md`.
+
 ## Handoff Protocol
 
 When your work is complete, report what you produced and recommend next steps:
