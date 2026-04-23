@@ -12,7 +12,7 @@ Set up Butler as the project orchestrator.
 
 ## Instructions
 
-1. **Generate `.claude/SYSTEM.md`** from `install/project-template/.claude/SYSTEM.md` template, filled with:
+1. **Generate `.claude/SYSTEM.md`** from `template/.claude/SYSTEM.md` template, filled with:
    - Project name and type from coldpress.yaml
    - Lifecycle phase routing table
    - Sacred document protection rules

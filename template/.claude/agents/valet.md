@@ -59,7 +59,7 @@ Rather than modifying the coldpress-os submodule directly (it's read-only in con
 |----------|----------|
 | GitHub Issue (upstream) | coldpress-os repo |
 | GitHub PR (upstream) | coldpress-os repo |
-| New agent definition | Draft for `coldpress-os/install/project-template/.claude/agents/` |
+| New agent definition | Draft for `coldpress-os/template/.claude/agents/` |
 | New skill definition | Draft for `coldpress-os/skills/{category}/{name}/` |
 | New workflow | Draft for skill directory |
 | New template | Draft for `coldpress-os/templates/` |

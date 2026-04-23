@@ -9,7 +9,7 @@
 
 ## Subagents (9)
 
-> Consolidated from 19 legacy personas. Each subagent runs as an independent Claude Code agent with its own context window. Defined in `install/project-template/.claude/agents/`.
+> Consolidated from 19 legacy personas. Each subagent runs as an independent Claude Code agent with its own context window. Defined in `template/.claude/agents/`.
 
 | Subagent | Slug | Model | Primary Phases | Merges |
 |----------|------|-------|----------------|--------|

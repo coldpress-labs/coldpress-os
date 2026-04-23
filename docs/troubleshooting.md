@@ -53,7 +53,7 @@ git commit -m "update coldpress-os submodule and regenerate wrappers"
 
 1. **File doesn't exist.** The `project-init` workflow creates it. If you skipped init, copy the template manually:
    ```bash
-   cp coldpress-os/install/project-template/coldpress.yaml ./coldpress.yaml
+   cp coldpress-os/template/coldpress.yaml ./coldpress.yaml
    ```
    Then fill in your project details.
 

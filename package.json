@@ -1,0 +1,71 @@
+{
+  "name": "@coldpress/core",
+  "version": "0.2.0-alpha.0",
+  "description": "AI-native development framework: 9-phase lifecycle, 9 subagents, atomic skills, sacred-doc governance.",
+  "type": "module",
+  "bin": {
+    "coldpress": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "template",
+    "lifecycle",
+    "skills",
+    "orchestrator",
+    "governance",
+    "data",
+    "agents",
+    "templates",
+    "docs",
+    "coldpress.yaml",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build && npm test"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.0",
+    "commander": "^12.1.0",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coldpress-labs/coldpress-os.git"
+  },
+  "homepage": "https://github.com/coldpress-labs/coldpress-os",
+  "bugs": {
+    "url": "https://github.com/coldpress-labs/coldpress-os/issues"
+  },
+  "license": "MIT",
+  "author": "ColdPress Labs <team@coldpressai.com>",
+  "keywords": [
+    "ai",
+    "agents",
+    "agent-framework",
+    "claude-code",
+    "claude",
+    "lifecycle",
+    "development-framework",
+    "sdlc"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

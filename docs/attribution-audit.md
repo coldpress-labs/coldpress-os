@@ -101,7 +101,7 @@ files inside each section. Where the audit is uncertain, we say so explicitly.
   They were moved to `hq-p001-coldpress-os/legacy/agents-archive/` (outside
   this repo) ahead of public release to keep the framework surface clean.
   Per `_DEPRECATED.md`, they were consolidated into 9 canonical subagents
-  (now at `install/project-template/.claude/agents/`). Each archived file
+  (now at `template/.claude/agents/`). Each archived file
   retains an `origin:` frontmatter key tagging its upstream (`bmad`, `cis`,
   `wds`, or `new`) — this is the authoritative per-persona provenance record.
 
@@ -252,7 +252,7 @@ is by category.
 
 ### `install/`
 
-- **`install/generate-wrappers.md`, `install/project-template/`** — *Original
+- **`install/generate-wrappers.md`, `template/`** — *Original
   — ColdPress Labs.*
   The thin-wrapper model (where consuming projects get a `.claude/skills/`
   wrapper pointing into the `coldpress-os/` submodule) has no BMAD equivalent.

@@ -1,6 +1,6 @@
 # Subagent Template — coldpress-os
 
-> Copy this file to `install/project-template/.claude/agents/{slug}.md` and fill in all sections.
+> Copy this file to `template/.claude/agents/{slug}.md` and fill in all sections.
 > This is the Claude Code native subagent format (YAML frontmatter + markdown system prompt).
 
 ---

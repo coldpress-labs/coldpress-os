@@ -7,7 +7,7 @@ phase: 1
 agent: "butler"
 inputs:
   - "project name and type"
-  - "install/project-template/"
+  - "template/"
 outputs:
   - artifact: "Initialized Project"
     location: "project root"

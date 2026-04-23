@@ -100,7 +100,7 @@ export const secrets = Object.freeze({
 
 ## Pre-commit guard
 
-`install/project-template/scripts/check-secrets.sh` scans the staged diff for common secret shapes (AWS keys, GitHub tokens, Stripe keys, dotenv-style `api_key="…"` patterns, private-key blocks). Install it once per clone:
+`template/scripts/check-secrets.sh` scans the staged diff for common secret shapes (AWS keys, GitHub tokens, Stripe keys, dotenv-style `api_key="…"` patterns, private-key blocks). Install it once per clone:
 
 ```bash
 cp scripts/check-secrets.sh .git/hooks/pre-commit

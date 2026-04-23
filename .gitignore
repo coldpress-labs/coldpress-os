@@ -22,3 +22,12 @@ agents/_archive/
 # OS
 Thumbs.db
 Desktop.ini
+
+# Node / npm package build
+node_modules/
+dist/
+*.tsbuildinfo
+npm-debug.log*
+.npm
+coverage/
+.vitest-cache/

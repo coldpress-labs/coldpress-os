@@ -27,7 +27,7 @@ The file is additive: it grows as the project moves through the lifecycle. It ne
 
 ## Phase-1 fields (template)
 
-These are the only fields shipped in `install/project-template/coldpress.yaml`.
+These are the only fields shipped in `template/coldpress.yaml`.
 
 ```yaml
 project:

@@ -8,13 +8,13 @@ next_step: "step-03-submodule.md"
 
 ## Goal
 
-Create the project directory structure using the template at `install/project-template/`.
+Create the project directory structure using the template at `template/`.
 
 ## Instructions
 
 1. **Create project root** at the confirmed path (or use current directory).
 2. **Initialize git repository** if not already a repo.
-3. **Copy template structure** from `install/project-template/`:
+3. **Copy template structure** from `template/`:
    - `.claude/` directory with SYSTEM.md placeholder
    - `docs/` directory structure
    - `_context/` directory with subdirectories (planning, design, implementation, testing, tracking)

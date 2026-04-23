@@ -8,7 +8,7 @@
 
 **Before (v1):** 19 prompt-persona `.md` files in `coldpress-os/agents/`. These were costume changes — same Claude session with different system prompt snippets. No real multi-agent orchestration.
 
-**After (v2):** 9 consolidated subagent definitions in `coldpress-os/install/project-template/.claude/agents/`. These are real Claude Code subagents — each runs with its own context window, tools, and model. Butler (the main session) dispatches work to them via `@mention` or the Agent tool.
+**After (v2):** 9 consolidated subagent definitions in `coldpress-os/template/.claude/agents/`. These are real Claude Code subagents — each runs with its own context window, tools, and model. Butler (the main session) dispatches work to them via `@mention` or the Agent tool.
 
 **Legacy personas:** The 19 deprecated BMAD/CIS/WDS persona files were moved out of the framework entirely in the v0.1 cleanup (Decision #20 in the estate DECISIONS-LOG). They now live at project level in `hq-p001-coldpress-os/legacy/agents-archive/` with per-file `origin:` frontmatter preserved for future subagent-evolution work. They do not ship in the public framework.
 
@@ -19,7 +19,7 @@
 Subagent definitions live in the **project template** and are copied into each consuming project during `project-init`:
 
 ```
-coldpress-os/install/project-template/.claude/agents/
+coldpress-os/template/.claude/agents/
 ├── analyst.md
 ├── pm.md
 ├── ux-designer.md

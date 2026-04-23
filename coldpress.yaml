@@ -2,7 +2,7 @@
 #
 # This is the example-shape of the file scaffolded into consumer
 # projects by `coldpress init`. The canonical source is
-# `install/project-template/coldpress.yaml`. Both are kept in sync.
+# `template/coldpress.yaml`. Both are kept in sync.
 #
 # Phase-1 fields (below) are filled at project init — by the user or
 # the `project-init` workflow. All other fields are written by their

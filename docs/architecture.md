@@ -164,7 +164,7 @@ Butler receives result  ← Presents to user, routes handoff
 |-----------|------|-----------|
 | `lifecycle/` | Phase organization — contains phase-level READMEs, skills, and routing | Framework |
 | `agents/` | Legacy agent persona archive + schema documentation | Framework |
-| `install/project-template/.claude/agents/` | Real subagent definitions (9 files) | Framework |
+| `template/.claude/agents/` | Real subagent definitions (9 files) | Framework |
 | `skills/` | Atomic skill definitions with step-files | Framework |
 | `orchestrator/` | Parallelization engine specs and strategies | Framework |
 | `governance/` | Sacred doc protection and change workflows | Framework |
@@ -208,7 +208,7 @@ coldpress-os is **stateless**. All state lives in the consuming project:
 Add `skills/stack-packs/{pack-name}/` with skills following the skill schema.
 
 ### New Subagents
-Add to `install/project-template/.claude/agents/{name}.md` following Claude Code subagent format. Update `agents/_schema.md`, `data/agents/agent-roster.csv`, and `REGISTRY.md`.
+Add to `template/.claude/agents/{name}.md` following Claude Code subagent format. Update `agents/_schema.md`, `data/agents/agent-roster.csv`, and `REGISTRY.md`.
 
 ### New Skills
 Add `skills/{category}/{skill-name}/` following the skill schema. Update `data/agents/skill-catalog.csv`.

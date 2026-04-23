@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": ["src/**/*", "test/**/*", "tsup.config.ts", "vitest.config.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "template",
+    "lifecycle",
+    "skills",
+    "orchestrator",
+    "governance",
+    "data",
+    "agents",
+    "templates",
+    "docs"
+  ]
+}
