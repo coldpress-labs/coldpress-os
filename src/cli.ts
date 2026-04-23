@@ -1,12 +1,13 @@
 import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
+import { runFeedback } from "./commands/feedback.js";
+import { runInit } from "./commands/init.js";
+import { packageRoot } from "./utils/paths.js";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(
-  readFileSync(join(__dirname, "..", "package.json"), "utf8"),
+  readFileSync(join(packageRoot, "package.json"), "utf8"),
 ) as { version: string };
 
 const program = new Command();
@@ -18,19 +19,22 @@ program
 
 program
   .command("init")
-  .description("Scaffold a new coldpress-os project")
-  .argument("[project-name]", "name of the project to create")
-  .action((projectName?: string) => {
-    console.log(pc.yellow(`coldpress init${projectName ? ` ${projectName}` : ""} — not yet implemented (Block G)`));
-    process.exitCode = 1;
+  .description("Scaffold a new coldpress-os project in a new directory")
+  .argument("[project-name]", "name of the project to create (otherwise prompted)")
+  .action(async (projectNameArg?: string) => {
+    try {
+      await runInit({ projectNameArg });
+    } catch (err) {
+      console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
   });
 
 program
   .command("feedback")
-  .description("Open the GitHub Issues page in your browser")
+  .description("Open the coldpress-os GitHub Issues page in your browser")
   .action(() => {
-    console.log(pc.yellow("coldpress feedback — not yet implemented (Block G)"));
-    process.exitCode = 1;
+    runFeedback();
   });
 
 program

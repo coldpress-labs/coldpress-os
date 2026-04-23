@@ -11,7 +11,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ### Added
 
 - **npm package foundation** (`@coldpress/core`). TypeScript source under `src/`, built with tsup to `dist/`. Test harness: vitest. Runtime deps: `commander` (CLI), `@clack/prompts` (interactive prompts), `picocolors` (terminal colors). Dev deps: `typescript`, `tsup`, `vitest`, `@types/node`. `package.json` `files` whitelist controls the tarball (ships: `dist`, `template`, framework dirs, docs, licence/notice/readme/changelog; does not ship: `test`, `node_modules`, source `.ts` files). Engine floor: Node >= 20.
-- `coldpress` CLI stub with `--version` and `upgrade` implemented; `init` and `feedback` present as stubs until Block G.
+- **`coldpress` CLI — full command surface.** Four commands:
+  - `coldpress init [project-name]` — interactive scaffold. Uses `@clack/prompts` for the gather flow (project name, slug, user name), confirms target directory, runs the full scaffold: template copy with placeholder substitution (`{project.name}`, `{project.slug}`, `{user.name}`), framework copy into `<project>/coldpress-os/`, `.claude/skills/` wrapper generation (one per non-router, non-stack-pack skill). Collision-safe — aborts if `coldpress.yaml`, `coldpress-os/`, or `.claude/` already exist in the target directory.
+  - `coldpress --version` / `-v` — prints the installed version.
+  - `coldpress feedback` — opens `github.com/coldpress-labs/coldpress-os/issues/new/choose` in the user's default browser (platform-dispatched: `open` on macOS, `xdg-open` on Linux, `start` on Windows).
+  - `coldpress upgrade` — prints `npm update -g @coldpress/core`.
+- **Test harness exercised:** 10 tests across two suites — `frontmatter.test.ts` (6) for the minimal YAML extractor, `init-scaffold.test.ts` (4) including an end-to-end tmpdir scaffold that verifies template copy, placeholder fill, framework copy, and wrapper generation produce the expected structure + content.
 - `_context/audit/` subfolder for backward-looking artefacts (retrospectives, code reviews, security scans, deployment readiness reports). Four skills retargeted to write here.
 - `_context/sacred/` canonical location for the five sacred documents — `context.md`, `tech-stack.md`, PRD, `architecture.md`, PERT chart. All references across the framework updated in a single atomic §7 *Structural Migration* (95 files). Existing consumer projects are grandfathered.
 - `governance/sacred-docs.md` §7 *Structural Migrations* — one-time carve-out protocol for path-only sacred-doc relocations. Requires a DECISIONS-LOG entry *before* the migration commits.
