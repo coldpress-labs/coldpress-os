@@ -1,55 +1,45 @@
 ---
 step_number: 4
 step_name: "Generate Configuration"
-step_goal: "Create coldpress.yaml with all project details"
+step_goal: "Create coldpress.yaml with Phase-1 fields only. Everything else is written back by later phases."
 halts_for_input: true
 next_step: "complete"
 ---
 
 ## Goal
 
-Generate the project configuration file and verify everything is ready.
+Generate the project configuration file with **only the Phase-1 fields**. Phase-2+ fields are written back by their owning phases as the lifecycle progresses. See [coldpress-yaml-schema.md](../../../../docs/coldpress-yaml-schema.md) for the full schema and per-field ownership.
 
 ## Instructions
 
-1. **Generate `coldpress.yaml`** from gathered details:
+1. **Generate `coldpress.yaml`** with the bare Phase-1 shape:
    ```yaml
+   # coldpress.yaml — Project Configuration
+
    project:
      name: "{project_name}"
-     type: "{project_type}"
-     domain: "{domain}"
+     slug: "{project_slug}"
+
    user:
      name: "{user_name}"
      communication_language: "English"
      document_output_language: "English"
-   stack_pack: "{stack_pack}"
-   sacred_docs:
-     tech_stack: "_context/sacred/tech-stack.md"
-     context: "_context/sacred/context.md"
-     architecture: "_context/sacred/architecture.md"
-     prd: "_context/sacred/prd.md"
-     pert: "_context/sacred/pert-chart.md"
-   output:
-     planning: "_context/planning/"
-     design: "_context/design/"
-     implementation: "_context/implementation/"
-     testing: "_context/testing/"
-     tracking: "_context/tracking/"
    ```
 
-2. **Generate `CLAUDE.md`** from template with project-specific values.
+   Do **not** write `project.type`, `project.domain`, `project.pattern`, `stack_pack`, `agents.*`, `sacred_docs.*`, or `output.*` at init. Those fields are owned by later phases and remain unset until their owning skill runs.
 
-3. **Verify** all directories exist and config is valid.
+2. **Generate `CLAUDE.md`** from the template with project-specific values (name, slug).
+
+3. **Verify** all directories exist and the yaml parses.
 
 4. **Present summary** to user:
    - Project name and location
    - coldpress-os status (submodule or local)
-   - Stack pack configured
-   - Next step: run `agent-scaffold` to generate Butler wrappers
+   - Next step: run `agent-scaffold` to generate Butler wrappers for the non-stack-pack skills. (Stack-pack wrappers will be re-generated after Phase 3 stack-locking completes.)
 
 ## User Interaction
 
-Present the configuration and confirm. "Your project is initialized. Run agent scaffold next to generate Butler wrappers?"
+Present the configuration and confirm. "Your project is initialized with the Phase-1 config. Stack, agents, and lifecycle paths will fill in as you move through the phases. Run agent scaffold next to generate Butler wrappers?"
 
 ## Output
 
