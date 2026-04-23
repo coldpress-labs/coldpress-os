@@ -27,11 +27,11 @@ Create a comprehensive map of the project's file and directory structure with de
    - Naming conventions
    - Co-location patterns (tests next to source, styles next to components)
 
-5. **Write `_output/docs/source-tree.md`** immediately.
+5. **Write `_context/docs/source-tree.md`** immediately.
 
 ## Output
 
-Source tree documentation written to `_output/docs/source-tree.md`. Update frontmatter: `step_3_complete: true`
+Source tree documentation written to `_context/docs/source-tree.md`. Update frontmatter: `step_3_complete: true`
 
 ## Navigation
 

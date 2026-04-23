@@ -14,7 +14,7 @@
 | **Dispatch** | The act of Butler delegating work to a subagent. Butler constructs a task prompt with context, file paths, and mode, then the subagent runs independently. |
 | **Governance** | The rules protecting sacred documents from uncontrolled changes. See `governance/sacred-docs.md`. |
 | **Halt-at-Menu** | The step-file rule requiring agents to stop and wait for user input when presenting options. |
-| **Handoff Artifact** | A `_handoff.md` file summarizing decisions, open questions, and constraints when work transfers between subagents. Stored in `_output/handoffs/`. |
+| **Handoff Artifact** | A `_handoff.md` file summarizing decisions, open questions, and constraints when work transfers between subagents. Stored in `_context/handoffs/`. |
 | **Lifecycle Phase** | One of 8 sequential stages of project development (Bootstrap through Evolve). |
 | **Multi-Agent Orchestration** | The pattern where Butler dispatches work to independent subagents, each with their own context window, tools, and model. |
 | **Mode** | A subagent operating configuration set in `coldpress.yaml` and passed by Butler. Examples: developer (standard/quick), qa (rapid/strategic), analyst (discovery/brief/creative/strategic). |

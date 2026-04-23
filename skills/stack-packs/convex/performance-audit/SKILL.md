@@ -9,7 +9,7 @@ inputs:
   - "convex/schema.ts"
 outputs:
   - artifact: "Performance Audit Report"
-    location: "_output/ops/convex-perf-{date}.md"
+    location: "_context/ops/convex-perf-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

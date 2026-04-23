@@ -17,7 +17,7 @@ dag:
       estimated_duration: "2w"
       agent: "developer"
       description: "{Brief description}"
-      output: "_output/implementation/epic-1/"
+      output: "_context/implementation/epic-1/"
 
     # Wave 2 — Depends on Wave 1
     - id: "epic-2"
@@ -26,7 +26,7 @@ dag:
       estimated_duration: "2w"
       agent: "developer"
       description: "{Brief description}"
-      output: "_output/implementation/epic-2/"
+      output: "_context/implementation/epic-2/"
 
     - id: "epic-3"
       name: "{Epic 3 Title — parallel with epic-2}"
@@ -34,7 +34,7 @@ dag:
       estimated_duration: "2w"
       agent: "developer"
       description: "{Brief description}"
-      output: "_output/implementation/epic-3/"
+      output: "_context/implementation/epic-3/"
 
     # Wave 3 — Depends on Wave 2
     - id: "epic-4"
@@ -43,6 +43,6 @@ dag:
       estimated_duration: "2w"
       agent: "developer"
       description: "{Brief description}"
-      output: "_output/implementation/epic-4/"
+      output: "_context/implementation/epic-4/"
 
     # Add more tasks as needed...

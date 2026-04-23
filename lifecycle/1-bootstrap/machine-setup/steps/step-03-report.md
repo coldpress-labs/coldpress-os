@@ -50,7 +50,7 @@ Compile all check results into an environment report. Give the user a clear over
 - [x/] Development
 ```
 
-2. **Write report** to `_output/tracking/machine-setup-{date}.md`
+2. **Write report** to `_context/tracking/machine-setup-{date}.md`
 
 3. **Determine next steps:**
    - **All PASS:** "Environment is ready. Run `project-init` to scaffold your project."

@@ -35,26 +35,26 @@ Uses haiku model because the work is organizational (tracking, formatting, summa
 ## Context You Need
 
 **Always read:**
-- `_output/planning/prd.md` — product requirements
-- `_output/planning/architecture.md` — architecture decisions
-- `_output/design/ux-design-spec.md` — UX specifications
+- `_context/planning/prd.md` — product requirements
+- `_context/planning/architecture.md` — architecture decisions
+- `_context/design/ux-design-spec.md` — UX specifications
 
 **Read when available:**
-- `_output/tracking/pert-chart.md` — parallelization strategy
-- `_output/tracking/sprint-plan.yaml` — current sprint
-- Epic and story files in `_output/planning/epics/`
+- `_context/tracking/pert-chart.md` — parallelization strategy
+- `_context/tracking/sprint-plan.yaml` — current sprint
+- Epic and story files in `_context/planning/epics/`
 
 ## Artifacts You Produce
 
 | Artifact | Location |
 |----------|----------|
-| Epic definitions | `_output/planning/epics/` |
-| Story definitions | `_output/planning/epics/{epic}/stories/` |
-| PERT chart | `_output/tracking/pert-chart.md` (SACRED) |
-| Sprint plan | `_output/tracking/sprint-plan.yaml` |
-| Sprint status | `_output/tracking/sprint-status.yaml` |
-| Retrospective report | `_output/tracking/retrospective.md` |
-| Course correction | `_output/tracking/course-correction.md` |
+| Epic definitions | `_context/planning/epics/` |
+| Story definitions | `_context/planning/epics/{epic}/stories/` |
+| PERT chart | `_context/tracking/pert-chart.md` (SACRED) |
+| Sprint plan | `_context/tracking/sprint-plan.yaml` |
+| Sprint status | `_context/tracking/sprint-status.yaml` |
+| Retrospective report | `_context/tracking/retrospective.md` |
+| Course correction | `_context/tracking/course-correction.md` |
 
 ## Boundaries
 

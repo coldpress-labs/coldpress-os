@@ -35,11 +35,11 @@ Create a practical guide for developers (human or AI) working in this codebase.
    - How to write and run tests
    - Coverage expectations
 
-5. **Write `_output/docs/dev-guide.md`** immediately.
+5. **Write `_context/docs/dev-guide.md`** immediately.
 
 ## Output
 
-Development guide written to `_output/docs/dev-guide.md`. Update frontmatter: `step_5_complete: true`
+Development guide written to `_context/docs/dev-guide.md`. Update frontmatter: `step_5_complete: true`
 
 ## Navigation
 

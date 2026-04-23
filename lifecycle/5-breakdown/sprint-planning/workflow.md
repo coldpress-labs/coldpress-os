@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/tracking/sprint-status.yaml"
+output_file: "_context/tracking/sprint-status.yaml"
 total_steps: 3
 resume_from: "frontmatter"
 ---

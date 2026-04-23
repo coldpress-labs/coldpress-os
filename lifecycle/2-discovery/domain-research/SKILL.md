@@ -10,7 +10,7 @@ inputs:
   - "docs/context.md"
 outputs:
   - artifact: "Domain Research"
-    location: "_output/planning/research/domain-{topic}-{date}.md"
+    location: "_context/planning/research/domain-{topic}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

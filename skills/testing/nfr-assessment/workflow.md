@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/testing/nfr-assessment-{date}.md"
+output_file: "_context/testing/nfr-assessment-{date}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

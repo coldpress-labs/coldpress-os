@@ -6,7 +6,7 @@ category: "lifecycle"
 phase: 8
 agent: "scrum-master"
 inputs:
-  - "_output/tracking/sprint-status.yaml"
+  - "_context/tracking/sprint-status.yaml"
 outputs:
   - artifact: "Sprint Summary"
     location: "inline (conversation)"

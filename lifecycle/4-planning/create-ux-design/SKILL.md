@@ -6,12 +6,12 @@ category: "lifecycle"
 phase: 4
 agent: "ux-designer"
 inputs:
-  - "_output/planning/prd.md"
-  - "_output/planning/design-brief-{date}.md"
+  - "_context/planning/prd.md"
+  - "_context/planning/design-brief-{date}.md"
   - "docs/context.md"
 outputs:
   - artifact: "UX Design Specification"
-    location: "_output/design/ux-design-spec.md"
+    location: "_context/design/ux-design-spec.md"
     format: "markdown"
     sacred: false
 version: "1.0"
@@ -31,7 +31,7 @@ Plans UX patterns, user flows, information architecture, key screen concepts, an
 
 ## Prerequisites
 
-- `_output/planning/prd.md` exists (sacred document)
+- `_context/planning/prd.md` exists (sacred document)
 - Design brief recommended for visual alignment
 - `docs/context.md` available for user understanding
 
@@ -43,7 +43,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/design/ux-design-spec.md` — comprehensive UX specification including user flows, information architecture, key screen concepts, interaction patterns, and responsive strategy.
+`_context/design/ux-design-spec.md` — comprehensive UX specification including user flows, information architecture, key screen concepts, interaction patterns, and responsive strategy.
 
 ---
 

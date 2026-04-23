@@ -26,15 +26,15 @@ Generate the project configuration file and verify everything is ready.
    sacred_docs:
      tech_stack: "docs/tech-stack.md"
      context: "docs/context.md"
-     architecture: "_output/planning/architecture.md"
-     prd: "_output/planning/prd.md"
-     pert: "_output/tracking/pert-chart.md"
+     architecture: "_context/planning/architecture.md"
+     prd: "_context/planning/prd.md"
+     pert: "_context/tracking/pert-chart.md"
    output:
-     planning: "_output/planning/"
-     design: "_output/design/"
-     implementation: "_output/implementation/"
-     testing: "_output/testing/"
-     tracking: "_output/tracking/"
+     planning: "_context/planning/"
+     design: "_context/design/"
+     implementation: "_context/implementation/"
+     testing: "_context/testing/"
+     tracking: "_context/tracking/"
    ```
 
 2. **Generate `CLAUDE.md`** from template with project-specific values.

@@ -6,13 +6,13 @@ category: "lifecycle"
 phase: 5
 agent: "qa"
 inputs:
-  - "_output/planning/prd.md"
-  - "_output/planning/architecture.md"
-  - "_output/design/ux-design-spec.md"
-  - "_output/planning/epics.md"
+  - "_context/planning/prd.md"
+  - "_context/planning/architecture.md"
+  - "_context/design/ux-design-spec.md"
+  - "_context/planning/epics.md"
 outputs:
   - artifact: "Readiness Report"
-    location: "_output/planning/readiness-report-{date}.md"
+    location: "_context/planning/readiness-report-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

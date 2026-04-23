@@ -8,7 +8,7 @@ inputs:
   - "code diff, full file, or function to analyze"
 outputs:
   - artifact: "Edge Case Findings"
-    location: "_output/reviews/edge-cases-{date}.md"
+    location: "_context/reviews/edge-cases-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

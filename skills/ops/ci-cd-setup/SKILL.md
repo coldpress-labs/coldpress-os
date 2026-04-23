@@ -13,7 +13,7 @@ outputs:
     location: ".github/workflows/ or equivalent"
     format: "yaml"
   - artifact: "CI/CD Setup Report"
-    location: "_output/ops/ci-cd-setup-{date}.md"
+    location: "_context/ops/ci-cd-setup-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

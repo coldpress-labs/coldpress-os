@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/testing/framework-setup-{date}.md"
+output_file: "_context/testing/framework-setup-{date}.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

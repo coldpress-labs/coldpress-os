@@ -185,7 +185,7 @@ The full list is in `coldpress-os/REGISTRY.md` (65+ skills across 8 phases).
 **Causes & Fixes:**
 
 1. **Too many files loaded.** coldpress-os uses progressive disclosure — skills load one step-file at a time to keep context lean. If Butler loaded the entire skill directory, that's a bug in routing.
-2. **Large output documents.** If `_output/` artifacts are very long, Butler may be reading them all into context. Ask Butler to read only the section it needs.
+2. **Large output documents.** If `_context/` artifacts are very long, Butler may be reading them all into context. Ask Butler to read only the section it needs.
 3. **Subagent accumulation.** Each subagent dispatch adds to the main session's context when it returns. For very long sessions, start a fresh Claude session and resume.
 
 ---

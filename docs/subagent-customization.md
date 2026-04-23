@@ -157,16 +157,16 @@ Always read:
 - `docs/tech-stack.md` — locked technology decisions
 
 Read when available:
-- `_output/planning/architecture.md` — system architecture
+- `_context/planning/architecture.md` — system architecture
 - Database schema files
 
 ## Artifacts You Produce
 
 | Artifact | Location |
 |----------|----------|
-| Data model documentation | `_output/planning/data-model.md` |
+| Data model documentation | `_context/planning/data-model.md` |
 | Migration scripts | `migrations/` |
-| Performance reports | `_output/testing/db-performance.md` |
+| Performance reports | `_context/testing/db-performance.md` |
 
 ## Boundaries
 

@@ -13,7 +13,7 @@ Determine whether to run in standalone mode (full discovery) or bridge mode (imp
 ## Instructions
 
 1. **Check for product brief:**
-   - Look for `_output/planning/product-brief-*.md`
+   - Look for `_context/planning/product-brief-*.md`
    - If found: activate **bridge mode** — product context is already captured
    - If not found: activate **standalone mode** — full discovery needed
 

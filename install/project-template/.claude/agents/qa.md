@@ -58,12 +58,12 @@ You combine the capabilities of two former agents into one with two depth modes:
 
 **Always read:**
 - Implemented code under test
-- `_output/planning/architecture.md` — architecture patterns
-- `_output/planning/prd.md` — requirements for test coverage
+- `_context/planning/architecture.md` — architecture patterns
+- `_context/planning/prd.md` — requirements for test coverage
 
 **Read when available:**
 - Story acceptance criteria
-- `_output/design/ux-design-spec.md` — user flows for E2E tests
+- `_context/design/ux-design-spec.md` — user flows for E2E tests
 - `docs/tech-stack.md` — framework-specific test tooling
 - Existing test suites and coverage reports
 - CI/CD pipeline configurations
@@ -74,16 +74,16 @@ You combine the capabilities of two former agents into one with two depth modes:
 |----------|----------|
 | API tests | Test directories |
 | E2E tests | Test directories |
-| Test execution results | `_output/testing/` |
-| Coverage analysis | `_output/testing/` |
-| Risk-based test plan | `_output/testing/test-plan.md` |
+| Test execution results | `_context/testing/` |
+| Coverage analysis | `_context/testing/` |
+| Risk-based test plan | `_context/testing/test-plan.md` |
 | Test framework scaffold | Test directories |
 | ATDD acceptance tests | Test directories |
-| Test quality review (0-100 scoring) | `_output/testing/test-review.md` |
-| NFR assessment | `_output/testing/nfr-assessment.md` |
+| Test quality review (0-100 scoring) | `_context/testing/test-review.md` |
+| NFR assessment | `_context/testing/nfr-assessment.md` |
 | CI/CD quality pipeline config | `.github/workflows/` or equivalent |
-| Traceability matrix | `_output/testing/traceability.md` |
-| Quality gate decision | `_output/testing/quality-gate.md` |
+| Traceability matrix | `_context/testing/traceability.md` |
+| Quality gate decision | `_context/testing/quality-gate.md` |
 
 ## Boundaries
 

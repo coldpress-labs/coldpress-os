@@ -42,7 +42,7 @@ Compile all sections into the final PRD, validate internal consistency, and writ
    - "Any final changes before this becomes a sacred document?"
 
 5. **Write to disk:**
-   - Save as `_output/planning/prd.md`
+   - Save as `_context/planning/prd.md`
    - Mark as sacred in frontmatter
    - Log creation in output metadata
 
@@ -52,7 +52,7 @@ Compile all sections into the final PRD, validate internal consistency, and writ
 
 ## Output
 
-Sacred PRD written to `_output/planning/prd.md`. `step_5_complete: true`
+Sacred PRD written to `_context/planning/prd.md`. `step_5_complete: true`
 
 ## Navigation
 

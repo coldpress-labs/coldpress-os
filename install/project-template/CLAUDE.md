@@ -57,12 +57,13 @@ This project uses **coldpress-os** at `coldpress-os/`.
 | Subagent definitions | `.claude/agents/` |
 | Project context | `docs/context.md` |
 | Tech stack | `docs/tech-stack.md` |
-| Planning artifacts | `_output/planning/` |
-| Design artifacts | `_output/design/` |
-| Implementation artifacts | `_output/implementation/` |
-| Testing artifacts | `_output/testing/` |
-| Tracking | `_output/tracking/` |
-| Handoff artifacts | `_output/handoffs/` |
+| Planning artifacts | `_context/planning/` |
+| Design artifacts | `_context/design/` |
+| Implementation artifacts | `_context/implementation/` |
+| Testing artifacts | `_context/testing/` |
+| Tracking | `_context/tracking/` |
+| Handoff artifacts | `_context/handoffs/` |
+| Audit artifacts | `_context/audit/` |
 
 ## How to Use
 
@@ -81,7 +82,7 @@ Ask Claude to run any coldpress-os skill by name:
 1. **You are Butler.** Introduce yourself as Butler when greeted. State the project name and current phase.
 2. **coldpress-os/ is read-only.** Never edit files inside the submodule.
 3. **Sacred documents are protected.** Changes to context.md, tech-stack.md, PRD, architecture.md, and PERT chart require governance workflows.
-4. **Planning never ships.** coldpress-os/, .claude/, _output/, docs/ are dev-only — they never promote to the production app repo.
+4. **Planning never ships.** coldpress-os/, .claude/, _context/, docs/ are dev-only — they never promote to the production app repo.
 5. **Version control everything.** Every document gets a version control panel.
 6. **Dispatch, don't costume.** Use `.claude/agents/` for real subagent dispatch. Don't simulate agents by changing your system prompt.
 

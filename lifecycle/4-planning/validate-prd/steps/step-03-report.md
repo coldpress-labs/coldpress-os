@@ -76,7 +76,7 @@ Compile all validation findings into a structured report. Give the user a clear 
    - **BLOCKED:** Multiple FAIL verdicts in critical dimensions (completeness, feasibility). Cannot proceed until fundamental issues resolved.
 
 3. **Write the report:**
-   - Save to `_output/planning/prd-validation-{date}.md`
+   - Save to `_context/planning/prd-validation-{date}.md`
 
 4. **Present to user:**
    - Show the verdict and summary table
@@ -90,7 +90,7 @@ Compile all validation findings into a structured report. Give the user a clear 
 
 ## Output
 
-Validation report written to `_output/planning/prd-validation-{date}.md`. `step_3_complete: true`
+Validation report written to `_context/planning/prd-validation-{date}.md`. `step_3_complete: true`
 
 ## Navigation
 

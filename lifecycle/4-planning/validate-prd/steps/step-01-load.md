@@ -13,16 +13,16 @@ Load the PRD and every document it should align with. Identify which supporting 
 ## Instructions
 
 1. **Load the PRD:**
-   - Read `_output/planning/prd.md`
+   - Read `_context/planning/prd.md`
    - If it does not exist, STOP — there is nothing to validate. Suggest `create-prd` instead.
    - Note the PRD version from its frontmatter/version-control panel
 
 2. **Load supporting documents:**
    - `docs/context.md` — for vision/mission alignment check (required)
    - `docs/tech-stack.md` — for feasibility check (required)
-   - `_output/planning/product-brief.md` — for strategic alignment (if exists)
-   - `_output/planning/architecture.md` — for implementation feasibility (if exists)
-   - `_output/design/ux-design-spec.md` — for UI requirement consistency (if exists)
+   - `_context/planning/product-brief.md` — for strategic alignment (if exists)
+   - `_context/planning/architecture.md` — for implementation feasibility (if exists)
+   - `_context/design/ux-design-spec.md` — for UI requirement consistency (if exists)
 
 3. **Report loading status:**
    - "Loaded PRD v{X} ({N} sections, {M} requirements)"

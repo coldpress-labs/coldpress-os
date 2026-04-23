@@ -6,11 +6,11 @@ category: "lifecycle"
 phase: 5
 agent: "pm"
 inputs:
-  - "_output/planning/prd.md"
-  - "_output/planning/architecture.md"
+  - "_context/planning/prd.md"
+  - "_context/planning/architecture.md"
 outputs:
   - artifact: "Epics document"
-    location: "_output/planning/epics.md"
+    location: "_context/planning/epics.md"
     format: "markdown"
 version: "1.0"
 ---
@@ -31,8 +31,8 @@ Migrated from: `bmad-create-epics-and-stories` (epic portion).
 
 ## Prerequisites
 
-- `_output/planning/prd.md` exists and is validated
-- `_output/planning/architecture.md` exists and is validated
+- `_context/planning/prd.md` exists and is validated
+- `_context/planning/architecture.md` exists and is validated
 - Phase 4 (Planning) complete
 
 ## Process
@@ -51,7 +51,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/planning/epics.md` containing all epics with their stories, acceptance criteria, and FR traceability.
+`_context/planning/epics.md` containing all epics with their stories, acceptance criteria, and FR traceability.
 
 ---
 

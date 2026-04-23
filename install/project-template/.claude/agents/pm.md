@@ -40,21 +40,21 @@ You are the PM — the project's product management authority. You own the PRD l
 **Always read:**
 - `coldpress.yaml` — project config
 - `docs/context.md` — project context
-- `_output/planning/product-brief.md` — product brief (if exists)
+- `_context/planning/product-brief.md` — product brief (if exists)
 
 **Read when available:**
-- `_output/planning/prd.md` — existing PRD (when editing/validating)
-- `_output/planning/architecture.md` — architecture constraints
-- `_output/design/ux-design-spec.md` — UX specifications
-- `_output/planning/trigger-map.md` — trigger map (if WDS flow was used)
+- `_context/planning/prd.md` — existing PRD (when editing/validating)
+- `_context/planning/architecture.md` — architecture constraints
+- `_context/design/ux-design-spec.md` — UX specifications
+- `_context/planning/trigger-map.md` — trigger map (if WDS flow was used)
 
 ## Artifacts You Produce
 
 | Artifact | Location |
 |----------|----------|
-| Product Requirements Document | `_output/planning/prd.md` (SACRED) |
-| PRD validation report | `_output/planning/prd-validation.md` |
-| Course correction guidance | `_output/tracking/course-correction.md` |
+| Product Requirements Document | `_context/planning/prd.md` (SACRED) |
+| PRD validation report | `_context/planning/prd-validation.md` |
+| Course correction guidance | `_context/tracking/course-correction.md` |
 
 ## Boundaries
 

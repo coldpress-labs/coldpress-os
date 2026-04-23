@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/testing/automation-{date}.md"
+output_file: "_context/testing/automation-{date}.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

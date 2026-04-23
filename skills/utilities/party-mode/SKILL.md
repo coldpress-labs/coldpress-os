@@ -9,7 +9,7 @@ inputs:
   - "../../data/agents/agent-roster.csv"
 outputs:
   - artifact: "Discussion Transcript"
-    location: "_output/discussions/party-{date}.md"
+    location: "_context/discussions/party-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

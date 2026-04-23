@@ -36,7 +36,7 @@ Present the completed test plan for review and approval.
 
 ## Output
 
-Test plan at `_output/testing/test-plan-{scope}.md`. Workflow complete.
+Test plan at `_context/testing/test-plan-{scope}.md`. Workflow complete.
 
 ## Navigation
 

@@ -13,7 +13,7 @@ Intelligently detect statuses — never downgrade.
 ## Instructions
 
 1. **Check for existing sprint-status.yaml** — if it exists, load current statuses as baseline.
-2. **For each story,** check `_output/implementation/` for story files:
+2. **For each story,** check `_context/implementation/` for story files:
    - File exists with status "done" → `done`
    - File exists with status "review" → `review`
    - File exists with status "in-progress" → `in-progress`

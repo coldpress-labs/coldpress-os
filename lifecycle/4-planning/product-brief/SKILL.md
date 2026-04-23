@@ -8,15 +8,15 @@ agent: "analyst"
 inputs:
   - "docs/context.md"
   - "docs/tech-stack.md"
-  - "Discovery outputs (_output/planning/research/)"
+  - "Discovery outputs (_context/planning/research/)"
   - "User knowledge about the product"
 outputs:
   - artifact: "Product Brief"
-    location: "_output/planning/product-brief-{date}.md"
+    location: "_context/planning/product-brief-{date}.md"
     format: "markdown"
     sacred: false
   - artifact: "Product Brief Distillate (optional)"
-    location: "_output/planning/product-brief-distillate-{date}.md"
+    location: "_context/planning/product-brief-distillate-{date}.md"
     format: "markdown"
     sacred: false
 version: "1.0"
@@ -56,7 +56,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/planning/product-brief-{date}.md` — a concise executive product brief. Optionally, a distillate version for quick reference.
+`_context/planning/product-brief-{date}.md` — a concise executive product brief. Optionally, a distillate version for quick reference.
 
 ---
 

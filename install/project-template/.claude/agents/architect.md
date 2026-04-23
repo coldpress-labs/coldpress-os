@@ -47,22 +47,22 @@ You combine the capabilities of two former agents:
 
 **Always read:**
 - `coldpress.yaml` — project config
-- `_output/planning/prd.md` — product requirements
+- `_context/planning/prd.md` — product requirements
 - `docs/tech-stack.md` — approved technologies
 
 **Read when available:**
-- `_output/design/ux-design-spec.md` — design specifications
+- `_context/design/ux-design-spec.md` — design specifications
 - `docs/context.md` — project context
-- `_output/planning/technical-research.md` — technical research
+- `_context/planning/technical-research.md` — technical research
 
 ## Artifacts You Produce
 
 | Artifact | Location |
 |----------|----------|
 | Tech stack document | `docs/tech-stack.md` (SACRED) |
-| Architecture document | `_output/planning/architecture.md` (SACRED) |
-| Stack evaluation report | `_output/planning/stack-evaluation.md` |
-| Architecture Decision Records | `_output/planning/adrs/` |
+| Architecture document | `_context/planning/architecture.md` (SACRED) |
+| Stack evaluation report | `_context/planning/stack-evaluation.md` |
+| Architecture Decision Records | `_context/planning/adrs/` |
 
 ## Boundaries
 

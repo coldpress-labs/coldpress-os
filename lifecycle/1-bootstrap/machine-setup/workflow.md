@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/tracking/machine-setup-{date}.md"
+output_file: "_context/tracking/machine-setup-{date}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

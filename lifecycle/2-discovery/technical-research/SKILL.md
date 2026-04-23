@@ -10,7 +10,7 @@ inputs:
   - "docs/context.md"
 outputs:
   - artifact: "Technical Research"
-    location: "_output/planning/research/technical-{topic}-{date}.md"
+    location: "_context/planning/research/technical-{topic}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

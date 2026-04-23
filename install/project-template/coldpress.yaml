@@ -49,19 +49,20 @@ agents:
 sacred_docs:
   context: "docs/context.md"
   tech_stack: "docs/tech-stack.md"
-  prd: "_output/planning/prd.md"
-  architecture: "_output/planning/architecture.md"
-  pert: "_output/tracking/pert-chart.md"
+  prd: "_context/planning/prd.md"
+  architecture: "_context/planning/architecture.md"
+  pert: "_context/tracking/pert-chart.md"
 
 # ─── Output Directories ────────────────────────────────────────────
 # Where skills write their artifacts. Relative to project root.
 output:
-  planning: "_output/planning/"
-  design: "_output/design/"
-  implementation: "_output/implementation/"
-  testing: "_output/testing/"
-  tracking: "_output/tracking/"
-  handoffs: "_output/handoffs/"
+  planning: "_context/planning/"
+  design: "_context/design/"
+  implementation: "_context/implementation/"
+  testing: "_context/testing/"
+  tracking: "_context/tracking/"
+  handoffs: "_context/handoffs/"
+  audit: "_context/audit/"
 
 # ─── Stack Pack Overrides ──────────────────────────────────────────
 # Add stack-pack-specific config below. Key = stack_pack value.

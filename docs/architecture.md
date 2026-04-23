@@ -69,7 +69,7 @@ Butler (main Claude Code session)
     │   Reads: coldpress.yaml, relevant docs, skill content
     │   Returns: final message only (results, not internal reasoning)
     │
-    ├── Manages: state in coldpress.yaml, _output/ artifacts
+    ├── Manages: state in coldpress.yaml, _context/ artifacts
     │
     └── Routes handoffs:
         @analyst produces context.md → Butler routes to @pm
@@ -150,7 +150,7 @@ Data assets             ← "Load elicitation methods CSV"
 Templates               ← "Use PRD template"
     │
     ▼
-Output artifact         ← "_output/planning/prd.md"
+Output artifact         ← "_context/planning/prd.md"
     │
     ▼
 Butler receives result  ← Presents to user, routes handoff
@@ -185,8 +185,11 @@ coldpress-os is **stateless**. All state lives in the consuming project:
 | Agent mode config | `coldpress.yaml` | YAML |
 | Workflow progress | Output document frontmatter | YAML |
 | Sacred doc versions | Document version control panels | Markdown table |
-| Sprint tracking | `_output/tracking/` | YAML/Markdown |
-| Handoff artifacts | `_output/handoffs/` | Markdown |
+| Sprint tracking | `_context/tracking/` | YAML/Markdown |
+| Handoff artifacts | `_context/handoffs/` | Markdown |
+| Audit artifacts | `_context/audit/` | Markdown |
+
+`_context/audit/` is the backward-looking filing cabinet: retrospectives, code reviews, security scans, deployment-readiness reports. Content here reflects on work already done, distinct from `_context/planning/` (forward-looking specs) and `_context/tracking/` (in-flight state).
 
 ---
 

@@ -21,11 +21,11 @@ Ensure complete traceability from FRs to epics/stories and get user sign-off.
    - Traceability matrix summary
    - Any gaps or concerns
 6. **Get user approval** before writing the output file.
-7. **Write `_output/planning/epics.md`** with the complete breakdown.
+7. **Write `_context/planning/epics.md`** with the complete breakdown.
 
 ## Output
 
-`_output/planning/epics.md` written. Coverage validated. `step_4_complete: true`
+`_context/planning/epics.md` written. Coverage validated. `step_4_complete: true`
 
 ## Navigation
 

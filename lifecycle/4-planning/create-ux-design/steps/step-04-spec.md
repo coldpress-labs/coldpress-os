@@ -45,7 +45,7 @@ Compile all UX work from Steps 1-3 into a structured specification document that
    - "Any screens or flows missing?"
 
 6. **Write to disk:**
-   - Save as `_output/design/ux-design-spec.md`
+   - Save as `_context/design/ux-design-spec.md`
    - Add version control panel
 
 7. **Signal completion:**
@@ -57,7 +57,7 @@ Compile all UX work from Steps 1-3 into a structured specification document that
 
 ## Output
 
-UX design specification written to `_output/design/ux-design-spec.md`. `step_4_complete: true`
+UX design specification written to `_context/design/ux-design-spec.md`. `step_4_complete: true`
 
 ## Navigation
 

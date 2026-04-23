@@ -13,15 +13,15 @@ Build a complete picture of what the system needs to do before making any archit
 ## Instructions
 
 1. **Load required documents:**
-   - `_output/planning/prd.md` — product requirements (SACRED, required)
+   - `_context/planning/prd.md` — product requirements (SACRED, required)
    - `docs/tech-stack.md` — approved technology decisions (SACRED, required)
    - `docs/context.md` — project context and constraints (SACRED, required)
 
 2. **Load recommended documents:**
-   - `_output/planning/product-brief.md` — strategic context
-   - `_output/design/ux-design-spec.md` — interface contracts (if exists)
-   - `_output/planning/trigger-map.md` — user psychology drivers (if exists)
-   - Any ADRs from `_output/planning/adrs/` (if tech-stack phase produced them)
+   - `_context/planning/product-brief.md` — strategic context
+   - `_context/design/ux-design-spec.md` — interface contracts (if exists)
+   - `_context/planning/trigger-map.md` — user psychology drivers (if exists)
+   - Any ADRs from `_context/planning/adrs/` (if tech-stack phase produced them)
 
 3. **Extract architectural drivers:**
    - **Functional requirements** — what the system must do (from PRD)

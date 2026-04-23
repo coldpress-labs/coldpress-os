@@ -6,11 +6,11 @@ category: "lifecycle"
 phase: 5
 agent: "scrum-master"
 inputs:
-  - "_output/planning/epics.md"
-  - "_output/implementation/"
+  - "_context/planning/epics.md"
+  - "_context/implementation/"
 outputs:
   - artifact: "Sprint Status"
-    location: "_output/tracking/sprint-status.yaml"
+    location: "_context/tracking/sprint-status.yaml"
     format: "yaml"
 version: "1.0"
 ---
@@ -29,7 +29,7 @@ Generates the `sprint-status.yaml` tracking file by parsing all epics and storie
 
 ## Prerequisites
 
-- `_output/planning/epics.md` must exist with epics and stories defined
+- `_context/planning/epics.md` must exist with epics and stories defined
 - Implementation directory should be accessible for status detection
 
 ## Process
@@ -40,7 +40,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/tracking/sprint-status.yaml` with metadata, status definitions, and development_status map for all epics, stories, and retrospectives.
+`_context/tracking/sprint-status.yaml` with metadata, status definitions, and development_status map for all epics, stories, and retrospectives.
 
 ---
 

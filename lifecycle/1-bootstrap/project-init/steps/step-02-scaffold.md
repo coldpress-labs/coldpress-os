@@ -17,7 +17,7 @@ Create the project directory structure using the template at `install/project-te
 3. **Copy template structure** from `install/project-template/`:
    - `.claude/` directory with SYSTEM.md placeholder
    - `docs/` directory structure
-   - `_output/` directory with subdirectories (planning, design, implementation, testing, tracking)
+   - `_context/` directory with subdirectories (planning, design, implementation, testing, tracking)
    - `CLAUDE.md` template
 4. **Create `.gitignore`** with standard patterns (node_modules, .env, .env.local, .DS_Store).
 5. **Create `.env.example`** with placeholder entries.

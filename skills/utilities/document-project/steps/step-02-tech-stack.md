@@ -33,11 +33,11 @@ Analyze all dependencies, frameworks, tools, and platforms used in the project.
    - Server-side rendering, static generation, or SPA
    - Serverless or traditional server
 
-4. **Write `_output/docs/tech-stack.md`** immediately with findings.
+4. **Write `_context/docs/tech-stack.md`** immediately with findings.
 
 ## Output
 
-Tech stack documentation written to `_output/docs/tech-stack.md`. Update frontmatter: `step_2_complete: true`
+Tech stack documentation written to `_context/docs/tech-stack.md`. Update frontmatter: `step_2_complete: true`
 
 ## Navigation
 

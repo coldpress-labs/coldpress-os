@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/reviews/code-review-{date}.md"
+output_file: "_context/audit/code-review-{date}.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

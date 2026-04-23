@@ -10,7 +10,7 @@ inputs:
   - "coldpress.yaml"
 outputs:
   - artifact: "Deployment Log"
-    location: "_output/tracking/deploy-{date}.md"
+    location: "_context/tracking/deploy-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/testing/test-plan-{scope}.md"
+output_file: "_context/testing/test-plan-{scope}.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

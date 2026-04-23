@@ -4,13 +4,13 @@ name: "Breakdown"
 description: "Decompose plans into epics, stories, PERT charts, and sprints"
 prerequisites:
   - "Phase 4 (Planning) complete"
-  - "_output/planning/prd.md produced and validated"
-  - "_output/planning/architecture.md produced and validated"
+  - "_context/planning/prd.md produced and validated"
+  - "_context/planning/architecture.md produced and validated"
 outputs:
-  - "_output/planning/epics.md"
-  - "_output/implementation/{story-key}.md (story files)"
-  - "_output/tracking/pert-chart.md (SACRED)"
-  - "_output/tracking/sprint-status.yaml"
+  - "_context/planning/epics.md"
+  - "_context/implementation/{story-key}.md (story files)"
+  - "_context/tracking/pert-chart.md (SACRED)"
+  - "_context/tracking/sprint-status.yaml"
 next_phase: "6-implementation"
 ---
 
@@ -39,8 +39,8 @@ next_phase: "6-implementation"
 ## Entry Conditions
 
 - Phase 4 complete (planning finished)
-- `_output/planning/prd.md` exists and is validated
-- `_output/planning/architecture.md` exists and is validated
+- `_context/planning/prd.md` exists and is validated
+- `_context/planning/architecture.md` exists and is validated
 - User is confident in the plan and ready to break it down
 
 ## Exit Conditions

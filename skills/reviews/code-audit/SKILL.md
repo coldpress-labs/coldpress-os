@@ -7,10 +7,10 @@ agent: "qa"
 phases: [6]
 inputs:
   - "story number or file list defining audit scope"
-  - "_output/planning/architecture.md"
+  - "_context/planning/architecture.md"
 outputs:
   - artifact: "Code Audit Report"
-    location: "_output/reviews/audit-{scope}-{date}.md"
+    location: "_context/reviews/audit-{scope}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

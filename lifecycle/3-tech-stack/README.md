@@ -7,7 +7,7 @@ prerequisites:
   - "docs/context.md produced and validated"
 outputs:
   - "docs/tech-stack.md (SACRED)"
-  - "ADRs in _output/planning/adr-{decision}-{date}.md"
+  - "ADRs in _context/planning/adr-{decision}-{date}.md"
   - "Configured development environment"
 next_phase: "4-planning"
 ---

@@ -7,7 +7,7 @@ prerequisites:
   - "coldpress.yaml configured"
 outputs:
   - "docs/context.md (SACRED)"
-  - "Research documents in _output/planning/research/"
+  - "Research documents in _context/planning/research/"
 next_phase: "3-tech-stack"
 ---
 

@@ -6,12 +6,12 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "_output/planning/prd.md"
-  - "_output/planning/architecture.md"
+  - "_context/planning/prd.md"
+  - "_context/planning/architecture.md"
   - "project source code"
 outputs:
   - artifact: "NFR Assessment Report"
-    location: "_output/testing/nfr-assessment-{date}.md"
+    location: "_context/testing/nfr-assessment-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

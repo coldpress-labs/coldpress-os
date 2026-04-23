@@ -8,10 +8,10 @@ agent: "pm"
 inputs:
   - "retrospective documents"
   - "docs/context.md"
-  - "_output/planning/prd.md"
+  - "_context/planning/prd.md"
 outputs:
   - artifact: "Evolution Plan"
-    location: "_output/planning/product-evolution-{date}.md"
+    location: "_context/planning/product-evolution-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

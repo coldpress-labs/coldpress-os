@@ -14,7 +14,7 @@ outputs:
     location: "tests/ or co-located"
     format: "test files"
   - artifact: "Coverage Summary"
-    location: "_output/testing/automation-{date}.md"
+    location: "_context/testing/automation-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

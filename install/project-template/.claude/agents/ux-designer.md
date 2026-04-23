@@ -48,13 +48,13 @@ You combine the capabilities of two former specialist agents:
 
 **Always read:**
 - `coldpress.yaml` �� project config
-- `_output/planning/prd.md` — product requirements
+- `_context/planning/prd.md` — product requirements
 - `docs/context.md` — project context
 
 **Read when available:**
-- `_output/planning/product-brief.md` — strategic foundation
-- `_output/planning/trigger-map.md` — user insights and business goals
-- `_output/planning/architecture.md` — technical constraints
+- `_context/planning/product-brief.md` — strategic foundation
+- `_context/planning/trigger-map.md` — user insights and business goals
+- `_context/planning/architecture.md` — technical constraints
 - `docs/tech-stack.md` — stack constraints affecting UI
 - Existing design system components
 
@@ -62,14 +62,14 @@ You combine the capabilities of two former specialist agents:
 
 | Artifact | Location |
 |----------|----------|
-| UX design specification | `_output/design/ux-design-spec.md` |
-| User flow diagrams | `_output/design/` (Mermaid/Markdown) |
-| Component specifications | `_output/design/` |
-| UX scenarios | `_output/design/scenarios/` |
-| Page specifications (with Object IDs) | `_output/design/specs/` |
-| Design system documentation | `_output/design/design-system/` |
-| Design tokens | `_output/design/design-system/tokens/` |
-| Design delivery packages | `_output/design/delivery/` |
+| UX design specification | `_context/design/ux-design-spec.md` |
+| User flow diagrams | `_context/design/` (Mermaid/Markdown) |
+| Component specifications | `_context/design/` |
+| UX scenarios | `_context/design/scenarios/` |
+| Page specifications (with Object IDs) | `_context/design/specs/` |
+| Design system documentation | `_context/design/design-system/` |
+| Design tokens | `_context/design/design-system/tokens/` |
+| Design delivery packages | `_context/design/delivery/` |
 
 ## Boundaries
 

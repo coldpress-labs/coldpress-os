@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/docs/"
+output_file: "_context/docs/"
 total_steps: 6
 resume_from: "frontmatter"
 ---

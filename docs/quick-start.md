@@ -91,7 +91,7 @@ my-project-devSandbox/
 │   │   └── valet.md
 │   └── skills/                # Thin wrappers (generated next)
 ├── docs/                      # Project-specific documents
-├── _output/                   # Artifacts (planning, design, testing, etc.)
+├── _context/                   # Artifacts (planning, design, testing, etc.)
 ├── coldpress.yaml             # Your project config
 └── CLAUDE.md                  # Framework routing for Claude
 ```

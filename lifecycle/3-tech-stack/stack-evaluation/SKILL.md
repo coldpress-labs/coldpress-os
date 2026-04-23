@@ -10,7 +10,7 @@ inputs:
   - "coldpress.yaml"
 outputs:
   - artifact: "Architecture Decision Record"
-    location: "_output/planning/adr-{decision}-{date}.md"
+    location: "_context/planning/adr-{decision}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

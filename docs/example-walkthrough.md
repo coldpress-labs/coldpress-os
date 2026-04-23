@@ -62,7 +62,7 @@ taskpulse-devSandbox/
 │   ├── agents/                # 9 subagent definitions
 │   └── skills/                # 65+ skill wrappers
 ├── docs/                      # Empty — filled in Phase 2
-├── _output/                   # Empty — filled in Phase 4+
+├── _context/                   # Empty — filled in Phase 4+
 ├── coldpress.yaml             # Populated config
 └── CLAUDE.md                  # Framework routing
 ```
@@ -108,7 +108,7 @@ After 10-15 questions, the analyst produces:
 ```
 Run domain-research            # → docs/domain-research.md
 Run market-research            # → docs/market-research.md
-Run brainstorming              # → _output/planning/brainstorming-output.md
+Run brainstorming              # → _context/planning/brainstorming-output.md
 ```
 
 ---
@@ -165,13 +165,13 @@ Butler dispatches **@pm**. The PM reads `docs/context.md` and `docs/tech-stack.m
 - Out of scope (team features, integrations, mobile native)
 - Success metrics (daily active usage, task completion rate)
 
-**Output:** `_output/planning/prd.md` — Third sacred document.
+**Output:** `_context/planning/prd.md` — Third sacred document.
 
 ### Continue planning
 
 ```
-Run create-architecture        # @architect → _output/planning/architecture.md [SACRED]
-Run create-ux-design           # @ux-designer → _output/design/ux-design-spec.md
+Run create-architecture        # @architect → _context/planning/architecture.md [SACRED]
+Run create-ux-design           # @ux-designer → _context/design/ux-design-spec.md
 ```
 
 After this phase, you have 4 sacred documents and a UX spec.
@@ -197,7 +197,7 @@ Epic 3: Weekly Patterns (aggregation, visualization, insights)
 Epic 4: Auth & Onboarding (sign-up, login, first-run experience)
 ```
 
-**Output:** `_output/planning/epics/`
+**Output:** `_context/planning/epics/`
 
 Then:
 
@@ -209,7 +209,7 @@ Run sprint-planning            # Organizes stories into sprints
 
 The **@scrum-master** (haiku — fast and organizational) generates the PERT chart showing dependencies and the critical path.
 
-**Output:** `_output/tracking/pert-chart.md` — Fifth sacred document.
+**Output:** `_context/tracking/pert-chart.md` — Fifth sacred document.
 
 ### Your wave plan might look like
 

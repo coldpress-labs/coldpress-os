@@ -12,8 +12,8 @@ Ensure all required artifacts exist and are loaded before beginning decompositio
 
 ## Instructions
 
-1. **Check for `_output/planning/prd.md`.** If missing, halt and inform user to complete Phase 4 first.
-2. **Check for `_output/planning/architecture.md`.** If missing, halt and inform user.
+1. **Check for `_context/planning/prd.md`.** If missing, halt and inform user to complete Phase 4 first.
+2. **Check for `_context/planning/architecture.md`.** If missing, halt and inform user.
 3. **Load PRD.** Extract all Functional Requirements (FRs) and Non-Functional Requirements (NFRs).
 4. **Load architecture.** Note key architectural decisions, component boundaries, and constraints.
 5. **Summarize** what was found: FR count, NFR count, key architectural patterns.

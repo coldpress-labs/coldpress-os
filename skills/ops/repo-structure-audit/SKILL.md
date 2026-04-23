@@ -9,7 +9,7 @@ inputs:
   - "coldpress.yaml"
 outputs:
   - artifact: "Repo Structure Audit Report"
-    location: "_output/ops/repo-audit-{date}.md"
+    location: "_context/ops/repo-audit-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

@@ -7,7 +7,7 @@ phase: 3
 agent: "architect"
 inputs:
   - "docs/context.md"
-  - "_output/planning/adr-*.md"
+  - "_context/planning/adr-*.md"
 outputs:
   - artifact: "Tech Stack Document"
     location: "docs/tech-stack.md"

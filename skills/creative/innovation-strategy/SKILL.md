@@ -10,7 +10,7 @@ inputs:
   - "../../data/methods/innovation-frameworks.csv"
 outputs:
   - artifact: "Innovation Strategy"
-    location: "_output/creative/innovation-{date}.md"
+    location: "_context/creative/innovation-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

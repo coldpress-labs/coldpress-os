@@ -13,7 +13,7 @@ outputs:
     location: "project root (config files)"
     format: "various"
   - artifact: "Setup Report"
-    location: "_output/testing/framework-setup-{date}.md"
+    location: "_context/testing/framework-setup-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

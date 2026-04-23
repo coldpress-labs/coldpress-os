@@ -10,7 +10,7 @@ inputs:
   - "../../data/methods/story-types.csv"
 outputs:
   - artifact: "Narrative Document"
-    location: "_output/creative/story-{date}.md"
+    location: "_context/creative/story-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

@@ -6,12 +6,12 @@ category: "lifecycle"
 phase: 4
 agent: "pm"
 inputs:
-  - "_output/planning/prd.md"
+  - "_context/planning/prd.md"
   - "docs/context.md"
   - "docs/tech-stack.md"
 outputs:
   - artifact: "PRD Validation Report"
-    location: "_output/planning/prd-validation-{date}.md"
+    location: "_context/planning/prd-validation-{date}.md"
     format: "markdown"
     sacred: false
 version: "1.0"
@@ -32,7 +32,7 @@ Validates an existing PRD against quality standards. Reads the PRD and checks fo
 
 ## Prerequisites
 
-- `_output/planning/prd.md` exists
+- `_context/planning/prd.md` exists
 - `docs/context.md` available for alignment check
 - `docs/tech-stack.md` available for feasibility check
 
@@ -44,7 +44,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/planning/prd-validation-{date}.md` — validation report with section-by-section assessment, issues found, and recommendations.
+`_context/planning/prd-validation-{date}.md` — validation report with section-by-section assessment, issues found, and recommendations.
 
 ---
 

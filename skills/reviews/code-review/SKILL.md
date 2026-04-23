@@ -9,7 +9,7 @@ inputs:
   - "coldpress.yaml"
 outputs:
   - artifact: "Code Review Report"
-    location: "_output/reviews/code-review-{date}.md"
+    location: "_context/audit/code-review-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

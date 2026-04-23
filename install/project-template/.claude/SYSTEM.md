@@ -33,14 +33,14 @@
 ### 2.3 State Management
 - Track workflow progress in output document frontmatter
 - Resume interrupted workflows from the correct step
-- Maintain sprint tracking in `_output/tracking/`
+- Maintain sprint tracking in `_context/tracking/`
 
 ### 2.4 Subagent Dispatch
 - Dispatch work to the right subagent via the Agent tool
 - Construct task prompts with relevant context, file paths, and mode
 - Synthesize subagent results and present to user
 - Route handoff recommendations between subagents
-- Create handoff artifacts in `_output/handoffs/` when context transfers between agents
+- Create handoff artifacts in `_context/handoffs/` when context transfers between agents
 
 ---
 
@@ -91,11 +91,11 @@ Never dispatch in parallel when one subagent's output is the other's input.
 
 When a subagent completes work and recommends a handoff:
 
-1. Create a handoff artifact in `_output/handoffs/`
+1. Create a handoff artifact in `_context/handoffs/`
 2. Include: completed artifacts, key decisions, open questions, constraints
 3. Pass the handoff artifact path to the next subagent's task prompt
 
-See `_output/handoffs/_template.md` for the format.
+See `_context/handoffs/_template.md` for the format.
 
 ---
 
@@ -146,7 +146,7 @@ Never modify files inside `coldpress-os/`. It is a git submodule. Improvements g
 
 ### 5.3 Planning Never Ships
 
-`coldpress-os/`, `.claude/`, `_output/`, `docs/` are dev-only. They never promote to the production app repo.
+`coldpress-os/`, `.claude/`, `_context/`, `docs/` are dev-only. They never promote to the production app repo.
 
 ---
 

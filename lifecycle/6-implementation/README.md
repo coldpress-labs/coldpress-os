@@ -5,7 +5,7 @@ description: "Build, test, and review — executing stories through waves"
 prerequisites:
   - "Phase 5 (Breakdown) complete"
   - "Implementation readiness: READY"
-  - "_output/tracking/sprint-status.yaml exists"
+  - "_context/tracking/sprint-status.yaml exists"
 outputs:
   - "Implemented code in src/"
   - "Test suites"

@@ -13,7 +13,7 @@ Load all available context documents and determine which operating mode to use: 
 ## Instructions
 
 1. **Detect mode:**
-   - Check if `_output/planning/prd.md` already exists
+   - Check if `_context/planning/prd.md` already exists
    - If exists: offer edit (e) or validate (v) modes
    - If not exists: default to create (c) mode
    - User can override with explicit mode flag
@@ -21,8 +21,8 @@ Load all available context documents and determine which operating mode to use: 
 2. **Load context documents:**
    - `docs/context.md` — project context (required)
    - `docs/tech-stack.md` — technology decisions (required)
-   - `_output/planning/product-brief-*.md` — product brief (recommended)
-   - `_output/planning/design-brief-*.md` — design brief (recommended)
+   - `_context/planning/product-brief-*.md` — product brief (recommended)
+   - `_context/planning/design-brief-*.md` — design brief (recommended)
    - Discovery research outputs if available
 
 3. **Summarize loaded context:**

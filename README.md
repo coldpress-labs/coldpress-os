@@ -31,7 +31,7 @@ git submodule add https://github.com/coldpress-labs/coldpress-os.git coldpress-o
 The init skill scaffolds your project with:
 - `.claude/` thin wrappers pointing to coldpress-os skills
 - `coldpress.yaml` project configuration
-- `_output/` artifact directories
+- `_context/` artifact directories
 - `CLAUDE.md` with framework routing instructions
 
 **New to coldpress-os?** Read the [First 10 Minutes](docs/quick-start.md) guide for a hands-on walkthrough, or see the [TaskPulse Example](docs/example-walkthrough.md) for a full lifecycle demo.
@@ -82,7 +82,7 @@ my-project/
 ├── .claude/                # Generated thin wrappers
 │   └── skills/             # 3-line wrappers → coldpress-os skills
 ├── docs/                   # Project-specific content
-├── _output/                # Project artifacts
+├── _context/                # Project artifacts
 ├── coldpress.yaml          # Project config
 └── CLAUDE.md               # Framework routing for Claude
 ```

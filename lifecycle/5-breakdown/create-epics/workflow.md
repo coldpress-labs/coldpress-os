@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/planning/epics.md"
+output_file: "_context/planning/epics.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

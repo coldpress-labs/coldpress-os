@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/ops/deployment-readiness-{date}.md"
+output_file: "_context/audit/deployment-readiness-{date}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

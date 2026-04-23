@@ -24,7 +24,7 @@ Make the technology decision and document it as a formal ADR.
    - **Decision:** What was chosen and why
    - **Consequences:** What follows from this decision (positive and negative)
    - **References:** Sources consulted
-5. **Save** to `_output/planning/adr-{decision}-{date}.md`
+5. **Save** to `_context/planning/adr-{decision}-{date}.md`
 
 ## Output
 

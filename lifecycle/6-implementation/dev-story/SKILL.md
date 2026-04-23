@@ -6,15 +6,15 @@ category: "lifecycle"
 phase: 6
 agent: "developer"
 inputs:
-  - "_output/implementation/{story-key}.md"
-  - "_output/tracking/sprint-status.yaml"
+  - "_context/implementation/{story-key}.md"
+  - "_context/tracking/sprint-status.yaml"
   - "docs/context.md"
 outputs:
   - artifact: "Implemented Code"
     location: "src/"
     format: "code"
   - artifact: "Updated Story File"
-    location: "_output/implementation/{story-key}.md"
+    location: "_context/implementation/{story-key}.md"
     format: "markdown"
 version: "1.0"
 ---
@@ -32,7 +32,7 @@ Executes a story's implementation by following its context-rich spec file. Enfor
 
 ## Prerequisites
 
-- Story file must exist at `_output/implementation/{story-key}.md`
+- Story file must exist at `_context/implementation/{story-key}.md`
 - Story must have acceptance criteria and developer context
 - Test framework set up (see `test-framework` skill)
 

@@ -12,7 +12,7 @@ Map all dependencies between epics and stories into a directed acyclic graph.
 
 ## Instructions
 
-1. **Load `_output/planning/epics.md`.** Extract all epics and stories.
+1. **Load `_context/planning/epics.md`.** Extract all epics and stories.
 2. **For each epic**, determine:
    - Which epics must be completed before this one can start (hard dependencies)
    - Which epics would benefit from being done first (soft dependencies)

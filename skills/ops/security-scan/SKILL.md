@@ -6,11 +6,11 @@ category: "ops"
 phases: [7]
 inputs:
   - "project source code"
-  - "_output/planning/architecture.md"
+  - "_context/planning/architecture.md"
   - "docs/tech-stack.md"
 outputs:
   - artifact: "Security Scan Report"
-    location: "_output/ops/security-scan-{date}.md"
+    location: "_context/audit/security-scan-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

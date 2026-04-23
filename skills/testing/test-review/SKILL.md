@@ -10,7 +10,7 @@ inputs:
   - "source files being tested"
 outputs:
   - artifact: "Test Review Report"
-    location: "_output/testing/test-review-{date}.md"
+    location: "_context/testing/test-review-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

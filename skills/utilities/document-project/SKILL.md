@@ -10,10 +10,10 @@ inputs:
   - "../../data/classification/documentation-requirements.csv"
 outputs:
   - artifact: "Project Documentation"
-    location: "_output/docs/"
+    location: "_context/docs/"
     format: "markdown"
   - artifact: "Documentation Index"
-    location: "_output/docs/index.md"
+    location: "_context/docs/index.md"
     format: "markdown"
 version: "1.0"
 ---
@@ -45,7 +45,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-A comprehensive documentation suite including: project overview, source tree, architecture documentation, component documentation, development guide, and a master index. All written to `_output/docs/`.
+A comprehensive documentation suite including: project overview, source tree, architecture documentation, component documentation, development guide, and a master index. All written to `_context/docs/`.
 
 ---
 

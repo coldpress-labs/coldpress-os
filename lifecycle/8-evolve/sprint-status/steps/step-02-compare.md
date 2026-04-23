@@ -9,8 +9,8 @@ next_step: "step-03-recommend.md"
 ## Instructions
 
 1. **Load the plan:**
-   - Read `_output/tracking/pert-chart.md` (SACRED) — expected wave schedule and critical path
-   - Read `_output/tracking/sprint-plan.yaml` — current sprint scope and goals
+   - Read `_context/tracking/pert-chart.md` (SACRED) — expected wave schedule and critical path
+   - Read `_context/tracking/sprint-plan.yaml` — current sprint scope and goals
 
 2. **Calculate velocity:**
    - Stories completed this sprint vs planned

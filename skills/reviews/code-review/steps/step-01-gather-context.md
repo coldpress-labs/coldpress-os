@@ -21,7 +21,7 @@ Determine what the user wants reviewed, gather the diff, and collect any related
    - If intent is ambiguous, ask the user which scope to review.
 
 2. **Check for story/spec context.** If the user mentions a story number or spec:
-   - Look for the corresponding story file in `_output/` or `docs/`
+   - Look for the corresponding story file in `_context/` or `docs/`
    - Extract acceptance criteria for the acceptance auditor layer
    - If no story file found, note that acceptance auditing will be skipped.
 

@@ -32,8 +32,8 @@ gate:
   criteria: "Foundation validated — schema, auth, design system working"
   presented_at: "2026-04-25T10:00:00Z"
   artifacts:
-    - "_output/implementation/1-1-project-setup.md"
-    - "_output/implementation/1-2-design-system.md"
+    - "_context/implementation/1-1-project-setup.md"
+    - "_context/implementation/1-2-design-system.md"
   decision:
     action: "approve"                  # approve | revise | halt
     decided_at: "2026-04-25T14:30:00Z"

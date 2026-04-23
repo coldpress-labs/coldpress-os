@@ -6,11 +6,11 @@ category: "lifecycle"
 phase: 6
 agent: "scrum-master"
 inputs:
-  - "_output/tracking/pert-chart.md"
-  - "_output/tracking/sprint-status.yaml"
+  - "_context/tracking/pert-chart.md"
+  - "_context/tracking/sprint-status.yaml"
 outputs:
   - artifact: "Wave Status"
-    location: "_output/tracking/wave-status.md"
+    location: "_context/tracking/wave-status.md"
     format: "markdown"
 version: "1.0"
 ---

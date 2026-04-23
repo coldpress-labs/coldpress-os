@@ -6,10 +6,10 @@ category: "ops"
 phases: [7]
 inputs:
   - "database schema files or migration files"
-  - "_output/planning/architecture.md"
+  - "_context/planning/architecture.md"
 outputs:
   - artifact: "Migration Check Report"
-    location: "_output/ops/db-migration-{date}.md"
+    location: "_context/ops/db-migration-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

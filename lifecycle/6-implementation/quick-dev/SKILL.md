@@ -10,7 +10,7 @@ inputs:
   - "docs/context.md"
 outputs:
   - artifact: "Spec File"
-    location: "_output/implementation/spec-wip.md"
+    location: "_context/implementation/spec-wip.md"
     format: "markdown"
   - artifact: "Implemented Code"
     location: "src/"

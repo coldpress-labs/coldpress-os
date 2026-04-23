@@ -6,12 +6,12 @@ category: "lifecycle"
 phase: 8
 agent: "scrum-master"
 inputs:
-  - "_output/tracking/sprint-status.yaml"
-  - "_output/planning/epics.md"
+  - "_context/tracking/sprint-status.yaml"
+  - "_context/planning/epics.md"
   - "previous retrospective (if exists)"
 outputs:
   - artifact: "Retrospective"
-    location: "_output/tracking/retro-epic-{N}-{date}.md"
+    location: "_context/audit/retro-epic-{N}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

@@ -44,7 +44,7 @@ These directories and files are eligible for promotion from devSandbox to app:
 |----------|-------|-----|
 | Framework | `coldpress-os/` | Read-only submodule, dev-only |
 | Orchestration | `.claude/` | Agent config, dev-only |
-| Planning artifacts | `_output/` | Internal planning docs |
+| Planning artifacts | `_context/` | Internal planning docs |
 | Project docs | `docs/` | Internal context, specs |
 | Project config | `coldpress.yaml` | Framework config, dev-only |
 | Dev credentials | `.env.local` | Environment-specific |

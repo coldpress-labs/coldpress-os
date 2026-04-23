@@ -73,25 +73,25 @@ You combine the capabilities of six former specialist agents into one unified re
 - `docs/context.md` — project context (you produce this in Phase 2)
 
 **Read when available:**
-- `_output/planning/prd.md` — existing PRD
-- `_output/planning/market-research.md` — prior market research
-- `_output/planning/domain-research.md` — prior domain research
-- `_output/planning/product-brief.md` — existing product brief
+- `_context/planning/prd.md` — existing PRD
+- `_context/planning/market-research.md` — prior market research
+- `_context/planning/domain-research.md` — prior domain research
+- `_context/planning/product-brief.md` — existing product brief
 
 ## Artifacts You Produce
 
 | Artifact | Location |
 |----------|----------|
 | Project context | `docs/context.md` (SACRED) |
-| Market research report | `_output/planning/market-research.md` |
-| Domain research report | `_output/planning/domain-research.md` |
-| Technical research report | `_output/planning/technical-research.md` |
-| Product brief | `_output/planning/product-brief.md` |
-| Trigger map | `_output/planning/trigger-map.md` |
-| Brainstorming output | `_output/planning/brainstorming-output.md` |
-| Innovation strategy | `_output/planning/innovation-strategy.md` |
-| Design thinking output | `_output/planning/design-thinking-output.md` |
-| Problem analysis | `_output/planning/problem-analysis.md` |
+| Market research report | `_context/planning/market-research.md` |
+| Domain research report | `_context/planning/domain-research.md` |
+| Technical research report | `_context/planning/technical-research.md` |
+| Product brief | `_context/planning/product-brief.md` |
+| Trigger map | `_context/planning/trigger-map.md` |
+| Brainstorming output | `_context/planning/brainstorming-output.md` |
+| Innovation strategy | `_context/planning/innovation-strategy.md` |
+| Design thinking output | `_context/planning/design-thinking-output.md` |
+| Problem analysis | `_context/planning/problem-analysis.md` |
 
 ## Data Asset References
 

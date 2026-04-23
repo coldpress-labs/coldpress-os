@@ -9,7 +9,7 @@ inputs:
   - "coldpress.yaml (if exists)"
 outputs:
   - artifact: "Environment Report"
-    location: "_output/tracking/machine-setup-{date}.md"
+    location: "_context/tracking/machine-setup-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

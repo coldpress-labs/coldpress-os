@@ -6,14 +6,14 @@ category: "lifecycle"
 phase: 5
 agent: "pm"
 inputs:
-  - "_output/planning/epics.md"
-  - "_output/planning/prd.md"
-  - "_output/planning/architecture.md"
+  - "_context/planning/epics.md"
+  - "_context/planning/prd.md"
+  - "_context/planning/architecture.md"
   - "docs/ux-sitemap.md (if exists)"
-  - "_output/tracking/sprint-status.yaml (if exists)"
+  - "_context/tracking/sprint-status.yaml (if exists)"
 outputs:
   - artifact: "Story context file"
-    location: "_output/implementation/{story-key}.md"
+    location: "_context/implementation/{story-key}.md"
     format: "markdown"
 version: "1.0"
 ---
@@ -34,8 +34,8 @@ Each story file contains everything a developer (human or AI) needs to implement
 
 ## Prerequisites
 
-- `_output/planning/epics.md` exists (from create-epics)
-- `_output/planning/prd.md` and `_output/planning/architecture.md` exist
+- `_context/planning/epics.md` exists (from create-epics)
+- `_context/planning/prd.md` and `_context/planning/architecture.md` exist
 - Target story identified (from sprint-status or user input)
 
 ## Process
@@ -46,7 +46,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/implementation/{story-key}.md` -- a self-contained story context file with all implementation details, guardrails, and technical specifics needed for development. Updates `sprint-status.yaml` story status to `ready-for-dev`.
+`_context/implementation/{story-key}.md` -- a self-contained story context file with all implementation details, guardrails, and technical specifics needed for development. Updates `sprint-status.yaml` story status to `ready-for-dev`.
 
 ---
 

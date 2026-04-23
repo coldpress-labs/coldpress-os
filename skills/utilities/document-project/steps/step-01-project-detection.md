@@ -33,7 +33,7 @@ Determine what kind of project this is, how complex it is, and how deeply to sca
    - **(D) Deep** — Comprehensive scan of all major components (~30 min)
    - **(E) Exhaustive** — File-by-file analysis with deep-dive capability (~60+ min)
 
-5. **Check for existing documentation.** If `_output/docs/` already has content, offer to:
+5. **Check for existing documentation.** If `_context/docs/` already has content, offer to:
    - Resume from last scan state
    - Start fresh (overwrite)
    - Deep-dive into a specific area

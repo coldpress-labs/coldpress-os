@@ -50,7 +50,7 @@ Halt at each `decision_needed` item and at the patch resolution menu.
 
 ## Output
 
-Finalized code review report at `_output/reviews/code-review-{date}.md`
+Finalized code review report at `_context/audit/code-review-{date}.md`
 
 ## Navigation
 

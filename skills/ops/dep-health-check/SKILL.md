@@ -9,7 +9,7 @@ inputs:
   - "lock file (package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb)"
 outputs:
   - artifact: "Dependency Health Report"
-    location: "_output/ops/dep-health-{date}.md"
+    location: "_context/ops/dep-health-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

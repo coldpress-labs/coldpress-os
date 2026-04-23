@@ -36,11 +36,11 @@ This project uses **coldpress-os** at `coldpress-os/`.
 | Project config | `coldpress.yaml` |
 | Project context | `docs/context.md` |
 | Tech stack | `docs/tech-stack.md` |
-| Planning artifacts | `_output/planning/` |
-| Design artifacts | `_output/design/` |
-| Implementation artifacts | `_output/implementation/` |
-| Testing artifacts | `_output/testing/` |
-| Tracking | `_output/tracking/` |
+| Planning artifacts | `_context/planning/` |
+| Design artifacts | `_context/design/` |
+| Implementation artifacts | `_context/implementation/` |
+| Testing artifacts | `_context/testing/` |
+| Tracking | `_context/tracking/` |
 
 ## How to Use
 
@@ -58,4 +58,4 @@ Ask Claude to run any coldpress-os skill by name:
 1. **coldpress-os/ is read-only.** Never edit files inside the submodule.
 2. **Sacred documents are protected.** Changes to context.md, tech-stack.md, PRD, architecture.md, and PERT chart require governance workflows.
 3. **Skills are invoked, not edited.** If a skill needs improvement, use `meta/propose-change`.
-4. **Planning never ships.** coldpress-os/, .claude/, _output/, docs/ are dev-only.
+4. **Planning never ships.** coldpress-os/, .claude/, _context/, docs/ are dev-only.

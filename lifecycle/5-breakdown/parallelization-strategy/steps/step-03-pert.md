@@ -23,7 +23,7 @@ Produce the sacred PERT chart document with time estimates and calendar projecti
    - Assumed work hours per day (ask user)
    - Start date (ask user)
    - Buffer for gate points and review cycles
-5. **Write `_output/tracking/pert-chart.md`** with:
+5. **Write `_context/tracking/pert-chart.md`** with:
    - Dependency DAG (visual representation)
    - Wave groupings table
    - Critical path highlighted
@@ -34,7 +34,7 @@ Produce the sacred PERT chart document with time estimates and calendar projecti
 
 ## Output
 
-`_output/tracking/pert-chart.md` written (sacred). `step_3_complete: true`
+`_context/tracking/pert-chart.md` written (sacred). `step_3_complete: true`
 
 ## Navigation
 

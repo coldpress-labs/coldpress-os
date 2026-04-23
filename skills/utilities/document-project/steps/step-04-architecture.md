@@ -36,7 +36,7 @@ Analyze and document the project's architectural patterns, component structure, 
 
 5. **For exhaustive scans:** Create deep-dive documents for each major area (API routes, features, UI components, services).
 
-6. **Write `_output/docs/architecture.md`** immediately. For exhaustive scans, also write per-area deep-dive files.
+6. **Write `_context/docs/architecture.md`** immediately. For exhaustive scans, also write per-area deep-dive files.
 
 ## Output
 

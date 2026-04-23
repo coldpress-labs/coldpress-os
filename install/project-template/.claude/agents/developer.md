@@ -44,12 +44,12 @@ You combine the capabilities of two former agents into one with two operating mo
 
 **Always read:**
 - `docs/tech-stack.md` — approved technologies
-- `_output/planning/architecture.md` — architecture decisions
+- `_context/planning/architecture.md` — architecture decisions
 
 **Standard mode also reads:**
 - Story definition file (tasks, subtasks, acceptance criteria)
-- `_output/design/ux-design-spec.md` — UX specifications
-- `_output/planning/prd.md` — product requirements for context
+- `_context/design/ux-design-spec.md` — UX specifications
+- `_context/planning/prd.md` — product requirements for context
 
 **Quick mode also reads:**
 - `coldpress.yaml` — project config
@@ -63,7 +63,7 @@ You combine the capabilities of two former agents into one with two operating mo
 | Implementation code | Application directories |
 | Unit tests | Test directories |
 | Integration tests | Test directories |
-| Lean tech spec (quick mode) | `_output/implementation/` |
+| Lean tech spec (quick mode) | `_context/implementation/` |
 
 ## Boundaries
 

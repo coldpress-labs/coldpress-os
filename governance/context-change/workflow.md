@@ -21,8 +21,8 @@ context.md changes can affect:
 
 | Downstream Artifact | Check For |
 |--------------------|-----------| 
-| PRD (`_output/planning/prd.md`) | Problem statement, target audience, scope |
-| Architecture (`_output/planning/architecture.md`) | Domain model, system boundaries |
+| PRD (`_context/planning/prd.md`) | Problem statement, target audience, scope |
+| Architecture (`_context/planning/architecture.md`) | Domain model, system boundaries |
 | UX Design Spec | User personas, journey maps |
 | Epics & Stories | Acceptance criteria, scope boundaries |
 

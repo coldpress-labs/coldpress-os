@@ -6,9 +6,9 @@ prerequisites:
   - "Phase 3 (Tech Stack) complete"
   - "docs/tech-stack.md exists"
 outputs:
-  - "PRD (_output/planning/prd.md — SACRED)"
-  - "architecture.md (_output/planning/architecture.md — SACRED)"
-  - "UX specification (_output/design/ux-design-spec.md)"
+  - "PRD (_context/planning/prd.md — SACRED)"
+  - "architecture.md (_context/planning/architecture.md — SACRED)"
+  - "UX specification (_context/design/ux-design-spec.md)"
 next_phase: "5-breakdown"
 ---
 

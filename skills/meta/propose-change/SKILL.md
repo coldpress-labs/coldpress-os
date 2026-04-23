@@ -10,7 +10,7 @@ inputs:
   - "affected files or areas"
 outputs:
   - artifact: "Change Proposal"
-    location: "_output/meta/proposal-{date}.md"
+    location: "_context/meta/proposal-{date}.md"
     format: "markdown"
 version: "1.0"
 ---
@@ -61,7 +61,7 @@ Formalizes feedback, bug reports, or improvement suggestions as structured chang
    - Suggested implementation
    - Impact assessment
 
-5. **Write proposal** to `_output/meta/` and present to user.
+5. **Write proposal** to `_context/meta/` and present to user.
 
 6. **Offer to create GitHub Issue** if the user wants to formalize it immediately.
 

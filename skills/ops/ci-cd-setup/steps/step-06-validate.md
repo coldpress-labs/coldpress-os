@@ -34,7 +34,7 @@ Present final report. Ask if any adjustments are needed.
 
 ## Output
 
-Setup report at `_output/ops/ci-cd-setup-{date}.md`. Mark workflow complete.
+Setup report at `_context/ops/ci-cd-setup-{date}.md`. Mark workflow complete.
 
 ## Navigation
 

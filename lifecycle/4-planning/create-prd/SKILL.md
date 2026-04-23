@@ -7,12 +7,12 @@ phase: 4
 agent: "pm"
 inputs:
   - "docs/context.md"
-  - "_output/planning/product-brief-{date}.md"
-  - "_output/planning/design-brief-{date}.md"
+  - "_context/planning/product-brief-{date}.md"
+  - "_context/planning/design-brief-{date}.md"
   - "docs/tech-stack.md"
 outputs:
   - artifact: "Product Requirements Document"
-    location: "_output/planning/prd.md"
+    location: "_context/planning/prd.md"
     format: "markdown"
     sacred: true
 version: "1.0"
@@ -55,7 +55,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/planning/prd.md` — comprehensive Product Requirements Document. This is a **sacred document** protected by governance workflows.
+`_context/planning/prd.md` — comprehensive Product Requirements Document. This is a **sacred document** protected by governance workflows.
 
 ---
 

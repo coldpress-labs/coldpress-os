@@ -23,7 +23,7 @@ Determine the user's intent and the type of product brief to create. Detect acti
 
 3. **Load existing context:**
    - Check for `docs/context.md` — load if available
-   - Check for discovery outputs in `_output/planning/research/`
+   - Check for discovery outputs in `_context/planning/research/`
    - Check for `docs/tech-stack.md`
    - Summarize what's already known
 

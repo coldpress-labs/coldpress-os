@@ -7,11 +7,11 @@ phase: 4
 agent: "ux-designer"
 inputs:
   - "docs/context.md"
-  - "_output/planning/product-brief-{date}.md (if bridge mode)"
+  - "_context/planning/product-brief-{date}.md (if bridge mode)"
   - "Brand references and visual inspiration"
 outputs:
   - artifact: "Design Brief"
-    location: "_output/planning/design-brief-{date}.md"
+    location: "_context/planning/design-brief-{date}.md"
     format: "markdown"
     sacred: false
 version: "1.0"
@@ -50,7 +50,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_output/planning/design-brief-{date}.md` — comprehensive design brief covering content strategy, visual direction, design tokens, and platform requirements.
+`_context/planning/design-brief-{date}.md` — comprehensive design brief covering content strategy, visual direction, design tokens, and platform requirements.
 
 ---
 

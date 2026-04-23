@@ -37,13 +37,13 @@ Define platform-specific requirements, responsive design strategy, and compile t
 
 5. **Finalize and write:**
    - Apply user feedback
-   - Save as `_output/planning/design-brief-{date}.md`
+   - Save as `_context/planning/design-brief-{date}.md`
    - Include YAML frontmatter with metadata
    - Suggest next step: create-prd
 
 ## Output
 
-Final design brief written to `_output/planning/design-brief-{date}.md`. `step_4_complete: true`
+Final design brief written to `_context/planning/design-brief-{date}.md`. `step_4_complete: true`
 
 ## Navigation
 

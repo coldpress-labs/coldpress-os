@@ -6,12 +6,12 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "_output/planning/prd.md"
+  - "_context/planning/prd.md"
   - "test files"
-  - "_output/planning/epics-and-stories.md"
+  - "_context/planning/epics-and-stories.md"
 outputs:
   - artifact: "Traceability Matrix"
-    location: "_output/testing/traceability-matrix-{date}.md"
+    location: "_context/testing/traceability-matrix-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

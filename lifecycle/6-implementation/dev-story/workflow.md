@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/implementation/{story-key}.md"
+output_file: "_context/implementation/{story-key}.md"
 total_steps: 5
 resume_from: "frontmatter"
 ---

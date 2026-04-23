@@ -19,9 +19,9 @@ A document is sacred when:
 |---|----------|-------------|----------|------------|----------------|
 | 1 | **context.md** | Phase 2 (Discovery) | `docs/context.md` | User input, research | PRD, architecture, UX, stories |
 | 2 | **tech-stack.md** | Phase 3 (Tech Stack) | `docs/tech-stack.md` | context.md, evaluation | Architecture, implementation, deployment, CI/CD |
-| 3 | **PRD** | Phase 4 (Planning) | `_output/planning/prd.md` | context.md, product brief | Architecture, UX, epics, stories |
-| 4 | **architecture.md** | Phase 4 (Planning) | `_output/planning/architecture.md` | PRD, tech-stack.md | Epics, stories, implementation |
-| 5 | **PERT chart** | Phase 5 (Breakdown) | `_output/tracking/pert-chart.md` | Epics, dependencies | Sprint planning, wave execution, timelines |
+| 3 | **PRD** | Phase 4 (Planning) | `_context/planning/prd.md` | context.md, product brief | Architecture, UX, epics, stories |
+| 4 | **architecture.md** | Phase 4 (Planning) | `_context/planning/architecture.md` | PRD, tech-stack.md | Epics, stories, implementation |
+| 5 | **PERT chart** | Phase 5 (Breakdown) | `_context/tracking/pert-chart.md` | Epics, dependencies | Sprint planning, wave execution, timelines |
 
 ---
 

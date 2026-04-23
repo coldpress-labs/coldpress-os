@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/tracking/retro-epic-{N}-{date}.md"
+output_file: "_context/audit/retro-epic-{N}-{date}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

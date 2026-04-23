@@ -49,7 +49,7 @@ inputs:
   - "docs/context.md"
 outputs:
   - artifact: "PRD"
-    location: "_output/planning/prd.md"
+    location: "_context/planning/prd.md"
     format: "markdown"
 version: "1.0"
 ---

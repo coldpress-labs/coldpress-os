@@ -7,10 +7,10 @@ phase: 7
 agent: "qa"
 inputs:
   - "project source code"
-  - "_output/tracking/sprint-status.yaml"
+  - "_context/tracking/sprint-status.yaml"
 outputs:
   - artifact: "Readiness Report"
-    location: "_output/ops/deployment-readiness-{date}.md"
+    location: "_context/audit/deployment-readiness-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

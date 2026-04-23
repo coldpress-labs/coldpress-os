@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/design/ux-design-spec.md"
+output_file: "_context/design/ux-design-spec.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

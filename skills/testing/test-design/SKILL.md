@@ -6,12 +6,12 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "_output/planning/prd.md"
-  - "_output/planning/architecture.md"
-  - "_output/planning/epics-and-stories.md"
+  - "_context/planning/prd.md"
+  - "_context/planning/architecture.md"
+  - "_context/planning/epics-and-stories.md"
 outputs:
   - artifact: "Test Plan"
-    location: "_output/testing/test-plan-{scope}.md"
+    location: "_context/testing/test-plan-{scope}.md"
     format: "markdown"
 version: "1.0"
 ---

@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_output/implementation/spec-wip.md"
+output_file: "_context/implementation/spec-wip.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

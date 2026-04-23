@@ -23,12 +23,12 @@ Finalize the product brief through user review, apply refinements, write to disk
    - Verify alignment with context.md
 
 3. **Write to disk:**
-   - Save as `_output/planning/product-brief-{date}.md`
+   - Save as `_context/planning/product-brief-{date}.md`
    - Include YAML frontmatter with metadata (date, version, author)
 
 4. **Offer distillate:**
    - "Would you like a one-paragraph distillate version for quick reference?"
-   - If yes, create `_output/planning/product-brief-distillate-{date}.md`
+   - If yes, create `_context/planning/product-brief-distillate-{date}.md`
    - Distillate is a 3-5 sentence summary of the full brief
 
 5. **Signal completion:**
@@ -37,7 +37,7 @@ Finalize the product brief through user review, apply refinements, write to disk
 
 ## Output
 
-Final product brief written to `_output/planning/product-brief-{date}.md`. Optional distillate created. `step_4_complete: true`
+Final product brief written to `_context/planning/product-brief-{date}.md`. Optional distillate created. `step_4_complete: true`
 
 ## Navigation
 

@@ -12,7 +12,7 @@ Gather all Architecture Decision Records and build a complete picture of the tec
 
 ## Instructions
 
-1. **Scan** `_output/planning/` for all `adr-*.md` files.
+1. **Scan** `_context/planning/` for all `adr-*.md` files.
 2. **Read each ADR** and extract:
    - Decision area (frontend, backend, database, etc.)
    - Chosen technology

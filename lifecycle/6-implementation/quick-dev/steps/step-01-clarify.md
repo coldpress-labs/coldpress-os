@@ -20,7 +20,7 @@ Ensure we're building the right thing at the right scope.
 
 ## Output
 
-Spec written to `_output/implementation/spec-wip.md`. `step_1_complete: true`
+Spec written to `_context/implementation/spec-wip.md`. `step_1_complete: true`
 
 ## Navigation
 
