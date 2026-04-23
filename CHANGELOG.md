@@ -171,6 +171,37 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 No new runtime deps; no new CLI surface this block (consistent with "substrate-only" scope — runtime wiring is Wave 6).
 
+### Added — Wave 5 Block BB (§5.5–§5.7 LLM-specific gates)
+
+Three non-overlapping LLM gates wrap cleanly into the §5.1 `ScanResult` schema. Together with §5.1's five classical scanners, Phase 7 now has gap-free coverage across classical (code / dep / secret) AND LLM-specific (correctness / regression / adversarial) surfaces.
+
+- **`skills/deployment/llm-quality-gate/`** — wraps [DeepEval](https://github.com/confident-ai/deepeval) (Apache-2.0). Runs the project-declared metrics (default: faithfulness, hallucination, g_eval, answer_relevancy) against prompts/agents in `eval.targets[]`. Each failing metric → one `Finding` at `eval.deepeval.fail_severity` (default `high`). Dispatched by Phase-7 gate's `llm-correctness-gate` acceptance_check via `skill_ref: llm-quality-gate`.
+- **`skills/deployment/prompt-regression/`** — wraps [Promptfoo](https://github.com/promptfoo/promptfoo) (MIT). Runs `promptfoo eval` against the project's `promptfooconfig.yaml` (default path; customisable). Each failing row → one `Finding` at `eval.promptfoo.fail_severity` (default `medium`). Dispatched by Phase-7's `llm-regression-gate`.
+- **`skills/deployment/llm-security-scan/`** — wraps [Giskard](https://github.com/Giskard-AI/giskard) (Apache-2.0). Runs `giskard scan` against declared LLM endpoints. Native levels `major/medium/minor` map to `high/medium/low`; `eval.giskard.fail_severity` applies as a **floor** (raises sub-threshold findings without downgrading super-threshold ones). Dispatched by Phase-7's `llm-adversarial-scan`.
+- **All three skills degrade gracefully** when the project's `coldpress.yaml` has no `eval:` block / no LLM endpoints / per-tool `enabled: false` — emit `status: "skipped"` ScanResults with zero findings. Non-LLM projects pass the LLM gates trivially.
+
+**Schema + normalizers**
+
+- **`schemas/eval-config.schema.ts`** — Zod schema for the `coldpress.yaml` `eval:` section. `EvalTargetSchema` (kebab-case id, prompt_ref, tool-extras) + per-tool `DeepEvalConfigSchema` / `PromptfooConfigSchema` / `GiskardConfigSchema`. Every sub-block carries `enabled: true` + a `fail_severity` default tuned to the tool.
+- **`src/llm-gates/normalize-deepeval.ts`** — pure function mapping DeepEval's `test_cases[].metrics[]` output → `ScanResult`. Failing metrics become findings; successful metrics are ignored.
+- **`src/llm-gates/normalize-promptfoo.ts`** — pure function mapping Promptfoo's `results.results[]` output → `ScanResult`. `gradingResult.reason` used as finding description; falls back to score-based synthesis.
+- **`src/llm-gates/normalize-giskard.ts`** — pure function mapping Giskard's `issues[]` output → `ScanResult`. Codifies the severity-floor contract in `applyFloor()`.
+
+**Docs**
+
+- **`docs/llm-gates.md`** — 3-gate protocol write-up: non-overlapping-by-design claim, shared-schema rationale (everything is a `ScanResult`), configuration block, severity-mapping mechanics, Phase-7 wiring, extension recipes, explicit skips (Ragas, OpenAI Evals, LangChain benchmarks, TruLens, MLflow LLM per plan §5.5–§5.7).
+
+**Tests**
+
+- **20 new tests** in `test/llm-gates.test.ts` — `EvalConfigSchema` defaults + invariants, per-normalizer happy/sad paths, Giskard severity-floor mechanics at every rung, edge cases (empty results, unknown levels, missing fields). Each `ScanResult` output round-tripped through `ScanResultSchema` to verify contract compliance.
+- Total: **314 tests across 19 suites.**
+
+**Plugin regenerated** — 85 → 88 SKILL.md files (+3 LLM gate skills).
+
+**Deferred:** subprocess adapter scripts for all three tools pending Python installs (matches Block Y scanner-install-deferred precedent). Normalizers are unit-testable without the tools present; adapter scripts translate tool CLI invocation → stdout capture → normalizer call.
+
+**Deferred — `eval:` section row in `docs/coldpress-yaml-schema.md`** — avoided commingling with pre-existing un-staged `butler:` WIP in that file. Follow-up refresh to add the row when the butler section lands. Canonical schema in `schemas/eval-config.schema.ts` + docs in `docs/llm-gates.md` cover the shape in the meantime.
+
 ### Deferred (tracked for Wave 3 Block O2 / future waves)
 
 - **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.
