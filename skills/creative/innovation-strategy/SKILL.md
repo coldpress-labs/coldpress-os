@@ -3,6 +3,7 @@ name: "innovation-strategy"
 description: "Identify disruption opportunities and architect new business models"
 type: "workflow"
 category: "creative"
+status: "cross-cutting"
 agent: "analyst"
 phases: [2, 8]
 inputs:

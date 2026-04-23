@@ -3,6 +3,7 @@ name: "presentation"
 description: "Create presentations and visual communication strategies"
 type: "workflow"
 category: "creative"
+status: "cross-cutting"
 agent: "communicator"
 phases: [4, 8]
 inputs:

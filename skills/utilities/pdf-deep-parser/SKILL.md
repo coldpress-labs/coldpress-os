@@ -3,6 +3,7 @@ name: "pdf-deep-parser"
 description: "Deep analysis and structured extraction of PDF documents"
 type: "simple"
 category: "utilities"
+status: "ad-hoc"
 phases: [2, 4, 8]
 inputs:
   - "PDF file to analyze"

@@ -3,6 +3,7 @@ name: "brainstorming"
 description: "Facilitate interactive brainstorming sessions using 60+ creative techniques"
 type: "workflow"
 category: "creative"
+status: "cross-cutting"
 agent: "analyst"
 phases: [2, 4, 8]
 inputs:

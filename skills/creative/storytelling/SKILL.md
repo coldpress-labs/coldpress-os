@@ -3,6 +3,7 @@ name: "storytelling"
 description: "Craft compelling narratives using 24 story types and narrative frameworks"
 type: "workflow"
 category: "creative"
+status: "cross-cutting"
 agent: "communicator"
 phases: [4, 8]
 inputs:

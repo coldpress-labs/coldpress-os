@@ -3,6 +3,7 @@ name: "shard-doc"
 description: "Split large markdown documents into smaller organized files by section"
 type: "simple"
 category: "utilities"
+status: "wire-in-phase-4"
 phases: [2, 4, 5, 8]
 inputs:
   - "source markdown document to split"

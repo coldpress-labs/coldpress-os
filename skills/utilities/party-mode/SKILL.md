@@ -3,6 +3,7 @@ name: "party-mode"
 description: "Orchestrate multi-agent group discussions between all available agent personas"
 type: "workflow"
 category: "utilities"
+status: "ad-hoc"
 phases: [2, 4, 5, 8]
 inputs:
   - "discussion topic or question"

@@ -3,6 +3,7 @@ name: "teach-me-testing"
 description: "Teach testing concepts progressively through structured learning sessions"
 type: "reference"
 category: "testing"
+status: "ad-hoc"
 agent: "qa"
 phases: [6]
 inputs:

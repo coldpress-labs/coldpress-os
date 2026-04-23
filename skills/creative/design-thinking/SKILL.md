@@ -3,6 +3,7 @@ name: "design-thinking"
 description: "Guide human-centered design processes using 29 design-thinking methods"
 type: "workflow"
 category: "creative"
+status: "cross-cutting"
 agent: "analyst"
 phases: [2, 4]
 inputs:

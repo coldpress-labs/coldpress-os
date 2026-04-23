@@ -3,6 +3,7 @@ name: "problem-solving"
 description: "Apply systematic problem-solving using 29 frameworks for root cause analysis and solution design"
 type: "workflow"
 category: "creative"
+status: "cross-cutting"
 agent: "analyst"
 phases: [2, 4, 6]
 inputs:
