@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
 import { runFeedback } from "./commands/feedback.js";
+import { runGraphRebuild, runGraphStats } from "./commands/graph.js";
 import { runInit } from "./commands/init.js";
 import { runUpdate } from "./commands/update.js";
 import { packageRoot } from "./utils/paths.js";
@@ -27,6 +28,34 @@ program
       await runInit({ projectNameArg });
     } catch (err) {
       console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+const graphCmd = program
+  .command("graph")
+  .description("Manage the project knowledge graph (powered by vendored Graphify)");
+
+graphCmd
+  .command("rebuild")
+  .description("Invoke Graphify to (re)generate .coldpress/graph/graph.json")
+  .action(async () => {
+    try {
+      await runGraphRebuild();
+    } catch (err) {
+      console.error(pc.red(`graph rebuild failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+graphCmd
+  .command("stats")
+  .description("Summarise the current graph (nodes, edges, communities, types, relations)")
+  .action(async () => {
+    try {
+      await runGraphStats();
+    } catch (err) {
+      console.error(pc.red(`graph stats failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
   });

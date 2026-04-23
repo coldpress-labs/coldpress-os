@@ -20,5 +20,5 @@ export default defineConfig({
   // CJS-interop dynamic-require failures (e.g. `yaml`'s internal
   // `require("process")`) that would otherwise break under an ESM
   // bundle.
-  external: ["@clack/prompts", "commander", "picocolors", "yaml"],
+  external: ["@clack/prompts", "commander", "picocolors", "yaml", "zod"],
 });
