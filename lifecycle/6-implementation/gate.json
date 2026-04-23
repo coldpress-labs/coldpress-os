@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-6-exit",
+  "phase": 6,
+  "phase_name": "Implementation",
+  "entry_conditions": [
+    "Phase 5 (Breakdown) gate passed",
+    "PERT chart sacred-signed-off",
+    "implementation-readiness: READY"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "all-stories-done",
+      "description": "Every story in the current sprint has status=done in sprint-status.yaml",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "sprint-status",
+      "remediation": "Complete remaining stories via dev-story or quick-dev"
+    },
+    {
+      "id": "per-story-reviews-landed",
+      "description": "A `_context/audit/code-review-*.md` report exists for each merged story",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "code-review",
+      "remediation": "Run code-review on any story missing a review report; reviews are fast-feedback but not hard-blocking"
+    },
+    {
+      "id": "per-wave-qa-passed",
+      "description": "`qa-automation` has run per-wave and all tests pass",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "qa-automation",
+      "remediation": "Address failing tests — integration/regression failures block wave-close"
+    },
+    {
+      "id": "coverage-threshold-met",
+      "description": "Test coverage meets the threshold declared in coldpress.yaml (default 80% branch on touched modules)",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "traceability",
+      "remediation": "Add tests or adjust the coldpress.yaml threshold (requires rationale)"
+    },
+    {
+      "id": "stories-impl-sidecars",
+      "description": "Each story's stories-to-implementation sidecar validates",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "validate-handoff"
+    },
+    {
+      "id": "qa-signoff",
+      "description": "@qa has signed off on the wave for Phase 7 transition",
+      "kind": "human",
+      "severity": "block",
+      "human_approver": "@qa"
+    }
+  ],
+  "next_phase": "7-deployment"
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-4-exit",
+  "phase": 4,
+  "phase_name": "Planning",
+  "entry_conditions": [
+    "Phase 3 (Tech Stack) gate passed",
+    "`_context/sacred/{context,tech-stack}.md` both sacred-signed-off"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "prd-authored",
+      "description": "Sacred document `_context/sacred/prd.md` exists",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/sacred/prd.md",
+      "remediation": "Run `@pm create-prd`"
+    },
+    {
+      "id": "prd-meta-sidecar",
+      "description": "PRD → architecture handoff sidecar `_context/sacred/prd.meta.json` validates against `schemas/handoffs/prd-to-architecture.schema.ts`",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "validate-handoff",
+      "remediation": "Producing skill `create-prd` emits this sidecar; if missing, re-run with Wave 4 lifecycle-aligned wiring"
+    },
+    {
+      "id": "prd-validation-run",
+      "description": "`prd-validation-*.md` exists confirming PRD completeness",
+      "kind": "artefact-present",
+      "severity": "warn",
+      "artefact_path": "_context/planning/prd-validation-latest.md",
+      "remediation": "Run `@pm validate-prd` — catches internal inconsistencies before architecture work"
+    },
+    {
+      "id": "architecture-authored",
+      "description": "Sacred document `_context/sacred/architecture.md` exists",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/sacred/architecture.md",
+      "remediation": "Run `@architect create-architecture`"
+    },
+    {
+      "id": "architecture-meta-sidecar",
+      "description": "architecture → PERT handoff sidecar validates against `schemas/handoffs/architecture-to-pert.schema.ts`",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "validate-handoff",
+      "remediation": "Producing skill `create-architecture` emits this sidecar"
+    },
+    {
+      "id": "ux-design-spec-authored",
+      "description": "`_context/design/ux-design-spec.md` exists (if project has a UI surface)",
+      "kind": "human",
+      "severity": "warn",
+      "human_approver": "@ux-designer or user",
+      "remediation": "Run `@ux-designer create-ux-design`. If headless/backend-only, sign off to skip."
+    },
+    {
+      "id": "planning-sacred-signoff",
+      "description": "User has accepted both sacred docs (PRD + architecture) as complete",
+      "kind": "human",
+      "severity": "block",
+      "human_approver": "user",
+      "remediation": "Review PRD + architecture together and confirm"
+    }
+  ],
+  "next_phase": "5-breakdown"
+}

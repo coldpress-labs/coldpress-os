@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-1-exit",
+  "phase": 1,
+  "phase_name": "Bootstrap",
+  "entry_conditions": [
+    "User has run `coldpress init` with a valid slug and user name",
+    "Working directory is writable"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "coldpress-yaml-present",
+      "description": "Project config `coldpress.yaml` exists at project root with Phase-1 fields filled",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "coldpress.yaml",
+      "remediation": "Re-run `coldpress init` or author `coldpress.yaml` manually per `docs/coldpress-yaml-schema.md`"
+    },
+    {
+      "id": "claude-md-present",
+      "description": "Butler's entry point `CLAUDE.md` exists at project root",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "CLAUDE.md",
+      "remediation": "Re-run `coldpress init` or copy from `template/CLAUDE.md`"
+    },
+    {
+      "id": "subagents-scaffolded",
+      "description": "The 9 canonical subagent definitions are present in `.claude/agents/`",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": ".claude/agents/analyst.md",
+      "remediation": "Run `agent-scaffold` to regenerate wrappers"
+    },
+    {
+      "id": "skill-wrappers-generated",
+      "description": "At least 50 thin-wrapper SKILL.md files are present in `.claude/skills/`",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "agent-scaffold",
+      "remediation": "Run `agent-scaffold` to regenerate wrappers"
+    }
+  ],
+  "next_phase": "2-discovery"
+}

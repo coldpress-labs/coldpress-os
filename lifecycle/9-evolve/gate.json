@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-9-exit",
+  "phase": 9,
+  "phase_name": "Evolve",
+  "entry_conditions": [
+    "Phase 7 (Deployment) complete, or release milestone reached"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "retrospective-landed",
+      "description": "A retrospective exists at `_context/audit/retro-*.md` for the completed epic/release",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "retrospective",
+      "remediation": "Run `@scrum-master retrospective` for the completed work"
+    },
+    {
+      "id": "product-evolution-authored",
+      "description": "If the retrospective surfaced roadmap shifts, `_context/planning/product-evolution-*.md` exists",
+      "kind": "human",
+      "severity": "info",
+      "human_approver": "@pm",
+      "remediation": "Run `@pm product-evolution` when the retrospective surfaces scope shifts"
+    }
+  ],
+  "next_phase": "Loop back to Phase 2 (Discovery) or Phase 4 (Planning) as needed"
+}

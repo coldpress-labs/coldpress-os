@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-8-exit",
+  "phase": 8,
+  "phase_name": "Operate",
+  "entry_conditions": [
+    "Phase 6 (Implementation) active, or Phase 7 (Deployment) complete"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "sprint-status-current",
+      "description": "`_context/tracking/sprint-status.yaml` reflects current state (updated within the last sprint cycle)",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "sprint-status",
+      "remediation": "Run `@scrum-master sprint-status` to refresh"
+    },
+    {
+      "id": "open-course-corrections-addressed",
+      "description": "All sprint-change-proposal docs in `_context/planning/` have status = resolved or rejected",
+      "kind": "human",
+      "severity": "warn",
+      "human_approver": "@scrum-master",
+      "remediation": "Review any pending correct-course proposals and mark resolved or rejected"
+    }
+  ],
+  "next_phase": "9-evolve"
+}

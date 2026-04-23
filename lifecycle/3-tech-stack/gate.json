@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-3-exit",
+  "phase": 3,
+  "phase_name": "Tech Stack",
+  "entry_conditions": [
+    "Phase 2 (Discovery) gate passed",
+    "`_context/sacred/context.md` exists and is sacred-signed-off"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "tech-stack-md-authored",
+      "description": "Sacred document `_context/sacred/tech-stack.md` exists with locked choices",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/sacred/tech-stack.md",
+      "remediation": "Run `@architect stack-evaluation` then `stack-locking`"
+    },
+    {
+      "id": "adrs-authored-for-major-choices",
+      "description": "Architecture Decision Records (ADRs) exist for every major stack choice",
+      "kind": "human",
+      "severity": "warn",
+      "human_approver": "@architect",
+      "remediation": "Author an ADR per `templates/documents/adr.md` for each major decision surfaced during `stack-evaluation`"
+    },
+    {
+      "id": "env-provisioned",
+      "description": "Development environment installs cleanly from the locked stack",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "env-provision",
+      "remediation": "Run `@developer env-provision` to install dependencies; investigate install failures before proceeding"
+    },
+    {
+      "id": "tech-stack-sacred-signoff",
+      "description": "User has accepted `_context/sacred/tech-stack.md` as complete (sacred-doc protection active)",
+      "kind": "human",
+      "severity": "block",
+      "human_approver": "user",
+      "remediation": "Review the locked stack + rationale and confirm"
+    }
+  ],
+  "next_phase": "4-planning"
+}

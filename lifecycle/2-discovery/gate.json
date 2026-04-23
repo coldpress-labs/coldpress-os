@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-2-exit",
+  "phase": 2,
+  "phase_name": "Discovery",
+  "entry_conditions": [
+    "Phase 1 (Bootstrap) gate passed"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "context-md-authored",
+      "description": "Sacred document `_context/sacred/context.md` exists and contains project vision + constraints",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/sacred/context.md",
+      "remediation": "Run `@analyst pre-project-interview` to author the context document"
+    },
+    {
+      "id": "product-brief-authored",
+      "description": "`product-brief-*.md` exists in `_context/planning/` summarising who, what, why now",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "product-brief",
+      "remediation": "Run `@analyst product-brief` — required before PRD authoring in Phase 4"
+    },
+    {
+      "id": "discovery-research-complete",
+      "description": "At least one research output exists under `_context/planning/research/`",
+      "kind": "human",
+      "severity": "warn",
+      "human_approver": "@analyst or project lead",
+      "remediation": "Run `domain-research`, `market-research`, or `constraint-research` as applicable; sign off when sufficient coverage"
+    },
+    {
+      "id": "context-sacred-signoff",
+      "description": "User has explicitly accepted `_context/sacred/context.md` as complete (sacred-doc protection active)",
+      "kind": "human",
+      "severity": "block",
+      "human_approver": "user",
+      "remediation": "Review `_context/sacred/context.md` and confirm — this triggers sacred-doc governance"
+    }
+  ],
+  "next_phase": "3-tech-stack"
+}

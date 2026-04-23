@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-5-exit",
+  "phase": 5,
+  "phase_name": "Breakdown",
+  "entry_conditions": [
+    "Phase 4 (Planning) gate passed",
+    "PRD + architecture + (UX spec if applicable) sacred-signed-off"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "epics-authored",
+      "description": "`_context/planning/epics.md` exists with scoped epic list",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/planning/epics.md",
+      "remediation": "Run `@pm create-epics`"
+    },
+    {
+      "id": "pert-chart-authored",
+      "description": "Sacred document `_context/sacred/pert-chart.md` exists with wave assignments",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/sacred/pert-chart.md",
+      "remediation": "Run `@scrum-master parallelization-strategy`"
+    },
+    {
+      "id": "pert-meta-sidecar",
+      "description": "PERT → stories handoff sidecar validates against `schemas/handoffs/pert-to-stories.schema.ts`",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "validate-handoff"
+    },
+    {
+      "id": "stories-authored",
+      "description": "Story files exist under `_context/implementation/` for every epic in the first wave",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/implementation/",
+      "remediation": "Run `@scrum-master create-stories`"
+    },
+    {
+      "id": "sprint-status-initialised",
+      "description": "`_context/tracking/sprint-status.yaml` exists with the current sprint's epic + story list",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/tracking/sprint-status.yaml",
+      "remediation": "Run `@scrum-master sprint-planning`"
+    },
+    {
+      "id": "implementation-readiness-passed",
+      "description": "`@qa implementation-readiness` gate reports READY",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "implementation-readiness",
+      "remediation": "Address gaps surfaced by implementation-readiness — typically acceptance-criteria detail, test-data plans, or rollback strategy"
+    },
+    {
+      "id": "pert-sacred-signoff",
+      "description": "User has accepted `_context/sacred/pert-chart.md` as the wave plan",
+      "kind": "human",
+      "severity": "block",
+      "human_approver": "user"
+    }
+  ],
+  "next_phase": "6-implementation"
+}

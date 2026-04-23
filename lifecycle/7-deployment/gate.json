@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "gate_id": "phase-7-exit",
+  "phase": 7,
+  "phase_name": "Deployment",
+  "entry_conditions": [
+    "Phase 6 (Implementation) gate passed",
+    "Deployment target identified",
+    "Rollback plan documented (even if trivial)"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "readiness-check-passed",
+      "description": "`@qa readiness-check` severity-weighted gate reports PASS or explicit WARN sign-off",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "readiness-check"
+    },
+    {
+      "id": "security-scan-classical",
+      "description": "5-scanner classical security gate (Semgrep/Gitleaks/Trivy/OSV/Syft) — no HIGH severity findings unsigned",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "aggregate-gate-results"
+    },
+    {
+      "id": "llm-correctness-gate",
+      "description": "DeepEval correctness gate passes (Block BB §5.5)",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "llm-quality-gate",
+      "remediation": "Only applies when the project declares an `eval:` block in coldpress.yaml"
+    },
+    {
+      "id": "llm-regression-gate",
+      "description": "Promptfoo regression gate passes (Block BB §5.6)",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "prompt-regression",
+      "remediation": "Only applies when `promptfooconfig.yaml` exists"
+    },
+    {
+      "id": "llm-adversarial-scan",
+      "description": "Giskard adversarial scan — no HIGH findings unsigned (Block BB §5.7)",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "llm-security-scan",
+      "remediation": "Only applies when the project declares LLM endpoints/agents"
+    },
+    {
+      "id": "env-check-clean",
+      "description": "Environment config matches deploy target",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "env-check"
+    },
+    {
+      "id": "deploy-succeeded",
+      "description": "`@developer deploy` completed without error and post-deploy smoke passes",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "deploy"
+    }
+  ],
+  "next_phase": "8-operate"
+}
