@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/sacred-docs/context.json",
+  "title": "Context sacred-doc frontmatter",
+  "description": "Structural contract for `_context/sacred/context.md` — the project's foundational context brief.",
+  "type": "object",
+  "properties": {
+    "sacred": { "const": true },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$" },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" },
+    "governance": { "type": "string", "enum": ["requires-review", "locked", "draft"] },
+    "workflowType": { "const": "context" },
+    "stepsCompleted": { "type": "array", "items": { "type": "string" } },
+    "inputDocuments": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["sacred", "version", "governance", "workflowType"],
+  "additionalProperties": true
+}

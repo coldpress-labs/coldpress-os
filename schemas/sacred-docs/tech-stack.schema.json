@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/sacred-docs/tech-stack.json",
+  "title": "Tech-stack sacred-doc frontmatter",
+  "description": "Structural contract for `_context/sacred/tech-stack.md`.",
+  "type": "object",
+  "properties": {
+    "sacred": { "const": true },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$" },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" },
+    "governance": { "type": "string", "enum": ["requires-review", "locked", "draft"] },
+    "workflowType": { "const": "tech-stack" },
+    "stepsCompleted": { "type": "array", "items": { "type": "string" } },
+    "inputDocuments": { "type": "array", "items": { "type": "string" } },
+    "stack_pack": {
+      "type": "string",
+      "description": "Stack-pack id this tech-stack descends from (e.g., `vibe-coder`, `nextjs-convex`). Optional."
+    }
+  },
+  "required": ["sacred", "version", "governance", "workflowType"],
+  "additionalProperties": true
+}

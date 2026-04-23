@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/sacred-docs/pert-chart.json",
+  "title": "PERT-chart sacred-doc frontmatter",
+  "description": "Structural contract for `_context/sacred/pert-chart.md`.",
+  "type": "object",
+  "properties": {
+    "sacred": { "const": true },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$" },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" },
+    "governance": { "type": "string", "enum": ["requires-review", "locked", "draft"] },
+    "workflowType": { "const": "pert-chart" },
+    "stepsCompleted": { "type": "array", "items": { "type": "string" } },
+    "inputDocuments": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Should include architecture.md path."
+    },
+    "waves": {
+      "type": "array",
+      "description": "Ordered wave list — maps directly to the PERT breakdown.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^wave-\\d+$" },
+          "name": { "type": "string" }
+        },
+        "required": ["id", "name"]
+      }
+    }
+  },
+  "required": ["sacred", "version", "governance", "workflowType"],
+  "additionalProperties": true
+}

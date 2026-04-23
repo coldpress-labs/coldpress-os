@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/sacred-docs/prd.json",
+  "title": "PRD — Product Requirements Document frontmatter",
+  "description": "Structural contract for the frontmatter of `_context/sacred/prd.md`. Required for `@pm create-prd` write-back; skill-side enforcement wires in Wave 4 Lifecycle Alignment.",
+  "type": "object",
+  "properties": {
+    "sacred": { "const": true },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$" },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" },
+    "governance": { "type": "string", "enum": ["requires-review", "locked", "draft"] },
+    "workflowType": { "const": "prd" },
+    "stepsCompleted": { "type": "array", "items": { "type": "string" } },
+    "inputDocuments": { "type": "array", "items": { "type": "string" } },
+    "adr_references": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^ADR-\\d{4}$" },
+      "description": "ADR ids the PRD aligns with (Conftest enforces at-least-one for merges)."
+    }
+  },
+  "required": ["sacred", "version", "governance", "workflowType"],
+  "additionalProperties": true
+}

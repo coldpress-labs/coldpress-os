@@ -5,6 +5,7 @@ import pc from "picocolors";
 import { runFeedback } from "./commands/feedback.js";
 import { runGraphQuery, runGraphRebuild, runGraphStats } from "./commands/graph.js";
 import { runInit } from "./commands/init.js";
+import { runSecurityAggregate } from "./commands/security.js";
 import { runUpdate } from "./commands/update.js";
 import { packageRoot } from "./utils/paths.js";
 
@@ -85,6 +86,34 @@ graphCmd
       });
     } catch (err) {
       console.error(pc.red(`graph query failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+const securityCmd = program
+  .command("security")
+  .description("Security-gate tooling — aggregate scanner results, query gate state");
+
+securityCmd
+  .command("aggregate")
+  .description("Merge per-scanner ScanResult JSONs into a single AggregateResult; exit 0=pass, 1=fail")
+  .option("--block-severity <sev>", "block threshold: critical|high|medium|low|info (default: high)")
+  .option("--input-dir <path>", "directory holding scanner JSON outputs (default: _context/audit/security)")
+  .option("--output <path>", "override aggregate output path")
+  .option("--dry-run", "do not write aggregate file")
+  .action(async (opts) => {
+    try {
+      const code = await runSecurityAggregate({
+        blockSeverity: opts.blockSeverity,
+        inputDir: opts.inputDir,
+        outputPath: opts.output,
+        dryRun: opts.dryRun,
+      });
+      process.exit(code);
+    } catch (err) {
+      console.error(
+        pc.red(`security aggregate failed: ${err instanceof Error ? err.message : String(err)}`),
+      );
       process.exit(1);
     }
   });

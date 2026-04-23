@@ -87,6 +87,45 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - **17 new tests** in `test/phase-gate.test.ts`: `PhaseGateSchema` unit (accepts well-formed, rejects empty acceptance_checks, rejects phase outside 1-9, rejects schema_version ≠ 1); `AcceptanceCheckSchema` × kind invariants (automated requires skill_ref, human requires human_approver, artefact-present requires artefact_path, rejects unknown severity/kind); `GateEvaluationSchema` (valid shape, rejects malformed timestamp, rejects unknown status enum); shipped-gate integrity (all 9 phase dirs have `gate.json`, every gate validates against schema, every gate's `phase` matches its dir prefix, every `gate_id` follows `phase-N-exit`, phases 1-7 each have ≥1 block-severity check). Total: **196 tests across 13 suites**.
 - **Plugin tree regenerated** — `evaluate-phase-gate` joined the corpus: 76 SKILL.md files emitted (was 75). `skills_count` in `plugin/plugin.json` bumped.
 
+### Added — Wave 5 Block Y (§5.1 security stack + §5.2 governance)
+
+**§5.1 — 5-scanner classical security gate**
+
+- **`schemas/security-gate-result.schema.ts`** — normalised Zod schema for scanner output. Three types: `FindingSchema` (per-finding shape), `ScanResultSchema` (per-scanner run, `schema_version: 1`, ISO-8601 `scanned_at`, severity histogram), `AggregateResultSchema` (aggregator output, `overall: pass | fail`, `blockers[]`, policy). 5-rung severity ladder (`critical > high > medium > low > info`) with `SEVERITY_RANK` + `meetsThreshold()` helpers. `SeverityCountsSchema` enforces `total === sum(buckets)` via `.refine()`.
+- **5 scanner wrapper skills** — each parses the scanner's native output and normalises to `ScanResult`:
+  - [`skills/security/scan-code/`](skills/security/scan-code/) — Semgrep OSS (LGPL-2.1). ERROR → high, WARNING → medium, INFO → info.
+  - [`skills/security/scan-secrets/`](skills/security/scan-secrets/) — Gitleaks (MIT). All findings → high by default. **Secret-value stripping guardrail:** the wrapper MUST drop `Secret`/`Match` from every finding (never persists raw leaked values to `_context/audit/`).
+  - [`skills/security/scan-deps-and-containers/`](skills/security/scan-deps-and-containers/) — Trivy (Apache-2.0). Filesystem + container layers in one run. CRITICAL → critical, HIGH → high, MEDIUM → medium, LOW → low, UNKNOWN → info.
+  - [`skills/security/scan-vulns/`](skills/security/scan-vulns/) — OSV-Scanner (Apache-2.0). CVSS-to-severity-ladder mapping codified (≥9.0 critical, 7.0-8.9 high, 4.0-6.9 medium, 0.1-3.9 low, unscored info).
+  - [`skills/supply-chain/sbom/`](skills/supply-chain/sbom/) — Syft (Apache-2.0). Emits SPDX-JSON SBOM as the primary deliverable plus a `ScanResult` stub (zero findings; status tracks SBOM-generation health for gate hygiene).
+- **`skills/security/aggregate-gate-results/`** — meta-skill the phase-gate evaluator dispatches to via `skill_ref: aggregate-gate-results` in Phase 7's `gate.json`. Wired as `coldpress security aggregate` CLI subcommand. Exit-code contract matches the evaluator: `0` pass, `1` fail or tool error. Loads every `(semgrep|gitleaks|trivy|osv|syft)-*.json` from `_context/audit/security/`, validates each against `ScanResultSchema`, loads waivers from `.coldpress/signoffs/security-gate/<finding-id>.yaml`, runs `aggregate()`, writes `AggregateResult` to `_context/audit/security/aggregate-{date}.json`.
+- **Pure-function aggregator** at `src/security/aggregate.ts` — no disk access; caller assembles `ScanResult[]` + `GatePolicy`. Threshold-aware (`block_severity` default `"high"`) + waiver-aware. Unit-testable with fixtures.
+- **`docs/security-gate.md`** — 4-part protocol: the 5 scanners, the normalised schema, the aggregator (pure-function + CLI), Phase-7 gate wiring. Extension recipes (sixth scanner, waivers, threshold tightening). Clarifies what's NOT in scope (IaC scanners, Sigstore signing, SBOM diffing — all deferred).
+
+**§5.2 — governance**
+
+- **`src/governance/validate-schema.ts` + `skills/governance/validate-schema/`** — Ajv-backed structural validator for sacred-doc frontmatter. In-process JS (no subprocess, no install). 5 JSON Schemas shipped at `schemas/sacred-docs/` (context, tech-stack, prd, architecture, pert-chart). Each requires `sacred: true`, `version`, `governance`, `workflowType`; doc-specific fields layer on (PRD `adr_references[]`, architecture `approvers[]`, pert `waves[]`). Uses `Ajv2020` + `ajv-formats` for draft-2020-12 + date formats. Validator cache prevents re-compilation across invocations.
+- **`skills/governance/validate-sacred-doc/`** — Conftest (Apache-2.0) spec for semantic policy enforcement. Three seed Rego policies at `templates/governance/policies/`:
+  - `prd_has_adr.rego` — PRDs must reference ≥1 ADR matching `ADR-NNNN`.
+  - `architecture_has_approvers.rego` — architecture.md must carry ≥1 approver.
+  - `pert_references_architecture.rego` — pert-chart.md must list architecture.md in `inputDocuments[]`.
+  Structural-first, semantic-second run order documented. Subprocess adapter deferred pending Conftest install.
+- **ADR scaffold** — `template/docs/adr/` seeded with `0000-use-adr.md` (Nygard ADR-0) + `README.md` (format reference + adr-tools link). `coldpress init` auto-copies the whole `template/` tree, so new projects are ADR-ready.
+- **RFC template** — `templates/governance/rfc-amendment.md` (Motivation / Detailed design / Drawbacks / Alternatives / Open questions) + `template/docs/rfc/README.md` for consumer projects.
+- **`docs/governance.md`** — protocol doc: the two validators, the ADR/RFC split, extension recipes, what's NOT enforced. Clarifies: no policy in coldpress-os is load-bearing in a way a project can't override.
+
+**CLI + build**
+
+- **`coldpress security aggregate`** CLI subcommand with `--block-severity`, `--input-dir`, `--output`, `--dry-run` options.
+- **Runtime deps:** `ajv@^8.18.0` + `ajv-formats@^3.0.1`. Added to tsup `external` list to prevent re-bundling (matches the `yaml`/`zod` precedent).
+- **Bundle:** 47.74 KB → 68.31 KB (+20 KB for the aggregator + Ajv validator).
+
+**Tests**
+
+- **52 new tests** — `test/security-gate-schema.test.ts` (20: severity enum, counts invariants, Finding/ScanResult/GatePolicy/AggregateResult shapes, `meetsThreshold` ranking), `test/security-aggregate.test.ts` (14: pass/fail, waivers, totals rollup, threshold at every rung, deterministic timestamp), `test/validate-schema.test.ts` (18: all 5 sacred-doc schemas, frontmatter extraction edge cases, docId override, `sacred: false` rejection, ADR-reference pattern enforcement). Total: **248 tests across 16 suites.**
+
+**Plugin tree regenerated** — 76 → 84 SKILL.md files emitted (+5 scanner wrappers + aggregator + 2 governance skills).
+
 ### Deferred (tracked for Wave 3 Block O2 / future waves)
 
 - **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.
