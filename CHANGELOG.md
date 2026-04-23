@@ -8,7 +8,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-*(No changes yet — next release staging.)*
+### Added
+
+- **Handoff registry** (`docs/handoff-registry.md`) — canonical enumeration of every inter-phase and high-stakes intra-phase handoff in coldpress-os. 11 entries (9 inter-phase + 2 high-stakes intra-phase) spanning the 9-phase post-split lifecycle. Each entry: `from_phase`, `to_phase`, `artefact_path`, `artefact_type`, `producing_skill`, `consuming_skill(s)`, `stakes` (high/med/low), `schema_ref`. Resolves brief-sourced Open Question #4.
+- **Zod schemas for the 4 high-stakes handoffs** at `schemas/handoffs/*.schema.ts`:
+  - `prd-to-architecture` — architectural drivers, NFRs, constraints, out-of-scope.
+  - `architecture-to-pert` — components, dependencies, risk ratings, cross-cutting concerns.
+  - `pert-to-stories` — epics, wave assignments, acceptance-criteria shape.
+  - `stories-to-implementation` — file scope, test-coverage targets, acceptance-criteria IDs.
+  Every schema pins `schema_version: z.literal(1)`, `produced_by: z.literal("<skill-id>")` (prevents stolen-identity emission), `produced_at` ISO-8601 timestamp, and `project_slug` sanity-check against `coldpress.yaml`.
+- **`src/handoffs/validate.ts`** — `validateHandoff(id, payload)` API returning `{ ok: true, data }` or `{ ok: false, issues: { path, message }[] }`. Never throws on validation failure; caller decides how to surface errors (CLI gate message, phase-transition abort).
+- **`produced_by` field convention** — every subagent handoff carries `produced_by: "<skill-id>"` in its frontmatter. Ports MetaGPT's `cause_by` routing. Per-skill emission wires in Wave 4 Lifecycle Alignment; convention documented now.
+- **`.meta.json` sidecar convention** for high-stakes handoffs. Producer writes `<artefact>.md` + `<artefact>.meta.json` atomically; both producer and consumer validate the sidecar via Zod. Validation failure = gate failure, not a warning.
+- `docs/handoff-schema-spec.md` — full spec for the 4-layer handoff convention (registry, schemas, `produced_by`, sidecars) + validation semantics + extension recipe.
+- `zod` `^3.25` runtime dep (for validation surface; reused across future Wave 3 work and Wave 4 skill-side write contracts).
+- Added `schemas/` to the npm tarball `files` whitelist so consumer projects can resolve the schemas at runtime.
+- **Test harness:** 23 new tests in `test/handoff-schemas.test.ts` (valid fixture + invalid fixtures per required field for all 4 schemas + validator error-shape assertions). Total: 78 tests across 7 suites.
+
+### Changed
+
+- `tsconfig.json` — added `schemas/**/*` to `include` so the schema files typecheck.
 
 ---
 
