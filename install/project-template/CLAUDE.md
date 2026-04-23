@@ -64,6 +64,10 @@ This project uses **coldpress-os** at `coldpress-os/`.
 | Tracking | `_context/tracking/` |
 | Handoff artifacts | `_context/handoffs/` |
 | Audit artifacts | `_context/audit/` |
+| Input material | `_input/` (raw inputs, legacy refs, vendor drops) |
+| Runtime state (not tracked) | `.coldpress/` (graph index, cache) |
+| Credential manifest | `secure/manifest.yaml` (values live in `secure/.env*`, git-ignored) |
+| Helper scripts | `scripts/` (pre-commit secret scan) |
 
 ## How to Use
 

@@ -188,8 +188,17 @@ coldpress-os is **stateless**. All state lives in the consuming project:
 | Sprint tracking | `_context/tracking/` | YAML/Markdown |
 | Handoff artifacts | `_context/handoffs/` | Markdown |
 | Audit artifacts | `_context/audit/` | Markdown |
+| Input material | `_input/{raw,legacy,reference,vendor}/` | Mixed |
+| Runtime state | `.coldpress/{graph,cache}/` | SQLite + JSONL (git-ignored) |
+| Credential shape | `secure/manifest.yaml` | YAML (values in `secure/.env*`, git-ignored) |
 
 `_context/audit/` is the backward-looking filing cabinet: retrospectives, code reviews, security scans, deployment-readiness reports. Content here reflects on work already done, distinct from `_context/planning/` (forward-looking specs) and `_context/tracking/` (in-flight state).
+
+`_input/` holds material fed *into* the project — raw source docs (`raw/`), archived prior versions (`legacy/`), cross-project references (`reference/`), and vendored third-party assets (`vendor/`). Distinct from `_context/`, which holds material produced *by* the project.
+
+`.coldpress/` is machine-local runtime state — the Graphify index (Wave 3), tool caches, and any scratch files Butler materialises during a session. Git-ignored wholesale; lifetime = the working copy. Subfolders (`graph/`, `cache/`) are created lazily on first use, not pre-stubbed in the template.
+
+`secure/manifest.yaml` declares expected credentials by name. Actual values live in `secure/.env*` (git-ignored). See `docs/secure-pattern.md` for the loader pattern and the pre-commit scan installed from `scripts/check-secrets.sh`.
 
 ---
 

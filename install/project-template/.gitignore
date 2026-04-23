@@ -1,0 +1,39 @@
+# ─── Coldpress runtime state ───────────────────────────────────────
+# .coldpress/ holds the graph index, caches, and other machine-local
+# state that Butler / Graphify create on first use. Never committed;
+# never shipped with the template (dirs are lazy-materialised at
+# init time, not pre-stubbed).
+.coldpress/
+
+# ─── Environment / secrets ─────────────────────────────────────────
+# secure/manifest.yaml (tracked) declares expected keys by name.
+# Actual secret values live in secure/.env* and are never committed.
+# See docs/secure-pattern.md for the loader pattern.
+secure/.env
+secure/.env.*
+.env
+.env.local
+.env.*.local
+
+# ─── OS noise ──────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+Desktop.ini
+
+# ─── IDE / editor ──────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ─── Common ecosystem build artefacts ──────────────────────────────
+node_modules/
+dist/
+build/
+.next/
+.turbo/
+*.log

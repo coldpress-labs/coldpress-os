@@ -1,0 +1,34 @@
+# ─── secure/manifest.yaml — declared credential shape ─────────────
+#
+# This file declares *which* credentials the project expects, by name.
+# Actual values live in secure/.env* (ignored by git — see .gitignore).
+#
+# The point of a manifest: let reviewers, CI, and new teammates see
+# what keys are needed without ever touching a real secret. Loaders
+# read this file, look up matching entries in the .env, and fail
+# loudly if required keys are missing.
+#
+# See docs/secure-pattern.md for the full pattern.
+
+version: 1
+
+# List each expected key by name. Group by service for legibility.
+# Mark whether the key is required at boot, optional, or dev-only.
+
+keys: []
+  # Example — uncomment and adapt:
+  #
+  # - name: OPENAI_API_KEY
+  #   service: openai
+  #   required: true
+  #   notes: "LLM calls; set to a dev key in local .env, live key in secure/.env.live"
+  #
+  # - name: DATABASE_URL
+  #   service: postgres
+  #   required: true
+  #   notes: "Primary DB connection string"
+  #
+  # - name: SENTRY_DSN
+  #   service: sentry
+  #   required: false
+  #   notes: "Error tracking; disabled locally if unset"
