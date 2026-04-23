@@ -11,6 +11,7 @@
 | **Node.js 20+** | `node -v` returns `v20` or higher |
 | **Claude Code** | `claude` works in terminal (dev-time runtime — optional for Agent SDK users) |
 | **Git** | `git --version` returns 2.x+ |
+| **Python 3.10+** *(optional)* | `python3 --version` — needed for `coldpress graph rebuild` and the document-ingest skill. `pip install graphifyy markitdown docling` when you reach Phase 2 Discovery. |
 | **A project idea** | Even a vague one — the framework will help you refine it |
 
 No paid services required. coldpress-os is a local framework — everything runs on your machine.

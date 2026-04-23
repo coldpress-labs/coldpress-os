@@ -15,7 +15,14 @@
     "declaration": false,
     "sourceMap": false
   },
-  "include": ["src/**/*", "test/**/*", "schemas/**/*", "tsup.config.ts", "vitest.config.ts"],
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    "schemas/**/*",
+    "skills/ingest/parse-document/scripts/*.d.mts",
+    "tsup.config.ts",
+    "vitest.config.ts"
+  ],
   "exclude": [
     "node_modules",
     "dist",

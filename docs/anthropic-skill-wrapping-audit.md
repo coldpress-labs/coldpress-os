@@ -71,6 +71,42 @@ Audits are additive — when a new Anthropic skill ships, this doc gets a row, t
 
 ---
 
+## Ingest — document-parsing libraries (separate from Anthropic skills)
+
+The [`skills/ingest/parse-document`](../skills/ingest/parse-document/) skill routes between two Python document-processing libraries. Neither is an Anthropic skill, but they share the same wrapping-audit concerns: licence, vendor-vs-pip-install, what's explicitly blocked.
+
+### Allowed backends
+
+| Library | Licence | How it ships | Why it's in the routing |
+|---------|---------|--------------|------------------------|
+| **markitdown** (Microsoft) | MIT | `pip install markitdown` (user-side) | Fast path — text-native PDFs, simple Office files, HTML. Near-zero ML weight. |
+| **Docling** (IBM) | MIT | `pip install docling` (user-side; first-run downloads ~500MB-1GB of ML models) | Accurate path — scanned PDFs, complex tables, images. |
+
+Neither is vendored. The skill invokes both via Python subprocess from the Node entry; the user installs them with `pip` before first use. Same runtime pattern as the vendored Graphify (§4).
+
+### Hard blocklist — libraries coldpress-os does NOT use
+
+| Library | Licence | Why blocked |
+|---------|---------|-------------|
+| **Marker** (Datalab) | GPL-3 | Copyleft blocks MIT redistribution. Vendoring would poison the coldpress-os licence; wrap-via-pip-install is technically legal (shelling out isn't distribution) but creates compliance grey zones at scale. |
+| **PyMuPDF** (Artifex) | AGPL-3 | Worse than GPL — triggers source-disclosure even when the software is offered as a network service. Blocked unconditionally. |
+| **Surya** (Datalab) | GPL-3 | Same org as Marker, same licence. |
+| **Unstructured** (Unstructured.io) | Apache-2.0 | *Technically* compatible but skipped on complexity grounds: heavy enterprise deps (`detectron2`, `poppler`, `tesseract`, `libreoffice`). Not a licence concern — a deployment-surface concern. |
+
+### Reconsideration policy
+
+The stance above is **refuse-by-default**. If a compelling use case emerges for a blocklist library — e.g., Docling + markitdown cannot handle a specific enterprise corpus type — the process is:
+
+1. Open an issue with the concrete failure case (a real document markitdown/Docling cannot parse acceptably).
+2. Formal legal review before any release notes, plugin, or pip dependency references the library.
+3. If approved, wrap-via-user-install only. Never vendor. Document in release notes.
+
+Default stance: refuse. Revisit only with the above process.
+
+See [open question #8](../../../docs/phase-i-implementation-plan.md) on the Phase I plan.
+
+---
+
 ## Updating this doc
 
 When adding a new wrapped Anthropic skill:

@@ -53,6 +53,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
   - `skills/reviews/code-audit` — graph-first scope derivation via `--neighbors <story-id> --relation implements` + epic composition; fallback on exit 2 to git-diff / ls-based.
 - **`plugin/skills/` regenerated** via `npm run build:skills` to keep the spec-compliant emissions in sync with source (CI drift check passes).
 - **13 new tests** in `test/graph-query.test.ts` — exercises the CLI as a subprocess via `spawnSync` to test the exit-code contract the way skills will experience it. Covers: exit-2 on missing graph with machine-readable error payload, exit-1 on schema-invalid graph, exit-0 on success (including empty result sets), `--id` found / not-found, `--neighbors` + `--relation` composition, `--limit` caps `data.length` but `count` reports full total, JSON-output parseability (the skill contract), pretty-output human header, non-TTY → JSON default. Total: **155 tests across 10 suites**.
+- **`skills/ingest/parse-document/`** — document-ingest skill with dual-backend routing between **markitdown** (Microsoft, MIT — text-native PDFs / Office / HTML, near-zero ML weight) and **Docling** (IBM, MIT — scanned PDFs / images / complex tables, ~500MB-1GB ML models on first use). Routing heuristic: PDFs try markitdown first with fallback to Docling on suspiciously short output; images always Docling; Office / HTML always markitdown; `.md` / `.txt` passthrough copy. Output lands at `_input/.parsed/<path>/<name>.md` preserving `_input/` subpath structure. Output is ready for `coldpress graph rebuild` to pick up on the next index pass.
+- **Node entry `scripts/parse.mjs`** — pure Node orchestrator, no build dependency. Routes input by extension, spawns the right Python adapter, handles PDF fallback logic, writes output. Exits with clear install hints when Python or an adapter is missing. Companion `parse.d.mts` ambient declaration carries the routing contract into the TS test suite.
+- **Python adapters** — `scripts/markitdown_adapter.py` + `scripts/docling_adapter.py`. Each is a minimal subprocess target: read input path from argv, convert via the upstream library, print markdown to stdout. Exit codes signal missing install vs runtime failure.
+- **Ingest licence blocklist** documented in `docs/anthropic-skill-wrapping-audit.md` §Ingest. **Blocked:** Marker (GPL-3), PyMuPDF (AGPL-3), Surya (GPL-3), Unstructured (Apache-2.0 but heavy enterprise deps). Reconsideration policy: issue + concrete failure case + legal review before any release-notes reference.
+- **17 new tests** in `test/parse-document-routing.test.ts` covering `routeFile` across PDF / Office / image / markdown / unsupported, case-insensitive extensions, extension-set invariants (no overlap between markitdown/docling/passthrough), `defaultOutputPath` subpath preservation + flattening, `parseArgs` for all flags, import-safety invariant (main() not triggered on module import). Total: **172 tests across 11 suites**.
+- **Python 3.10+ added as an optional prereq** in `README.md` Install section and `docs/quick-start.md` Prerequisites table. Install command: `pip install graphifyy markitdown docling` (on demand at Phase 2).
+- **Plugin tree regenerated** — parse-document joined the corpus: 75 SKILL.md files emitted (was 74). `skills_count` in `plugin/plugin.json` bumped.
+
+### Deferred (tracked for Wave 3 Block O2 / future waves)
+
+- **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.
+- **File-watch / incremental re-indexing / sandbox-to-live promotion detection** — Block O2.
+- **SQLite + sqlite-vec** secondary data store — post-v0.3 if/when corpus sizes or vector-retrieval needs demand it.
+- **Graph-query benchmark against real consumer graph** — awaits a populated real-project graph; revisit when we have one.
+- **Per-skill yaml write-back implementation** (skills emitting `produced_by` + typed sidecars) — Wave 4 Lifecycle Alignment.
 
 ### Deferred (planned for later blocks / waves)
 

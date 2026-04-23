@@ -18,7 +18,7 @@
 npm install -g @coldpress/core
 ```
 
-Requires Node.js `>=20` and Claude Code (the CLI or the Agent SDK) on your machine.
+Requires Node.js `>=20` and Claude Code (the CLI or the Agent SDK) on your machine. Python `>=3.10` is additionally required for `coldpress graph rebuild` and the document-ingest skill; install on demand with `pip install graphifyy markitdown docling` when you reach Phase 2.
 
 ## Quick Start
 
