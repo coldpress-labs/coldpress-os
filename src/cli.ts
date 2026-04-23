@@ -4,6 +4,7 @@ import { Command } from "commander";
 import pc from "picocolors";
 import { runFeedback } from "./commands/feedback.js";
 import { runGraphQuery, runGraphRebuild, runGraphStats } from "./commands/graph.js";
+import { runImportBmad } from "./commands/import.js";
 import { runInit } from "./commands/init.js";
 import { runSecurityAggregate } from "./commands/security.js";
 import { runUpdate } from "./commands/update.js";
@@ -116,6 +117,25 @@ securityCmd
       );
       process.exit(1);
     }
+  });
+
+const importCmd = program
+  .command("import")
+  .description("One-way inbound adapters (BMAD today; MetaGPT explicitly not supported)");
+
+importCmd
+  .command("bmad")
+  .description("Import a BMAD module directory into the current project (lossy; review ATTRIBUTION.md)")
+  .argument("<source-dir>", "path to a BMAD module directory (with config.yaml)")
+  .option("--module-slug <slug>", "override the imported module's slug")
+  .option("--overwrite", "overwrite existing files in the target (default: refuse)")
+  .action(async (sourceDir: string, opts) => {
+    const code = await runImportBmad({
+      sourceDir,
+      moduleSlug: opts.moduleSlug,
+      overwrite: opts.overwrite,
+    });
+    process.exit(code);
   });
 
 program

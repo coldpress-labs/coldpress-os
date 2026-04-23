@@ -1,0 +1,3 @@
+command,agent,description
+*start,orchestrator,"Start the demo workflow"
+*draft,writer,"Draft a demo artefact"

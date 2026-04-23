@@ -1,0 +1,7 @@
+id: draft-demo
+description: "Draft a demo artefact end-to-end"
+agent: writer
+steps:
+  - 01-gather.md
+  - 02-draft.md
+  - 03-review.md

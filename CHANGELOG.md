@@ -126,6 +126,30 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 **Plugin tree regenerated** — 76 → 84 SKILL.md files emitted (+5 scanner wrappers + aggregator + 2 governance skills).
 
+### Added — Wave 5 Block Z (§5.3 BMAD-import bridge)
+
+- **`src/imports/bmad.ts`** — one-way inbound adapter (pure core, no network). Reads a BMAD module directory (`config.yaml` + `agents/` + `workflows/` + `templates/`) and emits coldpress-os-shaped equivalents. Translation matrix:
+  - `config.yaml` → module metadata (id / name / version / licence).
+  - `agents/<name>.md` → `.claude/agents/bmad-<module>-<name>.md`. Persona body preserved verbatim; frontmatter synthesised (default model `sonnet`, standard tool set, `color: purple` to visually flag imports); original BMAD frontmatter preserved in a `<details>` block for reference.
+  - `workflows/<name>/` → `coldpress-os/skills/meta/bmad-imports/<module>/<name>/SKILL.md`. Step files listed as opaque references (no logic synthesis); original `workflow.yaml` preserved in a fenced block.
+  - `templates/` → `coldpress-os/templates/imports/<module>/` with `@coldpress-os:imported-from=bmad` comment header on text files; binary files copy verbatim.
+  - Emits `ATTRIBUTION.md` at the import root listing source / imported / dropped / non-translating concerns / licence / review checklist.
+- **`coldpress import bmad <source-dir>`** CLI subcommand wrapping the adapter. Options: `--module-slug <slug>` (override), `--overwrite` (default: refuse to overwrite; collisions land in `dropped[]`). Exit 0 on success (including partial imports), 1 on fatal errors.
+- **`skills/meta/bmad-import/SKILL.md`** — skill spec documenting inputs / outputs / the lossy-translation contract / explicitly-not-translated items (BMAD runtime orchestration, `<commands>` blocks, `module-help.csv`, MetaGPT).
+- **`docs/bmad-import.md`** — protocol doc: principles, translation matrix, marker convention (`@coldpress-os:imported-from=bmad`), ATTRIBUTION.md shape, why-not-MetaGPT rationale, extension recipes.
+- **Test fixture** at `test/fixtures/bmad-minimal/` — hand-authored minimal BMAD module (2 agents, 1 workflow with step files + `workflow.yaml`, 1 template, `module-help.csv`). Exercises every transformation path. Lives outside the npm tarball (`test/` not in `files` whitelist).
+- **12 new tests** in `test/bmad-import.test.ts` — slugify semantics, happy-path round trip (agents + workflows + templates + attribution), collision refusal without `--overwrite`, overwrite semantics, module-slug override, error path when `config.yaml` is missing, no-crash on optional-dir absence. Total: **260 tests across 17 suites.**
+- **Bundle:** 68.31 KB → 85.77 KB (+17 KB for the adapter + CLI wiring).
+- **Plugin regenerated** — 84 → 85 SKILL.md files.
+
+**Explicit non-goals codified:**
+
+- **MetaGPT inbound** — deferred indefinitely. Per BMAD-family brief §Q5, MetaGPT is adapter-hostile (Python classes with inline prompts, not declarative).
+- **Outbound export** (coldpress-os → BMAD) — not planned; coldpress-os's canonical subfolder mapping + phase-gate protocol don't have BMAD equivalents.
+- **Full behavioural fidelity** — structural translation only. Imported outputs are placeholders that need hand-review before being relied upon.
+
+**Deferred — real-module validation against CIS, WDS, and BMAD's `bmm` core** pending local fixture availability. The adapter's heuristics may need tweaking for real-world BMAD conventions; add a fixture per module under `test/fixtures/` + smoke tests when they land (matches Block Y scanner-install-deferred precedent).
+
 ### Deferred (tracked for Wave 3 Block O2 / future waves)
 
 - **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.

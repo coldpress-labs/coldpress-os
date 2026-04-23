@@ -1,0 +1,5 @@
+id: demo-module
+name: Demo Module
+version: "0.1.0"
+description: "A minimal BMAD fixture used by coldpress-os's bmad-import test harness."
+license: "MIT"
