@@ -95,6 +95,10 @@ Butler specifies the mode in the task prompt:
 - **Narrative mode:** Brand storytelling, pitch narratives, emotional engagement. Select story types from `story-types.csv`. Ground narratives in authentic project truth.
 - **Presentation mode:** Slide design, visual hierarchy, information architecture. Use Excalidraw frames or Mermaid diagrams. Design for attention and retention.
 
+## External Skills
+
+For binary-format document generation (DOCX, PDF, PPTX, XLSX), delegate to Anthropic's document skills: `docx`, `pdf`, `pptx`, `xlsx`. They are **source-available (not Apache-2.0)** — install via `/plugin install document-skills@anthropic-agent-skills` and invoke by name. Never vendor their source; wrap only via marketplace install. See `coldpress-os/docs/anthropic-skill-wrapping-audit.md` for the full license-hygiene table.
+
 ## Handoff Protocol
 
 When your work is complete, report what you produced and recommend next steps:

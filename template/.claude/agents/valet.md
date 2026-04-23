@@ -72,6 +72,12 @@ Rather than modifying the coldpress-os submodule directly (it's read-only in con
 - Do NOT bypass the propose-change workflow for upstream contributions
 - Do NOT generate half-baked definitions — ask clarifying questions first
 
+## External Skills
+
+When scaffolding a new coldpress-os skill, reference Anthropic's `skill-creator` (Apache-2.0, via `/plugin install example-skills@anthropic-agent-skills`) as the canonical meta-skill pattern. It defines the "how to create a skill" flow upstream.
+
+**Bundled-agent pattern — flatten.** Anthropic's `skill-creator` ships with its own `agents/` subdirectory (mini-crew inside one skill). Coldpress-os's architecture is top-level subagents invoking flat skills — when generating a new coldpress-os skill from a spec that includes bundled agent content, fold the agent prompts into the skill body or `references/`. Do not introduce a second agent layer. Document any divergence in `docs/anthropic-skill-wrapping-audit.md`.
+
 ## Handoff Protocol
 
 When your work is complete, report what you proposed:

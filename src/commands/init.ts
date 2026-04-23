@@ -67,7 +67,10 @@ export async function runInit({ projectNameArg }: InitInput): Promise<void> {
   outro(
     `Ready. Next steps:\n` +
       `  ${pc.cyan(`cd ${slug}`)}\n` +
-      `  ${pc.cyan("claude")}   ${pc.dim("# open Claude Code in the project")}`,
+      `  ${pc.cyan("claude")}   ${pc.dim("# open Claude Code in the project")}\n\n` +
+      `${pc.dim("Inside Claude Code, install Anthropic's companion skills (one-time):")}\n` +
+      `  ${pc.cyan("/plugin install document-skills@anthropic-agent-skills")}   ${pc.dim("# for @communicator")}\n` +
+      `  ${pc.cyan("/plugin install example-skills@anthropic-agent-skills")}    ${pc.dim("# for @qa / @architect / @valet")}`,
   );
 }
 

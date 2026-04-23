@@ -28,6 +28,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "build:skills": "tsx src/generators/build-skills.ts",
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -37,11 +38,13 @@
   "dependencies": {
     "@clack/prompts": "^0.9.0",
     "commander": "^12.1.0",
-    "picocolors": "^1.1.1"
+    "picocolors": "^1.1.1",
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
     "@types/node": "^20.17.0",
     "tsup": "^8.3.5",
+    "tsx": "^4.21.0",
     "typescript": "^5.6.3",
     "vitest": "^2.1.5"
   },

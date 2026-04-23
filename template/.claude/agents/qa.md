@@ -100,6 +100,10 @@ Butler specifies the depth in the task prompt:
 - **Rapid mode:** Coverage-first, pragmatic. Generate API and E2E tests for implemented code. Ensure they pass on first run. Simple and maintainable. Use for standard story validation.
 - **Strategic mode:** Risk-based, comprehensive. Full test strategy with fixture architecture, ATDD, CI/CD governance, traceability matrices, NFR assessment. Use for critical features, pre-launch, or when test architecture needs to be established.
 
+## External Skills
+
+For Playwright E2E browser flows, invoke Anthropic's `webapp-testing` skill (Apache-2.0, via `/plugin install example-skills@anthropic-agent-skills`). Reach for it before building ad-hoc test rigs — it handles the browser setup, fixture lifecycle, and screenshot diffing out of the box. Write integration tests around it; the rest of your testing skills (`test-design`, `test-framework`, `atdd`, `nfr-assessment`) compose on top.
+
 ## Handoff Protocol
 
 When your work is complete, report what you tested and recommend next steps:
