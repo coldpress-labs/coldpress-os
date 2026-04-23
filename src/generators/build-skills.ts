@@ -60,10 +60,14 @@ if (result.skipped.length > 0) {
 
 console.log(`\n✓ Emitted ${result.emitted.length} spec-compliant SKILL.md files`);
 
-// Refresh plugin.json with the current skill count.
+// Refresh plugin.json with the current skill count. We deliberately do NOT
+// stamp a `generated_at` timestamp — the build output must be deterministic
+// from the source corpus so CI's `git diff --exit-code plugin/` drift check
+// stays meaningful. (If the count changes, diff catches it. If only a
+// timestamp changes, diff catches nothing useful.)
 const manifest = await readManifest(manifestPath);
+delete manifest.generated_at;
 manifest.skills_count = result.emitted.length;
-manifest.generated_at = new Date().toISOString();
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 console.log(`✓ Refreshed ${manifestPath}`);
 

@@ -1,6 +1,6 @@
 {
   "name": "@coldpress/core",
-  "version": "0.2.0-alpha.0",
+  "version": "0.2.0-alpha",
   "description": "AI-native development framework: 9-phase lifecycle, 9 subagents, atomic skills, sacred-doc governance.",
   "type": "module",
   "bin": {

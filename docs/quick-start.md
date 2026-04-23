@@ -8,196 +8,159 @@
 
 | Requirement | Check |
 |-------------|-------|
-| **Claude Code** | Installed and authenticated (`claude` works in terminal) |
-| **Git** | Installed (`git --version` returns 2.x+) |
+| **Node.js 20+** | `node -v` returns `v20` or higher |
+| **Claude Code** | `claude` works in terminal (dev-time runtime — optional for Agent SDK users) |
+| **Git** | `git --version` returns 2.x+ |
 | **A project idea** | Even a vague one — the framework will help you refine it |
 
-No paid services required. coldpress-os is a local framework — it runs entirely through Claude Code and git.
+No paid services required. coldpress-os is a local framework — everything runs on your machine.
 
 ---
 
-## Minute 0-2: Create Your Project Repo
+## Minute 0-1: Install
 
 ```bash
-# Create your devSandbox (the dev environment where all planning + code lives)
-mkdir my-project-devSandbox
-cd my-project-devSandbox
+npm install -g @coldpress/core
+```
+
+Verify it's on your PATH:
+
+```bash
+coldpress --version   # → 0.2.0-alpha (or later)
+coldpress --help      # → lists init / update / feedback / upgrade
+```
+
+---
+
+## Minute 1-4: Scaffold the project
+
+```bash
+cd ~/code   # or wherever you keep projects
+coldpress init
+```
+
+You'll be prompted for:
+
+| Field | Example |
+|-------|---------|
+| Project name | `My Awesome Project` |
+| Project slug | `my-awesome-project` (auto-suggested from the name; kebab-case) |
+| Your name | `Aastha` (used in Butler's prose) |
+
+The scaffold confirms the target directory and then:
+
+1. Copies the template tree into `./my-awesome-project/` with placeholders filled.
+2. Copies the framework files into `./my-awesome-project/coldpress-os/`.
+3. Generates ~66 `.claude/skills/` wrappers pointing at canonical skills.
+4. Generates interop outputs: `AGENTS.md`, `.cursor/rules/`, `.roomodes`, `.openhands/microagents/`, `.clinerules/`.
+5. Records the project in `~/.coldpress/registry.json` (opt out with `COLDPRESS_NO_REGISTRY=1`).
+
+Pass `--project-name "My Project"` to skip the name prompt, or omit for full interactive mode.
+
+---
+
+## Minute 4-6: Tour the scaffolded project
+
+```bash
+cd my-awesome-project
+ls -a
+```
+
+```
+.
+├── .claude/
+│   ├── SYSTEM.md              # Butler's directive
+│   ├── agents/                # 9 subagent definitions
+│   └── skills/                # ~66 thin-wrapper SKILL.md files
+├── .clinerules/               # Cline / Roo compat
+├── .cursor/rules/             # Cursor .mdc rules (one per subagent)
+├── .cursorrules               # Legacy Cursor fallback
+├── .gitignore                 # Ignores .coldpress/, secure/.env*, node_modules/, etc.
+├── .openhands/microagents/    # OpenHands repo-type microagents
+├── .roomodes                  # Roo / Kilo customModes YAML
+├── AGENTS.md                  # Vendor-neutral agent manifest
+├── CLAUDE.md                  # Framework routing for your main Claude Code session
+├── coldpress-os/              # Framework files (read-only; upgrade via `coldpress update`)
+├── coldpress.yaml             # Project config (Phase-1 fields filled; rest written later)
+├── _context/                  # Produced artefacts (planning/design/.../sacred)
+├── _input/                    # Inputs (raw/legacy/reference/vendor/assets)
+├── docs/                      # Project-specific docs
+├── scripts/
+│   └── check-secrets.sh       # Pre-commit secret-scan hook (install via .git/hooks)
+└── secure/
+    └── manifest.yaml          # Declared credential shape (values in secure/.env*, git-ignored)
+```
+
+Install the pre-commit secret-scan hook (one-time per clone):
+
+```bash
+cp scripts/check-secrets.sh .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+Initialise git and make the first commit:
+
+```bash
 git init
-```
-
-**Why "devSandbox"?** coldpress-os uses a three-tier pattern: your local root (credentials, env files), the devSandbox (all development), and optionally an app repo (production code only). The devSandbox is where coldpress-os lives.
-
----
-
-## Minute 2-3: Add coldpress-os
-
-```bash
-# Option A: Git submodule (recommended for real projects)
-git submodule add https://github.com/coldpress-labs/coldpress-os.git coldpress-os
-
-# Option B: Local copy (for testing or when the repo isn't published yet)
-cp -r /path/to/coldpress-os ./coldpress-os
-```
-
-Verify it's there:
-
-```bash
-ls coldpress-os/
-# You should see: agents/  data/  docs/  governance/  install/  lifecycle/
-#                  orchestrator/  skills/  templates/  REGISTRY.md  README.md
+git add .
+git commit -m "init coldpress-os project"
 ```
 
 ---
 
-## Minute 3-6: Run Project Init
-
-Open Claude Code in your project directory:
+## Minute 6-8: Start Claude Code + run your first skill
 
 ```bash
 claude
 ```
 
-Then tell Claude:
+Claude Code reads `CLAUDE.md` and loads Butler's directive automatically. You can now ask for any coldpress-os workflow by name or intent. A common Phase-2 starting point:
 
 ```
-Run coldpress-os project-init
+Run pre-project interview
 ```
 
-The init workflow walks you through 4 steps:
+Butler dispatches `@analyst` (Phase 2 — Discovery), which walks you through a structured interview. The output lands at `_context/sacred/context.md` — your first sacred document.
 
-| Step | What Happens | Your Input |
-|------|-------------|------------|
-| **1. Gather** | Collects project details | Name, slug, type, domain, stack pack |
-| **2. Scaffold** | Creates directory structure | Confirm the structure looks right |
-| **3. Submodule** | Configures coldpress-os path | Confirm submodule/copy location |
-| **4. Config** | Generates `coldpress.yaml` | Review and approve the config |
+Other common entry points:
 
-When it's done, your project looks like this:
-
-```
-my-project-devSandbox/
-├── coldpress-os/              # Framework (READ-ONLY)
-├── .claude/
-│   ├── SYSTEM.md              # Butler's directive
-│   ├── agents/                # 9 subagent definitions
-│   │   ├── analyst.md
-│   │   ├── architect.md
-│   │   ├── communicator.md
-│   │   ├── developer.md
-│   │   ├── pm.md
-│   │   ├── qa.md
-│   │   ├── scrum-master.md
-│   │   ├── ux-designer.md
-│   │   └── valet.md
-│   └── skills/                # Thin wrappers (generated next)
-├── docs/                      # Project-specific documents
-├── _context/                   # Artifacts (planning, design, testing, etc.)
-├── coldpress.yaml             # Your project config
-└── CLAUDE.md                  # Framework routing for Claude
-```
+| Intent | What runs | Phase |
+|--------|-----------|-------|
+| "Run pre-project interview" | `@analyst` / `pre-project-interview` | 2 |
+| "Evaluate my tech stack options" | `@architect` / `stack-evaluation` | 3 |
+| "Lock the tech stack" | `@architect` / `stack-locking` | 3 |
+| "Create the PRD" | `@pm` / `create-prd` | 4 |
+| "Create architecture" | `@architect` / `create-architecture` | 4 |
+| "Break into epics and stories" | `@pm` + `@scrum-master` | 5 |
+| "Dev this story" | `@developer` (standard) | 6 |
+| "Quick-dev this feature" | `@developer` (quick) | 6 |
+| "Run code review" | `@qa` / `code-review` | 6 |
+| "Check deployment readiness" | `@qa` / `readiness-check` | 7 |
 
 ---
 
-## Minute 6-7: Generate Skill Wrappers
+## Minute 8-10: Install Anthropic companion skills (one-time)
 
-Still in Claude Code:
+Coldpress-os's subagents delegate to Anthropic's first-party Agent Skills where they overlap (document generation, MCP server scaffolding, webapp testing, skill creation). Install the two Anthropic marketplace plugins inside Claude Code:
 
 ```
-Run agent-scaffold
+/plugin install document-skills@anthropic-agent-skills    # for @communicator (DOCX / PDF / PPTX / XLSX)
+/plugin install example-skills@anthropic-agent-skills     # for @qa / @architect / @valet
 ```
 
-This generates thin wrappers in `.claude/skills/` — one for each of the 65+ skills in coldpress-os. Each wrapper is 3 lines pointing to the canonical skill in the submodule.
-
-Verify:
-
-```bash
-ls .claude/skills/
-# You should see directories like: brainstorming/ code-review/ create-prd/
-# dev-story/ pre-project-interview/ stack-evaluation/ ...
-```
-
-Each wrapper looks like:
-
-```markdown
----
-name: "brainstorming"
-description: "Facilitate structured brainstorming sessions"
----
-Read and follow coldpress-os/skills/creative/brainstorming/SKILL.md
-```
+See [`docs/anthropic-skill-wrapping-audit.md`](anthropic-skill-wrapping-audit.md) for the full delegation table and licence hygiene notes.
 
 ---
 
-## Minute 7-9: Run Your First Skill
+## What's next
 
-The natural first skill is the **pre-project-interview** — it creates your `context.md`, the foundational document everything else builds on.
+- Read the [Example Walkthrough](example-walkthrough.md) to see a full 8-phase project (TaskPulse) play out end-to-end.
+- Keep [Troubleshooting & FAQ](troubleshooting.md) open in a tab when you hit something weird.
+- Browse [`coldpress-os/lifecycle/`](../lifecycle/) to see which skills live in each phase.
+- When ready to upgrade:
+  ```bash
+  npm update -g @coldpress/core   # get the latest release
+  coldpress update                 # regenerate interop outputs in your project
+  ```
 
-```
-Run pre-project-interview
-```
-
-Butler dispatches the **@analyst** subagent, who will:
-
-1. Ask you structured questions about your project (vision, users, constraints, domain)
-2. Use elicitation techniques from `data/methods/elicitation-methods.csv`
-3. Produce `_context/sacred/context.md` — your first sacred document
-
-This takes 5-15 minutes depending on how detailed your answers are. Take your time — everything downstream depends on this.
-
----
-
-## Minute 9-10: Verify Everything Works
-
-Run a quick check:
-
-```
-What skills are available?
-```
-
-Butler should read `coldpress-os/REGISTRY.md` and list all available skills organized by lifecycle phase.
-
-Try dispatching a subagent directly:
-
-```
-Ask @architect to review the project structure
-```
-
-If Butler dispatches the architect subagent and you see it running in a separate context window — you're fully operational.
-
----
-
-## What's Next?
-
-You've completed **Phase 1 (Bootstrap)**. The lifecycle continues:
-
-| Next Phase | What to Do | Tell Claude |
-|------------|-----------|-------------|
-| **Phase 2: Discovery** | Deep research on your domain | "Run domain-research" or "Run market-research" |
-| **Phase 3: Tech Stack** | Evaluate and lock your stack | "Run stack-evaluation" |
-| **Phase 4: Planning** | Create PRD, architecture, UX spec | "Run create-prd" |
-| **Phase 5: Breakdown** | Break into epics and stories | "Run create-epics" |
-| **Phase 6: Implementation** | Build feature by feature | "Run dev-story" |
-
-Each phase builds on the previous one's outputs. The decision trees in `coldpress-os/docs/decision-trees.md` help Butler route your intent to the right skill.
-
----
-
-## Key Things to Know
-
-1. **Butler is your main contact.** You talk to Butler (the main Claude session). Butler dispatches work to the 9 subagents as needed. You don't need to manage subagents directly.
-
-2. **Sacred documents are protected.** Once `context.md`, `tech-stack.md`, PRD, architecture, or PERT chart are finalized, they're governed. Changes go through change workflows (`governance/`), not direct edits.
-
-3. **coldpress-os is read-only.** Never edit files inside the `coldpress-os/` directory. Your customizations go in `.claude/`, `coldpress.yaml`, and your project's own directories.
-
-4. **Skills are the atomic unit.** Everything you ask Claude to do maps to a skill. Skills are self-contained — each has its own instructions, steps, and references.
-
-5. **Modes change behavior.** Your `coldpress.yaml` configures how subagents operate (e.g., developer: standard vs quick, qa: rapid vs strategic). Change modes there, not in agent definitions.
-
----
-
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2026-04-13 | Alfred | Initial quick-start guide — 10-minute walkthrough from zero to running project |
+Using the Agent SDK instead of Claude Code CLI? Point `@anthropic-ai/claude-agent-sdk` at your project — the `.claude/` tree loads unchanged. See `test/agent-sdk-compat.test.ts` in the framework repo for the compatibility smoke test.

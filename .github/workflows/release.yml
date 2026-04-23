@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Releases run validation, then create a GitHub Release with auto-generated
+# notes. Publishing to npm is left as a manual step — see the README for the
+# `npm publish` flow. To enable CI publishing, uncomment the `publish` step
+# and add an `NPM_TOKEN` secret to the repo (Settings → Secrets → Actions).
+
+jobs:
+  validate-and-release:
+    name: Validate + GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build CLI
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+      - name: Regenerate plugin/ from source
+        run: npm run build:skills
+
+      - name: Ensure plugin/ is not stale
+        run: git diff --exit-code plugin/
+
+      # Uncomment to enable CI publishing. Requires NPM_TOKEN secret.
+      # - name: Publish to npm
+      #   run: npm publish --provenance --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref, '-alpha') || contains(github.ref, '-beta') || contains(github.ref, '-rc') }}

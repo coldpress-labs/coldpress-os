@@ -6,7 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ---
 
-## [Unreleased] — v0.2.0-alpha
+## [Unreleased]
+
+*(No changes yet — next release staging.)*
+
+---
+
+## [0.2.0-alpha] — 2026-04-23
 
 ### Added
 
@@ -34,6 +40,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - **Local project registry** (`src/utils/registry.ts`). First-write creates `~/.coldpress/registry.json`; subsequent `coldpress init` runs append entries. Schema: `{ version: 1, projects: [{ slug, path, created, version }] }`. Dedup by absolute path (re-init over the same dir replaces the entry). Opt-out via `COLDPRESS_NO_REGISTRY=1`. Failures (disk/permissions) never block init — registry is a courtesy. Public API: `readRegistry`, `recordInit`, `listProjects`, all with `{ registryPath }` override for testing. Exercised by 11 tests in `test/registry.test.ts`.
 - **Claude Agent SDK compatibility smoke test** (§2.13). `test/agent-sdk-compat.test.ts` asserts our `.claude/agents/*.md` tree conforms to `AgentDefinition` from `@anthropic-ai/claude-agent-sdk` at both compile-time (TypeScript type-check via a `toAgentDefinition` mapper — breaks on required-field regressions) and runtime (every agent has non-empty description, prompt, valid model alias, valid tool names). Tests do NOT spin up live sessions — `query()` / `startup()` require credentials and network, inappropriate for credential-free CI. Interactive Claude Code usage remains the dev-time runtime. Dev dep added: `@anthropic-ai/claude-agent-sdk@^0.2.118`.
 - **Bug caught in development:** `readRegistry` returned a shared module-level `EMPTY_REGISTRY` singleton; `recordInit`'s mutation then polluted subsequent reads. Test isolation failed silently when re-running the suite (alpha entries leaked into "empty" tests). Replaced the singleton with a factory (`emptyRegistry()`) returning a fresh object per call. Classic JS footgun; test suite caught it on the first full run.
+- **README rewrite — npm-first install.** `npm install -g @coldpress/core` is the canonical install path; git-submodule install path retired (confirmed 2026-04-23: no external submodule consumers). README calls out both runtime compatibilities (Claude Code CLI + Agent SDK). Command surface documented inline. Added links to all docs (interop generator, SKILL.md generator spec, Anthropic wrapping audit, yaml schema, secure pattern) that landed in Waves 1–2.
+- **`docs/quick-start.md` rewrite.** Zero-to-running-project in 10 minutes on the npm flow: install → `coldpress init` → tour → start Claude Code → install Anthropic companion plugins. Replaces the prior submodule-based walkthrough.
+- **GitHub Actions workflows.** `.github/workflows/ci.yml` runs on every PR + push to main — typecheck, build, tests, `build:skills` + drift-check (fails if `plugin/` isn't up-to-date with source). `.github/workflows/release.yml` runs on `v*` tag push — same validation + creates a GitHub Release with auto-generated notes (pre-release flag set for `-alpha` / `-beta` / `-rc`). `npm publish` step ships commented-out in the workflow; enable by uncommenting after adding `NPM_TOKEN` secret (publishing is deliberately a manual step for v0.2).
+- **Deterministic `plugin/plugin.json`.** Removed `generated_at` timestamp from the `build:skills` output so the drift check is meaningful — the file is reproducible from source, and any real content change surfaces in git diff. `skills_count` remains as a real signal.
+
+### Fixed (v0.2 release prep)
+
+- Version number in `package.json` normalised from `0.2.0-alpha.0` to `0.2.0-alpha` (matches `v0.1.0-alpha` convention; the `.0` suffix was spurious).
 - `_context/audit/` subfolder for backward-looking artefacts (retrospectives, code reviews, security scans, deployment readiness reports). Four skills retargeted to write here.
 - `_context/sacred/` canonical location for the five sacred documents — `context.md`, `tech-stack.md`, PRD, `architecture.md`, PERT chart. All references across the framework updated in a single atomic §7 *Structural Migration* (95 files). Existing consumer projects are grandfathered.
 - `governance/sacred-docs.md` §7 *Structural Migrations* — one-time carve-out protocol for path-only sacred-doc relocations. Requires a DECISIONS-LOG entry *before* the migration commits.

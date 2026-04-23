@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test + build + drift check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build CLI
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+      - name: Regenerate plugin/ from source
+        run: npm run build:skills
+
+      - name: Ensure plugin/ is not stale
+        # If source SKILL.md files changed without running `npm run build:skills`
+        # and committing the plugin/ output, CI fails. Run build:skills locally
+        # and commit the diff to fix.
+        run: git diff --exit-code plugin/

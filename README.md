@@ -1,59 +1,67 @@
 # coldpress-os
 
+[![npm](https://img.shields.io/npm/v/@coldpress/core?color=blue)](https://www.npmjs.com/package/@coldpress/core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
-[![Status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange.svg)](./CONTRIBUTING.md#project-status)
-[![Version: 0.1.0-alpha](https://img.shields.io/badge/version-0.1.0--alpha-blue.svg)](./README.md)
+[![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](./CONTRIBUTING.md#project-status)
 [![Built on: BMAD-METHOD](https://img.shields.io/badge/built%20on-BMAD--METHOD-purple.svg)](https://github.com/bmad-code-org/BMAD-METHOD)
 [![Made by: ColdPress Labs](https://img.shields.io/badge/made%20by-ColdPress%20Labs-black.svg)](https://coldpressai.com)
 
-> An AI-native development framework that drives the full lifecycle of ColdPress Labs projects — from bootstrap to deployment to evolution.
+> An AI-native development framework that drives the full lifecycle of AI-assisted software projects — from bootstrap to deployment to evolution.
 
-**One framework. One format. One registry. Pluggable stack packs.**
+**One framework. One format. Two runtimes. Pluggable stack packs.**
 
 ---
 
-## What is coldpress-os?
+## Install
 
-coldpress-os is a project-agnostic, end-to-end development framework designed for AI-assisted workflows. It organizes the entire software development lifecycle into 8 phases, powered by 9 specialized subagents and 65+ atomic skills.
+```bash
+npm install -g @coldpress/core
+```
 
-It is consumed by projects as a **read-only git submodule**. Projects override and extend via their own `.claude/` wrappers and `coldpress.yaml` config.
+Requires Node.js `>=20` and Claude Code (the CLI or the Agent SDK) on your machine.
 
 ## Quick Start
 
 ```bash
-# In your project's devSandbox repo:
-git submodule add https://github.com/coldpress-labs/coldpress-os.git coldpress-os
-
-# Then tell Claude:
-# "Run coldpress-os init"
+coldpress init my-project
+cd my-project
+claude   # or: use the Agent SDK
 ```
 
-The init skill scaffolds your project with:
-- `.claude/` thin wrappers pointing to coldpress-os skills
-- `coldpress.yaml` project configuration
-- `_context/` artifact directories
-- `CLAUDE.md` with framework routing instructions
+`coldpress init` prompts you for a project name, slug, and user name, then scaffolds:
 
-**New to coldpress-os?** Read the [First 10 Minutes](docs/quick-start.md) guide for a hands-on walkthrough, or see the [TaskPulse Example](docs/example-walkthrough.md) for a full lifecycle demo.
+- `coldpress.yaml` — project configuration (Phase-1 fields only; later phases write back as you progress)
+- `CLAUDE.md` — framework routing for Butler (your main Claude Code session)
+- `.claude/agents/` — 9 subagent definitions
+- `.claude/skills/` — ~66 thin wrappers pointing at canonical skills
+- `_context/` — produced artefacts (planning, design, implementation, testing, tracking, handoffs, audit, sacred docs)
+- `_input/` — raw inputs, legacy refs, vendor drops, assets
+- `secure/` — credential manifest + pre-commit secret-scan hook
+- `coldpress-os/` — framework files (read-only; upgraded via `coldpress update`)
+- `AGENTS.md` + `.cursor/rules/` + `.roomodes` + `.openhands/microagents/` + `.clinerules/` — interop outputs so the project feels native in any agent tool
 
-## Architecture
+**New to coldpress-os?** Read the [First 10 Minutes](docs/quick-start.md) or see the [TaskPulse example](docs/example-walkthrough.md) for a full lifecycle demo.
+
+## Runtime compatibility
+
+coldpress-os's `.claude/` tree loads unchanged under both runtimes:
+
+- **Claude Code CLI** (interactive dev-time) — `claude` in the project directory.
+- **`@anthropic-ai/claude-agent-sdk`** (programmatic / CI pipelines) — import the SDK, point it at the project; all subagents and skills resolve.
+
+See `test/agent-sdk-compat.test.ts` for the compatibility smoke test.
+
+## Commands
 
 ```
-coldpress-os/
-├── lifecycle/          # 8-phase project lifecycle
-├── agents/             # 9 subagent definitions (v2 format)
-├── skills/             # 65+ atomic reusable skills
-├── orchestrator/       # Generalized parallelization engine
-├── governance/         # Sacred document protection & change workflows
-├── data/               # Portable knowledge assets (CSV/YAML)
-├── templates/          # Document, design, & infrastructure templates
-├── install/            # Project scaffolding & init
-├── docs/               # Internal documentation
-├── REGISTRY.md         # Auto-generated skill/agent/phase registry
-└── coldpress.yaml      # Default config template
+coldpress init [project-name]     Scaffold a new project
+coldpress update                  Regenerate interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline)
+coldpress feedback                Open GitHub Issues in your browser
+coldpress upgrade                 Print upgrade instructions
+coldpress --version               Print installed version
 ```
 
-## Lifecycle Phases
+## Lifecycle phases
 
 | Phase | Name | Purpose |
 |-------|------|---------|
@@ -66,65 +74,101 @@ coldpress-os/
 | 7 | **Deployment** | Readiness checks, security scan, deploy |
 | 8 | **Evolve** | Retrospective, course correction, product evolution |
 
-## Key Concepts
+## Subagents
 
-- **Subagents** are real Claude Code agents with independent context windows, mapped to lifecycle phases. Butler dispatches them via the Agent tool.
-- **Skills** are the atomic unit of work. Each is self-contained with step-files and references.
-- **Stack packs** are pluggable skill sets for specific technology stacks (Convex, Supabase, etc.).
-- **Sacred documents** (context.md, tech-stack.md, architecture.md, PRD, PERT) are protected by governance change workflows.
-- **The orchestrator** generalizes the parallelization pattern (DAG → waves → gates) across all lifecycle phases.
+| Slug | Model | Primary phases | Role |
+|------|-------|----------------|------|
+| `analyst` | sonnet | 2, 4 | Research, interviews, brainstorming, product briefs |
+| `pm` | sonnet | 4, 5 | PRD lifecycle, product decisions, epic oversight |
+| `ux-designer` | sonnet | 4 | UX specs, design systems, scenarios |
+| `architect` | opus | 3, 4 | Tech stack, architecture, ADRs |
+| `developer` | sonnet | 6 | Implementation (standard or quick mode) |
+| `qa` | sonnet | 6, 7 | Testing (rapid or strategic mode) |
+| `scrum-master` | haiku | 5, 8 | Sprint planning, PERT, retrospectives |
+| `communicator` | sonnet | 4, 8 | Documentation, narratives, presentations |
+| `valet` | sonnet | meta | Framework evolution, meta skills |
 
-## How Projects Use coldpress-os
+Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolded project.
+
+## Key concepts
+
+- **Subagents** are real Claude Code agents with independent context windows, tools, and models. Butler (your main session) dispatches them via the Agent tool. Not prompt-persona costume changes.
+- **Skills** are the atomic unit of work. Each is self-contained with frontmatter + step-files + references.
+- **Stack packs** are pluggable skill sets for specific technology stacks (Convex, Supabase, etc.). Activated via `stack_pack:` in `coldpress.yaml` after Phase-3 stack-locking.
+- **Sacred documents** — `_context/sacred/{context,tech-stack,prd,architecture,pert-chart}.md` — are protected by governance change workflows in `coldpress-os/governance/`.
+- **`_context/` vs `_input/`** — produced artefacts vs material fed into the project. Inputs are not written by any skill.
+
+## Architecture
 
 ```
-my-project/
-├── coldpress-os/           # git submodule (READ-ONLY)
-├── .claude/                # Generated thin wrappers
-│   └── skills/             # 3-line wrappers → coldpress-os skills
-├── docs/                   # Project-specific content
-├── _context/                # Project artifacts
-├── coldpress.yaml          # Project config
-└── CLAUDE.md               # Framework routing for Claude
+@coldpress/core/
+├── src/              # CLI + generators (TypeScript)
+├── template/         # Scaffolded into consumer projects
+├── lifecycle/        # 9-phase skill organisation
+├── skills/           # ~75 atomic reusable skills
+├── agents/           # Subagent schema + registry
+├── orchestrator/     # Parallelization engine specs
+├── governance/       # Sacred-doc change workflows
+├── data/             # Portable knowledge assets (CSV/YAML)
+├── templates/        # Document / design / infrastructure templates
+├── plugin/           # Claude Code plugin marketplace tree (build-skills output)
+└── docs/             # Framework documentation
 ```
 
-**Separation:** The framework is read-only. Project-specific content lives outside the submodule. Planning and orchestration never ship with the product.
+## Claude Code plugin marketplace
+
+```
+/plugin marketplace add coldpress-labs/coldpress-os
+/plugin install @coldpress/core
+```
+
+Installs the full skill library as an Agent Skills–compliant plugin. Source lives under `plugin/skills/`, regenerated by `npm run build:skills` from the rich internal SKILL.md corpus.
 
 ## Updating
 
 ```bash
-git submodule update --remote coldpress-os
-# Then tell Claude: "Regenerate skill wrappers"
-git add coldpress-os .claude/ && git commit -m "update coldpress-os"
+npm update -g @coldpress/core   # pull the latest release
+```
+
+Inside an existing project:
+
+```bash
+coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline outputs
 ```
 
 ## Documentation
 
 | Guide | Description |
 |-------|-------------|
-| [First 10 Minutes](docs/quick-start.md) | Hands-on setup walkthrough — zero to running project |
+| [First 10 Minutes](docs/quick-start.md) | Hands-on setup walkthrough — zero to a running project |
 | [Example Walkthrough](docs/example-walkthrough.md) | Full lifecycle demo with a sample project (TaskPulse) |
 | [Troubleshooting & FAQ](docs/troubleshooting.md) | Common issues and solutions |
 | [Architecture](docs/architecture.md) | Internal technical reference |
-| [Decision Trees](docs/decision-trees.md) | How Butler routes your intent to skills |
-| [Flow Map](docs/flow-map.md) | Visual mapping of phases, skills, and subagents |
-| [Glossary](docs/glossary.md) | 34 defined terms |
-| [Stack Pack Guide](docs/stack-pack-guide.md) | How to author a new technology stack pack |
-| [Subagent Customization](docs/subagent-customization.md) | Modes, overrides, and custom agents |
-| [Step-File Spec](docs/step-file-spec.md) | Format specification for workflow step files |
+| [`coldpress.yaml` schema](docs/coldpress-yaml-schema.md) | Per-field phase ownership + write-back contract |
+| [Interop generator](docs/interop-generator.md) | AGENTS.md, Cursor, Roo, OpenHands, Cline — spec + tool translation |
+| [SKILL.md generator spec](docs/skill-md-generator-spec.md) | Agent Skills spec compliance + field mapping |
+| [Anthropic skill wrapping](docs/anthropic-skill-wrapping-audit.md) | Where coldpress-os delegates to Anthropic's first-party skills |
+| [Secure pattern](docs/secure-pattern.md) | `secure/manifest.yaml` + credential loader pattern |
+| [Decision trees](docs/decision-trees.md) | How Butler routes your intent to skills |
+| [Flow map](docs/flow-map.md) | Visual mapping of phases, skills, and subagents |
+| [Glossary](docs/glossary.md) | Defined terms |
+| [Stack pack guide](docs/stack-pack-guide.md) | Authoring a new technology stack pack |
+| [Subagent customization](docs/subagent-customization.md) | Modes, overrides, custom agents |
+| [Step-file spec](docs/step-file-spec.md) | Format specification for workflow step files |
 
 ## Contributing
 
-Feedback flows from projects to coldpress-os via GitHub Issues/PRs. Use the `meta/propose-change` skill to formalize improvements. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for community standards.
+Feedback flows from projects to coldpress-os via GitHub Issues and PRs. Use `coldpress feedback` to open the issue form in your browser. See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for community standards.
 
-**Security:** please do **not** open public issues for vulnerabilities. See [SECURITY.md](./SECURITY.md) for private disclosure instructions.
+**Security:** please do **not** open public issues for vulnerabilities. See [SECURITY.md](./SECURITY.md) for private disclosure.
 
 ## Acknowledgments
 
 coldpress-os stands on the shoulders of three open-source projects, each of which contributed substantial ideas, code, and craft. All are MIT-licensed, and all are credited in full in [NOTICE.md](./NOTICE.md) and [docs/attribution-audit.md](./docs/attribution-audit.md).
 
 - **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** by [BMad Code, LLC](https://github.com/bmad-code-org) — the core agent-skill-workflow architecture, document templates, and most utility and review skills. coldpress-os is a direct derivative of BMAD v6.2.2; this framework would not exist in its current form without theirs.
-- **[Creative Intelligence Suite (CIS)](https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite)** by BMad Code, LLC — a BMAD module that contributes the brainstorming, design-thinking, problem-solving, innovation-strategy, and storytelling workflows used across Discovery and Planning phases.
-- **[BMAD-METHOD-WDS (Whiteport Design System)](https://github.com/whiteport-collective/BMAD-METHOD-WDS)** by [Mårten Angner](https://angner.com) / [Whiteport Collective](https://whiteport.com) — a BMAD module that contributes the opinionated UX design workflow (wds-0 through wds-8), design templates, trigger maps, and scenario-driven design methodology that power the `ux-designer` subagent.
+- **[Creative Intelligence Suite (CIS)](https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite)** by BMad Code, LLC — contributes the brainstorming, design-thinking, problem-solving, innovation-strategy, and storytelling workflows used across Discovery and Planning.
+- **[BMAD-METHOD-WDS (Whiteport Design System)](https://github.com/whiteport-collective/BMAD-METHOD-WDS)** by [Mårten Angner](https://angner.com) / [Whiteport Collective](https://whiteport.com) — contributes the opinionated UX design workflow (wds-0 through wds-8), design templates, trigger maps, and scenario-driven design methodology powering the `ux-designer` subagent.
 
 "BMad", "BMad Method", "BMad Core", "Whiteport", and "Whiteport Design System" are trademarks of their respective owners. coldpress-os is an independent project and is not affiliated with or endorsed by any of the above.
 
@@ -135,4 +179,3 @@ MIT — see [LICENSE](./LICENSE).
 ---
 
 **Built by ColdPress Labs.** Built with intention. Scaled with purpose.
-
