@@ -11,6 +11,7 @@ import {
 } from "./commands/graph.js";
 import { runImportBmad } from "./commands/import.js";
 import { runInit } from "./commands/init.js";
+import { runRunInspect, runRunList } from "./commands/run.js";
 import { runSecurityAggregate } from "./commands/security.js";
 import { runUpdate } from "./commands/update.js";
 import { packageRoot } from "./utils/paths.js";
@@ -143,6 +144,47 @@ securityCmd
     } catch (err) {
       console.error(
         pc.red(`security aggregate failed: ${err instanceof Error ? err.message : String(err)}`),
+      );
+      process.exit(1);
+    }
+  });
+
+const runCmd = program
+  .command("run")
+  .description("EventStream tooling — inspect orchestration runs (§6.4)");
+
+runCmd
+  .command("list")
+  .description("List recorded runs in .coldpress/runs/ (chronological, oldest first)")
+  .action(async () => {
+    try {
+      const code = await runRunList();
+      process.exit(code);
+    } catch (err) {
+      console.error(
+        pc.red(`run list failed: ${err instanceof Error ? err.message : String(err)}`),
+      );
+      process.exit(1);
+    }
+  });
+
+runCmd
+  .command("inspect")
+  .description("Render a run's event timeline as human-readable text")
+  .argument("<run-id>", "the run id (see `coldpress run list`)")
+  .option("--time <style>", "timestamp style: delta | absolute (default: delta)")
+  .option("--no-colour", "disable ANSI colour output")
+  .action(async (runId: string, opts) => {
+    try {
+      const code = await runRunInspect({
+        runId,
+        timeStyle: opts.time,
+        monochrome: opts.colour === false ? true : undefined,
+      });
+      process.exit(code);
+    } catch (err) {
+      console.error(
+        pc.red(`run inspect failed: ${err instanceof Error ? err.message : String(err)}`),
       );
       process.exit(1);
     }

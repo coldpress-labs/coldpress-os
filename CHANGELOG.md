@@ -229,6 +229,25 @@ First Wave 6 block. Turns `.coldpress/graph/graph.json` into reviewable diagrams
 - **Graph query language** (plan §6.1 mentioned "documentation of graph query language"). `coldpress graph query` (Wave 3 Block N) already IS the query surface; re-documenting would duplicate `docs/graph-query.md`.
 - **Graph diffing between commits.** Deferred to a Phase-7-gate integration if demand surfaces.
 
+### Added — Wave 6 Block DD (§6.4 EventStream event log)
+
+Append-only execution-trace representation persisted to `.coldpress/runs/<run-id>/events.jsonl`. Ports OpenHands' EventStream + Action/Observation/Condenser pattern. Not exposed to the LLM directly — purely for debugging, replay, gate evaluation, and the Project Dashboard (§6.10) Stats tab.
+
+- **`schemas/event-stream.schema.ts`** — Zod discriminated union over 8 event kinds. Actions: `wave-start`, `wave-end`, `skill-invoke`, `gate-evaluate`. Observations: `skill-result` (paired via `cause_seq` to its invoke), `gate-pass`, `gate-fail` (with `blockers[]`). Meta: `condensation` (wave-boundary summary with `from_seq`/`to_seq` range). Common base fields enforce `schema_version: 1`, monotonic `seq`, kebab-case `run_id`, ISO-8601 `timestamp`. Phase clamped 1-9. `makeRunId()` emits `run-YYYYMMDD-HHMMSS-<6hex>` — lexicographic sort matches chronological order.
+- **`src/event-stream/writer.ts`** — `EventStreamWriter.open(projectDir, { runId?, now? })` class. Resumption-safe: re-opening an existing run rehydrates `seq` from the last line. Single-writer-per-run assumption (not concurrency-safe by design; reader is independent). `append(input)` fills base fields, validates against `EventSchema`, writes one JSON line + `\n`. Idempotent `close()`. Refuses to write malformed events — throws with Zod issue list.
+- **`src/event-stream/reader.ts`** — pure-function API: `readRun(runId, { projectDir? })` → typed `Event[]` in seq order; `listRuns({ projectDir? })` returns run ids sorted chronologically; `assertSeqIntegrity(events)` invariant check. Fail-loud error types: `EventStreamNotFoundError`, `EventStreamParseError` (carries line number). Blank lines tolerated; invalid JSON or schema-violating events never silently skipped.
+- **`src/event-stream/inspect.ts`** — pure-function timeline renderer. Pretty-prints events with colour-friendly markers (`▶/■/✗` for wave start/success/fail, `→/←` for skill invoke/result, `✓/✗` for gate pass/fail, `◈` for condensation). Delta timestamps (`+Nms`) by default; `--time absolute` shows ISO. Summary footer aggregates kind counts + skill pass/fail + gate pass/fail.
+- **`coldpress run list`** + **`coldpress run inspect <run-id>`** CLI subcommands. `list` returns chronological ids. `inspect` renders the timeline (exit `0` rendered, `2` run not found, `1` malformed stream). `--no-colour` / `--time delta|absolute` options. Auto-strips ANSI when stdout is not a TTY. **No write-side CLI** — event emission is an orchestrator-integration concern; programmatic API is `EventStreamWriter`.
+- **`docs/event-stream.md`** — protocol doc: big-picture rationale, event-family tables, writer/reader invariants, CLI surface, integration points with §5.1 security gate and §6.10 dashboard, explicit non-goals (no runtime wiring yet, no snapshot/rewind, no cross-run correlation, no concurrent writers, no streaming read).
+
+**Runtime wiring deferred to Wave 6 orchestrator follow-up** (§6.5 LangGraph checkpointer + later). Block DD ships the stable persistence substrate; skills and the phase-gate evaluator start emitting events when the orchestrator shell lands.
+
+**Tests:** 29 new in `test/event-stream.test.ts` — `makeRunId` format + sortability, per-kind schema invariants, discriminated-union rejection paths (bad phase, non-slug run_id, malformed timestamp), writer (fresh + resume seq continuity, multi-append monotonicity, validation rejects malformed, idempotent close), reader (happy, not-found, malformed JSON, schema-invalid, blank-line tolerance), `listRuns`, `assertSeqIntegrity`, `renderTimeline` (empty stream, every badge kind, gate-fail visual, absolute/delta time-style). Total: **374 tests across 21 suites.**
+
+**Bundle:** 105.35 KB → 117.60 KB (+12 KB for schema + writer + reader + inspector + CLI wiring).
+
+**Plugin:** unchanged — EventStream is core runtime, not a skill.
+
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 
 Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.
