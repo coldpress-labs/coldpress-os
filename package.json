@@ -42,6 +42,7 @@
     "yaml": "^2.8.3"
   },
   "devDependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.118",
     "@types/node": "^20.17.0",
     "tsup": "^8.3.5",
     "tsx": "^4.21.0",

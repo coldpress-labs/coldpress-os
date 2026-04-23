@@ -1,7 +1,11 @@
 import { resolve } from "node:path";
 import { cancel, confirm, intro, isCancel, outro, spinner, text } from "@clack/prompts";
 import pc from "picocolors";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { runInterop } from "../interop/index.js";
+import { packageRoot } from "../utils/paths.js";
+import { recordInit as recordInitInRegistry } from "../utils/registry.js";
 import { assertNoCollision, copyFramework, copyTemplate, slugify } from "../utils/scaffold.js";
 import { generateWrappers } from "../utils/wrappers.js";
 
@@ -58,6 +62,18 @@ export async function runInit({ projectNameArg }: InitInput): Promise<void> {
     for (const warning of interop.warnings) {
       console.log(pc.yellow(`  ⚠ ${warning}`));
     }
+
+    // Record the init in ~/.coldpress/registry.json (courtesy — never blocks).
+    const version = await resolveCoreVersion();
+    const recordResult = await recordInitInRegistry({
+      slug,
+      path: targetDir,
+      created: new Date().toISOString(),
+      version,
+    });
+    if (recordResult === "failed") {
+      console.log(pc.yellow("  ⚠ Could not update ~/.coldpress/registry.json (continuing anyway)"));
+    }
   } catch (err) {
     s.stop(pc.red(`✗ Scaffolding failed: ${err instanceof Error ? err.message : String(err)}`));
     process.exit(1);
@@ -72,6 +88,16 @@ export async function runInit({ projectNameArg }: InitInput): Promise<void> {
       `  ${pc.cyan("/plugin install document-skills@anthropic-agent-skills")}   ${pc.dim("# for @communicator")}\n` +
       `  ${pc.cyan("/plugin install example-skills@anthropic-agent-skills")}    ${pc.dim("# for @qa / @architect / @valet")}`,
   );
+}
+
+async function resolveCoreVersion(): Promise<string> {
+  try {
+    const raw = await readFile(join(packageRoot, "package.json"), "utf8");
+    const pkg = JSON.parse(raw) as { version?: string };
+    return pkg.version ?? "unknown";
+  } catch {
+    return "unknown";
+  }
 }
 
 async function gatherProjectName(initial?: string): Promise<string> {
