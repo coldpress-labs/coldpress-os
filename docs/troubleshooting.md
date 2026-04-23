@@ -156,9 +156,9 @@ Before that, edit freely.
 | "Build this feature" | `dev-story` or `quick-dev` (Phase 6) |
 | "Review this code" | `code-review` (Phase 6) |
 | "Are we ready to deploy?" | `readiness-check` (Phase 7) |
-| "How did the sprint go?" | `retrospective` (Phase 8) |
+| "How did the sprint go?" | `retrospective` (Phase 9) |
 
-The full list is in `coldpress-os/REGISTRY.md` (65+ skills across 8 phases).
+The full list is in `coldpress-os/REGISTRY.md` (75+ skills across 9 phases).
 
 ---
 

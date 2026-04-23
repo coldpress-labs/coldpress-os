@@ -322,7 +322,9 @@ Run deploy                     # Execute deployment
 
 ---
 
-## Phase 8: Evolve
+## Phase 8: Operate & Phase 9: Evolve
+
+*(Post-split: operational work — correct-course / sprint-status / document-project — is Phase 8; post-release learning — retrospective / product-evolution / innovation-strategy — is Phase 9. The walkthrough below covers a representative Phase 9 retrospective.)*
 
 ### What you do (after your first sprint ships)
 

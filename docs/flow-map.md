@@ -175,28 +175,6 @@ deploy ─────────────────► Deployed applicati
 
 ---
 
-## Phase 8: Evolve
-
-```
-retrospective ──────────► retrospective.md
-  Subagent: @scrum-master
-
-correct-course ─────────► course-correction.md
-  Subagents: @scrum-master + @pm
-
-product-evolution ──────► evolution-proposals.md
-  Subagent: @pm
-  On-demand: @analyst (creative mode — innovation-strategy)
-
-sprint-status ──────────► sprint-status.yaml
-  Subagent: @scrum-master
-
-document-project ───────► project-documentation/
-  Subagent: @communicator (documentation mode)
-```
-
----
-
 ## Subagent Summary by Phase
 
 | Phase | Primary Subagents | On-Demand |
@@ -208,7 +186,8 @@ document-project ───────► project-documentation/
 | 5 — Breakdown | @pm, @scrum-master | @qa |
 | 6 — Implementation | @developer, @qa | @scrum-master |
 | 7 — Deployment | @qa, @developer | — |
-| 8 — Evolve | @scrum-master, @pm | @analyst, @communicator |
+| 8 — Operate | @scrum-master, @communicator | — |
+| 9 — Evolve | @scrum-master, @pm | @analyst, @communicator |
 
 ---
 
@@ -216,6 +195,7 @@ document-project ───────► project-documentation/
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 5.0 | 2026-04-23 | Cadbury-hq | 9-phase lifecycle — Phase 8 split into Operate + Evolve per Wave 4 §4.11. Phase 8 section rewritten (in-flight operational work); new Phase 9 section added (post-release learning). Subagent summary table extended to 9 rows. |
 | 4.0 | 2026-04-14 | Alfred | Removed BMAD/MAO references. Renamed mao-scaffold → agent-scaffold. |
 | 3.0 | 2026-04-13 | Alfred | Rewritten for 9-subagent system. Single pipeline. Added subagent summary table. |
 | 2.0 | 2026-04-08 | Alfred | Updated all agent names to new naming convention |

@@ -19,4 +19,4 @@ Deployment verified and logged. Workflow complete.
 
 ## Navigation
 
-→ Workflow complete. → Phase 8: Evolve.
+→ Workflow complete. → Phase 8: Operate (in-flight monitoring) or Phase 9: Evolve (post-release learning).
