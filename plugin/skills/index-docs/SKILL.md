@@ -26,7 +26,25 @@ Scans a directory and generates a comprehensive `index.md` file listing all docu
 
 ## Process
 
-1. **Scan target directory.** List all files, grouping by:
+1. **Scan target directory.** List all files, grouping by type / subdir.
+
+   **Graph-first path (preferred when a graph exists).** Before globbing the filesystem, try:
+
+   ```bash
+   coldpress graph query --dir-role <matching-role> --format json
+   ```
+
+   For common targets:
+   - Indexing `_context/planning/` → `--dir-role _context/planning`
+   - Indexing `_context/sacred/` → `--node-type SacredDoc`
+   - Indexing all `_context/*` → loop over the 8 `_context/*` dir_roles
+   - Indexing `_input/*` → `--node-type Input`
+
+   Parse the JSON. On exit code `0`, use `data[].source_file` + `data[].label` — every hit already carries enriched metadata (`coldpress.node_type`, `coldpress.env_tag`, community id) you'd otherwise have to re-derive from the file. Writes to disk still happen against the real filesystem; the graph just saves you a scan.
+
+   On exit code `2` (no graph yet), fall back to the direct-read path below. On exit code `1`, surface the error — don't guess at the file set.
+
+   **Direct-read fallback** (original behaviour when graph is absent):
    - File type (markdown, YAML, CSV, code, etc.)
    - Subdirectories (with recursive option)
 

@@ -40,6 +40,22 @@ Performs a comprehensive code audit on a completed story or defined scope. Runs 
    - **File list:** Use provided paths directly
    - **Epic-level:** Aggregate all stories in the epic, audit each, then roll up
 
+   **Graph-first scope derivation (preferred when a graph exists).** For story-level audits, find code modules linked to the story via `implements` edges:
+
+   ```bash
+   # 1. Find the story node by label (or use --id if you have the story id).
+   STORY=$(coldpress graph query --dir-role _context/planning --format json \
+     | jq -r '.data[] | select(.label | test("^Story 1\\.3")) | .id' | head -1)
+
+   # 2. Code modules implementing the story.
+   coldpress graph query --neighbors "$STORY" --relation implements --format json \
+     | jq -r '.data[] | select(.coldpress.node_type == "CodeModule") | .source_file'
+   ```
+
+   On exit code `0`: the emitted paths are the audit scope. On exit code `2` (no graph): fall back to git-diff / ls-based derivation. On exit code `1`: surface the error and halt.
+
+   For epic-level audits, compose: enumerate stories in the epic via `coldpress graph query --neighbors <epic-id>`, then union their implementing code modules.
+
 2. **Run automated checks** across all in-scope files:
    - TypeScript compilation errors (`tsc --noEmit`)
    - Code quality: unused variables, unreachable code, implicit `any`

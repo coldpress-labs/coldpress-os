@@ -12,8 +12,22 @@ import {
   loadGraph,
 } from "../graph/index.js";
 import { applySecureManifest } from "../graph/secure-manifest.js";
-import { GraphJsonSchema } from "../graph/types.js";
+import { type Node, type Edge, GraphJsonSchema } from "../graph/types.js";
 import { packageRoot } from "../utils/paths.js";
+
+/**
+ * Exit codes for `coldpress graph query` — skills use these to decide
+ * between using graph results and falling back to direct file reads.
+ *
+ *   0 — query returned a result (may be empty set, still a successful
+ *       query). Skills prefer graph data when this is the exit code.
+ *   2 — no graph file found. Skills fall back to direct file reads.
+ *   1 — schema-invalid graph or query error. Skills abort the current
+ *       step and surface the error to the user; fallback not safe.
+ */
+export const GRAPH_QUERY_EXIT_OK = 0;
+export const GRAPH_QUERY_EXIT_ERROR = 1;
+export const GRAPH_QUERY_EXIT_NO_GRAPH = 2;
 
 /**
  * `coldpress graph rebuild` — invoke Graphify to (re)generate the project
@@ -258,6 +272,217 @@ function printHistogram(histogram: Record<string, number>): void {
     console.log(
       `  ${label.padEnd(maxLabelLen + 2)} ${pc.cyan(count.toString().padStart(5))}`,
     );
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// `coldpress graph query` — structured queries against the graph,
+// designed for skills to shell out to via `coldpress graph query ...`
+// and consume the JSON output. Pretty-print mode is a human convenience.
+// ──────────────────────────────────────────────────────────────────
+
+export interface GraphQueryOptions {
+  projectDir?: string;
+  /** filter by coldpress.node_type (e.g. SacredDoc, CodeModule) */
+  nodeType?: string;
+  /** filter by coldpress.dir_role (e.g. _context/sacred, sandbox) */
+  dirRole?: string;
+  /** filter by coldpress.env_tag (sandbox / live / both / neither) */
+  envTag?: string;
+  /** filter edges by relation (e.g. implements, descends_from) */
+  relation?: string;
+  /** look up a specific node by id */
+  id?: string;
+  /** return neighbours of the given node id */
+  neighborsOf?: string;
+  /** limit number of results (default: no limit) */
+  limit?: number;
+  /** output format (default: json for scripts, pretty for terminals) */
+  format?: "json" | "pretty";
+}
+
+export interface GraphQueryResult {
+  kind: "nodes" | "edges" | "node" | "stats";
+  query: Record<string, unknown>;
+  data: Node | Edge[] | Node[] | null;
+  count: number;
+  graph_path: string;
+}
+
+export async function runGraphQuery(options: GraphQueryOptions = {}): Promise<void> {
+  const projectDir = resolve(options.projectDir ?? process.cwd());
+  const format = options.format ?? (process.stdout.isTTY ? "pretty" : "json");
+
+  let graph: Graph;
+  try {
+    graph = await loadGraph({ projectDir });
+  } catch (err) {
+    if (err instanceof GraphNotFoundError) {
+      // Signal fallback via exit code 2 — skills distinguish this from
+      // a real error so they can degrade to direct file reads.
+      if (format === "pretty") {
+        console.error(pc.yellow(`⚠ No graph yet — run \`coldpress graph rebuild\` first.`));
+      } else {
+        console.error(
+          JSON.stringify({
+            error: "no_graph",
+            message: err.message,
+            remediation: "run `coldpress graph rebuild`",
+          }),
+        );
+      }
+      process.exit(GRAPH_QUERY_EXIT_NO_GRAPH);
+    }
+    if (err instanceof GraphSchemaError) {
+      console.error(pc.red(`✗ ${err.message}`));
+      for (const issue of err.issues.slice(0, 10)) {
+        console.error(`    [${issue.path}] ${issue.message}`);
+      }
+      process.exit(GRAPH_QUERY_EXIT_ERROR);
+    }
+    throw err;
+  }
+
+  // Dispatch by query shape — order matters, most specific first.
+  const result = dispatchQuery(graph, options);
+
+  if (format === "json") {
+    process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+  } else {
+    renderPretty(result);
+  }
+}
+
+function dispatchQuery(graph: Graph, options: GraphQueryOptions): GraphQueryResult {
+  const query: Record<string, unknown> = {};
+  for (const [k, v] of Object.entries(options)) {
+    if (k !== "projectDir" && k !== "format" && v !== undefined) {
+      query[k] = v;
+    }
+  }
+
+  // 1. Exact node by id.
+  if (options.id) {
+    const node = graph.node(options.id) ?? null;
+    return {
+      kind: "node",
+      query,
+      data: node,
+      count: node ? 1 : 0,
+      graph_path: graph.absPath,
+    };
+  }
+
+  // 2. Neighbours of a node.
+  if (options.neighborsOf) {
+    const neighbours = graph.neighbors(options.neighborsOf, {
+      relation: options.relation,
+    });
+    const limited = applyLimit(neighbours, options.limit);
+    return {
+      kind: "nodes",
+      query,
+      data: limited,
+      count: neighbours.length,
+      graph_path: graph.absPath,
+    };
+  }
+
+  // 3. Edge filter by relation.
+  if (options.relation) {
+    const edges = graph.edgesByRelation(options.relation);
+    const limited = applyLimit(edges, options.limit);
+    return {
+      kind: "edges",
+      query,
+      data: limited,
+      count: edges.length,
+      graph_path: graph.absPath,
+    };
+  }
+
+  // 4. Node filters — compose across type/dirRole/envTag.
+  if (options.nodeType || options.dirRole || options.envTag) {
+    let candidates: Node[] = graph.json.nodes;
+    if (options.nodeType) {
+      candidates = candidates.filter((n) => n.coldpress?.node_type === options.nodeType);
+    }
+    if (options.dirRole) {
+      candidates = candidates.filter((n) => n.coldpress?.dir_role === options.dirRole);
+    }
+    if (options.envTag) {
+      candidates = candidates.filter((n) => n.coldpress?.env_tag === options.envTag);
+    }
+    const limited = applyLimit(candidates, options.limit);
+    return {
+      kind: "nodes",
+      query,
+      data: limited,
+      count: candidates.length,
+      graph_path: graph.absPath,
+    };
+  }
+
+  // 5. No filter — return stats so an unqualified `graph query` is useful.
+  return {
+    kind: "stats",
+    query,
+    data: null,
+    count: graph.json.nodes.length,
+    graph_path: graph.absPath,
+  };
+}
+
+function applyLimit<T>(items: T[], limit?: number): T[] {
+  if (typeof limit === "number" && limit >= 0) return items.slice(0, limit);
+  return items;
+}
+
+function renderPretty(result: GraphQueryResult): void {
+  console.log();
+  console.log(pc.bold(`Graph query`));
+  console.log(`  ${pc.dim("source:")} ${result.graph_path}`);
+  console.log(`  ${pc.dim("kind:")}   ${result.kind}`);
+  console.log(`  ${pc.dim("count:")}  ${pc.cyan(result.count)}`);
+  console.log();
+
+  if (result.kind === "stats") {
+    console.log(pc.dim("  (no filter applied — pass --node-type / --dir-role / --env-tag / --relation / --id / --neighbors)"));
+    return;
+  }
+
+  if (result.kind === "node") {
+    if (!result.data) {
+      console.log(pc.yellow("  (node not found)"));
+      return;
+    }
+    console.log(JSON.stringify(result.data, null, 2));
+    return;
+  }
+
+  if (result.kind === "nodes" || result.kind === "edges") {
+    const arr = result.data as (Node | Edge)[];
+    if (arr.length === 0) {
+      console.log(pc.dim("  (no matches)"));
+      return;
+    }
+    // Compact one-line-per-item render; full JSON available via --format json.
+    for (const item of arr) {
+      if (result.kind === "nodes") {
+        const n = item as Node;
+        const tag = n.coldpress?.node_type
+          ? pc.cyan(n.coldpress.node_type.padEnd(14))
+          : pc.dim("<unclassified>".padEnd(14));
+        const envTag = n.coldpress?.env_tag
+          ? pc.dim(` [${n.coldpress.env_tag}]`)
+          : "";
+        console.log(`  ${tag} ${n.id.padEnd(40)} ${n.label ?? ""}${envTag}`);
+      } else {
+        const e = item as Edge;
+        const rel = pc.cyan(String(e.relation ?? "<no-relation>").padEnd(24));
+        console.log(`  ${rel} ${e.source} → ${e.target}`);
+      }
+    }
   }
 }
 

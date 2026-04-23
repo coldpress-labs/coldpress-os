@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
 import { runFeedback } from "./commands/feedback.js";
-import { runGraphRebuild, runGraphStats } from "./commands/graph.js";
+import { runGraphQuery, runGraphRebuild, runGraphStats } from "./commands/graph.js";
 import { runInit } from "./commands/init.js";
 import { runUpdate } from "./commands/update.js";
 import { packageRoot } from "./utils/paths.js";
@@ -56,6 +56,35 @@ graphCmd
       await runGraphStats();
     } catch (err) {
       console.error(pc.red(`graph stats failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+graphCmd
+  .command("query")
+  .description("Query the graph — filter by node_type, dir_role, env_tag, relation, id, or neighbours")
+  .option("--node-type <type>", "filter by coldpress.node_type (SacredDoc, CodeModule, ...)")
+  .option("--dir-role <role>", "filter by coldpress.dir_role (_context/sacred, sandbox, ...)")
+  .option("--env-tag <tag>", "filter by coldpress.env_tag (sandbox | live | both | neither)")
+  .option("--relation <relation>", "filter edges by relation (implements, descends_from, ...)")
+  .option("--id <id>", "look up a specific node by id")
+  .option("--neighbors <id>", "list neighbours of the given node id")
+  .option("--limit <n>", "limit number of results", (v) => parseInt(v, 10))
+  .option("--format <format>", "output format: json | pretty (default: pretty if TTY, json otherwise)")
+  .action(async (opts) => {
+    try {
+      await runGraphQuery({
+        nodeType: opts.nodeType,
+        dirRole: opts.dirRole,
+        envTag: opts.envTag,
+        relation: opts.relation,
+        id: opts.id,
+        neighborsOf: opts.neighbors,
+        limit: opts.limit,
+        format: opts.format,
+      });
+    } catch (err) {
+      console.error(pc.red(`graph query failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
   });
