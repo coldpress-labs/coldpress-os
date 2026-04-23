@@ -1,6 +1,6 @@
 ---
-name: technical-research
-description: Conduct technical research on technologies, frameworks, and architecture approaches
+name: constraint-research
+description: Research domain-technical constraints (compliance, protocols, algorithms, performance envelopes) that bound the solution space
 license: MIT
 compatibility: Invoked by @analyst in Phase 2
 version: "1.0"

@@ -53,7 +53,7 @@ You combine the capabilities of two former agents:
 **Read when available:**
 - `_context/design/ux-design-spec.md` — design specifications
 - `_context/sacred/context.md` — project context
-- `_context/planning/technical-research.md` — technical research
+- `_context/planning/constraint-research.md` — technical research
 
 ## Artifacts You Produce
 

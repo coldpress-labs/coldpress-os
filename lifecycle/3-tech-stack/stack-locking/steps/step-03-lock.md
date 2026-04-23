@@ -27,4 +27,4 @@ Get user sign-off on the complete tech stack and lock the document as sacred.
 
 ## Navigation
 
-→ Workflow complete. Proceed to vibe-coder-setup to configure the development environment.
+→ Workflow complete. Proceed to env-provision to configure the development environment.

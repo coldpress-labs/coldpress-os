@@ -1,6 +1,6 @@
 ---
 name: "product-brief"
-description: "Create a 1-2 page executive product brief through collaborative discovery"
+description: "Create a 1-2 page executive product brief through collaborative discovery — synthesises Discovery research into a forward-pointing brief"
 type: "workflow"
 category: "lifecycle"
 phase: 4

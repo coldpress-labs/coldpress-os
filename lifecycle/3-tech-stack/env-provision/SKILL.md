@@ -1,8 +1,17 @@
 ---
-name: vibe-coder-setup
-description: Set up the development environment based on the locked tech stack
-license: MIT
-compatibility: Invoked by @developer in Phase 3
+name: "env-provision"
+description: "Provision the development environment from the locked tech stack. Graceful fallback to generic Node / Python / other-runtime install paths when no stack pack is chosen."
+type: "workflow"
+category: "lifecycle"
+phase: 3
+agent: "developer"
+inputs:
+  - "_context/sacred/tech-stack.md"
+  - "coldpress.yaml"
+outputs:
+  - artifact: "Configured Project"
+    location: "project root"
+    format: "configured development environment"
 version: "1.0"
 ---
 
@@ -41,4 +50,4 @@ A fully configured development environment: dependencies installed, linting/form
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-08 | Alfred | Initial vibe-coder-setup skill for Phase 3 |
+| 1.0 | 2026-04-08 | Alfred | Initial env-provision skill for Phase 3 |

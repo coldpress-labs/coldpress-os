@@ -64,7 +64,7 @@ files inside each section. Where the audit is uncertain, we say so explicitly.
 | `skills/planning/`, `skills/discovery/`, `skills/bootstrap/`, `skills/implementation/`, `skills/deployment/`, `skills/testing/`, `skills/reviews/`, `skills/utilities/` | BMAD-core | Derived — mix of close port and substantially modified | Most skills trace to `_bmad/core/` and `_bmad/bmm/`. `skills/utilities/` is closest to direct port; others are restructured. |
 | `skills/meta/` | BMAD-core + original | Mixed | `agent-builder`, `skill-builder`, `workflow-builder`, `template-builder` inspired by BMAD-core authoring tools; `propose-change` is original |
 | `skills/stack-packs/convex` | — | Original — ColdPress Labs | Stack-pack mechanism is a coldpress-os extension |
-| `lifecycle/` (8-phase structure) | — | Inspired — conceptual only | 8-phase lifecycle shell is original; skill wrappers within each phase reference upstream-derived skills |
+| `lifecycle/` (9-phase structure) | — | Inspired — conceptual only | 9-phase lifecycle shell is original; skill wrappers within each phase reference upstream-derived skills |
 | `orchestrator/` | — | Original — ColdPress Labs | DAG/waves/PERT orchestrator has no upstream counterpart |
 | `governance/` | — | Original — ColdPress Labs | Sacred-docs governance model and change workflows are a coldpress-os invention |
 | `templates/documents/` | BMAD-core | Derived — substantially modified | Template concepts (PRD, architecture, story, epic, ADR) come from `_bmad/bmm/`; reformatted and extended for coldpress-os |
@@ -172,10 +172,10 @@ is by category.
 
 ### `lifecycle/`
 
-- **The 8-phase structure** (`1-bootstrap` → `8-evolve`) — *Inspired —
+- **The 9-phase structure** (`1-bootstrap` → `8-evolve`) — *Inspired —
   conceptual only.* BMAD organises workflows by module (core / bmm) and by
   BMM sub-phase (`1-analysis`, `2-plan-workflows`, `3-solutioning`,
-  `4-implementation`). coldpress-os rethinks this into an opinionated 8-phase
+  `4-implementation`). coldpress-os rethinks this into an opinionated 9-phase
   full-lifecycle pipeline. The phase model itself (Bootstrap, Discovery,
   Tech Stack, Planning, Breakdown, Implementation, Deployment, Evolve) is
   coldpress-os-original.

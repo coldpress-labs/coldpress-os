@@ -1,6 +1,6 @@
 ---
 name: product-brief
-description: Create a 1-2 page executive product brief through collaborative discovery
+description: Create a 1-2 page executive product brief through collaborative discovery — synthesises Discovery research into a forward-pointing brief
 license: MIT
 compatibility: Invoked by @analyst in Phase 4
 version: "1.0"

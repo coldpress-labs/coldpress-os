@@ -28,7 +28,7 @@ next_phase: "4-planning"
 |-----------|------|-------|-------------|
 | [stack-evaluation](stack-evaluation/) | workflow | architect | Evaluate tech options and produce ADRs |
 | [stack-locking](stack-locking/) | workflow | architect | Consolidate ADRs into sacred tech-stack.md |
-| [vibe-coder-setup](vibe-coder-setup/) | workflow | developer | Set up dev environment from locked stack |
+| [env-provision](env-provision/) | workflow | developer | Set up dev environment from locked stack |
 
 ## Entry Conditions
 
@@ -50,7 +50,7 @@ stack-evaluation (repeat for each technology decision area)
   ↓
 stack-locking (consolidate all ADRs into tech-stack.md)
   ↓
-vibe-coder-setup (install, configure, verify)
+env-provision (install, configure, verify)
   ↓
 → Phase 4: Planning
 ```

@@ -112,7 +112,7 @@ See `_context/handoffs/_template.md` for the format.
 | "epics", "stories", "breakdown", "sprint plan" | `coldpress-os/lifecycle/5-breakdown/` |
 | "dev story", "implement", "build", "code review" | `coldpress-os/lifecycle/6-implementation/` |
 | "deploy", "readiness", "security scan" | `coldpress-os/lifecycle/7-deployment/` |
-| "retro", "sprint status", "evolve" | `coldpress-os/lifecycle/8-evolve/` |
+| "retro", "sprint status", "evolve" | `coldpress-os/lifecycle/8-operate/` |
 
 ### Utility Keywords
 

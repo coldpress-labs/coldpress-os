@@ -55,7 +55,7 @@ When the user asks to do something, route to the appropriate coldpress-os skill:
 | "epics", "stories", "breakdown", "sprint plan" | `coldpress-os/lifecycle/5-breakdown/` |
 | "dev story", "implement", "build", "code review" | `coldpress-os/lifecycle/6-implementation/` |
 | "deploy", "readiness", "security scan" | `coldpress-os/lifecycle/7-deployment/` |
-| "retro", "sprint status", "evolve" | `coldpress-os/lifecycle/8-evolve/` |
+| "retro", "sprint status", "evolve" | `coldpress-os/lifecycle/8-operate/` |
 
 ### Utility Keywords → Skills
 

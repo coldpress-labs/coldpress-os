@@ -21,7 +21,7 @@ Is this a new project with no context.md?
   NO  → What kind of research?
     Domain/industry    → domain-research                    → @analyst
     Market/competition → market-research                    → @analyst
-    Technical          → technical-research                 → @analyst + @architect
+    Technical          →  constraint-research                 → @analyst + @architect
     Need ideas         → brainstorming (skills/creative/)   → @analyst (creative mode)
     Need empathy/users → design-thinking (skills/creative/) → @analyst (creative mode)
 ```
@@ -99,7 +99,7 @@ What kind of review?
   Writing quality          → editorial-prose                        → @communicator
   Document structure       → editorial-structure                    → @communicator
   Code quality             → code-review or code-audit              → @qa
-  Sprint/project status    → sprint-status (lifecycle/8-evolve/)    → @scrum-master
+  Sprint/project status    → sprint-status (lifecycle/8-operate/)    → @scrum-master
   Post-sprint lessons      → retrospective                          → @scrum-master
   Course correction needed → correct-course                         → @scrum-master + @pm
   Product evolution ideas  → product-evolution                      → @pm

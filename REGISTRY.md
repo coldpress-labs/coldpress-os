@@ -27,18 +27,19 @@
 
 ---
 
-## Lifecycle Phases (8)
+## Lifecycle Phases (9)
 
 | # | Phase | Directory | Key Skills |
 |---|-------|-----------|------------|
 | 1 | Bootstrap | `lifecycle/1-bootstrap/` | machine-setup, project-init, agent-scaffold |
-| 2 | Discovery | `lifecycle/2-discovery/` | pre-project-interview, domain-research, market-research, technical-research, brainstorming, design-thinking |
-| 3 | Tech Stack | `lifecycle/3-tech-stack/` | stack-evaluation, stack-locking, vibe-coder-setup |
-| 4 | Planning | `lifecycle/4-planning/` | product-brief, design-brief, create-prd, validate-prd, create-ux-design, create-architecture, problem-solving, storytelling |
+| 2 | Discovery | `lifecycle/2-discovery/` | pre-project-interview, domain-research, market-research, constraint-research, product-brief, brainstorming, design-thinking |
+| 3 | Tech Stack | `lifecycle/3-tech-stack/` | stack-evaluation, stack-locking, env-provision |
+| 4 | Planning | `lifecycle/4-planning/` | design-brief, create-prd, validate-prd, create-ux-design, create-architecture, problem-solving, storytelling |
 | 5 | Breakdown | `lifecycle/5-breakdown/` | create-epics, create-stories, parallelization-strategy, sprint-planning, implementation-readiness |
 | 6 | Implementation | `lifecycle/6-implementation/` | dev-story, quick-dev, code-review, qa-automation, wave-orchestration, atdd, ci-pipeline, test-design, test-framework |
 | 7 | Deployment | `lifecycle/7-deployment/` | readiness-check, env-check, security-scan, deploy, db-migration-check, dep-health-check |
-| 8 | Evolve | `lifecycle/8-evolve/` | retrospective, correct-course, product-evolution, sprint-status, document-project, innovation-strategy |
+| 8 | Operate | `lifecycle/8-operate/` | correct-course, sprint-status, document-project |
+| 9 | Evolve | `lifecycle/9-evolve/` | retrospective, product-evolution, innovation-strategy |
 
 ---
 

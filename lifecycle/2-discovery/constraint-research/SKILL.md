@@ -1,6 +1,6 @@
 ---
-name: "technical-research"
-description: "Conduct technical research on technologies, frameworks, and architecture approaches"
+name: "constraint-research"
+description: "Research domain-technical constraints (compliance, protocols, algorithms, performance envelopes) that bound the solution space"
 type: "workflow"
 category: "lifecycle"
 phase: 2

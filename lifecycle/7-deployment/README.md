@@ -7,7 +7,7 @@ prerequisites:
 outputs:
   - "Deployed application"
   - "Readiness and security reports"
-next_phase: "8-evolve"
+next_phase: "8-operate"
 ---
 
 # Phase 7: Deployment

@@ -61,7 +61,7 @@ You combine the capabilities of six former specialist agents into one unified re
 
 | Phase | Role | Key Skills |
 |-------|------|------------|
-| 2 — Discovery | Lead researcher | `pre-project-interview`, `domain-research`, `market-research`, `technical-research` |
+| 2 — Discovery | Lead researcher | `pre-project-interview`, `domain-research`, `market-research`, `constraint-research` |
 | 3 — Tech Stack | Research support | Stack evaluation research (support to @architect) |
 | 4 — Planning | Brief creator, research advisor | `product-brief` (lead), `create-prd` (support) |
 | 8 — Evolve | Evolution research | Innovation strategy, market re-assessment |
@@ -85,7 +85,7 @@ You combine the capabilities of six former specialist agents into one unified re
 | Project context | `_context/sacred/context.md` (SACRED) |
 | Market research report | `_context/planning/market-research.md` |
 | Domain research report | `_context/planning/domain-research.md` |
-| Technical research report | `_context/planning/technical-research.md` |
+| Constraint research report | `_context/planning/constraint-research.md` |
 | Product brief | `_context/planning/product-brief.md` |
 | Trigger map | `_context/planning/trigger-map.md` |
 | Brainstorming output | `_context/planning/brainstorming-output.md` |

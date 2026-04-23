@@ -76,10 +76,10 @@ tasks:
     depends_on: []
   - id: "market-research"
     depends_on: []
-  - id: "technical-research"
+  - id: "constraint-research"
     depends_on: []
   - id: "synthesis"
-    depends_on: ["domain-research", "market-research", "technical-research"]
+    depends_on: ["domain-research", "market-research", "constraint-research"]
 ```
 
 ### For Planning (Phase 4)

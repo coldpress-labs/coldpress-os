@@ -35,14 +35,14 @@ dag:
       depends_on: ["context-interview"]    # Parallel with domain
       estimated_duration: "2d"
       
-    - id: "technical-research"
+    - id: "constraint-research"
       name: "Technical Research"
       depends_on: ["context-interview"]    # Parallel with both
       estimated_duration: "2d"
       
     - id: "synthesis"
       name: "Research Synthesis"
-      depends_on: ["domain-research", "market-research", "technical-research"]
+      depends_on: ["domain-research", "market-research", "constraint-research"]
       estimated_duration: "1d"
 ```
 
@@ -50,7 +50,7 @@ dag:
 
 ```
 Wave 1: [context-interview]
-Wave 2: [domain-research, market-research, technical-research]  — all parallel
+Wave 2: [domain-research, market-research, constraint-research]  — all parallel
 Wave 3: [synthesis]
 ```
 

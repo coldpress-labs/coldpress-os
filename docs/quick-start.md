@@ -155,7 +155,7 @@ See [`docs/anthropic-skill-wrapping-audit.md`](anthropic-skill-wrapping-audit.md
 
 ## What's next
 
-- Read the [Example Walkthrough](example-walkthrough.md) to see a full 8-phase project (TaskPulse) play out end-to-end.
+- Read the [Example Walkthrough](example-walkthrough.md) to see a full 9-phase project (TaskPulse) play out end-to-end.
 - Keep [Troubleshooting & FAQ](troubleshooting.md) open in a tab when you hit something weird.
 - Browse [`coldpress-os/lifecycle/`](../lifecycle/) to see which skills live in each phase.
 - When ready to upgrade:

@@ -24,7 +24,7 @@ Before this registry existed, 6 of 7 inter-phase handoffs were implicit — the 
 | # | From phase | To phase | Artefact path | Type | Producing skill | Consuming skill(s) | Stakes | Schema |
 |---|------------|----------|---------------|------|-----------------|--------------------|--------|--------|
 | 1 | Phase 1 (Bootstrap) | Phase 2 (Discovery) | `_context/sacred/context.md` (seed) | prose | `project-init` | `pre-project-interview` | low | — |
-| 2 | Phase 2 (Discovery) | Phase 3 (Tech Stack) | `_context/sacred/context.md` + discovery outputs | prose | `pre-project-interview`, `domain-research`, `market-research`, `technical-research` | `stack-evaluation` | med | — |
+| 2 | Phase 2 (Discovery) | Phase 3 (Tech Stack) | `_context/sacred/context.md` + discovery outputs | prose | `pre-project-interview`, `domain-research`, `market-research`, `constraint-research` | `stack-evaluation` | med | — |
 | 3 | Phase 3 (Tech Stack) | Phase 4 (Planning) | `_context/sacred/tech-stack.md` | prose + structured | `stack-locking` | `create-prd`, `create-architecture` | med | — |
 | 4 | Phase 4 (Planning) — intra | Phase 4 (Planning) — intra | `_context/sacred/prd.md` → `_context/sacred/architecture.md` | structured | `create-prd` | `create-architecture` | **high** | `prd-to-architecture.schema.ts` |
 | 5 | Phase 4 (Planning) | Phase 5 (Breakdown) | `_context/sacred/architecture.md` → `_context/sacred/pert-chart.md` | structured | `create-architecture` | `parallelization-strategy` | **high** | `architecture-to-pert.schema.ts` |

@@ -31,7 +31,7 @@ next_phase: "3-tech-stack"
 | [pre-project-interview](pre-project-interview/) | workflow | analyst | 10-phase structured interview → context.md |
 | [domain-research](domain-research/) | workflow | analyst | Domain/industry deep-dive with web research |
 | [market-research](market-research/) | workflow | analyst | Market analysis and competitive landscape |
-| [technical-research](technical-research/) | workflow | analyst | Technology feasibility and evaluation |
+| [constraint-research](constraint-research/) | workflow | analyst | Technology feasibility and evaluation |
 | [brainstorming](brainstorming/) | router | analyst | → `skills/creative/brainstorming/` |
 | [design-thinking](design-thinking/) | router | analyst | → `skills/creative/design-thinking/` |
 
@@ -51,7 +51,7 @@ next_phase: "3-tech-stack"
 ```
 pre-project-interview (ALWAYS first — produces context.md)
   ↓
-domain-research + market-research + technical-research (parallel, as needed)
+domain-research + market-research +  constraint-research (parallel, as needed)
   ↓
 brainstorming / design-thinking (optional, on demand)
   ↓

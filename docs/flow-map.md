@@ -31,7 +31,7 @@ domain-research ────────► domain-research.md
 market-research ────────► market-research.md
   Subagent: @analyst (discovery mode)
 
-technical-research ─────► technical-research.md
+constraint-research ────► constraint-research.md
   Subagent: @analyst (discovery mode)
   Support: @architect (technical feasibility questions)
 
@@ -57,7 +57,7 @@ stack-evaluation ───────► evaluation-report.md + ADRs
 stack-locking ──────────► tech-stack.md [SACRED]
   Subagent: @architect
 
-vibe-coder-setup ───────► Dev environment configured
+env-provision ───────► Dev environment configured
   Subagent: @developer
 ```
 
