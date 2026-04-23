@@ -3,7 +3,12 @@ import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
 import { runFeedback } from "./commands/feedback.js";
-import { runGraphQuery, runGraphRebuild, runGraphStats } from "./commands/graph.js";
+import {
+  runGraphQuery,
+  runGraphRebuild,
+  runGraphStats,
+  runGraphView,
+} from "./commands/graph.js";
 import { runImportBmad } from "./commands/import.js";
 import { runInit } from "./commands/init.js";
 import { runSecurityAggregate } from "./commands/security.js";
@@ -87,6 +92,30 @@ graphCmd
       });
     } catch (err) {
       console.error(pc.red(`graph query failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+graphCmd
+  .command("view")
+  .description("Render a canonical subgraph as Mermaid, DOT, or standalone interactive HTML")
+  .argument("<subgraph>", "subgraph id: sacred-doc-lineage | prd-to-impl | promotion-status | deps")
+  .option("--format <format>", "output format: mermaid | dot | html (default: mermaid)")
+  .option("--output <path>", "write output to file instead of stdout")
+  .option("--max-nodes <n>", "cap node count (0 disables)", (v) => parseInt(v, 10))
+  .option("--cytoscape-src <src>", "HTML-only: override Cytoscape.js script URL")
+  .action(async (subgraph: string, opts) => {
+    try {
+      const code = await runGraphView({
+        subgraph,
+        format: opts.format,
+        output: opts.output,
+        maxNodes: opts.maxNodes,
+        cytoscapeSrc: opts.cytoscapeSrc,
+      });
+      process.exit(code);
+    } catch (err) {
+      console.error(pc.red(`graph view failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
   });

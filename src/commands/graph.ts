@@ -488,3 +488,106 @@ function renderPretty(result: GraphQueryResult): void {
 
 // Barrel passthroughs used by cli.ts.
 export { loadGraph } from "../graph/index.js";
+
+// ─── `coldpress graph view` — visualizer CLI (§6.1) ───────────────────
+
+import { renderDot } from "../graph/render/dot.js";
+import { renderHtml } from "../graph/render/html.js";
+import { renderMermaid } from "../graph/render/mermaid.js";
+import {
+  getSubgraphBuilder,
+  listSubgraphNames,
+  type Subgraph,
+} from "../graph/subgraphs/index.js";
+
+export const GRAPH_VIEW_EXIT_OK = 0;
+export const GRAPH_VIEW_EXIT_ERROR = 1;
+export const GRAPH_VIEW_EXIT_NO_GRAPH = 2;
+
+export type GraphViewFormat = "mermaid" | "dot" | "html";
+
+export interface GraphViewOptions {
+  /** Kebab-case subgraph id — one of the registered canonical views. */
+  subgraph: string;
+  projectDir?: string;
+  /** Output format. Defaults to `mermaid`. */
+  format?: GraphViewFormat;
+  /** Optional file path; defaults to stdout. */
+  output?: string;
+  /** Node cap passed to the renderer. */
+  maxNodes?: number;
+  /** HTML-only: override Cytoscape CDN URL. */
+  cytoscapeSrc?: string;
+}
+
+export async function runGraphView(options: GraphViewOptions): Promise<number> {
+  const name = options.subgraph;
+  const builder = getSubgraphBuilder(name);
+  if (!builder) {
+    console.error(pc.red(`unknown subgraph: "${name}"`));
+    console.error(pc.dim(`  available: ${listSubgraphNames().join(", ")}`));
+    return GRAPH_VIEW_EXIT_ERROR;
+  }
+
+  const projectDir = resolve(options.projectDir ?? process.cwd());
+  let graph: Graph;
+  try {
+    graph = await loadGraph({ projectDir });
+  } catch (err) {
+    if (err instanceof GraphNotFoundError) {
+      console.error(pc.red("✗ No graph found."));
+      console.error(pc.dim(`  ${err.message}`));
+      return GRAPH_VIEW_EXIT_NO_GRAPH;
+    }
+    if (err instanceof GraphSchemaError) {
+      console.error(pc.red(`✗ ${err.message}`));
+      for (const issue of err.issues.slice(0, 10)) {
+        console.error(pc.dim(`    [${issue.path}] ${issue.message}`));
+      }
+      return GRAPH_VIEW_EXIT_ERROR;
+    }
+    throw err;
+  }
+
+  const subgraph = builder(graph);
+  const format = options.format ?? "mermaid";
+  const output = renderSubgraph(subgraph, format, {
+    maxNodes: options.maxNodes,
+    cytoscapeSrc: options.cytoscapeSrc,
+  });
+
+  if (options.output) {
+    const target = resolve(projectDir, options.output);
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, output, "utf8");
+    console.error(
+      pc.dim(
+        `wrote ${target} — ${subgraph.nodes.length} nodes, ${subgraph.edges.length} edges`,
+      ),
+    );
+  } else {
+    process.stdout.write(output);
+  }
+
+  return GRAPH_VIEW_EXIT_OK;
+}
+
+interface RenderPassOptions {
+  maxNodes?: number;
+  cytoscapeSrc?: string;
+}
+
+function renderSubgraph(
+  subgraph: Subgraph,
+  format: GraphViewFormat,
+  options: RenderPassOptions,
+): string {
+  if (format === "mermaid") return renderMermaid(subgraph, { maxNodes: options.maxNodes });
+  if (format === "dot") return renderDot(subgraph, { maxNodes: options.maxNodes });
+  if (format === "html")
+    return renderHtml(subgraph, {
+      maxNodes: options.maxNodes,
+      cytoscapeSrc: options.cytoscapeSrc,
+    });
+  throw new Error(`unknown format: ${format}`);
+}

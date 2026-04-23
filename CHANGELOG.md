@@ -202,6 +202,39 @@ Three non-overlapping LLM gates wrap cleanly into the §5.1 `ScanResult` schema.
 
 **Deferred — `eval:` section row in `docs/coldpress-yaml-schema.md`** — avoided commingling with pre-existing un-staged `butler:` WIP in that file. Follow-up refresh to add the row when the butler section lands. Canonical schema in `schemas/eval-config.schema.ts` + docs in `docs/llm-gates.md` cover the shape in the meantime.
 
+### Added — Wave 6 Block CC (§6.1 Graphify visualizer)
+
+First Wave 6 block. Turns `.coldpress/graph/graph.json` into reviewable diagrams via four canonical subgraph builders and three output formats.
+
+- **`src/graph/subgraphs/index.ts`** — four pure-function subgraph builders, each taking a `Graph` and returning `{ name, title, description, nodes, edges, layout }`:
+  - `sacred-doc-lineage` — SacredDoc nodes + `descends_from` / `references` edges between them (tree layout).
+  - `prd-to-impl` — forward traversal from PRD through `references` / `implements` / `descends_from` to epics → stories → CodeModules (tree layout).
+  - `promotion-status` — all nodes tagged `env_tag ∈ {sandbox, live, both}` + any edges between them, including `promoted_from_sandbox` (cluster layout — groups by env_tag).
+  - `deps` — CodeModule nodes + `imports_from` edges only (DAG layout).
+  - `SUBGRAPH_REGISTRY` exposes builders by kebab-case slug; `listSubgraphNames()` + `getSubgraphBuilder()` for lookup.
+- **`src/graph/render/mermaid.ts`** — Mermaid renderer. Shapes per `node_type` (SacredDoc `[[...]]`, CodeModule `(...)`, CredentialName `{{...}}`, CodeSymbol `((...))`, Input `[/.../]`). `classDef` colouring for sacred / sandbox / live / promoted / credential. Deterministic (input order preserved). Node cap default 150 (Mermaid chokes above ~200 in most viewers). `sanitise()` maps graph ids to Mermaid-safe `[A-Za-z0-9_]+` identifiers.
+- **`src/graph/render/dot.ts`** — Graphviz DOT renderer. `rankdir` per layout (tree TB, dag LR); `cluster_N` subgraph blocks for cluster layout. Edge styles per relation (`promoted_from_sandbox` → bold, `superseded_by` → dashed). Node cap default 500. Coldpress-os emits DOT text; users pipe through `dot -Tsvg` / `-Tpng` / `neato` / `fdp` themselves.
+- **`src/graph/render/html.ts`** — standalone interactive HTML renderer. Inlines graph-elements JSON + CDN `<script>` tag pulling Cytoscape.js (`unpkg.com/cytoscape`). Layout hint maps to Cytoscape (`breadthfirst` / `dagre` / `cose`). Legend + click-to-inspect UX built-in. `cytoscapeSrc` option overrides the CDN URL for offline rendering (Project Dashboard §6.10 will use this to serve Cytoscape from its own vendor dir). Node cap default 1000. HTML special chars in titles properly escaped.
+- **`coldpress graph view <subgraph-name>`** CLI subcommand. Options: `--format mermaid|dot|html` (default `mermaid`), `--output <path>` (default stdout), `--max-nodes <n>` (renderer-specific defaults; `0` disables), `--cytoscape-src <url>` (HTML only). Exit codes: `0` rendered, `1` unknown subgraph / schema error, `2` no graph found.
+- **`docs/graph-visualizer.md`** — visualizer protocol doc: CLI surface, the four canonical subgraphs, the three renderers, output determinism contract, extension recipe for adding a fifth subgraph, integration notes with the Project Dashboard (§6.10).
+
+**Tests:** 31 new in `test/graph-visualizer.test.ts` — registry coverage, each subgraph builder against a hand-authored synthetic fixture carrying every `node_type` + `env_tag` + relation, Mermaid / DOT / HTML renderer invariants (shapes, cluster blocks, class definitions, sanitise, truncation, HTML escaping, Cytoscape layout mapping), real-httpx-fixture smoke. Total: **345 tests across 20 suites.**
+
+**Bundle:** 85.77 KB → 105.35 KB (+20 KB for subgraph builders + 3 renderers + CLI wiring).
+
+**Plugin:** unchanged — visualizer is core runtime, not a skill.
+
+**Not in this block:**
+- **SVG emission from coldpress-os itself.** Users pipe DOT through `dot -Tsvg`. Keeps package pure-JS; no Graphviz runtime prereq.
+- **Graph query language** (plan §6.1 mentioned "documentation of graph query language"). `coldpress graph query` (Wave 3 Block N) already IS the query surface; re-documenting would duplicate `docs/graph-query.md`.
+- **Graph diffing between commits.** Deferred to a Phase-7-gate integration if demand surfaces.
+
+### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
+
+Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.
+
+**Additional ship-gate directive (2026-04-24):** nothing ships until BOTH phase-i AND phase-ii implementation plans are complete. v0.3+ tags and publishes stay deferred until both plans are done.
+
 ### Deferred (tracked for Wave 3 Block O2 / future waves)
 
 - **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.
