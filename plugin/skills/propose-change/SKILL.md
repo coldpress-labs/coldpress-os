@@ -52,7 +52,7 @@ Formalizes feedback, bug reports, or improvement suggestions as structured chang
    - Suggested implementation
    - Impact assessment
 
-5. **Write proposal** to `_context/meta/` and present to user.
+5. **Write proposal** to `_context/audit/meta/` and present to user.
 
 6. **Offer to create GitHub Issue** if the user wants to formalize it immediately.
 

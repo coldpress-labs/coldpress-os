@@ -8,7 +8,7 @@ inputs:
   - "source document(s) to compress"
 outputs:
   - artifact: "Distillate"
-    location: "_context/distillates/{source-name}-distillate.md"
+    location: "_context/planning/distillates/{source-name}-distillate.md"
     format: "markdown"
 version: "1.0"
 ---

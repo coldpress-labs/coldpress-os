@@ -31,7 +31,7 @@ Gracefully close the discussion with agent farewells, session highlights, and ke
 
 ## Output
 
-Finalized discussion transcript at `_context/discussions/party-{date}.md`
+Finalized discussion transcript at `_context/planning/discussions/party-{date}.md`
 
 ## Navigation
 

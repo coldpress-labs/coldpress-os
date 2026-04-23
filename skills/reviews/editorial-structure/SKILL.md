@@ -8,7 +8,7 @@ inputs:
   - "document content to review"
 outputs:
   - artifact: "Structural Review"
-    location: "_context/reviews/editorial-structure-{date}.md"
+    location: "_context/audit/reviews/editorial-structure-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

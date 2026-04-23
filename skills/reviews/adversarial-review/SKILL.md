@@ -8,7 +8,7 @@ inputs:
   - "content to review (document, code, design, or any artifact)"
 outputs:
   - artifact: "Adversarial Review Findings"
-    location: "_context/reviews/adversarial-review-{date}.md"
+    location: "_context/audit/reviews/adversarial-review-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

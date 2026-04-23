@@ -12,9 +12,9 @@ Generate a master index that ties all documentation together and provides easy n
 
 ## Instructions
 
-1. **Inventory all generated documents** in `_context/docs/`.
+1. **Inventory all generated documents** in `_context/audit/docs/`.
 
-2. **Generate `_context/docs/index.md`** with:
+2. **Generate `_context/audit/docs/index.md`** with:
    - Project overview (name, type, tech stack summary)
    - Quick reference section
    - Links to all generated documentation with one-line descriptions
@@ -37,7 +37,7 @@ Present the completion summary and ask if any areas need deeper documentation.
 
 ## Output
 
-Master index at `_context/docs/index.md`. Workflow complete.
+Master index at `_context/audit/docs/index.md`. Workflow complete.
 
 ## Navigation
 

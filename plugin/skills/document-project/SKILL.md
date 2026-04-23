@@ -33,7 +33,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-A comprehensive documentation suite including: project overview, source tree, architecture documentation, component documentation, development guide, and a master index. All written to `_context/docs/`.
+A comprehensive documentation suite including: project overview, source tree, architecture documentation, component documentation, development guide, and a master index. All written to `_context/audit/docs/`.
 
 ---
 

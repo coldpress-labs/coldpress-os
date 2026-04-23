@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/creative/design-thinking-{date}.md"
+output_file: "_context/planning/creative/design-thinking-{date}.md"
 total_steps: 5
 resume_from: "frontmatter"
 ---

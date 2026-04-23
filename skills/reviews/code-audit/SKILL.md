@@ -10,7 +10,7 @@ inputs:
   - "_context/sacred/architecture.md"
 outputs:
   - artifact: "Code Audit Report"
-    location: "_context/reviews/audit-{scope}-{date}.md"
+    location: "_context/audit/reviews/audit-{scope}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

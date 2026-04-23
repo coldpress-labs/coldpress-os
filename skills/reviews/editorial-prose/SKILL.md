@@ -8,7 +8,7 @@ inputs:
   - "text content to review"
 outputs:
   - artifact: "Editorial Prose Review"
-    location: "_context/reviews/editorial-prose-{date}.md"
+    location: "_context/audit/reviews/editorial-prose-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

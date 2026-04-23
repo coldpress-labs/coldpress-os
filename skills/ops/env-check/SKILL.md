@@ -9,7 +9,7 @@ inputs:
   - "source code files referencing env vars"
 outputs:
   - artifact: "Environment Check Report"
-    location: "_context/ops/env-check-{date}.md"
+    location: "_context/audit/ops/env-check-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

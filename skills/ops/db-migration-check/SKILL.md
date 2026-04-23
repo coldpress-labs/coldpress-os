@@ -9,7 +9,7 @@ inputs:
   - "_context/sacred/architecture.md"
 outputs:
   - artifact: "Migration Check Report"
-    location: "_context/ops/db-migration-{date}.md"
+    location: "_context/audit/ops/db-migration-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

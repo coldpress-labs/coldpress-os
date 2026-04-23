@@ -9,7 +9,7 @@ inputs:
   - "migration requirements"
 outputs:
   - artifact: "Migration Plan"
-    location: "_context/ops/convex-migration-{date}.md"
+    location: "_context/audit/ops/convex-migration-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

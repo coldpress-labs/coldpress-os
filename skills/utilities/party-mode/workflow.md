@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/discussions/party-{date}.md"
+output_file: "_context/planning/discussions/party-{date}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

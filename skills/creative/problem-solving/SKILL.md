@@ -10,7 +10,7 @@ inputs:
   - "../../data/methods/problem-solving-methods.csv"
 outputs:
   - artifact: "Problem-Solving Session"
-    location: "_context/creative/problem-solving-{date}.md"
+    location: "_context/planning/creative/problem-solving-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/creative/brainstorm-{topic}-{date}.md"
+output_file: "_context/planning/creative/brainstorm-{topic}-{date}.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

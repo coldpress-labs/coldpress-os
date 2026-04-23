@@ -10,7 +10,7 @@ inputs:
   - "../../data/methods/brainstorming-techniques.csv"
 outputs:
   - artifact: "Brainstorming Session"
-    location: "_context/creative/brainstorm-{topic}-{date}.md"
+    location: "_context/planning/creative/brainstorm-{topic}-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

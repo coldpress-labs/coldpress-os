@@ -8,7 +8,7 @@ inputs:
   - "PDF file to analyze"
 outputs:
   - artifact: "Extracted Content"
-    location: "_context/extractions/{pdf-name}-extracted.md"
+    location: "_input/.parsed/{pdf-name}-extracted.md"
     format: "markdown"
 version: "1.0"
 ---

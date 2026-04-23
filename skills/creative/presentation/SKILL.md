@@ -9,7 +9,7 @@ inputs:
   - "content, data, or message to present"
 outputs:
   - artifact: "Presentation Plan"
-    location: "_context/creative/presentation-{date}.md"
+    location: "_context/planning/creative/presentation-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

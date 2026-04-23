@@ -61,6 +61,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - **Python 3.10+ added as an optional prereq** in `README.md` Install section and `docs/quick-start.md` Prerequisites table. Install command: `pip install graphifyy markitdown docling` (on demand at Phase 2).
 - **Plugin tree regenerated** — parse-document joined the corpus: 75 SKILL.md files emitted (was 74). `skills_count` in `plugin/plugin.json` bumped.
 
+### Changed — Wave 4 Block R
+
+- **Phase → canonical subfolder mapping codified.** Every skill writes to one of **8 canonical `_context/*` subfolders** (sacred, planning, design, implementation, testing, tracking, handoffs, audit) or `_input/.parsed/` for ingest-shaped skills. Specialised categories nest under the most semantically appropriate canonical dir — no more top-level `_context/ops/`, `_context/reviews/`, `_context/creative/`, etc.
+- **~16 skills renormalised to canonical roots:**
+  - `_context/ops/` → `_context/audit/ops/` (7 ops health-check skills)
+  - `_context/reviews/` → `_context/audit/reviews/` (5 review skills)
+  - `_context/creative/` → `_context/planning/creative/` (6 creative skills)
+  - `_context/meta/` → `_context/audit/meta/` (propose-change)
+  - `_context/discussions/` → `_context/planning/discussions/` (party-mode)
+  - `_context/extractions/` → `_input/.parsed/` (pdf-deep-parser — ingest-shaped)
+  - `_context/distillates/` → `_context/planning/distillates/` (distillator)
+  - `_context/docs/` → `_context/audit/docs/` (document-project — reverse-engineering)
+- **`docs/phase-subfolder-mapping.md`** — authoritative mapping: the 8 canonical subfolders, what lives in each, phase → primary subfolder table, nesting conventions inside canonical dirs, migration table for pre-v0.3 paths, extension protocol.
+- **`test/skill-output-paths.test.ts`** — regression test: scans every `SKILL.md` under `skills/` and `lifecycle/`, extracts `location:` values, asserts each roots under one of the 8 canonical `_context/*` dirs or a permitted non-context destination. Future skills that drift get caught at test time. 7 tests.
+- Total: **179 tests across 12 suites.**
+
 ### Deferred (tracked for Wave 3 Block O2 / future waves)
 
 - **Source-scan edges** from `CodeModule` → `CredentialName` nodes — requires reading source-code content beyond what Graphify emits. Block O2.

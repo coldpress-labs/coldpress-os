@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/ops/ci-cd-setup-{date}.md"
+output_file: "_context/audit/ops/ci-cd-setup-{date}.md"
 total_steps: 6
 resume_from: "frontmatter"
 ---

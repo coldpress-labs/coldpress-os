@@ -10,7 +10,7 @@ inputs:
   - "../../data/methods/design-thinking-methods.csv"
 outputs:
   - artifact: "Design Thinking Session"
-    location: "_context/creative/design-thinking-{date}.md"
+    location: "_context/planning/creative/design-thinking-{date}.md"
     format: "markdown"
 version: "1.0"
 ---

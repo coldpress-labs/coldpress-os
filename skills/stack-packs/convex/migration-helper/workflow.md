@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/ops/convex-migration-{date}.md"
+output_file: "_context/audit/ops/convex-migration-{date}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---
