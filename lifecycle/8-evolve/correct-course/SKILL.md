@@ -7,9 +7,9 @@ phase: 8
 agent: "scrum-master"
 inputs:
   - "change trigger description"
-  - "_context/planning/prd.md"
+  - "_context/sacred/prd.md"
   - "_context/planning/epics.md"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/architecture.md"
 outputs:
   - artifact: "Sprint Change Proposal"
     location: "_context/planning/sprint-change-proposal-{date}.md"

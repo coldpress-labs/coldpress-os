@@ -6,7 +6,7 @@
 
 ## Trigger
 
-User requests a change to `docs/tech-stack.md` after it has been locked in Phase 3.
+User requests a change to `_context/sacred/tech-stack.md` after it has been locked in Phase 3.
 
 ## Severity Levels
 
@@ -29,7 +29,7 @@ tech-stack.md changes can affect:
 
 | Downstream Artifact | Check For |
 |--------------------|-----------| 
-| Architecture (`_context/planning/architecture.md`) | System design, integration patterns, infrastructure |
+| Architecture (`_context/sacred/architecture.md`) | System design, integration patterns, infrastructure |
 | Implementation code | Import paths, API usage, patterns |
 | CI/CD config | Build steps, test runners, deploy targets |
 | Deployment config | Hosting, environment variables, runtime |

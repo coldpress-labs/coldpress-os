@@ -17,11 +17,11 @@ A document is sacred when:
 
 | # | Document | Produced In | Location | Depends On | Depended On By |
 |---|----------|-------------|----------|------------|----------------|
-| 1 | **context.md** | Phase 2 (Discovery) | `docs/context.md` | User input, research | PRD, architecture, UX, stories |
-| 2 | **tech-stack.md** | Phase 3 (Tech Stack) | `docs/tech-stack.md` | context.md, evaluation | Architecture, implementation, deployment, CI/CD |
-| 3 | **PRD** | Phase 4 (Planning) | `_context/planning/prd.md` | context.md, product brief | Architecture, UX, epics, stories |
-| 4 | **architecture.md** | Phase 4 (Planning) | `_context/planning/architecture.md` | PRD, tech-stack.md | Epics, stories, implementation |
-| 5 | **PERT chart** | Phase 5 (Breakdown) | `_context/tracking/pert-chart.md` | Epics, dependencies | Sprint planning, wave execution, timelines |
+| 1 | **context.md** | Phase 2 (Discovery) | `_context/sacred/context.md` | User input, research | PRD, architecture, UX, stories |
+| 2 | **tech-stack.md** | Phase 3 (Tech Stack) | `_context/sacred/tech-stack.md` | context.md, evaluation | Architecture, implementation, deployment, CI/CD |
+| 3 | **PRD** | Phase 4 (Planning) | `_context/sacred/prd.md` | context.md, product brief | Architecture, UX, epics, stories |
+| 4 | **architecture.md** | Phase 4 (Planning) | `_context/sacred/architecture.md` | PRD, tech-stack.md | Epics, stories, implementation |
+| 5 | **PERT chart** | Phase 5 (Breakdown) | `_context/sacred/pert-chart.md` | Epics, dependencies | Sprint planning, wave execution, timelines |
 
 ---
 
@@ -107,9 +107,41 @@ Documents become sacred at the moment they are **completed through their produci
 
 ## 6. Promotion Flow
 
-For projects using the three-tier pattern (devSandbox → app), sacred documents live in the devSandbox and **never promote** to the app repo. They are planning artifacts, not production code.
+For projects using the three-tier pattern (`sandbox/` → `live/`), sacred documents live under the project root (in `_context/sacred/`) and **never promote** into the `live/` tree. They are planning artifacts, not production code.
 
 The promotion rules are documented in `governance/promotion-flow.md`.
+
+---
+
+## 7. Structural Migrations
+
+A **structural migration** is a one-time change to *where* a sacred document lives on disk — its path, not its content. Section 3 ("Protection Rules") governs changes to content; this section governs changes to location.
+
+Structural migrations are deliberately rare and deliberately governed, because every skill, template, and doc that references a sacred path has to move in the same wave or the project breaks for every consumer at once. This is not a workflow to reuse casually.
+
+### 7.1 When §7 applies
+
+§7 applies when *all five* sacred documents are being relocated as part of a coordinated framework refactor — for example, introducing a new canonical subfolder like `_context/sacred/`. It does not apply to content changes, addition of a sixth sacred document, or any ordinary day-to-day work. Those flow through §3.
+
+### 7.2 The migration pattern
+
+A §7 migration is executed as **one atomic wave** with the following shape:
+
+1. **Single governance entry.** One entry in the estate-level `docs/docs/DECISIONS-LOG.md` covers the migration for all five documents. Enumerate every path consumer (skills, templates, `coldpress.yaml` keys, docs, governance workflows) in that entry — if a consumer is not listed, its references will drift.
+2. **Atomic update.** All references to the old paths are replaced with the new paths in the same commit (or same PR). No grace period, no dual-support window; partial migrations are worse than no migration because they make "which path is canonical" ambiguous.
+3. **Sacred status preserved.** The migration changes *where* the document lives, not whether it is sacred. Each document remains sacred; its producing workflow and change workflow are unaffected.
+4. **Per-doc version-control line.** Each sacred document's own version control panel gains a "path changed, content unchanged" entry the next time it is edited in a consuming project. This is retroactive — §7 cannot force an update on documents sitting in already-deployed consumer projects.
+5. **No Section 3.4 emergency override.** §7 is itself the carve-out; there is no faster path below §7.
+
+### 7.3 What §7 does *not* do
+
+- It does not permit content changes disguised as migrations. If the migration touches prose, that's a §3 change and follows §3's rules in addition to §7's.
+- It does not permit adding or removing sacred documents. That is a framework-level architectural change requiring its own governance decision.
+- It does not apply retroactively — past path changes before this section existed are grandfathered; future changes follow this protocol.
+
+### 7.4 Applying §7 is itself a governance act
+
+Using §7 requires a DECISIONS-LOG entry *before* the migration commits, not after. The log entry is the sign-off record — without it, the migration is not authorised.
 
 ---
 
@@ -117,4 +149,5 @@ The promotion rules are documented in `governance/promotion-flow.md`.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 2.0 | 2026-04-23 | Cadbury-hq | Sacred-doc paths relocated to `_context/sacred/*` via §7 structural migration (single atomic update, DECISIONS-LOG entry filed at estate level). §2 table, §3 workflow references, `coldpress.yaml` sacred_docs block, all skill/template/doc references swept in the same wave. §6 refreshed: devSandbox→app terminology replaced with sandbox→live to match the current three-tier pattern. New §7 Structural Migrations added as the one-time carve-out for path-only sacred-doc changes (no content touched). Paths before: `docs/context.md`, `docs/tech-stack.md`, `_context/planning/prd.md`, `_context/planning/architecture.md`, `_context/tracking/pert-chart.md`. Paths after: `_context/sacred/{context,tech-stack,prd,architecture,pert-chart}.md`. |
 | 1.0 | 2026-04-07 | Alfred | Initial sacred documents governance — 5 sacred docs, change workflow structure, dependency graph |

@@ -6,7 +6,7 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
   - "existing test configuration"
   - "../../data/ci-cd/"
 outputs:
@@ -31,7 +31,7 @@ Creates a CI/CD quality pipeline focused on test execution — running unit test
 ## Prerequisites
 
 - Test framework already configured (see `test-framework` skill)
-- `docs/tech-stack.md` for platform detection
+- `_context/sacred/tech-stack.md` for platform detection
 - CI/CD templates from `../../data/ci-cd/`
 
 ## Process

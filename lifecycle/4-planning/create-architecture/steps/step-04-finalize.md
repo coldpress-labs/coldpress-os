@@ -58,7 +58,7 @@ Assemble all sections into the final architecture document, verify internal cons
    - "Is there anything you want to change before we finalize?"
 
 7. **Write to disk:**
-   - Save as `_context/planning/architecture.md`
+   - Save as `_context/sacred/architecture.md`
    - Mark as sacred in frontmatter
    - Add version control panel
 
@@ -71,7 +71,7 @@ Assemble all sections into the final architecture document, verify internal cons
 
 ## Output
 
-Sacred architecture document written to `_context/planning/architecture.md`. `step_4_complete: true`
+Sacred architecture document written to `_context/sacred/architecture.md`. `step_4_complete: true`
 
 ## Navigation
 

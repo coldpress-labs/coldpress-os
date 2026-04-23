@@ -7,7 +7,7 @@ agent: "qa"
 phases: [6]
 inputs:
   - "story file with acceptance criteria"
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
 outputs:
   - artifact: "Acceptance Tests"
     location: "tests/acceptance/ or co-located with feature"
@@ -31,7 +31,7 @@ Implements the ATDD cycle: translates story acceptance criteria into executable,
 
 - Story with clear acceptance criteria in Given/When/Then format
 - Test framework already set up (see `test-framework` skill)
-- `docs/tech-stack.md` for test tool selection
+- `_context/sacred/tech-stack.md` for test tool selection
 
 ## Process
 

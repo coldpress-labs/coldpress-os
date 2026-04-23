@@ -6,8 +6,8 @@ category: "lifecycle"
 phase: 4
 agent: "analyst"
 inputs:
-  - "docs/context.md"
-  - "docs/tech-stack.md"
+  - "_context/sacred/context.md"
+  - "_context/sacred/tech-stack.md"
   - "Discovery outputs (_context/planning/research/)"
   - "User knowledge about the product"
 outputs:
@@ -45,7 +45,7 @@ Creates a concise 1-2 page executive product brief through collaborative discove
 ## Prerequisites
 
 - Phase 3 complete (tech stack selected)
-- `docs/context.md` available (from discovery)
+- `_context/sacred/context.md` available (from discovery)
 - User has clarity on what the product should be
 
 ## Process

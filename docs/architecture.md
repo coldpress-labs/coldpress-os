@@ -150,7 +150,7 @@ Data assets             ← "Load elicitation methods CSV"
 Templates               ← "Use PRD template"
     │
     ▼
-Output artifact         ← "_context/planning/prd.md"
+Output artifact         ← "_context/sacred/prd.md"
     │
     ▼
 Butler receives result  ← Presents to user, routes handoff
@@ -194,7 +194,7 @@ coldpress-os is **stateless**. All state lives in the consuming project:
 
 `_context/audit/` is the backward-looking filing cabinet: retrospectives, code reviews, security scans, deployment-readiness reports. Content here reflects on work already done, distinct from `_context/planning/` (forward-looking specs) and `_context/tracking/` (in-flight state).
 
-`_input/` holds material fed *into* the project — raw source docs (`raw/`), archived prior versions (`legacy/`), cross-project references (`reference/`), and vendored third-party assets (`vendor/`). Distinct from `_context/`, which holds material produced *by* the project.
+`_input/` holds material fed *into* the project — raw source docs (`raw/`), archived prior versions (`legacy/`), cross-project references (`reference/`), vendored third-party assets (`vendor/`), and binary assets like brand imagery, screenshots, or design exports (`assets/`). Distinct from `_context/`, which holds material produced *by* the project.
 
 `.coldpress/` is machine-local runtime state — the Graphify index (Wave 3), tool caches, and any scratch files Butler materialises during a session. Git-ignored wholesale; lifetime = the working copy. Subfolders (`graph/`, `cache/`) are created lazily on first use, not pre-stubbed in the template.
 

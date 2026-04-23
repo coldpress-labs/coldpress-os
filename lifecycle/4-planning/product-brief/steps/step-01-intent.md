@@ -22,9 +22,9 @@ Determine the user's intent and the type of product brief to create. Detect acti
    - "What decisions should this brief enable?"
 
 3. **Load existing context:**
-   - Check for `docs/context.md` — load if available
+   - Check for `_context/sacred/context.md` — load if available
    - Check for discovery outputs in `_context/planning/research/`
-   - Check for `docs/tech-stack.md`
+   - Check for `_context/sacred/tech-stack.md`
    - Summarize what's already known
 
 4. **Confirm scope:**

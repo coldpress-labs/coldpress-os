@@ -6,8 +6,8 @@ category: "lifecycle"
 phase: 5
 agent: "qa"
 inputs:
-  - "_context/planning/prd.md"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/architecture.md"
   - "_context/design/ux-design-spec.md"
   - "_context/planning/epics.md"
 outputs:

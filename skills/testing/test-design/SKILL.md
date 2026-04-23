@@ -6,8 +6,8 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "_context/planning/prd.md"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/architecture.md"
   - "_context/planning/epics-and-stories.md"
 outputs:
   - artifact: "Test Plan"

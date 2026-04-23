@@ -35,12 +35,12 @@ Uses haiku model because the work is organizational (tracking, formatting, summa
 ## Context You Need
 
 **Always read:**
-- `_context/planning/prd.md` — product requirements
-- `_context/planning/architecture.md` — architecture decisions
+- `_context/sacred/prd.md` — product requirements
+- `_context/sacred/architecture.md` — architecture decisions
 - `_context/design/ux-design-spec.md` — UX specifications
 
 **Read when available:**
-- `_context/tracking/pert-chart.md` — parallelization strategy
+- `_context/sacred/pert-chart.md` — parallelization strategy
 - `_context/tracking/sprint-plan.yaml` — current sprint
 - Epic and story files in `_context/planning/epics/`
 
@@ -50,7 +50,7 @@ Uses haiku model because the work is organizational (tracking, formatting, summa
 |----------|----------|
 | Epic definitions | `_context/planning/epics/` |
 | Story definitions | `_context/planning/epics/{epic}/stories/` |
-| PERT chart | `_context/tracking/pert-chart.md` (SACRED) |
+| PERT chart | `_context/sacred/pert-chart.md` (SACRED) |
 | Sprint plan | `_context/tracking/sprint-plan.yaml` |
 | Sprint status | `_context/tracking/sprint-status.yaml` |
 | Retrospective report | `_context/tracking/retrospective.md` |

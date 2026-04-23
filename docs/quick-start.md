@@ -140,7 +140,7 @@ Butler dispatches the **@analyst** subagent, who will:
 
 1. Ask you structured questions about your project (vision, users, constraints, domain)
 2. Use elicitation techniques from `data/methods/elicitation-methods.csv`
-3. Produce `docs/context.md` — your first sacred document
+3. Produce `_context/sacred/context.md` — your first sacred document
 
 This takes 5-15 minutes depending on how detailed your answers are. Take your time — everything downstream depends on this.
 

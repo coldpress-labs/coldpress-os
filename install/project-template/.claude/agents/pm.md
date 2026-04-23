@@ -39,12 +39,12 @@ You are the PM — the project's product management authority. You own the PRD l
 
 **Always read:**
 - `coldpress.yaml` — project config
-- `docs/context.md` — project context
+- `_context/sacred/context.md` — project context
 - `_context/planning/product-brief.md` — product brief (if exists)
 
 **Read when available:**
-- `_context/planning/prd.md` — existing PRD (when editing/validating)
-- `_context/planning/architecture.md` — architecture constraints
+- `_context/sacred/prd.md` — existing PRD (when editing/validating)
+- `_context/sacred/architecture.md` — architecture constraints
 - `_context/design/ux-design-spec.md` — UX specifications
 - `_context/planning/trigger-map.md` — trigger map (if WDS flow was used)
 
@@ -52,7 +52,7 @@ You are the PM — the project's product management authority. You own the PRD l
 
 | Artifact | Location |
 |----------|----------|
-| Product Requirements Document | `_context/planning/prd.md` (SACRED) |
+| Product Requirements Document | `_context/sacred/prd.md` (SACRED) |
 | PRD validation report | `_context/planning/prd-validation.md` |
 | Course correction guidance | `_context/tracking/course-correction.md` |
 

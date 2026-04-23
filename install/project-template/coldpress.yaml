@@ -47,11 +47,11 @@ agents:
 # ─── Sacred Documents ──────────────────────────────────────────────
 # Paths relative to project root. These get governance protection.
 sacred_docs:
-  context: "docs/context.md"
-  tech_stack: "docs/tech-stack.md"
-  prd: "_context/planning/prd.md"
-  architecture: "_context/planning/architecture.md"
-  pert: "_context/tracking/pert-chart.md"
+  context: "_context/sacred/context.md"
+  tech_stack: "_context/sacred/tech-stack.md"
+  prd: "_context/sacred/prd.md"
+  architecture: "_context/sacred/architecture.md"
+  pert: "_context/sacred/pert-chart.md"
 
 # ─── Output Directories ────────────────────────────────────────────
 # Where skills write their artifacts. Relative to project root.

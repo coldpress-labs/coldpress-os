@@ -7,7 +7,7 @@ agent: "qa"
 phases: [6]
 inputs:
   - "story number or file list defining audit scope"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/architecture.md"
 outputs:
   - artifact: "Code Audit Report"
     location: "_context/reviews/audit-{scope}-{date}.md"
@@ -31,7 +31,7 @@ Performs a comprehensive code audit on a completed story or defined scope. Runs 
 
 - Scope must be identifiable: story number (e.g., "1.3"), file list, or directory
 - Project must have a buildable codebase (TypeScript/JavaScript preferred)
-- `docs/architecture.md` recommended for context
+- `_context/sacred/architecture.md` recommended for context
 
 ## Process
 

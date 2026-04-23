@@ -93,7 +93,7 @@ agent: "architect"
 phases: [1]
 inputs:
   - "coldpress.yaml"
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
 outputs:
   - artifact: "Supabase project configuration"
     location: "supabase/config.toml"
@@ -125,7 +125,7 @@ This skill follows a multi-step guided workflow.
 
 - `supabase/` directory with local config
 - `.env.local` with Supabase connection strings
-- Updated `docs/tech-stack.md` with Supabase details
+- Updated `_context/sacred/tech-stack.md` with Supabase details
 ```
 
 ### Step 4: Write workflow.md (for Workflow Skills)

@@ -8,7 +8,7 @@ next_step: "complete"
 
 ## Goal
 
-Produce the final `docs/context.md` — optimized for AI agent consumption.
+Produce the final `_context/sacred/context.md` — optimized for AI agent consumption.
 
 ## Instructions
 
@@ -31,7 +31,7 @@ Produce the final `docs/context.md` — optimized for AI agent consumption.
 
 4. **Present to user for review.** This is a sacred document — user must approve.
 
-5. **Write to `docs/context.md`.**
+5. **Write to `_context/sacred/context.md`.**
 
 ## User Interaction
 
@@ -39,7 +39,7 @@ Produce the final `docs/context.md` — optimized for AI agent consumption.
 
 ## Output
 
-`docs/context.md` written. Workflow complete.
+`_context/sacred/context.md` written. Workflow complete.
 
 ## Navigation
 

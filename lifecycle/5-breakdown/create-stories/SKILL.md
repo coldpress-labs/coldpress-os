@@ -7,8 +7,8 @@ phase: 5
 agent: "pm"
 inputs:
   - "_context/planning/epics.md"
-  - "_context/planning/prd.md"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/architecture.md"
   - "docs/ux-sitemap.md (if exists)"
   - "_context/tracking/sprint-status.yaml (if exists)"
 outputs:
@@ -35,7 +35,7 @@ Each story file contains everything a developer (human or AI) needs to implement
 ## Prerequisites
 
 - `_context/planning/epics.md` exists (from create-epics)
-- `_context/planning/prd.md` and `_context/planning/architecture.md` exist
+- `_context/sacred/prd.md` and `_context/sacred/architecture.md` exist
 - Target story identified (from sprint-status or user input)
 
 ## Process

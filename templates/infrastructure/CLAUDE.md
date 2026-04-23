@@ -34,8 +34,8 @@ This project uses **coldpress-os** at `coldpress-os/`.
 | What | Where |
 |------|-------|
 | Project config | `coldpress.yaml` |
-| Project context | `docs/context.md` |
-| Tech stack | `docs/tech-stack.md` |
+| Project context | `_context/sacred/context.md` |
+| Tech stack | `_context/sacred/tech-stack.md` |
 | Planning artifacts | `_context/planning/` |
 | Design artifacts | `_context/design/` |
 | Implementation artifacts | `_context/implementation/` |

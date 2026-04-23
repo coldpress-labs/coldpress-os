@@ -5,7 +5,7 @@ type: "workflow"
 category: "ops"
 phases: [7]
 inputs:
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
   - "coldpress.yaml"
   - "package.json or equivalent"
 outputs:
@@ -32,7 +32,7 @@ Generates production-ready CI/CD pipeline configuration and deployment scripts t
 
 ## Prerequisites
 
-- `docs/tech-stack.md` must exist (for framework, hosting, and tooling decisions)
+- `_context/sacred/tech-stack.md` must exist (for framework, hosting, and tooling decisions)
 - Project must have a buildable codebase with defined scripts
 
 ## Process

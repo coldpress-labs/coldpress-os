@@ -6,7 +6,7 @@ category: "lifecycle"
 phase: 3
 agent: "architect"
 inputs:
-  - "docs/context.md"
+  - "_context/sacred/context.md"
   - "coldpress.yaml"
 outputs:
   - artifact: "Architecture Decision Record"
@@ -30,7 +30,7 @@ Evaluates technology options for a specific decision area (frontend framework, d
 
 ## Prerequisites
 
-- `docs/context.md` for project requirements and constraints
+- `_context/sacred/context.md` for project requirements and constraints
 - Understanding of project scale, budget, and team capabilities (from Phase 2)
 
 ## Process

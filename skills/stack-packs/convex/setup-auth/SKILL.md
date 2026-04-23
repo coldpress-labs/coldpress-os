@@ -6,7 +6,7 @@ category: "stack-packs/convex"
 phases: [6]
 inputs:
   - "auth provider preference"
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
 outputs:
   - artifact: "Auth Configuration"
     location: "convex/auth.config.ts and related files"

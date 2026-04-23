@@ -6,7 +6,7 @@ prerequisites:
   - "Phase 1 (Bootstrap) complete"
   - "coldpress.yaml configured"
 outputs:
-  - "docs/context.md (SACRED)"
+  - "_context/sacred/context.md (SACRED)"
   - "Research documents in _context/planning/research/"
 next_phase: "3-tech-stack"
 ---
@@ -42,7 +42,7 @@ next_phase: "3-tech-stack"
 
 ## Exit Conditions
 
-- `docs/context.md` produced and validated (sacred document)
+- `_context/sacred/context.md` produced and validated (sacred document)
 - At least one research document produced (domain, market, or technical)
 - User feels confident enough about the problem space to proceed to tech stack selection
 

@@ -7,7 +7,7 @@ phase: 2
 agent: "analyst"
 inputs:
   - "coldpress.yaml"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "Domain Research"
     location: "_context/planning/research/domain-{topic}-{date}.md"
@@ -29,7 +29,7 @@ Conducts deep domain and industry research using web search to build foundationa
 
 ## Prerequisites
 
-- `docs/context.md` for project context
+- `_context/sacred/context.md` for project context
 - Web search capability required
 
 ## Process

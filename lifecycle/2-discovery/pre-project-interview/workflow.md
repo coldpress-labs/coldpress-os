@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "docs/context.md"
+output_file: "_context/sacred/context.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

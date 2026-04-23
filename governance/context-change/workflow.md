@@ -6,7 +6,7 @@
 
 ## Trigger
 
-User requests a change to `docs/context.md` after it has been finalized in Phase 2.
+User requests a change to `_context/sacred/context.md` after it has been finalized in Phase 2.
 
 ## Steps
 
@@ -21,8 +21,8 @@ context.md changes can affect:
 
 | Downstream Artifact | Check For |
 |--------------------|-----------| 
-| PRD (`_context/planning/prd.md`) | Problem statement, target audience, scope |
-| Architecture (`_context/planning/architecture.md`) | Domain model, system boundaries |
+| PRD (`_context/sacred/prd.md`) | Problem statement, target audience, scope |
+| Architecture (`_context/sacred/architecture.md`) | Domain model, system boundaries |
 | UX Design Spec | User personas, journey maps |
 | Epics & Stories | Acceptance criteria, scope boundaries |
 

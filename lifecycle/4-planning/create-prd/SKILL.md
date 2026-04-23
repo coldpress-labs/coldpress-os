@@ -6,13 +6,13 @@ category: "lifecycle"
 phase: 4
 agent: "pm"
 inputs:
-  - "docs/context.md"
+  - "_context/sacred/context.md"
   - "_context/planning/product-brief-{date}.md"
   - "_context/planning/design-brief-{date}.md"
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
 outputs:
   - artifact: "Product Requirements Document"
-    location: "_context/planning/prd.md"
+    location: "_context/sacred/prd.md"
     format: "markdown"
     sacred: true
 version: "1.0"
@@ -44,8 +44,8 @@ Mode is detected automatically in step-01 based on whether a PRD already exists,
 
 - Product brief exists (recommended)
 - Design brief exists (recommended)
-- `docs/tech-stack.md` available
-- `docs/context.md` available
+- `_context/sacred/tech-stack.md` available
+- `_context/sacred/context.md` available
 
 ## Process
 
@@ -55,7 +55,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_context/planning/prd.md` — comprehensive Product Requirements Document. This is a **sacred document** protected by governance workflows.
+`_context/sacred/prd.md` — comprehensive Product Requirements Document. This is a **sacred document** protected by governance workflows.
 
 ---
 

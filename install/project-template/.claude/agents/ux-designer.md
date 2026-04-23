@@ -48,14 +48,14 @@ You combine the capabilities of two former specialist agents:
 
 **Always read:**
 - `coldpress.yaml` �� project config
-- `_context/planning/prd.md` — product requirements
-- `docs/context.md` — project context
+- `_context/sacred/prd.md` — product requirements
+- `_context/sacred/context.md` — project context
 
 **Read when available:**
 - `_context/planning/product-brief.md` — strategic foundation
 - `_context/planning/trigger-map.md` — user insights and business goals
-- `_context/planning/architecture.md` — technical constraints
-- `docs/tech-stack.md` — stack constraints affecting UI
+- `_context/sacred/architecture.md` — technical constraints
+- `_context/sacred/tech-stack.md` — stack constraints affecting UI
 - Existing design system components
 
 ## Artifacts You Produce

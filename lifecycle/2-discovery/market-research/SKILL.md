@@ -7,7 +7,7 @@ phase: 2
 agent: "analyst"
 inputs:
   - "coldpress.yaml"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "Market Research"
     location: "_context/planning/research/market-{topic}-{date}.md"
@@ -29,7 +29,7 @@ Conducts comprehensive market research — competitive analysis, customer segmen
 
 ## Prerequisites
 
-- `docs/context.md` for project context
+- `_context/sacred/context.md` for project context
 - Web search capability required
 
 ## Process

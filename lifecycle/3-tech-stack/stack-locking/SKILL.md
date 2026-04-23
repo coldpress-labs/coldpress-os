@@ -1,16 +1,16 @@
 ---
 name: "stack-locking"
-description: "Lock the tech stack by consolidating ADRs into the sacred docs/tech-stack.md"
+description: "Lock the tech stack by consolidating ADRs into the sacred _context/sacred/tech-stack.md"
 type: "workflow"
 category: "lifecycle"
 phase: 3
 agent: "architect"
 inputs:
-  - "docs/context.md"
+  - "_context/sacred/context.md"
   - "_context/planning/adr-*.md"
 outputs:
   - artifact: "Tech Stack Document"
-    location: "docs/tech-stack.md"
+    location: "_context/sacred/tech-stack.md"
     format: "markdown"
     sacred: true
 version: "1.0"
@@ -32,7 +32,7 @@ Consolidates all Architecture Decision Records (ADRs) from stack-evaluation into
 
 - At least one ADR produced by stack-evaluation
 - All critical technology decisions evaluated (frontend, backend, database at minimum)
-- `docs/context.md` for project context
+- `_context/sacred/context.md` for project context
 
 ## Process
 
@@ -42,7 +42,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`docs/tech-stack.md` — the sacred, locked tech stack document covering all technology decisions: frontend, backend, database, authentication, hosting, testing, and CI/CD.
+`_context/sacred/tech-stack.md` — the sacred, locked tech stack document covering all technology decisions: frontend, backend, database, authentication, hosting, testing, and CI/CD.
 
 ---
 

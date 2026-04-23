@@ -17,7 +17,7 @@ Determine which test framework best fits the project's tech stack.
    - Migrate to a new framework
    - Abort (setup not needed)
 
-2. **Analyze stack** from `docs/tech-stack.md` and `package.json`:
+2. **Analyze stack** from `_context/sacred/tech-stack.md` and `package.json`:
    - **React/Next.js** → Vitest + React Testing Library (unit) + Playwright (E2E)
    - **Vue/Nuxt** → Vitest + Vue Test Utils + Playwright (E2E)
    - **Node.js API** → Vitest (unit + integration)

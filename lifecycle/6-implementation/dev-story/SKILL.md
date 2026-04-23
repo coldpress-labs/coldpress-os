@@ -8,7 +8,7 @@ agent: "developer"
 inputs:
   - "_context/implementation/{story-key}.md"
   - "_context/tracking/sprint-status.yaml"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "Implemented Code"
     location: "src/"

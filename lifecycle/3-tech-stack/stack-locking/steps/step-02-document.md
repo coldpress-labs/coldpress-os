@@ -1,7 +1,7 @@
 ---
 step_number: 2
 step_name: "Write Tech Stack Document"
-step_goal: "Write docs/tech-stack.md with all technology decisions"
+step_goal: "Write _context/sacred/tech-stack.md with all technology decisions"
 halts_for_input: false
 next_step: "step-03-lock.md"
 ---
@@ -12,7 +12,7 @@ Produce the comprehensive, authoritative tech stack document.
 
 ## Instructions
 
-1. **Write `docs/tech-stack.md`** with the following sections:
+1. **Write `_context/sacred/tech-stack.md`** with the following sections:
    - **Header:** Project name, date, version
    - **Overview:** High-level summary of the stack philosophy
    - **Frontend:** Framework, UI library, styling approach, state management
@@ -30,7 +30,7 @@ Produce the comprehensive, authoritative tech stack document.
 
 ## Output
 
-`docs/tech-stack.md` drafted. `step_2_complete: true`
+`_context/sacred/tech-stack.md` drafted. `step_2_complete: true`
 
 ## Navigation
 

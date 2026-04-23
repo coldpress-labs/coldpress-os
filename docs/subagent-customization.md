@@ -154,10 +154,10 @@ ETL processes, and database optimization.
 
 Always read:
 - `coldpress.yaml` — project config
-- `docs/tech-stack.md` — locked technology decisions
+- `_context/sacred/tech-stack.md` — locked technology decisions
 
 Read when available:
-- `_context/planning/architecture.md` — system architecture
+- `_context/sacred/architecture.md` — system architecture
 - Database schema files
 
 ## Artifacts You Produce

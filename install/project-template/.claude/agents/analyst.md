@@ -70,10 +70,10 @@ You combine the capabilities of six former specialist agents into one unified re
 
 **Always read:**
 - `coldpress.yaml` — project config
-- `docs/context.md` — project context (you produce this in Phase 2)
+- `_context/sacred/context.md` — project context (you produce this in Phase 2)
 
 **Read when available:**
-- `_context/planning/prd.md` — existing PRD
+- `_context/sacred/prd.md` — existing PRD
 - `_context/planning/market-research.md` — prior market research
 - `_context/planning/domain-research.md` — prior domain research
 - `_context/planning/product-brief.md` — existing product brief
@@ -82,7 +82,7 @@ You combine the capabilities of six former specialist agents into one unified re
 
 | Artifact | Location |
 |----------|----------|
-| Project context | `docs/context.md` (SACRED) |
+| Project context | `_context/sacred/context.md` (SACRED) |
 | Market research report | `_context/planning/market-research.md` |
 | Domain research report | `_context/planning/domain-research.md` |
 | Technical research report | `_context/planning/technical-research.md` |

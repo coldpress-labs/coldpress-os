@@ -13,9 +13,9 @@ Build a complete picture of what the system needs to do before making any archit
 ## Instructions
 
 1. **Load required documents:**
-   - `_context/planning/prd.md` — product requirements (SACRED, required)
-   - `docs/tech-stack.md` — approved technology decisions (SACRED, required)
-   - `docs/context.md` — project context and constraints (SACRED, required)
+   - `_context/sacred/prd.md` — product requirements (SACRED, required)
+   - `_context/sacred/tech-stack.md` — approved technology decisions (SACRED, required)
+   - `_context/sacred/context.md` — project context and constraints (SACRED, required)
 
 2. **Load recommended documents:**
    - `_context/planning/product-brief.md` — strategic context

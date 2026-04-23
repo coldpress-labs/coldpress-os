@@ -6,7 +6,7 @@ category: "ops"
 phases: [7]
 inputs:
   - "database schema files or migration files"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/architecture.md"
 outputs:
   - artifact: "Migration Check Report"
     location: "_context/ops/db-migration-{date}.md"

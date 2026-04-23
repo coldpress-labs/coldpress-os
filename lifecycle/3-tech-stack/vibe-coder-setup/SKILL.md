@@ -6,7 +6,7 @@ category: "lifecycle"
 phase: 3
 agent: "developer"
 inputs:
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
   - "coldpress.yaml"
 outputs:
   - artifact: "Configured Project"
@@ -26,11 +26,11 @@ Sets up the complete development environment based on the locked tech stack. Ins
 - "configure the project"
 - "vibe coder setup"
 - "get the project ready to code"
-- After the tech stack has been locked in docs/tech-stack.md
+- After the tech stack has been locked in _context/sacred/tech-stack.md
 
 ## Prerequisites
 
-- `docs/tech-stack.md` exists and is locked (sacred)
+- `_context/sacred/tech-stack.md` exists and is locked (sacred)
 - Project directory initialized (Phase 1 bootstrap complete)
 - Node.js / relevant runtime installed on the machine
 

@@ -101,7 +101,7 @@ What are your hard constraints?
 
 After 10-15 questions, the analyst produces:
 
-**Output:** `docs/context.md` — Your first sacred document. Contains project vision, user personas, constraints, domain analysis, success criteria.
+**Output:** `_context/sacred/context.md` — Your first sacred document. Contains project vision, user personas, constraints, domain analysis, success criteria.
 
 ### Optional follow-ups
 
@@ -123,7 +123,7 @@ Run stack-evaluation
 
 ### What happens
 
-Butler dispatches **@architect**. The architect reads `docs/context.md`, evaluates options against your constraints (free tier, solo dev, mobile web), and produces a recommendation.
+Butler dispatches **@architect**. The architect reads `_context/sacred/context.md`, evaluates options against your constraints (free tier, solo dev, mobile web), and produces a recommendation.
 
 Since you already specified `stack_pack: convex` in `coldpress.yaml`, the evaluation focuses on complementary choices:
 
@@ -143,7 +143,7 @@ Then:
 Run stack-locking
 ```
 
-**Output:** `docs/tech-stack.md` — Your second sacred document. Locked decisions with rationale.
+**Output:** `_context/sacred/tech-stack.md` — Your second sacred document. Locked decisions with rationale.
 
 ---
 
@@ -157,7 +157,7 @@ Run create-prd
 
 ### What happens
 
-Butler dispatches **@pm**. The PM reads `docs/context.md` and `docs/tech-stack.md`, then walks you through a structured PRD creation workflow:
+Butler dispatches **@pm**. The PM reads `_context/sacred/context.md` and `_context/sacred/tech-stack.md`, then walks you through a structured PRD creation workflow:
 
 - Core features (task CRUD, focus timer, weekly patterns)
 - User stories (as a solo creator, I want to...)
@@ -165,12 +165,12 @@ Butler dispatches **@pm**. The PM reads `docs/context.md` and `docs/tech-stack.m
 - Out of scope (team features, integrations, mobile native)
 - Success metrics (daily active usage, task completion rate)
 
-**Output:** `_context/planning/prd.md` — Third sacred document.
+**Output:** `_context/sacred/prd.md` — Third sacred document.
 
 ### Continue planning
 
 ```
-Run create-architecture        # @architect → _context/planning/architecture.md [SACRED]
+Run create-architecture        # @architect → _context/sacred/architecture.md [SACRED]
 Run create-ux-design           # @ux-designer → _context/design/ux-design-spec.md
 ```
 
@@ -209,7 +209,7 @@ Run sprint-planning            # Organizes stories into sprints
 
 The **@scrum-master** (haiku — fast and organizational) generates the PERT chart showing dependencies and the critical path.
 
-**Output:** `_context/tracking/pert-chart.md` — Fifth sacred document.
+**Output:** `_context/sacred/pert-chart.md` — Fifth sacred document.
 
 ### Your wave plan might look like
 
@@ -368,8 +368,8 @@ Run product-evolution          # Evolve the product vision
 | Phase | Key Outputs | Sacred? |
 |-------|-------------|---------|
 | 1. Bootstrap | Project structure, `coldpress.yaml`, agent wrappers | No |
-| 2. Discovery | `docs/context.md`, research docs | context.md: Yes |
-| 3. Tech Stack | `docs/tech-stack.md` | Yes |
+| 2. Discovery | `_context/sacred/context.md`, research docs | context.md: Yes |
+| 3. Tech Stack | `_context/sacred/tech-stack.md` | Yes |
 | 4. Planning | PRD, architecture, UX spec | PRD + architecture: Yes |
 | 5. Breakdown | Epics, stories, PERT chart, sprint plan | PERT: Yes |
 | 6. Implementation | Application code, tests, handoff artifacts | No |

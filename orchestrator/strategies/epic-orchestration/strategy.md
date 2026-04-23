@@ -16,7 +16,7 @@ This is the **primary** orchestration strategy — used whenever a project has m
    - API dependencies (Epic 3 needs endpoints from Epic 2)
    - UI dependencies (Epic 4 needs components from Epic 3)
 3. **Wave Generation:** Topological sort groups independent epics
-4. **PERT Chart:** Generated as sacred document at `_context/tracking/pert-chart.md`
+4. **PERT Chart:** Generated as sacred document at `_context/sacred/pert-chart.md`
 5. **Execution:** Wave-orchestration skill in Phase 6 drives wave-by-wave execution
 
 ## Typical DAG Pattern

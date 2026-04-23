@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "docs/tech-stack.md"
+output_file: "_context/sacred/tech-stack.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

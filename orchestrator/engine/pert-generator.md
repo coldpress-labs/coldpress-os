@@ -90,7 +90,7 @@ task-1 (2w) → task-2 (2w) → task-4 (2w) = 6 weeks total
 
 ## Sacred Document Status
 
-The PERT chart at `_context/tracking/pert-chart.md` is a **sacred document**. Changes to it trigger the PERT change governance workflow which assesses downstream impact on sprint planning and wave execution.
+The PERT chart at `_context/sacred/pert-chart.md` is a **sacred document**. Changes to it trigger the PERT change governance workflow which assesses downstream impact on sprint planning and wave execution.
 
 ## When to Regenerate
 

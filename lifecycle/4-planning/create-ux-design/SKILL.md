@@ -6,9 +6,9 @@ category: "lifecycle"
 phase: 4
 agent: "ux-designer"
 inputs:
-  - "_context/planning/prd.md"
+  - "_context/sacred/prd.md"
   - "_context/planning/design-brief-{date}.md"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "UX Design Specification"
     location: "_context/design/ux-design-spec.md"
@@ -31,9 +31,9 @@ Plans UX patterns, user flows, information architecture, key screen concepts, an
 
 ## Prerequisites
 
-- `_context/planning/prd.md` exists (sacred document)
+- `_context/sacred/prd.md` exists (sacred document)
 - Design brief recommended for visual alignment
-- `docs/context.md` available for user understanding
+- `_context/sacred/context.md` available for user understanding
 
 ## Process
 

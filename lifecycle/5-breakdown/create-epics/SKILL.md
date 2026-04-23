@@ -6,8 +6,8 @@ category: "lifecycle"
 phase: 5
 agent: "pm"
 inputs:
-  - "_context/planning/prd.md"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/architecture.md"
 outputs:
   - artifact: "Epics document"
     location: "_context/planning/epics.md"
@@ -31,8 +31,8 @@ Migrated from: `bmad-create-epics-and-stories` (epic portion).
 
 ## Prerequisites
 
-- `_context/planning/prd.md` exists and is validated
-- `_context/planning/architecture.md` exists and is validated
+- `_context/sacred/prd.md` exists and is validated
+- `_context/sacred/architecture.md` exists and is validated
 - Phase 4 (Planning) complete
 
 ## Process

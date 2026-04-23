@@ -6,7 +6,7 @@ category: "lifecycle"
 phase: 4
 agent: "ux-designer"
 inputs:
-  - "docs/context.md"
+  - "_context/sacred/context.md"
   - "_context/planning/product-brief-{date}.md (if bridge mode)"
   - "Brand references and visual inspiration"
 outputs:

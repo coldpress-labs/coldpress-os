@@ -6,13 +6,13 @@ category: "lifecycle"
 phase: 4
 agent: "architect"
 inputs:
-  - "_context/planning/prd.md"
-  - "docs/tech-stack.md"
-  - "docs/context.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/tech-stack.md"
+  - "_context/sacred/context.md"
   - "_context/design/ux-design-spec.md"
 outputs:
   - artifact: "Architecture Document"
-    location: "_context/planning/architecture.md"
+    location: "_context/sacred/architecture.md"
     format: "markdown"
     sacred: true
 version: "1.0"
@@ -32,9 +32,9 @@ Creates the technical architecture document — a **sacred document** that captu
 
 ## Prerequisites
 
-- `_context/planning/prd.md` exists (sacred document)
-- `docs/tech-stack.md` available (technology decisions)
-- `docs/context.md` available (project constraints)
+- `_context/sacred/prd.md` exists (sacred document)
+- `_context/sacred/tech-stack.md` available (technology decisions)
+- `_context/sacred/context.md` available (project constraints)
 - UX design specification recommended for interface contracts
 
 ## Process
@@ -45,7 +45,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_context/planning/architecture.md` — comprehensive technical architecture document. This is a **sacred document** protected by governance workflows.
+`_context/sacred/architecture.md` — comprehensive technical architecture document. This is a **sacred document** protected by governance workflows.
 
 ---
 

@@ -12,7 +12,7 @@ Understand what the project needs from a technology perspective before evaluatin
 
 ## Instructions
 
-1. **Read** `docs/context.md` to understand the project vision, scope, and constraints.
+1. **Read** `_context/sacred/context.md` to understand the project vision, scope, and constraints.
 2. **Ask:** "What technology decision are we evaluating?" (e.g., frontend framework, database, hosting)
 3. **Extract requirements** relevant to this decision:
    - Performance needs

@@ -1,7 +1,7 @@
 ---
 step_number: 1
 step_name: "Read Tech Stack"
-step_goal: "Read docs/tech-stack.md and plan the setup"
+step_goal: "Read _context/sacred/tech-stack.md and plan the setup"
 halts_for_input: false
 next_step: "step-02-install.md"
 ---
@@ -12,7 +12,7 @@ Understand exactly what needs to be installed and configured.
 
 ## Instructions
 
-1. **Read** `docs/tech-stack.md` — extract every technology, version, and tool specified.
+1. **Read** `_context/sacred/tech-stack.md` — extract every technology, version, and tool specified.
 2. **Build a setup checklist:**
    - Runtime(s) to verify (Node.js version, Python version, etc.)
    - Package manager to use

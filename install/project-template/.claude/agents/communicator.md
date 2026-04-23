@@ -62,9 +62,9 @@ You combine the capabilities of three former specialist agents into one with thr
 
 **Read when available:**
 - `_context/planning/product-brief.md` — for pitch presentations and brand narrative
-- `_context/planning/architecture.md` — for technical documentation
+- `_context/sacred/architecture.md` — for technical documentation
 - `_context/design/ux-design-spec.md` — for design documentation
-- `_context/planning/prd.md` — for product documentation
+- `_context/sacred/prd.md` — for product documentation
 - Existing project documentation and brand materials
 
 ## Artifacts You Produce

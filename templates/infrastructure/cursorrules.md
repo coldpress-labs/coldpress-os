@@ -9,7 +9,7 @@ This project uses coldpress-os at `coldpress-os/`.
 ## Rules
 
 1. Read `coldpress.yaml` for project config before making decisions.
-2. Follow the project's tech stack as defined in `docs/tech-stack.md`.
-3. Check `_context/planning/architecture.md` for system design decisions.
+2. Follow the project's tech stack as defined in `_context/sacred/tech-stack.md`.
+3. Check `_context/sacred/architecture.md` for system design decisions.
 4. Never modify files inside `coldpress-os/` — it is a read-only submodule.
 5. Planning artifacts (`_context/`, `docs/`) are never deployed to production.

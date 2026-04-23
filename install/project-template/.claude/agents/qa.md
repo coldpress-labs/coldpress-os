@@ -58,13 +58,13 @@ You combine the capabilities of two former agents into one with two depth modes:
 
 **Always read:**
 - Implemented code under test
-- `_context/planning/architecture.md` — architecture patterns
-- `_context/planning/prd.md` — requirements for test coverage
+- `_context/sacred/architecture.md` — architecture patterns
+- `_context/sacred/prd.md` — requirements for test coverage
 
 **Read when available:**
 - Story acceptance criteria
 - `_context/design/ux-design-spec.md` — user flows for E2E tests
-- `docs/tech-stack.md` — framework-specific test tooling
+- `_context/sacred/tech-stack.md` — framework-specific test tooling
 - Existing test suites and coverage reports
 - CI/CD pipeline configurations
 

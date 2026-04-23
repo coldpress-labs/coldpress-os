@@ -121,7 +121,7 @@ workflowType: 'prd'
 
 ## 6. Technical Constraints
 
-- Technology stack: See `docs/tech-stack.md`
+- Technology stack: See `_context/sacred/tech-stack.md`
 - Integration requirements: {list}
 - Infrastructure constraints: {hosting, budget, free-tier limits}
 

@@ -12,11 +12,11 @@ Extract every piece of relevant context from all project artifacts for the targe
 
 ## Instructions
 
-1. **Load and analyze PRD** (`_context/planning/prd.md`):
+1. **Load and analyze PRD** (`_context/sacred/prd.md`):
    - Extract the specific FRs this story implements
    - Note any NFRs that constrain this story (performance, security, accessibility)
    - Identify user personas affected
-2. **Load and analyze architecture** (`_context/planning/architecture.md`):
+2. **Load and analyze architecture** (`_context/sacred/architecture.md`):
    - Identify components this story touches
    - Note architectural patterns to follow
    - Extract relevant API contracts or data models

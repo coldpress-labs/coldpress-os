@@ -13,9 +13,9 @@ Gather all necessary context for the product brief through existing documentatio
 ## Instructions
 
 1. **Mine existing documents:**
-   - Extract product vision from `docs/context.md`
+   - Extract product vision from `_context/sacred/context.md`
    - Pull user insights from discovery research
-   - Note technology constraints from `docs/tech-stack.md`
+   - Note technology constraints from `_context/sacred/tech-stack.md`
    - Identify gaps that need user input
 
 2. **Targeted interview (Guided mode):**

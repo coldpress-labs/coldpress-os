@@ -7,8 +7,8 @@ phase: 8
 agent: "pm"
 inputs:
   - "retrospective documents"
-  - "docs/context.md"
-  - "_context/planning/prd.md"
+  - "_context/sacred/context.md"
+  - "_context/sacred/prd.md"
 outputs:
   - artifact: "Evolution Plan"
     location: "_context/planning/product-evolution-{date}.md"

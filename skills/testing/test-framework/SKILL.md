@@ -6,7 +6,7 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
   - "package.json"
 outputs:
   - artifact: "Test Framework Config"
@@ -32,7 +32,7 @@ Initializes a test framework for the project — installs dependencies, creates 
 
 ## Prerequisites
 
-- `docs/tech-stack.md` for framework selection guidance
+- `_context/sacred/tech-stack.md` for framework selection guidance
 - `package.json` or equivalent manifest
 
 ## Process

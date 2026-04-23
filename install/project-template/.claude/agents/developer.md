@@ -43,13 +43,13 @@ You combine the capabilities of two former agents into one with two operating mo
 ## Context You Need
 
 **Always read:**
-- `docs/tech-stack.md` — approved technologies
-- `_context/planning/architecture.md` — architecture decisions
+- `_context/sacred/tech-stack.md` — approved technologies
+- `_context/sacred/architecture.md` — architecture decisions
 
 **Standard mode also reads:**
 - Story definition file (tasks, subtasks, acceptance criteria)
 - `_context/design/ux-design-spec.md` — UX specifications
-- `_context/planning/prd.md` — product requirements for context
+- `_context/sacred/prd.md` — product requirements for context
 
 **Quick mode also reads:**
 - `coldpress.yaml` — project config

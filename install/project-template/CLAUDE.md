@@ -55,8 +55,8 @@ This project uses **coldpress-os** at `coldpress-os/`.
 |------|-------|
 | Project config | `coldpress.yaml` |
 | Subagent definitions | `.claude/agents/` |
-| Project context | `docs/context.md` |
-| Tech stack | `docs/tech-stack.md` |
+| Project context | `_context/sacred/context.md` |
+| Tech stack | `_context/sacred/tech-stack.md` |
 | Planning artifacts | `_context/planning/` |
 | Design artifacts | `_context/design/` |
 | Implementation artifacts | `_context/implementation/` |
@@ -64,7 +64,7 @@ This project uses **coldpress-os** at `coldpress-os/`.
 | Tracking | `_context/tracking/` |
 | Handoff artifacts | `_context/handoffs/` |
 | Audit artifacts | `_context/audit/` |
-| Input material | `_input/` (raw inputs, legacy refs, vendor drops) |
+| Input material | `_input/` (raw/, legacy/, reference/, vendor/, assets/) |
 | Runtime state (not tracked) | `.coldpress/` (graph index, cache) |
 | Credential manifest | `secure/manifest.yaml` (values live in `secure/.env*`, git-ignored) |
 | Helper scripts | `scripts/` (pre-commit secret scan) |

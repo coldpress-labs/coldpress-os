@@ -6,7 +6,7 @@
 
 ## Trigger
 
-User requests a change to `_context/planning/prd.md` after it has been created and validated in Phase 4.
+User requests a change to `_context/sacred/prd.md` after it has been created and validated in Phase 4.
 
 ## Steps
 
@@ -21,7 +21,7 @@ PRD changes can affect:
 
 | Downstream Artifact | Check For |
 |--------------------|-----------|
-| Architecture (`_context/planning/architecture.md`) | System design, component boundaries, data model |
+| Architecture (`_context/sacred/architecture.md`) | System design, component boundaries, data model |
 | UX Design Spec | User flows, wireframes, interaction patterns |
 | Epics | Epic scope, new epics needed, epics to remove |
 | Stories | Story acceptance criteria, new stories, obsolete stories |

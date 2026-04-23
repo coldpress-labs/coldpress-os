@@ -10,7 +10,7 @@ inputs:
   - "user knowledge about the project"
 outputs:
   - artifact: "Project Context"
-    location: "docs/context.md"
+    location: "_context/sacred/context.md"
     format: "markdown"
     sacred: true
 version: "1.0"
@@ -41,7 +41,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`docs/context.md` — a lean, LLM-optimized document with implementation rules, patterns, and critical project guidelines. This is a **sacred document** protected by governance workflows.
+`_context/sacred/context.md` — a lean, LLM-optimized document with implementation rules, patterns, and critical project guidelines. This is a **sacred document** protected by governance workflows.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/planning/prd.md"
+output_file: "_context/sacred/prd.md"
 total_steps: 5
 resume_from: "frontmatter"
 ---

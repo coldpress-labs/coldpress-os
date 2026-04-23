@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "_context/tracking/pert-chart.md"
+output_file: "_context/sacred/pert-chart.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

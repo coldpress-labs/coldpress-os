@@ -12,7 +12,7 @@ Get user sign-off on the complete tech stack and lock the document as sacred.
 
 ## Instructions
 
-1. **Present the full `docs/tech-stack.md`** to the user for review.
+1. **Present the full `_context/sacred/tech-stack.md`** to the user for review.
 2. **Walk through each section** — confirm choices, flag any concerns.
 3. **Ask:** "Are you satisfied with this tech stack? Ready to lock it?"
 4. **On approval:**
@@ -23,7 +23,7 @@ Get user sign-off on the complete tech stack and lock the document as sacred.
 
 ## Output
 
-`docs/tech-stack.md` locked as sacred. `step_3_complete: true`
+`_context/sacred/tech-stack.md` locked as sacred. `step_3_complete: true`
 
 ## Navigation
 

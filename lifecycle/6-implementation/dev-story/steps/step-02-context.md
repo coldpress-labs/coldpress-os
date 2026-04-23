@@ -13,7 +13,7 @@ Build the full context needed for correct implementation.
 ## Instructions
 
 1. **Read story spec** — acceptance criteria, developer context, technical requirements.
-2. **Read `docs/context.md`** — project rules, patterns, constraints.
+2. **Read `_context/sacred/context.md`** — project rules, patterns, constraints.
 3. **Read architecture decisions** relevant to this story.
 4. **Note previous story intelligence** — what was learned in prior stories.
 5. **Identify guardrails:** Libraries to use, patterns to follow, anti-patterns to avoid.

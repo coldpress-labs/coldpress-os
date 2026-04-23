@@ -24,11 +24,11 @@ Generate the project configuration file and verify everything is ready.
      document_output_language: "English"
    stack_pack: "{stack_pack}"
    sacred_docs:
-     tech_stack: "docs/tech-stack.md"
-     context: "docs/context.md"
-     architecture: "_context/planning/architecture.md"
-     prd: "_context/planning/prd.md"
-     pert: "_context/tracking/pert-chart.md"
+     tech_stack: "_context/sacred/tech-stack.md"
+     context: "_context/sacred/context.md"
+     architecture: "_context/sacred/architecture.md"
+     prd: "_context/sacred/prd.md"
+     pert: "_context/sacred/pert-chart.md"
    output:
      planning: "_context/planning/"
      design: "_context/design/"

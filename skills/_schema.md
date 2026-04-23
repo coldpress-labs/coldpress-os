@@ -46,10 +46,10 @@ agent: "{primary-agent-slug}"
 phases: [4, 5]
 inputs:
   - "coldpress.yaml"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "PRD"
-    location: "_context/planning/prd.md"
+    location: "_context/sacred/prd.md"
     format: "markdown"
 version: "1.0"
 ---

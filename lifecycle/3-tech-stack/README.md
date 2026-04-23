@@ -4,9 +4,9 @@ name: "Tech Stack"
 description: "Evaluate technology options, lock the stack, and set up the development environment"
 prerequisites:
   - "Phase 2 (Discovery) complete"
-  - "docs/context.md produced and validated"
+  - "_context/sacred/context.md produced and validated"
 outputs:
-  - "docs/tech-stack.md (SACRED)"
+  - "_context/sacred/tech-stack.md (SACRED)"
   - "ADRs in _context/planning/adr-{decision}-{date}.md"
   - "Configured development environment"
 next_phase: "4-planning"
@@ -19,7 +19,7 @@ next_phase: "4-planning"
 ## What Happens Here
 
 1. **Stack Evaluation** — Evaluate technology options for each decision area and produce Architecture Decision Records (ADRs)
-2. **Stack Locking** — Consolidate all ADRs into `docs/tech-stack.md` (sacred document)
+2. **Stack Locking** — Consolidate all ADRs into `_context/sacred/tech-stack.md` (sacred document)
 3. **Vibe Coder Setup** — Install dependencies, configure tooling, and verify the dev environment works
 
 ## Sub-Skills
@@ -33,13 +33,13 @@ next_phase: "4-planning"
 ## Entry Conditions
 
 - Phase 2 complete (discovery finished)
-- `docs/context.md` exists and is validated
+- `_context/sacred/context.md` exists and is validated
 - User has enough domain/market/technical understanding to make stack decisions
 
 ## Exit Conditions
 
 - All major technology decisions documented as ADRs
-- `docs/tech-stack.md` produced, validated, and marked as sacred
+- `_context/sacred/tech-stack.md` produced, validated, and marked as sacred
 - Development environment configured and verified (build, lint, test all pass)
 - User is confident in the chosen stack and ready to plan implementation
 

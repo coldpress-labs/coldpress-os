@@ -7,7 +7,7 @@ phase: 6
 agent: "developer"
 inputs:
   - "user intent (bug, feature, refactor)"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "Spec File"
     location: "_context/implementation/spec-wip.md"
@@ -32,7 +32,7 @@ Turns user intent into a hardened, reviewable artifact — fast. For bugs, small
 
 ## Prerequisites
 
-- `docs/context.md` for project guardrails
+- `_context/sacred/context.md` for project guardrails
 - Clear single-goal intent from user
 
 ## Process

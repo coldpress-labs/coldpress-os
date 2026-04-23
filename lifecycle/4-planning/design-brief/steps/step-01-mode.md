@@ -25,7 +25,7 @@ Determine whether to run in standalone mode (full discovery) or bridge mode (imp
 3. **Standalone mode:**
    - Conduct condensed product discovery inline:
      - "What's the product?" / "Who's it for?" / "What's the core value?"
-   - Load `docs/context.md` and `docs/tech-stack.md` if available
+   - Load `_context/sacred/context.md` and `_context/sacred/tech-stack.md` if available
    - Gather enough context to proceed to content strategy
 
 4. **Load design context:**

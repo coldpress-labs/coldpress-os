@@ -6,7 +6,7 @@
 
 ## Trigger
 
-User requests a change to `_context/tracking/pert-chart.md` after it has been generated in Phase 5.
+User requests a change to `_context/sacred/pert-chart.md` after it has been generated in Phase 5.
 
 ## Steps
 

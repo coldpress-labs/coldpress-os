@@ -6,7 +6,7 @@ category: "testing"
 agent: "qa"
 phases: [6]
 inputs:
-  - "_context/planning/prd.md"
+  - "_context/sacred/prd.md"
   - "test files"
   - "_context/planning/epics-and-stories.md"
 outputs:

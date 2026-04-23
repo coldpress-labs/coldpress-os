@@ -6,8 +6,8 @@ category: "ops"
 phases: [7]
 inputs:
   - "project source code"
-  - "_context/planning/architecture.md"
-  - "docs/tech-stack.md"
+  - "_context/sacred/architecture.md"
+  - "_context/sacred/tech-stack.md"
 outputs:
   - artifact: "Security Scan Report"
     location: "_context/audit/security-scan-{date}.md"
@@ -31,7 +31,7 @@ Performs a deep security analysis covering the OWASP Top 10, authentication/auth
 ## Prerequisites
 
 - Project codebase must be accessible
-- `docs/architecture.md` and `docs/tech-stack.md` recommended for context
+- `_context/sacred/architecture.md` and `_context/sacred/tech-stack.md` recommended for context
 - Scope can be: full project, specific epic, story, or file list
 
 ## Process

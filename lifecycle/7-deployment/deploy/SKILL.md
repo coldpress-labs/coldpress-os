@@ -6,7 +6,7 @@ category: "lifecycle"
 phase: 7
 agent: "developer"
 inputs:
-  - "docs/tech-stack.md"
+  - "_context/sacred/tech-stack.md"
   - "coldpress.yaml"
 outputs:
   - artifact: "Deployment Log"

@@ -6,7 +6,7 @@
 
 ## Trigger
 
-User requests a change to `_context/planning/architecture.md` after it has been created in Phase 4.
+User requests a change to `_context/sacred/architecture.md` after it has been created in Phase 4.
 
 ## Steps
 

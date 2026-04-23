@@ -31,7 +31,7 @@ Auto-detect the project's framework, build tools, test runner, linter, and hosti
 
 4. **Check for monorepo structure:** `turbo.json`, `nx.json`, `pnpm-workspace.yaml`, or `lerna.json`.
 
-5. **Read `docs/tech-stack.md`** if it exists for authoritative stack decisions.
+5. **Read `_context/sacred/tech-stack.md`** if it exists for authoritative stack decisions.
 
 6. **Present detected stack** to user for confirmation.
 

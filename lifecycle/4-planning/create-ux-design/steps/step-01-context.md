@@ -13,7 +13,7 @@ Load all context needed for UX design — PRD requirements, user personas, desig
 ## Instructions
 
 1. **Load PRD:**
-   - Read `_context/planning/prd.md` (required)
+   - Read `_context/sacred/prd.md` (required)
    - Extract: user personas, feature list, requirements, scope boundaries
    - If PRD not found: halt and recommend running create-prd first
 

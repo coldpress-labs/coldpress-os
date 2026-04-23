@@ -6,9 +6,9 @@ category: "lifecycle"
 phase: 4
 agent: "pm"
 inputs:
-  - "_context/planning/prd.md"
-  - "docs/context.md"
-  - "docs/tech-stack.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/context.md"
+  - "_context/sacred/tech-stack.md"
 outputs:
   - artifact: "PRD Validation Report"
     location: "_context/planning/prd-validation-{date}.md"
@@ -32,9 +32,9 @@ Validates an existing PRD against quality standards. Reads the PRD and checks fo
 
 ## Prerequisites
 
-- `_context/planning/prd.md` exists
-- `docs/context.md` available for alignment check
-- `docs/tech-stack.md` available for feasibility check
+- `_context/sacred/prd.md` exists
+- `_context/sacred/context.md` available for alignment check
+- `_context/sacred/tech-stack.md` available for feasibility check
 
 ## Process
 

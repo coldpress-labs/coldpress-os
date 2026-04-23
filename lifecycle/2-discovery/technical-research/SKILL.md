@@ -7,7 +7,7 @@ phase: 2
 agent: "analyst"
 inputs:
   - "coldpress.yaml"
-  - "docs/context.md"
+  - "_context/sacred/context.md"
 outputs:
   - artifact: "Technical Research"
     location: "_context/planning/research/technical-{topic}-{date}.md"
@@ -29,7 +29,7 @@ Conducts technical research comparing technologies, frameworks, tools, and archi
 
 ## Prerequisites
 
-- `docs/context.md` for project context
+- `_context/sacred/context.md` for project context
 - Web search capability recommended
 
 ## Process

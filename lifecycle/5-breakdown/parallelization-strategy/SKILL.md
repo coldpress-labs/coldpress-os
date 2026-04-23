@@ -7,10 +7,10 @@ phase: 5
 agent: "scrum-master"
 inputs:
   - "_context/planning/epics.md"
-  - "_context/planning/architecture.md"
+  - "_context/sacred/architecture.md"
 outputs:
   - artifact: "PERT chart"
-    location: "_context/tracking/pert-chart.md"
+    location: "_context/sacred/pert-chart.md"
     format: "markdown"
     sacred: true
 version: "1.0"
@@ -32,7 +32,7 @@ Analyzes dependencies between epics and stories, builds a directed acyclic graph
 ## Prerequisites
 
 - `_context/planning/epics.md` exists (from create-epics)
-- `_context/planning/architecture.md` exists for dependency inference
+- `_context/sacred/architecture.md` exists for dependency inference
 
 ## Process
 
@@ -42,7 +42,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-`_context/tracking/pert-chart.md` (sacred) -- dependency DAG, wave groupings, critical path, and calendar projections with human gate points.
+`_context/sacred/pert-chart.md` (sacred) -- dependency DAG, wave groupings, critical path, and calendar projections with human gate points.
 
 ---
 
