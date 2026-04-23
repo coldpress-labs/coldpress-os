@@ -23,7 +23,7 @@
 | Communicator | `communicator` | sonnet | 4, 8 | granger, quill, kai |
 | Valet | `valet` | sonnet | meta | valet |
 
-> Legacy personas archived in `agents/_archive/`. See `agents/_schema.md` for the new subagent format.
+> Legacy personas were moved out of the framework in v0.1 (estate Decision #20) — they live at project level in `hq-p001-coldpress-os/legacy/agents-archive/`, not shipped with the public framework. See `agents/_schema.md` for the new subagent format.
 
 ---
 

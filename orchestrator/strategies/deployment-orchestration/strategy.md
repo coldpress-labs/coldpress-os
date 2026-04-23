@@ -2,6 +2,8 @@
 
 > Phase 7: Parallelizing pre-deployment checks and multi-environment deployment.
 
+> **Status: reference-only.** This strategy is not auto-invoked by any skill. It is documented as a pattern for ad-hoc use by `parallelization-strategy` / `wave-orchestration` when the Phase-7 deployment DAG warrants it. If a future wave wires it in as a formal sub-strategy, this banner will be replaced with "wired in Wave N".
+
 ---
 
 ## When to Use

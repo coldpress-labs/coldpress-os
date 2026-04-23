@@ -2,6 +2,8 @@
 
 > The orchestrator's algorithms are runtime-agnostic. Adapters map them to specific execution platforms.
 
+> **Status: aspirational for Inngest + GitHub Actions.** The **Claude Code (Local)** runtime is the only adapter that actually executes framework skills today. The **Inngest** and **GitHub Actions** adapters below are reference designs — the event schemas, retry semantics, and cost analyses are pre-work for the actual wiring planned in **Wave 6** (EventStream work per `docs/phase-i-implementation-plan.md`). They are documented here so the runtime-agnostic shape of the framework is concrete, not implied. If you ship a project today and need a durable runtime, run it under Claude Code and plan the migration when Wave 6 lands.
+
 ---
 
 ## Available Runtimes

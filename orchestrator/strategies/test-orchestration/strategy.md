@@ -2,6 +2,8 @@
 
 > Phase 6: Parallelizing test suites during implementation.
 
+> **Status: reference-only.** This strategy is not auto-invoked by any skill. It is documented as a pattern for ad-hoc use by `parallelization-strategy` / `wave-orchestration` when the Phase-6 test DAG warrants it. If a future wave wires it in as a formal sub-strategy, this banner will be replaced with "wired in Wave N".
+
 ---
 
 ## When to Use

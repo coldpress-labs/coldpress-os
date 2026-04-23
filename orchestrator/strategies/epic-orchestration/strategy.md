@@ -2,6 +2,8 @@
 
 > Phase 5-6: Parallelizing epic implementation across waves.
 
+> **Status: reference-only.** Despite being the "primary" strategy, this doc is not auto-invoked — `wave-orchestration` and `parallelization-strategy` implement epic parallelization directly. This file remains as the canonical pattern reference. If a future wave refactors wave-orchestration to delegate to this strategy, the banner will be replaced with "wired in Wave N".
+
 ---
 
 ## When to Use
