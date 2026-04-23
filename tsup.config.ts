@@ -15,4 +15,10 @@ export default defineConfig({
   banner: {
     js: "#!/usr/bin/env node",
   },
+  // Runtime dependencies declared in package.json are resolved from
+  // node_modules at runtime — don't bundle them. This also sidesteps
+  // CJS-interop dynamic-require failures (e.g. `yaml`'s internal
+  // `require("process")`) that would otherwise break under an ESM
+  // bundle.
+  external: ["@clack/prompts", "commander", "picocolors", "yaml"],
 });

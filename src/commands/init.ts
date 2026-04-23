@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { cancel, confirm, intro, isCancel, outro, spinner, text } from "@clack/prompts";
 import pc from "picocolors";
+import { runInterop } from "../interop/index.js";
 import { assertNoCollision, copyFramework, copyTemplate, slugify } from "../utils/scaffold.js";
 import { generateWrappers } from "../utils/wrappers.js";
 
@@ -47,7 +48,16 @@ export async function runInit({ projectNameArg }: InitInput): Promise<void> {
     s.message("Generating skill wrappers");
     const wrapperCount = await generateWrappers(targetDir);
 
-    s.stop(`${pc.green("✓")} Scaffolded ${wrapperCount} skill wrappers`);
+    s.message("Generating interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline)");
+    const interop = await runInterop({ targetDir, respectManagedMarker: false });
+
+    s.stop(
+      `${pc.green("✓")} ${wrapperCount} skill wrappers + ${interop.files.length} interop files`,
+    );
+
+    for (const warning of interop.warnings) {
+      console.log(pc.yellow(`  ⚠ ${warning}`));
+    }
   } catch (err) {
     s.stop(pc.red(`✗ Scaffolding failed: ${err instanceof Error ? err.message : String(err)}`));
     process.exit(1);

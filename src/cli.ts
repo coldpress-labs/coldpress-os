@@ -4,6 +4,7 @@ import { Command } from "commander";
 import pc from "picocolors";
 import { runFeedback } from "./commands/feedback.js";
 import { runInit } from "./commands/init.js";
+import { runUpdate } from "./commands/update.js";
 import { packageRoot } from "./utils/paths.js";
 
 const pkg = JSON.parse(
@@ -26,6 +27,18 @@ program
       await runInit({ projectNameArg });
     } catch (err) {
       console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+program
+  .command("update")
+  .description("Regenerate interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline) for the current project")
+  .action(async () => {
+    try {
+      await runUpdate();
+    } catch (err) {
+      console.error(pc.red(`update failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
   });

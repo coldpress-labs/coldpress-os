@@ -17,6 +17,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
   - `coldpress feedback` — opens `github.com/coldpress-labs/coldpress-os/issues/new/choose` in the user's default browser (platform-dispatched: `open` on macOS, `xdg-open` on Linux, `start` on Windows).
   - `coldpress upgrade` — prints `npm update -g @coldpress/core`.
 - **Test harness exercised:** 10 tests across two suites — `frontmatter.test.ts` (6) for the minimal YAML extractor, `init-scaffold.test.ts` (4) including an end-to-end tmpdir scaffold that verifies template copy, placeholder fill, framework copy, and wrapper generation produce the expected structure + content.
+- **Interop generator** — reads `.claude/agents/*.md` as the single source of truth and emits five adjacent agent-format surfaces in one pass:
+  - `AGENTS.md` at repo root (vendor-neutral — consumed by Aider / Sourcegraph Cody / any `AGENTS.md`-aware agent).
+  - `.cursor/rules/<slug>.mdc` (one per subagent; 2025 `.mdc` frontmatter schema with `alwaysApply: false`) + legacy `.cursorrules` at repo root.
+  - `.roomodes` (Roo / Kilo `customModes[]` YAML with tool translation: Read/Grep/Glob → `read`, Edit/Write → `edit` with `fileRegex`, Bash → `command`, WebFetch/WebSearch → `browser`, Task/Agent → `mcp`).
+  - `.openhands/microagents/<slug>.md` (one per subagent; `type: repo` + `agent: CodeActAgent`).
+  - `.clinerules/00-project-context.md` + `.clinerules/10-sacred-docs.md` (Cline / Roo / Kilo compat).
+  Every generated file begins with the `@coldpress-os:managed` marker (Projen convention). Single-file outputs (`AGENTS.md`, `.roomodes`, `.cursorrules`) respect the marker — `coldpress update` refuses to overwrite files missing it. Per-subagent directories (`.cursor/rules/`, `.openhands/microagents/`, `.clinerules/`) are overwritten wholesale. Runs automatically at the end of `coldpress init`; `coldpress update` regenerates from scratch. Documented in `docs/interop-generator.md`.
+- **`coldpress update` command** — regenerates all five interop surfaces; refuses to run outside a coldpress-os project (looks for `coldpress.yaml` + `.claude/agents/`).
+- Runtime dep: `yaml` `^2.6.0` (for `.roomodes` emission; reused by future yaml write-back work).
 - `_context/audit/` subfolder for backward-looking artefacts (retrospectives, code reviews, security scans, deployment readiness reports). Four skills retargeted to write here.
 - `_context/sacred/` canonical location for the five sacred documents — `context.md`, `tech-stack.md`, PRD, `architecture.md`, PERT chart. All references across the framework updated in a single atomic §7 *Structural Migration* (95 files). Existing consumer projects are grandfathered.
 - `governance/sacred-docs.md` §7 *Structural Migrations* — one-time carve-out protocol for path-only sacred-doc relocations. Requires a DECISIONS-LOG entry *before* the migration commits.
