@@ -164,11 +164,12 @@ Feedback flows from projects to coldpress-os via GitHub Issues and PRs. Use `col
 
 ## Acknowledgments
 
-coldpress-os stands on the shoulders of three open-source projects, each of which contributed substantial ideas, code, and craft. All are MIT-licensed, and all are credited in full in [NOTICE.md](./NOTICE.md) and [docs/attribution-audit.md](./docs/attribution-audit.md).
+coldpress-os stands on the shoulders of four open-source projects, each of which contributed substantial ideas, code, and craft. All are MIT-licensed, and all are credited in full in [NOTICE.md](./NOTICE.md) and [docs/attribution-audit.md](./docs/attribution-audit.md).
 
 - **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** by [BMad Code, LLC](https://github.com/bmad-code-org) — the core agent-skill-workflow architecture, document templates, and most utility and review skills. coldpress-os is a direct derivative of BMAD v6.2.2; this framework would not exist in its current form without theirs.
 - **[Creative Intelligence Suite (CIS)](https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite)** by BMad Code, LLC — contributes the brainstorming, design-thinking, problem-solving, innovation-strategy, and storytelling workflows used across Discovery and Planning.
 - **[BMAD-METHOD-WDS (Whiteport Design System)](https://github.com/whiteport-collective/BMAD-METHOD-WDS)** by [Mårten Angner](https://angner.com) / [Whiteport Collective](https://whiteport.com) — contributes the opinionated UX design workflow (wds-0 through wds-8), design templates, trigger maps, and scenario-driven design methodology powering the `ux-designer` subagent.
+- **[Graphify](https://github.com/safishamsi/graphify)** by [Safi Shamsi](https://github.com/safishamsi) — the indexer + retrieval core behind coldpress-os's knowledge graph. Graphify v4 is vendored verbatim at [`graph/vendor/graphify/`](./graph/vendor/graphify/) and provides tree-sitter-based AST indexing across 20+ languages plus markdown/document ingestion with graph extraction.
 
 "BMad", "BMad Method", "BMad Core", "Whiteport", and "Whiteport Design System" are trademarks of their respective owners. coldpress-os is an independent project and is not affiliated with or endorsed by any of the above.
 

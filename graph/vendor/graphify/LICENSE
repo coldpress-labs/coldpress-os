@@ -1,26 +1,6 @@
 MIT License
 
-Copyright (c) 2026 ColdPress Labs
-Copyright (c) 2025 BMad Code, LLC
-Copyright (c) 2025 Mårten Angner / Whiteport Collective
 Copyright (c) 2026 Safi Shamsi
-
-Portions of this software are derived from four upstream projects, each
-licensed under the MIT License:
-
-  - BMAD-METHOD (https://github.com/bmad-code-org/BMAD-METHOD)
-    by BMad Code, LLC
-  - Creative Intelligence Suite
-    (https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite),
-    a BMAD module by BMad Code, LLC
-  - BMAD-METHOD-WDS (https://github.com/whiteport-collective/BMAD-METHOD-WDS)
-    by Mårten Angner / Whiteport Collective
-  - Graphify v4 (https://github.com/safishamsi/graphify)
-    by Safi Shamsi — vendored at graph/vendor/graphify/ as the
-    indexer + retrieval layer underpinning coldpress-os's graph.
-
-See NOTICE.md for details on attribution and the nature of the derivative
-work for each upstream.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -17,6 +17,7 @@
     "agents",
     "templates",
     "schemas",
+    "graph",
     "docs",
     "coldpress.yaml",
     "LICENSE",

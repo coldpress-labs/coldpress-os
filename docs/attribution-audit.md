@@ -78,6 +78,7 @@ files inside each section. Where the audit is uncertain, we say so explicitly.
 | `data/agents/`, `data/ci-cd/`, `data/classification/`, `data/testing/` | — | Original — ColdPress Labs | Agent roster, project-type classifications, CI templates, testing curriculum — authored for coldpress-os |
 | `coldpress.yaml` (root config template) | — | Original — ColdPress Labs | coldpress-os-specific configuration shape |
 | `README.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `REGISTRY.md`, `LICENSE`, `NOTICE.md` | — | Original — ColdPress Labs | Standard repo docs, written for this project |
+| `graph/vendor/graphify/` | **Graphify v4** (Safi Shamsi) | **Vendored — verbatim upstream** (stripped to indexer + retrieval core) | Python package vendored 2026-04-23 from https://github.com/safishamsi/graphify tree `v4`. Upstream MIT. Kept: `graphify/` (34 Python modules), LICENSE, README, ARCHITECTURE.md, CHANGELOG.md, pyproject.toml, AGENTS.md, SECURITY.md. Stripped: `docs/translations/` (26 README translations), `tests/` (upstream test suite), `scripts/` (upstream maintenance), `.git/`. Size: 2.6 MB → 1.5 MB. Schema reshape + Butler integration lands in Wave 3 Blocks N/O/P — until then the vendored tree is verbatim upstream. |
 
 ---
 
@@ -372,6 +373,7 @@ the coldpress-os repository.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.4 | 2026-04-23 | Cadbury-hq | Added Graphify v4 as fourth upstream — vendored verbatim into `graph/vendor/graphify/` as part of Wave 3 Block M (§3.1 + §3.2). Upstream MIT. Summary Table gains a row for the vendored tree with what-was-kept + what-was-stripped notes. Schema reshape / Butler integration land in subsequent Wave 3 blocks; this revision records the as-of-vendor state. |
 | 1.3 | 2026-04-15 | Alfred | Three-upstream reclassification: CIS (Creative Intelligence Suite) and WDS (Whiteport Design System) now credited distinctly from BMAD-core, matching the `origin:` frontmatter on legacy personas and the final NOTICE.md. Summary table gains an Upstream column. `skills/creative/` retagged as CIS-origin; `templates/design/` reclassified with WDS as the primary upstream. Purpose and Method sections rewritten around three upstreams. |
 | 1.2 | 2026-04-15 | Alfred | Legacy persona archive moved out of framework repo to `hq-p001-coldpress-os/legacy/agents-archive/`. Summary table and `agents/` section updated to reference new location and cite per-file `origin:` frontmatter as authoritative provenance record. |
 | 1.1 | 2026-04-15 | Cadbury-hq | Resolved `templates/design/` attribution to *Derived — substantially modified*. Confirmed both upstreams (`bmad-create-ux-design` skill and BMAD `wds` module v6.2.2) are BMAD; removed from Known Uncertainties. |

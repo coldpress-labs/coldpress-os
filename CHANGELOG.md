@@ -28,6 +28,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 ### Changed
 
 - `tsconfig.json` — added `schemas/**/*` to `include` so the schema files typecheck.
+- **Graphify v4 vendored as fourth upstream** at [`graph/vendor/graphify/`](graph/vendor/graphify/). Python package (34 modules) trimmed from 2.6 MB → 1.5 MB (stripped `docs/translations/`, `tests/`, `scripts/`). Adds tree-sitter AST indexing across 20+ languages + markdown/document ingestion with graph extraction. Upstream MIT. Upstream `LICENSE`, `README`, `ARCHITECTURE.md`, `CHANGELOG.md`, `pyproject.toml`, and `AGENTS.md` preserved verbatim inside the vendored tree for attribution and reference.
+  - **Attribution scaffolding:** `LICENSE` gains a 4th copyright line (Safi Shamsi); `NOTICE.md` extended with a full "4. Graphify" section (nature of derivation, soft-fork stance, what was kept / stripped, trademarks); `docs/attribution-audit.md` Summary Table gains a row for the vendored tree (classified "Vendored — verbatim upstream"); README acknowledgments grow from three upstreams to four.
+  - **Path deviation from plan §3.1:** plan said `src/graph/vendor/graphify/`; relocated to `graph/vendor/graphify/` at repo root. Reason: `src/` is not in the npm tarball `files` whitelist (only `dist/` ships from the TypeScript side), so Python source placed under `src/` would not reach consumers. The `graph/` path is added to the `files` whitelist; Python source now ships in the tarball. Documented in plan v2.12.
+  - **No visualizer/UI stripping needed** — Graphify v4's tree has no viz/UI layer to remove; the upstream is a pure indexer + query library.
+  - **Schema reshape + Butler wiring deferred** to Wave 3 Blocks N/O/P. The vendored tree is verbatim upstream today.
+- **`graph/` added to the npm tarball `files` whitelist** so Graphify's Python source ships with `@coldpress/core`. Running the indexer requires Python ≥ 3.10 + upstream Python deps (`pip install -e graph/vendor/graphify`); `coldpress doctor` will check for both in a future block.
 
 ---
 
