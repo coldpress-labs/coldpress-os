@@ -1,8 +1,9 @@
 import { spawn } from "node:child_process";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { intro, outro, spinner } from "@clack/prompts";
 import pc from "picocolors";
+import { enrichGraph } from "../graph/enrich.js";
 import {
   DEFAULT_GRAPH_PATH,
   Graph,
@@ -10,6 +11,9 @@ import {
   GraphSchemaError,
   loadGraph,
 } from "../graph/index.js";
+import { applySecureManifest } from "../graph/secure-manifest.js";
+import { GraphJsonSchema } from "../graph/types.js";
+import { packageRoot } from "../utils/paths.js";
 
 /**
  * `coldpress graph rebuild` — invoke Graphify to (re)generate the project
@@ -52,11 +56,57 @@ export async function runGraphRebuild(options: GraphRebuildOptions = {}): Promis
 
   try {
     await runGraphifyBuild({ corpusPath, outputPath, pythonBin: probe.pythonBin });
+
+    // Post-process: enrich Graphify's output with the coldpress namespace
+    // (node_type / env_tag / dir_role) + merge CredentialName nodes from
+    // secure/manifest.yaml. Both are pure Node-side passes — no more
+    // Python invocations after this point.
+    s.message("Enriching graph with coldpress metadata");
+    await postProcessGraph({ outputPath, projectDir });
+
     s.stop(`${pc.green("✓")} Graph written to ${pc.dim(outputPath)}`);
     outro("Use `coldpress graph stats` to summarise the result.");
   } catch (err) {
     s.stop(pc.red(`✗ Rebuild failed: ${err instanceof Error ? err.message : String(err)}`));
     process.exit(1);
+  }
+}
+
+interface PostProcessOptions {
+  outputPath: string;
+  projectDir: string;
+}
+
+async function postProcessGraph({ outputPath, projectDir }: PostProcessOptions): Promise<void> {
+  const coldpressVersion = await resolveColdpressVersion();
+  const projectSlug = await readProjectSlug(projectDir);
+
+  const raw = await readFile(outputPath, "utf8");
+  const parsed = GraphJsonSchema.parse(JSON.parse(raw));
+
+  const withCredentials = await applySecureManifest(parsed, projectDir);
+  const enriched = enrichGraph(withCredentials, { coldpressVersion, projectSlug });
+
+  await writeFile(outputPath, `${JSON.stringify(enriched, null, 2)}\n`, "utf8");
+}
+
+async function resolveColdpressVersion(): Promise<string> {
+  try {
+    const raw = await readFile(join(packageRoot, "package.json"), "utf8");
+    const pkg = JSON.parse(raw) as { version?: string };
+    return pkg.version ?? "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+async function readProjectSlug(projectDir: string): Promise<string | undefined> {
+  try {
+    const yaml = await readFile(join(projectDir, "coldpress.yaml"), "utf8");
+    const match = /^\s*slug:\s*"([^"]*)"/m.exec(yaml);
+    return match?.[1];
+  } catch {
+    return undefined;
   }
 }
 
