@@ -309,6 +309,47 @@ The `data-interpreter` and research-impl subagent variants are NOT shipped in v1
 
 **Plugin:** unchanged — archetypes are framework-level config, not skills.
 
+### Added — Wave 6 Block GG (§6.10 Project Dashboard)
+
+The user-added Wave 6 scope. Localhost-served single-page dashboard that aggregates project-management state from existing artefacts. Reflective of coldpress-os usage — NOT the product being built. Builds and evolves as the project grows; no separate authoring step.
+
+- **`src/dashboard/server.ts`** — pure `node:http` server. Binds to 127.0.0.1 ONLY by design (single-user dev tool; no auth). Routes:
+  - `GET /` → single-page HTML (renderDashboardPage)
+  - `GET /api/<tab>` → JSON per tab (status / stats / sanity / tech-stack / todos / graph / quick-links)
+  - `GET /graph/<subgraph>.html` → Block CC visualizer output for embedding via iframe
+  - `GET /file/<path>` → static read-only file under projectDir; path-traversal hardened via `safeJoin()`
+  - `GET /healthz` → `{ok: true}`
+  - Other methods → 405 Method Not Allowed (read-only enforcement)
+- **`src/dashboard/tabs/*.ts`** — 7 pure-function data assemblers. Each takes `projectDir`, returns typed JSON. No daemon state; every request reads fresh from disk:
+  - `status.ts` — project identity (coldpress.yaml), current phase (latest gate-eval), gate-eval history, sacred-doc signoffs from `.coldpress/signoffs/<gate>/<check>.yaml`
+  - `stats.ts` — skill-invocation totals + pass/fail + per-skill counts (from EventStream JSONL); sacred-doc presence (5 expected); graph node/edge count; recorded run count + latest
+  - `sanity.ts` — 5 fail-loud panels (secure manifest, sacred-doc frontmatter, security gate aggregate, sprint-status freshness, open reviewer failures); aggregates to overall ok/warn/fail
+  - `tech-stack.ts` — `_context/sacred/tech-stack.md` frontmatter rendered as JSON view
+  - `todos.ts` — gate blockers (latest gate-eval), pending `kind: human` signoffs (cross-references shipped framework gates against signoffs on disk), open sprint-change-proposals
+  - `graph.ts` — graph metadata + list of registered subgraphs; rendering happens via iframe
+  - `quick-links.ts` — sandbox / live URLs + repo URL (from `coldpress.yaml`), 8 most recent audit JSON files, CHANGELOG link
+- **`src/dashboard/render/page.ts`** — single-page HTML template. Vanilla JS for tab switching + per-tab polling. ~10 KB; CSS inline. Each tab fetches its endpoint independently every `pollIntervalMs` (default 10s) so a slow tab doesn't block fast ones. No websockets/SSE in v1 — naïve polling traded for dependency-lightness.
+- **`src/commands/dashboard.ts`** — CLI runner. Logs URL on bind, opens browser if `--open`, blocks until SIGINT. Cross-platform `open` / `xdg-open` / `start` for browser launch.
+- **`coldpress dashboard`** CLI subcommand wired in (with the same isolation pattern as Block DD — un-staged init.ts WIP on cli.ts preserved). Options: `--port <n>` (default 7777), `--open`, `--poll-ms <n>`.
+- **`docs/dashboard.md`** — protocol doc covering quickstart, architecture, the 7 tabs, endpoint map, polling cadence, security posture (loopback only / no auth / read-only / path-traversal hardened / no telemetry), Cytoscape sourcing rationale, explicit non-goals (no file-watch v1, no authoring UI, no multi-project view, no mobile, no persistence, no auth/RBAC), extension recipe.
+
+**Tests:** 32 new in `test/dashboard.test.ts`:
+- Per-tab unit tests against synthetic fixture projects (empty + populated states for each of the 7 tabs)
+- Integration tests spawning the server on port 0 (random), HTTP-GET each endpoint, asserting JSON shape + HTML render
+- Read-only enforcement (POST → 405)
+- Path-traversal: URL-encoded `..` returns 403 explicitly; plain `..` either 403 or 404 depending on URL normalisation (canonical contract is the encoded case)
+- Loopback-only binding (server.host === "127.0.0.1")
+- Total: **583 tests across 38 suites.**
+
+**Bundle:** 117.60 KB → 183.78 KB (+66 KB for server + 7 assemblers + SPA template + CLI command).
+
+**Plugin:** unchanged — dashboard is core runtime, not a skill.
+
+**v1.5 follow-ups codified:**
+- File-watch / SSE in place of polling (if jitter proves annoying)
+- Vendored Cytoscape served from `/vendor/cytoscape.min.js` for offline graph rendering (currently CDN via Block CC's renderHtml default)
+- htmx for richer interactivity if v1 vanilla JS proves too constrained
+
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 
 Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.

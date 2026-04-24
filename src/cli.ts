@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
+import { runDashboard } from "./commands/dashboard.js";
 import { runFeedback } from "./commands/feedback.js";
 import {
   runGraphQuery,
@@ -185,6 +186,27 @@ runCmd
     } catch (err) {
       console.error(
         pc.red(`run inspect failed: ${err instanceof Error ? err.message : String(err)}`),
+      );
+      process.exit(1);
+    }
+  });
+
+program
+  .command("dashboard")
+  .description("Start the localhost project dashboard (status / stats / sanity / tech-stack / to-dos / graph / quick-links)")
+  .option("--port <n>", "port to bind on 127.0.0.1 (default: 7777)", (v) => parseInt(v, 10))
+  .option("--open", "launch the default browser at the dashboard URL")
+  .option("--poll-ms <n>", "tab refresh interval in ms (default: 10000)", (v) => parseInt(v, 10))
+  .action(async (opts) => {
+    try {
+      await runDashboard({
+        port: opts.port,
+        open: opts.open === true,
+        pollIntervalMs: opts.pollMs,
+      });
+    } catch (err) {
+      console.error(
+        pc.red(`dashboard failed: ${err instanceof Error ? err.message : String(err)}`),
       );
       process.exit(1);
     }
