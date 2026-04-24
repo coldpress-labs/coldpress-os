@@ -18,6 +18,7 @@
     "templates",
     "schemas",
     "graph",
+    "install",
     "docs",
     "coldpress.yaml",
     "LICENSE",

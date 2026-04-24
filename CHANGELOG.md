@@ -275,6 +275,40 @@ Two independent additions packaged as one block.
 
 **Plugin:** unchanged — `@reviewer` is a subagent (not a skill); subagent definitions live in `template/.claude/agents/`, not `plugin/skills/`. Tool-signature helper is core runtime.
 
+### Added — Wave 6 Block FF (§6.3 Project archetypes)
+
+Specialise the framework WITHIN the 9-phase spine — never fork it. Schema + 4 v1 manifests + loader + doc shipped as substrate; `coldpress init --archetype` CLI wiring deferred until init.ts settles (see "deferred" note below).
+
+- **`schemas/archetype.schema.ts`** — Zod schema for archetype manifests. Three override classes:
+  - `subagent_overrides[]` — phase-specific subagent swaps (`{ phase: 1..9, replace, replace_with, reason }`).
+  - `skill_overrides` — `{ disable[], enable[] }` with `superRefine` enforcing mutual exclusion (a skill can't be both disabled and enabled).
+  - `template_overrides[]` — `{ template, source, reason }` for archetype-specific template presets.
+  - Other fields: `schema_version: 1` literal, kebab-case `id`, `name` (≤80 chars), `description`, `status: experimental | stable`, `priority: 0..100` (reserved for future smart-detection), optional free-form `notes`. `SHIPPED_ARCHETYPES` registry pinned to the four v1 slugs.
+- **`install/archetypes/{app-build,data-heavy,infrastructure,research}.yaml`** — 4 v1 manifests:
+  - **`app-build`** (stable, priority 50) — the baseline. No overrides. The reference contract for "default coldpress-os".
+  - **`data-heavy`** (experimental, priority 30) — Phase 6 + Phase 7 swap @developer for `data-interpreter` variant; PRD template leads with Hypothesis / Dataset / Success Metrics; disables `quick-dev`. Ports MetaGPT Data Interpreter pattern.
+  - **`infrastructure`** (experimental, priority 30) — Phase 4 collapses @pm into @architect (IaC projects rarely have product-PRD shape); PRD template leads with Topology / SLO / Cost-target; architecture template adds Network Diagram + Failure Modes + DR sections; disables `quick-dev`.
+  - **`research`** (experimental, priority 30) — Phase 6 swaps @developer for @analyst (research-as-impl); PRD template leads with Research Question / Hypotheses; disables `quick-dev`, `deploy`, `readiness-check`, `env-check`. Phase 7 deploy gate auto-passes when no `deploy:` config exists.
+- **`src/archetypes/load.ts`** — pure-function loader. `loadArchetype(slug, { archetypesDir? })` reads the YAML, validates against `ArchetypeManifestSchema`, cross-checks `id === filename` (catches rename slips). `loadShippedArchetypes()` returns all 4 in registry order. `isShippedArchetype(slug)` type guard. Typed errors: `ArchetypeNotFoundError` (slug not on disk) and `ArchetypeManifestError` (YAML parse / schema-violation / id mismatch — surfaces specific issue paths).
+- **`docs/archetypes-guide.md`** — protocol doc. Hard-rule "never fork the spine" table (✅ swap subagents / disable skills / override templates; ❌ add phases / change schema / bypass governance / etc.); the 4 v1 archetypes with override summaries; manifest shape; loader API; explicit non-goals (no multi-archetype composition, no runtime archetype switching, no smart auto-detection in v1, no project-local archetype overrides yet).
+- **`package.json` `files` whitelist extended** with `install/` so consumers installing via npm can resolve archetype manifests at runtime.
+
+**Deferred to a follow-up commit (rationale):** `coldpress init --archetype <name>` CLI wiring. `src/commands/init.ts` is in active flux at Block FF time (init-non-interactive flow + git-init + pre-commit-hook setup); layering `--archetype` on top would collide and risk breaking the in-flight refactor. Block FF ships the complete substrate (schema + manifests + loader) so the CLI integration is a small follow-up commit once init.ts settles. Same pattern as Block DD's "runtime wiring deferred" + Block EE's "reviewer dispatch at phase boundaries deferred" — substrate first, integrations follow.
+
+The follow-up apply-time logic will:
+1. Resolve the archetype (default `app-build` if no `--archetype`).
+2. After `copyTemplate(...)` runs, walk `subagent_overrides[]` and replace `.claude/agents/<replace>.md` with the variant.
+3. Walk `skill_overrides.disable` and skip wrapper generation under `.claude/skills/`.
+4. Walk `template_overrides[]` and replace targeted templates.
+5. Print the override list with reasons.
+6. Write `coldpress.yaml` `archetype: <slug>` so future commands see it.
+
+The `data-interpreter` and research-impl subagent variants are NOT shipped in v1 — they'll land alongside the CLI wiring follow-up. Until then, the schema validates structurally; apply-time will surface a clear error when CLI tries to swap a missing variant.
+
+**Tests:** 26 new in `test/archetypes.test.ts` — schema invariants per override class, manifest defaults, loader happy + 4 sad paths (not-found / malformed YAML / id↔filename mismatch / specific Zod issue surfacing), shipped-archetype contract checks (each manifest validates, app-build is baseline, data-heavy + research swap subagent at Phase 6, infrastructure swaps @pm → @architect at Phase 4), `isShippedArchetype` type guard, disk↔registry coverage invariant. Total: **555 tests across 37 suites.**
+
+**Plugin:** unchanged — archetypes are framework-level config, not skills.
+
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 
 Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.

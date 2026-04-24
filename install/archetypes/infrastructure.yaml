@@ -1,0 +1,46 @@
+schema_version: 1
+id: infrastructure
+name: "Infrastructure / DevOps"
+description: >
+  Project archetype for IaC / DevOps / platform work — Terraform modules,
+  Kubernetes manifests, CI/CD pipelines, scripts. Rebalances toward
+  @architect ownership of phases that would normally lean on @pm.
+status: experimental
+priority: 30
+
+subagent_overrides:
+  - phase: 4
+    replace: pm
+    replace_with: architect
+    reason: >
+      Infrastructure projects rarely have a product-PRD shape — they
+      have an architectural goal (cluster topology, deployment cadence,
+      cost target). @architect drives Phase 4 directly; @pm role is
+      collapsed.
+
+skill_overrides:
+  disable:
+    - quick-dev   # not applicable
+  enable: []
+
+template_overrides:
+  - template: prd
+    source: archetypes/infrastructure/prd.md
+    reason: >
+      Infrastructure "PRDs" lead with Topology + SLO/SLA + Cost-target
+      sections instead of Vision / Personas. Filename remains prd.md
+      for sacred-doc-protocol compatibility.
+  - template: architecture
+    source: archetypes/infrastructure/architecture.md
+    reason: >
+      Architecture template includes mandatory Network Diagram + Failure
+      Modes + Disaster Recovery sections (vs. the app-build template's
+      Components / Data Flow / Integration Points).
+
+notes: |
+  Infrastructure work also benefits from §5.1 security stack + §5.2
+  governance (especially Conftest for IaC linting). Those land via
+  Wave 5 and need no archetype-specific opt-in. The Wave 5 Block Y
+  Checkov / Terrascan / kube-score IaC scanners (currently deferred)
+  would auto-activate via repo detection (presence of `*.tf`,
+  `Dockerfile`, `k8s/`) when they ship.

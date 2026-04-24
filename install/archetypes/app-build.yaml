@@ -1,0 +1,25 @@
+schema_version: 1
+id: app-build
+name: "App Build (default)"
+description: >
+  Standard product-application archetype: a user-facing app with a PRD,
+  architecture, sprint-planned implementation, deploy + observe loop.
+  Default for `coldpress init` when no `--archetype` flag is passed.
+status: stable
+priority: 50
+
+# No subagent swaps — the canonical 10 cover the lifecycle.
+subagent_overrides: []
+
+# All universal skills active; nothing disabled.
+skill_overrides:
+  disable: []
+  enable: []
+
+# No template tweaks — ship the canonical PRD / architecture / etc.
+template_overrides: []
+
+notes: |
+  This is the baseline archetype. New archetypes specialise FROM this
+  point, not from scratch. Treat the absence of overrides as the
+  reference contract for what "default coldpress-os" looks like.

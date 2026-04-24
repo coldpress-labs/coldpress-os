@@ -1,0 +1,49 @@
+schema_version: 1
+id: research
+name: "Research / Investigation"
+description: >
+  Project archetype for research projects — literature review, prototype
+  exploration, position-paper authoring — where the deliverable is
+  understanding, not a shippable system. Strips Phase 7 deployment
+  shape; centres @analyst over @developer.
+status: experimental
+priority: 30
+
+subagent_overrides:
+  - phase: 6
+    replace: developer
+    replace_with: analyst
+    reason: >
+      Research "implementation" is investigation + writing, not code.
+      @analyst already carries the discovery / synthesis idioms; reuse
+      rather than introduce a research-only variant.
+
+skill_overrides:
+  # Disable shipping-shaped skills that don't apply.
+  disable:
+    - quick-dev
+    - deploy
+    - readiness-check
+    - env-check
+  enable: []
+
+template_overrides:
+  - template: prd
+    source: archetypes/research/prd.md
+    reason: >
+      Research PRDs lead with Research Question + Hypotheses + Success
+      Criteria + Out-of-Scope sections (vs. Vision / Personas / Stories).
+      Filename remains prd.md for sacred-doc-protocol compatibility.
+  - template: architecture
+    source: archetypes/research/architecture.md
+    reason: >
+      Research "architecture" is methodology — how the investigation is
+      structured, what literature is reviewed, what experiments are run.
+      Same filename, different shape.
+
+notes: |
+  Research projects skip Phase 7 deployment as a phase-transition
+  concern (gate auto-passes when no `deploy:` block exists per the
+  phase-7 gate.json `kind: human` overrides). Phase 8 Operate becomes
+  ongoing literature-watch + result-tracking; Phase 9 Evolve drives
+  follow-up research questions.
