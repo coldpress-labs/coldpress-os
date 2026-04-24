@@ -410,7 +410,7 @@ describe("NeedInfoBudgetTracker", () => {
   });
 });
 
-describe("Subagent convention — all 9 carry a NEED_INFO section", () => {
+describe("Subagent convention — all 10 carry a NEED_INFO section", () => {
   const AGENTS = [
     "analyst",
     "architect",
@@ -418,12 +418,13 @@ describe("Subagent convention — all 9 carry a NEED_INFO section", () => {
     "developer",
     "pm",
     "qa",
+    "reviewer",
     "scrum-master",
     "ux-designer",
     "valet",
   ];
 
-  it("template ships exactly these 9 subagents", async () => {
+  it("template ships exactly these 10 subagents", async () => {
     const dir = join(repoRoot, "template/.claude/agents");
     const files = (await readdir(dir))
       .filter((f) => f.endsWith(".md"))

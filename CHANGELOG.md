@@ -248,6 +248,33 @@ Append-only execution-trace representation persisted to `.coldpress/runs/<run-id
 
 **Plugin:** unchanged — EventStream is core runtime, not a skill.
 
+### Added — Wave 6 Block EE (§6.2 @reviewer + §6.9 Vercel AI SDK tool-signature)
+
+Two independent additions packaged as one block.
+
+**§6.2 — `@reviewer` subagent (10th subagent)**
+
+- **`template/.claude/agents/reviewer.md`** — pure-critic persona with read-only tools (`Read`, `Grep`, `Glob`); no Edit/Write/Bash. The read-only constraint is load-bearing — critics that can also produce tend to collapse reviewing into re-authoring. Model: `haiku` (rubric-grounding is high-recall low-creativity work). Color: `grey`. `maxTurns: 10`. Carries the standard `## When to Emit <NEED_INFO>` section per Block AA convention; defaults to `acceptance-criteria-unclear` (routes to @scrum-master) — reviewers don't typically emit `prd-ambiguity` themselves since the PM owns that route as receiver.
+- **`schemas/reviewer-rubric.schema.ts`** — Zod schema for the `ReviewRubric` JSON output. `RubricRow` requires kebab-case `id`, `description`, `status` (`pass | fail`), `severity` (`low | medium | high`), `evidence` (quote/line ref FROM THE ARTEFACT — pure grounding), one-sentence `remediation` (gap statement, not a fix). `ReviewRubric` aggregates rows via `computeOverall(criteria)`: `pass` if every row passes, `fail` if any row is `status: fail` AND `severity: high`, `warn` otherwise. Schema enforces declared `overall === computeOverall(criteria)` via `superRefine` — no fudging the verdict.
+- Reviewers write to `_context/audit/reviews/<artefact-basename>-review-{YYYYMMDD}.json` (per Block R canonical-subfolder mapping).
+- **`docs/reviewer-subagent.md`** — protocol doc: hard-rule pure-critic table, canonical review pairings (PRD/architecture/stories/impl/NFR), rubric shape + aggregation rule, critical rules for the persona, integration with phase-gate / EventStream / NEED_INFO / interop generator. Explicit non-goals: no auto-remediation, no cross-artefact rubrics, no rubric versioning across runs, no skill dispatching from reviewer.
+- **Interop generator unchanged** — `runInterop` reads `.claude/agents/*.md` dynamically, so reviewer.md is auto-included in AGENTS.md, .cursor/rules/reviewer.mdc, .roomodes (10 customModes), .openhands/microagents/reviewer.md, .clinerules. Test counts updated 9→10 in `test/interop.test.ts` (parser + file-count) and `test/need-info.test.ts` (subagent convention coverage).
+- **Bundled-agent count: 10** — reviewer joins analyst / architect / communicator / developer / pm / qa / scrum-master / ux-designer / valet. Phase-gate-evaluator dispatch + reviewer invocation timing shipped as schema substrate; runtime wiring (orchestrator-level "review at phase boundary" hook) deferred to §6.5 checkpointer follow-up.
+
+**§6.9 — Vercel AI SDK tool-signature convention**
+
+- **`src/tool-signature/index.ts`** — `tool({ description?, parameters: ZodObject, execute: (args) => Promise<R> | R })` helper. **A convention, not a dependency.** TS-agent ecosystem has converged on this shape across Vercel AI SDK, Mastra, AgentKit; coldpress-os adopts the *shape* without inheriting `vercel/ai`'s heavy provider/runtime surface or Mastra's ELv2 licensing. Two responsibilities: (1) stamp `TOOL_SIGNATURE_MARKER` for reflective detection via `isTool(value)`; (2) validate `parameters` is a `z.object(...)` at the top level (rejects `z.string()` / arrays / non-Zod inputs at runtime — fail-loud). Compatible with Zod 3.25+ `_def.type` AND legacy `_def.typeName` discriminator.
+- **`docs/agent-sdk-compatibility.md`** — protocol doc covering BOTH §2.13 (Claude Agent SDK type-conformance from Wave 2) AND §6.9 (this block). When-to-use: anywhere `@coldpress/core` exposes a tool-shaped primitive to third-party code. Today: nothing exposed publicly; future surface candidates include a post-v1.0 `@coldpress/sdk` package and plugin-marketplace skill-tool wrappers. Explicit non-goals: no execution runtime (Vercel AI SDK does that), no streaming, no tool-discovery API.
+
+**Tests**
+
+- **9 new in `test/reviewer-rubric.test.ts`** — enum coverage, `RubricRow` schema invariants (slug id, evidence non-empty), `computeOverall` aggregator at every rung (pass/warn/fail/fail-dominates-warn), `ReviewRubric` superRefine (rejects mismatched declared verdict), shape round-trip.
+- **9 new in `test/tool-signature.test.ts`** — `tool()` happy + sync/async execute + rejection paths (non-Zod, non-ZodObject top-level, null), `isTool()` true/false coverage, marker presence.
+- **Existing test updates:** `test/interop.test.ts` agent count + slug array + file count (23→25) + roomodes comment, `test/need-info.test.ts` AGENTS array + describe-block label (9→10).
+- Total: 487 across 32 suites (additional suites are pre-existing un-staged user WIP — Block EE adds 18 new tests on top of Block DD's 374).
+
+**Plugin:** unchanged — `@reviewer` is a subagent (not a skill); subagent definitions live in `template/.claude/agents/`, not `plugin/skills/`. Tool-signature helper is core runtime.
+
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 
 Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.

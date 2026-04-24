@@ -48,13 +48,13 @@ System prompt body here.
 });
 
 describe("parseAgentsDir (against shipped template)", () => {
-  it("parses the 9 subagents in the project template", async () => {
+  it("parses the 10 subagents in the project template", async () => {
     const agents = await parseAgentsDir(templateAgentsDir);
-    expect(agents.length).toBe(9);
+    expect(agents.length).toBe(10);
 
     const slugs = agents.map((a) => a.name).sort();
     expect(slugs).toEqual(
-      ["analyst", "architect", "communicator", "developer", "pm", "qa", "scrum-master", "ux-designer", "valet"].sort(),
+      ["analyst", "architect", "communicator", "developer", "pm", "qa", "reviewer", "scrum-master", "ux-designer", "valet"].sort(),
     );
 
     // Every agent has a non-empty system prompt.
@@ -121,9 +121,9 @@ describe("runInterop — full sweep against shipped template", () => {
     expect(result.warnings).toEqual([]);
     expect(result.skipped).toEqual([]);
 
-    // Count check — with 9 agents: 1 AGENTS.md + 9 .mdc + 1 .cursorrules +
-    // 1 .roomodes + 9 openhands microagents + 2 .clinerules = 23 files.
-    expect(result.files.length).toBe(23);
+    // Count check — with 10 agents: 1 AGENTS.md + 10 .mdc + 1 .cursorrules +
+    // 1 .roomodes + 10 openhands microagents + 2 .clinerules = 25 files.
+    expect(result.files.length).toBe(25);
 
     // Each generated file bears the managed marker.
     for (const filePath of result.files) {
@@ -137,7 +137,7 @@ describe("runInterop — full sweep against shipped template", () => {
     expect(agentsMd).toContain("analyst");
     expect(agentsMd).toContain("architect");
 
-    // .roomodes parses as YAML and has 9 customModes entries with expected shape.
+    // .roomodes parses as YAML and has 10 customModes entries with expected shape.
     const roomodes = await readFile(join(project, ".roomodes"), "utf8");
     expect(roomodes).toContain("customModes:");
     expect(roomodes).toContain("slug: analyst");
