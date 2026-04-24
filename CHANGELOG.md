@@ -350,6 +350,44 @@ The user-added Wave 6 scope. Localhost-served single-page dashboard that aggrega
 - Vendored Cytoscape served from `/vendor/cytoscape.min.js` for offline graph rendering (currently CDN via Block CC's renderHtml default)
 - htmx for richer interactivity if v1 vanilla JS proves too constrained
 
+### Added — Wave 6 Block HH (§6.5 LangGraph checkpointer + §6.6 SWE-agent ACI)
+
+Two related substrate additions packaged as one block. Both ship the schema + helpers + docs; runtime wiring stays deferred until the orchestrator shell lands (same pattern as Blocks DD/EE/FF/GG deferrals).
+
+**§6.5 — Checkpointer + content-addressed skill cache**
+
+Ports LangGraph's `BaseCheckpointSaver` + `interrupt()` primitive (interface, not the code) AND Prefect's content-addressed task cache pattern. Two distinct concepts sharing one schema file.
+
+- **`schemas/checkpoint.schema.ts`** — Zod for two shapes:
+  - `CheckpointSchema` — orchestrator-state snapshot at an interruptible point. Fields: `schema_version: 1`, kebab-case `run_id` matching the EventStream, ISO-8601 `created_at`, `last_event_seq`, `interrupt_kind` (5-rung enum: `phase-boundary | need-info | human-gate | manual | error`), `reason` (paragraph), opaque `state` (orchestrator authors layer their own Zod on top).
+  - `SkillCacheEntrySchema` — content-addressed cache entry. Fields: `schema_version: 1`, SHA-256 `hash`, `skill_id`, `version_marker` (manual invalidation knob equivalent to Prefect's `cache_key_fn`), ISO-8601 `cached_at`, `result` ({exit_code, artifact_path?, message?} mirroring EventStream `skill-result` shape), `inputs` audit trail.
+- **`src/checkpoint/save.ts`** — `saveCheckpoint(...)`. Atomic single-file writes (`tmp + rename`); no partial-write corruption survives a crash. Validates against schema before writing; refuses malformed.
+- **`src/checkpoint/restore.ts`** — `readCheckpoint(...)`. Three typed errors: `CheckpointNotFoundError`, `CheckpointParseError` (schema violation with issue paths), `CheckpointDriftError` (live EventStream moved past `last_event_seq` — refuse to resume; state has drifted). `skipDriftCheck: true` for inspect-only callers (Project Dashboard); real resumption MUST verify.
+- **`src/checkpoint/cache.ts`** — `hashInputs({skillId, versionMarker, args})` pure function emitting deterministic SHA-256 (canonical JSON key-sort; `{a,b}` and `{b,a}` hash identically; rejects non-finite numbers). `SkillResultCache` class with `get(hash)` (returns null on miss OR schema-invalid disk file — never throws hot-path) + `put(...)` (atomic write, validates entry). **Cache is NEVER load-bearing** — orchestrators MUST be able to fall back to running the skill if cache misses or is corrupted; codified throughout the doc.
+- **`docs/checkpointer.md`** — protocol doc: two-distinct-concepts table, checkpoint shape + atomic-write rationale + drift-check semantics + time-travel recipe, cache shape + `version_marker` convention + trust posture + redaction-before-cache rule, explicit non-goals (no multi-checkpoint history, no distributed support, no encryption-at-rest, no TTL/GC, no cross-run cache sharing, no streaming updates).
+
+**§6.6 — SWE-agent ACI command grammar (4 discipline-encoding skills)**
+
+Ports the *interface*, not the Docker-sandbox runtime. Claude Code's existing `Edit` / `Read` / `Grep` / `Glob` / `Bash` tools provide the runtime; these skills add the discipline (bounded steps + verifier feedback + 2-fail escalation).
+
+- **`skills/edit/aci-primitives/aci-edit/`** — bounded edit + immediate verifier feedback (typecheck/lint per file extension) before next step. Two-fail escalation budget. Rejects multi-edit batches; rejects `--no-verify` bypasses.
+- **`skills/edit/aci-primitives/aci-scroll/`** — bounded read window + explicit cursor trailer (`→ cursor at line N; file ends at line M`). Multi-step file walks don't recompute position.
+- **`skills/edit/aci-primitives/aci-search-dir/`** — capped-result Grep + structured `file:line:snippet` shape (one match per row). Default cap 50.
+- **`skills/edit/aci-primitives/aci-find-file/`** — capped-result Glob + one-path-per-line shape. Default cap 25.
+- All four tagged `phases: [6, 9]` (Implementation + Evolve, post-Phase-8-split).
+- **`docs/aci-primitives.md`** — protocol doc: 4-skill table, why-interface-not-runtime rationale (port the discipline; don't port the sandbox), when ACI vs. raw tools, 2-fail escalation budget, example multi-step loop, explicit non-goals (no worktree primitive, no cross-language verifier registry, no diff-aware preview, no replay/record).
+
+**Tests:** 26 new in `test/checkpoint.test.ts` — schema invariants per type, save (atomic write + overwrite semantics), restore (4 sad paths: not-found, malformed JSON, schema violation, drift), `skipDriftCheck` bypass, `hashInputs` invariants (canonical key-order, version_marker + skill_id + args sensitivity, 64-char hex output, non-finite rejection), `SkillResultCache` (miss returns null, round-trip preserves entry, schema-invalid disk treated as miss, put refuses malformed, schema acceptance). Total: **609 tests across 39 suites.**
+
+**Plugin:** 90 SKILL.md emitted (+4 ACI primitives). Bundle: 183.78 KB → unchanged for Block HH (no CLI surface added; `coldpress run inspect` already covers checkpoint inspection via the EventStream tail; checkpoint-specific CLI is part of the deferred orchestrator wiring).
+
+**Runtime wiring deferred to orchestrator shell:**
+- `EventStreamWriter` integration with `saveCheckpoint()` at phase boundaries
+- `<NEED_INFO>` emissions automatically authoring `interrupt_kind: need-info` checkpoints
+- Skill-dispatch layer consulting `SkillResultCache.get(hash)` before invoking
+- ACI-primitive dispatch from `@developer` / `@reviewer` orchestrator handoffs
+- Project Dashboard checkpoint metadata panel (assembler trivial; pending dashboard tab work)
+
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 
 Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.
