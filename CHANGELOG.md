@@ -388,6 +388,53 @@ Ports the *interface*, not the Docker-sandbox runtime. Claude Code's existing `E
 - ACI-primitive dispatch from `@developer` / `@reviewer` orchestrator handoffs
 - Project Dashboard checkpoint metadata panel (assembler trivial; pending dashboard tab work)
 
+### Added — Wave 6 Block II (§6.7 MetaGPT prompt-pattern refactor)
+
+Five MetaGPT-derived prompt patterns ported as discipline conventions for the highest-stakes skills. Pure markdown + template work — no runtime, no schema changes, no CLI surface.
+
+**The 5 patterns (documented in `docs/prompt-patterns.md`):**
+
+1. **Inline section-level meta-descriptions** — each template section carries a short italicised description stating what belongs there; the output degrades gracefully when a section is unclear.
+2. **"ATTENTION" preamble with numbered imperatives** — for machine-parsed outputs (PERT DAG, epic sharding). Imperatives resist paraphrase; prose advice doesn't.
+3. **Forcing-function artefacts** — mandatory Mermaid diagrams / tables make skipped analysis reviewable. Empty cells / missing diagrams = visible gaps.
+4. **Tripartite code-review CoT scaffold** — review triangle (correct / safe / maintainable) + `file:line`-grounded evidence + threshold-driven remediation. Ports into Block EE's `ReviewRubric.RubricRow.evidence` convention.
+5. **Closing "Output Contract" block** — restates the format spec at generation time. The repetition is load-bearing.
+
+**Reusable snippet library** at `templates/prompt-snippets/` — 5 copy-paste-ready fragments with placeholders:
+- `attention-preamble.md` — Pattern 2 scaffold
+- `forcing-function-mermaid.md` — Pattern 3 Mermaid example
+- `forcing-function-table.md` — Pattern 3 table example
+- `review-cot-triangle.md` — Pattern 4 triangle scaffold (review grounding + evidence-citation rules)
+- `output-contract.md` — Pattern 5 scaffold
+
+Each snippet carries an HTML-comment provenance header citing `§6.7` + `docs/prompt-patterns.md` (test-enforced).
+
+**Retrofitted 3 canonical high-stakes skills:**
+
+- **`lifecycle/4-planning/create-prd/SKILL.md`** (v1.0 → v1.1) — added Output Contract (Pattern 5) referencing the template's 12-section structure + frontmatter invariants incl. `adr_references` per `prd_has_adr` Rego policy.
+- **`lifecycle/4-planning/create-architecture/SKILL.md`** (v1.0 → v1.1) — added Forcing-function artefacts (Pattern 3 — mandatory Component Interaction Diagram via Mermaid + mandatory Failure Mode Enumeration table with 5-row/4-column floor) + Output Contract (Pattern 5) with `approvers[]` + `inputDocuments[]` + `adr_references` invariants.
+- **`lifecycle/5-breakdown/parallelization-strategy/SKILL.md`** (v1.0 → v1.1) — the full treatment:
+  - ATTENTION preamble (Pattern 2) — 5 non-negotiable imperatives: exact column order, numeric wave ids, one-wave-per-epic invariant, kebab-case Epic slug matching, no prose-between-DAG-and-table.
+  - Forcing-function artefacts (Pattern 3) — mandatory DAG Mermaid + wave grouping table (ATTENTION-enforced columns) + critical-path table with explicit `0` for critical-path slack (no blanks).
+  - Output Contract (Pattern 5) — frontmatter per `pert-chart` JSON schema, section order, confirmation format with wave count + critical-path length.
+
+**What's NOT in this block (explicit):**
+- Rewriting sacred-doc templates beyond Pattern 1 (inline meta-descriptions) — templates (`templates/documents/*.md`) retain their current shape; deeper restructuring is follow-up.
+- A scaffold-time prompt-pattern linter — would need orchestrator shell (deferred).
+- Porting every MetaGPT pattern — 5 is the starting set per tier3-positioning-brief-2026-04-22.md §7.2; more when specific needs surface.
+- Schema-level enforcement of Pattern 3 forcing-functions — they're drafting discipline + review concern, not Zod constraints. The downstream parser still accepts output missing the diagram; review catches it.
+
+**Tests:** 9 new in `test/prompt-patterns.test.ts`:
+- High-stakes skill coverage: each of the 3 retrofitted skills has the required pattern markers (Output Contract / ATTENTION / Mermaid forcing) per a declarative `HIGH_STAKES_SKILLS` spec in the test file — adding a new skill to the set updates the spec.
+- Every retrofitted skill references either `docs/prompt-patterns.md` or `templates/prompt-snippets/` or `§6.7` for provenance.
+- Snippet-library shape: all 5 canonical snippets present; every snippet carries the HTML-comment provenance header citing `§6.7` + the patterns doc.
+- `docs/prompt-patterns.md` self-consistency: 5 pattern sections present; applied-set table mentions each retrofitted skill by name.
+- Total: **618 tests across 40 suites.**
+
+**Bundle:** unchanged (no code surface).
+
+**Plugin:** regen will pick up the 3 SKILL.md revisions on next `build:skills`; plugin/ intentionally not staged (still commingles with user-WIP source skills — same rationale as Block HH).
+
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 
 Added to plan §6 after Block CC kickoff. A localhost-served single-page dashboard that aggregates project-management state (status / stats / sanity / tech-stack / to-dos / graph / quick links) from existing artefacts. Reflective of the coldpress-os usage, NOT the product being built. Dependency-light (hand-rolled HTML + vanilla JS, optionally htmx); read-only; binds to 127.0.0.1 only; no auth. Ships as Block GG, depends on Block CC (§6.1 visualizer) + Block DD (§6.4 EventStream). Wave 6 completion gates updated. Sequencing: CC → DD → EE → FF → GG → HH → II → JJ.
