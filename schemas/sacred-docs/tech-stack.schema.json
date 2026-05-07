@@ -16,8 +16,18 @@
     "stack_pack": {
       "type": "string",
       "description": "Stack-pack id this tech-stack descends from (e.g., `vibe-coder`, `nextjs-convex`). Optional."
+    },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^_input/.*\\.(md|pdf|docx|txt)$" },
+      "description": "_input/ paths whose conclusions this sacred doc supersedes."
+    },
+    "derived_from": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to Phase 2 + Phase 3 upstream artefacts (context.md, product-brief-v{N}, shortlist, ADRs)."
     }
   },
-  "required": ["sacred", "version", "governance", "workflowType"],
+  "required": ["sacred", "version", "governance", "workflowType", "derived_from"],
   "additionalProperties": true
 }

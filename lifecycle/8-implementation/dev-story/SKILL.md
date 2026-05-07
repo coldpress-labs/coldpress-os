@@ -3,7 +3,7 @@ name: "dev-story"
 description: "Execute story implementation following the story spec with red-green-refactor cycle"
 type: "workflow"
 category: "lifecycle"
-phase: 6
+phase: 8
 agent: "developer"
 inputs:
   - "_context/implementation/{story-key}.md"

@@ -4,6 +4,7 @@ step_name: "Load Documents"
 step_goal: "Load the PRD and all supporting documents needed for validation"
 halts_for_input: true
 next_step: "step-02-validate.md"
+partial_completion_id: "validate_prd_step_01"
 ---
 
 ## Goal

@@ -26,11 +26,11 @@ Legend: **primary** = owns the phase's main outputs; **active** = contributes bu
 | `pm` | — | — | — | **primary** — `create-prd`, `validate-prd` | **active** — `create-epics` | — | — | — | **primary** — `product-evolution` |
 | `ux-designer` | — | — | — | **primary** — `create-ux-design` | — | — | — | — | — |
 | `architect` | — | **active** — supports `constraint-research` feasibility | **primary** — `stack-evaluation`, `stack-locking` | **primary** — `create-architecture`, ADRs | — | **ad-hoc** — architecture Q&A | — | — | — |
-| `developer` | **primary** — `machine-setup` | — | **primary** — `env-provision` | — | — | **primary** — `dev-story`, `quick-dev` | **active** — `deploy`, `ci-cd-setup` | — | — |
+| `developer` | — | — | **primary** — `env-provision` | — | — | **primary** — `dev-story`, `quick-dev` | **active** — `deploy`, `ci-cd-setup` | — | — |
 | `qa` | — | — | — | — | **active** — `implementation-readiness` | **primary** — `code-review`, `code-audit`, testing skills | **primary** — `readiness-check`, `security-scan`, `env-check`, `dep-health-check`, `db-migration-check`, `deploy` gate | — | — |
 | `scrum-master` | — | — | — | — | **primary** — `create-stories`, `sprint-planning`, `parallelization-strategy` | **active** — `wave-orchestration` | — | **primary** — `correct-course`, `sprint-status` | **primary** — `retrospective` |
 | `communicator` | — | — | — | **active** — documentation, pitch support, creative tools (presentation/storytelling) | — | — | — | **active** — `document-project` | **active** — documentation of retros, narratives |
-| `valet` | **active** — `project-init`, `agent-scaffold` routing | — | — | — | — | **ad-hoc** — meta/framework questions | **ad-hoc** — `repo-structure-audit` | **ad-hoc** — framework upgrades | **ad-hoc** — `propose-change` for lessons learned |
+| `valet` | — | — | — | — | — | **ad-hoc** — meta/framework questions | **ad-hoc** — `repo-structure-audit` | **ad-hoc** — framework upgrades | **ad-hoc** — `propose-change` for lessons learned |
 
 ---
 

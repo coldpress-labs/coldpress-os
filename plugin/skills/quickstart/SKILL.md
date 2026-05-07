@@ -2,7 +2,7 @@
 name: quickstart
 description: Initialize a new Convex project with best-practice configuration
 license: MIT
-compatibility: Phase 1
+compatibility: Phase 3
 version: "1.0"
 ---
 

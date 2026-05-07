@@ -3,7 +3,7 @@ name: "innovation-strategy"
 description: "Explore disruption opportunities during product evolution"
 type: "router"
 category: "lifecycle"
-phase: 8
+phase: 11
 routes_to: "skills/creative/innovation-strategy/"
 agent: "analyst"
 version: "1.0"

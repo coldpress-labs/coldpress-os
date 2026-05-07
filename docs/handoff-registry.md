@@ -1,7 +1,7 @@
 ---
 name: handoff-registry
 description: Canonical enumeration of every inter-phase and high-stakes intra-phase handoff in coldpress-os
-version: "1.0"
+version: "1.4"
 ---
 
 # Handoff Registry
@@ -23,10 +23,10 @@ Before this registry existed, 6 of 7 inter-phase handoffs were implicit — the 
 
 | # | From phase | To phase | Artefact path | Type | Producing skill | Consuming skill(s) | Stakes | Schema |
 |---|------------|----------|---------------|------|-----------------|--------------------|--------|--------|
-| 1 | Phase 1 (Bootstrap) | Phase 2 (Discovery) | `_context/sacred/context.md` (seed) | prose | `project-init` | `pre-project-interview` | low | — |
-| 2 | Phase 2 (Discovery) | Phase 3 (Tech Stack) | `_context/sacred/context.md` + discovery outputs | prose | `pre-project-interview`, `domain-research`, `market-research`, `constraint-research` | `stack-evaluation` | med | — |
-| 3 | Phase 3 (Tech Stack) | Phase 4 (Planning) | `_context/sacred/tech-stack.md` | prose + structured | `stack-locking` | `create-prd`, `create-architecture` | med | — |
-| 4 | Phase 4 (Planning) — intra | Phase 4 (Planning) — intra | `_context/sacred/prd.md` → `_context/sacred/architecture.md` | structured | `create-prd` | `create-architecture` | **high** | `prd-to-architecture.schema.ts` |
+| 1 | Phase 1 (Bootstrap) | Phase 2 (Discovery) | `_context/sacred/context.md` (seed) + `_context/handoffs/phase-1-to-phase-2-{date}.md` (written by `phase-transition`) | prose | `intake` → `phase-transition` | `pre-project-interview` | low | — |
+| 2 | Phase 2 (Discovery) | Phase 3 (Tech Stack) | `_context/sacred/context.md` (status: authored) + `_context/planning/research-synthesis-v{N}.md` + `_context/planning/product-brief-v{N}.md` + `_context/planning/idea-validation-v{N}.md` (if ran) + `_context/planning/personas-*.md` (if ran) + `_context/planning/research/*.md` fragments + `_context/audit/supersessions-*.md` (if any) + `_context/handoffs/phase-2-to-phase-3-{date}.md` (written by `phase-transition`) | prose + structured (product-brief schema + research-output schema) | `pre-project-interview`, `domain-research`, `market-research`, `constraint-research`, `personas`, `validate-idea`, `synthesize-research`, `product-brief` → `phase-transition` | `stack-evaluation` | med | `schemas/distillates/product-brief.schema.json`, `schemas/research-output.schema.json` |
+| 3 | Phase 3 (Tech Stack) | Phase 4 (Planning) | `_context/sacred/tech-stack.md` + `_context/planning/adrs/adr-*-v*.md` + `_context/planning/stack-selection-summary-v{N}.md` + `_context/planning/stack-shortlist-v{N}.md` + `_context/handoffs/phase-3-to-4-{date}.md` (written by `phase-transition`) + `_context/audit/stack-lock-decisions-{date}.md` (if applicable) + `_context/audit/supersessions-{date}.md` (if applicable) | prose + structured (tech-stack schema + ADR schema + shortlist schema + distillate schema) | `stack-discovery-sync`, `stack-evaluation`, `stack-locking` → `phase-transition` | `create-prd`, `create-architecture` | med | `schemas/sacred-docs/tech-stack.schema.json`, `schemas/planning-artefacts/adr.schema.json`, `schemas/planning-artefacts/stack-shortlist.schema.json`, `schemas/distillates/stack-selection-summary.schema.json` |
+| 4 | Phase 4 (Planning) | Phase 6 (Architecture) | `_context/sacred/prd.md` + `_context/sacred/prd.meta.json` + `_context/planning/planning-scope-v{N}.md` + `_context/planning/legacy-migration-plan-v{N}.md` **(brownfield only — conditional on `_input/legacy/` non-empty; validated against `schemas/planning-artefacts/legacy-migration-plan.schema.json`; recorded in `prd.meta.json` as `brownfield_modules_count > 0`)** + `_context/planning/prd-validation-{date}.md` + `_context/handoffs/phase-4-to-5-{date}.md` (written by `phase-transition`) | prose + structured | `planning-entry-sync`, `create-prd`, `validate-prd`, `legacy-assessment` → `phase-transition` | `planning-entry-sync` (Phase 6 warm-handoff) | **high** | `schemas/handoffs/prd-to-architecture.schema.ts` |
 | 5 | Phase 4 (Planning) | Phase 5 (Breakdown) | `_context/sacred/architecture.md` → `_context/sacred/pert-chart.md` | structured | `create-architecture` | `parallelization-strategy` | **high** | `architecture-to-pert.schema.ts` |
 | 6 | Phase 5 (Breakdown) — intra | Phase 5 (Breakdown) — intra | `_context/sacred/pert-chart.md` → `_context/planning/stories/*.md` | structured | `parallelization-strategy` | `create-stories` | **high** | `pert-to-stories.schema.ts` |
 | 7 | Phase 5 (Breakdown) | Phase 6 (Implementation) | `_context/planning/stories/*.md` → implementation files | structured + code | `create-stories` | `dev-story`, `quick-dev` | **high** | `stories-to-implementation.schema.ts` |
@@ -34,8 +34,17 @@ Before this registry existed, 6 of 7 inter-phase handoffs were implicit — the 
 | 9 | Phase 7 (Deployment) | Phase 8 (Operate) | deployment manifest + operational telemetry | structured | `deploy` | `correct-course`, `sprint-status` | med | — |
 | 10 | Phase 8 (Operate) | Phase 9 (Evolve) | `_context/audit/retro-epic-*.md` inputs | prose | `sprint-status`, `correct-course` | `retrospective` | low | — |
 | 11 | Phase 9 (Evolve) | Phase 4 (Planning) / Phase 2 (Discovery) | `_context/audit/retro-*.md` → next cycle inputs | prose | `retrospective`, `product-evolution` | `create-prd` (re-planning) or `pre-project-interview` (next epic) | low | — |
+| 12 | Phase 3 (Tech Stack) | Phase 1 (Bootstrap) — re-invocation | `coldpress.yaml stack_pack` (now actually written by `stack-locking` Step 4 — Part 3 Wave 2.3) | structured | `stack-locking` | `intake` Step 5 graph-prime re-run (to re-index with stack-pack-aware context) | low | — |
 
-**Count:** 11 handoffs total — 9 inter-phase (entries 1, 2, 3, 5, 7, 8, 9, 10, 11) + 2 high-stakes intra-phase (entries 4, 6). Matches the 9-phase post-split lifecycle (Wave 4 §4.11).
+**Count:** 12 handoffs total — 10 inter-phase (entries 1, 2, 3, 5, 7, 8, 9, 10, 11, 12) + 2 high-stakes intra-phase (entries 4, 6). Entry 12 is a *re-invocation* edge — Phase 3 completion reactivates part of Phase 1 rather than progressing forward. Matches the 9-phase post-split lifecycle (Wave 4 §4.11).
+
+**Phase 2 → 3 expansion (Wave 4.8):** Entry 2 now lists the full artefact set produced by Phase 2 Discovery, including the synthesize-research + validate-idea + personas + product-brief outputs and the supersessions audit log. The `phase-transition` skill now writes the formal handoff artefact for entries 1 and 2 (replaces the manual intake step-06 prose handoff for entry 1).
+
+### Non-handoff CLI companion
+
+Entry 12 (Phase 3 → Phase 1 re-invocation) is a Butler skill handoff. It is *accompanied by* a mechanical CLI invocation that is **not** a skill-level handoff and therefore does not get its own registry row:
+
+- **Phase 3 stack-lock exit hook → `coldpress update --post-phase-3`** (runs outside a Butler session). This CLI call regenerates stack-pack skill wrappers and runs `coldpress doctor --stack`; it's a mechanical step wired by the Phase 3 stack-locking exit hook. See [`src/commands/update.ts runPostPhase3`](../src/commands/update.ts). Wired 2026-04-24 in Part 3 Wave 4.9: `stack-locking` Step 6 exit-hook-prompt prompts the user to run the command; `coldpress update --post-phase-3` writes `post_phase_3_update_ran: true` to `.coldpress/local-config.yaml`; Butler detects the flag on next turn to unlock env-provision.
 
 **High-stakes subset** (entries 4, 5, 6, 7) matches §3.8's v1 Zod whitelist:
 
@@ -113,4 +122,8 @@ When a new handoff surfaces (new phase, new sacred artefact, new cross-cutting s
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.4 | 2026-04-25 | Cadbury-hq | Phase II Part 4 Wave 7 (task 7.7). Row 4 updated: `legacy-migration-plan-v{N}.md` added as a conditional artefact (brownfield only — `_input/legacy/` non-empty). Schema reference added: `schemas/planning-artefacts/legacy-migration-plan.schema.json`. Link to `prd.meta.json` `brownfield_modules_count` field documented. |
+| 1.3 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 4.8. Row 3 expanded: Phase 3 → Phase 4 artefact set now enumerates all 7 artefact types (tech-stack, ADRs, shortlist, stack-selection-summary, phase-transition handoff, stack-lock-decisions log, supersessions log) + 4 schema references. Producing skills list: stack-discovery-sync, stack-evaluation, stack-locking. Row 12 wiring note updated: `coldpress.yaml stack_pack` is now actually written (Wave 2.3, not deferred). Non-handoff CLI companion note updated: exit hook wired 2026-04-24 (Part 3 Wave 4.9) — `post_phase_3_update_ran` flag now written by `coldpress update --post-phase-3`. |
+| 1.2 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 4.8. Rows 1–2 expanded: Row 1 producing skill now routes through `phase-transition`; handoff path updated to phase-transition naming convention. Row 2 expanded to list all 8 Phase 2 Discovery artefact types (context, synthesis, product-brief, idea-validation, personas, research fragments, supersessions log, phase-transition handoff) + two new schema references (`product-brief.schema.json`, `research-output.schema.json`). Phase 2→3 expansion note added. |
+| 1.1 | 2026-04-24 | Cadbury-hq | Phase II Part 1 Wave 3.4. Row 1 producing skill updated: `project-init` (retired in Wave 4) → `intake` (new in Wave 3.2). Row 12 added: Phase 3 stack-lock → Phase 1 intake re-invocation edge (stakes: low). Total count 11 → 12. Non-handoff CLI companion noted for `coldpress update --post-phase-3` — mechanical invocation, not a Butler skill handoff, so no registry row; wiring follow-up tracked in phase-ii-implementation-plan Forward carries (target Part 3). |
 | 1.0 | 2026-04-23 | Cadbury-hq | Initial registry — 11 handoffs (9 inter-phase + 2 high-stakes intra-phase). Resolves Open Question #4. Produced as part of Wave 3 Block L (§3.0). |

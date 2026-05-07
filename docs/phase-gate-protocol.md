@@ -123,11 +123,11 @@ Consumers (skills, orchestrator, the `coldpress` CLI) read this structure direct
 Phase transitions are gated on evaluator pass:
 
 ```
-wave-orchestration finishes Wave N of Phase 6
+wave-orchestration finishes Wave N of Phase 8
   ↓
 evaluate-phase-gate (phase=6)
   ↓
-exit code 0 (pass)         → wave-orchestration continues; transition to Phase 7 cleared
+exit code 0 (pass)         → wave-orchestration continues; transition to Phase 9 cleared
 exit code 1 (fail)         → halt; surface blockers to user + remediation hints
 exit code 2 (pending-human) → halt; prompt user for the specific human check sign-offs
 ```
@@ -136,11 +136,11 @@ No separate "gate" concept outside `evaluate-phase-gate`. Every gate — securit
 
 ### §5.1 security stack is an acceptance_check
 
-Phase 7's `gate.json` has a `security-scan-classical` check with `skill_ref: "aggregate-gate-results"` — the aggregator skill that composes the 5-scanner outputs. The aggregator emits exit 0/1; `evaluate-phase-gate` consumes that result like any other automated check. No bespoke "security gate" layer — gates compose.
+Phase 9's `gate.json` has a `security-scan-classical` check with `skill_ref: "aggregate-gate-results"` — the aggregator skill that composes the 5-scanner outputs. The aggregator emits exit 0/1; `evaluate-phase-gate` consumes that result like any other automated check. No bespoke "security gate" layer — gates compose.
 
 ### §5.5–§5.7 LLM gates are acceptance_checks
 
-Same pattern: `llm-quality-gate` (DeepEval), `prompt-regression` (Promptfoo), `llm-security-scan` (Giskard) each slot in as distinct `acceptance_check` entries in Phase 7's `gate.json`. Each has its own `skill_ref`, its own severity. When all four (classical + 3 LLM) are block-severity and all pass, Phase 7 transitions clean.
+Same pattern: `llm-quality-gate` (DeepEval), `prompt-regression` (Promptfoo), `llm-security-scan` (Giskard) each slot in as distinct `acceptance_check` entries in Phase 9's `gate.json`. Each has its own `skill_ref`, its own severity. When all four (classical + 3 LLM) are block-severity and all pass, Phase 9 transitions clean.
 
 ---
 

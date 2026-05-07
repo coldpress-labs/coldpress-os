@@ -6,16 +6,29 @@ category: "lifecycle"
 phase: 4
 agent: "pm"
 inputs:
-  - "_context/sacred/context.md"
-  - "_context/planning/product-brief-{date}.md"
-  - "_context/planning/design-brief-{date}.md"
-  - "_context/sacred/tech-stack.md"
+  graph_queries:
+    - "Full Phase 2+3 project context summary (from planning-scope-v{N}.md graph node)"
+    - "Persona nodes (archetypes, pain points, accessibility/device/language targets)"
+    - "Idea-validation nodes (North Star, riskiest assumptions, success metrics)"
+    - "Product-brief nodes (users, value prop)"
+    - "Stack decision nodes + ADR summaries (for NFR derivation)"
+    - "Baseline constraint nodes (from planning-scope active_baselines)"
+    - "Legacy module nodes (if legacy-assessment ran — for brownfield feature scope)"
+  cold_file_reads:
+    - "_context/planning/planning-scope-v{N}.md"
+  existence_checks:
+    - "_context/sacred/prd.md"
 outputs:
   - artifact: "Product Requirements Document"
     location: "_context/sacred/prd.md"
     format: "markdown"
     sacred: true
-version: "1.0"
+  - artifact: "PRD meta sidecar"
+    location: "_context/sacred/prd.meta.json"
+    format: "json"
+    schema: "schemas/handoffs/prd-to-architecture.schema.ts"
+    sacred: false
+version: "1.1"
 ---
 
 ## Purpose
@@ -37,15 +50,13 @@ Mode is detected automatically in step-01 based on whether a PRD already exists,
 - "create PRD"
 - "write product requirements"
 - "edit the PRD"
-- After product-brief and design-brief are complete
-- When the team needs a formal requirements specification
+- After `planning-entry-sync` completes (planning-scope memo present)
+- When the team is ready to crystallise Phase 2+3 evidence into a requirements document
 
 ## Prerequisites
 
-- Product brief exists (recommended)
-- Design brief exists (recommended)
-- `_context/sacred/tech-stack.md` available
-- `_context/sacred/context.md` available
+- `planning-entry-sync` complete — `_context/planning/planning-scope-v{N}.md` exists
+- Phase 3 complete — `_context/sacred/tech-stack.md` exists
 
 ## Process
 
@@ -79,5 +90,6 @@ Do NOT produce prose commentary around the artefact in the chat. The sacred doc 
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-08 | Alfred | Initial create-prd skill definition |
+| 1.2 | 2026-04-25 | Cadbury-hq | Phase II Part 4 Wave 2. Graph-first inputs block (graph_queries + cold_file_reads + existence_checks). prd.meta.json sidecar added to outputs. Prerequisites updated: planning-entry-sync now precondition. |
 | 1.1 | 2026-04-24 | Cadbury-hq | Added Output Contract (Pattern 5 from §6.7 MetaGPT prompt-pattern refactor, Block II). References templates/prompt-snippets/output-contract.md. |
+| 1.0 | 2026-04-08 | Alfred | Initial create-prd skill definition |

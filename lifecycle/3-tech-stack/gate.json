@@ -1,44 +1,144 @@
 {
-  "schema_version": 1,
+  "$schema": "https://coldpressai.com/schemas/gate.json",
+  "schema_version": 2,
   "gate_id": "phase-3-exit",
   "phase": 3,
   "phase_name": "Tech Stack",
   "entry_conditions": [
     "Phase 2 (Discovery) gate passed",
-    "`_context/sacred/context.md` exists and is sacred-signed-off"
+    "`_context/sacred/context.md` exists and is sacred-signed-off",
+    "`_context/planning/product-brief-v{N}.md` exists (distillate from Phase 2)",
+    "`_context/planning/idea-validation-v{N}.md` exists (optional — present if validate-idea ran)"
   ],
   "acceptance_checks": [
     {
       "id": "tech-stack-md-authored",
-      "description": "Sacred document `_context/sacred/tech-stack.md` exists with locked choices",
-      "kind": "artefact-present",
-      "severity": "block",
-      "artefact_path": "_context/sacred/tech-stack.md",
-      "remediation": "Run `@architect stack-evaluation` then `stack-locking`"
-    },
-    {
-      "id": "adrs-authored-for-major-choices",
-      "description": "Architecture Decision Records (ADRs) exist for every major stack choice",
-      "kind": "human",
-      "severity": "warn",
-      "human_approver": "@architect",
-      "remediation": "Author an ADR per `templates/documents/adr.md` for each major decision surfaced during `stack-evaluation`"
-    },
-    {
-      "id": "env-provisioned",
-      "description": "Development environment installs cleanly from the locked stack",
+      "stage": 1,
+      "description": "Sacred document `_context/sacred/tech-stack.md` exists and is present",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "env-provision",
-      "remediation": "Run `@developer env-provision` to install dependencies; investigate install failures before proceeding"
+      "command": "coldpress file-exists-after _context/sacred/tech-stack.md --after-key phase_3_started_at",
+      "path_pattern": "_context/sacred/tech-stack.md",
+      "remediation": "Run `@architect stack-evaluation` then `stack-locking` to produce the locked tech-stack."
+    },
+    {
+      "id": "tech-stack-schema-valid",
+      "stage": 1,
+      "description": "`tech-stack.md` frontmatter validates against `schemas/sacred-docs/tech-stack.schema.json` (derived_from required)",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress validate-schema _context/sacred/tech-stack.md",
+      "path_pattern": "_context/sacred/tech-stack.md",
+      "remediation": "Check that `tech-stack.md` frontmatter includes `derived_from`, `sacred: true`, `governance`, and `workflowType`. Re-run stack-locking to regenerate if missing."
+    },
+    {
+      "id": "adrs-authored-per-shortlist",
+      "stage": 1,
+      "description": "An accepted ADR exists in `_context/planning/adrs/` for each decision_area in the shortlist; each ADR validates against `schemas/planning-artefacts/adr.schema.json`",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress validate-adrs _context/planning/adrs/ --shortlist _context/planning/stack-shortlist-v{latest}.md",
+      "path_pattern": "_context/planning/adrs/adr-*-v*.md",
+      "remediation": "Run `@architect stack-evaluation` for any decision area missing an ADR. Each ADR must include `tier`, `rubric`, `chosen`, and `status: accepted`."
+    },
+    {
+      "id": "stack-selection-summary-exists",
+      "stage": 1,
+      "description": "Latest `stack-selection-summary-v{N}.md` exists and validates against `schemas/distillates/stack-selection-summary.schema.json`",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress validate-schema-latest _context/planning/stack-selection-summary-v*.md --schema schemas/distillates/stack-selection-summary.schema.json",
+      "path_pattern": "_context/planning/stack-selection-summary-v*.md",
+      "remediation": "Run stack-locking Step 4 to emit the stack-selection-summary distillate."
+    },
+    {
+      "id": "stack-pack-written-to-yaml",
+      "stage": 1,
+      "description": "`coldpress.yaml stack_pack` field is set (empty string `\"\"` is legal = no pack, generic path)",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress config-check stack_pack --allow-empty-string",
+      "path_pattern": "coldpress.yaml",
+      "remediation": "Stack-locking Step 4 writes `stack_pack` to coldpress.yaml. If missing, re-run stack-locking from step-04-lock."
+    },
+    {
+      "id": "baselines-block-written",
+      "stage": 1,
+      "description": "`coldpress.yaml baselines:` block exists and every category from `data/standards/baselines.yaml` is represented with a valid status",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress validate-yaml-block coldpress.yaml baselines --schema schemas/baselines.schema.json",
+      "path_pattern": "coldpress.yaml",
+      "remediation": "Run stack-locking Step 5b (baselines confirmation) to write the `baselines:` block. All four categories (seo_aeo_llm, accessibility, security, future_proof) must have a status."
     },
     {
       "id": "tech-stack-sacred-signoff",
-      "description": "User has accepted `_context/sacred/tech-stack.md` as complete (sacred-doc protection active)",
+      "stage": 1,
+      "description": "User has reviewed and accepted `_context/sacred/tech-stack.md` (sacred-doc protection active)",
       "kind": "human",
       "severity": "block",
       "human_approver": "user",
-      "remediation": "Review the locked stack + rationale and confirm"
+      "remediation": "Review the locked stack + rationale in `tech-stack.md` and confirm acceptance. This activates sacred-doc governance protection."
+    },
+    {
+      "id": "supersessions-log-if-applicable",
+      "stage": 1,
+      "description": "If any supersede fired in Phase 3, `_context/audit/supersessions-{date}.md` has at least one entry after `phase_3_started_at`",
+      "kind": "automated",
+      "severity": "warn",
+      "command": "coldpress gate-check-supersessions --after-key phase_3_started_at",
+      "path_pattern": "_context/audit/supersessions-*.md",
+      "remediation": "If a Phase 3 artefact superseded a `_input/` document, ensure the supersessions log was written. Run `@valet propose-change` to capture the decision."
+    },
+    {
+      "id": "pack-match-resolved",
+      "stage": 1,
+      "description": "`stack-shortlist-v{N}.md pack_match.matched_pack_name` is set OR user confirmed no-match (`matched_pack_name == null AND user_confirmed == true`)",
+      "kind": "automated",
+      "severity": "warn",
+      "command": "coldpress validate-pack-match _context/planning/stack-shortlist-v{latest}.md",
+      "path_pattern": "_context/planning/stack-shortlist-v*.md",
+      "remediation": "Re-run stack-discovery-sync Step 3 to score pack candidates. If no pack applies, explicitly confirm the no-match in the shortlist frontmatter."
+    },
+    {
+      "id": "baselines-confirmations-logged",
+      "stage": 1,
+      "description": "`_context/audit/baselines-confirmations-*.md` has entries for this Phase 3 run",
+      "kind": "automated",
+      "severity": "warn",
+      "command": "coldpress file-exists-after _context/audit/baselines-confirmations-*.md --after-key phase_3_started_at",
+      "path_pattern": "_context/audit/baselines-confirmations-*.md",
+      "remediation": "Baselines confirmations log is written during stack-locking Step 5b. If missing, record decisions manually per `docs/baselines-confirmations-log-spec.md`."
+    },
+    {
+      "id": "env-provisioned",
+      "stage": 2,
+      "description": "Development environment installs cleanly: deps installed, lint/format/hooks configured, baselines activated",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress file-exists-after _context/tracking/env-provision-*.md --after-key phase_3_started_at",
+      "path_pattern": "_context/tracking/env-provision-*.md",
+      "remediation": "Run `@developer env-provision` to install dependencies and configure tooling. Investigate any install failures before proceeding to Phase 4."
+    },
+    {
+      "id": "post-phase-3-update-ran",
+      "stage": 2,
+      "description": "`.coldpress/local-config.yaml post_phase_3_update_ran: true` — confirms `coldpress update --post-phase-3` was run to regenerate stack-pack wrappers",
+      "kind": "automated",
+      "severity": "warn",
+      "command": "coldpress config-check post_phase_3_update_ran --expected true",
+      "path_pattern": ".coldpress/local-config.yaml",
+      "remediation": "Run `coldpress update --post-phase-3` in your terminal to regenerate skill wrappers for the locked stack pack. Return to Butler and confirm."
+    },
+    {
+      "id": "graph-freshness",
+      "stage": 2,
+      "description": "Graph build time ≥ latest `_context/` + `_input/` mtime OR `needs_graph_rebuild: false` in local-config",
+      "kind": "automated",
+      "severity": "warn",
+      "command": "coldpress graph-staleness-check _context/ _input/",
+      "path_pattern": ".coldpress/local-config.yaml",
+      "remediation": "Run `coldpress graph rebuild` to update the project graph with Phase 3 artefacts (ADRs, tech-stack, shortlist, distillate)."
     }
   ],
   "next_phase": "4-planning"

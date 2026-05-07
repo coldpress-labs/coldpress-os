@@ -3,7 +3,7 @@ name: "deploy"
 description: "Execute deployment to target environment with verification"
 type: "workflow"
 category: "lifecycle"
-phase: 7
+phase: 9
 agent: "developer"
 inputs:
   - "_context/sacred/tech-stack.md"

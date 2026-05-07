@@ -3,7 +3,7 @@ name: "env-check"
 description: "Validate environment variables before deployment"
 type: "router"
 category: "lifecycle"
-phase: 7
+phase: 9
 routes_to: "skills/ops/env-check/"
 version: "1.0"
 ---

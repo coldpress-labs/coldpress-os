@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "legacy-migration-plan.schema.json",
+  "title": "LegacyMigrationPlan",
+  "description": "Validated distillate emitted by legacy-assessment (Phase 4). Records per-module migration decisions after brownfield artefact evaluation.",
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "generated_at",
+    "produced_by",
+    "module_count",
+    "decisions",
+    "phase_3_reentries",
+    "adr_amendments"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "legacy-migration-plan",
+      "description": "Schema identifier — always 'legacy-migration-plan'"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically incrementing version; incremented on re-run when decisions change"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of when this plan was written"
+    },
+    "produced_by": {
+      "type": "string",
+      "const": "legacy-assessment",
+      "description": "Producing skill — always 'legacy-assessment'"
+    },
+    "module_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of legacy modules assessed"
+    },
+    "decisions": {
+      "type": "object",
+      "required": ["keep", "refactor", "scaffold", "reference"],
+      "additionalProperties": false,
+      "properties": {
+        "keep": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of modules assigned 'keep' decision"
+        },
+        "refactor": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of modules assigned 'refactor' decision"
+        },
+        "scaffold": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of modules assigned 'scaffold' decision"
+        },
+        "reference": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of modules assigned 'reference' decision"
+        }
+      }
+    },
+    "phase_3_reentries": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of conflicts that required full Phase 3 re-entry (tech-stack.md amendment via stack-evaluation re-run)"
+    },
+    "adr_amendments": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^_context/planning/adrs/adr-.*\\.md$",
+        "description": "Path to an ADR written or amended during this assessment"
+      },
+      "description": "List of ADR paths added or amended during lightweight change-workflow resolutions"
+    },
+    "modules": {
+      "type": "array",
+      "description": "Per-module decision records (optional structured form; narrative form also accepted in .md body)",
+      "items": {
+        "type": "object",
+        "required": ["name", "source_path", "decision", "rationale"],
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Module name (folder or file name)"
+          },
+          "source_path": {
+            "type": "string",
+            "pattern": "^_input/legacy/",
+            "description": "Original path in _input/legacy/"
+          },
+          "sandbox_path": {
+            "type": "string",
+            "pattern": "^_sandbox/",
+            "description": "Destination path after copy to _sandbox/"
+          },
+          "decision": {
+            "type": "string",
+            "enum": ["keep", "refactor", "scaffold", "reference"],
+            "description": "Migration decision"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 10,
+            "description": "One-sentence rationale for the decision"
+          },
+          "conflict_resolution": {
+            "type": "string",
+            "description": "How the conflict was resolved, or 'none' if no conflict"
+          },
+          "phase_8_action": {
+            "type": "string",
+            "description": "What Phase 6 @architect or @developer will do with this module"
+          }
+        }
+      }
+    }
+  }
+}

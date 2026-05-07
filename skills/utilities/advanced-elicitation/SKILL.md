@@ -3,8 +3,8 @@ name: "advanced-elicitation"
 description: "Push the LLM to reconsider and refine its recent output using structured elicitation methods"
 type: "simple"
 category: "utilities"
-status: "wire-in-phase-2"
-phases: [2, 4, 5, 6, 8]
+status: "wire-in-phase-2 wire-in-phase-3"
+phases: [2, 3, 4, 5, 6, 8]
 inputs:
   - "recent LLM output to refine"
   - "../../data/methods/elicitation-methods.csv"

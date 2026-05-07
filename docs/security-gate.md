@@ -6,7 +6,7 @@ version: "1.0"
 
 # Security Gate (§5.1)
 
-> Before this protocol, security review at Phase 7 was prose — "@qa does an OWASP top-10 walk". Prose is unauditable; scanners give signal but only if they speak the same schema. This doc specifies the §5.1 classical security stack: five scanners, one schema, one aggregator — composed into a single `acceptance_check` inside `lifecycle/7-deployment/gate.json`.
+> Before this protocol, security review at Phase 9 was prose — "@qa does an OWASP top-10 walk". Prose is unauditable; scanners give signal but only if they speak the same schema. This doc specifies the §5.1 classical security stack: five scanners, one schema, one aggregator — composed into a single `acceptance_check` inside `lifecycle/9-deployment/gate.json`.
 
 **Source decision:** [framework-audit-2026-04-23.md §5.1](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md) + [oss-integration-survey-2026-04-22.md Tier 1 §1.4](../../../lab-hq-projects/hq-p001-coldpress-os/docs/oss-integration-survey-2026-04-22.md).
 
@@ -71,7 +71,7 @@ Matches the phase-gate evaluator:
 
 ## Wiring to the Phase-7 gate
 
-[`lifecycle/7-deployment/gate.json`](../lifecycle/7-deployment/gate.json) declares:
+[`lifecycle/9-deployment/gate.json`](../lifecycle/9-deployment/gate.json) declares:
 
 ```json
 {
@@ -83,7 +83,7 @@ Matches the phase-gate evaluator:
 }
 ```
 
-`evaluate-phase-gate` (§5.0 protocol) dispatches to `aggregate-gate-results`, reads its exit code, and rolls that into the phase-7 `GateEvaluation`. No bespoke "security gate" layer — gates compose.
+`evaluate-phase-gate` (§5.0 protocol) dispatches to `aggregate-gate-results`, reads its exit code, and rolls that into the phase-9 `GateEvaluation`. No bespoke "security gate" layer — gates compose.
 
 ---
 
@@ -112,7 +112,7 @@ Change `block_severity` in the aggregator invocation. Example — block on mediu
 coldpress security aggregate --block-severity medium
 ```
 
-Gate wiring can be customised by editing `lifecycle/7-deployment/gate.json` to pass `block_severity: medium` as a skill argument (skill-argument threading lands in a follow-up block when orchestrator integration ships).
+Gate wiring can be customised by editing `lifecycle/9-deployment/gate.json` to pass `block_severity: medium` as a skill argument (skill-argument threading lands in a follow-up block when orchestrator integration ships).
 
 ### Waiving a specific finding
 

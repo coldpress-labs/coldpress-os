@@ -1,0 +1,448 @@
+# method-defaults.yaml — coldpress-os
+#
+# Cross-phase method playbook. Tier 0 universal (advanced_elicitation, party_mode);
+# Tier 1 wired-in (per-skill steps reference this); Tier 2 router-bias YAML below.
+#
+# RECONSTRUCTED 2026-05-02 after data/ accidental deletion (decisions log incident #1).
+# phase_2: + phase_3: + phase_4: sections are TBD — must be re-authored from deep-dive §8
+# of each respective phase. phase_5: + phase_6: + phase_7: sections reconstructed from
+# the deep-dive §8 YAML drafts.
+
+# Tier 0 universal — invokable from any phase
+tier_0_universal:
+  advanced_elicitation:
+    catalog: data/methods/elicitation-methods.csv
+    description: "50 elicitation methods, 11 categories. Available any phase via vague-trigger detection."
+  party_mode:
+    description: "Pressure-test composite specs. Available on demand."
+
+# ============================================================================
+# Phase 2 — Discovery (reconstructed 2026-05-02 from phase-2-deep-dive §"Cross-CSV
+# method playbook" + Round 3 advanced-elicitation table; original lost in incident #1)
+# ============================================================================
+phase_2:
+  advanced_elicitation:
+    bias: heavy
+    catalog_ref: "data/methods/elicitation-methods.csv"
+    pre-project-interview:
+      step-01-vision: [41, 40]            # Socratic, Five Whys
+      step-02-users: [4, 10]              # User Persona Focus Group, Customer Support Theater
+      step-03-constraints: [39, 35]       # First Principles, Failure Mode
+      step-04-synthesize: [42, 45]        # Critique+Refine, Feynman
+    domain-research:
+      research-step: [31, 32]             # Literature Review Personas, Thesis Defense
+    market-research:
+      compare-step: [33, 27]              # Comparative Analysis Matrix, What If Scenarios
+    constraint-research:
+      research-step: [39, 38]             # First Principles, Chaos Monkey
+    personas:
+      step-01-archetypes: [4, 29]         # User Persona Focus Group, Exquisite Corpse
+      step-02-journey: [10, 27]           # Customer Support Theater, What If
+    validate-idea:
+      step-01-problem: [40, 39]           # Five Whys, First Principles
+      step-02-hypotheses: [34, 35, 37]    # Pre-mortem, Failure Mode, Identify Risks
+      step-03-differentiation: [17, 18]   # Red Team vs Blue Team, Shark Tank
+      step-04-fit: [36, 47]               # Challenge Critical, Occam's Razor
+      step-05-metrics: [32, 44]           # Thesis Defense, Expand/Contract
+    synthesize-research:
+      step-04-critique: [42]              # Critique+Refine
+    product-brief:
+      step-04-review: [42]                # Critique+Refine
+  brainstorming:
+    bias: medium
+    catalog_ref: "data/methods/brainstorming-techniques.csv"
+    pre-project-interview-vision: ["Inner Child Conference", "Values Archaeology", "Five Whys"]
+    pre-project-interview-users: ["Role Playing", "Persona Journey", "Brain Writing Round Robin"]
+    pre-project-interview-constraints: ["Resource Constraints", "Assumption Reversal", "Constraint Mapping"]
+    validate-idea-hypotheses: ["Reverse Brainstorming", "Anti-Solution", "Chaos Engineering"]
+    validate-idea-differentiation: ["Pirate Code Brainstorm", "Cross-Pollination", "Concept Blending"]
+    validate-idea-fit: ["What If Scenarios", "Reversal Inversion"]
+    synthesize-research: ["Six Thinking Hats", "Mind Mapping", "Solution Matrix"]
+    domain-research: ["Cross-Pollination", "Analogical Thinking", "Nature's Solutions"]
+  design_thinking:
+    bias: medium
+    catalog_ref: "data/methods/design-thinking-methods.csv"
+    # Empathize methods (User Interviews, Empathy Mapping, Journey Mapping, Diary Studies, JTBD)
+    # are Tier-1 wired DIRECTLY into personas/pre-project-interview step files — NOT listed here.
+    pre-project-interview-constraints: ["Assumption Testing"]
+    validate-idea-fit: ["Assumption Testing"]
+  innovation_strategy:
+    bias: medium
+    catalog_ref: "data/methods/innovation-frameworks.csv"
+    # JTBD / Blue Ocean / Positioning / Value Proposition Canvas Tier-1 in validate-idea Steps 1-4.
+    market-research: ["TAM SAM SOM Analysis", "Five Forces Analysis", "PESTLE Analysis", "Market Timing Assessment"]
+    constraint-research: ["PESTLE Analysis"]
+  problem_solving:
+    bias: medium
+    catalog_ref: "data/methods/problem-solving-methods.csv"
+    # Problem Statement Refinement / Five Whys / Is-Is Not Tier-1 in validate-idea Step 1.
+    pre-project-interview-constraints: ["Constraint Identification", "Force Field Analysis"]
+    constraint-research: ["Failure Mode Analysis"]
+    synthesize-research: ["Pareto Analysis", "Gap Analysis"]
+    validate-idea-metrics: ["Monitoring Dashboard"]
+
+# ============================================================================
+# Phase 3 — Tech Stack (reconstructed 2026-05-02 from phase-3-deep-dive §"Method
+# playbook"; original lost in incident #1. Round 5 corrections applied — no
+# problem_solving block; brainstorming.stack-locking-pre-lock pruned.)
+# ============================================================================
+phase_3:
+  advanced_elicitation:
+    bias: heavy
+    catalog_ref: "data/methods/elicitation-methods.csv"
+    stack-discovery-sync:
+      step-02-classification: [39, 45]      # First Principles, Feynman
+      step-03-candidates: [33, 27]          # Comparative Analysis Matrix, What If
+    stack-evaluation:
+      step-01-evidence-load: [31, 32]       # Literature Review Personas, Thesis Defense
+      step-02-rubric: [33, 42]              # Comparative Analysis Matrix, Critique+Refine
+      step-03-decide: [17, 18]              # Red Team vs Blue Team, Shark Tank
+    stack-locking:
+      step-03a-red-flag: [34, 35, 37, 38, 36]  # Pre-mortem, Failure Mode, Risks, Chaos Monkey, Challenge
+      step-04-lock: [42, 47]                # Critique+Refine, Occam's Razor
+    env-provision:
+      step-04-verify: [38, 21]              # Chaos Monkey, Rubber Duck
+  brainstorming:
+    bias: medium
+    catalog_ref: "data/methods/brainstorming-techniques.csv"
+    stack-discovery-sync-candidates: ["Cross-Pollination", "Analogical Thinking", "SCAMPER Method"]
+    stack-evaluation-decide: ["Six Thinking Hats", "Solution Matrix", "Decision Tree Mapping"]
+    stack-locking-pre-lock: ["Assumption Reversal"]
+  design_thinking:
+    bias: low
+    catalog_ref: "data/methods/design-thinking-methods.csv"
+    # Ideate methods lean toward brainstorming router in Phase 3
+    stack-evaluation-decide: ["Assumption Testing"]   # T0 surface
+    stack-locking-pre-lock: ["Assumption Testing", "Feedback Capture Grid"]
+  innovation_strategy:
+    bias: medium
+    catalog_ref: "data/methods/innovation-frameworks.csv"
+    stack-discovery-sync-classification: ["Technology Adoption Lifecycle", "S-Curve Analysis"]
+    stack-discovery-sync-candidates: ["Make vs Buy Analysis", "Platform Ecosystem Design"]
+    stack-evaluation-lock-in: ["Unbundling Analysis", "Open Innovation Strategy"]
+    stack-locking-pre-lock: ["Technology Roadmapping"]
+  # NOTE: problem_solving block intentionally absent — Round 5 audit confirmed all
+  # candidate methods (Force Field Analysis, Gap Analysis, Failure Mode Analysis,
+  # Six Thinking Hats) are Tier-1 wired into stack-evaluation/stack-locking step
+  # files; T1 methods MUST NOT appear in the T2 router-bias YAML.
+
+# ============================================================================
+# Phase 4 — Planning (reconstructed 2026-05-02 from phase-4-deep-dive §8; original
+# lost in incident #1. Shape A note: design-thinking for UX is in phase_5;
+# architecture methods are in phase_6. This section is Phase 4 PRD work only.)
+# ============================================================================
+phase_4:
+  advanced_elicitation:
+    bias: heavy
+    catalog_ref: "data/methods/elicitation-methods.csv"
+    create-prd:
+      step-02-vision: [41, 40, 44]        # Socratic, Five Whys, Expand/Contract
+      step-03-requirements: [39, 35, 37]  # First Principles, Failure Mode, Identify Risks
+      step-04-features: [42, 43, 10]      # Critique+Refine, Explain Reasoning, Customer Support Theater
+    validate-prd:
+      step-02-validate: [15, 42, 35]      # Meta-Prompting, Critique+Refine, Failure Mode
+  brainstorming:
+    bias: medium
+    catalog_ref: "data/methods/brainstorming-techniques.csv"
+    create-prd-vision:
+      - Inner Child Conference
+      - Values Archaeology
+      - Persona Journey
+    create-prd-features:
+      - Brain Writing Round Robin
+      - SCAMPER
+      - Role Playing
+  design_thinking:
+    bias: medium
+    catalog_ref: "data/methods/design-thinking-methods.csv"
+    create-prd-requirements:
+      - How Might We
+      - Assumption Testing
+      - Point of View Statements
+  problem_solving:
+    bias: medium
+    catalog_ref: "data/methods/problem-solving-methods.csv"
+    create-prd-requirements:
+      - Gap Analysis
+      - Force Field Analysis
+    validate-prd:
+      - Failure Mode Analysis
+      - Gap Analysis
+  story_types:
+    bias: heavy   # Tier-1 wired into create-prd/steps/step-04-features.md
+    catalog_ref: "data/methods/story-types.csv"
+    create-prd-features:
+      tier: 1
+      categories:
+        - user_stories             # "As a [persona], I want [goal], so that [outcome]"
+        - job_stories              # "When [situation], I want to [motivation], so I can [outcome]" (JTBD)
+        - bdd_scenarios            # Given/When/Then — links to Phase 8 ATDD
+        - acceptance_criteria      # Flat criteria — vibe-coder-lean appropriate
+      archetype_selection:
+        standard-pm: [user_stories, bdd_scenarios]
+        vibe-coder-lean: [acceptance_criteria]
+        design-first: [user_stories, job_stories]
+  # NOTE: legacy-assessment + planning-entry-sync are workflow-driven; method
+  # bias is light. Methods invoked organically via routers if needed.
+
+# ============================================================================
+# Phase 5 — Design (NEW under Shape A 11-phase restructure, 2026-04-24)
+# ============================================================================
+phase_5:
+  advanced_elicitation:
+    bias: heavy
+    triggers:
+      - vague_voice
+      - vague_visual_direction
+      - vague_interaction_pattern
+      - vague_brand_identity
+    design-brief:
+      step-02-content: [creative_elaboration, concrete_references]
+      step-03-visual: [concrete_references]
+      step-04-platform: [scenario_walkthrough]
+    ux-design:
+      step-03-wireframes: [scenario_walkthrough]
+    brand-guidelines:
+      step-02-voice: [creative_elaboration]
+      step-03-tokens: [concrete_references]
+      step-04-identity: [creative_elaboration]
+    prototype:
+      step-02-skeleton: [scenario_walkthrough]
+      step-03-iteration: [scenario_walkthrough]
+  brainstorming:
+    bias: heavy
+    primary_methods: [round_robin, what_if_mashup, scamper, mind_mapping, six_thinking_hats]
+    design-brief:
+      step-02-content: [round_robin, what_if_mashup]
+      step-03-visual: [what_if_mashup, scamper]
+    brand-guidelines:
+      step-02-voice: [round_robin, scamper]
+      step-03-tokens: [scamper, mind_mapping]
+  design_thinking:
+    bias: heavy
+    primary_stages: [empathize, define, ideate, prototype, test]
+    design-brief:
+      step-02-content: [empathize, define]
+      step-03-visual: [ideate]
+    ux-design:
+      step-02-flows: [empathize, define]
+      step-03-wireframes: [ideate]
+    prototype:
+      step-02-skeleton: [prototype]
+      step-03-iteration: [prototype, test]
+  problem_solving:
+    bias: medium
+    primary_methods: [five_whys, scenario_planning, edge_case_hunter]
+    ux-design:
+      step-03-wireframes: [scenario_planning, edge_case_hunter]
+      step-04-spec: [edge_case_hunter]
+  story_types:
+    bias: heavy
+    primary_types: [origin_story, persona_scenario, value_prop_narrative, brand_voice_samples, feature_story]
+    archetype_selection:
+      standard: [origin_story, persona_scenario, value_prop_narrative, brand_voice_samples]
+      design-led: [origin_story, persona_scenario, value_prop_narrative, brand_voice_samples, feature_story]
+      WDS: [origin_story, persona_scenario, value_prop_narrative, brand_voice_samples, feature_story]
+      vibe-coder-lean: []
+    narrative:
+      step-01-frame: [origin_story, persona_scenario, value_prop_narrative]
+      step-02-author: [origin_story, persona_scenario, value_prop_narrative, brand_voice_samples, feature_story]
+    brand-guidelines:
+      step-02-voice: [brand_voice_samples]
+
+# ============================================================================
+# Phase 6 — Architecture (NEW under Shape A, 2026-04-24)
+# ============================================================================
+phase_6:
+  advanced_elicitation:
+    bias: heavy
+    triggers:
+      - vague_architectural_pattern
+      - vague_nfr_strategy
+      - vague_integration_boundary
+    architecture-design:
+      step-02-overview: [concrete_references]
+      step-03-data-flow: [concrete_references, scenario_walkthrough]
+      step-04-nfr: [scenario_walkthrough]
+  design_thinking:
+    bias: medium
+    primary_stages: [define, ideate]
+    architecture-design:
+      step-02-overview: [define, ideate]
+      step-03-data-flow: [ideate]
+  brainstorming:
+    bias: medium
+    methods: [round_robin, what_if_mashup, scamper, six_thinking_hats]
+    architecture-design:
+      step-02-overview: [round_robin, six_thinking_hats]
+      step-03-data-flow: [what_if_mashup]
+      step-04-nfr: [round_robin]
+  problem_solving:
+    bias: heavy
+    methods: [first_principles, five_whys, failure_mode_analysis, scenario_planning]
+    architecture-design:
+      step-02-overview: [first_principles]
+      step-03-data-flow: [first_principles, failure_mode_analysis]
+      step-04-nfr: [scenario_planning, failure_mode_analysis]
+      step-05-adr: [first_principles]
+  story_types:
+    bias: low
+    primary_types: [feature_story]
+    architecture-design:
+      step-05-adr: [feature_story]
+
+# ============================================================================
+# Phase 7 — Breakdown (cascade rename of old Phase 5 + Shape A scope refinement)
+# ============================================================================
+phase_7:
+  story_types:
+    bias: heavy
+    primary_types: [user_stories, job_stories, bdd_scenarios, acceptance_criteria]
+    archetype_selection:
+      standard: [user_stories, bdd_scenarios]
+      vibe-coder-lean: [acceptance_criteria]
+      design-led: [user_stories, job_stories]
+      WDS: [user_stories, bdd_scenarios, acceptance_criteria]
+    create-stories:
+      step-02-decompose: [user_stories, job_stories, bdd_scenarios, acceptance_criteria]
+  problem_solving:
+    bias: heavy
+    methods: [first_principles, scenario_planning, failure_mode_analysis, root_cause]
+    parallelization-strategy:
+      step-02-dependencies: [first_principles]
+      step-03-critical-path: [scenario_planning]
+    implementation-readiness:
+      step-01-checks: [failure_mode_analysis]
+  brainstorming:
+    bias: medium
+    methods: [round_robin, mind_mapping]
+    create-epics:
+      step-02-decompose: [round_robin, mind_mapping]
+    sprint-planning:
+      step-01-assignments: [round_robin]
+  advanced_elicitation:
+    bias: medium
+    triggers: [vague_acceptance_criteria, vague_story_scope]
+    create-stories:
+      step-02-decompose: [scenario_walkthrough]
+  design_thinking:
+    bias: low
+    primary_stages: [define]
+    create-epics:
+      step-02-decompose: [define]
+
+# ============================================================================
+# Phase 8 — Implementation (cascade rename of old Phase 6, Shape A 2026-04-24)
+# ============================================================================
+
+phase_8:
+  problem_solving:
+    bias: heavy
+    methods: [first_principles, failure_mode_analysis, scenario_planning, root_cause]
+    dev-story:
+      step-02-implement: [first_principles]
+      step-04-debug: [root_cause, five_whys]
+    qa-automation:
+      step-02-test-design: [failure_mode_analysis]
+    code-review:
+      step-02-review: [scenario_planning]
+  advanced_elicitation:
+    bias: medium
+    triggers: [vague_test_strategy, vague_code_architecture_tradeoff]
+    test-design:
+      step-02-strategy: [scenario_walkthrough]
+    code-review:
+      step-02-review: [creative_elaboration]
+  brainstorming:
+    bias: low
+    methods: [round_robin]
+    dev-story:
+      step-02-implement: [round_robin]
+  design_thinking:
+    bias: low
+  story_types:
+    bias: low
+
+# ============================================================================
+# Phase 9 — Deployment (cascade rename of old Phase 7, Shape A)
+# ============================================================================
+
+phase_9:
+  problem_solving:
+    bias: heavy
+    methods: [failure_mode_analysis, scenario_planning, root_cause]
+    readiness-check:
+      step-01-checks: [failure_mode_analysis]
+    deploy:
+      step-02-deploy: [scenario_planning]   # rollback scenarios
+  advanced_elicitation:
+    bias: medium
+    triggers: [vague_rollback_strategy, vague_deployment_topology]
+    deploy:
+      step-01-plan: [scenario_walkthrough]
+  brainstorming:
+    bias: low
+  design_thinking:
+    bias: low
+  story_types:
+    bias: low
+
+
+# ============================================================================
+# Phase 10 — Operate (cascade rename of old Phase 8, Shape A)
+# ============================================================================
+
+phase_10:
+  problem_solving:
+    bias: heavy
+    methods: [root_cause, five_whys, failure_mode_analysis, scenario_planning]
+    correct-course:
+      step-02-triage: [root_cause, five_whys]
+      step-03-action: [scenario_planning]
+  advanced_elicitation:
+    bias: medium
+    triggers: [vague_incident_cause, vague_corrective_action]
+    correct-course:
+      step-02-triage: [scenario_walkthrough]
+  brainstorming:
+    bias: low
+    methods: [round_robin]
+    correct-course:
+      step-03-action: [round_robin]
+  story_types:
+    bias: low
+  design_thinking:
+    bias: low
+
+# ============================================================================
+# Phase 11 — Evolve (cascade rename of old Phase 9, Shape A) — FINAL PHASE
+# ============================================================================
+
+phase_11:
+  problem_solving:
+    bias: heavy
+    methods: [root_cause, five_whys, fishbone, scenario_planning]
+    retrospective:
+      step-02-analyse: [root_cause, five_whys, fishbone]
+  brainstorming:
+    bias: heavy
+    methods: [round_robin, what_if_mashup, scamper, mind_mapping]
+    innovation-strategy:
+      step-02-ideate: [round_robin, what_if_mashup]
+    product-evolution:
+      step-02-prioritise: [mind_mapping]
+  design_thinking:
+    bias: medium
+    primary_stages: [empathize, define, ideate]
+    innovation-strategy:
+      step-01-frame: [empathize, define]
+  story_types:
+    bias: medium
+    primary_types: [origin_story, value_prop_narrative, feature_story]
+    innovation-strategy:
+      step-02-ideate: [value_prop_narrative]
+    product-evolution:
+      step-02-prioritise: [feature_story]
+  advanced_elicitation:
+    bias: medium
+    triggers: [vague_root_cause, vague_innovation_direction]

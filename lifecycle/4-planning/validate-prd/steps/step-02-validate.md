@@ -4,6 +4,7 @@ step_name: "Validate"
 step_goal: "Run six validation checks and score each dimension"
 halts_for_input: false
 next_step: "step-03-report.md"
+partial_completion_id: "validate_prd_step_02"
 ---
 
 ## Goal

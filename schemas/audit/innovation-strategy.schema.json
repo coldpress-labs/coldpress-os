@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/audit/innovation-strategy.json",
+  "title": "Innovation Strategy (Phase 11)",
+  "description": "Phase 11 innovation-strategy. Validated-distillate. Authored by @reviewer (often invokes cross-cutting innovation-strategy creative skill). Long-horizon strategic ideation; OPTIONAL for short iterations (gate.json severity: warn).",
+  "type": "object",
+  "required": ["schema", "phase", "version", "iteration", "author_agent", "status", "created_at", "horizon", "themes"],
+  "properties": {
+    "schema": { "const": "schemas/audit/innovation-strategy.json" },
+    "phase": { "const": 11 },
+    "version": { "type": "integer", "minimum": 1 },
+    "iteration": { "type": "string" },
+    "author_agent": { "const": "@reviewer" },
+    "status": { "type": "string", "enum": ["draft", "validated", "superseded", "skipped"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "horizon": {
+      "type": "string",
+      "enum": ["next-quarter", "next-year", "next-2-years", "5-year"],
+      "description": "Strategic time horizon this strategy targets."
+    },
+    "themes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "premise", "opportunities"],
+        "properties": {
+          "name": { "type": "string" },
+          "premise": { "type": "string", "description": "1-2 sentences on the strategic premise." },
+          "opportunities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["title", "description"],
+              "properties": {
+                "title": { "type": "string" },
+                "description": { "type": "string" },
+                "validation_path": { "type": ["string", "null"], "description": "How would we validate this opportunity? RAT / experiment / interview / spike." },
+                "linked_personas": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "estimated_impact": { "type": ["string", "null"], "enum": ["low", "medium", "high", "transformative", null] }
+              }
+            }
+          },
+          "risks": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "experiments_recommended": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "hypothesis"],
+        "properties": {
+          "title": { "type": "string" },
+          "hypothesis": { "type": "string" },
+          "success_criteria": { "type": ["string", "null"] },
+          "owner": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "informed_by": {
+      "type": "array",
+      "description": "References to prior-iteration retrospective, market-research, persona-research, etc. that grounded this strategy.",
+      "items": { "type": "string" }
+    }
+  }
+}

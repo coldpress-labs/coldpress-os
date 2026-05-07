@@ -1,14 +1,19 @@
 /**
- * Ajv-backed sacred-doc frontmatter validator.
+ * Ajv-backed frontmatter validator.
  *
- * Validates YAML frontmatter at the top of a sacred doc (context.md,
- * tech-stack.md, prd.md, architecture.md, pert-chart.md) against a JSON
- * Schema in `schemas/sacred-docs/`.
+ * Validates YAML frontmatter at the top of:
+ *   - Sacred docs (context.md, tech-stack.md, prd.md, architecture.md, pert-chart.md)
+ *     → `schemas/sacred-docs/<id>.schema.json`
+ *   - Phase 2 research outputs (`_context/planning/research/*.md`)
+ *     → `schemas/research-output.schema.json`
+ *   - Phase 2 distillates (`_context/planning/product-brief-v*.md`)
+ *     → `schemas/distillates/product-brief.schema.json`
+ *
+ * Schema selection: basename-match for sacred docs; path-pattern-match for
+ * research outputs and distillates (via `schemaIdFromPath`).
  *
  * Structural validation only — "required fields present, correct types,
- * valid enums". Semantic checks ("PRD must reference an ADR", "NFRs can't
- * contradict tech-stack choices") are Conftest/Rego territory
- * (`validate-sacred-doc`).
+ * valid enums". Semantic checks are Conftest/Rego territory (`validate-sacred-doc`).
  *
  * Pure function; no disk access outside `readFile(docPath)` and the
  * schema file itself.
@@ -33,8 +38,8 @@ export type SchemaValidationResult =
   | { ok: false; issues: SchemaValidationIssue[] };
 
 /**
- * Sacred-doc ID → schema file mapping. Only these five are
- * structurally validated; everything else in `_context/` is prose.
+ * Sacred-doc ID → schema file (relative to `schemas/sacred-docs/`).
+ * Only these five are structurally validated via basename match.
  */
 export const SACRED_DOC_SCHEMAS: Record<string, string> = {
   "context": "context.schema.json",
@@ -44,9 +49,56 @@ export const SACRED_DOC_SCHEMAS: Record<string, string> = {
   "pert-chart": "pert-chart.schema.json",
 };
 
+/**
+ * Path-pattern routing for non-sacred-doc schema types.
+ * Each entry: a path substring pattern → schema path relative to `schemas/`.
+ * Patterns are tested in order; first match wins.
+ */
+export const PATH_PATTERN_SCHEMAS: Array<{ pattern: RegExp; schemaPath: string }> = [
+  {
+    // product-brief-v{N}.md in _context/planning/
+    pattern: /product-brief-v\d+\.md$/,
+    schemaPath: "distillates/product-brief.schema.json",
+  },
+  {
+    // stack-selection-summary-v{N}.md in _context/planning/
+    pattern: /stack-selection-summary-v\d+\.md$/,
+    schemaPath: "distillates/stack-selection-summary.schema.json",
+  },
+  {
+    // stack-shortlist-v{N}.md in _context/planning/
+    pattern: /stack-shortlist-v\d+\.md$/,
+    schemaPath: "planning-artefacts/stack-shortlist.schema.json",
+  },
+  {
+    // ADRs: _context/planning/adrs/adr-*-v{N}.md
+    pattern: /_context[\\/]planning[\\/]adrs[\\/]adr-.+-v\d+\.md$/,
+    schemaPath: "planning-artefacts/adr.schema.json",
+  },
+  {
+    // Stack-pack pack.yaml files
+    pattern: /skills[\\/]stack-packs[\\/][^/]+[\\/]pack\.yaml$/,
+    schemaPath: "pack.schema.json",
+  },
+  {
+    // research output files in _context/planning/research/
+    pattern: /_context[\\/]planning[\\/]research[\\/].+\.md$/,
+    schemaPath: "research-output.schema.json",
+  },
+];
+
 export function sacredDocIdFromPath(path: string): string | undefined {
   const base = basename(path).replace(/\.md$/, "");
   return base in SACRED_DOC_SCHEMAS ? base : undefined;
+}
+
+/** Returns a schema path (relative to `schemas/`) matched by path pattern, or undefined. */
+export function pathPatternSchemaFromPath(path: string): string | undefined {
+  const normalised = path.replace(/\\/g, "/");
+  for (const entry of PATH_PATTERN_SCHEMAS) {
+    if (entry.pattern.test(normalised)) return entry.schemaPath;
+  }
+  return undefined;
 }
 
 /**
@@ -96,6 +148,18 @@ async function loadValidator(docId: string): Promise<ValidateFunction> {
   const schema = JSON.parse(schemaRaw) as object;
   const validator = getAjv().compile(schema);
   validatorCache.set(docId, validator);
+  return validator;
+}
+
+async function loadValidatorByRelPath(relSchemaPath: string): Promise<ValidateFunction> {
+  const cached = validatorCache.get(relSchemaPath);
+  if (cached) return cached;
+
+  const schemaPath = resolve(packageRoot, "schemas", relSchemaPath);
+  const schemaRaw = await readFile(schemaPath, "utf8");
+  const schema = JSON.parse(schemaRaw) as object;
+  const validator = getAjv().compile(schema);
+  validatorCache.set(relSchemaPath, validator);
   return validator;
 }
 
@@ -149,6 +213,54 @@ export async function validateSacredDocSchema(
     return { ok: true, frontmatter };
   }
   return { ok: false, issues: ajvIssuesToIssues(validator.errors) };
+}
+
+/**
+ * Unified validator: routes by basename for sacred docs, then by path pattern
+ * for research outputs and distillates. Returns a clear error if no schema
+ * matches rather than silently passing.
+ *
+ * Use this instead of `validateSacredDocSchema` when the doc type is not
+ * known at call time (e.g. generic validate-schema skill invocation).
+ */
+export async function validateDocSchema(
+  docPath: string,
+): Promise<SchemaValidationResult & { schema_used?: string }> {
+  // 1. Try sacred-doc basename match
+  const sacredId = sacredDocIdFromPath(docPath);
+  if (sacredId) {
+    const result = await validateSacredDocSchema(docPath, { docId: sacredId });
+    return { ...result, schema_used: `sacred-docs/${SACRED_DOC_SCHEMAS[sacredId]}` };
+  }
+
+  // 2. Try path-pattern match
+  const relSchemaPath = pathPatternSchemaFromPath(docPath);
+  if (relSchemaPath) {
+    const raw = await readFile(docPath, "utf8");
+    const frontmatter = extractFrontmatter(raw);
+    if (frontmatter === undefined) {
+      return {
+        ok: false,
+        issues: [{ path: "(frontmatter)", message: "Malformed frontmatter: expected closing `---` delimiter and valid YAML." }],
+      };
+    }
+    const validator = await loadValidatorByRelPath(relSchemaPath);
+    if (validator(frontmatter)) {
+      return { ok: true, frontmatter, schema_used: relSchemaPath };
+    }
+    return { ok: false, issues: ajvIssuesToIssues(validator.errors), schema_used: relSchemaPath };
+  }
+
+  // 3. No schema found
+  return {
+    ok: false,
+    issues: [
+      {
+        path: "(file)",
+        message: `No schema registered for: ${basename(docPath)}. Register it in SACRED_DOC_SCHEMAS (by basename) or PATH_PATTERN_SCHEMAS (by path pattern).`,
+      },
+    ],
+  };
 }
 
 /** Testing hook — purge compiled-validator cache between test runs. */

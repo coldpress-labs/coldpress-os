@@ -3,7 +3,7 @@ name: "ci-pipeline"
 description: "Set up CI quality pipeline with test execution"
 type: "router"
 category: "lifecycle"
-phase: 6
+phase: 8
 routes_to: "skills/testing/ci-pipeline/"
 agent: "qa"
 version: "1.0"

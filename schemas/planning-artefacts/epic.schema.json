@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/epic.json",
+  "title": "Epics frontmatter",
+  "description": "Structural contract for `_context/planning/epics-v{N}.md`. Produced by Phase 7 `create-epics`; consumed by `create-stories`. Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "sources", "epics", "created_at", "status", "distillate"],
+  "properties": {
+    "schema": { "const": "schemas/planning-artefacts/epic.json" },
+    "phase": { "const": 7 },
+    "version": { "type": "integer", "minimum": 1 },
+    "sources": {
+      "type": "object",
+      "required": ["prd", "architecture", "breakdown_scope"],
+      "properties": {
+        "prd": { "type": "string" },
+        "architecture": { "type": "string" },
+        "ux_design_spec": { "type": "string" },
+        "breakdown_scope": { "type": "string" }
+      }
+    },
+    "epics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "user_value", "prd_user_story_ids", "architecture_components"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^epic-[0-9]+$" },
+          "title": { "type": "string" },
+          "user_value": { "type": "string" },
+          "prd_user_story_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+          "architecture_components": { "type": "array", "items": { "type": "string" } },
+          "ux_flow_refs": { "type": "array", "items": { "type": "string" } },
+          "estimated_stories_count": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "distillate": { "const": true },
+    "prd_user_story_coverage": {
+      "type": "string",
+      "pattern": "^[0-9]+/[0-9]+$",
+      "description": "Coverage ratio (covered/total). MUST be N/N at status=validated."
+    }
+  }
+}

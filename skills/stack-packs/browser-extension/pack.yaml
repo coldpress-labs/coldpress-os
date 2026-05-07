@@ -1,0 +1,18 @@
+name: browser-extension
+archetype_fits:
+  product_types: ["browser-extension", "devtools-extension", "productivity-tool"]
+  domain_complexity: ["low", "medium"]
+  functional_profile: ["client-side-rich", "storage-backed", "api-consuming"]
+pre_picked:
+  framework: "WXT"
+  manifest_version: "v3"
+  styling: "Tailwind"
+  package_manager: "pnpm"
+  testing: "Vitest"
+  source_control: "GitHub-private"
+  targets: ["Chrome", "Firefox"]
+overrideable: true
+baselines_out_of_box:
+  - security
+  - future_proof
+quickstart_skill: "skills/stack-packs/browser-extension/quickstart"

@@ -1,6 +1,6 @@
 ---
-workflow_version: "1.0"
-output_file: "_context/planning/product-brief-{date}.md"
+workflow_version: "2.0"
+output_file: "_context/planning/product-brief-v{N}.md"
 total_steps: 4
 resume_from: "frontmatter"
 ---

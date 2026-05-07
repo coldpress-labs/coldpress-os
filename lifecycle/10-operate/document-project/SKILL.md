@@ -3,7 +3,7 @@ name: "document-project"
 description: "Generate comprehensive project documentation for AI context"
 type: "router"
 category: "lifecycle"
-phase: 8
+phase: 10
 routes_to: "skills/utilities/document-project/"
 agent: "communicator"
 version: "1.0"

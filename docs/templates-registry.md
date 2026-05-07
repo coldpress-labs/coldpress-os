@@ -68,7 +68,7 @@ See also [`templates/README.md`](../templates/README.md) for the per-subdir disp
 | Template | Category | Purpose | Consuming skill |
 |----------|----------|---------|-----------------|
 | `CLAUDE.md` | infrastructure | Shape of the project-template's CLAUDE.md | — (reference; new projects get this from `template/CLAUDE.md`) |
-| `SYSTEM.md` | infrastructure | Shape of `.claude/SYSTEM.md` | — (reference; copied via `agent-scaffold`) |
+| `SYSTEM.md` | infrastructure | Shape of `.claude/SYSTEM.md` | — (reference; copied and placeholder-filled by `coldpress init`) |
 | `agent.md` | infrastructure | Shape of a new subagent definition | `agent-builder` (explicit reference) |
 | `cursorrules.md` | infrastructure | Shape of legacy `.cursorrules` | — (reference; interop generator emits the live version from `.claude/agents/*`) |
 | `skill.md` | infrastructure | Shape of a new coldpress-os skill | `skill-builder` (explicit reference) |

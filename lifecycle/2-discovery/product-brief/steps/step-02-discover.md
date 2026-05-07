@@ -13,9 +13,11 @@ Gather all necessary context for the product brief through existing documentatio
 ## Instructions
 
 1. **Mine existing documents:**
-   - Extract product vision from `_context/sacred/context.md`
-   - Pull user insights from discovery research
-   - Note technology constraints from `_context/sacred/tech-stack.md`
+   - Extract product vision from `_context/sacred/context.md` (authored)
+   - Pull the consolidated findings from `_context/planning/research-synthesis-v{N}.md` (primary input)
+   - Pull user insights from `_context/planning/research/personas-*.md` if available
+   - Note MUST-satisfy constraints from `_context/planning/research/constraint-*.md` (accessibility, compliance, performance envelopes) — Phase 3 will use these to pick a stack; the brief should surface the ones that matter to stakeholders
+   - Pull riskiest-assumption signals from `_context/planning/idea-validation-v{N}.md` if validate-idea ran
    - Identify gaps that need user input
 
 2. **Targeted interview (Guided mode):**

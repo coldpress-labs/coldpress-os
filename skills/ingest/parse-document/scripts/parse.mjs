@@ -23,7 +23,17 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, statSync, writeFileSync, copyFileSync, readFileSync } from "node:fs";
+import {
+  closeSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  openSync,
+  readFileSync,
+  readSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -42,6 +52,7 @@ export const SUPPORTED_EXTENSIONS = new Set([
   ".md",
   ".markdown",
   ".txt",
+  ".json",
 ]);
 
 export const MARKITDOWN_EXTENSIONS = new Set([
@@ -57,20 +68,89 @@ export const DOCLING_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".tiff", ".b
 export const PASSTHROUGH_EXTENSIONS = new Set([".md", ".markdown", ".txt"]);
 
 /**
+ * Extensions worth sniffing for AI-conversation content. `.json` is *only*
+ * supported when it sniffs as an AI conversation; generic JSON is rejected.
+ * `.md` / `.markdown` sniff as AI conversations too, falling back to
+ * passthrough when no conversation markers are present.
+ */
+export const AI_CONVERSATION_SNIFFABLE = new Set([".json", ".md", ".markdown"]);
+
+const USER_HEADER_RE = /^(?:###?|##)\s+(?:User|Human|You|ChatGPT user|Claude user)\b/im;
+const ASSISTANT_HEADER_RE = /^(?:###?|##)\s+(?:Assistant|ChatGPT|Claude|Bot|AI)\b/im;
+
+/**
+ * Heuristic content-sniff for AI conversation exports. Returns `true` when
+ * the head-bytes match one of:
+ *   - JSON with a top-level `messages` array whose items carry a `role`
+ *   - JSON as a top-level array whose items carry a `role` (OpenAI shape)
+ *   - Markdown with both a `User` / `Human` header and an `Assistant` /
+ *     `Claude` / `ChatGPT` header at heading level 2-4
+ *
+ * Pure function — no file I/O, no side effects. Caller supplies the head.
+ *
+ * @param {string} contentHead
+ * @param {string} ext lowercased extension including the dot
+ * @returns {boolean}
+ */
+export function sniffAiConversation(contentHead, ext) {
+  if (!contentHead) return false;
+
+  if (ext === ".json") {
+    try {
+      const parsed = JSON.parse(contentHead);
+      if (Array.isArray(parsed)) {
+        return parsed.some(
+          (item) => item && typeof item === "object" && typeof item.role === "string",
+        );
+      }
+      if (parsed && typeof parsed === "object" && Array.isArray(parsed.messages)) {
+        return parsed.messages.some(
+          (item) => item && typeof item === "object" && typeof item.role === "string",
+        );
+      }
+    } catch {
+      // Head is a prefix of a larger JSON doc — cannot decide yet.
+      return false;
+    }
+    return false;
+  }
+
+  if (ext === ".md" || ext === ".markdown") {
+    return USER_HEADER_RE.test(contentHead) && ASSISTANT_HEADER_RE.test(contentHead);
+  }
+
+  return false;
+}
+
+/**
  * Decide the routing outcome for a given file path — pure function.
  *
  * Returns one of:
  *   { backend: "markitdown" }            — try markitdown; caller may retry with docling.
  *   { backend: "markitdown", fallbackOk: true } — PDF specifically; fallback to docling if output is too short.
  *   { backend: "docling" }               — images, must use docling for OCR.
+ *   { backend: "ai_conversation" }       — AI conversation export (JSON or MD) detected via sniff.
  *   { backend: "passthrough" }           — .md / .txt, no parsing needed.
  *   { backend: "unsupported", extension: ".xyz" } — unknown extension.
  *
  * @param {string} path
+ * @param {string} [contentHead] — first ~8KB of file content for sniffable extensions.
  * @returns {{ backend: string; fallbackOk?: boolean; extension?: string }}
  */
-export function routeFile(path) {
+export function routeFile(path, contentHead) {
   const ext = extname(path).toLowerCase();
+
+  // Content sniff runs first for extensions that can be AI conversations.
+  if (contentHead !== undefined && AI_CONVERSATION_SNIFFABLE.has(ext)) {
+    if (sniffAiConversation(contentHead, ext)) {
+      return { backend: "ai_conversation" };
+    }
+  }
+
+  // `.json` is only supported when sniffed as an AI conversation above.
+  if (ext === ".json") {
+    return { backend: "unsupported", extension: ext };
+  }
 
   if (!SUPPORTED_EXTENSIONS.has(ext)) {
     return { backend: "unsupported", extension: ext };
@@ -189,6 +269,10 @@ export function probePython(backend) {
         reason: `Found ${version.stdout.trim() || version.stderr.trim()} but parse-document requires Python ≥ 3.10.`,
       };
     }
+    // ai_conversation uses only the stdlib — no third-party module check needed.
+    if (backend === "ai_conversation") {
+      return { ok: true, python: bin };
+    }
     const moduleCheck = spawnSync(
       bin,
       ["-c", `import ${backend === "docling" ? "docling" : "markitdown"}`],
@@ -238,9 +322,30 @@ async function main() {
     process.exit(1);
   }
 
-  const route = args.backend
-    ? { backend: args.backend }
-    : routeFile(inputAbs);
+  let route;
+  if (args.backend) {
+    route = { backend: args.backend };
+  } else {
+    // For sniffable extensions, read the first 8 KB to distinguish AI
+    // conversation exports from plain markdown / unrelated JSON.
+    const ext = extname(inputAbs).toLowerCase();
+    let contentHead;
+    if (AI_CONVERSATION_SNIFFABLE.has(ext)) {
+      try {
+        const buf = Buffer.alloc(8192);
+        const fd = openSync(inputAbs, "r");
+        try {
+          const bytesRead = readSync(fd, buf, 0, buf.length, 0);
+          contentHead = buf.subarray(0, bytesRead).toString("utf8");
+        } finally {
+          closeSync(fd);
+        }
+      } catch {
+        contentHead = undefined;
+      }
+    }
+    route = routeFile(inputAbs, contentHead);
+  }
 
   if (route.backend === "unsupported") {
     process.stderr.write(

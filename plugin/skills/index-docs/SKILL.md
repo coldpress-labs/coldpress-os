@@ -2,7 +2,7 @@
 name: index-docs
 description: Generate or update an index.md for all documents in a folder
 license: MIT
-compatibility: Phase 4
+compatibility: Phase 1
 version: "1.0"
 ---
 

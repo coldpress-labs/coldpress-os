@@ -1,0 +1,38 @@
+name: seo-pack
+archetype_fits:
+  product_types:
+    - content-site
+    - marketing-site
+    - e-commerce
+    - local-business
+    - publishing
+    - directory
+  domain_complexity:
+    - low
+    - medium
+    - high
+  functional_profile:
+    - seo-first
+    - content-heavy
+    - traffic-dependent
+    - local-presence-matters
+  invocable_phases:
+    - 3
+    - 5
+    - 8
+    - 9
+    - 10
+pre_picked: {}     # SEO pack is engine-agnostic — wraps any frontend stack with SEO-rigour
+overrideable: true
+baselines_out_of_box:
+  - seo_aeo_llm
+  - structured_data_schema_org
+  - accessibility
+  - performance_core_web_vitals
+quickstart_skill: null   # No single quickstart — invoke sub-skills per project's SEO need
+sub_skills:
+  - audit         # baseline state: technical health, content gaps, competitive position
+  - content       # content strategy, cluster/topical authority, programmatic SEO
+  - schema        # JSON-LD structured data, Open Graph, Twitter Cards
+  - local         # NAP consistency, Google Business Profile, local pack ranking
+  - technical     # crawl optimisation, sitemap, robots, hreflang, performance

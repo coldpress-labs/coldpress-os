@@ -210,6 +210,76 @@ If a skill is in the high-stakes set but misses a required marker, the test fail
 
 ---
 
+## Pattern 6 — Proactive phase-N re-entry surface
+
+When a Phase 4 skill step discovers a gap in a prior-phase artefact (context.md, tech-stack.md, baselines, idea-validation), Butler must surface the finding to the user rather than silently continuing. The re-entry surface is a mandatory choice gate — the user picks one of three resolutions and the skill proceeds.
+
+**When to apply:** Any skill step that compares current authoring against a prior sacred doc or validated-distillate AND detects a conflict, contradiction, or unresolved assumption.
+
+**Canonical form** (placed at the end of the step's resolution logic, before any output is written):
+
+```markdown
+## Phase-N Re-entry Check
+
+⚠ **Planning gap detected.** [Specific one-sentence description of the conflict.]
+
+This [PRD requirement / PRD goal / PRD feature] [contradicts / exceeds / depends on] the
+[artefact name] authored in Phase [N].
+
+**Options:**
+1. **Accept + log** — continue with current direction; record as supersession; prior artefact
+   unchanged but downstream phases see the override. Zero blocking friction.
+2. **Pause + amend** — pause here; open change-workflow for [artefact]; amend; resume at this
+   step. Keeps the sacred-doc history clean.
+3. **Flag for PRD risk section** — continue now; add explicit risk note in current document;
+   revisit before Phase 5 entry. Deferred resolution.
+
+*If you accept + log or flag, this gap appears in the Phase 4 handoff log so Phase 5 can
+account for it.*
+```
+
+**Placement:** At the end of the analysis block in the relevant step file (step-02-vision, step-03-requirements, step-04-features), before the user-interaction or output-write phase.
+
+**Decision logic:**
+- Always present all 3 options when the conflict supersedes a block-severity gate condition or requires new paid infrastructure.
+- Present and log if the user dismisses when the conflict is likely unintentional (NFR vs. context.md goal mismatch).
+- Log silently + announce at step end when the conflict is minor (single npm library not in tech-stack.md).
+
+**Applied in:** `create-prd` steps 2, 3, 4. Future: `create-ux-design` (Phase 5), `create-architecture` (Phase 6).
+
+**Full spec:** [`docs/cross-cutting/phase-reentry-patterns.md`](cross-cutting/phase-reentry-patterns.md) — decision table, severity heuristics, wiring map, relationship to `supersede.ts`.
+
+---
+
+## Pattern 7 — Agent persona transition
+
+**Where:** `phase-transition` skill steps (step-02a-reconciliation, step-03-handoff-log) + every Phase 5+ phase-boundary skill.
+
+**Convention:** Every phase-boundary handoff records a typed YAML transition record under `## Agent transitions (Pattern 7)` in the `phase-N-to-(N+1)-{date}.md` handoff log. Phase 5 is the first sustained invocation; Phase 6+ continue.
+
+**Transition record fields:** `trigger` (phase_entry / phase_exit / sub_phase_boundary / reconciliation_handoff), `from_agent`, `to_agent`, `rationale`, `warm_handoff` (path or null), `deferred_inputs[]`, `resumes_to` (for hand-back transitions; null otherwise), `recorded_at` (ISO).
+
+**Phase 5 example transitions:**
+
+```yaml
+# Transition #1 — Phase 4 → Phase 5 entry
+transition:
+  trigger: phase_entry
+  from_agent: pm
+  to_agent: ux-designer
+  rationale: "Phase 5 Design is @ux-designer's domain; @pm has locked PRD at Phase 4 exit."
+  warm_handoff: "_context/handoffs/phase-4-to-5-{date}.md"
+  recorded_at: <ISO>
+```
+
+**Why this pattern matters:** Pre-Shape A, agent transitions were implicit (one phase = many agents). Shape A's clean phase = single primary agent makes transitions a first-class concern. Pattern 7 makes transitions auditable, typed, and recoverable (warm_handoff lets to-agent pick up cold).
+
+**No central orchestrator** — each phase + each skill knows its own transitions. The pattern is enforced by code-review + this convention doc.
+
+**Full spec:** [`docs/cross-cutting/pattern-7-agent-personas.md`](cross-cutting/pattern-7-agent-personas.md) — canonical transition shape, Phase 5 four-transition specification, v0.3 no-sub-personas decision, Phase 6+ preview, implementation notes.
+
+---
+
 ## What this block does NOT do
 
 - **Rewrite every sacred-doc template.** The templates (`templates/documents/prd.md`, etc.) are out-of-scope for Block II beyond adding Pattern 1 (inline meta-descriptions). Deeper restructuring of the templates is a follow-up if the current shape proves too prose-heavy.

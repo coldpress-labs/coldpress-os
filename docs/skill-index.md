@@ -19,12 +19,18 @@ version: "1.0"
 
 ## Phase 1 — Bootstrap
 
-Primary:
+Primary (in-session, run by Butler):
 | Skill | Category | Invoking subagent | Status |
 |-------|----------|-------------------|--------|
-| `project-init` | lifecycle | butler | active |
-| `machine-setup` | lifecycle | developer | active |
-| `agent-scaffold` | lifecycle | butler | active |
+| `orient` | lifecycle | butler | active |
+| `intake` | lifecycle | butler | active |
+
+Pre-session (CLI commands, not Butler skills):
+| Command | Purpose |
+|---------|---------|
+| `coldpress doctor` | Verify Node ≥ 20, git ≥ 2.30, package manager, Claude Code. Absorbs the old `machine-setup` checks. |
+| `coldpress init` | Scaffold project + git init + pre-commit hook. Absorbs the old `project-init` + `agent-scaffold` workflows. |
+| `coldpress update` | Regenerate interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline). |
 
 ---
 
@@ -185,12 +191,12 @@ Utility skills that sit outside the phase spine. Invoked on demand by a user req
 
 | Skill | Category | Typical invoker | Status |
 |-------|----------|-----------------|--------|
-| `distillator` | utility | analyst, communicator | ad-hoc (Wave 4 §4.10 may wire into Phase 2) |
-| `advanced-elicitation` | utility | analyst | ad-hoc (Wave 4 §4.10 may wire into Phase 2) |
-| `index-docs` | utility | any | ad-hoc (works with or without graph — see Wave 3 Block P migration) |
-| `shard-doc` | utility | communicator | ad-hoc (Wave 4 §4.10 may wire into Phase 4 for long-PRD splits) |
+| `distillator` | utility | analyst, communicator | ad-hoc (forward-carry: wire into Phase 2 Discovery — tracked in phase-ii-implementation-plan Forward carries) |
+| `advanced-elicitation` | utility | analyst | forward-carry — wire into Phase 2 Discovery (Part 2 of the Phase II plan) |
+| `index-docs` | utility | butler (intake), any | wire-in-phase-1 (invoked by `intake` Step 1 after material solicitation) |
+| `shard-doc` | utility | butler (intake), communicator | wire-in-phase-1 (invoked by `intake` Step 1 for large `_input/raw/` files > 50KB) |
 | `party-mode` | utility | any | ad-hoc (creative assist, not lifecycle-critical) |
-| `pdf-deep-parser` | utility | communicator | ad-hoc (invoked by analyst on demand; ingest-shaped) |
+| `parse-document` | ingest | analyst | active — routes PDF / Office / image / AI-conversation inputs to markdown. Replaces the retired `pdf-deep-parser` (whose PDF coverage is absorbed by parse-document's Docling adapter). |
 | `teach-me-testing` | utility | any | ad-hoc (onboarding / education) |
 
 Block V of Wave 4 formalises these dispositions in skill frontmatter (`status: ad-hoc`). This index is forward-looking.

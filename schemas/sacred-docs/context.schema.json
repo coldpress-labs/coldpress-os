@@ -12,7 +12,12 @@
     "governance": { "type": "string", "enum": ["requires-review", "locked", "draft"] },
     "workflowType": { "const": "context" },
     "stepsCompleted": { "type": "array", "items": { "type": "string" } },
-    "inputDocuments": { "type": "array", "items": { "type": "string" } }
+    "inputDocuments": { "type": "array", "items": { "type": "string" } },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^_input/.*\\.(md|pdf|docx|txt)$" },
+      "description": "_input/ paths whose conclusions this sacred doc supersedes. Populated by the supersede helper on user confirmation."
+    }
   },
   "required": ["sacred", "version", "governance", "workflowType"],
   "additionalProperties": true

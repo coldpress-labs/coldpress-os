@@ -2,7 +2,7 @@
 name: shard-doc
 description: Split large markdown documents into smaller organized files by section
 license: MIT
-compatibility: Phase 2
+compatibility: Phase 1
 version: "1.0"
 ---
 

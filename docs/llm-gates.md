@@ -95,7 +95,7 @@ Native severity levels `major / medium / minor` map to `high / medium / low`. `e
 
 ## Phase-7 gate wiring
 
-[`lifecycle/7-deployment/gate.json`](../lifecycle/7-deployment/gate.json) declares three acceptance_checks that dispatch to these skills:
+[`lifecycle/9-deployment/gate.json`](../lifecycle/9-deployment/gate.json) declares three acceptance_checks that dispatch to these skills:
 
 ```json
 {
@@ -156,7 +156,7 @@ Three non-overlapping tools is the minimum viable LLM-surface coverage. More too
 1. Write a SKILL.md at `skills/deployment/<gate-name>/SKILL.md`.
 2. Write a normalizer at `src/llm-gates/normalize-<tool>.ts` that maps the tool's native output → `ScanResult`.
 3. Extend `EvalConfigSchema` with a `<tool>:` subsection (pattern: `enabled` boolean + tool-specific knobs + `fail_severity`).
-4. Add an `acceptance_check` entry to `lifecycle/7-deployment/gate.json` with the new skill's `skill_ref`.
+4. Add an `acceptance_check` entry to `lifecycle/9-deployment/gate.json` with the new skill's `skill_ref`.
 5. Write unit tests for the normalizer using a hand-authored fixture of the tool's documented JSON output.
 
 ### Tightening or loosening a gate's severity

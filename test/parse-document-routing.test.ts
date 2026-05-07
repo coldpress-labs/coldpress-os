@@ -11,6 +11,7 @@ import { describe, expect, it } from "vitest";
 
 // @ts-ignore — importing JS from TS test; JSDoc types carry signatures.
 import {
+  AI_CONVERSATION_SNIFFABLE,
   DOCLING_EXTENSIONS,
   MARKITDOWN_EXTENSIONS,
   PASSTHROUGH_EXTENSIONS,
@@ -18,6 +19,7 @@ import {
   defaultOutputPath,
   parseArgs,
   routeFile,
+  sniffAiConversation,
 } from "../skills/ingest/parse-document/scripts/parse.mjs";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -58,6 +60,65 @@ describe("routeFile", () => {
   it("is case-insensitive on extension", () => {
     expect(routeFile("/a/FILE.PDF").backend).toBe("markitdown");
     expect(routeFile("/a/IMAGE.PNG").backend).toBe("docling");
+  });
+});
+
+describe("AI conversation sniffing + routing", () => {
+  it("sniffs JSON with a top-level messages[] array as a conversation", () => {
+    const head = JSON.stringify({
+      messages: [{ role: "user", content: "hi" }],
+    });
+    expect(sniffAiConversation(head, ".json")).toBe(true);
+  });
+
+  it("sniffs JSON as a top-level array of messages (OpenAI shape)", () => {
+    const head = JSON.stringify([{ role: "user", content: "hi" }]);
+    expect(sniffAiConversation(head, ".json")).toBe(true);
+  });
+
+  it("rejects plain JSON data that is not a conversation", () => {
+    const head = JSON.stringify({ foo: "bar", items: [1, 2, 3] });
+    expect(sniffAiConversation(head, ".json")).toBe(false);
+  });
+
+  it("sniffs markdown with `### User` + `### Assistant` as a conversation", () => {
+    const md = "### User\nhi\n\n### Assistant\nhello";
+    expect(sniffAiConversation(md, ".md")).toBe(true);
+  });
+
+  it("does not sniff ordinary markdown with a single speaker heading", () => {
+    const md = "# Meeting notes\n\n### User stories\n...";
+    expect(sniffAiConversation(md, ".md")).toBe(false);
+  });
+
+  it("routes JSON content that sniffs as conversation to ai_conversation backend", () => {
+    const head = JSON.stringify({ messages: [{ role: "user", content: "hi" }] });
+    expect(routeFile("/a/thread.json", head).backend).toBe("ai_conversation");
+  });
+
+  it("routes markdown that sniffs as conversation to ai_conversation backend", () => {
+    const md = "### User\nhi\n\n### Assistant\nhello";
+    expect(routeFile("/a/thread.md", md).backend).toBe("ai_conversation");
+  });
+
+  it("falls back to passthrough for ordinary markdown without conversation headers", () => {
+    const md = "# My notes\nSome content\n";
+    expect(routeFile("/a/notes.md", md).backend).toBe("passthrough");
+  });
+
+  it("rejects generic JSON (not a conversation) as unsupported", () => {
+    const head = JSON.stringify({ foo: "bar" });
+    expect(routeFile("/a/data.json", head).backend).toBe("unsupported");
+  });
+
+  it("`.json` with no content head is unsupported (defensive)", () => {
+    expect(routeFile("/a/data.json").backend).toBe("unsupported");
+  });
+
+  it("AI_CONVERSATION_SNIFFABLE covers .json, .md, .markdown", () => {
+    expect(AI_CONVERSATION_SNIFFABLE.has(".json")).toBe(true);
+    expect(AI_CONVERSATION_SNIFFABLE.has(".md")).toBe(true);
+    expect(AI_CONVERSATION_SNIFFABLE.has(".markdown")).toBe(true);
   });
 });
 

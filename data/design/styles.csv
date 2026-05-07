@@ -1,0 +1,13 @@
+id,style_name,description,key_traits,recommended_for,common_pairing_palettes
+01,Minimalist,Generous whitespace; restrained colour; clear hierarchy,"whitespace, hierarchy, restraint",saas/dashboard/portfolio,"01,06,18"
+02,Brutalist,Raw type; harsh contrast; intentionally rough,"raw, contrast, anti-polish",portfolio/zine/avant-garde,"06,13"
+03,Editorial,Print-derived; serifs; high typographic detail,"serifs, print-influenced, refined",publishing/magazine/longform,"04,09,11,16"
+04,Neumorphic,Soft shadows; subtle elevation; low contrast,"soft, shadows, gentle",fitness/finance/mood-app,"05,14,18"
+05,Glassmorphic,Frosted-glass cards; backdrop-blur; layered translucency,"glass, blur, layered",dashboard/iOS-derivative,"07,11,18"
+06,Skeuomorphic,Real-world textures; 3D-realistic affordances,"texture, 3D, mimicry",niche/legacy,"15,17"
+07,Material,Google MD; principled motion; elevation system,"principled, system, motion",android-first/web-app,"01,07,18"
+08,Memphis,Bold patterns; primary colours; geometric shapes,"pattern, geometric, playful",youth-brand/festival/event,"12,20"
+09,Y2K,Retro chrome; gradient blobs; tech-optimist,"chrome, gradient, retro-tech",niche/fashion/music,"13,11"
+10,Swiss-Modernist,Grid-driven; sans-serif; functional typography,"grid, functional, sans",architectural/design-studio,"06,15"
+11,Cottagecore,Warm muted; serif accents; analog-feel,"warm, muted, analog",lifestyle/d2c/handcraft,"08,17"
+12,Cyber-Editorial,Dark mode; mono accents; technical voice,"dark, mono, technical",ai/dev-tool/security,"04,13"

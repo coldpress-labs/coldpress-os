@@ -1,66 +1,103 @@
 {
-  "schema_version": 1,
-  "gate_id": "phase-7-exit",
-  "phase": 7,
+  "schema_version": 2,
+  "gate_id": "phase-9-exit",
+  "phase": 9,
   "phase_name": "Deployment",
+  "shape": "A",
+  "note": "Phase 9 Deployment is cascade rename of old Phase 7 + Shape A scope refinement. Owner: @devops. Verification + execution + recording (no spec authoring; no forward-carry mechanism per Q3). Pre-deploy gate (5 checks) + deploy action + post-deploy gate (3 checks) per Q2.",
   "entry_conditions": [
-    "Phase 6 (Implementation) gate passed",
-    "Deployment target identified",
-    "Rollback plan documented (even if trivial)"
+    "Phase 8 (Implementation) gate passed",
+    "All stories complete; tests passing; implementation-deltas resolved",
+    "Code committed to deployment-target branch",
+    "phase-8-to-9 handoff written"
   ],
   "acceptance_checks": [
     {
-      "id": "readiness-check-passed",
-      "description": "`@qa readiness-check` severity-weighted gate reports PASS or explicit WARN sign-off",
+      "id": "readiness-check-pass",
+      "description": "`_context/audit/readiness-v{latest}.md` exists with status: pass; meta-aggregator over env-check + dep-health + security-scan + db-migration-check (conditional)",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "readiness-check"
+      "schema_ref": "schemas/audit/readiness.schema.json",
+      "artefact_path": "_context/audit/readiness-v*.md",
+      "remediation": "Run `@devops readiness-check` to verify all readiness aspects."
     },
     {
-      "id": "security-scan-classical",
-      "description": "5-scanner classical security gate (Semgrep/Gitleaks/Trivy/OSV/Syft) — no HIGH severity findings unsigned",
+      "id": "env-check-pass",
+      "description": "Env vs baseline verification passes (DNS, SSL, env vars, secrets)",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "aggregate-gate-results"
+      "remediation": "Run `@devops env-check`. Fix env config OR Phase 3 baseline re-entry."
     },
     {
-      "id": "llm-correctness-gate",
-      "description": "DeepEval correctness gate passes (Block BB §5.5)",
+      "id": "security-scan-pass",
+      "description": "5 classical security scanners + 3 LLM gates aggregated AggregateResult exit 0 (per existing security-gate.md spec)",
+      "kind": "automated",
+      "severity": "block",
+      "remediation": "Run `@devops security-scan`. Block-severity findings → Phase 8 re-entry to fix code."
+    },
+    {
+      "id": "dep-health-check-pass",
+      "description": "No critical advisories outstanding; deps pinned per tech-stack",
+      "kind": "automated",
+      "severity": "block",
+      "remediation": "Run `@devops dep-health-check`. Phase 3 ADR amendment if dep replacement needed."
+    },
+    {
+      "id": "db-migration-check-pass",
+      "description": "(Brownfield only) `_context/audit/db-migration-check-v{latest}.md` exists with status: pass; greenfield projects skip silently",
+      "kind": "conditional",
+      "severity": "block",
+      "condition": "legacy-migration-plan-v{latest} exists",
+      "remediation": "Run `@devops db-migration-check` if legacy-migration-plan-v{latest} present."
+    },
+    {
+      "id": "deploy-success",
+      "description": "`_context/tracking/deploy-log-v{latest}.md` records deploy completion with status: success",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/tracking/deploy-log.schema.json",
+      "artefact_path": "_context/tracking/deploy-log-v*.md",
+      "remediation": "Run `@devops deploy`. Failures trigger rollback procedure."
+    },
+    {
+      "id": "smoke-tests-pass",
+      "description": "Post-deploy smoke tests green",
+      "kind": "automated",
+      "severity": "block",
+      "remediation": "If smoke fails: rollback + Phase 8 re-entry to fix."
+    },
+    {
+      "id": "observability-baseline-met",
+      "description": "Observability exporter ingesting per `coldpress.yaml baselines.observability_axis` (if declared)",
+      "kind": "conditional",
+      "severity": "warn",
+      "condition": "observability_axis declared",
+      "remediation": "Verify observability pipeline. Phase 3 baseline re-entry if revision needed."
+    },
+    {
+      "id": "secrets-vault-clean",
+      "description": "secrets-vault-manager scan completed; zero CRITICAL findings (no committed secrets, manifest-vs-env consistent)",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "lifecycle/9-deployment/secrets-vault-manager",
+      "remediation": "Run `@devops secrets-vault-manager`. Resolve CRITICAL findings via emitted rotation runbook before deploy."
+    },
+    {
+      "id": "dependency-audit-license-clean",
+      "description": "dependency-auditor deep audit completed; no GPL/AGPL transitive deps; no Critical/High CVE without remediation plan",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "lifecycle/9-deployment/dependency-auditor",
+      "remediation": "Run `@devops dependency-auditor`. License-block findings BLOCK deploy; CVE remediations follow ranked priority list."
+    },
+    {
+      "id": "observability-spec-emitted",
+      "description": "observability-designer has emitted observability-v{N}.md + alert/dashboard/sampling configs (vendor-neutral)",
       "kind": "automated",
       "severity": "warn",
-      "skill_ref": "llm-quality-gate",
-      "remediation": "Only applies when the project declares an `eval:` block in coldpress.yaml"
-    },
-    {
-      "id": "llm-regression-gate",
-      "description": "Promptfoo regression gate passes (Block BB §5.6)",
-      "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "prompt-regression",
-      "remediation": "Only applies when `promptfooconfig.yaml` exists"
-    },
-    {
-      "id": "llm-adversarial-scan",
-      "description": "Giskard adversarial scan — no HIGH findings unsigned (Block BB §5.7)",
-      "kind": "automated",
-      "severity": "block",
-      "skill_ref": "llm-security-scan",
-      "remediation": "Only applies when the project declares LLM endpoints/agents"
-    },
-    {
-      "id": "env-check-clean",
-      "description": "Environment config matches deploy target",
-      "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "env-check"
-    },
-    {
-      "id": "deploy-succeeded",
-      "description": "`@developer deploy` completed without error and post-deploy smoke passes",
-      "kind": "automated",
-      "severity": "block",
-      "skill_ref": "deploy"
+      "skill_ref": "lifecycle/9-deployment/observability-designer",
+      "remediation": "Run `@devops observability-designer` to draft SLO/SLI/alerts/dashboards. Wiring to vendor backend deferred to Phase 10."
     }
   ],
-  "next_phase": "8-operate"
+  "next_phase": "10-operate"
 }

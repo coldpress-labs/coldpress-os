@@ -12,36 +12,24 @@
 
 **Causes & Fixes:**
 
-1. **Wrappers not generated.** Run `agent-scaffold` to generate `.claude/skills/` wrappers.
+1. **Wrappers not generated.** Run `coldpress update` from the project root to regenerate `.claude/skills/` wrappers.
 2. **Wrong directory structure.** Wrappers must live at `.claude/skills/{skill-name}/SKILL.md` — check that the directory exists and contains a `SKILL.md` file.
-3. **Submodule not initialized.** If you cloned a repo that already has coldpress-os as a submodule:
-   ```bash
-   git submodule init
-   git submodule update
-   ```
-4. **CLAUDE.md missing or incomplete.** Butler reads `CLAUDE.md` on session start to learn about the framework. If it's missing or doesn't reference coldpress-os, Butler won't know skills exist. Re-run `project-init` step 4.
+3. **Framework files missing.** If `coldpress-os/` is absent from the project root, the scaffold was never completed. Re-run `coldpress init --retrofit` in the project directory to layer the framework in without clobbering existing files.
+4. **CLAUDE.md missing or incomplete.** Butler reads `CLAUDE.md` on session start to learn about the framework. If it's missing or doesn't reference coldpress-os, Butler won't know skills exist. Re-run `coldpress init` (new project) or `coldpress init --retrofit` (existing project) from the target directory.
 
 ---
 
-### "Submodule out of date"
+### "Framework out of date"
 
 **Symptoms:** Skills reference files that don't exist, or new skills aren't available.
 
 **Fix:**
 ```bash
-git submodule update --remote coldpress-os
+npm update -g @coldpress/core   # pull the latest framework release
+coldpress update                 # regen interop outputs in this project
 ```
 
-Then tell Claude:
-```
-Regenerate skill wrappers
-```
-
-This re-runs the wrapper generation to pick up any new or renamed skills. Commit both changes together:
-```bash
-git add coldpress-os .claude/
-git commit -m "update coldpress-os submodule and regenerate wrappers"
-```
+`coldpress update` regenerates `AGENTS.md`, `.cursor/rules/`, `.roomodes`, `.openhands/microagents/`, and `.clinerules/` from the current `.claude/agents/`. Skill wrappers are refreshed on `coldpress init`; for a wrapper-only refresh in-place, re-run `coldpress init --retrofit` in the project directory (non-destructive).
 
 ---
 
@@ -51,7 +39,7 @@ git commit -m "update coldpress-os submodule and regenerate wrappers"
 
 **Causes & Fixes:**
 
-1. **File doesn't exist.** The `project-init` workflow creates it. If you skipped init, copy the template manually:
+1. **File doesn't exist.** `coldpress init` creates `coldpress.yaml` automatically. If you ended up with a project tree without it, either re-run `coldpress init --retrofit` in the directory (layers on top of existing files) or copy the template manually:
    ```bash
    cp coldpress-os/template/coldpress.yaml ./coldpress.yaml
    ```
@@ -71,7 +59,7 @@ git commit -m "update coldpress-os submodule and regenerate wrappers"
 
 **Causes & Fixes:**
 
-1. **Agent definition missing.** Check `.claude/agents/` has the agent file (e.g., `analyst.md`). If empty, re-run `agent-scaffold`.
+1. **Agent definition missing.** Check `.claude/agents/` has the agent file (e.g., `analyst.md`). If empty, re-run `coldpress init --retrofit` (non-destructive layering) to repopulate the template tree.
 2. **Wrong agent slug.** Agent filenames must match their `name` field exactly. The 9 valid slugs are: `analyst`, `pm`, `ux-designer`, `architect`, `developer`, `qa`, `scrum-master`, `communicator`, `valet`.
 3. **Model not available.** If the agent requires `opus` (like `architect`) and your Claude plan doesn't include it, change the model to `sonnet` in the agent file's frontmatter.
 
@@ -146,7 +134,7 @@ Before that, edit freely.
 
 | You say | Butler routes to |
 |---------|-----------------|
-| "I want to start a new project" | `project-init` → `agent-scaffold` |
+| "I want to start a new project" | `coldpress init` (CLI) → Butler's `orient` → `intake` (Phase 1 in-session) |
 | "Let's research the domain" | `domain-research` (Phase 2) |
 | "Brainstorm ideas for..." | `brainstorming` (Phase 2) |
 | "Pick a tech stack" | `stack-evaluation` → `stack-locking` (Phase 3) |
@@ -213,7 +201,7 @@ See the [Stack Pack Authoring Guide](stack-pack-guide.md) for the full walkthrou
 3. Set `stack_pack: "your-pack"` in `coldpress.yaml`
 4. Regenerate wrappers
 
-The Convex pack (`skills/stack-packs/convex/`) is the reference implementation with 5 skills.
+The Convex pack (`skills/stack-packs/vibe-coder-fullstack/`) is the reference implementation with 5 skills.
 
 ---
 

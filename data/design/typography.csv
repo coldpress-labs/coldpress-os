@@ -1,0 +1,13 @@
+id,pairing_name,heading_family,body_family,heading_weight,body_weight,heading_letterspacing,body_letterspacing,vibe,licensing,recommended_for
+01,Inter + Inter,Inter,Inter,700,400,-0.02em,0,clean-versatile,OFL,saas/dashboard
+02,DM Sans + DM Sans,DM Sans,DM Sans,700,400,-0.02em,0,modern-minimal,OFL,marketing
+03,Geist + Geist Mono,Geist,Geist Mono,600,400,-0.02em,0,developer-tool,OFL,ai/dev-tool
+04,Playfair Display + Inter,Playfair Display,Inter,700,400,-0.01em,0,editorial-elegant,OFL,publishing/magazine
+05,Space Grotesk + IBM Plex Serif,Space Grotesk,IBM Plex Serif,700,400,-0.01em,0,confident-editorial,OFL,brand-led
+06,Manrope + Manrope,Manrope,Manrope,800,400,-0.02em,0,friendly-rounded,OFL,product/saas
+07,JetBrains Mono + Inter,JetBrains Mono,Inter,700,400,0,0,monospaced-tech,OFL,terminal/cli
+08,Bebas Neue + Lora,Bebas Neue,Lora,400,400,0.05em,0,bold-statement,OFL,event/poster
+09,Recoleta + Inter,Recoleta,Inter,600,400,-0.01em,0,warm-editorial,Commercial,d2c/lifestyle
+10,Söhne + Söhne Breit,Söhne,Söhne Breit,700,400,-0.01em,0,premium-brand,Commercial,brand-premium
+11,Newsreader + Karla,Newsreader,Karla,600,400,-0.01em,0,modern-classic,OFL,blog/longform
+12,Bricolage Grotesque + Bricolage Grotesque,Bricolage Grotesque,Bricolage Grotesque,800,400,-0.02em,0,editorial-display,OFL,creative-portfolio

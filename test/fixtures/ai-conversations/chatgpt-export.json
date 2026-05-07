@@ -1,0 +1,26 @@
+{
+  "title": "Choosing a stack for a tiny side project",
+  "create_time": 1714300000,
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful assistant."
+    },
+    {
+      "role": "user",
+      "content": "I want to build a tiny CLI that turns markdown files into a Graphify-style graph. What stack would you pick?"
+    },
+    {
+      "role": "assistant",
+      "content": "For a tiny CLI, keep it to Node + TypeScript and avoid frameworks. You get fast startup, easy distribution via npm, and the ecosystem you already know."
+    },
+    {
+      "role": "user",
+      "content": "How do I keep it simple on testing?"
+    },
+    {
+      "role": "assistant",
+      "content": "Vitest for everything. One config file, fast watch mode, and it handles ESM without ceremony."
+    }
+  ]
+}

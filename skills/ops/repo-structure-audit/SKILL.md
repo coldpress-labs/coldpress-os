@@ -3,7 +3,8 @@ name: "repo-structure-audit"
 description: "Scan repository for file duplication, structural drift, and organizational issues"
 type: "simple"
 category: "ops"
-phases: [6, 7, 8]
+status: "wire-in-phase-1,wire-in-phase-2,wire-in-phase-3"
+phases: [1, 2, 3, 6, 7, 8]
 inputs:
   - "repository root"
   - "coldpress.yaml"

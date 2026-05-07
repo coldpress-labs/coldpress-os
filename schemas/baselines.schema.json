@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/baselines.json",
+  "title": "Baselines block",
+  "description": "Structural contract for `data/standards/baselines.yaml` (full) and the `baselines:` top-level block in `coldpress.yaml` (partial). Enforces per-category confirmation status, opt-out rationale, and override shape.",
+  "type": "object",
+  "description": "Map of baseline category name → category decision object.",
+  "propertyNames": {
+    "enum": ["seo_aeo_llm", "accessibility", "security", "future_proof"]
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": ["status"],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": ["confirmed", "opted-out", "confirmed-with-override"],
+        "description": "User's decision on this baseline category."
+      },
+      "covered_by_pack": {
+        "type": "string",
+        "enum": ["true", "false", "partial"],
+        "description": "Whether the selected stack pack handles this baseline out of the box."
+      },
+      "opted_out_at": {
+        "type": ["string", "null"],
+        "format": "date-time",
+        "description": "ISO 8601 timestamp when the user opted out. Null if not opted out."
+      },
+      "rationale": {
+        "type": "string",
+        "description": "Required when status is `opted-out`. Explains the decision."
+      },
+      "overrides": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Optional key-value map of implementation parameter overrides (e.g. `cwv_lcp_threshold: \"2.0s\"`)."
+      }
+    },
+    "if": {
+      "properties": { "status": { "const": "opted-out" } }
+    },
+    "then": {
+      "required": ["rationale"]
+    }
+  }
+}

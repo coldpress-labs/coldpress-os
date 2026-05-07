@@ -5,7 +5,7 @@ type: "workflow"
 category: "creative"
 status: "cross-cutting"
 agent: "communicator"
-phases: [4, 8]
+phases: [2, 5, 8, 11]
 inputs:
   - "message, product, or concept to communicate"
   - "../../data/methods/story-types.csv"

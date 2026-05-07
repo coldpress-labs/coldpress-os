@@ -3,7 +3,8 @@ name: "adversarial-review"
 description: "Perform a cynical adversarial review and produce a findings report"
 type: "simple"
 category: "reviews"
-phases: [2, 4, 5, 6, 7, 8]
+status: "wire-in-phase-2 wire-in-phase-3 wire-in-phase-4"
+phases: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 inputs:
   - "content to review (document, code, design, or any artifact)"
 outputs:

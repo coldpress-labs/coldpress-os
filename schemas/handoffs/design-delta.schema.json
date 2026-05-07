@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/handoffs/design-delta.json",
+  "title": "Design Delta",
+  "description": "Per-delta record surfaced by Phase 5 skills during finalisation. Aggregated by phase-transition at Phase 5 exit; user reviews each during reconciliation pass; resolved by one of 4 reconciliation_options. Lives in `_context/handoffs/phase-5-design-deltas-wip-{date}.md` (WIP) → moved to `_context/handoffs/phase-5-to-6-{date}.md` design_deltas section at Phase 5 exit.",
+  "type": "object",
+  "required": ["id", "source_skill", "source_step", "surfaced_at", "delta_type", "description", "evidence", "reconciliation_options", "recommendation"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^delta-[0-9]{3,}$",
+      "description": "Sequential ID, zero-padded to 3 digits. e.g., delta-001, delta-014."
+    },
+    "source_skill": {
+      "type": "string",
+      "enum": ["design-brief", "ux-design", "prototype", "brand-guidelines", "narrative", "legacy-ui-assessment"]
+    },
+    "source_step": {
+      "type": "string",
+      "description": "Which step in the source skill surfaced this delta. e.g., 'step-02-content', 'step-04-spec'."
+    },
+    "surfaced_at": { "type": "string", "format": "date-time" },
+    "prd_section": {
+      "type": "string",
+      "description": "PRD section affected. e.g., 'User Stories §US-7', 'NFR a11y axis', 'Voice/Tone (implied via product-brief)'."
+    },
+    "delta_type": {
+      "type": "string",
+      "enum": ["additive", "modifying", "removing", "conflicting", "cross_phase_alignment"],
+      "description": "additive = PRD missing this; modifying = PRD says X, design says Y'; removing = PRD includes scope design wants out; conflicting = direct contradiction; cross_phase_alignment = Phase 4 architecture decision conflicts with Phase 5 UI direction."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "1-3 sentences."
+    },
+    "evidence": {
+      "type": "string",
+      "description": "What observation triggered this. Quote / file path / step output reference."
+    },
+    "reconciliation_options": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["accept_into_prd", "reject", "flag_for_architecture_ADR", "park_for_phase_11"]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Available options offered to user. Typically all 4."
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["accept_into_prd", "reject", "flag_for_architecture_ADR", "park_for_phase_11"],
+      "description": "Recommendation surfaced to user."
+    },
+    "user_decision": {
+      "type": ["string", "null"],
+      "enum": ["accept_into_prd", "reject", "flag_for_architecture_ADR", "park_for_phase_11", null],
+      "description": "Set at reconciliation pass. Null until decided."
+    },
+    "user_rationale": { "type": ["string", "null"] },
+    "applied_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When user_decision was executed (PRD amendment authored, ADR-required marker emitted, etc.)."
+    },
+    "applied_artefacts": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Paths of artefacts updated as part of applying the decision (e.g., PRD v(N+1) path; ADR-required marker location)."
+    }
+  }
+}

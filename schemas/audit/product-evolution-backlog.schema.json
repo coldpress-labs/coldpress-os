@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/audit/product-evolution-backlog.json",
+  "title": "Product Evolution Backlog (Phase 11)",
+  "description": "Phase 11 product-evolution backlog. Validated-distillate. Authored by @reviewer (with @pm input). Includes ops-deltas with user_decision=accept_into_phase_11_product_evolution as backlog items. Outputs feed next iteration's Phase 1 entry.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "iteration", "author_agent", "status", "created_at", "items"],
+  "properties": {
+    "schema": { "const": "schemas/audit/product-evolution-backlog.json" },
+    "phase": { "const": 11 },
+    "version": { "type": "integer", "minimum": 1 },
+    "iteration": { "type": "string" },
+    "author_agent": { "const": "@reviewer" },
+    "status": { "type": "string", "enum": ["draft", "validated", "superseded"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "items": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "kind", "priority", "rationale"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^pe-[0-9]{3,}$" },
+          "title": { "type": "string", "minLength": 5 },
+          "kind": {
+            "type": "string",
+            "enum": ["new-feature", "enhancement", "ux-improvement", "performance", "scalability", "tech-debt", "refactor", "doc-improvement", "process"]
+          },
+          "priority": { "type": "string", "enum": ["P0", "P1", "P2", "P3"] },
+          "rationale": { "type": "string", "minLength": 10 },
+          "source_delta_id": {
+            "type": ["string", "null"],
+            "description": "If this item came from an accepted ops-delta or design-delta park, the source delta ID."
+          },
+          "estimated_size": { "type": ["string", "null"], "enum": ["XS", "S", "M", "L", "XL", null] },
+          "target_iteration": { "type": ["string", "null"] },
+          "linked_personas": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "linked_prd_sections": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "themes": {
+      "type": "array",
+      "description": "Optional rollup of items into thematic clusters.",
+      "items": {
+        "type": "object",
+        "required": ["name", "item_ids"],
+        "properties": {
+          "name": { "type": "string" },
+          "item_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

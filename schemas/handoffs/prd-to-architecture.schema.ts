@@ -62,8 +62,12 @@ export const OutOfScope = z.object({
 });
 
 /**
- * Full `prd.meta.json` shape. Consumer (create-architecture) reads this to
- * build the architecture with deterministic inputs.
+ * Full `prd.meta.json` shape. Consumer (create-architecture, Phase 6) reads
+ * this cold to build the architecture with deterministic inputs.
+ *
+ * Phase II Part 4 Wave 4: added prd_version, feature_count, nfr_axes,
+ * adr_references, baselines_active, brownfield_modules_count per deep-dive §4
+ * handoff contract spec.
  */
 export const PrdToArchitectureSchema = z.object({
   schema_version: z.literal(1),
@@ -71,6 +75,18 @@ export const PrdToArchitectureSchema = z.object({
   produced_at: z.string().datetime(),
   /** Project slug — sanity check against coldpress.yaml. */
   project_slug: z.string().min(1),
+  /** Semver string from PRD frontmatter. */
+  prd_version: z.string().min(1),
+  /** Count of P0 + P1 features in the PRD. */
+  feature_count: z.number().int().min(0),
+  /** NFR category axes present in the PRD (e.g. performance, accessibility). */
+  nfr_axes: z.array(z.string()),
+  /** ADR IDs referenced in the PRD frontmatter (format: ADR-NNNN). */
+  adr_references: z.array(z.string().regex(/^ADR-\d{4}$/)),
+  /** Active baselines confirmed in Phase 3 stack-locking. */
+  baselines_active: z.array(z.enum(["seo_aeo_llm", "accessibility", "security", "future_proof"])),
+  /** Count of legacy modules in scope (0 for greenfield). */
+  brownfield_modules_count: z.number().int().min(0),
   /** 1-3 sentence product summary, independent of prose PRD. */
   product_summary: z.string().min(20),
   architectural_drivers: z.array(ArchitecturalDriver).min(1),

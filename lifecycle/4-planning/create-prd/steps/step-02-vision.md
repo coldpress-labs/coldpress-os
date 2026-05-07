@@ -4,6 +4,7 @@ step_name: "Product Vision"
 step_goal: "Define the product vision, goals, and success criteria"
 halts_for_input: true
 next_step: "step-03-requirements.md"
+partial_completion_id: "create_prd_step_02"
 ---
 
 ## Goal

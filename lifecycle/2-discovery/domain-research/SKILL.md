@@ -8,6 +8,9 @@ agent: "analyst"
 inputs:
   - "coldpress.yaml"
   - "_context/sacred/context.md"
+  - "_context/tracking/intake-{date}.md"
+  - ".coldpress/local-config.yaml (for project_shape)"
+  - ".coldpress/graph/graph.json (query _input/reference/ + _input/vendor/ before web-search)"
 outputs:
   - artifact: "Domain Research"
     location: "_context/planning/research/domain-{topic}-{date}.md"

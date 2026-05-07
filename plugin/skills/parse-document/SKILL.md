@@ -8,10 +8,11 @@ version: "1.0"
 
 ## Purpose
 
-Convert a raw document — PDF, DOCX, PPTX, XLSX, image, or HTML — into clean markdown that Graphify can index. Routes between two backends:
+Convert a raw document — PDF, DOCX, PPTX, XLSX, image, HTML, or AI conversation export — into clean markdown that Graphify can index. Routes between three backends:
 
 - **Fast path — markitdown (Microsoft, MIT):** text-native PDFs, simple Office files, HTML. Near-zero ML weight, near-instant startup.
 - **Accurate path — Docling (IBM, MIT):** scanned PDFs, complex tables, images, layout-sensitive content. Downloads ~500MB–1GB of ML models on first use.
+- **AI conversation path — stdlib-only:** ChatGPT / Claude / generic AI conversation exports (JSON or markdown). Detected by content sniff, not extension — the adapter preserves turn structure (`## Turn N — User / Assistant`) and renders tool-use blocks as fenced code so Graphify clusters turns as distinct nodes instead of one mega-blob.
 
 Output markdown lives at `_input/.parsed/<original-filename>.md` so Graphify picks it up on the next `coldpress graph rebuild` pass without any manual bookkeeping.
 
@@ -48,7 +49,9 @@ If Python or either adapter is missing, the Node entry surfaces a clear install 
    - `.docx`, `.pptx`, `.xlsx` → markitdown.
    - `.png`, `.jpg`, `.jpeg`, `.tiff`, `.bmp` → Docling (OCR needed).
    - `.html`, `.htm` → markitdown.
-   - `.md`, `.markdown`, `.txt` → passthrough copy (no parsing).
+   - `.json` → `ai_conversation` if the head sniffs as a conversation (top-level `messages[]` with `role` fields, or a top-level array of messages); otherwise unsupported.
+   - `.md`, `.markdown` → `ai_conversation` if the head contains both a `User` / `Human` heading and an `Assistant` / `Claude` / `ChatGPT` heading at level 2-4; otherwise passthrough.
+   - `.txt` → passthrough copy (no parsing).
    - Other extensions → error with a list of supported formats.
 
 3. **Execute the adapter** as a Python subprocess from the Node wrapper. Stdout is the generated markdown; stderr carries logs. Exit 0 on success, non-zero with a clear message on failure.

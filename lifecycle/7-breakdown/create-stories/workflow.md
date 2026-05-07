@@ -1,36 +1,34 @@
 ---
-workflow_version: "1.0"
-output_file: "_context/implementation/{story-key}.md"
-total_steps: 4
+workflow_version: "2.0"
+output_pattern: "_context/implementation/stories/story-NNN-<slug>-v{N}.md"
+output_index: "_context/implementation/stories-index.md"
+total_steps: 5
 resume_from: "frontmatter"
 ---
 
 ## Overview
 
-Guides the creation of comprehensive story context files through: story selection, exhaustive artifact analysis, developer context building, and finalization with sprint-status update.
+Phase 7 story authoring. Per-archetype granularity. Per-story files + index.
 
 ## Step Index
 
 | Step | File | Description |
 |------|------|-------------|
-| 1 | [step-01-select.md](steps/step-01-select.md) | Determine target story from sprint-status or user input |
-| 2 | [step-02-analyze.md](steps/step-02-analyze.md) | Exhaustive artifact analysis for the target story |
-| 3 | [step-03-context.md](steps/step-03-context.md) | Build developer context with technical specifics |
-| 4 | [step-04-finalize.md](steps/step-04-finalize.md) | Write story file, update sprint-status to ready-for-dev |
+| 0 | [step-00-context.md](steps/step-00-context.md) | Graph-first context load + existence_checks |
+| 1 | [step-01-select.md](steps/step-01-select.md) | Per-epic story selection + archetype-conditional granularity decision |
+| 2 | [step-02-analyze.md](steps/step-02-analyze.md) | Per-story analysis: file scope + test coverage + acceptance criteria (BDD or AC per archetype) + UX-screen + brand-tokens + prototype-manifest refs |
+| 3 | [step-03-context.md](steps/step-03-context.md) | Per-story write to `_context/implementation/stories/story-NNN-<slug>-v{N}.md`; story_types Tier-1 |
+| 4 | [step-04-finalize.md](steps/step-04-finalize.md) | Stories-index emit; supersede-check on PRD/UX/architecture coverage; editorial-structure + editorial-prose; emit distillates |
 
 ## Execution Rules
 
-1. **Load one step at a time.** Never read ahead.
-2. **Complete each step fully** before proceeding.
-3. **Halt at menus.** When a step presents options, wait for user input.
-4. **No skipping.** Every step exists for a reason.
-5. **State is tracked** in the output document's YAML frontmatter.
-6. **Resumable.** On interruption, resume from the last completed step.
-7. **User input required.** Never generate content without user confirmation or input.
+1. **Per-story files** (not monolithic).
+2. **Archetype-conditional** granularity at Step 1.
+3. Halt at user prompts (story shape).
+4. Partial-completion per story.
+5. Supersede-check on coverage at Step 4.
 
-## Completion Criteria
+## Outputs
 
-- Target story identified and confirmed
-- All project artifacts analyzed for relevant context
-- Developer context file written with technical specifics, guardrails, and anti-patterns
-- sprint-status.yaml updated to `ready-for-dev` for the story
+- `_context/implementation/stories/story-NNN-<slug>-v{N}.md` (multiple — one per story)
+- `_context/implementation/stories-index.md` (index)

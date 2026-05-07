@@ -123,27 +123,13 @@ graph LR
 
 ---
 
-## 8. Design Tokens (if full-spec mode)
+## 8. Design Tokens
 
-### Colors
-| Token | Value | Usage |
-|-------|-------|-------|
-| --color-primary | | |
-| --color-surface | | |
-| --color-text | | |
+> **See `_context/design/brand-guidelines-v{N}.md` § Tokens** for the canonical token set (colours, typography, spacing, motion). Do NOT duplicate token values here — this section references brand-guidelines so PRD↔UX↔brand stay in sync via single source of truth.
 
-### Typography
-| Token | Value | Usage |
-|-------|-------|-------|
-| --font-body | | |
-| --font-heading | | |
+**Reference:** `_context/design/brand-guidelines-v{latest}.md` produced by Phase 5 `brand-guidelines` skill (validated-distillate; schema'd at `schemas/design/brand-guidelines.schema.json`).
 
-### Spacing
-| Token | Value |
-|-------|-------|
-| --space-sm | |
-| --space-md | |
-| --space-lg | |
+If brand-guidelines-v{N}.md does not yet exist (rare — Phase 5 ordering guarantees brand-guidelines before final UX-spec emit), surface this as a missing-dependency error rather than inlining tokens.
 
 ---
 
@@ -151,3 +137,4 @@ graph LR
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 2.0 | 2026-04-30 | Andy-coldpress-os | Section 8 (Design Tokens) rewritten to reference `brand-guidelines-v{N}.md` instead of duplicating token tables inline. Phase 5 introduces `brand-guidelines` as the canonical token home; UX-spec defers. Per autonomous queue unit #3 Wave 5.1 task 1.4. |

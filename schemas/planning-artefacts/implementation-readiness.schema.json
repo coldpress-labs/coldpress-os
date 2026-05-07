@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/implementation-readiness.json",
+  "title": "Implementation Readiness Report",
+  "description": "Phase 7 final gate report. Produced by `implementation-readiness` skill. 9-point structured checklist per Q6.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "checks", "overall_status", "created_at"],
+  "properties": {
+    "schema": { "const": "schemas/planning-artefacts/implementation-readiness.json" },
+    "phase": { "const": 7 },
+    "version": { "type": "integer", "minimum": 1 },
+    "checks": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "status"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1, "maximum": 9 },
+          "name": {
+            "type": "string",
+            "enum": [
+              "prd_user_story_coverage",
+              "ux_screen_coverage",
+              "architecture_component_coverage",
+              "flagged_deltas_resolved_at_phase_6",
+              "pert_valid",
+              "sprint_complete",
+              "no_adr_contradictions",
+              "prototype_available",
+              "legacy_decisions_reflected"
+            ]
+          },
+          "status": { "type": "string", "enum": ["pass", "fail", "warn", "n/a"] },
+          "evidence": { "type": "string" },
+          "gaps": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "overall_status": { "type": "string", "enum": ["pass", "fail"], "description": "fail if ANY check.status == fail" },
+    "archetype": { "type": "string", "enum": ["vibe-coder-lean", "standard", "design-led", "WDS"] },
+    "is_brownfield": { "type": "boolean", "description": "If false, check #9 status = n/a." },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

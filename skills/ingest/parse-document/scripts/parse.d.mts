@@ -8,16 +8,20 @@ export const SUPPORTED_EXTENSIONS: Set<string>;
 export const MARKITDOWN_EXTENSIONS: Set<string>;
 export const DOCLING_EXTENSIONS: Set<string>;
 export const PASSTHROUGH_EXTENSIONS: Set<string>;
+export const AI_CONVERSATION_SNIFFABLE: Set<string>;
 
 export interface RouteResult {
-  backend: "markitdown" | "docling" | "passthrough" | "unsupported";
+  backend: "markitdown" | "docling" | "passthrough" | "ai_conversation" | "unsupported";
   /** Only set on PDF routing — signals that markitdown output below 200 chars should re-try docling. */
   fallbackOk?: boolean;
   /** Only set on unsupported — echoes back the offending extension. */
   extension?: string;
 }
 
-export function routeFile(path: string): RouteResult;
+/** Sniff the head of a file's contents for AI conversation markers. Pure. */
+export function sniffAiConversation(contentHead: string, ext: string): boolean;
+
+export function routeFile(path: string, contentHead?: string): RouteResult;
 
 export function defaultOutputPath(inputPath: string, projectRoot: string): string;
 

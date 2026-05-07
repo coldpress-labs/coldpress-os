@@ -3,7 +3,8 @@ name: "editorial-prose"
 description: "Clinical copy-editor that reviews text for communication issues impeding comprehension"
 type: "simple"
 category: "reviews"
-phases: [2, 4, 5, 8]
+status: "wire-in-phase-2 wire-in-phase-4"
+phases: [2, 4, 5, 6, 7, 8, 9, 11]
 inputs:
   - "text content to review"
 outputs:

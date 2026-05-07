@@ -40,6 +40,38 @@ export async function generateWrappers(targetDir: string): Promise<number> {
   return count;
 }
 
+/**
+ * Generate thin wrappers for a specific stack pack's skills. Called after
+ * Phase 3 stack-lock activates a pack — typically from
+ * `coldpress update --post-phase-3`.
+ *
+ * Returns the number of wrappers written, or 0 if the pack has no skills
+ * directory in the consumer project.
+ */
+export async function generateStackPackWrappers(
+  targetDir: string,
+  stackPack: string,
+): Promise<number> {
+  const frameworkRoot = join(targetDir, "coldpress-os");
+  const wrappersRoot = join(targetDir, ".claude", "skills");
+  const stackRoot = join(frameworkRoot, "skills", "stack-packs", stackPack);
+
+  let count = 0;
+  for await (const skillFile of findSkillFiles(stackRoot)) {
+    const content = await readFile(skillFile, "utf8");
+    const fm = extractFrontmatter(content);
+
+    if (!fm.name || !fm.description) continue;
+    if (fm.type === "router") continue;
+
+    const relativePath = relative(targetDir, skillFile);
+    await writeWrapper(wrappersRoot, fm.name, fm.description, relativePath);
+    count++;
+  }
+
+  return count;
+}
+
 async function writeWrapper(
   wrappersRoot: string,
   name: string,

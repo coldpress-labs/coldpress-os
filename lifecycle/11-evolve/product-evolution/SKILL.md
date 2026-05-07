@@ -3,7 +3,7 @@ name: "product-evolution"
 description: "Plan the next iteration of the product based on learnings and market changes"
 type: "workflow"
 category: "lifecycle"
-phase: 8
+phase: 11
 agent: "pm"
 inputs:
   - "retrospective documents"

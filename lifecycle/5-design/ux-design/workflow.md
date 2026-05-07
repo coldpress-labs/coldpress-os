@@ -1,37 +1,36 @@
 ---
-workflow_version: "1.0"
-output_file: "_context/design/ux-design-spec.md"
-total_steps: 4
+workflow_version: "2.0"
+output_file: "_context/design/ux-design-spec-v{N}.md"
+total_steps: 5
 resume_from: "frontmatter"
 ---
 
 ## Overview
 
-Plans UX patterns and design specifications through four phases: context loading, user flow design, wireframe concepts, and specification compilation. Bridges the PRD's requirements with implementable design decisions.
+Phase 5 UX design specification. Persona-grounded user flows, key screen concepts, interaction patterns, responsive + a11y. Reads PRD + design-brief + personas + baselines from graph; produces validated-distillate.
 
 ## Step Index
 
 | Step | File | Description |
 |------|------|-------------|
-| 1 | [step-01-context.md](steps/step-01-context.md) | Load PRD, understand users and requirements |
-| 2 | [step-02-flows.md](steps/step-02-flows.md) | User flows and information architecture |
-| 3 | [step-03-wireframes.md](steps/step-03-wireframes.md) | Key screen concepts and interaction patterns |
-| 4 | [step-04-spec.md](steps/step-04-spec.md) | Compile UX specification document |
+| 0 | [step-00-context.md](steps/step-00-context.md) | Graph-first context load + existence_checks (NEW) |
+| 1 | [step-01-context.md](steps/step-01-context.md) | Scope confirm + planning-scope memo + persona direct-read |
+| 2 | [step-02-flows.md](steps/step-02-flows.md) | Persona-grounded user flows + supersede-check (stack feasibility) |
+| 3 | [step-03-wireframes.md](steps/step-03-wireframes.md) | Wireframes/screens — design-thinking ideate + scenario-planning + problem-solving + advanced-elicitation |
+| 4 | [step-04-spec.md](steps/step-04-spec.md) | Emit validated-distillate + sidecar; aggregate design-deltas; supersede-check on PRD-feature-coverage; adversarial-review + editorial-structure wire-ins |
 
 ## Execution Rules
 
 1. **Load one step at a time.** Never read ahead.
-2. **Complete each step fully** before proceeding.
-3. **Halt at menus.** When a step presents options, wait for user input.
-4. **No skipping.** Every step exists for a reason.
-5. **State is tracked** in the output document's YAML frontmatter.
-6. **Resumable.** On interruption, resume from the last completed step.
-7. **User input required.** Never generate content without user confirmation or input.
+2. **Persona direct-read.** Step 2 reads `personas-v{latest}.md` not PRD-derived persona section.
+3. **Halt at user-input prompts.** Wireframe alternatives, edge-case enumerations, etc.
+4. **Partial-completion mechanic** active in every step.
+5. **Graph-first.** Step 0 loads; subsequent steps consult graph for derived facts.
+6. **Design-deltas.** Steps 2–4 may surface; appended to `phase-5-design-deltas-wip-{date}.md`.
+7. **NO `phase-transition` invocation here.** Last-skill-in-flow invokes phase-transition; ux-design isn't always last (prototype/narrative may follow). Phase 5 gate.json post-exit-action handles phase-transition centrally.
 
-## Completion Criteria
+## Outputs
 
-- User personas and journeys understood from PRD
-- User flows mapped for all key scenarios
-- Information architecture defined
-- Key screen concepts described with interaction patterns
-- UX specification document compiled and approved
+- `_context/design/ux-design-spec-v{N}.md` (validated-distillate; schema-validated)
+- `_context/design/ux-design-spec-v{N}.meta.json` (sidecar)
+- Design-deltas appended to phase-5-design-deltas-wip-{date}.md

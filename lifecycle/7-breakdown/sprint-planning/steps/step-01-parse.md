@@ -10,6 +10,22 @@ next_step: "step-02-detect.md"
 
 Build a complete inventory of all work items.
 
+## Pattern 7 transition (sub_phase_boundary entry)
+
+This skill is owned by @scrum-master as a sub-persona dispatch from @pm (Phase 7 primary). On entry, append the `#8a` transition record to the Pattern 7 buffer at `_context/handoffs/pattern-7-transitions-wip-{date}.yaml`:
+
+```yaml
+- trigger: sub_phase_boundary
+  from_agent: pm
+  to_agent: scrum-master
+  rationale: "Sprint planning is @scrum-master's specialist domain"
+  warm_handoff: null
+  resumes_to: pm
+  recorded_at: <ISO>
+```
+
+If buffer file doesn't exist yet, create it with `phase: 7` + `created_at: <ISO>` + empty `transitions: []` then append. See `docs/cross-cutting/pattern-7-agent-personas.md` "Where transitions are recorded" for the buffer convention.
+
 ## Instructions
 
 1. **Read `_context/planning/epics.md`** and parse all epics and stories.

@@ -69,4 +69,4 @@ coldpress-os.
 
 ---
 
-*Last updated: 2026-04-15*
+*Last updated: 2026-05-03 — applies to v0.3.0 (Shape A 11-phase lifecycle) and prior versions still receiving security fixes.*

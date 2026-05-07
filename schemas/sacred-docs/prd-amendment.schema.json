@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/sacred-docs/prd-amendment.json",
+  "title": "PRD Amendment Payload",
+  "description": "Lightweight amendment payload for PRD v(N+1) authoring during Phase 5 reconciliation pass. Targets specific PRD sections (no full rewrite); triggers `validate-prd --sections=<list>` scoped re-validation. Bumps PRD VC; updates prd.meta.json with amendment_source.",
+  "type": "object",
+  "required": ["amendment_id", "source_design_deltas", "target_sections", "proposed_diffs", "validation_scope", "vc_bump_target", "authored_by", "authored_at"],
+  "properties": {
+    "amendment_id": {
+      "type": "string",
+      "pattern": "^prd-amendment-[0-9]{3,}$",
+      "description": "Sequential ID. e.g., prd-amendment-001."
+    },
+    "source_design_deltas": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^delta-[0-9]{3,}$"
+      },
+      "minItems": 1,
+      "description": "design_delta IDs that this amendment resolves. All must have user_decision == accept_into_prd."
+    },
+    "target_sections": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "PRD section paths to edit. e.g., ['User Stories §US-7', 'NFR §a11y']."
+    },
+    "proposed_diffs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["section", "diff_type", "content"],
+        "properties": {
+          "section": { "type": "string" },
+          "diff_type": { "type": "string", "enum": ["add", "modify", "remove"] },
+          "content": { "type": "string", "description": "New content (add/modify) or removed content reference (remove)." }
+        }
+      }
+    },
+    "validation_scope": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Sections to re-validate via `validate-prd --sections=<list>`. Typically equals target_sections; may include cascading sections."
+    },
+    "vc_bump_target": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "Target version. Minor bump for accumulated amendments under threshold; major for first amendment OR when threshold crossed."
+    },
+    "authored_by": {
+      "type": "string",
+      "enum": ["@pm"],
+      "description": "Always @pm (Pattern 7 hand-back from @ux-designer)."
+    },
+    "authored_at": { "type": "string", "format": "date-time" },
+    "validation_passed_at": { "type": ["string", "null"], "format": "date-time" },
+    "applied_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "When PRD edits committed and VC bumped."
+    }
+  }
+}

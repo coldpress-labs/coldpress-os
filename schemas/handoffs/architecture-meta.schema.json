@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/handoffs/architecture-meta.json",
+  "title": "Architecture Meta Sidecar",
+  "description": "Phase 6 → Phase 7 handoff sidecar. Sidecar to `_context/sacred/architecture.md`; lives at `_context/sacred/architecture.meta.json`. Consumed by Phase 7 Breakdown for component-by-component story decomposition.",
+  "type": "object",
+  "required": ["$schema", "schema_version", "version", "validated_at", "sources", "component_count", "adrs_authored"],
+  "properties": {
+    "$schema": { "const": "schemas/handoffs/architecture-meta.schema.json" },
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "Architecture document version (matches frontmatter `version` of architecture.md)."
+    },
+    "validated_at": { "type": "string", "format": "date-time" },
+    "sources": {
+      "type": "object",
+      "required": ["prd", "ux_design_spec", "brand_guidelines", "tech_stack"],
+      "properties": {
+        "prd": { "type": "string" },
+        "ux_design_spec": { "type": "string" },
+        "brand_guidelines": { "type": "string" },
+        "tech_stack": { "type": "string" }
+      }
+    },
+    "component_count": { "type": "integer", "minimum": 1 },
+    "integration_count": { "type": "integer", "minimum": 0 },
+    "nfr_axes_addressed": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of NFR axes from PRD that have architectural strategy. Should match PRD nfr_axes."
+    },
+    "adrs_authored": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["adr_number", "resolves_design_delta_or_null"],
+        "properties": {
+          "adr_number": { "type": "integer", "minimum": 1 },
+          "resolves_design_delta_or_null": {
+            "type": ["string", "null"],
+            "description": "If non-null: this ADR is a REQUIRED ADR resolving a Phase 5 flagged delta (silent-divergence guard). If null: organic ADR."
+          }
+        }
+      }
+    },
+    "brownfield_modules_handled": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of Phase 4 legacy-migration-plan modules that the architecture incorporates per their decisions (keep/refactor/scaffold/reference)."
+    },
+    "flagged_deltas_resolved": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of Phase 5 flagged_for_architecture_ADR deltas that have corresponding ADRs. MUST equal len(`phase-5-to-6 handoff.architecture_adrs_required[]`) — verified by Phase 6 gate check #5 (silent-divergence guard)."
+    },
+    "adversarial_review_findings": { "type": "integer", "minimum": 0 },
+    "editorial_findings": { "type": "integer", "minimum": 0 },
+    "architecture_deltas_surfaced": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of Phase 6 architecture-deltas (PRD/UX gaps surfaced at architecture time). Forward-carry mechanism — see Phase 6 deep-dive §12."
+    }
+  }
+}

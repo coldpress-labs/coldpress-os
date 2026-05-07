@@ -1,7 +1,7 @@
 {
   "name": "@coldpress/core",
-  "version": "0.2.0-alpha",
-  "description": "9-phase AI-native lifecycle framework — subagents, skills, sacred-doc governance, stack packs.",
+  "version": "0.3.0-alpha",
+  "description": "11-phase AI-native lifecycle framework (Shape A) — subagents, skills, sacred-doc governance, forward-carry quartet, stack packs.",
   "author": "ColdPress Labs",
   "license": "MIT",
   "homepage": "https://github.com/coldpress-labs/coldpress-os",
@@ -14,7 +14,9 @@
     "subagents",
     "sdlc",
     "development-framework",
-    "claude-code"
+    "claude-code",
+    "shape-a",
+    "forward-carry-quartet"
   ],
-  "skills_count": 88
+  "skills_count": 100
 }

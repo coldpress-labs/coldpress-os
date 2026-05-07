@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/stack-shortlist.json",
+  "title": "Stack-shortlist planning artefact frontmatter",
+  "description": "Structural contract for `_context/planning/stack-shortlist-v{N}.md`. Produced by stack-discovery-sync; consumed by stack-evaluation and stack-locking.",
+  "type": "object",
+  "required": ["name", "phase_authored", "status", "version", "derived_from", "decision_areas"],
+  "properties": {
+    "name": { "const": "stack-shortlist" },
+    "phase_authored": { "const": 3 },
+    "status": { "enum": ["draft", "final"] },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "derived_from": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to Phase 2 upstream artefacts (synthesis, product-brief, idea-validation)."
+    },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^_input/.*" }
+    },
+    "pack_match": {
+      "type": "object",
+      "description": "Pack-scoring result from stack-discovery-sync Step 3.",
+      "required": ["matched_pack_name", "user_confirmed"],
+      "properties": {
+        "matched_pack_name": {
+          "type": ["string", "null"],
+          "description": "Stack-pack id (e.g. `nextjs-convex`) or null if no match."
+        },
+        "match_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "0.0–1.0 composite score from pack-match scoring rubric."
+        },
+        "user_confirmed": {
+          "type": "boolean",
+          "description": "True if user accepted or explicitly declined the match."
+        },
+        "uncovered_areas": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Decision areas not covered by the matched pack (require individual evaluation)."
+        }
+      }
+    },
+    "baselines_applicability": {
+      "type": "object",
+      "description": "Per-baseline coverage analysis produced during pack-match scoring.",
+      "properties": {
+        "seo_aeo_llm": { "type": "string", "enum": ["covered", "partial", "not-covered"] },
+        "accessibility": { "type": "string", "enum": ["covered", "partial", "not-covered"] },
+        "security": { "type": "string", "enum": ["covered", "partial", "not-covered"] },
+        "future_proof": { "type": "string", "enum": ["covered", "partial", "not-covered"] }
+      },
+      "additionalProperties": false
+    },
+    "decision_areas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["area", "candidates", "rationale"],
+        "properties": {
+          "area": { "type": "string" },
+          "candidates": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 5,
+            "items": { "type": "string" }
+          },
+          "pack_available": { "type": "boolean" },
+          "rationale": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

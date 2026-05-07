@@ -3,7 +3,7 @@ name: "db-migration-check"
 description: "Validate database migrations before deployment"
 type: "router"
 category: "lifecycle"
-phase: 7
+phase: 9
 routes_to: "skills/ops/db-migration-check/"
 version: "1.0"
 ---

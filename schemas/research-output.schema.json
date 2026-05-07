@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/research-output.json",
+  "title": "Phase 2 research output frontmatter",
+  "description": "Structural contract for research output files in `_context/planning/research/` — domain-research, market-research, constraint research, and personas outputs.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Skill name that produced this output (e.g., `domain-research`, `market-research`, `constraint-research`, `personas`)."
+    },
+    "phase_authored": {
+      "type": "integer",
+      "const": 2,
+      "description": "Always 2 for Phase 2 research outputs."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "complete", "archived"],
+      "description": "`draft` while the skill is mid-run; `complete` on clean exit; `archived` when superseded by a newer run."
+    },
+    "topic": {
+      "type": "string",
+      "description": "The specific topic or domain this research covers."
+    },
+    "research_mode": {
+      "type": "string",
+      "enum": ["graph-first", "web-only", "mixed"],
+      "description": "How source material was gathered: from pre-loaded graph content, fresh web search, or both."
+    },
+    "graph_hits": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Graph node IDs or source paths matched during graph-first pre-step. Empty array if no graph hits."
+    },
+    "legacy_scanned": {
+      "type": "boolean",
+      "description": "True when `_input/legacy/` was scanned for prior-attempt domain signals (brownfield only)."
+    },
+    "project_shape": {
+      "type": "string",
+      "enum": ["greenfield", "brownfield", "ambiguous"]
+    },
+    "conflicting_references": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "`_input/` paths that partially conflict with research findings but were not fully superseded (one section outdated, not the whole document)."
+    },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" }
+  },
+  "required": ["name", "phase_authored", "status"],
+  "additionalProperties": true
+}

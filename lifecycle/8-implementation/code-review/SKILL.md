@@ -3,7 +3,7 @@ name: "code-review"
 description: "Multi-layered code review during implementation"
 type: "router"
 category: "lifecycle"
-phase: 6
+phase: 8
 routes_to: "skills/reviews/code-review/"
 version: "1.0"
 ---

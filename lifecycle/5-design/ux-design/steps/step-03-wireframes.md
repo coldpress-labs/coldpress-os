@@ -1,76 +1,85 @@
 ---
 step_number: 3
-step_name: "Key Screen Concepts"
-step_goal: "Define key screen layouts, interaction patterns, and component inventory"
+step_name: "Key Screens + Interaction Patterns"
+step_goal: "Author Section 4 (Key Screens) + Section 5 (Interaction Patterns); design-thinking ideate + scenario-planning + problem-solving (edge_case_hunter); advanced-elicitation on vague_interaction_pattern"
 halts_for_input: true
 next_step: "step-04-spec.md"
+partial_completion_id: "ux_design_step_03"
 ---
 
 ## Goal
 
-For each major screen/view in the product, define the layout concept, interaction patterns, and key components. These aren't pixel-perfect designs — they're structural decisions that an @developer can build from.
+Author key screen concepts (one per primary flow step) and interaction patterns (gestures, transitions, feedback). Method playbook Tier-1: `design_thinking` ideate stage (heavy); `problem_solving` `edge_case_hunter` (medium); `advanced_elicitation` on vague triggers.
 
 ## Instructions
 
-### 3a. Identify Key Screens
+### 1. Partial-completion write
 
-From the user flows in Step 2, list every distinct screen/page/view the product needs:
+`partial_completion: { step_id: "ux_design_step_03", sub_skill: "screens_interactions", at: "started" }`.
 
-| Screen | Flow | Purpose | Priority |
-|--------|------|---------|----------|
-| {name} | {which flow} | {what user does here} | P0/P1/P2 |
+### 2. Identify key screens
 
-Focus on P0 screens first. P1/P2 screens can be described briefly.
+From Section 3 flows: every flow step that requires substantial UI gets a screen entry. Group similar steps into shared screen patterns where appropriate.
 
-### 3b. Screen Concepts (Per P0 Screen)
+### 3. Per-screen authoring
 
-For each P0 screen, define:
+For each screen:
 
-1. **Layout structure:**
-   - What sections does this screen have? (header, main, sidebar, footer, etc.)
-   - What's the visual hierarchy? (what does the user see first?)
-   - Responsive behavior (how does this change on mobile?)
+```
+### Screen: <Name>
 
-2. **Key components:**
-   | Component | Type | Behavior |
-   |-----------|------|----------|
-   | {name} | {button/form/list/card/modal/etc.} | {what it does, states it has} |
+**Purpose:** 1-sentence purpose statement
+**Used by flows:** <flow list with persona × task>
+**Primary content:**
+- <element> — <rationale grounded in persona/PRD>
+- <element> — <rationale>
 
-3. **States:**
-   - **Default:** What the user sees on first visit
-   - **Loading:** How loading states are shown (skeleton, spinner, progressive)
-   - **Empty:** What shows when there's no data yet
-   - **Error:** How errors are communicated
-   - **Success:** Confirmation and feedback patterns
+**Layout concept:** (header/main/sidebar/etc.; references brand-guidelines layout patterns when ready)
 
-4. **Interactions:**
-   - Primary action (CTA) — what's the main thing to do here?
-   - Secondary actions — what else can the user do?
-   - Destructive actions — how are deletes/removes handled? (confirmation?)
+**Interactions:**
+- <input> → <feedback> — <rationale>
+- Edge: <state> — <handling>
 
-### 3c. Interaction Patterns
+**A11y notes:**
+- Keyboard nav: <flow>
+- Screen reader: <landmark / heading / aria-label rules>
+- Contrast: see brand-guidelines (a11y baseline = <level>)
+```
 
-Define reusable patterns across the product:
+### 4. Tier-1 method invocations
 
-| Pattern | Where Used | Specification |
-|---------|-----------|---------------|
-| Form submission | {screens} | Inline validation, submit button states, success/error feedback |
-| Data list | {screens} | Pagination or infinite scroll, sort/filter controls, empty state |
-| Modal/dialog | {screens} | Trigger, focus trap, close behavior, backdrop |
-| Toast/notification | Global | Duration, dismissal, stacking, severity levels |
-| Loading states | Global | Skeleton screens vs. spinners vs. progressive loading |
+For ambiguous screens or complex content choices:
+- Invoke `design_thinking` ideate stage — generate 3+ screen alternatives, compare against persona pain-points
+- Invoke `problem-solving` `edge_case_hunter` — enumerate edge cases (empty state, error state, loading state, offline state, slow network, no permissions)
 
-### 3d. Review with User
+### 5. Advanced-elicitation on vague interaction patterns
 
-- Walk through each P0 screen concept
-- "Does this layout match how you imagine the product?"
-- "Any interactions I'm missing?"
-- "How should {specific edge case} be handled?"
+Detect patterns like "intuitive", "natural", "familiar". On match, invoke `advanced-elicitation` (method `scenario-walkthrough`) — drill: "walk through how persona X completes this in 30 seconds; what gestures / clicks / decisions?"
+
+### 6. Section 5 — Interaction Patterns
+
+Authoring level: app-wide patterns (not per-screen specifics). Examples:
+- Loading affordances: skeleton / spinner / progressive
+- Error handling: inline / toast / banner / modal
+- Form feedback: real-time vs submit-time
+- Confirmation: toast / inline / modal threshold
+- Animation/motion: respects motion-reduce when a11y-AAA opt-in (or always — recommend default-on)
+
+### 7. Edge-case design-deltas
+
+Edge cases discovered in Step 4 (problem-solving) often surface PRD gaps: missing acceptance criteria for failure modes, undefined empty states, etc. Surface as design-deltas with `delta_type: additive`, `recommendation: accept_into_prd`.
+
+### 8. Partial-completion clean
+
+`at: "screens_interactions_drafted"`.
 
 ## Output
 
-Key screen concepts, component inventory, and interaction patterns defined. `step_3_complete: true`
+- Section 4 (Key Screens) drafted
+- Section 5 (Interaction Patterns) drafted
+- Edge cases enumerated; gaps as design-deltas
+- design-thinking ideate + problem-solving + advanced-elicitation invocations logged in meta
 
 ## Navigation
 
--> Proceed to [step-04-spec.md](step-04-spec.md)
+→ Next: [step-04-spec.md](step-04-spec.md)

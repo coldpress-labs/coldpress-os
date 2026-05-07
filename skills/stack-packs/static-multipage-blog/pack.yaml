@@ -1,0 +1,29 @@
+name: static-multipage-blog
+archetype_fits:
+  product_types:
+    - content-site
+    - blog
+    - marketing-with-blog
+    - personal-site
+  domain_complexity:
+    - low
+    - medium
+  functional_profile:
+    - mostly-static
+    - with-blog
+    - content-heavy
+    - seo-first
+pre_picked:
+  frontend: "Astro"
+  hosting: "Vercel"
+  cms: "MDX"
+  styling: "Tailwind"
+  package_manager: "pnpm"
+  source_control: "GitHub-private"
+  testing: "Vitest"
+overrideable: true
+baselines_out_of_box:
+  - seo_aeo_llm
+  - accessibility
+  - future_proof
+quickstart_skill: "skills/stack-packs/static-multipage-blog/quickstart"

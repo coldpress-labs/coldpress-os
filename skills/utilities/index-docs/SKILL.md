@@ -3,8 +3,8 @@ name: "index-docs"
 description: "Generate or update an index.md for all documents in a folder"
 type: "simple"
 category: "utilities"
-status: "ad-hoc"
-phases: [4, 5, 8]
+status: "wire-in-phase-1"
+phases: [1, 4, 5, 8]
 inputs:
   - "target directory to index"
 outputs:

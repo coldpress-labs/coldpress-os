@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/design/brand-guidelines.json",
+  "title": "Brand Guidelines frontmatter",
+  "description": "Structural contract for `_context/design/brand-guidelines-v{N}.md`. Produced by `brand-guidelines` skill (Phase 5); consumed by `prototype`, `ux-design` (token reference), `narrative` (voice samples), and downstream phases (Phase 8 implementation, Phase 9 deployment). Validated-distillate (regeneratable, schema'd, versioned; sacred=false).",
+  "type": "object",
+  "required": ["schema", "phase", "version", "scope_mode", "sources", "created_at", "status", "distillate", "sacred"],
+  "properties": {
+    "schema": { "const": "schemas/design/brand-guidelines.schema.json" },
+    "phase": { "const": 5 },
+    "version": { "type": "integer", "minimum": 1 },
+    "scope_mode": {
+      "type": "string",
+      "enum": ["tokens-only", "standard", "design-led", "WDS"],
+      "description": "Output scope determined by archetype. tokens-only skips voice + identity; design-led / WDS extends identity."
+    },
+    "sources": {
+      "type": "object",
+      "required": ["design_brief", "personas", "baselines", "tech_stack"],
+      "properties": {
+        "design_brief": { "type": "string" },
+        "personas": { "type": "string" },
+        "baselines": { "type": "array", "items": { "type": "string" } },
+        "tech_stack": { "type": "string" },
+        "archetype": { "type": "string", "enum": ["vibe-coder-lean", "standard", "design-led", "WDS"] }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "distillate": { "const": true },
+    "sacred": { "const": false },
+    "sections": {
+      "type": "object",
+      "properties": {
+        "voice_tone": { "type": "boolean" },
+        "tokens": { "type": "boolean" },
+        "a11y_rules": { "type": "boolean" },
+        "identity": { "type": "boolean" }
+      }
+    },
+    "tokens_count": {
+      "type": "object",
+      "properties": {
+        "colour": { "type": "integer", "minimum": 0 },
+        "typography": { "type": "integer", "minimum": 0 },
+        "spacing": { "type": "integer", "minimum": 0 },
+        "motion": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "contrast_validation_pairs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of text-on-surface colour pairs auto-validated against active a11y baseline contrast minimums."
+    },
+    "contrast_validation_failures": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of pairs that failed validation. MUST be 0 at status=validated (else surfaced as design-deltas + remediated)."
+    },
+    "tech_stack_format": {
+      "type": "string",
+      "enum": ["css-in-js", "tailwind", "css-modules", "vanilla-css"],
+      "description": "Token output format chosen per tech-stack.css_strategy."
+    },
+    "advanced_elicitation_invocations": { "type": "integer", "minimum": 0 },
+    "design_deltas_surfaced": { "type": "integer", "minimum": 0 }
+  }
+}

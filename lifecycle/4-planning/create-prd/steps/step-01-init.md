@@ -12,32 +12,44 @@ Load all available context documents and determine which operating mode to use: 
 
 ## Instructions
 
-1. **Detect mode:**
-   - Check if `_context/sacred/prd.md` already exists
-   - If exists: offer edit (e) or validate (v) modes
-   - If not exists: default to create (c) mode
-   - User can override with explicit mode flag
+### Read Planning Scope
 
-2. **Load context documents:**
-   - `_context/sacred/context.md` — project context (required)
-   - `_context/sacred/tech-stack.md` — technology decisions (required)
-   - `_context/planning/product-brief-*.md` — product brief (recommended)
-   - `_context/planning/design-brief-*.md` — design brief (recommended)
-   - Discovery research outputs if available
+1. From the `planning-scope-v{N}.md` cold-read in Step 0, extract:
+   - `archetype_mode` — determines default flow (`standard-pm` / `vibe-coder-lean` / `design-first`)
+   - `evidence_bundle` status — which Phase 2+3 artefacts are present
+   - `active_baselines` — which NFR constraints apply
 
-3. **Summarize loaded context:**
-   - Present a brief summary of what's been loaded
-   - Identify gaps: "I don't have X — we'll need to address this during the process"
+### Detect PRD Mode
+
+2. **Detect PRD operating mode:**
+   - If `_context/sacred/prd.md` does NOT exist (from Step 0 existence check): **create (c)** mode — default
+   - If `_context/sacred/prd.md` exists: ask user — edit (e) or re-validate (v)?
+   - User can always override with an explicit mode flag
+
+3. **Confirm archetype mode affects flow:**
+   - `vibe-coder-lean`: abbreviated flow — focus on core user stories and critical requirements; skip exhaustive NFR sections
+   - `design-first`: design-brief already done; import design decisions as constraints in Step 3
+   - `standard-pm`: full flow as specified
+
+### Summarise Context
+
+4. Present a brief context summary from Step 0 graph load:
+   - "I have: [list present artefacts ✓]"
+   - "Missing: [list missing artefacts ⚠ with impact notes]"
+   - "Active baselines: [list] → these become non-negotiable NFRs in Step 3"
    - Confirm readiness with user
 
-4. **Mode-specific routing:**
-   - **Create (c):** Proceed through steps 2-5 in order
-   - **Edit (e):** Load existing PRD, present current state, then guided modification
-   - **Validate (v):** Route to `validate-prd` skill instead
+### Partial Completion Write
+
+5. Write `partial_completion: { step_id: "create_prd_step_01", at: "mode_confirmed" }` to `coldpress.yaml`.
 
 ## Output
 
-Context loaded, mode determined, ready to proceed. `step_1_complete: true`
+Planning-scope read, PRD mode determined, archetype mode confirmed, context summarised.
+
+## Navigation
+
+-> Proceed to [step-02-vision.md](step-02-vision.md)
 
 ## Navigation
 

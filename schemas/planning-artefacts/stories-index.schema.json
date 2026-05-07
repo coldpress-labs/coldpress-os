@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/stories-index.json",
+  "title": "Stories Index",
+  "description": "Aggregated index of all per-story files. Produced by `create-stories` Step 4. Lives at `_context/implementation/stories-index.md`.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "stories", "created_at"],
+  "properties": {
+    "schema": { "const": "schemas/planning-artefacts/stories-index.json" },
+    "phase": { "const": 7 },
+    "version": { "type": "integer", "minimum": 1 },
+    "stories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "epic_ref", "file_path", "status"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^story-[0-9]{3,}$" },
+          "epic_ref": { "type": "string" },
+          "file_path": { "type": "string" },
+          "status": { "type": "string", "enum": ["draft", "validated", "in-progress", "complete"] },
+          "estimated_hours": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "stories_count": { "type": "integer", "minimum": 0 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

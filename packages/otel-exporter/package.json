@@ -1,0 +1,78 @@
+{
+  "name": "@coldpress/otel-exporter",
+  "version": "0.1.0-alpha",
+  "description": "Optional sidecar that re-emits coldpress-os EventStream JSONL as OpenLLMetry-conformant OpenTelemetry spans.",
+  "type": "module",
+  "bin": {
+    "coldpress-otel-export": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./conventions": {
+      "types": "./dist/conventions.d.ts",
+      "default": "./dist/conventions.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build && npm test"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.54.0",
+    "@opentelemetry/resources": "^1.27.0",
+    "@opentelemetry/sdk-trace-base": "^1.27.0",
+    "@opentelemetry/semantic-conventions": "^1.27.0",
+    "commander": "^12.1.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coldpress-labs/coldpress-os.git",
+    "directory": "packages/otel-exporter"
+  },
+  "homepage": "https://github.com/coldpress-labs/coldpress-os/tree/main/packages/otel-exporter",
+  "bugs": {
+    "url": "https://github.com/coldpress-labs/coldpress-os/issues"
+  },
+  "license": "MIT",
+  "author": "ColdPress Labs <team@coldpressai.com>",
+  "keywords": [
+    "coldpress-os",
+    "opentelemetry",
+    "otel",
+    "openllmetry",
+    "observability",
+    "tracing",
+    "langfuse",
+    "arize-phoenix",
+    "llm"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

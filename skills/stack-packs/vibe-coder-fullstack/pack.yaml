@@ -1,0 +1,28 @@
+name: vibe-coder-fullstack
+archetype_fits:
+  product_types:
+    - fullstack-web-app
+    - saas-product
+    - consumer-product
+  domain_complexity:
+    - low
+    - medium
+  functional_profile:
+    - realtime
+    - auth-heavy
+    - database-backed
+    - client-side-rich
+pre_picked:
+  frontend: "Next.js"
+  backend: "Convex"
+  auth: "Clerk"
+  hosting: "Vercel"
+  styling: "Tailwind"
+  package_manager: "pnpm"
+  source_control: "GitHub-private"
+  testing: "Vitest + Playwright"
+overrideable: true
+baselines_out_of_box:
+  - accessibility
+  - security
+quickstart_skill: "skills/stack-packs/vibe-coder-fullstack/quickstart"

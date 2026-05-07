@@ -25,6 +25,11 @@
     "adr_references": {
       "type": "array",
       "items": { "type": "string", "pattern": "^ADR-\\d{4}$" }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^_input/.*\\.(md|pdf|docx|txt)$" },
+      "description": "_input/ paths whose conclusions this sacred doc supersedes."
     }
   },
   "required": ["sacred", "version", "governance", "workflowType"],

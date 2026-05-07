@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/handoffs/ops-delta.json",
+  "title": "Ops Delta (Phase 10 → Phase 11 forward-carry)",
+  "description": "Per-delta record surfaced by Phase 10 skills during operations. Fourth forward-carry instance (Phase 5 design-deltas / Phase 7 architecture-deltas / Phase 8 implementation-deltas / Phase 10 ops-deltas). Aggregated at user-invoked Phase 11 transition; consumed by Phase 11 retrospective + product-evolution.",
+  "type": "object",
+  "required": ["id", "source_skill", "surfaced_at", "delta_type", "description", "evidence", "severity", "reconciliation_options", "recommendation"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ops-delta-[0-9]{3,}$"
+    },
+    "source_skill": {
+      "type": "string",
+      "enum": ["correct-course", "sprint-status", "document-project"]
+    },
+    "source_step": { "type": "string" },
+    "surfaced_at": { "type": "string", "format": "date-time" },
+    "delta_type": {
+      "type": "string",
+      "enum": ["bug", "performance", "ux-friction", "doc-gap", "dependency-issue", "security-incident"]
+    },
+    "description": { "type": "string", "minLength": 10 },
+    "evidence": {
+      "type": "string",
+      "description": "Telemetry reference / user-report ID / incident ID / log snippet."
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "reconciliation_options": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["accept_into_phase_11_retrospective", "accept_into_phase_11_product_evolution", "immediate_corrective_action", "park_for_phase_11"]
+      },
+      "minItems": 1
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["accept_into_phase_11_retrospective", "accept_into_phase_11_product_evolution", "immediate_corrective_action", "park_for_phase_11"]
+    },
+    "user_decision": {
+      "type": ["string", "null"],
+      "enum": ["accept_into_phase_11_retrospective", "accept_into_phase_11_product_evolution", "immediate_corrective_action", "park_for_phase_11", null]
+    },
+    "user_rationale": { "type": ["string", "null"] },
+    "applied_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

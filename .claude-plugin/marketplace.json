@@ -1,0 +1,96 @@
+{
+  "$schema": "https://agentskills.io/marketplace.schema.json",
+  "name": "coldpress-os",
+  "displayName": "ColdPress OS",
+  "version": "0.3.0-alpha",
+  "description": "AI-native development framework — 11-phase Shape A lifecycle (Bootstrap → Discovery → Tech Stack → Planning → Design → Architecture → Breakdown → Implementation → Deployment → Operate → Evolve) with 11 subagents, atomic skills, sacred-doc governance, forward-carry quartet, Pattern 7 typed agent transitions, silent-divergence guard, and inter-iteration cycle.",
+  "author": {
+    "name": "ColdPress Labs",
+    "url": "https://coldpressai.com",
+    "email": "team@coldpressai.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/coldpress-labs/coldpress-os",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coldpress-labs/coldpress-os.git"
+  },
+  "category": "development-framework",
+  "keywords": [
+    "lifecycle",
+    "subagents",
+    "skills",
+    "sdlc",
+    "claude-code",
+    "agent-framework",
+    "shape-a",
+    "forward-carry-quartet",
+    "sacred-doc",
+    "stack-packs"
+  ],
+  "skills": {
+    "source": "plugin/skills/",
+    "manifest": "plugin/plugin.json"
+  },
+  "agents": {
+    "source": "template/.claude/agents/",
+    "count": 11,
+    "list": ["analyst", "pm", "ux-designer", "architect", "developer", "qa", "scrum-master", "communicator", "reviewer", "devops", "valet"]
+  },
+  "phases": {
+    "count": 11,
+    "list": [
+      {"n": 1, "name": "Bootstrap", "owner": "butler"},
+      {"n": 2, "name": "Discovery", "owner": "analyst"},
+      {"n": 3, "name": "Tech Stack", "owner": "architect"},
+      {"n": 4, "name": "Planning", "owner": "pm"},
+      {"n": 5, "name": "Design", "owner": "ux-designer"},
+      {"n": 6, "name": "Architecture", "owner": "architect"},
+      {"n": 7, "name": "Breakdown", "owner": "pm"},
+      {"n": 8, "name": "Implementation", "owner": "developer"},
+      {"n": 9, "name": "Deployment", "owner": "devops"},
+      {"n": 10, "name": "Operate", "owner": "devops"},
+      {"n": 11, "name": "Evolve", "owner": "reviewer"}
+    ]
+  },
+  "install": {
+    "command": "npm install -g @coldpress/core",
+    "init": "coldpress init <project-name>",
+    "claudeCodePlugin": "/plugin marketplace add coldpress-labs/coldpress-os"
+  },
+  "documentation": {
+    "readme": "README.md",
+    "quickStart": "docs/quick-start.md",
+    "exampleWalkthrough": "docs/example-walkthrough.md",
+    "registry": "REGISTRY.md",
+    "templatesRegistry": "TEMPLATES-REGISTRY.md",
+    "changelog": "CHANGELOG.md",
+    "contributing": "CONTRIBUTING.md",
+    "security": "SECURITY.md"
+  },
+  "compatibility": {
+    "claudeCode": ">=2.0",
+    "node": ">=20",
+    "agentSkillsSpec": "1.0"
+  },
+  "upstreamAttribution": {
+    "BMAD-METHOD": {
+      "version": "v6.2.2",
+      "license": "MIT",
+      "divergencePoint": "2026-04",
+      "note": "Soft fork — see NOTICE.md §1"
+    },
+    "CIS": {
+      "license": "MIT",
+      "note": "see NOTICE.md §2"
+    },
+    "WDS": {
+      "license": "MIT",
+      "note": "see NOTICE.md §3"
+    },
+    "Graphify": {
+      "license": "MIT",
+      "vendoredAt": "graph/vendor/graphify/"
+    }
+  }
+}

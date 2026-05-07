@@ -1,0 +1,96 @@
+{
+  "schema_version": 2,
+  "gate_id": "phase-6-exit",
+  "phase": 6,
+  "phase_name": "Architecture",
+  "shape": "A",
+  "note": "Phase 6 Architecture is NEW under Shape A (2026-04-24). Owner: @architect. Reads PRD + UX-spec + brand-guidelines + tech-stack — first phase where all four are simultaneously available. Produces architecture.md (sacred) + architecture.meta.json sidecar + ADRs (incl. REQUIRED ADRs for `flag_for_architecture_ADR` deltas inherited from Phase 5 reconciliation). Check #5 (architecture-adrs-for-flagged-deltas-emitted) is the silent-divergence guard — block-severity.",
+  "entry_conditions": [
+    "Phase 5 (Design) gate passed (all 10 checks)",
+    "`_context/sacred/prd.md` exists with `sacred: true` (possibly v(N+1) post-Phase-5-reconciliation)",
+    "`_context/design/ux-design-spec-v{latest}.md` exists with `status: validated`",
+    "`_context/design/brand-guidelines-v{latest}.md` exists with `status: validated`",
+    "`_context/sacred/tech-stack.md` exists and is sacred-locked",
+    "`coldpress.yaml baselines:` present with a11y axis declared",
+    "`_context/handoffs/phase-5-to-6-{date}.md` exists (with optional `architecture_adrs_required:` array)"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "prd-locked",
+      "description": "PRD `_context/sacred/prd.md` is locked (re-verified at Phase 6 exit; staleness check vs phase-5-to-6 handoff)",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/sacred/prd.md",
+      "remediation": "If PRD was edited mid-Phase-6, route through architecture-deltas reconciliation pass (forward-carry) OR re-run from architecture-design Step 0 with refreshed graph."
+    },
+    {
+      "id": "architecture-md-authored",
+      "description": "`_context/sacred/architecture.md` exists with `sacred: true` frontmatter, validates against `schemas/sacred-docs/architecture.schema.json`",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/sacred-docs/architecture.schema.json",
+      "artefact_path": "_context/sacred/architecture.md",
+      "remediation": "Run `@architect architecture-design` to author the system architecture document."
+    },
+    {
+      "id": "architecture-meta-sidecar",
+      "description": "`_context/sacred/architecture.meta.json` exists, validates against `schemas/handoffs/architecture-meta.schema.json`",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/handoffs/architecture-meta.schema.json",
+      "artefact_path": "_context/sacred/architecture.meta.json",
+      "remediation": "Re-run `architecture-design` Step 6 — sidecar is emitted alongside architecture.md."
+    },
+    {
+      "id": "adrs-authored",
+      "description": "At least 1 ADR exists at `_context/planning/adrs/adr-NNN-*.md` from Phase 6 (some Phase 6 runs will produce many; at least 1 expected for a non-trivial project)",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/planning/adrs/adr-*.md",
+      "remediation": "Run `architecture-design` Step 5 — author at least one ADR for a Phase 6 architectural decision."
+    },
+    {
+      "id": "architecture-adrs-for-flagged-deltas-emitted",
+      "description": "SILENT-DIVERGENCE GUARD. For every entry in `phase-5-to-6 handoff.architecture_adrs_required[]`, a corresponding ADR exists with `resolves_design_delta: <delta_id>` field. Phase 6 cannot exit until every flagged delta has its matching ADR — converts silent PRD↔design divergence into auditable architectural-decision provenance.",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/planning/adrs/",
+      "remediation": "Run `architecture-design` Step 1 (flagged-deltas-intake) followed by Step 5 (ADR authoring). Each flagged delta requires one ADR with `resolves_design_delta: <delta_id>`, `prd_section_affected`, `design_decision_taken`, `architecture_implication`, `prd_amendment_deferred_reason`."
+    },
+    {
+      "id": "tech-stack-imports-verified",
+      "description": "Every external dependency referenced in `architecture.md` is in `tech-stack.md.dependencies` OR has a Phase 3 ADR amendment authorising the addition",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/sacred/architecture.md",
+      "remediation": "For each unverified import: either remove from architecture (scope-reduce) OR re-enter Phase 3 to add via ADR amendment (`stack-locking` baselines block re-run / new ADR)."
+    },
+    {
+      "id": "nfr-axes-addressed",
+      "description": "Every NFR axis from PRD has corresponding architectural implementation strategy in `architecture.md` Section 5 (or equivalent)",
+      "kind": "automated",
+      "severity": "warn",
+      "artefact_path": "_context/sacred/architecture.md",
+      "remediation": "If any NFR axis is unaddressed, return to `architecture-design` Step 4 (NFR strategy). Most NFR gaps surface as architecture-deltas (forward-carry to Phase 7)."
+    },
+    {
+      "id": "phase-6-handoff-written",
+      "description": "`_context/handoffs/phase-6-to-7-{date}.md` exists, valid against extended phase-handoff schema (includes `agent_transitions:` for Pattern 7; optional `architecture_deltas:` if forward-carry mechanism activated)",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/handoffs/phase-handoff.schema.json",
+      "artefact_path": "_context/handoffs/phase-6-to-7-*.md",
+      "remediation": "Invoke `phase-transition` at Phase 6 exit. Phase 7 entry skill consumes the handoff (especially `architecture_deltas:` if any)."
+    },
+    {
+      "id": "diagrams-emitted",
+      "description": "diagram-creator has emitted Mermaid (system-context + component minimum) + diagram index at `_context/design/diagrams/v{N}/`. Architecture.md has `## Diagrams` section cross-referencing emitted files.",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "lifecycle/6-architecture/diagram-creator",
+      "artefact_path": "_context/design/diagrams/v*/index-*.md",
+      "remediation": "Run `@architect diagram-creator` after `architecture-design` locks. Minimum: 1 system-context + 1 component diagram covering every ArchitectureComponent node."
+    }
+  ],
+  "next_phase": "7-breakdown"
+}

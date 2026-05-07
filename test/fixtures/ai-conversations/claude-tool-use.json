@@ -1,0 +1,37 @@
+{
+  "model": "claude-sonnet-4-6",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Find all files larger than 1MB in the _input folder."
+    },
+    {
+      "role": "assistant",
+      "content": [
+        { "type": "text", "text": "I'll use the Bash tool to find them." },
+        {
+          "type": "tool_use",
+          "id": "tu_01",
+          "name": "Bash",
+          "input": { "command": "find _input -type f -size +1M" }
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "tu_01",
+          "content": "_input/raw/big-transcript.json\n_input/raw/board-deck.pdf"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        { "type": "text", "text": "Two large files. Want me to shard them before graph rebuild?" }
+      ]
+    }
+  ]
+}

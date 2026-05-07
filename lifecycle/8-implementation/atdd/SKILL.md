@@ -3,7 +3,7 @@ name: "atdd"
 description: "Generate failing acceptance tests before implementation"
 type: "router"
 category: "lifecycle"
-phase: 6
+phase: 8
 routes_to: "skills/testing/atdd/"
 agent: "qa"
 version: "1.0"

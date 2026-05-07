@@ -4,7 +4,7 @@ description: "Run Gitleaks against the repo history + working tree; emits normal
 type: "simple"
 category: "security"
 agent: "qa"
-phases: [7]
+phases: [1, 7]
 tools: ["Bash", "Read", "Write"]
 inputs:
   - "git repo root"

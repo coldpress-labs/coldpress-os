@@ -15,10 +15,67 @@ export interface InteropResult {
   skipped: { path: string; reason: string }[];
 }
 
+/**
+ * Which interop outputs to emit. Each level is cumulative — `cursor`
+ * also produces the files of `claude` / `none`, `roo` also produces
+ * cursor's, etc. `all` is the historical default.
+ */
+export type InteropSet = "none" | "claude" | "cursor" | "roo" | "openhands" | "cline" | "all";
+
+export const INTEROP_SETS: readonly InteropSet[] = [
+  "none",
+  "claude",
+  "cursor",
+  "roo",
+  "openhands",
+  "cline",
+  "all",
+];
+
 export interface InteropOptions {
   targetDir: string;
   /** If true, refuse to overwrite user-owned files (those missing the managed marker). Default: true. */
   respectManagedMarker?: boolean;
+  /** Filter which interop outputs to emit. Default: `all`. */
+  set?: InteropSet;
+}
+
+/** Map InteropSet to the IDE identifiers we persist to coldpress.yaml user.preferred_ides. */
+export function preferredIdesFor(set: InteropSet): string[] {
+  switch (set) {
+    case "none":
+    case "claude":
+      return ["claude-code"];
+    case "cursor":
+      return ["claude-code", "cursor"];
+    case "roo":
+      return ["claude-code", "cursor", "roo"];
+    case "openhands":
+      return ["claude-code", "cursor", "roo", "openhands"];
+    case "cline":
+    case "all":
+      return ["claude-code", "cursor", "roo", "openhands", "cline"];
+  }
+}
+
+/** Writer gates keyed by InteropSet level. Each level includes everything from the levels above. */
+function writersFor(set: InteropSet): {
+  agentsMd: boolean;
+  cursor: boolean;
+  roo: boolean;
+  openhands: boolean;
+  cline: boolean;
+} {
+  const order: InteropSet[] = ["none", "claude", "cursor", "roo", "openhands", "cline", "all"];
+  const rank = order.indexOf(set);
+  return {
+    // AGENTS.md ships in every tier — it's the IDE-agnostic manifest.
+    agentsMd: true,
+    cursor: rank >= order.indexOf("cursor"),
+    roo: rank >= order.indexOf("roo"),
+    openhands: rank >= order.indexOf("openhands"),
+    cline: rank >= order.indexOf("cline"),
+  };
 }
 
 /**
@@ -33,9 +90,11 @@ export interface InteropOptions {
 export async function runInterop({
   targetDir,
   respectManagedMarker = true,
+  set = "all",
 }: InteropOptions): Promise<InteropResult> {
   const agentsDir = join(targetDir, ".claude", "agents");
   const agents = await parseAgentsDir(agentsDir);
+  const gates = writersFor(set);
 
   const files: string[] = [];
   const warnings: string[] = [];
@@ -47,20 +106,22 @@ export async function runInterop({
   }
 
   // Surface tool-mapping gaps so users know coverage isn't perfect.
-  for (const agent of agents) {
-    const unmapped = unmappedClaudeTools(agent.tools);
-    if (unmapped.length > 0) {
-      warnings.push(
-        `Agent ${pc.cyan(agent.name)}: no Roo group mapping for ${unmapped.join(", ")} — dropped from .roomodes.`,
-      );
+  // Only relevant when .roomodes is actually being written.
+  if (gates.roo) {
+    for (const agent of agents) {
+      const unmapped = unmappedClaudeTools(agent.tools);
+      if (unmapped.length > 0) {
+        warnings.push(
+          `Agent ${pc.cyan(agent.name)}: no Roo group mapping for ${unmapped.join(", ")} — dropped from .roomodes.`,
+        );
+      }
     }
   }
 
-  const primaryPaths = [
-    join(targetDir, "AGENTS.md"),
-    join(targetDir, ".roomodes"),
-    join(targetDir, ".cursorrules"),
-  ];
+  const primaryPaths: string[] = [];
+  if (gates.agentsMd) primaryPaths.push(join(targetDir, "AGENTS.md"));
+  if (gates.roo) primaryPaths.push(join(targetDir, ".roomodes"));
+  if (gates.cursor) primaryPaths.push(join(targetDir, ".cursorrules"));
   if (respectManagedMarker) {
     for (const path of primaryPaths) {
       const status = await checkManaged(path);
@@ -73,19 +134,19 @@ export async function runInterop({
   // Run writers, skipping anything flagged as user-owned.
   const skippedSet = new Set(skipped.map((s) => s.path));
 
-  if (!skippedSet.has(join(targetDir, "AGENTS.md"))) {
+  if (gates.agentsMd && !skippedSet.has(join(targetDir, "AGENTS.md"))) {
     files.push(await writeAgentsMd({ targetDir, agents }));
   }
-  if (!skippedSet.has(join(targetDir, ".roomodes"))) {
+  if (gates.roo && !skippedSet.has(join(targetDir, ".roomodes"))) {
     files.push(await writeRoomodes({ targetDir, agents }));
   }
   // .cursor/rules and .openhands/microagents and .clinerules are per-file
   // dirs — user-edit protection for those subtrees is too aggressive for
   // v1 (would skip a whole dir on one edit). Overwrite wholesale for now;
   // revisit per-file checks if demand surfaces.
-  files.push(...(await writeCursor({ targetDir, agents })));
-  files.push(...(await writeOpenhands({ targetDir, agents })));
-  files.push(...(await writeCline({ targetDir })));
+  if (gates.cursor) files.push(...(await writeCursor({ targetDir, agents })));
+  if (gates.openhands) files.push(...(await writeOpenhands({ targetDir, agents })));
+  if (gates.cline) files.push(...(await writeCline({ targetDir })));
 
   return { files, warnings, skipped };
 }

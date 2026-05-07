@@ -8,7 +8,7 @@ version: "1.0"
 
 ## Purpose
 
-The phase-7 gate (`lifecycle/7-deployment/gate.json` → `security-scan-classical`) dispatches via `skill_ref: aggregate-gate-results`. This skill reads every scanner's `ScanResult` JSON in `_context/audit/security/`, applies the gate policy (block_severity + waivers), emits a single `AggregateResult` JSON, and exits `0` on pass or `1` on fail — matching the phase-gate evaluator contract.
+The phase-7 gate (`lifecycle/9-deployment/gate.json` → `security-scan-classical`) dispatches via `skill_ref: aggregate-gate-results`. This skill reads every scanner's `ScanResult` JSON in `_context/audit/security/`, applies the gate policy (block_severity + waivers), emits a single `AggregateResult` JSON, and exits `0` on pass or `1` on fail — matching the phase-gate evaluator contract.
 
 Scanner-agnostic by design: as long as each wrapper emits a valid `ScanResult` (§5.1 schema at `schemas/security-gate-result.schema.ts`), the aggregator treats them uniformly. Swap Semgrep for another SAST; the aggregator never notices.
 
@@ -74,7 +74,7 @@ Scanner-agnostic by design: as long as each wrapper emits a valid `ScanResult` (
 
 ## Interaction with §5.5–§5.7 LLM gates
 
-The LLM gates (`llm-quality-gate`, `prompt-regression`, `llm-security-scan`) are **separate** acceptance checks in `lifecycle/7-deployment/gate.json`, with their own severity + skill_ref. The phase-gate evaluator treats them as peers — no bespoke nesting. Each can independently block Phase 7 per its configured severity.
+The LLM gates (`llm-quality-gate`, `prompt-regression`, `llm-security-scan`) are **separate** acceptance checks in `lifecycle/9-deployment/gate.json`, with their own severity + skill_ref. The phase-gate evaluator treats them as peers — no bespoke nesting. Each can independently block Phase 7 per its configured severity.
 
 ---
 

@@ -1,60 +1,77 @@
 {
-  "schema_version": 1,
-  "gate_id": "phase-6-exit",
-  "phase": 6,
+  "schema_version": 2,
+  "gate_id": "phase-8-exit",
+  "phase": 8,
   "phase_name": "Implementation",
+  "shape": "A",
+  "note": "Phase 8 Implementation is cascade rename of old Phase 6 + Shape A scope refinement. Owner: @developer (with @qa sub-persona for test-* + code-review). Wave-by-wave story execution per PERT chart. Activates implementation-deltas reconciliation at Phase 8 EXIT (third forward-carry instance — mirror of Phase 5 design-deltas + Phase 7 architecture-deltas).",
   "entry_conditions": [
-    "Phase 5 (Breakdown) gate passed",
-    "PERT chart sacred-signed-off",
-    "implementation-readiness: READY"
+    "Phase 7 (Breakdown) gate passed (incl. implementation-readiness 9-point all pass)",
+    "PERT chart sacred + locked",
+    "All per-story files validated; stories-index complete",
+    "phase-7-to-8-{date}.md handoff written"
   ],
   "acceptance_checks": [
     {
-      "id": "all-stories-done",
-      "description": "Every story in the current sprint has status=done in sprint-status.yaml",
+      "id": "pert-chart-locked",
+      "description": "`_context/sacred/pert-chart.md` is locked + sacred (re-verified)",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "sprint-status",
-      "remediation": "Complete remaining stories via dev-story or quick-dev"
+      "remediation": "PERT amendments via governance/pert-change/."
     },
     {
-      "id": "per-story-reviews-landed",
-      "description": "A `_context/audit/code-review-*.md` report exists for each merged story",
-      "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "code-review",
-      "remediation": "Run code-review on any story missing a review report; reviews are fast-feedback but not hard-blocking"
-    },
-    {
-      "id": "per-wave-qa-passed",
-      "description": "`qa-automation` has run per-wave and all tests pass",
+      "id": "all-stories-complete",
+      "description": "Every story file has `status: complete`",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "qa-automation",
-      "remediation": "Address failing tests — integration/regression failures block wave-close"
+      "artefact_path": "_context/implementation/stories/",
+      "remediation": "Run wave-orchestration to complete remaining stories."
     },
     {
-      "id": "coverage-threshold-met",
-      "description": "Test coverage meets the threshold declared in coldpress.yaml (default 80% branch on touched modules)",
+      "id": "wave-status-final",
+      "description": "All waves marked complete in `wave-status-v{latest}.md`",
       "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "traceability",
-      "remediation": "Add tests or adjust the coldpress.yaml threshold (requires rationale)"
-    },
-    {
-      "id": "stories-impl-sidecars",
-      "description": "Each story's stories-to-implementation sidecar validates",
-      "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "validate-handoff"
-    },
-    {
-      "id": "qa-signoff",
-      "description": "@qa has signed off on the wave for Phase 7 transition",
-      "kind": "human",
       "severity": "block",
-      "human_approver": "@qa"
+      "schema_ref": "schemas/tracking/wave-status.schema.json",
+      "artefact_path": "_context/tracking/wave-status-v*.md"
+    },
+    {
+      "id": "code-review-passed-all-stories",
+      "description": "Per-story code-review reports exist + status: pass",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/audit/code-review.schema.json",
+      "artefact_path": "_context/audit/reviews/code-review-*-v*.md"
+    },
+    {
+      "id": "tests-passing",
+      "description": "CI pipeline green; per-story test_coverage_targets met",
+      "kind": "automated",
+      "severity": "block",
+      "remediation": "Run qa-automation per story until coverage met."
+    },
+    {
+      "id": "implementation-deltas-resolved",
+      "description": "Every implementation_delta has user_decision; PRD/architecture amendments emitted as appropriate",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/handoffs/phase-8-to-9-*.md",
+      "remediation": "phase-transition step-02a-reconciliation handles this for from_phase==8."
+    },
+    {
+      "id": "ci-pipeline-locked",
+      "description": "CI config set up at Phase 8 entry and not modified mid-phase",
+      "kind": "automated",
+      "severity": "warn",
+      "remediation": "If amendments needed, use ci-pipeline amendment workflow."
+    },
+    {
+      "id": "phase-8-handoff-written",
+      "description": "`_context/handoffs/phase-8-to-9-{date}.md` exists with valid extended phase-handoff schema",
+      "kind": "automated",
+      "severity": "block",
+      "remediation": "Invoke phase-transition at Phase 8 exit."
     }
   ],
-  "next_phase": "7-deployment"
+  "next_phase": "9-deployment"
 }

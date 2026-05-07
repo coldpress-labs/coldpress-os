@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/distillates/product-brief.json",
+  "title": "Product-brief distillate frontmatter",
+  "description": "Structural contract for `_context/planning/product-brief-v{N}.md`. Product-brief is a Phase 2 distillate (not a sacred doc) — it is regeneratable and versioned, not governance-locked.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Must be `product-brief`."
+    },
+    "tier": {
+      "type": "string",
+      "const": "distillate",
+      "description": "Always `distillate` — distinguishes product-brief from sacred docs."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically increasing version number. Matches the `v{N}` suffix in the filename."
+    },
+    "phase_authored": {
+      "type": "integer",
+      "const": 2
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "authored", "superseded"],
+      "description": "`draft` while the skill is mid-run; `authored` on user acceptance; `superseded` when a higher-version brief replaces this one."
+    },
+    "derived_from": {
+      "type": "string",
+      "enum": ["synthesis", "research-fragments"],
+      "description": "`synthesis` when input was `research-synthesis-v{N}.md`; `research-fragments` when synthesis was skipped and raw research fragments were used directly."
+    },
+    "synthesis_version": {
+      "type": ["integer", "null"],
+      "description": "Version N of the `research-synthesis-vN.md` this brief was derived from. Null if `derived_from` is `research-fragments`."
+    },
+    "validation_version": {
+      "type": ["integer", "null"],
+      "description": "Version N of the `idea-validation-vN.md` this brief incorporated. Null if validate-idea was skipped."
+    },
+    "project_shape": {
+      "type": "string",
+      "enum": ["greenfield", "brownfield", "ambiguous"]
+    },
+    "red_flag_disposition": {
+      "type": ["string", "null"],
+      "enum": ["proceed", "revise", "halt", null],
+      "description": "Populated if validate-idea Step 9 raised a red flag. Null if no red flag."
+    },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" }
+  },
+  "required": ["name", "tier", "version", "phase_authored", "status"],
+  "additionalProperties": true
+}

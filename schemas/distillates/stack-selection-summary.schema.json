@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/distillates/stack-selection-summary.json",
+  "title": "Stack-selection-summary distillate frontmatter",
+  "description": "Structural contract for `_context/planning/stack-selection-summary-v{N}.md`. Produced by stack-locking as a distillate of tech-stack.md + ADRs; regeneratable and versioned, not governance-locked.",
+  "type": "object",
+  "required": ["name", "phase_authored", "status", "derived_from", "version", "regeneratable"],
+  "properties": {
+    "name": { "const": "stack-selection-summary" },
+    "phase_authored": { "const": 3 },
+    "status": { "enum": ["draft", "final"] },
+    "derived_from": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths to upstream ADRs + tech-stack.md this summary was distilled from."
+    },
+    "regeneratable": { "const": true },
+    "supersedes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^_input/.*" }
+    },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "created": { "type": "string", "format": "date" },
+    "last_modified": { "type": "string", "format": "date" },
+    "decision_area_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Number of decision areas summarised. Must match the ADR set."
+    }
+  },
+  "additionalProperties": true
+}

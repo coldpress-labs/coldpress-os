@@ -3,7 +3,7 @@ name: "test-framework"
 description: "Set up test framework for the project"
 type: "router"
 category: "lifecycle"
-phase: 6
+phase: 8
 routes_to: "skills/testing/test-framework/"
 agent: "qa"
 version: "1.0"

@@ -7,6 +7,11 @@ export interface ScaffoldOptions {
   slug: string;
   userName: string;
   targetDir: string;
+  butlerDisplayName?: string;
+  /** Retrofit onto an existing repo — do not clobber files that already exist. */
+  retrofit?: boolean;
+  /** IDE preferences to persist in coldpress.yaml. Matches the interop set chosen at init. */
+  preferredIdes?: string[];
 }
 
 export async function assertNoCollision(targetDir: string): Promise<void> {
@@ -22,23 +27,40 @@ export async function assertNoCollision(targetDir: string): Promise<void> {
 }
 
 export async function copyTemplate(opts: ScaffoldOptions): Promise<void> {
-  const { targetDir } = opts;
+  const { targetDir, retrofit } = opts;
 
   await mkdir(targetDir, { recursive: true });
 
-  // fs.cp with a filter to skip .DS_Store noise.
+  // Track pre-existing files so retrofit mode can skip placeholder fills
+  // on user-owned content (e.g., an existing CLAUDE.md at repo root).
+  const claudePath = join(targetDir, "CLAUDE.md");
+  const claudePreExisted = retrofit === true && (await exists(claudePath));
+
+  // fs.cp with a filter to skip .DS_Store noise. In retrofit mode, pass
+  // force: false so we layer on existing files rather than clobbering.
   await cp(templateDir, targetDir, {
     recursive: true,
+    force: retrofit === true ? false : true,
+    errorOnExist: false,
     filter: (source) => !source.endsWith(".DS_Store"),
   });
 
-  // Overwrite coldpress.yaml with filled Phase-1 values.
+  // Overwrite coldpress.yaml with filled Phase-1 values. (The collision
+  // check guarantees this file did not exist before, even in retrofit mode.)
   await writeFile(join(targetDir, "coldpress.yaml"), buildYaml(opts), "utf8");
 
-  // Fill CLAUDE.md placeholders.
-  const claudePath = join(targetDir, "CLAUDE.md");
-  const claudeTemplate = await readFile(claudePath, "utf8");
-  await writeFile(claudePath, fillClaude(claudeTemplate, opts), "utf8");
+  // Fill placeholders in files that address the user / the agent by name.
+  // Both CLAUDE.md and .claude/SYSTEM.md contain self-references that honour
+  // the user's chosen {butler.display_name} and project/user identity.
+  // In retrofit mode, skip CLAUDE.md if it pre-existed — user content wins.
+  const fillTargets = [".claude/SYSTEM.md"];
+  if (!claudePreExisted) fillTargets.unshift("CLAUDE.md");
+  for (const relPath of fillTargets) {
+    const absPath = join(targetDir, relPath);
+    if (!(await exists(absPath))) continue;
+    const source = await readFile(absPath, "utf8");
+    await writeFile(absPath, fillPlaceholders(source, opts), "utf8");
+  }
 }
 
 export async function copyFramework(targetDir: string): Promise<void> {
@@ -69,15 +91,25 @@ export async function copyFramework(targetDir: string): Promise<void> {
 }
 
 function buildYaml(opts: ScaffoldOptions): string {
+  const butlerDisplayName = opts.butlerDisplayName ?? "Butler";
+  const preferredIdesBlock =
+    opts.preferredIdes && opts.preferredIdes.length > 0
+      ? `  preferred_ides:\n${opts.preferredIdes.map((ide) => `    - ${yamlString(ide)}`).join("\n")}\n`
+      : "";
+  const retrofitBlock = opts.retrofit === true ? "\nretrofit: true\n" : "";
   return `# coldpress.yaml — Project Configuration
 #
 # This is the ONLY config file coldpress-os reads from your project.
 #
-# Phase-1 fields (below) are filled at project init — by the user or
-# the \`project-init\` workflow. All other fields are written by their
-# owning phase as the lifecycle progresses; the framework writes back
-# to this file as each phase completes. See docs/coldpress-yaml-schema.md
-# for the full schema and per-field phase ownership.
+# Phase-1 fields (below) split by when they're filled:
+#   * project.* and user.{name, languages, preferred_ides} — filled at
+#     project init by \`coldpress init\`.
+#   * butler.display_name — defaulted here; overwritten by Butler during
+#     Phase-1 \`intake\` if the user customises.
+# All other fields are written by their owning phase as the lifecycle
+# progresses; the framework writes back to this file as each phase
+# completes. See docs/coldpress-yaml-schema.md for the full schema and
+# per-field phase ownership.
 
 # ─── Project Identity ──────────────────────────────────────────────
 project:
@@ -89,15 +121,23 @@ user:
   name: ${yamlString(opts.userName)}
   communication_language: "English"
   document_output_language: "English"
-`;
+${preferredIdesBlock}
+# ─── Butler ────────────────────────────────────────────────────────
+# Optional. Filled during Phase-1 intake; defaults apply if unset.
+# Framework-internal role is always "Butler" regardless of display_name.
+butler:
+  display_name: ${yamlString(butlerDisplayName)}
+${retrofitBlock}`;
 }
 
-function fillClaude(template: string, opts: ScaffoldOptions): string {
+function fillPlaceholders(template: string, opts: ScaffoldOptions): string {
+  const butlerDisplayName = opts.butlerDisplayName ?? "Butler";
   return template
     .replaceAll("{Project Name}", opts.projectName)
     .replaceAll("{project.name}", opts.projectName)
     .replaceAll("{project.slug}", opts.slug)
-    .replaceAll("{user.name}", opts.userName);
+    .replaceAll("{user.name}", opts.userName)
+    .replaceAll("{butler.display_name}", butlerDisplayName);
 }
 
 function yamlString(value: string): string {

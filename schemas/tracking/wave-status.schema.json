@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/tracking/wave-status.json",
+  "title": "Wave Status (Phase 8)",
+  "description": "Phase 8 wave-by-wave story status tracking. Produced by `wave-orchestration`. Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "waves", "created_at", "status"],
+  "properties": {
+    "schema": { "const": "schemas/tracking/wave-status.json" },
+    "phase": { "const": 8 },
+    "version": { "type": "integer", "minimum": 1 },
+    "waves": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["wave_id", "story_ids", "status"],
+        "properties": {
+          "wave_id": { "type": "integer", "minimum": 1 },
+          "story_ids": { "type": "array", "items": { "type": "string", "pattern": "^story-[0-9]{3,}$" } },
+          "status": { "type": "string", "enum": ["pending", "in-progress", "blocked", "complete"] },
+          "started_at": { "type": ["string", "null"], "format": "date-time" },
+          "completed_at": { "type": ["string", "null"], "format": "date-time" },
+          "blockers": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "status": { "type": "string", "enum": ["draft", "validated", "in-progress", "complete"] },
+    "implementation_deltas_count": { "type": "integer", "minimum": 0 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

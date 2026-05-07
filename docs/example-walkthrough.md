@@ -11,7 +11,7 @@
 - **Type:** web_app
 - **Domain:** productivity / saas
 - **Pattern:** a (three-tier)
-- **Stack pack:** convex
+- **Stack pack:** vibe-coder-fullstack (auto-matched in Phase 3 stack-discovery-sync)
 
 ---
 
@@ -20,130 +20,237 @@
 ### What you do
 
 ```bash
-mkdir taskpulse-devSandbox && cd taskpulse-devSandbox
-git init
-git submodule add <coldpress-os-url> coldpress-os
-claude
+cd ~/code
+coldpress init taskpulse        # positional name skips the first prompt
+cd taskpulse
+claude                          # open Claude Code in the scaffolded project
 ```
 
-```
-Run coldpress-os project-init
-```
+### What happens in the CLI (pre-session)
 
-### What happens
+`coldpress init`:
 
-The init workflow asks you:
+1. Runs `coldpress doctor` (silent pre-flight) — verifies Node ≥ 20, git ≥ 2.30, Claude Code CLI.
+2. Prompts for slug + user name (only the ones not provided as flags).
+3. Copies the template tree (including 5 `_input/` subfolders: `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/` — each with a README explaining purpose).
+4. Copies the coldpress-os framework into `coldpress-os/`.
+5. Generates ~66 `.claude/skills/` wrappers + interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline).
+6. Runs `git init` + initial commit + installs the pre-commit secret-scan hook.
 
-```
-Step 1 — Gather Project Details
-  Project name: TaskPulse
-  Slug: taskpulse
-  Type: web_app
-  Domain: saas
-  Stack pack: convex
-  Pattern: a (three-tier)
-```
+### What happens in-session (Butler's Phase 1)
 
-Then scaffolds your directories, installs the submodule, and generates `coldpress.yaml`.
+Butler runs two skills when you open Claude Code for the first time:
 
-```
-Run agent-scaffold
-```
+- **`orient`** (cheap, read-only): detects this is a first session, prints a greeting, runs a scaffold sanity check (`coldpress doctor` silent mode + yaml validator + template file probes + pre-commit hook check), offers a 30-second lifecycle tour, then hands off to `intake`.
 
-Generates `.claude/agents/` (9 subagents) and `.claude/skills/` (65+ thin wrappers).
+- **`intake`** (6 steps, the real work):
+
+  1. **Material solicitation** — Butler walks through the 5 `_input/` folders, asking if you have anything to drop in (URLs auto-fetched into `reference/`; files > 50KB auto-sharded).
+  2. **Shape determination** — inspects `_input/legacy/` to classify `project_shape` as `greenfield` or `brownfield`.
+  3. **Intent seed** — asks for one sentence describing the project; writes `_context/sacred/context.md` with frontmatter + `status: seed`.
+  4. **Working mode** — four quick questions: preferred IDEs, cadence (silent/summary/verbose), team shape (solo/team/client-project), Butler's display name.
+  5. **Graph prime** — runs `coldpress graph rebuild`; warn-not-block on failure (orient retries next session).
+  6. **Gate and route** — runs the 6-check Phase 1 exit gate; on pass, writes a handoff artefact and dispatches `@analyst pre-project-interview` (Phase 2).
 
 ### What you have after Phase 1
 
 ```
-taskpulse-devSandbox/
-├── coldpress-os/              # Framework
+taskpulse/
+├── coldpress-os/              # Framework (copied, not a submodule)
 ├── .claude/
-│   ├── SYSTEM.md              # Butler directive
+│   ├── SYSTEM.md              # Butler's directive
 │   ├── agents/                # 9 subagent definitions
-│   └── skills/                # 65+ skill wrappers
-├── docs/                      # Empty — filled in Phase 2
-├── _context/                   # Empty — filled in Phase 4+
-├── coldpress.yaml             # Populated config
-└── CLAUDE.md                  # Framework routing
+│   └── skills/                # 66+ skill wrappers
+├── .coldpress/
+│   ├── graph/graph.json       # Primed knowledge graph
+│   └── local-config.yaml      # phase_1_completed: true
+├── _context/
+│   ├── sacred/
+│   │   └── context.md         # Seed (one-sentence intent)
+│   ├── tracking/
+│   │   ├── orient-2026-04-24.md
+│   │   └── intake-2026-04-24.md
+│   └── handoffs/
+│       └── intake-to-phase2-2026-04-24.md
+├── _input/                    # Material walked and indexed
+├── scripts/check-secrets.sh   # Pre-commit hook source
+├── secure/manifest.yaml       # Credential shape (values in .env* git-ignored)
+├── coldpress.yaml             # Now includes user.preferred_ides / cadence / team_shape
+└── CLAUDE.md                  # Framework routing + {butler.display_name}
 ```
 
 ---
 
 ## Phase 2: Discovery
 
+Phase 2 warm-starts from Phase 1 — Butler reads the intake seed rather than asking you to repeat it.
+
 ### What you do
 
 ```
-Run pre-project-interview
+# Phase-transition hands off automatically at the end of Phase 1.
+# Butler will say: "Starting Phase 2 — first up: @analyst pre-project-interview"
 ```
 
-### What happens
+For solo vibe-coder (minimum viable path):
+```
+pre-project-interview → 1-2 research skills → synthesize-research → product-brief
+```
 
-Butler dispatches **@analyst** (discovery mode). The analyst asks structured questions using elicitation techniques:
+For structured solo or team project:
+```
+pre-project-interview → domain + market + constraint + personas (parallel) →
+validate-idea → synthesize-research → product-brief
+```
+
+### What happens — pre-project-interview
+
+Butler dispatches **@analyst** (discovery mode). The analyst reads the seed intent from `context.md` and confirms it rather than re-asking:
 
 ```
-@analyst: Let's understand your project. I'll guide you through a structured
-interview to build a complete context document.
+@analyst: Your intake captured: "TaskPulse — a lightweight task tracker for
+solo creators." Let's build the bigger vision around that. Does this still
+match what you're after, or has anything shifted since Phase 1?
 
-Who is the primary user of TaskPulse?
-> Solo creators — freelancers, indie hackers, content creators who work alone
-  and need lightweight task tracking without the overhead of Jira or Asana.
+> Still right — but I want to be clearer on the target user.
 
-What problem does it solve?
+@analyst: Who is the primary user of TaskPulse?
+> Solo creators — freelancers, indie hackers, content creators who work alone.
+
+@analyst: Why does this need to exist?
 > Existing tools are either too complex (Asana, Linear) or too simple
-  (Apple Notes, sticky notes). TaskPulse sits in between — structured enough
-  to track patterns, simple enough to use in 30 seconds.
+  (Apple Notes). TaskPulse sits in between — structured enough to track
+  patterns, simple enough to use in 30 seconds.
 
-What are your hard constraints?
+@analyst: What are your hard constraints? (5 non-technical questions cover
+  budget, time, team, compliance, and org constraints.)
 > Free tier only (Convex free, Vercel free). Must work on mobile web.
-  Solo developer (me). Ship MVP in 2-3 weeks.
+  Solo developer (me). Ship MVP in 2-3 weeks. No compliance obligations.
 ```
 
-After 10-15 questions, the analyst produces:
+**Output:** `_context/sacred/context.md` — status promoted from `seed` → `authored`. Your first sacred document. Requires explicit user sign-off, which activates sacred-doc governance (future edits go through the context change-workflow).
 
-**Output:** `_context/sacred/context.md` — Your first sacred document. Contains project vision, user personas, constraints, domain analysis, success criteria.
-
-### Optional follow-ups
+### What happens — research lane (parallel)
 
 ```
-Run domain-research            # → docs/domain-research.md
-Run market-research            # → docs/market-research.md
-Run brainstorming              # → _context/planning/brainstorming-output.md
+@analyst domain-research       # → _context/planning/research/domain-research-{date}.md
+@analyst market-research       # → _context/planning/research/market-research-{date}.md
+@analyst constraint-research   # → _context/planning/research/constraint-{topic}-{date}.md
+@ux-designer personas          # → _context/planning/personas-{date}.md
 ```
+
+Research skills query the knowledge graph first (material pre-loaded in `_input/` during intake), then supplement with web research. If a graph-first finding contradicts `_input/` material, the supersede-check fires — Butler surfaces the conflict and asks for confirmation.
+
+### What happens — validate-idea
+
+```
+@analyst validate-idea         # → _context/planning/idea-validation-v1.md
+```
+
+9 steps: problem validation, hypotheses + risks, differentiation, problem-solution fit, success metrics, prior art, and (if team) stakeholder alignment. Step 9 is a red-flag escape hatch — if the validation surfaces a critical weakness, Butler pauses before proceeding.
+
+### What happens — synthesis + brief
+
+```
+@analyst synthesize-research   # → _context/planning/research-synthesis-v1.md
+@analyst product-brief         # → _context/planning/product-brief-v1.md
+```
+
+`synthesize-research` consolidates all research + validation using Systems Thinking + Morphological Analysis, then runs `adversarial-review` + `editorial-structure` for quality. `product-brief` is a 1-2 page executive brief read from the synthesis — a **validated distillate**, not a sacred doc. It's versioned and regeneratable.
+
+### Phase 2 exit
+
+Butler invokes `phase-transition`:
+- Runs the Phase 2 exit gate (4 block + 3 warn checks)
+- Rebuilds the knowledge graph (or flags as stale if Graphify unavailable)
+- Writes `_context/handoffs/phase-2-to-phase-3-{date}.md`
+- Detects if product-brief is stale vs context.md + synthesis (prompts regen if so)
 
 ---
 
 ## Phase 3: Tech Stack
 
+Phase 3 warm-starts from Phase 2 — Butler reads the product-brief, idea-validation, personas, and constraint-research rather than asking you to re-state them.
+
 ### What you do
 
 ```
-Run stack-evaluation
+# Phase-transition hands off automatically at the end of Phase 2.
+# Butler will say: "Starting Phase 3 — first up: @architect stack-discovery-sync"
 ```
 
-### What happens
-
-Butler dispatches **@architect**. The architect reads `_context/sacred/context.md`, evaluates options against your constraints (free tier, solo dev, mobile web), and produces a recommendation.
-
-Since you already specified `stack_pack: convex` in `coldpress.yaml`, the evaluation focuses on complementary choices:
+### Step 1: stack-discovery-sync
 
 ```
-@architect: Based on your constraints (free tier, solo dev, mobile web):
+@architect: Reading Phase 2 evidence...
+  project_type: web_app (productivity/saas) | domain_complexity: low | team_shape: solo
+  Personas: solo creator, mobile web user, accessibility: standard
 
-  Backend:   Convex (real-time, serverless, generous free tier)
-  Frontend:  Next.js 14 (App Router, server components)
-  Auth:      Convex Auth (built-in, no third-party cost)
-  Hosting:   Vercel (free tier, auto-deploy from git)
-  Styling:   Tailwind CSS (utility-first, fast iteration)
+  Pack-match scoring:
+  ✅ vibe-coder-fullstack — score: 0.91 (strong match)
+     Pre-picks: Next.js + Convex + Clerk + Vercel + Tailwind
+     Baselines out-of-box: accessibility (Tailwind primitives), security (Clerk + Convex row-security)
+
+  Propose this pack? (y / override individual areas / independent evaluation)
+  > y
 ```
 
-Then:
+**Output:** `_context/planning/stack-shortlist-v1.md` — tiered candidates per decision-area.
+
+### Step 2: stack-evaluation (per decision-area, T1 fast-path for pack areas)
+
+```
+@architect: Decision 1 of 5: Frontend framework.
+  Pack pre-picks Next.js (T1). Accept or override?
+  > accept
+
+Decision 2 of 5: Backend.
+  Pack pre-picks Convex (T1). Accept or override?
+  > accept
+  ...
+
+Decision 5 of 5: Testing.
+  No pack pre-pick. Pre-loaded options (T2): Vitest / Jest / Playwright.
+  [rubric walk: fit 8, cost 10, familiarity 9, ecosystem 9, lock-in 10, vibe_fit 9 → Vitest]
+```
+
+**Output:** `_context/planning/adrs/adr-{area}-v1.md` per decision-area.
+
+### Step 3: stack-locking
 
 ```
 Run stack-locking
 ```
 
-**Output:** `_context/sacred/tech-stack.md` — Your second sacred document. Locked decisions with rationale.
+Butler dispatches **@architect**:
+
+```
+@architect: ADR inventory — 5 decisions, all accepted. No red flags. (Step 3a passed.)
+
+  Baselines confirmation (Step 5a):
+  ✅ accessibility — covered by pack (Tailwind + Clerk) → confirm
+  ✅ security — covered by pack (Clerk + Convex row-security) → confirm
+  → seo_aeo_llm — not covered by pack → confirm (adds llms.txt + sitemap in env-provision)
+  → future_proof — not covered → confirm (adds tsconfig strict + ES2022 targets)
+```
+
+```
+coldpress update --post-phase-3   ← run this in terminal before continuing
+```
+
+Then run `env-provision`:
+
+```
+@developer: pack=vibe-coder-fullstack → dispatching to pack quickstart skill.
+  Installing: Next.js 14 + Convex CLI + Clerk + Vercel CLI + Tailwind CSS
+  Baselines activation: seo_aeo_llm (llms.txt + sitemap) + future_proof (tsconfig strict)
+  Verify: npm run dev → ✅
+```
+
+**Outputs:**
+- `_context/sacred/tech-stack.md` — Your second sacred document. Locked decisions with rationale.
+- `_context/planning/stack-selection-summary-v1.md` — Validated distillate.
+- `coldpress.yaml`: `stack_pack: vibe-coder-fullstack` + `baselines:` block written.
 
 ---
 
@@ -371,7 +478,7 @@ Run product-evolution          # Evolve the product vision
 |-------|-------------|---------|
 | 1. Bootstrap | Project structure, `coldpress.yaml`, agent wrappers | No |
 | 2. Discovery | `_context/sacred/context.md`, research docs | context.md: Yes |
-| 3. Tech Stack | `_context/sacred/tech-stack.md` | Yes |
+| 3. Tech Stack | `_context/sacred/tech-stack.md`, ADRs, `stack-selection-summary-v1.md`, `coldpress.yaml` (stack_pack + baselines) | tech-stack.md: Yes |
 | 4. Planning | PRD, architecture, UX spec | PRD + architecture: Yes |
 | 5. Breakdown | Epics, stories, PERT chart, sprint plan | PERT: Yes |
 | 6. Implementation | Application code, tests, handoff artifacts | No |
@@ -388,4 +495,6 @@ Run product-evolution          # Evolve the product vision
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 3.0 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 5.3. Phase 3 section rewritten: warm-handoff noted; 4-step flow (stack-discovery-sync with pack-match, stack-evaluation T1 fast-path + T2 rubric, stack-locking with baselines confirm + post-CLI, env-provision pack-branch); stack_pack changed from "convex" to "vibe-coder-fullstack" (pack renamed in Wave 6); summary table Phase 3 row expanded with all outputs. |
+| 2.0 | 2026-04-24 | Cadbury-hq | Phase II Part 1 Wave 5.1b. Phase 1 section rewritten for the npm-era flow: `coldpress init` (pre-session CLI) replaces the retired `project-init` + `agent-scaffold` workflow; Butler's new `orient` + `intake` skills drive in-session Phase 1 (6 intake steps enumerated). Post-Phase-1 directory tree updated to include `.coldpress/`, `_context/sacred/context.md` (seed), `_context/tracking/`, `_context/handoffs/`, `_input/` (with READMEs), `scripts/check-secrets.sh`, `secure/manifest.yaml`. |
 | 1.0 | 2026-04-13 | Alfred | Initial walkthrough — TaskPulse example across all 8 lifecycle phases |

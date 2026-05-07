@@ -1,45 +1,92 @@
 ---
-phase: 9
-name: "Evolve"
-description: "Post-release learning — retrospective, product evolution, innovation strategy. Cyclical; feeds insights back to earlier phases."
-prerequisites:
-  - "Phase 7 (Deployment) complete, or release milestone reached"
-outputs:
-  - "Retrospective reports"
-  - "Product evolution plans"
-  - "Innovation strategy outputs"
-next_phase: "Loop back to any phase as needed"
+phase: 11
+name: Evolve
+agent: reviewer
+status: rewritten — Phase 11 implementation in progress (autonomous queue unit #19, 2026-05-02; FINAL UNIT)
+is_final_phase: true
 ---
 
-# Phase 9: Evolve
+# Phase 11 — Evolve
 
-> Post-release learning and planning. Reflect on what shipped, decide what's next, explore adjacent possibilities. Cyclical — the outputs feed forward into Phase 2 (Discovery) or Phase 4 (Planning) for the next cycle.
+> **FINAL phase of the canonical 11-phase lifecycle.** Cascade rename of old Phase 9 + Shape A scope refinement (2026-04-24). Same 3 skills, owner @reviewer (takeover from @devops at Phase 10 → 11 transition #18).
 
-## Sub-Skills
+## Purpose
 
-| Sub-Skill | Type | Agent | Description |
-|-----------|------|-------|-------------|
-| [retrospective](retrospective/) | workflow | scrum-master | Post-epic / post-release review — lessons learned, systems-focused, no-blame |
-| [product-evolution](product-evolution/) | workflow | pm | Plan the next iteration of the product based on observed usage + retrospective insights |
-| [innovation-strategy](innovation-strategy/) | router | analyst | → `skills/creative/innovation-strategy/` — explore adjacent problem spaces |
+**Phase 11 is point-in-time reflection.** Distinct from Phase 10's continuous in-flight work:
+- Retrospective — what worked / what didn't / lessons learned (reads ops_deltas + cause analysis)
+- Product-evolution — backlog of next-iteration improvements
+- Innovation-strategy — long-horizon strategic ideation
 
-## When to invoke
+**Consumes ops_deltas[]** from Phase 10 handoff (fourth forward-carry). Reconciles them via 4-option resolution (accept_into_phase_11_retrospective / accept_into_phase_11_product_evolution / immediate_corrective_action / park_for_phase_11) at retrospective Step 0.
 
-- After a release lands and stabilises → `retrospective`
-- Roadmap for the next cycle → `product-evolution`
-- Strategy work beyond the current product scope → `innovation-strategy`
+**Phase 11 is FINAL** — no phase-12-handoff. Outputs feed NEXT iteration's Phase 1 entry via `_input/prior-iteration/`.
 
-## Cyclical feed-forward
+## Sub-skills
 
-Phase 9 outputs loop back:
+| Skill | Type | Owner |
+|-------|------|-------|
+| `retrospective` | workflow | @reviewer (entry skill per Q1) |
+| `product-evolution` | workflow | @reviewer (next-iteration backlog) |
+| `innovation-strategy` | workflow | @reviewer (long-horizon ideation) |
 
-- Retrospective insights → inform next sprint planning (Phase 5 Breakdown)
-- Product evolution → restarts at Phase 4 (Planning) or Phase 2 (Discovery) depending on scale
-- Innovation strategy → may spawn a new Phase 1 (Bootstrap) for an adjacent product
+## Recommended flow
 
-## What Phase 9 is NOT
+```
+[Phase 10 exit: user-invoked retrospective trigger; ops_deltas[] in phase-10-to-11 handoff]
+        │
+        ▼
+   retrospective (Step 0 — graph-first context + entry-sync + ops-deltas reconciliation)
+        │
+        ▼
+   product-evolution (consumes accept_into_phase_11_product_evolution deltas + retro lessons)
+        │
+        ▼
+   innovation-strategy (long-horizon ideation; reads everything)
+        │
+        ▼
+   phase-transition (FINAL closure — copies outputs to _input/prior-iteration/ for NEXT iteration)
+        │
+        ▼
+   [Iteration COMPLETE]
+   [If user invokes next iteration: Phase 1 entry reads _input/prior-iteration/]
+```
 
-Phase 9 is **not** in-flight course correction. Mid-sprint scope drift is Phase 8 (Operate). The split (introduced in Phase I Wave 4 §4.11) keeps reflective / learning work separate from keep-the-build-on-track work — they have different cadences, different artefacts, and different subagent owners.
+## Entry conditions
+
+1. Phase 10 user-invoked exit (retrospective trigger).
+2. phase-10-to-11 handoff written (with ops_deltas[]).
+
+## Exit conditions
+
+See `gate.json` (4 acceptance checks). Final phase — no phase-12 link.
+
+## Inter-iteration cycle (final phase mechanism)
+
+Phase 11 closure (phase-transition step-03-handoff-log) copies outputs to `_input/prior-iteration/`:
+- `retrospective.md`
+- `product-evolution-backlog.md`
+- `innovation-strategy.md`
+
+NEXT iteration's Phase 1 entry reads `_input/prior-iteration/` (brownfield-style branching). Lifecycle is non-cyclic by default but supports re-entry for next iteration.
+
+## Agent
+
+**@reviewer** — Pattern 7 transition #18 from @devops at Phase 11 entry. Final phase; transition #19 phase_exit @reviewer → phase-transition (closure log). NO transition #20 in current iteration.
+
+## Cross-cutting wire-ins
+
+- `adversarial-review` — retrospective challenge (red-team lessons)
+- `editorial-structure` — retro report + backlog structure
+- `editorial-prose` — retrospective prose
+
+## Method playbook
+
+See `data/methods/method-defaults.yaml` `phase_11:` section. Tier-1: problem_solving heavy (root_cause + five_whys + fishbone for retrospective cause-analysis); brainstorming heavy (innovation-strategy + product-evolution); design_thinking medium (innovation-strategy framing); story_types medium (value_prop_narrative for innovation; feature_story for product-evolution); advanced_elicitation medium.
+
+## Source
+
+- Deep-dive: [`docs/lifcyle-phases-deep-dives/phase-11-deep-dive-2026-05-02.md`](../../docs/lifcyle-phases-deep-dives/phase-11-deep-dive-2026-05-02.md) v1.0
+- Implementation plan: [`docs/phase-ii-implementation-plan.md` Part 11](../../docs/phase-ii-implementation-plan.md) v1.27
 
 ---
 
@@ -47,4 +94,5 @@ Phase 9 is **not** in-flight course correction. Mid-sprint scope drift is Phase 
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-23 | Cadbury-hq | Phase 9 created as part of the Phase 8 split (Phase I Wave 4 §4.11). Sub-skills moved from the former Phase 8 (now Operate): retrospective, product-evolution, innovation-strategy. Framework is now a 9-phase lifecycle. |
+| 2.0 | 2026-05-02 | Butler (Andy-coldpress-os under autonomous queue unit #19; FINAL UNIT) | Phase 11 README enriched. Cascade-rename + Shape A scope refresh framing. **FINAL phase** of canonical 11-phase lifecycle. ops-deltas reconciliation at retrospective Step 0 (consumes 4th forward-carry from Phase 10). Inter-iteration cycle mechanism (outputs → _input/prior-iteration/ for NEXT iteration's Phase 1). Pattern 7 seventh + final invocation (#18 entry / #19 exit; no #20 in current iteration). |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial Phase 9 (now 11) Evolve README. |

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/design/ux-design-spec.json",
+  "title": "UX Design Specification frontmatter",
+  "description": "Structural contract for `_context/design/ux-design-spec-v{N}.md`. Produced by `ux-design` skill (Phase 5); consumed by `prototype` (Phase 5) and `architecture-design` (Phase 6). Validated-distillate (regeneratable, schema'd, versioned; sacred=false per Q4 resolution).",
+  "type": "object",
+  "required": ["schema", "phase", "version", "sources", "created_at", "status", "distillate", "sacred"],
+  "properties": {
+    "schema": { "const": "schemas/design/ux-design-spec.schema.json" },
+    "phase": { "const": 5 },
+    "version": { "type": "integer", "minimum": 1 },
+    "sources": {
+      "type": "object",
+      "required": ["prd", "design_brief", "personas", "tech_stack", "baselines"],
+      "properties": {
+        "prd": { "type": "string" },
+        "design_brief": { "type": "string" },
+        "personas": { "type": "string" },
+        "idea_validation": { "type": "string" },
+        "tech_stack": { "type": "string" },
+        "baselines": { "type": "array", "items": { "type": "string" } },
+        "archetype": { "type": "string", "enum": ["vibe-coder-lean", "standard", "design-led", "WDS"] }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "distillate": { "const": true },
+    "sacred": { "const": false },
+    "sections": {
+      "type": "object",
+      "description": "Inventory of authored sections.",
+      "properties": {
+        "design_overview": { "type": "boolean" },
+        "information_architecture": { "type": "boolean" },
+        "user_flows": { "type": "boolean" },
+        "key_screens": { "type": "boolean" },
+        "interaction_patterns": { "type": "boolean" },
+        "responsive_strategy": { "type": "boolean" },
+        "accessibility": { "type": "boolean" },
+        "tokens_reference": { "type": "boolean" }
+      }
+    },
+    "flows_count": { "type": "integer", "minimum": 0 },
+    "screens_count": { "type": "integer", "minimum": 0 },
+    "prd_user_story_coverage": {
+      "type": "string",
+      "pattern": "^[0-9]+/[0-9]+$",
+      "description": "Coverage ratio (covered/total). Uncovered stories should appear as design-deltas."
+    },
+    "design_deltas_surfaced": { "type": "integer", "minimum": 0 },
+    "supersede_check_passes": { "type": "integer", "minimum": 0 },
+    "advanced_elicitation_invocations": { "type": "integer", "minimum": 0 },
+    "adversarial_review_findings": { "type": "integer", "minimum": 0 }
+  }
+}

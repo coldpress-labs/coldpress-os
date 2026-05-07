@@ -50,13 +50,14 @@ You'll be prompted for:
 
 The scaffold confirms the target directory and then:
 
-1. Copies the template tree into `./my-awesome-project/` with placeholders filled.
+1. Copies the template tree into `./my-awesome-project/` with placeholders filled (including 5 `_input/` subfolders — `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/` — each with a README explaining what belongs there).
 2. Copies the framework files into `./my-awesome-project/coldpress-os/`.
 3. Generates ~66 `.claude/skills/` wrappers pointing at canonical skills.
 4. Generates interop outputs: `AGENTS.md`, `.cursor/rules/`, `.roomodes`, `.openhands/microagents/`, `.clinerules/`.
-5. Records the project in `~/.coldpress/registry.json` (opt out with `COLDPRESS_NO_REGISTRY=1`).
+5. Runs `git init` + makes an initial commit (`chore: coldpress init scaffold`) + installs the pre-commit secret-scan hook (`scripts/check-secrets.sh` → `.git/hooks/pre-commit`).
+6. Records the project in `~/.coldpress/registry.json` (opt out with `COLDPRESS_NO_REGISTRY=1`).
 
-Pass `--project-name "My Project"` to skip the name prompt, or omit for full interactive mode.
+Pass a positional project name argument to skip the name prompt: `coldpress init "My Project"`. Omit for full interactive mode.
 
 ---
 
@@ -92,19 +93,11 @@ ls -a
     └── manifest.yaml          # Declared credential shape (values in secure/.env*, git-ignored)
 ```
 
-Install the pre-commit secret-scan hook (one-time per clone):
+The git repo and pre-commit hook are already initialised by `coldpress init` (step 5 above). To re-install the hook manually after cloning an existing project:
 
 ```bash
 cp scripts/check-secrets.sh .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
-```
-
-Initialise git and make the first commit:
-
-```bash
-git init
-git add .
-git commit -m "init coldpress-os project"
 ```
 
 ---
@@ -115,21 +108,22 @@ git commit -m "init coldpress-os project"
 claude
 ```
 
-Claude Code reads `CLAUDE.md` and loads Butler's directive automatically. You can now ask for any coldpress-os workflow by name or intent. A common Phase-2 starting point:
+Claude Code reads `CLAUDE.md` and loads Butler's directive automatically. In a fresh session, Butler runs **Phase 1 Bootstrap** — two skills:
 
-```
-Run pre-project interview
-```
+- **`orient`** — quick scaffold health check, a short lifecycle intro, and handoff to `intake`.
+- **`intake`** — walks you through the 5 `_input/` subfolders, classifies the project shape (greenfield / brownfield), captures your project intent in one sentence, records your working-mode preferences (cadence, team shape), and primes the graph index.
 
-Butler dispatches `@analyst` (Phase 2 — Discovery), which walks you through a structured interview. The output lands at `_context/sacred/context.md` — your first sacred document.
+When intake exits cleanly, Butler hands off to **Phase 2 — Discovery** (`@analyst pre-project-interview`) which expands the one-sentence intent into `_context/sacred/context.md` — your first sacred document.
 
 Other common entry points:
 
 | Intent | What runs | Phase |
 |--------|-----------|-------|
 | "Run pre-project interview" | `@analyst` / `pre-project-interview` | 2 |
+| "Start Phase 3 — consolidate evidence + match pack" | `@architect` / `stack-discovery-sync` | 3 |
 | "Evaluate my tech stack options" | `@architect` / `stack-evaluation` | 3 |
 | "Lock the tech stack" | `@architect` / `stack-locking` | 3 |
+| "Provision the dev environment" | `@developer` / `env-provision` | 3 |
 | "Create the PRD" | `@pm` / `create-prd` | 4 |
 | "Create architecture" | `@architect` / `create-architecture` | 4 |
 | "Break into epics and stories" | `@pm` + `@scrum-master` | 5 |

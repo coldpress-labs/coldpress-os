@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/implementation/dev-story-output.json",
+  "title": "Dev Story Output Report",
+  "description": "Phase 8 per-story dev-story output. Produced by `dev-story` (or `quick-dev`) skill. Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "story_id", "version", "files_changed", "tests_added", "status", "created_at"],
+  "properties": {
+    "schema": { "const": "schemas/implementation/dev-story-output.json" },
+    "phase": { "const": 8 },
+    "story_id": { "type": "string", "pattern": "^story-[0-9]{3,}$" },
+    "version": { "type": "integer", "minimum": 1 },
+    "skill_used": { "type": "string", "enum": ["dev-story", "quick-dev"] },
+    "archetype_granularity": { "type": "string", "enum": ["thin", "medium", "rich"] },
+    "files_changed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "change_type"],
+        "properties": {
+          "path": { "type": "string" },
+          "change_type": { "type": "string", "enum": ["add", "modify", "delete"] }
+        }
+      }
+    },
+    "tests_added": {
+      "type": "object",
+      "properties": {
+        "unit": { "type": "integer", "minimum": 0 },
+        "integration": { "type": "integer", "minimum": 0 },
+        "e2e": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "coverage_target_met": { "type": "boolean" },
+    "acceptance_criteria_verified": { "type": "array", "items": { "type": "string" } },
+    "implementation_deltas_surfaced": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Delta IDs surfaced during implementation."
+    },
+    "status": { "type": "string", "enum": ["draft", "complete", "blocked"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

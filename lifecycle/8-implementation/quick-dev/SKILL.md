@@ -3,7 +3,7 @@ name: "quick-dev"
 description: "Rapid implementation for bugs, small features, and refactors without full story ceremony"
 type: "workflow"
 category: "lifecycle"
-phase: 6
+phase: 8
 agent: "developer"
 inputs:
   - "user intent (bug, feature, refactor)"

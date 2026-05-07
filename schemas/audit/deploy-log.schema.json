@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/audit/deploy-log.json",
+  "title": "Deploy Log (Phase 9)",
+  "description": "Phase 9 deploy execution log. Validated-distillate. Authored by @devops via the deploy skill. Records what shipped, when, how, and the immediate outcome. Lives at `_context/audit/deploy-log-v{N}.md`.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "author_agent", "status", "created_at", "deploy_target", "strategy", "started_at", "outcome"],
+  "properties": {
+    "schema": { "const": "schemas/audit/deploy-log.json" },
+    "phase": { "const": 9 },
+    "version": { "type": "integer", "minimum": 1 },
+    "author_agent": { "const": "@devops" },
+    "status": { "type": "string", "enum": ["draft", "validated", "superseded"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "deploy_target": {
+      "type": "object",
+      "required": ["environment"],
+      "properties": {
+        "environment": { "type": "string", "enum": ["dev", "staging", "production", "preview"] },
+        "version_label": { "type": ["string", "null"] },
+        "commit_sha": { "type": ["string", "null"] },
+        "release_tag": { "type": ["string", "null"] }
+      }
+    },
+    "strategy": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["all-at-once", "rolling", "canary", "blue-green", "feature-flagged"] },
+        "canary_percentage": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "feature_flags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "readiness_report_ref": { "type": "string", "description": "Path to the pre-deploy readiness-v{N}.md that authorised this deploy." },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": ["string", "null"], "format": "date-time" },
+    "duration_seconds": { "type": ["integer", "null"], "minimum": 0 },
+    "stories_shipped": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^story-[0-9]{3,}$" }
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["success", "rolled-back", "partial-success", "failed"]
+    },
+    "rollback": {
+      "type": ["object", "null"],
+      "properties": {
+        "triggered_at": { "type": "string", "format": "date-time" },
+        "reason": { "type": "string" },
+        "trigger_source": { "type": "string", "enum": ["smoke-fail", "metric-anomaly", "manual", "alert"] },
+        "completed_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "post_deploy_readiness_ref": {
+      "type": ["string", "null"],
+      "description": "Path to the post-deploy readiness-v{N}.md (smoke + observability)."
+    },
+    "incidents_triggered": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Incident IDs (if any) raised in connection with this deploy."
+    }
+  }
+}

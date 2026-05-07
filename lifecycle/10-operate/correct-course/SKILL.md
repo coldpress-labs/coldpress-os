@@ -3,7 +3,7 @@ name: "correct-course"
 description: "Manage significant changes during sprint execution through structured impact analysis"
 type: "workflow"
 category: "lifecycle"
-phase: 8
+phase: 10
 agent: "scrum-master"
 inputs:
   - "change trigger description"

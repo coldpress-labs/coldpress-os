@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/design/legacy-ui-assessment.json",
+  "title": "Legacy UI Assessment frontmatter",
+  "description": "Structural contract for `_context/design/legacy-ui-assessment-v{N}.md`. Produced by `legacy-ui-assessment` skill (Phase 5, conditional); consumed by `ux-design` (component reuse) and `brand-guidelines` (token inheritance). Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "sources", "created_at", "status", "distillate", "sacred", "asset_count", "decisions"],
+  "properties": {
+    "schema": { "const": "schemas/design/legacy-ui-assessment.schema.json" },
+    "phase": { "const": 5 },
+    "version": { "type": "integer", "minimum": 1 },
+    "sources": {
+      "type": "object",
+      "required": ["legacy_input", "design_brief"],
+      "properties": {
+        "legacy_input": { "type": "string", "description": "Typically '_input/legacy/'" },
+        "design_brief": { "type": "string" },
+        "brand_guidelines": { "type": ["string", "null"], "description": "May be null if brand-guidelines hasn't run yet (parallel-OK)" },
+        "legacy_migration_plan": { "type": ["string", "null"], "description": "Null if greenfield architecture (no Phase 4 legacy assessment)" }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "distillate": { "const": true },
+    "sacred": { "const": false },
+    "asset_count": { "type": "integer", "minimum": 1 },
+    "categories": {
+      "type": "object",
+      "properties": {
+        "components": { "type": "integer", "minimum": 0 },
+        "tokens": { "type": "integer", "minimum": 0 },
+        "stylesheets": { "type": "integer", "minimum": 0 },
+        "style_guides": { "type": "integer", "minimum": 0 },
+        "design_files": { "type": "integer", "minimum": 0 },
+        "marketing": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "decisions": {
+      "type": "object",
+      "required": ["keep", "refresh", "discard", "reference-only"],
+      "properties": {
+        "keep": { "type": "integer", "minimum": 0 },
+        "refresh": { "type": "integer", "minimum": 0 },
+        "discard": { "type": "integer", "minimum": 0 },
+        "reference-only": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "phase_4_cross_reference_conflicts": { "type": "integer", "minimum": 0 },
+    "design_deltas_surfaced": { "type": "integer", "minimum": 0 }
+  }
+}

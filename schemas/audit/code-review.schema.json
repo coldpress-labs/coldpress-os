@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/audit/code-review.json",
+  "title": "Code Review Report (per-story)",
+  "description": "Phase 8 per-story code-review report. Produced by `code-review` skill. Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "story_id", "version", "reviewer", "status", "created_at"],
+  "properties": {
+    "schema": { "const": "schemas/audit/code-review.json" },
+    "phase": { "const": 8 },
+    "story_id": { "type": "string", "pattern": "^story-[0-9]{3,}$" },
+    "version": { "type": "integer", "minimum": 1 },
+    "reviewer": { "const": "@qa" },
+    "status": { "type": "string", "enum": ["pass", "fail", "in-review"] },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "category", "description"],
+        "properties": {
+          "severity": { "type": "string", "enum": ["block", "warn", "info"] },
+          "category": { "type": "string", "enum": ["correctness", "security", "performance", "maintainability", "test-coverage", "architecture-divergence", "ADR-conflict", "style"] },
+          "description": { "type": "string" },
+          "file_ref": { "type": "string" },
+          "line_ref": { "type": ["integer", "null"] },
+          "implementation_delta_id": {
+            "type": ["string", "null"],
+            "description": "If finding raises an implementation_delta (architecture-divergence / ADR-conflict), the delta ID."
+          }
+        }
+      }
+    },
+    "adversarial_review_findings": { "type": "integer", "minimum": 0 },
+    "edge_case_hunter_findings": { "type": "integer", "minimum": 0 },
+    "implementation_deltas_surfaced": { "type": "integer", "minimum": 0 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -91,6 +91,18 @@ Butler (main Claude Code session)
 6. Butler synthesizes and presents to user
 7. If subagent recommends handoff to another agent, Butler routes it
 
+### Warm Handoff (Phase 2)
+
+Phase 2 Discovery uses a **warm-handoff** pattern: rather than asking the user to re-state what Phase 1 intake already captured, Butler passes `_context/sacred/context.md` (status: seed), `.coldpress/local-config.yaml`, and the graph to @analyst as pre-read context. The analyst confirms the seed intent rather than starting from scratch. This is implemented via `src/orchestration/condition-reader.ts` (reads local-config) + `src/graph/staleness.ts` (validates graph freshness before handoff).
+
+### Phase 3 — The Commit-Point
+
+Phase 3 Tech Stack is the **commit-point** of the build. Phase 3 begins with a rich evidence packet from Phase 2 (personas, constraint-research, idea-validation, product-brief, graph) and uses it to shortlist + evaluate + lock the tech stack. Three structural elements make Phase 3 the commit-point rather than just "pick a stack":
+
+1. **`coldpress update --post-phase-3` exit hook** — runs manually between stack-lock and env-provision. Regenerates stack-specific skill wrappers. The `post_phase_3_update_ran: true` flag in local-config gates env-provision start. Implemented in `src/commands/update.ts` (`runPostPhase3`).
+2. **Two-stage gate** — Stage 1 verifies all ADRs + sacred doc + baselines at lock time; Stage 2 verifies env-provision completion separately. The split lets Phase 3 lock cleanly and provision independently.
+3. **Pack branching** — `stack_pack` written at lock time determines whether env-provision dispatches to an archetype quickstart skill or the generic install path.
+
 ### The Nine Subagents
 
 | Slug | Model | Tools | Role |
@@ -170,7 +182,7 @@ Butler receives result  ← Presents to user, routes handoff
 | `governance/` | Sacred doc protection and change workflows | Framework |
 | `data/` | Portable knowledge assets (CSV/YAML) | Framework |
 | `templates/` | Document and infrastructure templates | Framework |
-| `install/` | Project scaffolding skills + project template | Framework |
+| `install/archetypes/` | Document archetypes referenced by template-builder meta skill | Framework |
 | `docs/` | Internal framework documentation | Framework |
 
 ---
@@ -222,6 +234,9 @@ Add subdirectories to existing `lifecycle/{N}-{phase}/` directories.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 6.0 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 5.3. Added "Phase 3 — The Commit-Point" subsection under Dispatch Protocol: exit-hook wiring (update.ts runPostPhase3 + local-config flag), two-stage gate rationale, pack-branching at env-provision. |
+| 5.0 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 5.4. Added "Warm Handoff (Phase 2)" subsection under Dispatch Protocol — documents the warm-handoff orchestration pattern: seed context.md + local-config.yaml + graph passed to @analyst as pre-read, implemented via condition-reader + staleness check. |
+| 4.0 | 2026-04-24 | Cadbury-hq | Phase II Part 1 Wave 5.1b. Directory-role row updated: `install/` → `install/archetypes/` (the project-scaffolding skill under `install/` was retired in Wave 4.4; `archetypes/` is what remains). |
 | 3.0 | 2026-04-14 | Alfred | Removed MAO acronym from section heading. |
 | 2.0 | 2026-04-13 | Alfred | Added multi-agent orchestration section (dispatch protocol, 9 subagents, mode config). Updated info flow for Butler dispatch model. Updated directory roles. Added handoff artifacts to state management. |
 | 1.0 | 2026-04-07 | Alfred | Initial architecture document — consumption model, info flow, directory roles |

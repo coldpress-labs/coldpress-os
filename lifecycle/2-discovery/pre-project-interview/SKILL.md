@@ -7,6 +7,10 @@ phase: 2
 agent: "analyst"
 inputs:
   - "coldpress.yaml"
+  - "_context/sacred/context.md (seed — flesh out, don't re-author)"
+  - "_context/tracking/intake-{date}.md (Phase 1 material inventory)"
+  - ".coldpress/local-config.yaml (for project_shape — brownfield branching)"
+  - ".coldpress/graph/graph.json (query _input/ material)"
   - "user knowledge about the project"
 outputs:
   - artifact: "Project Context"

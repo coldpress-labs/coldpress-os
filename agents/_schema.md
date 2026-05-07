@@ -1,34 +1,40 @@
-# Agent Schema — coldpress-os v2
+# Agent Schema — coldpress-os v3 (Shape A)
 
 > Defines the format for all subagent definitions. Subagents are real Claude Code agents with independent context windows, defined in `.claude/agents/`.
 
 ---
 
-## Architecture Change (v2)
+## Architecture Change (v2 → v3 Shape A)
 
-**Before (v1):** 19 prompt-persona `.md` files in `coldpress-os/agents/`. These were costume changes — same Claude session with different system prompt snippets. No real multi-agent orchestration.
+**v1:** 19 prompt-persona `.md` files in `coldpress-os/agents/`. Costume changes — same session, different prompt snippets. No real multi-agent orchestration.
 
-**After (v2):** 9 consolidated subagent definitions in `coldpress-os/template/.claude/agents/`. These are real Claude Code subagents — each runs with its own context window, tools, and model. Butler (the main session) dispatches work to them via `@mention` or the Agent tool.
+**v2:** 9 consolidated subagent definitions in `coldpress-os/template/.claude/agents/`. Real Claude Code subagents — each with independent context, tools, model.
 
-**Legacy personas:** The 19 deprecated BMAD/CIS/WDS persona files were moved out of the framework entirely in the v0.1 cleanup (Decision #20 in the estate DECISIONS-LOG). They now live at project level in `hq-p001-coldpress-os/legacy/agents-archive/` with per-file `origin:` frontmatter preserved for future subagent-evolution work. They do not ship in the public framework.
+**v3 (Shape A — v0.3.0-alpha 2026-05-03):** **11 subagents.** Added 2 post-schema additions for the Shape A 11-phase lifecycle:
+- **@reviewer** — Phase 11 Evolve owner (retrospective / product-evolution / innovation-strategy)
+- **@devops** — Phase 9 (Deployment) + Phase 10 (Operate) owner (single agent, two phase-modes per `template/.claude/agents/devops.md`)
+
+**Legacy personas:** The 19 deprecated BMAD/CIS/WDS persona files moved out of the framework in v0.1 cleanup (Decision #20). They live at project level in `hq-p001-coldpress-os/legacy/agents-archive/` with per-file `origin:` frontmatter for future evolution. They do not ship in the public framework.
 
 ---
 
 ## File Location
 
-Subagent definitions live in the **project template** and are copied into each consuming project during `project-init`:
+Subagent definitions live in the **project template** and are copied into each consuming project by `coldpress init`:
 
 ```
 coldpress-os/template/.claude/agents/
-├── analyst.md
-├── pm.md
-├── ux-designer.md
-├── architect.md
-├── developer.md
-├── qa.md
-├── scrum-master.md
-├── communicator.md
-└── valet.md
+├── analyst.md           # Phase 2, 4 owner — research, brainstorming, product briefs
+├── pm.md                # Phase 4, 7 owner — PRD, epics, breakdown
+├── ux-designer.md       # Phase 5 owner (NEW under Shape A) — design-brief, ux-design, brand-guidelines, prototype, narrative, legacy-ui-assessment
+├── architect.md         # Phase 3, 6 owner — tech-stack, architecture-design, ADRs (Phase 6 NEW under Shape A)
+├── developer.md         # Phase 8 owner — dev-story, quick-dev, ci-pipeline
+├── qa.md                # Phase 8, 9 owner — test-design, test-framework, code-review (Phase 8 sub-persona for code-review #11c/d)
+├── scrum-master.md      # Phase 7, 10 owner — sprint-planning, sprint-status (Phase 7 sub-persona for sprint-planning #8a/b)
+├── communicator.md      # Phase 4, 10 owner — storytelling, presentation, document-project, doc generators (pdf/docx/pptx/xlsx)
+├── reviewer.md          # Phase 11 owner (POST-SCHEMA v3 addition) — retrospective, product-evolution, innovation-strategy
+├── devops.md            # Phase 9, 10 owner (POST-SCHEMA v3 addition) — readiness-check, deploy, sprint-status, correct-course, incident-response
+└── valet.md             # Meta — skill-builder, agent-builder, prompt-engineering, prompt-governance, propose-change
 ```
 
 **Filename:** `{slug}.md` (e.g., `analyst.md`, `ux-designer.md`)
@@ -74,7 +80,7 @@ System prompt content in markdown. This IS the agent's instructions.
 | Model | Use When | Example Agents |
 |-------|----------|----------------|
 | `opus` | Deep reasoning, complex analysis, architecture decisions | architect |
-| `sonnet` | Balanced — most agents | analyst, pm, developer, qa, communicator, valet |
+| `sonnet` | Balanced — most agents | analyst, pm, developer, qa, communicator, ux-designer, reviewer, devops, valet |
 | `haiku` | Organizational tasks, tracking, formatting | scrum-master |
 
 ### Tool Selection Guide

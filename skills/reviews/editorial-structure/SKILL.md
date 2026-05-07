@@ -3,7 +3,8 @@ name: "editorial-structure"
 description: "Structural editor that proposes cuts, merges, and reorganization for high-value density"
 type: "simple"
 category: "reviews"
-phases: [2, 4, 5, 8]
+status: "wire-in-phase-2 wire-in-phase-3 wire-in-phase-4"
+phases: [2, 3, 4, 5, 6, 7, 8, 9, 11]
 inputs:
   - "document content to review"
 outputs:

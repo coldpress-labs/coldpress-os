@@ -8,36 +8,62 @@
   ],
   "acceptance_checks": [
     {
-      "id": "context-md-authored",
-      "description": "Sacred document `_context/sacred/context.md` exists and contains project vision + constraints",
-      "kind": "artefact-present",
-      "severity": "block",
-      "artefact_path": "_context/sacred/context.md",
-      "remediation": "Run `@analyst pre-project-interview` to author the context document"
-    },
-    {
-      "id": "product-brief-authored",
-      "description": "`product-brief-*.md` exists in `_context/planning/` summarising who, what, why now",
+      "id": "context-md-status-authored",
+      "description": "`_context/sacred/context.md` exists and its frontmatter `status` field is `authored` (not `seed` — pre-project-interview must have completed Step 4 synthesis)",
       "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "product-brief",
-      "remediation": "Run `@analyst product-brief` — required before PRD authoring in Phase 4"
-    },
-    {
-      "id": "discovery-research-complete",
-      "description": "At least one research output exists under `_context/planning/research/`",
-      "kind": "human",
-      "severity": "warn",
-      "human_approver": "@analyst or project lead",
-      "remediation": "Run `domain-research`, `market-research`, or `constraint-research` as applicable; sign off when sufficient coverage"
+      "severity": "block",
+      "skill_ref": "validate-schema",
+      "artefact_path": "_context/sacred/context.md",
+      "remediation": "Run `@analyst pre-project-interview` to complete context.md authoring. Status must be `authored` — a `seed` status means intake ran but Phase 2 interview did not complete."
     },
     {
       "id": "context-sacred-signoff",
-      "description": "User has explicitly accepted `_context/sacred/context.md` as complete (sacred-doc protection active)",
+      "description": "User has explicitly accepted `_context/sacred/context.md` as complete (sacred-doc protection becomes active after this sign-off)",
       "kind": "human",
       "severity": "block",
       "human_approver": "user",
-      "remediation": "Review `_context/sacred/context.md` and confirm — this triggers sacred-doc governance"
+      "remediation": "Review `_context/sacred/context.md`, confirm its vision + constraints sections are accurate, and sign off. This triggers sacred-doc governance — future changes require the context change-workflow."
+    },
+    {
+      "id": "research-synthesis-exists",
+      "description": "`_context/planning/research-synthesis-v1.md` (or higher version) exists — synthesize-research has run at least once",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/planning/research-synthesis-v1.md",
+      "remediation": "Run `@analyst synthesize-research` to consolidate Phase 2 research into a synthesis document. This is required for product-brief authoring and Phase 3 tech-stack decisions."
+    },
+    {
+      "id": "product-brief-authored",
+      "description": "`_context/planning/product-brief-v1.md` (or higher version) exists with frontmatter `status: authored`",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "validate-schema",
+      "artefact_path": "_context/planning/product-brief-v1.md",
+      "remediation": "Run `@analyst product-brief` to draft and accept the executive product brief. Required before Phase 3 locks the tech stack."
+    },
+    {
+      "id": "idea-validation-exists",
+      "description": "`_context/planning/idea-validation-v1.md` (or higher) exists — validate-idea ran at least once",
+      "kind": "artefact-present",
+      "severity": "warn",
+      "artefact_path": "_context/planning/idea-validation-v1.md",
+      "remediation": "Run `@analyst validate-idea` for structured problem/market/fit validation. Recommended before Phase 3 — skip only for solo vibe-coder projects with well-understood scope."
+    },
+    {
+      "id": "graph-freshness",
+      "description": "Knowledge graph is not stale — `.coldpress/graph/graph.json` mtime is >= the latest `_input/` file mtime",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "graph-staleness-check",
+      "remediation": "Run `coldpress graph rebuild` to refresh the knowledge graph. Phase 3 skills query the graph for tech-stack research — a stale graph degrades suggestion quality."
+    },
+    {
+      "id": "supersessions-log-if-applicable",
+      "description": "If any `_input/` file is referenced in the Phase 2 artefacts but contradicts their conclusions, a supersession log entry exists in `_context/audit/supersessions-*.md`",
+      "kind": "human",
+      "severity": "warn",
+      "human_approver": "@analyst or project lead",
+      "remediation": "Check `_context/audit/supersessions-*.md`. If a known conflict between `_input/` material and Phase 2 artefacts is not logged, invoke the supersede-check helper (`src/governance/supersede.ts`) for each conflicting document."
     }
   ],
   "next_phase": "3-tech-stack"

@@ -3,8 +3,8 @@ name: "party-mode"
 description: "Orchestrate multi-agent group discussions between all available agent personas"
 type: "workflow"
 category: "utilities"
-status: "ad-hoc"
-phases: [2, 4, 5, 8]
+status: "wire-in-phase-2-opt-in wire-in-phase-3-opt-in"
+phases: [2, 3, 4, 5, 8]
 inputs:
   - "discussion topic or question"
   - "../../data/agents/agent-roster.csv"

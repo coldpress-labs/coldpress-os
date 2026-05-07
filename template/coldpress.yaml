@@ -2,11 +2,15 @@
 #
 # This is the ONLY config file coldpress-os reads from your project.
 #
-# Phase-1 fields (below) are filled at project init — by the user or
-# the `project-init` workflow. All other fields are written by their
-# owning phase as the lifecycle progresses; the framework writes back
-# to this file as each phase completes. See docs/coldpress-yaml-schema.md
-# for the full schema and per-field phase ownership.
+# Phase-1 fields (below) split by when they're filled:
+#   * project.* and user.{name, languages} — filled at project init by
+#     the user via the `coldpress init` CLI.
+#   * butler.display_name — defaulted here; overwritten by Butler during
+#     Phase-1 `intake` if the user customises.
+# All other fields are written by their owning phase as the lifecycle
+# progresses; the framework writes back to this file as each phase
+# completes. See docs/coldpress-yaml-schema.md for the full schema and
+# per-field phase ownership.
 
 # ─── Project Identity ──────────────────────────────────────────────
 project:
@@ -18,3 +22,11 @@ user:
   name: ""                          # e.g., "Aastha"
   communication_language: "English"
   document_output_language: "English"
+
+# ─── Butler ────────────────────────────────────────────────────────
+# Optional. Filled during Phase-1 intake; defaults apply if unset.
+# Framework-internal role is always "Butler" regardless of display_name.
+butler:
+  display_name: "Butler"            # user-facing label — may be renamed
+                                    # (e.g., "Jeeves", "Alfred Jr.") during
+                                    # Phase-1 intake.

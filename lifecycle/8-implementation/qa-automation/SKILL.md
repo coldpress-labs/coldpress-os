@@ -3,7 +3,7 @@ name: "qa-automation"
 description: "Generate automated tests for implemented features"
 type: "router"
 category: "lifecycle"
-phase: 6
+phase: 8
 routes_to: "skills/testing/test-automation/"
 agent: "qa"
 version: "1.0"

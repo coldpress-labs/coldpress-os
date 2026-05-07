@@ -4,7 +4,7 @@ description: "Structural validation of sacred-doc frontmatter against per-doc JS
 type: "simple"
 category: "governance"
 agent: "qa"
-phases: [3, 4, 5]
+phases: [1, 3, 4, 5]
 tools: ["Bash", "Read"]
 inputs:
   - "sacred-doc path (e.g., _context/sacred/prd.md)"

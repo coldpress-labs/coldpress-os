@@ -14,7 +14,7 @@ Emits a `ScanResult` conforming to `schemas/security-gate-result.schema.ts` at `
 
 ## When to Use
 
-- Phase 7 pre-deployment gate — wired in via `lifecycle/7-deployment/gate.json` → `aggregate-gate-results`
+- Phase 7 pre-deployment gate — wired in via `lifecycle/9-deployment/gate.json` → `aggregate-gate-results`
 - Ad-hoc: after any meaningful code change; before opening a PR
 - CI: wired into the release workflow (optional — see `docs/security-gate.md`)
 

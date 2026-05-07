@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/planning-scope.json",
+  "title": "Planning Scope Memo frontmatter",
+  "description": "Structural contract for `_context/planning/planning-scope-v{N}.md`. Produced by planning-entry-sync; consumed by all Phase 4 skills.",
+  "type": "object",
+  "required": ["name", "version", "phase", "archetype_mode", "generated_at", "evidence_bundle", "active_baselines", "legacy_files_detected"],
+  "properties": {
+    "name": { "const": "planning-scope" },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically incrementing version. Increment when re-running planning-entry-sync (e.g. after new Phase 2 artefacts, re-entry, or legacy-assessment)."
+    },
+    "phase": { "const": 4 },
+    "archetype_mode": {
+      "type": "string",
+      "enum": ["standard-pm", "vibe-coder-lean", "design-first"],
+      "description": "PRD archetype mode detected or confirmed by user."
+    },
+    "archetype_mode_rationale": {
+      "type": "string",
+      "description": "One-sentence explanation of why this mode was selected."
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "schema": { "type": "string" },
+    "evidence_bundle": {
+      "type": "object",
+      "description": "Status of Phase 2+3 artefacts at Phase 4 entry.",
+      "required": ["context_md", "tech_stack_md", "product_brief", "personas", "idea_validation", "research_synthesis", "stack_selection_summary"],
+      "properties": {
+        "context_md":             { "$ref": "#/$defs/artefact_status" },
+        "tech_stack_md":          { "$ref": "#/$defs/artefact_status" },
+        "product_brief":          { "$ref": "#/$defs/artefact_status" },
+        "personas":               { "$ref": "#/$defs/artefact_status" },
+        "idea_validation":        { "$ref": "#/$defs/artefact_status" },
+        "research_synthesis":     { "$ref": "#/$defs/artefact_status" },
+        "stack_selection_summary":{ "$ref": "#/$defs/artefact_status" }
+      },
+      "additionalProperties": false
+    },
+    "active_baselines": {
+      "type": "object",
+      "description": "Confirmed baselines from Phase 3 stack-locking. Each active baseline produces architectural constraints.",
+      "properties": {
+        "seo_aeo_llm":    { "$ref": "#/$defs/baseline_status" },
+        "accessibility":  { "$ref": "#/$defs/baseline_status" },
+        "security":       { "$ref": "#/$defs/baseline_status" },
+        "future_proof":   { "$ref": "#/$defs/baseline_status" }
+      },
+      "additionalProperties": false
+    },
+    "inherited_risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Flagged-risk nodes from Phase 3 phase-transition. Empty array if none."
+    },
+    "legacy_files_detected": {
+      "type": "boolean",
+      "description": "True if _input/legacy/ is non-empty at Phase 4 entry."
+    },
+    "legacy_assessment_deferred": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if user deferred legacy-assessment at planning-entry-sync Step 4."
+    },
+    "recommended_sequence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered skill sequence for this archetype mode."
+    }
+  },
+  "$defs": {
+    "artefact_status": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["present", "file-only", "missing"] },
+        "impact": { "enum": ["critical", "degraded", "minor", "none"] },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "baseline_status": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["confirmed", "opted-out"] },
+        "covered_by_pack": { "type": "boolean" },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "opt_out_rationale": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

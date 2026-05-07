@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/audit/retrospective.json",
+  "title": "Retrospective (Phase 11)",
+  "description": "Phase 11 retrospective. Validated-distillate. Authored by @reviewer. Cause analysis for ops-deltas with user_decision=accept_into_phase_11_retrospective. Outputs feed next iteration's Phase 1 entry via _input/prior-iteration/.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "iteration", "author_agent", "status", "created_at", "scope", "what_worked", "what_didnt", "cause_analysis", "improvements_for_next_iteration"],
+  "properties": {
+    "schema": { "const": "schemas/audit/retrospective.json" },
+    "phase": { "const": 11 },
+    "version": { "type": "integer", "minimum": 1 },
+    "iteration": { "type": "string", "description": "Iteration label, e.g., 'v0.3.0', '2026-Q2'." },
+    "author_agent": { "const": "@reviewer" },
+    "status": { "type": "string", "enum": ["draft", "validated", "superseded"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "scope": {
+      "type": "object",
+      "required": ["phases_covered", "duration_days"],
+      "properties": {
+        "phases_covered": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1, "maximum": 11 }
+        },
+        "duration_days": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "what_worked": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["theme", "evidence"],
+        "properties": {
+          "theme": { "type": "string" },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
+    "what_didnt": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["theme", "evidence"],
+        "properties": {
+          "theme": { "type": "string" },
+          "evidence": { "type": "string" }
+        }
+      }
+    },
+    "cause_analysis": {
+      "type": "array",
+      "description": "Root-cause analyses for ops-deltas + implementation-deltas accepted into retrospective.",
+      "items": {
+        "type": "object",
+        "required": ["delta_id", "delta_source", "root_cause", "contributing_factors"],
+        "properties": {
+          "delta_id": { "type": "string" },
+          "delta_source": { "type": "string", "enum": ["ops-delta", "implementation-delta", "architecture-delta", "design-delta", "incident"] },
+          "root_cause": { "type": "string" },
+          "contributing_factors": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "recurrence_likelihood": { "type": "string", "enum": ["low", "medium", "high"] }
+        }
+      }
+    },
+    "improvements_for_next_iteration": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["change", "target_phase", "why"],
+        "properties": {
+          "change": { "type": "string" },
+          "target_phase": { "type": "integer", "minimum": 1, "maximum": 11 },
+          "why": { "type": "string" },
+          "owner": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Optional quantitative summary.",
+      "properties": {
+        "stories_completed": { "type": "integer", "minimum": 0 },
+        "stories_carried_forward": { "type": "integer", "minimum": 0 },
+        "incidents_count": { "type": "integer", "minimum": 0 },
+        "deploys_count": { "type": "integer", "minimum": 0 },
+        "deploy_success_rate": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

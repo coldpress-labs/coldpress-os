@@ -1,40 +1,95 @@
 ---
-phase: 8
-name: "Operate"
-description: "In-flight work — course corrections, sprint status, continuous documentation while the build runs"
-prerequisites:
-  - "Phase 6 (Implementation) active, or Phase 7 (Deployment) complete"
-outputs:
-  - "Sprint change proposals"
-  - "Sprint status reports"
-  - "Updated project documentation"
-next_phase: "9-evolve"
+phase: 10
+name: Operate
+agent: devops
+status: rewritten — Phase 10 implementation in progress (autonomous queue unit #18, 2026-05-02)
 ---
 
-# Phase 8: Operate
+# Phase 10 — Operate
 
-> In-flight operational work — not post-release reflection. Runs **alongside** Phase 6-7 to keep the build on track, document what's happening as it happens, and absorb scope shifts without derailing the plan. Post-release learning is Phase 9 (Evolve).
+> **Cascade rename of old Phase 8 (Operate) + Shape A scope refinement (2026-04-24).** Same 3 skills, same owner (@devops — continues from Phase 9 per Pattern 7 transition #16; no agent change at entry).
 
-## Sub-Skills
+## Purpose
 
-| Sub-Skill | Type | Agent | Description |
-|-----------|------|-------|-------------|
-| [correct-course](correct-course/) | workflow | scrum-master | Manage significant changes during a sprint — scope drift, blocker resolution, re-planning |
-| [sprint-status](sprint-status/) | workflow | scrum-master | Summarise where a sprint stands, recommend the next move |
-| [document-project](document-project/) | router | communicator | → `skills/utilities/document-project/` — keep project docs current as the work evolves |
+**Phase 10 is continuous in-flight operational work post-deploy.** While the system runs in production:
+- Sprint-status updates (per ongoing iteration)
+- Course-correction (incident / bug / friction triggers)
+- Document-project — canonical end-user-facing project documentation
 
-## When to invoke
+**Phase 10 surfaces ops-deltas** as fourth forward-carry instance (Phase 5 design / Phase 7 architecture / Phase 8 implementation / **Phase 10 ops** — completing the forward-carry quartet). Aggregated at user-invoked Phase 11 transition; consumed by Phase 11 Evolve as input to retrospective + product-evolution.
 
-- Mid-sprint scope drift → `correct-course`
-- Stand-ups / sprint reviews → `sprint-status`
-- New subsystem shipping and the docs haven't caught up → `document-project`
+**Phase 10 is NOT** retrospectives, product-evolution planning, or innovation-strategy — those live in Phase 11.
 
-## What Phase 8 is NOT
+## Sub-skills
 
-Phase 8 is **not** retrospectives. Retros are reflective, post-epic / post-release work — that's Phase 9 (Evolve). The split (introduced in Phase I Wave 4 §4.11) reflects that in-flight course correction and post-release learning are genuinely different workflows fused into one phase by historical accident — not the same activity at different cadences.
+| Skill | Type | Owner |
+|-------|------|-------|
+| `sprint-status` | workflow | @devops (entry skill per Q1) |
+| `correct-course` | workflow | @devops (3 triggers per Q5) — process drift / scope creep / metric anomaly |
+| `document-project` | workflow | @devops (post-deploy end-user-facing docs per Q4) |
+| `incident-response` | workflow | @devops — **NEW (Unit #28 / U12)**. Three sub-modes (in-flight timeline / post-mitigation postmortem / codify runbook). Distinct from `correct-course` (process drift) and Phase 11 retrospective (multi-incident pattern analysis). 5 artefacts: timeline / postmortem / runbook / ops-delta / action-items. Pattern-match against priors at detection (search-first reduces MTTR). Forward-carry per `ops-delta.schema.json`. |
 
-If you're mid-build and something is going sideways: Phase 8.
-If the build shipped and you're deciding what to learn / do next: Phase 9.
+## Recommended flow (continuous)
+
+```
+[Phase 9 exit: deployed + post-deploy gate passed]
+        │
+        ▼
+   sprint-status (Step 0 — graph-first context + entry-sync)
+        │
+        ▼
+   Continuous loop (user-defined iteration cadence):
+     ├──→ sprint-status update (per iteration)
+     ├──→ correct-course (incident / bug / friction triggers)
+     └──→ document-project (canonical user-facing docs)
+        │
+        ▼
+   [User invokes Phase 11 retrospective]
+        │
+        ▼
+   phase-transition (writes phase-10-to-11 handoff with ops_deltas[] aggregated)
+        │
+        ▼
+   [Phase 11 entry — @reviewer]
+```
+
+## Entry conditions
+
+1. Phase 9 exit clean (post-deploy gate passed).
+2. phase-9-to-10 handoff written.
+3. System running in production.
+
+## Exit conditions
+
+See `gate.json` (5 acceptance checks). User-invoked exit (Phase 11 retrospective trigger).
+
+## Agent
+
+**@devops** primary. Pattern 7 sixth invocation:
+- #16: phase_entry — phase-transition → @devops (continued from Phase 9; same agent)
+- #17: phase_exit — @devops → phase-transition (user-triggered)
+- #18: phase_entry (Phase 11) — phase-transition → @reviewer (warm_handoff: phase-10-to-11 with ops_deltas[])
+
+## ops-deltas mechanism (NEW — fourth forward-carry instance)
+
+Schema: `schemas/handoffs/ops-delta.schema.json`. Surfaced during course-correction or sprint-status iterations. delta_type enum: bug / performance / ux-friction / doc-gap / dependency-issue / security-incident. reconciliation_options enum: accept_into_phase_11_retrospective / accept_into_phase_11_product_evolution / immediate_corrective_action / park_for_phase_11.
+
+**Reconciliation:** at Phase 10 EXIT (user-invoked Phase 11 transition). phase-transition step-02a-reconciliation extends to handle from_phase==10 — forwards ops_deltas[] to Phase 11 handoff (does NOT amend PRD; ops issues are learnings/improvements, not spec changes).
+
+## Cross-cutting wire-ins
+
+- `adversarial-review` — incident response red-team
+- `editorial-structure` — course-correction log; doc-project structure
+- `editorial-prose` — doc-project user-facing prose
+
+## Method playbook
+
+See `data/methods/method-defaults.yaml` `phase_10:` section. Tier-1: problem_solving heavy (root_cause + five_whys + failure_mode_analysis + scenario_planning); advanced_elicitation medium (vague_incident_cause / vague_corrective_action); rest low.
+
+## Source
+
+- Deep-dive: [`docs/lifcyle-phases-deep-dives/phase-10-deep-dive-2026-05-02.md`](../../docs/lifcyle-phases-deep-dives/phase-10-deep-dive-2026-05-02.md) v1.0
+- Implementation plan: [`docs/phase-ii-implementation-plan.md` Part 10](../../docs/phase-ii-implementation-plan.md) v1.26
 
 ---
 
@@ -42,5 +97,5 @@ If the build shipped and you're deciding what to learn / do next: Phase 9.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-04-23 | Cadbury-hq | Phase 8 renamed from "Evolve" to "Operate" per the Phase 8 split (Phase I Wave 4 §4.11). Kept: correct-course, sprint-status, document-project. Moved to new Phase 9 (Evolve): retrospective, product-evolution, innovation-strategy. |
-| 1.0 | 2026-04-13 | Alfred | Initial Phase 8 definition (pre-split name: "Evolve"). |
+| 2.0 | 2026-05-02 | Butler (Andy-coldpress-os under autonomous queue unit #18 Wave 10.1) | Phase 10 README enriched. Cascade-rename + Shape A scope refresh. Continuous-loop framing. ops-deltas mechanism explainer (fourth forward-carry instance). Pattern 7 sixth invocation. @devops continues from Phase 9. |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial Phase 8 (now 10) Operate README. |

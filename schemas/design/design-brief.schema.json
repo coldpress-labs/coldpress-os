@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/design/design-brief.json",
+  "title": "Design Brief frontmatter",
+  "description": "Structural contract for `_context/planning/design-brief-v{N}.md`. Produced by `design-brief` skill (Phase 5); consumed by `ux-design`, `brand-guidelines`, `prototype`, `narrative`, `legacy-ui-assessment`. Validated-distillate (regeneratable, schema'd, versioned; NOT sacred).",
+  "type": "object",
+  "required": ["schema", "phase", "version", "mode", "sources", "created_at", "status", "distillate"],
+  "properties": {
+    "schema": { "const": "schemas/design/design-brief.schema.json" },
+    "phase": { "const": 5 },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Monotonically incrementing version. Increment on re-runs (e.g., after PRD reconciliation Phase-5-internal re-author, or persona re-entry result)."
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["bridge"],
+      "description": "Operating mode. Shape A only supports bridge mode (PRD + product-brief always present at Phase 5 entry). Standalone removed post-v0.3."
+    },
+    "sources": {
+      "type": "object",
+      "description": "Source artefact versions consumed at design-brief authoring time. Used for staleness detection on re-runs.",
+      "required": ["prd", "product_brief", "personas", "tech_stack", "baselines"],
+      "properties": {
+        "prd": { "type": "string", "description": "PRD version, e.g., '1' or '2'" },
+        "product_brief": { "type": "string" },
+        "personas": { "type": "string" },
+        "idea_validation": { "type": "string" },
+        "tech_stack": { "type": "string" },
+        "baselines": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Active baseline keys (e.g., 'a11y', 'seo', 'perf')"
+        },
+        "archetype": {
+          "type": "string",
+          "enum": ["vibe-coder-lean", "standard", "design-led", "WDS"]
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "validated"],
+      "description": "Set to 'validated' when Step 4 schema-validation passes and distillate is emitted."
+    },
+    "distillate": { "const": true },
+    "sections": {
+      "type": "object",
+      "description": "Structural inventory of authored sections (used by ux-design + brand-guidelines + prototype to know what's available).",
+      "properties": {
+        "content_strategy": { "type": "boolean" },
+        "brand_voice": { "type": "boolean" },
+        "visual_direction": { "type": "boolean" },
+        "platform_a11y": { "type": "boolean" }
+      }
+    },
+    "design_deltas_surfaced": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of design_delta entries surfaced during this skill's run (appended to phase-5-design-deltas-wip-{date}.md)."
+    },
+    "advanced_elicitation_invocations": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "supersede_check_passes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of supersede-check pair evaluations during the skill (each may produce 0+ deltas)."
+    }
+  }
+}

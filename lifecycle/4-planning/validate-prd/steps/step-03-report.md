@@ -81,12 +81,32 @@ Compile all validation findings into a structured report. Give the user a clear 
 4. **Present to user:**
    - Show the verdict and summary table
    - Walk through Must Fix items
-   - "Would you like to fix these now? I can route you to `create-prd` in edit mode."
 
-5. **Suggest next steps based on verdict:**
-   - **READY:** "PRD is solid. Recommend proceeding to `create-architecture` or `create-ux-design`."
-   - **NEEDS REVISION:** "Run `create-prd` in edit (e) mode to address the Must Fix items, then re-validate."
-   - **BLOCKED:** "Fundamental issues need resolution. Let's discuss the FAIL items before re-running create-prd."
+5. **Loop-back routing based on verdict:**
+
+   **READY:**
+   > "The PRD is solid and ready for Phase 5. Proceeding to Phase 5 Design is recommended. Say 'next phase' or 'validate-prd complete' to trigger the phase transition."
+
+   **NEEDS REVISION:**
+   > "The PRD needs revision before proceeding. I found [N] must-fix items. Options:
+   > - **(A)** Fix now — route to `create-prd` edit mode, section [X] (I'll pre-load the issues)
+   > - **(B)** Show me the full issue list first, then I'll decide
+   > - **(C)** Proceed anyway (override — not recommended)"
+
+   [Wait for user input]
+
+   If **(A)**: invoke `create-prd` in edit mode, pre-load the specific Must Fix items from this report as the edit context. After edits: offer to re-run `validate-prd` immediately.
+
+   **BLOCKED:**
+   > "There are fundamental issues that need resolution. I cannot recommend proceeding. Options:
+   > - **(A)** Let's discuss the FAIL items and I'll help resolve them now
+   > - **(B)** Route to create-prd to rework the affected sections
+   > - **(C)** Escalate — some of these may require Phase 2 or Phase 3 re-entry (I'll explain which)"
+
+   [Wait for user input]
+
+6. **Write partial completion clear:**
+   Clear `partial_completion` from `coldpress.yaml`.
 
 ## Output
 

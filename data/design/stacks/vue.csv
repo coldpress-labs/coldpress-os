@@ -1,0 +1,11 @@
+id,layer,recommended,alternates,reasoning
+01,framework,Nuxt 3,Vue 3 + Vite raw,"Nuxt for app; raw Vue for components"
+02,routing,Vue Router 4 (auto in Nuxt),—,"Built-in"
+03,state,Pinia,VueUse + composables only,"Pinia canonical post-Vuex; composables for small app"
+04,server-state,VueUse useFetch + nuxt useFetch,TanStack Query Vue,"Native covers most; TanStack for complex caching"
+05,forms,VeeValidate + Zod,FormKit | native,"VeeValidate+Zod canonical; FormKit higher-level"
+06,validation,Zod,Yup | Valibot,"Same Zod-everywhere"
+07,styling,Tailwind CSS,UnoCSS | scoped CSS,"Tailwind default"
+08,components,Radix Vue,Headless UI Vue | PrimeVue,"Radix Vue ports the React lib; broadest unstyled set"
+09,testing,Vitest + Vue Test Utils + Playwright,Cypress,"Vitest first-class in Vue ecosystem"
+10,deployment,Vercel | Netlify | self-host,Cloudflare Pages,"Nuxt deploys broadly"

@@ -8,8 +8,123 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-### Added
+(empty — all post-v0.3.0 work flows here.)
 
+---
+
+## [0.3.0-alpha] — 2026-05-03
+
+### Summary
+
+The **Shape A 11-phase lifecycle restructure** — the largest framework change since v0.1.0-alpha. Old Phase 4 Planning split into Phase 4 (Planning, PRD-only) + Phase 5 (Design, NEW) + Phase 6 (Architecture, NEW); old phases 5–9 cascade to 7–11. Adds 2 post-schema agents (@reviewer, @devops, total 11), the **forward-carry quartet** (design-deltas / architecture-deltas / implementation-deltas / ops-deltas), Pattern 7 agent transitions, the silent-divergence guard (P5 → P6 ADR enforcement), and the inter-iteration cycle (P11 → next iteration's P1). 7 new schemas. New CLI flag `validate-prd --sections=<list>` for lightweight section-scoped re-validation. Audit punch-list 10/10 cleared.
+
+### Added — audit-fix work (units #21–#24)
+
+- **`template/.claude/agents/devops.md`** — single agent, two phase-modes (Phase 9 ship-path / Phase 10 steady-state). Mirrors @qa rapid/strategic and @developer standard/quick patterns. Color: orange. (Audit punch-list #1.)
+- **7 missing schemas authored:**
+  - `schemas/handoffs/phase-handoff.schema.json` — generic phase boundary handoff (used at every boundary 1→2 through 10→11; nullable to_phase for Phase 11 terminal). $refs design-delta + ops-delta for forward-carry payloads.
+  - `schemas/audit/retrospective.schema.json` — Phase 11 retrospective; cause analysis for accept_into_phase_11_retrospective deltas.
+  - `schemas/audit/product-evolution-backlog.schema.json` — Phase 11 backlog with priority + estimated_size.
+  - `schemas/audit/innovation-strategy.schema.json` — Phase 11 strategic ideation; horizon + themes + experiments_recommended.
+  - `schemas/audit/readiness.schema.json` — Phase 9 readiness report (pre-deploy + post-deploy variants).
+  - `schemas/audit/course-correction.schema.json` — Phase 10 corrections; trigger + diagnosis + decision + actions + surfaced_ops_deltas.
+  - `schemas/audit/deploy-log.schema.json` — Phase 9 deploy execution log; strategy enum + outcome + rollback object.
+  *(Audit punch-list #2.)*
+- **`validate-prd --sections=<list>` flag** — SKILL.md v1.2 + workflow.md v1.1 mode-routing + new `step-04-sections-mode.md` (7-step short-path emitting `prd-validation-amendment-{date}.md` per `prd-amendment.schema.json`). First real consumer: Phase 7 `breakdown-entry-sync` Step 1 architecture-deltas reconciliation. (Audit punch-list #5.)
+- **Pattern 7 transition buffer mechanism** — `_context/handoffs/pattern-7-transitions-wip-{date}.yaml` (YAML list, append-only during phase). `pattern-7-agent-personas.md` rewritten with buffer + emitter + flush convention. `phase-transition/steps/step-03-handoff-log.md` extended with new Step 2a (flush + cross-buffer write entry-transition to next phase). `step-02a-reconciliation.md` updated to write to buffer (not handoff log markdown directly). Per-skill emission retrofit across Phase 6-11 step files documented but DEFERRED (incremental). (Audit punch-list #3 — mechanism wired; full retrofit v0.4.0.)
+- **`data/methods/method-defaults.yaml` `phase_2/3/4` reconstruction** — reauthored from each phase's deep-dive §8 (~250 lines YAML; phase_2 = 8 skills × ~25 wire-ins, densest in framework; phase_3 with Round-5 corrections per audit; phase_4 with Shape A boundary notes for design-thinking/architecture moved to phase_5/6). Recovers from incident #1 (2026-05-02 `rm -rf data` working-tree-only loss). (Audit punch-list #4.)
+- **`docs/cross-cutting/cross-cutting-skills.md`** v1.0 — codifies canonical-vs-router pattern (e.g., `skills/creative/storytelling/` canonical with @communicator, `lifecycle/5-design/narrative/` router with @ux-designer); audit guidance for distinguishing real conflicts from by-design pattern. (Audit punch-list #7.)
+- **`docs/skill-md-generator-spec.md` mirror policy section** — explicit "Mirror policy — `plugin/skills/` is build output, not source" right under intro: documents flat-namespace, dropped-fields-by-design (`type`, `category`, `phases`, `inputs`, `outputs`), no-direct-edit, CI-guard-invariant, and auditor rules. (Audit punch-list #8.)
+- **Comprehensive system review** at `docs/system-review-2026-05-02.md` v1.0 (475 lines, 10 punch-list items, 17 recommendations across 6 categories). Update note appended to §3.2 confirming all 14 "unreferenced" TS schemas have at least one consumer (tests + CHANGELOG + agent files + llm-gates.md); finding RESOLVED, no archives. (Audit punch-list #9.)
+- **REGISTRY Subagents 9 → 11.** Added @reviewer (Phase 11) + @devops (Phase 9, 10) as post-schema additions. UX-Designer Primary Phases 4 → 5; Architect "3, 4" → "3, 6" (Shape A correction).
+- **`docs/v0.3.0-scope-and-roadmap.md`** v1.0 — comprehensive scope doc: §1 deliveries / §2 ship gate / §3 v0.4.0 roadmap (4 tiers, 14 candidate units) / §4 production-readiness gap analysis / §5 strategic open questions / §6 references.
+- **`docs/to-do.md`** v6.0 — restructured around v0.3.0 ship gate + v0.4.0 roadmap + production-readiness; Phase H closeout content preserved as historical archive.
+
+### Added — autonomous loop (units #1–#19)
+
+- **Phase 11 Evolve — FINAL phase Shape A scope refresh** (cascade rename of old Phase 9; deep-dive v1.0 + Part 11 v1.27). Same 3 skills (no new); @reviewer takeover from @devops:
+  - `retrospective` (entry skill per Q1) — Step 0 absorbs entry-sync; **ops-deltas reconciliation pass per Q2** (4-option resolution); cause analysis problem_solving heavy.
+  - `product-evolution` — next-iteration backlog from accept_into_phase_11_product_evolution deltas.
+  - `innovation-strategy` — long-horizon strategic ideation; brainstorming heavy.
+- **Phase 11 is FINAL** — no phase-12-handoff. Inter-iteration cycle per Q4: closure copies outputs to `_input/prior-iteration/` for NEXT iteration's Phase 1 entry.
+- **ops-deltas consumption point** — fourth forward-carry deltas reconciled at retrospective Step 0; closes the forward-carry quartet lifecycle.
+- **Method playbook `phase_11:` section** — problem_solving + brainstorming heavy; rest medium.
+- **Pattern 7 seventh + FINAL invocation** — 2 transitions (#18 entry / #19 exit FINAL). Full Pattern 7 lifecycle summary added (7 sustained invocations across canonical 11-phase cycle).
+- **Phase 11 gate.json** with 4 checks. Phase 11 trigger entries (5 inter-iteration rows). REGISTRY Phase 11 sub-section. skill-catalog 3 Phase 11 rows.
+- **🎯 11-phase Shape A restructure COMPLETE.** All 11 phases (Bootstrap / Discovery / Tech-Stack / Planning / Design / Architecture / Breakdown / Implementation / Deployment / Operate / Evolve) have deep dives + plan parts + implementation. Forward-carry quartet activated (design / architecture / implementation / ops deltas). Pattern 7 spec'd with 7 invocations. **20-unit autonomous queue COMPLETE.**
+
+- **Phase 10 Operate — Shape A scope refresh** (cascade rename of old Phase 8; deep-dive v1.0 + Part 10 v1.26). Same 3 skills (no new); @devops primary (continues from Phase 9 — no agent change at entry):
+  - `sprint-status` (entry skill per Q1) — Step 0 absorbs entry-sync; iterative versioning.
+  - `correct-course` — three-trigger flow per Q5 (incident / bug / friction); surfaces ops-deltas.
+  - `document-project` — post-deploy end-user-facing canonical docs per Q4.
+- **ops-deltas mechanism — FOURTH forward-carry instance** completing the quartet (Phase 5 design / Phase 7 architecture / Phase 8 implementation / **Phase 10 ops**). New `schemas/handoffs/ops-delta.schema.json`. phase-transition step-02a-reconciliation extended for from_phase==10 — forwards to Phase 11 handoff; does NOT amend PRD.
+- **Phase 10 is continuous-by-default** — user-invoked Phase 11 retrospective triggers exit.
+- **Method playbook `phase_10:` section** — problem_solving heavy (root_cause + five_whys + failure_mode_analysis + scenario_planning); advanced_elicitation medium; rest low.
+- **Pattern 7 sixth sustained invocation** — 3 transitions (#16/#17/#18); #16 continues @devops from Phase 9; #18 hands to @reviewer at Phase 11 entry.
+- **Phase 10 gate.json** with 5 acceptance checks. README enriched. REGISTRY Phase 10 sub-section. skill-catalog 3 Phase 10 rows. Phase 10 trigger entries in re-entry patterns.
+
+- **Phase 9 Deployment — Shape A scope refresh** (cascade rename of old Phase 7; deep-dive v1.0 + Part 9 v1.25). Same 6 skills (no new); @devops primary. Inherits well-established security-gate + LLM-gates + phase-gate-protocol + observability-setup infrastructure (no re-spec):
+  - `readiness-check` (entry skill per Q1) — Step 0 absorbs entry-sync; meta-aggregator over env/dep/security/db-migration; used pre-deploy AND post-deploy variants.
+  - `env-check`, `security-scan` (5 classical + 3 LLM gates), `dep-health-check`, `db-migration-check` (brownfield-conditional), `deploy` (action skill emits deploy-log).
+- **Pre-deploy + post-deploy gate split (per Q2):** 5 checks pre-deploy → deploy action → 3 checks post-deploy. Total 8 phase-9 gate.json checks.
+- **No forward-carry mechanism (per Q3):** Phase 9 is verification + execution, not authoring. Divergence routes back via re-entry.
+- **Method playbook `phase_9:` section** — problem_solving heavy; advanced_elicitation medium; rest low.
+- **Pattern 7 fifth invocation** — 3 transitions (#14/#15/#16); @devops continues into Phase 10 (transition #16 unique — same agent across boundary).
+- **Phase 9 trigger entries** added to phase-reentry-patterns.md — 7 trigger rows.
+- **Phase 9 gate.json** with 8 acceptance checks. README enriched. REGISTRY Phase 9 sub-section. skill-catalog.csv 6 Phase 9 rows. Review skills phases arrays add 9 (and 10 for adversarial-review).
+- **Phase 8 Implementation — Shape A scope refresh** (cascade rename of old Phase 6; deep-dive v1.0 + Part 8 v1.24). Same 9 skills (no new); now consumes fully-specified upstream stack. Owner @developer with @qa sub-persona for test-* + code-review:
+  - `wave-orchestration` (entry skill per Q1) — Step 0 absorbs entry-sync (graph-first 12 graph_queries; ci-pipeline + test-framework dispatch; implementation-deltas WIP log init; 7th-consumer staleness helper).
+  - `ci-pipeline` (pre-Wave-1 setup per Q5).
+  - `test-framework` (one-time; @qa Pattern 7 sub-transition #11a).
+  - `test-design` (per-story; archetype-conditional per Q3).
+  - `dev-story` (reads story.archetype_granularity per Q2).
+  - `quick-dev` (vibe-coder-lean light path per Q3).
+  - `atdd` (skip if vibe-coder-lean per Q3).
+  - `qa-automation` (per-wave; surfaces implementation-deltas).
+  - `code-review` (per-story; adversarial-review + edge-case-hunter wire-ins per Q6; @qa Pattern 7 sub-transition #11c recurring per story).
+- **Implementation-deltas reconciliation** — third forward-carry instance completing the trio (Phase 5 design-deltas at Phase 5 EXIT + Phase 7 architecture-deltas at Phase 7 ENTRY + Phase 8 implementation-deltas at Phase 8 EXIT). Reuses design-delta schema. phase-transition step-02a-reconciliation extended for from_phase==8.
+- **3 new schemas:** `wave-status.schema.json`, `code-review.schema.json`, `dev-story-output.schema.json`.
+- **Method playbook `phase_8:` section** — problem_solving heavy; advanced_elicitation medium; brainstorming + design_thinking + story_types low.
+- **Pattern 7 fourth sustained invocation** — 7 transitions per Phase 8 run (most so far). Recurring sub-transitions #11c/#11d per story for code-review.
+- **Phase 8 gate.json** with 8 acceptance checks. README enriched. REGISTRY Phase 8 sub-section. skill-catalog.csv 9 Phase 8 rows. Phase 8 trigger entries in re-entry patterns.
+- **Phase 7 Breakdown — Shape A scope refresh** (cascade rename of old Phase 5; deep-dive v1.0 + Part 7 v1.23). Same 5 existing skills + 1 NEW (`breakdown-entry-sync`); now consumes a richer upstream (PRD v{latest} + UX-spec + brand-guidelines + sacred architecture + ADRs + prototype-manifest):
+  - `breakdown-entry-sync` (NEW per Q1) — graph-first context load (14 graph_queries; 6th consumer of staleness helper) + **architecture-deltas reconciliation pass at Phase 7 ENTRY** (per Q2; forward-carry from Phase 6) + breakdown-scope memo emit. **First real consumer of `validate-prd --sections=<list>` lightweight-amendment path** that Phase 5 reconciliation deferred.
+  - `create-epics` (existing — Shape A refresh) — graph-first inputs; expanded to read breakdown-scope, UX-spec, ADRs, prototype-manifest, personas, idea-validation; outputs validated-distillate `epics-v{N}.md`.
+  - `create-stories` (existing — Shape A refresh; per-story files per Q4; archetype-conditional granularity per Q5) — outputs migrated to per-story files at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` + `stories-index.md`. Granularity: vibe-coder-lean thin (1-3h, AC), standard medium (4-8h, BDD), design-led richer.
+  - `parallelization-strategy` (existing) — produces sacred PERT chart per Q3. Sacred-doc governance via `governance/pert-change/`.
+  - `sprint-planning` (existing) — owner formalised as @scrum-master (Pattern 7 sub_phase_boundary transitions #8a + #8b from @pm).
+  - `implementation-readiness` (existing) — 9-point structured checklist per Q6 (PRD/UX/architecture coverage / flagged-deltas resolved / PERT valid / sprint complete / no ADR contradictions / prototype available / legacy reflected).
+- **Architecture-deltas reconciliation pass** — second cross-phase mechanism (mirror of Phase 5 design-deltas at Phase 7 ENTRY instead of EXIT per Q2). Schema reuses `design-delta.schema.json` with `source_skill: architecture-design`.
+- **6 new schemas:** `breakdown-scope.schema.json`, `epic.schema.json`, `story.schema.json`, `stories-index.schema.json`, `implementation-readiness.schema.json` + (referenced) `pert-chart.schema.json` for PERT sacred + `pert-meta.schema.json` for sidecar.
+- **Method playbook `phase_7:` section** at `data/methods/method-defaults.yaml` — story_types heavy with 4-archetype selection (Q5 mapping); problem_solving heavy (first_principles + scenario_planning + failure_mode_analysis); brainstorming + advanced_elicitation medium; design_thinking low.
+- **Pattern 7 third sustained invocation** — 5 transitions per Phase 7 run (#8 phase-6-to-7 entry: phase-transition → @pm; #8a / #8b internal sprint-planning sub_phase_boundary @pm ↔ @scrum-master; #9 phase-7 exit; #10 phase-7-to-8 entry). Documented in `docs/cross-cutting/pattern-7-agent-personas.md`.
+- **Phase 7 trigger entries** added to `docs/cross-cutting/phase-reentry-patterns.md` — 6 trigger rows.
+- **Phase 7 gate.json** with 10 acceptance checks (incl. `architecture-deltas-resolved` at #3 + `implementation-readiness-pass` at #8 with Q6 9-point checklist as sub-evaluation).
+- **`lifecycle/7-breakdown/`** README enriched (replaces old stub). Phase 7 sub-section in REGISTRY. `editorial-structure` + `editorial-prose` phases arrays add 7 (`adversarial-review` already had 7).
+- **Phase 6 Architecture — NEW lifecycle phase** (Shape A 11-phase restructure, deep-dive v1.0 + Part 6 v1.22). Single-skill phase owned by @architect; first phase where PRD + UX-spec + brand-guidelines + tech-stack are all simultaneously available:
+  - `architecture-design` (rewritten + renamed from `create-architecture` per Q2; relocated from Phase 4) — graph-first inputs (11 graph_queries + 6 existence_checks); 7-step workflow including new Step 1 flagged-deltas-intake (CRITICAL silent-divergence guard); produces `_context/sacred/architecture.md` + sidecar + ADRs.
+- **Silent-divergence guard activated** — Phase 6 enforces the mitigation specced by Phase 5 §7.4. Phase 5 reconciliation may resolve design-deltas as `flag_for_architecture_ADR` (PRD stays unchanged; design diverges). Phase 6 Step 1 consumes `architecture_adrs_required[]` from phase-5-to-6 handoff and queues required ADRs; Step 5 authors them with `resolves_design_delta` field linking to source delta; Phase 6 exit gate check #5 (`architecture-adrs-for-flagged-deltas-emitted`, block-severity) verifies every flagged delta has corresponding ADR. Mitigation converts silent PRD↔design divergence into auditable architectural-decision provenance.
+- **`schemas/planning-artefacts/adr.schema.json` extended** with 5 new optional fields (`resolves_design_delta`, `prd_section_affected`, `design_decision_taken`, `architecture_implication`, `prd_amendment_deferred_reason`) for REQUIRED ADRs that resolve flagged deltas. `phase_authored` now accepts `[3, 6]` (Phase 3 stack ADRs OR Phase 6 architecture ADRs).
+- **`schemas/handoffs/architecture-meta.schema.json`** NEW — Phase 6 → 7 handoff sidecar contract. Fields: component_count, integration_count, nfr_axes_addressed, adrs_authored (with resolves_design_delta_or_null per ADR), brownfield_modules_handled, flagged_deltas_resolved (silent-divergence guard count), architecture_deltas_surfaced (forward-carry).
+- **Method playbook `phase_6:` section** at `data/methods/method-defaults.yaml` — `problem_solving` heavy (architectural trade-off analysis: first_principles + failure_mode_analysis + scenario_planning); `advanced_elicitation` heavy (vague_architectural_pattern / vague_nfr_strategy / vague_integration_boundary triggers); `design_thinking` medium (define + ideate); `brainstorming` medium; `story_types` low (feature_story for ADR rationale only).
+- **Pattern 7 transitions for Phase 6** — second sustained invocation. 3 transitions per Phase 6 run (#5 phase-5-to-6 entry: phase-transition → @architect; #6 Phase 6 exit: @architect → phase-transition; #7 phase-6-to-7 entry: phase-transition → @pm). Documented in `docs/cross-cutting/pattern-7-agent-personas.md` with v0.3 no-sub-personas decision.
+- **Phase 6 trigger entries** added to `docs/cross-cutting/phase-reentry-patterns.md` — 5 trigger rows. PRD-targeted gaps route to architecture-deltas reconciliation pass (forward-carry mechanism, mirror of Phase 5 design-deltas). UX-targeted gaps route to Phase 5 re-entry. Tech-stack-targeted gaps route to Phase 3 ADR amendment.
+- **Architecture amendment workflow (Q6 reuse)** — hybrid model per Phase 6 deep-dive Q5: significant structural changes re-emit architecture.md (VC major bump); incremental decisions land as new ADRs referenced from § ADR Index (VC minor bump). Both routes use existing `governance/architecture-change/workflow.md` (per-sacred-doc pattern, same as `governance/tech-stack-change/`).
+- **`lifecycle/6-architecture/`** scaffolded with `gate.json` (8 acceptance checks; silent-divergence guard at #5 block-severity), enriched README. **`templates/documents/architecture.md`** Phase 4 stale reference fixed; sacred-doc amendment workflow referenced. `editorial-structure` phases array → `[2,3,4,5,6,8,11]`; `editorial-prose` → `[2,4,5,6,8,11]` — both add Phase 6. REGISTRY.md Phase 6 sub-section. `skill-catalog.csv` architecture-design row.
+- **Architecture-deltas (forward-carry)** — Phase 6 may surface PRD/UX gaps at architecture time. Mechanism mirrors Phase 5 design-deltas: surface as `architecture_delta` in handoff log; route through reconciliation pass at Phase 6 exit. Schema reuses `design-delta.schema.json` with `source_skill: architecture-design`. Implementation deferred to Phase 6 implementation Wave 6.X (post-MVP) per decisions log #22.
+- **Phase 5 Design — NEW lifecycle phase** (Shape A 11-phase restructure, deep-dive v2.0 + Part 5 v1.21). 5 mandatory skills + 1 conditional, all owned by @ux-designer:
+  - `design-brief` (rewritten from Phase 4) — Phase 5 entry; absorbs entry-sync into Step 0; bridge-mode-only; graph-first inputs; 5 step files; validated-distillate at `_context/planning/design-brief-v{N}.md`.
+  - `ux-design` (rewritten + renamed from `create-ux-design`) — UX design spec; persona-grounded direct-read; tech-stack-feasibility supersede-check; PRD user-story coverage check; validated-distillate at `_context/design/ux-design-spec-v{N}.md` (sacred=false; distillate=true per Q4 resolution).
+  - `brand-guidelines` (NEW) — canonical tokens + voice + tone + a11y rules + identity (scope iii broadest per Q3); auto-validates contrast vs active a11y baseline; archetype-conditional output (tokens-only / standard / design-led / WDS).
+  - `prototype` (NEW) — archetype-shaped output (code-skeleton default / mock-spec for vibe-coder-lean / clickable-html for design-led/WDS per Q2); embeds PRD acceptance-criteria as code comments referencing US-IDs; tech-stack imports verification.
+  - `narrative` (NEW; wrapper around cross-cutting `skills/creative/storytelling/` per Q5 hybrid) — 4-step thin wrapper; in-session delegation; story types: origin_story / persona_scenario / value_prop_narrative / brand_voice_samples / feature_story.
+  - `legacy-ui-assessment` (NEW; conditional per Q6) — runs only when `_input/legacy/` has UI/design assets; cross-references Phase 4 `legacy-migration-plan`; decisions enum keep/refresh/discard/reference-only.
+- **PRD Reconciliation Pass mechanism** — Phase 5 central new contract per deep-dive §7. Every Phase 5 skill surfaces `design_delta` entries during finalisation; aggregated by `phase-transition` at Phase 5 exit (new step-02a-reconciliation.md); 4 reconciliation_options per delta (accept_into_prd / reject / flag_for_architecture_ADR / park_for_phase_11); `flag_for_architecture_ADR` deltas carry forward as MANDATORY ADR requirements at Phase 6 entry — silent-divergence guard.
+- **8 new schemas:** `schemas/handoffs/design-delta.schema.json`, `schemas/sacred-docs/prd-amendment.schema.json`, `schemas/design/{design-brief,ux-design-spec,brand-guidelines,narrative,legacy-ui-assessment,prototype-manifest}.schema.json`.
+- **Pattern 7 — Agent persona transition** spec at `docs/cross-cutting/pattern-7-agent-personas.md`. Canonical transition shape (8 fields); Phase 5 first sustained invocation with 4 transitions; v0.3 no-sub-personas decision (no @brand-specialist / @prototype-engineer). Pattern 7 entry added to `docs/prompt-patterns.md`.
+- **Phase 5 trigger entries** added to `docs/cross-cutting/phase-reentry-patterns.md` — 9 trigger rows; PRD-targeted gaps NEVER use re-entry (boundary clarification: route through reconciliation); 4-option Butler prompt pattern.
+- **Method playbook `phase_5:` section** at `data/methods/method-defaults.yaml` — `design_thinking` heavy (5 stages), `brainstorming` heavy, `advanced_elicitation` heavy (4 vague-style triggers), `problem_solving` medium, `story_types` heavy. 5 new story types added to `data/methods/story-types.csv`.
+- **`lifecycle/5-design/`** scaffolded with `gate.json` (10 acceptance checks), enriched README. **`templates/documents/ux-design-spec.md`** Section 8 rewritten to reference brand-guidelines (no token duplication; resolves B25). REGISTRY.md Phase 5 sub-section. `skill-catalog.csv` 6 Phase 5 rows. `skills/creative/storytelling/SKILL.md` `phases:` updated to `[2, 5, 8, 11]`.
 - **Handoff registry** (`docs/handoff-registry.md`) — canonical enumeration of every inter-phase and high-stakes intra-phase handoff in coldpress-os. 11 entries (9 inter-phase + 2 high-stakes intra-phase) spanning the 9-phase post-split lifecycle. Each entry: `from_phase`, `to_phase`, `artefact_path`, `artefact_type`, `producing_skill`, `consuming_skill(s)`, `stakes` (high/med/low), `schema_ref`. Resolves brief-sourced Open Question #4.
 - **Zod schemas for the 4 high-stakes handoffs** at `schemas/handoffs/*.schema.ts`:
   - `prd-to-architecture` — architectural drivers, NFRs, constraints, out-of-scope.
@@ -413,7 +528,7 @@ Each snippet carries an HTML-comment provenance header citing `§6.7` + `docs/pr
 
 - **`lifecycle/4-planning/create-prd/SKILL.md`** (v1.0 → v1.1) — added Output Contract (Pattern 5) referencing the template's 12-section structure + frontmatter invariants incl. `adr_references` per `prd_has_adr` Rego policy.
 - **`lifecycle/4-planning/create-architecture/SKILL.md`** (v1.0 → v1.1) — added Forcing-function artefacts (Pattern 3 — mandatory Component Interaction Diagram via Mermaid + mandatory Failure Mode Enumeration table with 5-row/4-column floor) + Output Contract (Pattern 5) with `approvers[]` + `inputDocuments[]` + `adr_references` invariants.
-- **`lifecycle/5-breakdown/parallelization-strategy/SKILL.md`** (v1.0 → v1.1) — the full treatment:
+- **`lifecycle/7-breakdown/parallelization-strategy/SKILL.md`** (v1.0 → v1.1) — the full treatment:
   - ATTENTION preamble (Pattern 2) — 5 non-negotiable imperatives: exact column order, numeric wave ids, one-wave-per-epic invariant, kebab-case Epic slug matching, no prose-between-DAG-and-table.
   - Forcing-function artefacts (Pattern 3) — mandatory DAG Mermaid + wave grouping table (ATTENTION-enforced columns) + critical-path table with explicit `0` for critical-path slack (no blanks).
   - Output Contract (Pattern 5) — frontmatter per `pert-chart` JSON schema, section order, confirmation format with wave count + critical-path length.
@@ -434,6 +549,61 @@ Each snippet carries an HTML-comment provenance header citing `§6.7` + `docs/pr
 **Bundle:** unchanged (no code surface).
 
 **Plugin:** regen will pick up the 3 SKILL.md revisions on next `build:skills`; plugin/ intentionally not staged (still commingles with user-WIP source skills — same rationale as Block HH).
+
+### Added — Wave 6 Block JJ (§6.8 `@coldpress/otel-exporter`)
+
+**The final Wave 6 block.** Optional observability sidecar shipped as a **separate npm package** (`@coldpress/otel-exporter`) that re-emits the §6.4 EventStream JSONL as OpenLLMetry-conformant OpenTelemetry spans. `@coldpress/core` stays dep-free of observability tooling by design; users who want Langfuse / Arize Phoenix / Jaeger / Tempo / Honeycomb ingest install the exporter separately.
+
+- **`packages/otel-exporter/`** — new monorepo-sibling package alongside `@coldpress/core`. Standalone `package.json`, `tsconfig.json`, `tsup.config.ts`, `vitest.config.ts`, `LICENSE`, `NOTICE.md`, `README.md`. **No workspace wiring added to core** — the exporter reads the JSONL protocol directly (protocol-over-product, same decoupling pattern MCP / BMAD / Neuma adopted) and never imports from `@coldpress/core`. Its own `src/event-schema.ts` mirrors core's schema with `schema_version: 1` pinning; drift between core and exporter surfaces at parse time, never silently.
+- **`packages/otel-exporter/src/event-schema.ts`** — Zod discriminated union over the 8 event kinds, mirrored from `schemas/event-stream.schema.ts`. Contract pinned at `schema_version: 1`; schema evolution in core requires a coordinated bump in the exporter.
+- **`packages/otel-exporter/src/reader.ts`** — `readRun(runId, { projectDir? })` and `listRuns({ projectDir? })` mirroring core's reader. Fail-loud typed errors (`EventStreamNotFoundError`, `EventStreamParseError`); blank lines tolerated; malformed JSON / schema-violating events never silently skipped.
+- **`packages/otel-exporter/src/ids.ts`** — deterministic SHA-256-truncated trace/span id derivation. `deriveTraceId(runId)` → 32-char hex (16 bytes); `deriveSpanId(runId, seq)` → 16-char hex (8 bytes). Re-running the exporter on the same run produces identical ids; backends that dedupe on ids (Jaeger, Tempo, Langfuse) handle re-emission cleanly. Guards against the forbidden all-zero id.
+- **`packages/otel-exporter/src/conventions.ts`** — OpenLLMetry (Traceloop) attribute-name constants + a private `coldpress.*` namespace. Span-kind taxonomy (`workflow` / `task` / `agent` / `tool`); resource-attribute names; instrumentation-scope identity. Exported at the `@coldpress/otel-exporter/conventions` subpath for third-party integrations.
+- **`packages/otel-exporter/src/mapper.ts`** — pure function `mapRunToSpans(events, options)` → `{ traceId, resource, spans: ReadableSpan[] }`. Mapping matrix (per plan §6.8):
+  - `run_id` → trace (deterministic 16-byte id)
+  - `wave-start` + `wave-end` → workflow span (`traceloop.span.kind = "workflow"`), status OK on `success`, ERROR on `failure`/`interrupted`
+  - `skill-invoke` + `skill-result` → task span parented to its wave; status ERROR on non-zero `exit_code` with `exit_code=N` message fallback
+  - `gate-evaluate` + `gate-pass`/`gate-fail` → task span parented to its wave; status ERROR on fail with `blockers` joined into the status message + JSON-encoded into `coldpress.gate.blockers_json`
+  - `condensation` → span event on its wave span
+  - Orphan actions (no matching observation) → UNSET status with "without matching …" message. Interrupted runs stay inspectable.
+- Action/Observation pairing prefers `cause_seq`, falls back to `skill_id` / `gate_id` within the open set of the current wave. Cross-run events are refused at the top level (mapping is per-run).
+- Resource attributes: `service.name` (default `coldpress-os`, honours `--service-name` CLI flag and `OTEL_SERVICE_NAME` env var), `service.version` (optional), `coldpress.project_slug` (optional), plus a free-form `extraResourceAttributes` escape hatch.
+- Span emission is stably ordered by start time → seq tiebreak, so snapshot diffs against the same run are deterministic.
+- **`packages/otel-exporter/src/exporter.ts`** — thin wrapper over `@opentelemetry/exporter-trace-otlp-http`. `createOtlpExporter({ endpoint?, headers?, timeoutMillis?, exporterOptions? })` + promisified `exportSpans(exporter, spans)`. Honours standard OTel env vars (`OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS`, `OTEL_EXPORTER_OTLP_TRACES_HEADERS`). No coldpress-os-specific transport config. `exportSpans` rethrows on `FAILED` so the CLI exits non-zero instead of silently dropping spans.
+- **`packages/otel-exporter/src/cli.ts`** — `coldpress-otel-export` binary. Options: `--run <id>`, `--latest`, `--all`, `--list`, `--project-dir`, `--endpoint`, `--header <k=v>` (repeatable), `--service-name`, `--service-version`, `--project-slug`, `--dry-run`, `--quiet`. Exit codes: 0 OK (including "no runs on disk"), 1 runtime failure (malformed stream / OTLP transport failure), 2 run not found or no selection flag given. `--dry-run` maps spans and reports counts without sending — unblocks CI use under no-network conditions.
+- **`packages/otel-exporter/src/index.ts`** — public barrel: `mapRunToSpans`, `createOtlpExporter`, `exportSpans`, `readRun`, `listRuns`, id helpers, schema, conventions. Enables programmatic use alongside the CLI.
+- **Runtime deps** (Apache-2.0, all `external` in tsup): `@opentelemetry/api`, `@opentelemetry/sdk-trace-base`, `@opentelemetry/exporter-trace-otlp-http`, `@opentelemetry/resources`, `@opentelemetry/semantic-conventions`. Plus `commander` (MIT, CLI) and `zod` (MIT, schema). Zero runtime bundle — ESM externals resolved from `node_modules` at execution time.
+- **`packages/otel-exporter/README.md`** — CLI reference, mapping table, attribute conventions, determinism + idempotency claim, programmatic API snippet, exit-code contract.
+- **`packages/otel-exporter/NOTICE.md`** — Apache-2.0 attribution for OpenTelemetry JS (consumer, not derivative — no upstream source vendored) and OpenLLMetry (attribute-name conventions only, no code imported). Licence-compatibility table.
+- **`packages/otel-exporter/LICENSE`** — MIT with explicit Apache-2.0 runtime-dep note; points at NOTICE.md.
+- **`docs/observability-setup.md`** — user-facing setup doc (lives in core's `docs/`, not in the exporter package). Three paths:
+  - **Langfuse (MIT, recommended)** — `git clone && docker compose up -d` one-liner; OTLP endpoint + basic-auth header env-var pattern documented
+  - **Arize Phoenix (⚠ Elastic License 2.0 — flagged)** — ELv2 caveat prose ("source-available, not OSI-approved"; restricts competing managed services; internal use typically fine but check legal before embedding); Docker one-liner
+  - **Any other OTLP/HTTP backend** — Jaeger/Tempo/Honeycomb/Datadog/Signoz examples
+  - Explicit-skips table (Helicone, W&B Weave, MLflow LLM, TruLens) with rationales
+- **Decoupling rationale codified** in README + observability-setup.md: EventStream JSONL stays source-of-truth and offline-capable; exporter is pure indirection. Same architectural pattern MCP / BMAD / Neuma all adopted — protocol over product.
+
+**Tests:** 5 suites / ~50 tests in `packages/otel-exporter/test/`:
+- `ids.test.ts` (9) — 32/16-char lowercase-hex invariants, determinism per (runId, seq) pair, cross-run/seq distinctness, negative/non-integer seq rejection
+- `event-schema.test.ts` (13) — every kind accepted, schema_version/phase/kebab-case rejections, gate-fail `blockers[]` required
+- `reader.test.ts` (7) — happy path, blank-line tolerance, EventStreamNotFoundError/ParseError paths (bad JSON + schema-invalid), `listRuns` empty + chronological ordering
+- `mapper.test.ts` (11) — minimal-run shape (wave → skill → gate parentage + statuses + OpenLLMetry + coldpress attrs + deterministic ids), gate-fail ERROR + blockers, non-zero exit_code ERROR + message fallback, condensation → span event, orphan UNSET, cause_seq fallback by skill_id, cross-run refusal, service-name from options + OTEL_SERVICE_NAME env var, stable emission ordering, round-trip idempotency, empty-input rejection
+- `cli.test.ts` (9) — no-selection-flag → exit 2, `--list` → stdout run ids, `--list` on empty project → stderr note, `--dry-run` skip emission, `--latest`/`--all` + `--dry-run` scope check, `--run` on missing run → exit 2, `--quiet` suppresses progress
+- `exporter.test.ts` (4) — `createOtlpExporter` shape check, `exportSpans` forwards, no-op on empty array, rethrows on FAILED result
+
+**Test strategy:** OTel deps don't need to install to exercise the mapper / ids / reader / cli (zero-network surface); `exporter.test.ts` uses a fake `SpanExporter` satisfying the interface. Running tests requires `cd packages/otel-exporter && npm install && npm test` — kept separate from core's `npm test` by design (the exporter is optional).
+
+**Bundle:** no change to `@coldpress/core` bundle — the exporter is a sibling package, not a dep. Exporter bundle is built lazily via its own `tsup` (source entries `index.ts`, `cli.ts`, `conventions.ts`; all OTel + commander + zod externalised).
+
+**Plugin:** unchanged — exporter is a separate package, not a coldpress-os skill. Composes via OTLP, not `plugin/skills/`.
+
+**Explicit non-goals (codified in docs/README):**
+- **No live instrumentation.** The exporter is a *backfill over persisted JSONL*, not an in-process tracer. Live orchestrator-side emission is a future block; deferring avoids coupling `@coldpress/core` to OTel runtime.
+- **No bundling into `@coldpress/core`.** Preserves "npm install and go" DX for users who don't want observability tooling.
+- **No gate-evaluation wiring.** Phase 7's `llm-correctness-gate` staying a missing-trace health signal is a future `@coldpress/core` follow-up — the exporter has no opinion about it.
+- **No coldpress-os-specific auth layer.** Users wire Langfuse API keys / Honeycomb tokens via standard OTel header env vars; no bespoke secret handling.
+
+**Wave 6 status:** All 10 §6.x blocks (CC + DD + EE + FF + GG + HH + II + JJ) shipped. v0.3+ tag + publish stays deferred per the 2026-04-24 ship-gate directive (both phase-i AND phase-ii implementation plans must be complete before tagging).
 
 ### Added — Wave 6 plan amendment: §6.10 Project Dashboard (user directive 2026-04-24)
 

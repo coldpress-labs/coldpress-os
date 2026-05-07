@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/breakdown-scope.json",
+  "title": "Breakdown Scope Memo frontmatter",
+  "description": "Structural contract for `_context/planning/breakdown-scope-v{N}.md`. Produced by `breakdown-entry-sync` (Phase 7 entry skill); consumed by all 5 downstream Phase 7 skills (create-epics, create-stories, parallelization-strategy, sprint-planning, implementation-readiness). Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "sources", "created_at", "status", "distillate", "architecture_deltas"],
+  "properties": {
+    "schema": { "const": "schemas/planning-artefacts/breakdown-scope.schema.json" },
+    "phase": { "const": 7 },
+    "version": { "type": "integer", "minimum": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "distillate": { "const": true },
+    "sources": {
+      "type": "object",
+      "required": ["prd", "ux_design_spec", "brand_guidelines", "architecture", "tech_stack"],
+      "properties": {
+        "prd": { "type": "string" },
+        "ux_design_spec": { "type": "string" },
+        "brand_guidelines": { "type": "string" },
+        "architecture": { "type": "string" },
+        "tech_stack": { "type": "string" },
+        "baselines": { "type": "array", "items": { "type": "string" } },
+        "archetype": { "type": "string", "enum": ["vibe-coder-lean", "standard", "design-led", "WDS"] },
+        "legacy_migration_plan": { "type": ["string", "null"] },
+        "legacy_ui_assessment": { "type": ["string", "null"] },
+        "prototype_manifest": { "type": "string" },
+        "adrs": { "type": "array", "items": { "type": "integer" } }
+      }
+    },
+    "architecture_deltas": {
+      "type": "object",
+      "required": ["count", "resolved"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 0 },
+        "resolved": {
+          "type": "object",
+          "required": ["accept_into_prd", "reject", "flag_for_architecture_ADR", "park_for_phase_11"],
+          "properties": {
+            "accept_into_prd": { "type": "integer", "minimum": 0 },
+            "reject": { "type": "integer", "minimum": 0 },
+            "flag_for_architecture_ADR": { "type": "integer", "minimum": 0 },
+            "park_for_phase_11": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "delta_ids that block Phase 7 (reject or flag_for_architecture_ADR resolutions). MUST be empty at status=validated for Phase 7 to proceed."
+        }
+      }
+    },
+    "prd_amendment_emitted": { "type": "boolean" },
+    "prd_version_after_reconciliation": { "type": "string" }
+  }
+}

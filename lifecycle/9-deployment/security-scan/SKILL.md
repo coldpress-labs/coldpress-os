@@ -3,7 +3,7 @@ name: "security-scan"
 description: "OWASP security analysis before deployment"
 type: "router"
 category: "lifecycle"
-phase: 7
+phase: 9
 routes_to: "skills/ops/security-scan/"
 version: "1.0"
 ---

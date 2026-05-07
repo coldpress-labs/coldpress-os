@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/design/narrative.json",
+  "title": "Narrative frontmatter",
+  "description": "Structural contract for `_context/design/narrative-v{N}.md`. Produced by `narrative` skill (Phase 5 wrapper around creative `storytelling`); consumed by Phase 8 implementation (feature stories), Phase 11 evolve (product evolution narrative). Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "version", "sources", "created_at", "status", "distillate", "sacred", "narrative_types"],
+  "properties": {
+    "schema": { "const": "schemas/design/narrative.schema.json" },
+    "phase": { "const": 5 },
+    "version": { "type": "integer", "minimum": 1 },
+    "sources": {
+      "type": "object",
+      "required": ["personas", "brand_guidelines"],
+      "properties": {
+        "personas": { "type": "string" },
+        "brand_guidelines": { "type": "string" },
+        "idea_validation": { "type": "string" },
+        "product_brief": { "type": "string" },
+        "prd": { "type": "string" }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "distillate": { "const": true },
+    "sacred": { "const": false },
+    "narrative_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["origin_story", "persona_scenario", "value_prop_narrative", "brand_voice_samples", "feature_story"]
+      }
+    },
+    "narratives_count": { "type": "integer", "minimum": 1 },
+    "voice_consistency_check_pass": { "type": "boolean" },
+    "editorial_prose_findings": { "type": "integer", "minimum": 0 }
+  }
+}

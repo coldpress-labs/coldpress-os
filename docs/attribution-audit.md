@@ -63,7 +63,7 @@ files inside each section. Where the audit is uncertain, we say so explicitly.
 | `skills/creative/` (brainstorming, design-thinking, innovation-strategy, problem-solving, storytelling) | **CIS** | Derived — substantially modified | These are the signature CIS workflows. Structure and technique libraries are CIS; coldpress-os rewraps as SKILL.md + workflow.md + steps/. `presentation` skill in same folder is BMAD-core-inspired. |
 | `skills/planning/`, `skills/discovery/`, `skills/bootstrap/`, `skills/implementation/`, `skills/deployment/`, `skills/testing/`, `skills/reviews/`, `skills/utilities/` | BMAD-core | Derived — mix of close port and substantially modified | Most skills trace to `_bmad/core/` and `_bmad/bmm/`. `skills/utilities/` is closest to direct port; others are restructured. |
 | `skills/meta/` | BMAD-core + original | Mixed | `agent-builder`, `skill-builder`, `workflow-builder`, `template-builder` inspired by BMAD-core authoring tools; `propose-change` is original |
-| `skills/stack-packs/convex` | — | Original — ColdPress Labs | Stack-pack mechanism is a coldpress-os extension |
+| `skills/stack-packs/vibe-coder-fullstack` | — | Original — ColdPress Labs | Stack-pack mechanism is a coldpress-os extension |
 | `lifecycle/` (9-phase structure) | — | Inspired — conceptual only | 9-phase lifecycle shell is original; skill wrappers within each phase reference upstream-derived skills |
 | `orchestrator/` | — | Original — ColdPress Labs | DAG/waves/PERT orchestrator has no upstream counterpart |
 | `governance/` | — | Original — ColdPress Labs | Sacred-docs governance model and change workflows are a coldpress-os invention |
@@ -150,7 +150,7 @@ is by category.
   format and categorisation but the underlying review methodology is BMAD's.
   `code-audit` does not have an obvious direct BMAD match and may be original.
 
-- **`skills/stack-packs/convex`** — *Original — ColdPress Labs.* Stack packs
+- **`skills/stack-packs/vibe-coder-fullstack`** — *Original — ColdPress Labs.* Stack packs
   are a coldpress-os extension mechanism.
 
 - **`skills/testing/`** (`atdd`, `ci-pipeline`, `nfr-assessment`,

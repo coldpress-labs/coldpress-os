@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "gate_id": "phase-5-exit",
+  "phase": 5,
+  "phase_name": "Design",
+  "shape": "A",
+  "note": "Phase 5 Design is NEW under Shape A (2026-04-24). Owner: @ux-designer. Reads PRD (Phase 4) + personas (Phase 2) + tech-stack + a11y baseline (Phase 3); produces UX spec + brand-guidelines + prototype + narrative + (conditional) legacy-ui-assessment; exits via PRD reconciliation pass that converts design-deltas into PRD v(N+1) lightweight amendments. `flag_for_architecture_ADR` deltas carry forward as MANDATORY ADR requirements at Phase 6 entry — silent-divergence guard.",
+  "entry_conditions": [
+    "Phase 4 (Planning) gate passed (`prd-locked == pass`, `phase-transition-ran == pass`)",
+    "`_context/sacred/prd.md` exists with `sacred: true` frontmatter",
+    "`_context/planning/personas-v{latest}.md` exists (Phase 2 distillate)",
+    "`_context/sacred/tech-stack.md` exists and is sacred-locked",
+    "`coldpress.yaml baselines:` block present with a11y axis declared",
+    "`_context/handoffs/phase-4-to-5-{date}.md` exists (emitted by Phase 4 phase-transition)"
+  ],
+  "acceptance_checks": [
+    {
+      "id": "prd-locked",
+      "description": "PRD `_context/sacred/prd.md` is locked (re-verified at Phase 5 exit; staleness check: prd.last_modified <= phase-4-to-5 handoff written_at, or PRD v(N+1) emitted by reconciliation pass)",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/sacred/prd.md",
+      "remediation": "If PRD was edited mid-Phase-5 outside the reconciliation pass, route through `phase-transition` reconciliation. If PRD-stale was caused by upstream edit, re-run Phase 5 from `design-brief` Step 0 with refreshed graph."
+    },
+    {
+      "id": "design-brief-validated",
+      "description": "`_context/planning/design-brief-v{latest}.md` exists, validates against `schemas/design/design-brief.schema.json`, sidecar `design-brief-v{latest}.meta.json` exists",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/design/design-brief.schema.json",
+      "artefact_path": "_context/planning/design-brief-v*.md",
+      "remediation": "Run `@ux-designer design-brief` from Phase 5 entry."
+    },
+    {
+      "id": "ux-design-spec-validated",
+      "description": "`_context/design/ux-design-spec-v{latest}.md` exists, validates against `schemas/design/ux-design-spec.schema.json`, sidecar `.meta.json` exists",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/design/ux-design-spec.schema.json",
+      "artefact_path": "_context/design/ux-design-spec-v*.md",
+      "remediation": "Run `@ux-designer ux-design` after `design-brief` completes."
+    },
+    {
+      "id": "brand-guidelines-validated",
+      "description": "`_context/design/brand-guidelines-v{latest}.md` exists, validates against `schemas/design/brand-guidelines.schema.json`, sidecar `.meta.json` exists, tokens auto-validated against active a11y baseline contrast minimums",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/design/brand-guidelines.schema.json",
+      "artefact_path": "_context/design/brand-guidelines-v*.md",
+      "remediation": "Run `@ux-designer brand-guidelines` after `design-brief` completes. Token-contrast failures resolve via revising tokens or downgrading a11y opt-in via Phase 3 baselines re-entry."
+    },
+    {
+      "id": "prototype-emitted",
+      "description": "`_context/design/prototype/{date}/manifest.json` exists, validates against `schemas/design/prototype-manifest.schema.json`. Manifest declares `mode` (code-skeleton | mock-spec | clickable-html) matching archetype (override-with-rationale path allowed)",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/design/prototype-manifest.schema.json",
+      "artefact_path": "_context/design/prototype/*/manifest.json",
+      "remediation": "Run `@ux-designer prototype` after `ux-design` and `brand-guidelines` complete."
+    },
+    {
+      "id": "narrative-emitted",
+      "description": "`_context/design/narrative-v{latest}.md` exists OR archetype-mode is `vibe-coder-lean` (narrative skipped per archetype)",
+      "kind": "conditional",
+      "severity": "warn",
+      "condition": "archetype-mode != vibe-coder-lean",
+      "schema_ref": "schemas/design/narrative.schema.json",
+      "artefact_path": "_context/design/narrative-v*.md",
+      "remediation": "Run `@ux-designer narrative` after `brand-guidelines` completes; or confirm archetype is vibe-coder-lean (in which case narrative is skipped — emit a `narrative-skipped: archetype-vibe-coder-lean` marker in the handoff log)."
+    },
+    {
+      "id": "legacy-ui-assessment-emitted",
+      "description": "`_input/legacy/` has no UI/design assets OR `_context/design/legacy-ui-assessment-v{latest}.md` exists",
+      "kind": "conditional",
+      "severity": "warn",
+      "condition": "design-brief Step 0 detected legacy_ui_assets == true",
+      "schema_ref": "schemas/design/legacy-ui-assessment.schema.json",
+      "artefact_path": "_context/design/legacy-ui-assessment-v*.md",
+      "remediation": "Run `@ux-designer legacy-ui-assessment` if `_input/legacy/` contains UI components, design tokens, or style guides. Skill is conditional — silently skips when no UI legacy detected."
+    },
+    {
+      "id": "design-deltas-aggregated",
+      "description": "Phase 5 handoff log `phase-5-to-6-{date}.md` has a `design_deltas:` section (can be empty list `[]`). Every delta validates against `schemas/handoffs/design-delta.schema.json`",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/handoffs/design-delta.schema.json",
+      "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
+      "remediation": "Each Phase 5 skill emits design-deltas during finalisation; phase-transition aggregates. If section is missing, re-run phase-transition aggregation step."
+    },
+    {
+      "id": "prd-reconciliation-resolved",
+      "description": "Every `design_delta` in handoff log has `user_decision` set (one of: accept_into_prd, reject, flag_for_architecture_ADR, park_for_phase_11). For accept_into_prd deltas, PRD v(N+1) exists with bumped VC and `prd.meta.json.amendment_source: phase-5-reconciliation`",
+      "kind": "automated",
+      "severity": "block",
+      "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
+      "remediation": "Run `phase-transition` reconciliation pass. @pm prompts user per delta; accepted deltas trigger lightweight PRD amendment via `validate-prd --sections=<accepted_target_sections>`."
+    },
+    {
+      "id": "phase-5-handoff-written",
+      "description": "`_context/handoffs/phase-5-to-6-{date}.md` exists, valid against extended `phase-handoff.schema.json` (includes `design_deltas: [DesignDelta]` and optional `architecture_adrs_required: [...]` arrays)",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/handoffs/phase-handoff.schema.json",
+      "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
+      "remediation": "Invoke `phase-transition` at Phase 5 exit. Phase 6 entry skill MUST consume `architecture_adrs_required:` if non-empty (silent-divergence guard)."
+    },
+    {
+      "id": "a11y-audit-passed",
+      "description": "a11y-audit (Phase 5 design-time invocation) completed; zero Critical violations open. Archetype-conditional severity: design-led/WDS=block; standard=warn; vibe-coder-lean=skip-unless-explicit. Reads `coldpress.yaml baselines.a11y` for conformance level (A/AA/AAA; default AA).",
+      "kind": "conditional",
+      "severity": "block",
+      "skill_ref": "skills/reviews/a11y-audit",
+      "condition": "archetype in [design-led, WDS]",
+      "artefact_path": "_context/audit/a11y-audit-v*.md",
+      "remediation": "Run `@qa a11y-audit` (Phase 5 mode). Brand-token contrast failures forward-carry as design-deltas → reconcile via `phase-transition` step-02a back to `brand-guidelines` for re-tokenisation."
+    }
+  ],
+  "next_phase": "6-architecture"
+}

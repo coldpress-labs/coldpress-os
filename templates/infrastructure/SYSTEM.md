@@ -52,10 +52,10 @@ When the user asks to do something, route to the appropriate coldpress-os skill:
 | "interview", "discovery", "research" | `coldpress-os/lifecycle/2-discovery/` |
 | "tech stack", "choose stack" | `coldpress-os/lifecycle/3-tech-stack/` |
 | "product brief", "design brief", "PRD", "architecture", "UX" | `coldpress-os/lifecycle/4-planning/` |
-| "epics", "stories", "breakdown", "sprint plan" | `coldpress-os/lifecycle/5-breakdown/` |
-| "dev story", "implement", "build", "code review" | `coldpress-os/lifecycle/6-implementation/` |
-| "deploy", "readiness", "security scan" | `coldpress-os/lifecycle/7-deployment/` |
-| "retro", "sprint status", "evolve" | `coldpress-os/lifecycle/8-operate/` |
+| "epics", "stories", "breakdown", "sprint plan" | `coldpress-os/lifecycle/7-breakdown/` |
+| "dev story", "implement", "build", "code review" | `coldpress-os/lifecycle/8-implementation/` |
+| "deploy", "readiness", "security scan" | `coldpress-os/lifecycle/9-deployment/` |
+| "retro", "sprint status", "evolve" | `coldpress-os/lifecycle/10-operate/` |
 
 ### Utility Keywords → Skills
 

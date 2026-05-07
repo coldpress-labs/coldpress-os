@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/planning-artefacts/story.json",
+  "title": "Story (per-story file) frontmatter",
+  "description": "Structural contract for `_context/implementation/stories/story-NNN-<slug>-v{N}.md` (per-story files per Q4). Produced by Phase 7 `create-stories`; consumed by Phase 8 `dev-story` (one story → one dev session). Validated-distillate.",
+  "type": "object",
+  "required": ["schema", "phase", "id", "version", "epic_ref", "prd_user_story_ids", "archetype_granularity", "acceptance_criteria_or_bdd", "file_scope", "status"],
+  "properties": {
+    "schema": { "const": "schemas/planning-artefacts/story.schema.json" },
+    "phase": { "const": 7 },
+    "id": { "type": "string", "pattern": "^story-[0-9]{3,}$" },
+    "slug": { "type": "string" },
+    "version": { "type": "integer", "minimum": 1 },
+    "epic_ref": { "type": "string", "description": "Epic ID this story belongs to." },
+    "prd_user_story_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "ux_screen_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "UX-spec screen names this story implements (front-end stories)."
+    },
+    "brand_token_uses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "brand-guidelines tokens this story uses."
+    },
+    "prototype_manifest_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files in prototype/{date}/ that this story extends or replaces (code-skeleton mode)."
+    },
+    "architecture_components": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "architecture.md component names this story touches."
+    },
+    "archetype_granularity": {
+      "type": "string",
+      "enum": ["thin", "medium", "rich"],
+      "description": "Per Q5: thin=vibe-coder-lean (1-3h, AC); medium=standard (4-8h, BDD); rich=design-led/WDS (medium with UX+brand explicit)."
+    },
+    "acceptance_criteria_or_bdd": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "description": "Either AC strings (vibe-coder-lean) or 'Given/When/Then' BDD scenario lines (standard / WDS)."
+      }
+    },
+    "file_scope": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File paths the story will create or modify."
+    },
+    "test_coverage_targets": {
+      "type": "object",
+      "properties": {
+        "unit": { "type": ["string", "null"], "description": "e.g., '80%'" },
+        "integration": { "type": ["boolean", "string", "null"] },
+        "e2e": { "type": ["boolean", "string", "null"] }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^story-[0-9]{3,}$" },
+      "description": "Other story IDs this story depends on (PERT chart input)."
+    },
+    "estimated_hours": { "type": ["number", "null"] },
+    "adrs_in_scope": {
+      "type": "array",
+      "items": { "type": "integer" },
+      "description": "ADR numbers that constrain this story's implementation."
+    },
+    "legacy_disposition": {
+      "type": "string",
+      "enum": ["greenfield", "keep", "refactor", "scaffold", "reference", "ui-keep", "ui-refresh", "ui-discard", "ui-reference-only"],
+      "description": "From legacy-migration-plan or legacy-ui-assessment (brownfield only)."
+    },
+    "status": { "type": "string", "enum": ["draft", "validated", "in-progress", "complete"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

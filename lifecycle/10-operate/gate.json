@@ -1,28 +1,65 @@
 {
-  "schema_version": 1,
-  "gate_id": "phase-8-exit",
-  "phase": 8,
+  "schema_version": 2,
+  "gate_id": "phase-10-exit",
+  "phase": 10,
   "phase_name": "Operate",
+  "shape": "A",
+  "note": "Phase 10 Operate is cascade rename of old Phase 8 + Shape A scope refinement. Owner: @devops (continues from Phase 9 — no agent change at entry per Pattern 7 transition #16). Continuous in-flight operational work. Surfaces ops-deltas as fourth forward-carry instance to Phase 11 Evolve. User-invoked Phase 11 transition triggers exit.",
   "entry_conditions": [
-    "Phase 6 (Implementation) active, or Phase 7 (Deployment) complete"
+    "Phase 9 (Deployment) gate passed (post-deploy gate)",
+    "phase-9-to-10 handoff written",
+    "System running in production"
   ],
   "acceptance_checks": [
     {
-      "id": "sprint-status-current",
-      "description": "`_context/tracking/sprint-status.yaml` reflects current state (updated within the last sprint cycle)",
+      "id": "system-running",
+      "description": "Deploy-log shows live; observability ingesting per coldpress.yaml baselines.observability_axis (if declared)",
       "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "sprint-status",
-      "remediation": "Run `@scrum-master sprint-status` to refresh"
+      "severity": "block",
+      "remediation": "If system down, route through course-correct (incident response trigger)."
     },
     {
-      "id": "open-course-corrections-addressed",
-      "description": "All sprint-change-proposal docs in `_context/planning/` have status = resolved or rejected",
-      "kind": "human",
+      "id": "sprint-status-current",
+      "description": "Latest `sprint-status-v{N}.md` iteration date >= phase-9 deploy date",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/tracking/wave-status.schema.json",
+      "artefact_path": "_context/tracking/sprint-status-v*.md",
+      "remediation": "Run `@devops sprint-status` to update."
+    },
+    {
+      "id": "course-correction-logs-up-to-date",
+      "description": "Open incidents have status; closed incidents have post-mortem",
+      "kind": "automated",
       "severity": "warn",
-      "human_approver": "@scrum-master",
-      "remediation": "Review any pending correct-course proposals and mark resolved or rejected"
+      "schema_ref": "schemas/tracking/course-correction.schema.json",
+      "artefact_path": "_context/planning/course-correction-v*.md",
+      "remediation": "Close out open incidents OR document open status."
+    },
+    {
+      "id": "ops-deltas-aggregated",
+      "description": "phase-10-to-11 handoff has `ops_deltas:` array (can be empty list); each delta validates against `schemas/handoffs/ops-delta.schema.json`",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/handoffs/ops-delta.schema.json",
+      "remediation": "Run phase-transition step-02a-reconciliation for from_phase==10 to aggregate."
+    },
+    {
+      "id": "phase-10-handoff-written",
+      "description": "`_context/handoffs/phase-10-to-11-{date}.md` exists with valid extended phase-handoff schema (incl. ops_deltas[])",
+      "kind": "automated",
+      "severity": "block",
+      "remediation": "Invoke phase-transition at Phase 10 exit (user-triggered when ready for Phase 11 retrospective)."
+    },
+    {
+      "id": "incidents-postmortem-complete",
+      "description": "Every incident-response invocation during Phase 10 has a completed postmortem (`_context/audit/incident-{slug}-{date}-postmortem.md` with all required fields filled — no `TBD` in summary / root_cause / action-items)",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "lifecycle/10-operate/incident-response",
+      "artefact_path": "_context/audit/incident-*-postmortem.md",
+      "remediation": "For each incident with timeline but no postmortem: run `@devops incident-response` Sub-mode B (post-mitigation) to author the postmortem. Action-items must have owner agents assigned."
     }
   ],
-  "next_phase": "9-evolve"
+  "next_phase": "11-evolve"
 }

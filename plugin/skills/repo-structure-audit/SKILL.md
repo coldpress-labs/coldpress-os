@@ -2,7 +2,7 @@
 name: repo-structure-audit
 description: Scan repository for file duplication, structural drift, and organizational issues
 license: MIT
-compatibility: Phase 6
+compatibility: Phase 1
 version: "1.0"
 ---
 

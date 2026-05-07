@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
 import { runDashboard } from "./commands/dashboard.js";
+import { runDoctor } from "./commands/doctor.js";
 import { runFeedback } from "./commands/feedback.js";
 import {
   runGraphQuery,
@@ -11,7 +12,7 @@ import {
   runGraphView,
 } from "./commands/graph.js";
 import { runImportBmad } from "./commands/import.js";
-import { runInit } from "./commands/init.js";
+import { type InitInput, runInit } from "./commands/init.js";
 import { runRunInspect, runRunList } from "./commands/run.js";
 import { runSecurityAggregate } from "./commands/security.js";
 import { runUpdate } from "./commands/update.js";
@@ -32,14 +33,49 @@ program
   .command("init")
   .description("Scaffold a new coldpress-os project in a new directory")
   .argument("[project-name]", "name of the project to create (otherwise prompted)")
-  .action(async (projectNameArg?: string) => {
-    try {
-      await runInit({ projectNameArg });
-    } catch (err) {
-      console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
-      process.exit(1);
-    }
-  });
+  .option("--yes", "non-interactive mode — skip prompts; requires --name/--slug/--user")
+  .option("--name <name>", "project name (used with --yes)")
+  .option("--slug <slug>", "project slug in kebab-case (used with --yes)")
+  .option("--user <user>", "your name, used in Butler's prose (used with --yes)")
+  .option("--retrofit", "layer coldpress-os onto the current directory (existing repo)")
+  .option(
+    "--interop <set>",
+    "filter interop outputs: none|claude|cursor|roo|openhands|cline|all (default: all)",
+  )
+  .option("--no-git-init", "skip `git init` + seed commit after scaffolding")
+  .option("--skip-doctor", "skip the pre-flight `coldpress doctor` check")
+  .action(
+    async (
+      projectNameArg: string | undefined,
+      opts: {
+        yes?: boolean;
+        name?: string;
+        slug?: string;
+        user?: string;
+        retrofit?: boolean;
+        interop?: string;
+        gitInit?: boolean;
+        skipDoctor?: boolean;
+      },
+    ) => {
+      try {
+        await runInit({
+          projectNameArg,
+          yes: opts.yes,
+          name: opts.name,
+          slug: opts.slug,
+          user: opts.user,
+          retrofit: opts.retrofit,
+          interop: opts.interop as InitInput["interop"],
+          noGitInit: opts.gitInit === false,
+          skipDoctor: opts.skipDoctor,
+        });
+      } catch (err) {
+        console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
+        process.exit(1);
+      }
+    },
+  );
 
 const graphCmd = program
   .command("graph")
@@ -234,11 +270,34 @@ importCmd
 program
   .command("update")
   .description("Regenerate interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline) for the current project")
-  .action(async () => {
+  .option(
+    "--post-phase-3",
+    "post-Phase-3 mode: regen stack-pack skill wrappers + run doctor --stack",
+  )
+  .option(
+    "--post-phase-4",
+    "post-Phase-4 mode: re-prime graph after PRD lock so Phase 5/6 skills start with fresh context",
+  )
+  .action(async (opts: { postPhase3?: boolean; postPhase4?: boolean }) => {
     try {
-      await runUpdate();
+      await runUpdate({ postPhase3: opts.postPhase3, postPhase4: opts.postPhase4 });
     } catch (err) {
       console.error(pc.red(`update failed: ${err instanceof Error ? err.message : String(err)}`));
+      process.exit(1);
+    }
+  });
+
+program
+  .command("doctor")
+  .description("Verify the local environment: Node, package manager, git, Claude Code CLI")
+  .option("--stack", "also verify stack-specific tools (reads coldpress.yaml stack_pack)")
+  .option("--verbose", "show extra detail on every check")
+  .action(async (opts: { stack?: boolean; verbose?: boolean }) => {
+    try {
+      const { exitCode } = await runDoctor({ stack: opts.stack, verbose: opts.verbose });
+      process.exit(exitCode);
+    } catch (err) {
+      console.error(pc.red(`doctor failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
   });
@@ -257,5 +316,26 @@ program
     console.log("To upgrade coldpress, run:");
     console.log(pc.cyan("  npm update -g @coldpress/core"));
   });
+
+// POST-v0.3 — `coldpress regen <artefact>` command spec
+//
+// Explicit on-demand regeneration trigger for validated-distillate tier artefacts.
+// Pairs with the automatic mtime-detection in `phase-transition` Step 3a (FP15) which
+// auto-prompts when a prior distillate is stale relative to its upstream artefacts.
+//
+// Planned subcommands (one per versioned distillate):
+//   coldpress regen planning-scope   — regenerates _context/planning/planning-scope-v{N}.md
+//                                      via planning-entry-sync (Phase 4 re-entry).
+//                                      Reads tech-stack.md + product-brief + Phase 2+3 bundle;
+//                                      emits updated scope memo with incremented version.
+//   coldpress regen product-brief    — regenerates _context/planning/product-brief-v{N}.md
+//                                      via product-brief skill (Phase 2 re-entry)
+//   coldpress regen stack-selection-summary — regenerates stack-selection-summary-v{N}.md
+//
+// Routing: each subcommand reads coldpress.yaml to verify the required upstream phase is
+// complete before triggering the re-run. Refuses + explains if prerequisites are unmet.
+//
+// Implementation target: Part 4 completion or post-v0.3 CLI additions pass (whichever comes
+// first). See forward-carry in docs/phase-iI-implementation-plan.md §Forward carries.
 
 program.parse();

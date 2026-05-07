@@ -21,7 +21,7 @@ This mapping is enforced by the test suite: `test/skill-output-paths.test.ts` fa
 | `_context/design/` | UX / design artefacts | UX design spec, design system docs |
 | `_context/implementation/` | Code-side deliverables | story files, implementation notes, spec-wip |
 | `_context/testing/` | Test plans + results | test design, traceability matrices, NFR assessments, test review |
-| `_context/tracking/` | In-flight runtime state | sprint-status.yaml, wave-status, deploy-{date}, machine-setup logs |
+| `_context/tracking/` | In-flight runtime state | sprint-status.yaml, wave-status, deploy-{date}, orient-{date}, intake-{date} |
 | `_context/handoffs/` | Inter-phase handoff packages | handoff bundles between phases/teams |
 | `_context/audit/` | Backward-looking artefacts + reviews | retrospectives, code reviews, audits, security scans, deployment-readiness reports, ops health checks, framework-change proposals, reverse-engineered project docs |
 
@@ -29,7 +29,7 @@ This mapping is enforced by the test suite: `test/skill-output-paths.test.ts` fa
 
 | Path | When |
 |------|------|
-| `_input/.parsed/<path>/<name>.md` | Document-ingest skills (`parse-document`, `pdf-deep-parser`) output parsed markdown as inputs for Graphify |
+| `_input/.parsed/<path>/<name>.md` | Document-ingest skill `parse-document` outputs parsed markdown (PDF / Office / image / AI-conversation inputs) as inputs for Graphify |
 | `secure/manifest.yaml` | Credential shape declaration (never auto-written — user-authored) |
 
 ---
@@ -38,15 +38,17 @@ This mapping is enforced by the test suite: `test/skill-output-paths.test.ts` fa
 
 | Phase | Key outputs | Lands in |
 |-------|-------------|----------|
-| Bootstrap | `context.md` seed, machine-setup logs | `sacred/` (context), `tracking/` (setup) |
+| Bootstrap | `context.md` seed (from `intake` Step 3), `orient-{date}.md` + `intake-{date}.md` reports, Phase 1 → Phase 2 handoff artefact | `sacred/` (context), `tracking/` (reports), `handoffs/` (handoff) |
 | Discovery | Pre-project interview output, domain/market/technical research, creative brainstorm | `sacred/` (context.md), `planning/` (research), `planning/creative/` (brainstorms) |
 | Tech Stack | Stack evaluation (ADRs), locked tech-stack.md | `planning/` (ADRs), `sacred/` (tech-stack.md) |
-| Planning | PRD, architecture, UX design spec, PERT chart, epics, design/product briefs | `sacred/` (PRD, arch, PERT), `design/` (UX), `planning/` (epics, briefs) |
-| Breakdown | Stories, sprint-status, readiness report | `implementation/` (stories), `tracking/` (sprint-status), `planning/` (readiness) |
-| Implementation | dev-story outputs, wave-status, review reports | `implementation/`, `tracking/`, `audit/` (reviews) |
-| Deployment | Deploy logs, readiness reports, security scans | `tracking/` (deploy), `audit/` (readiness + scans) |
-| Operate (Phase 8, post-split) | Sprint status updates, course-correction, document-project | `tracking/`, `planning/` (course-correction), `audit/` (doc-project) |
-| Evolve (Phase 9, post-split) | Retrospective, product-evolution, innovation-strategy | `audit/` (retros + product-evolution), `planning/creative/` (innovation) |
+| Planning (Phase 4) | PRD, validate-prd, legacy-assessment, design-brief (entry), product-brief reconciliation | `sacred/` (PRD), `planning/` (briefs, legacy-assessment) |
+| Design (Phase 5) | _scaffolded — UX spec, design-system, brand-guidelines, prototype, storytelling. Final output shapes locked in Phase 5 deep dive Round 2._ | `design/` (UX, design-system), `planning/` (storytelling), `design/prototype/` |
+| Architecture (Phase 6) | _scaffolded — architecture.md (sacred), updated ADRs. Output shapes locked in Phase 6 deep dive._ | `sacred/` (architecture.md), `planning/` (ADRs) |
+| Breakdown (Phase 7) | PERT chart, epics, stories, sprint-status, readiness report | `sacred/` (PERT), `implementation/` (stories), `tracking/` (sprint-status), `planning/` (epics, readiness) |
+| Implementation (Phase 8) | dev-story outputs, wave-status, review reports | `implementation/`, `tracking/`, `audit/` (reviews) |
+| Deployment (Phase 9) | Deploy logs, readiness reports, security scans | `tracking/` (deploy), `audit/` (readiness + scans) |
+| Operate (Phase 10) | Sprint status updates, course-correction, document-project | `tracking/`, `planning/` (course-correction), `audit/` (doc-project) |
+| Evolve (Phase 11) | Retrospective, product-evolution, innovation-strategy | `audit/` (retros + product-evolution), `planning/creative/` (innovation) |
 
 ---
 
@@ -70,7 +72,7 @@ _context/
 ├── design/          # ux-design-spec.md, design system docs
 ├── implementation/     # story files, spec-wip.md
 ├── testing/            # test plans, results, NFR assessment, traceability
-├── tracking/           # sprint-status.yaml, wave-status.md, deploy-*.md, machine-setup-*.md
+├── tracking/           # sprint-status.yaml, wave-status.md, deploy-*.md, orient-*.md, intake-*.md
 ├── handoffs/           # inter-phase handoff packages
 └── audit/
     ├── ops/            # health checks (env, dep, db-migration, security, ci-cd, repo-structure)

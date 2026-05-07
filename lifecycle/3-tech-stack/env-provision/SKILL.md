@@ -1,6 +1,6 @@
 ---
 name: "env-provision"
-description: "Provision the development environment from the locked tech stack. Graceful fallback to generic Node / Python / other-runtime install paths when no stack pack is chosen."
+description: "Provision the development environment from the locked tech stack. Dispatches to stack-pack quickstart if a pack was confirmed; falls back to generic Node/Python/other-runtime install path when stack_pack is empty."
 type: "workflow"
 category: "lifecycle"
 phase: 3
@@ -8,29 +8,36 @@ agent: "developer"
 inputs:
   - "_context/sacred/tech-stack.md"
   - "coldpress.yaml"
+  - "coldpress.yaml baselines: block (confirmed categories drive Part B of step-03)"
 outputs:
   - artifact: "Configured Project"
     location: "project root"
     format: "configured development environment"
-version: "1.0"
+  - artifact: "env-provision tracking doc"
+    location: "_context/tracking/env-provision-{date}.md"
+    format: "markdown"
+version: "2.0"
 ---
 
 ## Purpose
 
-Sets up the complete development environment based on the locked tech stack. Installs all dependencies, configures linting and formatting, sets up git hooks, creates environment variable templates, configures editor settings, and verifies everything works together. The goal: after this skill runs, you can start coding immediately.
+Sets up the complete development environment based on the locked tech stack. Dispatches to the stack pack's quickstart skill if a pack was confirmed at Phase 3 stack-locking; otherwise runs the generic provision path. Installs dependencies, configures core tooling, activates confirmed baselines, and verifies everything works together.
+
+After this skill runs: you can start coding immediately, baselines are wired up, and a tracking doc records what was activated.
 
 ## When to Use
 
 - "set up the dev environment"
 - "install dependencies"
 - "configure the project"
-- "vibe coder setup"
 - "get the project ready to code"
-- After the tech stack has been locked in _context/sacred/tech-stack.md
+- After `stack-locking` completes and `phase_3_completed: true` is set in `coldpress.yaml`
 
 ## Prerequisites
 
-- `_context/sacred/tech-stack.md` exists and is locked (sacred)
+- `_context/sacred/tech-stack.md` exists and is sacred-locked
+- `coldpress.yaml` has `phase_3_completed: true` and `stack_pack` field set (non-empty = pack confirmed; `""` = no pack)
+- `coldpress.yaml baselines:` block present with per-category `status` values
 - Project directory initialized (Phase 1 bootstrap complete)
 - Node.js / relevant runtime installed on the machine
 
@@ -42,7 +49,7 @@ This skill follows a multi-step guided workflow.
 
 ## Output
 
-A fully configured development environment: dependencies installed, linting/formatting configured, git hooks active, .env template created, editor settings in place, and build/lint/test all passing.
+A fully configured development environment: dependencies installed, tooling configured, activated baselines wired up, tracking doc written, and core checks passing.
 
 ---
 
@@ -50,4 +57,5 @@ A fully configured development environment: dependencies installed, linting/form
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 2.0 | 2026-04-24 | Cadbury-hq | Round 2 rewrite: added stack_pack dispatch (step-00-branch); Part B baselines activation loop in step-03-configure; baseline checks in step-04-verify; tracking doc output. |
 | 1.0 | 2026-04-08 | Alfred | Initial env-provision skill for Phase 3 |

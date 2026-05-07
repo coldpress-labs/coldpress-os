@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/design/prototype-manifest.json",
+  "title": "Prototype Manifest",
+  "description": "Manifest for `_context/design/prototype/{date}/manifest.json`. Produced by `prototype` skill (Phase 5); consumed by Phase 6 architecture-design + Phase 8 dev-story for reference. Mode-conditional artefact files coexist with this manifest in the same directory.",
+  "type": "object",
+  "required": ["$schema", "version", "created_at", "mode", "archetype_assumed", "sources", "files"],
+  "properties": {
+    "$schema": { "const": "schemas/design/prototype-manifest.schema.json" },
+    "version": { "type": "integer", "minimum": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "validated_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["draft", "validated"] },
+    "mode": {
+      "type": "string",
+      "enum": ["code-skeleton", "mock-spec", "clickable-html"],
+      "description": "Output mode chosen per archetype default or user override (Q2)."
+    },
+    "archetype_assumed": {
+      "type": "string",
+      "enum": ["vibe-coder-lean", "standard", "design-led", "WDS"]
+    },
+    "override_rationale": {
+      "type": ["string", "null"],
+      "description": "Provided when mode differs from archetype-default."
+    },
+    "sources": {
+      "type": "object",
+      "required": ["prd", "ux_design_spec", "brand_guidelines", "tech_stack"],
+      "properties": {
+        "prd": { "type": "string" },
+        "ux_design_spec": { "type": "string" },
+        "brand_guidelines": { "type": "string" },
+        "tech_stack": { "type": "string" }
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "role"],
+        "properties": {
+          "path": { "type": "string", "description": "Relative path within prototype/{date}/" },
+          "role": {
+            "type": "string",
+            "enum": ["screen", "schema", "route", "type", "util", "tokens", "external-reference"]
+          },
+          "screens_referenced": { "type": "array", "items": { "type": "string" } },
+          "user_stories_referenced": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "tech_stack_imports": {
+      "type": "array",
+      "description": "Code-skeleton mode only. Each import statement parsed; verified against tech-stack.md.dependencies at Step 4.",
+      "items": {
+        "type": "object",
+        "required": ["library", "from_file", "verified"],
+        "properties": {
+          "library": { "type": "string" },
+          "from_file": { "type": "string" },
+          "verified": { "type": "boolean", "description": "True if library exists in tech-stack.dependencies." },
+          "delta_id": {
+            "type": ["string", "null"],
+            "description": "If verified=false, the design-delta ID raised."
+          }
+        }
+      }
+    },
+    "acceptance_criteria_referenced": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "PRD user-story / acceptance-criteria IDs covered by the prototype."
+    },
+    "acceptance_criteria_coverage": {
+      "type": "string",
+      "pattern": "^[0-9]+/[0-9]+$"
+    },
+    "design_deltas_surfaced": { "type": "integer", "minimum": 0 },
+    "adversarial_review_findings": { "type": "integer", "minimum": 0 },
+    "tech_stack_import_failures": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of imports not in tech-stack. Each gets flag_for_architecture_ADR delta. MUST be 0 OR all flagged with ADR-required marker at status=validated."
+    }
+  }
+}

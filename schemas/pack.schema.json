@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/pack.json",
+  "title": "Stack-pack descriptor",
+  "description": "Structural contract for `skills/stack-packs/{name}/pack.yaml`. Describes what a stack pack covers, its archetype fit, pre-picks, and baseline coverage.",
+  "type": "object",
+  "required": ["name", "archetype_fits", "pre_picked", "overrideable", "baselines_out_of_box", "quickstart_skill"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Pack identifier (e.g. `nextjs-convex`, `vibe-coder`). Must match the directory name."
+    },
+    "archetype_fits": {
+      "type": "object",
+      "description": "Scoring signals used by stack-discovery-sync pack-match rubric.",
+      "properties": {
+        "product_types": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "product_type values this pack is well-suited for."
+        },
+        "domain_complexity": {
+          "type": "array",
+          "items": { "enum": ["low", "medium", "high"] },
+          "description": "domain_complexity tiers this pack targets."
+        },
+        "functional_profile": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Functional requirements tags (e.g. `realtime`, `auth`, `file-storage`)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "pre_picked": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Map of decision_area → chosen technology. User may override any key."
+    },
+    "overrideable": {
+      "const": true,
+      "description": "All pack pre-picks are overrideable by the user. Always true."
+    },
+    "baselines_out_of_box": {
+      "type": "array",
+      "items": { "enum": ["seo_aeo_llm", "accessibility", "security", "future_proof"] },
+      "description": "Baseline categories this pack covers without additional env-provision steps."
+    },
+    "quickstart_skill": {
+      "type": "string",
+      "pattern": "^skills/stack-packs/.*/quickstart$",
+      "description": "Relative path to this pack's quickstart skill (no trailing slash)."
+    },
+    "description": { "type": "string" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" }
+  },
+  "additionalProperties": true
+}

@@ -3,8 +3,8 @@ name: "distillator"
 description: "Lossless LLM-optimized compression of source documents into dense distillates"
 type: "simple"
 category: "utilities"
-status: "wire-in-phase-2"
-phases: [2, 4, 5, 6, 8]
+status: "wire-in-phase-2 wire-in-phase-3"
+phases: [2, 3, 4, 5, 6, 8]
 inputs:
   - "source document(s) to compress"
 outputs:

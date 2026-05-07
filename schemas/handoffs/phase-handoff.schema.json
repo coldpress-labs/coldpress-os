@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/handoffs/phase-handoff.json",
+  "title": "Phase Handoff (generic)",
+  "description": "Generic handoff record between two adjacent lifecycle phases. Authored by phase-transition skill at phase exit; consumed by next phase's entry-sync (or first skill's Step 0). Used across all phase boundaries 1→2 through 10→11. File: `_context/handoffs/phase-{from}-to-{to}-{date}.md` with sidecar `phase-{from}-to-{to}-{date}.meta.json` matching this schema.",
+  "type": "object",
+  "required": ["schema", "from_phase", "to_phase", "from_phase_name", "to_phase_name", "created_at", "author_agent", "summary", "outputs_emitted", "next_phase_inputs"],
+  "properties": {
+    "schema": { "const": "schemas/handoffs/phase-handoff.json" },
+    "from_phase": { "type": "integer", "minimum": 1, "maximum": 11 },
+    "to_phase": { "type": ["integer", "null"], "minimum": 2, "maximum": 11, "description": "Null only when from_phase=11 (final — no successor)." },
+    "from_phase_name": {
+      "type": "string",
+      "enum": ["Bootstrap", "Discovery", "Tech Stack", "Planning", "Design", "Architecture", "Breakdown", "Implementation", "Deployment", "Operate", "Evolve"]
+    },
+    "to_phase_name": {
+      "type": ["string", "null"],
+      "enum": ["Discovery", "Tech Stack", "Planning", "Design", "Architecture", "Breakdown", "Implementation", "Deployment", "Operate", "Evolve", null]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "author_agent": {
+      "type": "string",
+      "enum": ["@analyst", "@pm", "@ux-designer", "@architect", "@developer", "@qa", "@scrum-master", "@communicator", "@devops", "@reviewer", "butler"]
+    },
+    "summary": { "type": "string", "minLength": 10, "description": "1-3 sentence rollup of what completed this phase." },
+    "outputs_emitted": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["artefact_path", "artefact_kind"],
+        "properties": {
+          "artefact_path": { "type": "string" },
+          "artefact_kind": {
+            "type": "string",
+            "enum": ["sacred-doc", "validated-distillate", "input-file", "tracking", "audit", "config", "code"]
+          },
+          "version": { "type": ["string", "integer", "null"] },
+          "schema_ref": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "next_phase_inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "purpose"],
+        "properties": {
+          "path": { "type": "string" },
+          "purpose": { "type": "string" }
+        }
+      }
+    },
+    "agent_transitions": {
+      "type": "array",
+      "description": "Pattern 7 transition records emitted at this boundary.",
+      "items": {
+        "type": "object",
+        "required": ["transition_id", "from_agent", "to_agent", "trigger"],
+        "properties": {
+          "transition_id": { "type": "string", "description": "e.g., '#5' for the canonical Phase 5 → 6 transition." },
+          "from_agent": { "type": "string" },
+          "to_agent": { "type": "string" },
+          "trigger": { "type": "string", "enum": ["phase_boundary", "sub_phase_boundary", "amendment_loop", "user_invoked"] },
+          "context_passed": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Artefact refs the new agent should read on entry."
+          }
+        }
+      }
+    },
+    "design_deltas": {
+      "type": "array",
+      "description": "Phase 5 → 6 only. Aggregated design-deltas surfaced during Phase 5; reconciled at Phase 5 exit.",
+      "items": { "$ref": "design-delta.json" }
+    },
+    "architecture_adrs_required": {
+      "type": "array",
+      "description": "Phase 5 → 6 only. ADRs queued for mandatory authoring at Phase 6 (silent-divergence guard).",
+      "items": {
+        "type": "object",
+        "required": ["delta_id", "topic", "rationale"],
+        "properties": {
+          "delta_id": { "type": "string" },
+          "topic": { "type": "string" },
+          "rationale": { "type": "string" }
+        }
+      }
+    },
+    "architecture_deltas": {
+      "type": "array",
+      "description": "Phase 6 → 7 only. PRD/UX gaps surfaced during architecture authoring; reconciled at Phase 7 entry.",
+      "items": { "$ref": "design-delta.json" }
+    },
+    "implementation_deltas": {
+      "type": "array",
+      "description": "Phase 8 → 9 only. Architecture/spec gaps surfaced during implementation; carried for Phase 11 retrospective.",
+      "items": { "$ref": "design-delta.json" }
+    },
+    "ops_deltas": {
+      "type": "array",
+      "description": "Phase 10 → 11 only. Operational issues surfaced during steady-state.",
+      "items": { "$ref": "ops-delta.json" }
+    },
+    "parked_for_phase_11": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["delta_id", "topic", "parked_at_phase"],
+        "properties": {
+          "delta_id": { "type": "string" },
+          "topic": { "type": "string" },
+          "parked_at_phase": { "type": "integer", "minimum": 5, "maximum": 10 }
+        }
+      },
+      "description": "Forward-carries any delta with user_decision=park_for_phase_11 across multiple phase boundaries until Phase 11 retrospective."
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

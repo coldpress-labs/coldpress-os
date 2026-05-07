@@ -3,7 +3,7 @@ name: "test-design"
 description: "Create test plans for epics or the system"
 type: "router"
 category: "lifecycle"
-phase: 6
+phase: 8
 routes_to: "skills/testing/test-design/"
 agent: "qa"
 version: "1.0"

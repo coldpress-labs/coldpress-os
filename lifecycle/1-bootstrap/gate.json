@@ -4,41 +4,65 @@
   "phase": 1,
   "phase_name": "Bootstrap",
   "entry_conditions": [
-    "User has run `coldpress init` with a valid slug and user name",
-    "Working directory is writable"
+    "`coldpress init` has scaffolded the project (coldpress.yaml + .claude/ + CLAUDE.md present)",
+    "Butler's `orient` skill has run and handed off to `intake`"
   ],
   "acceptance_checks": [
     {
-      "id": "coldpress-yaml-present",
-      "description": "Project config `coldpress.yaml` exists at project root with Phase-1 fields filled",
+      "id": "phase-1-completed-flag",
+      "description": "`.coldpress/local-config.yaml` has `phase_1_completed: true` — set by intake Step 6 when all prior steps exited cleanly",
       "kind": "artefact-present",
       "severity": "block",
-      "artefact_path": "coldpress.yaml",
-      "remediation": "Re-run `coldpress init` or author `coldpress.yaml` manually per `docs/coldpress-yaml-schema.md`"
+      "artefact_path": ".coldpress/local-config.yaml",
+      "remediation": "Re-run `intake` from the last incomplete step. Butler's orient Step 1 will detect `partial_completion` and resume automatically."
     },
     {
-      "id": "claude-md-present",
-      "description": "Butler's entry point `CLAUDE.md` exists at project root",
-      "kind": "artefact-present",
-      "severity": "block",
-      "artefact_path": "CLAUDE.md",
-      "remediation": "Re-run `coldpress init` or copy from `template/CLAUDE.md`"
-    },
-    {
-      "id": "subagents-scaffolded",
-      "description": "The 9 canonical subagent definitions are present in `.claude/agents/`",
-      "kind": "artefact-present",
-      "severity": "block",
-      "artefact_path": ".claude/agents/analyst.md",
-      "remediation": "Run `agent-scaffold` to regenerate wrappers"
-    },
-    {
-      "id": "skill-wrappers-generated",
-      "description": "At least 50 thin-wrapper SKILL.md files are present in `.claude/skills/`",
+      "id": "working-mode-captured",
+      "description": "Phase-1 working-mode fields present in coldpress.yaml: user.preferred_ides, user.cadence, user.team_shape — written by intake Step 4",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "agent-scaffold",
-      "remediation": "Run `agent-scaffold` to regenerate wrappers"
+      "skill_ref": "intake",
+      "remediation": "Re-run `intake` Step 4 (working-mode) to capture IDE preference, cadence, and team shape."
+    },
+    {
+      "id": "butler-display-name-present",
+      "description": "butler.display_name is set in coldpress.yaml (default 'Butler' is acceptable — warn level)",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "intake",
+      "remediation": "Re-run `intake` Step 4 Q4 to confirm or rename Butler."
+    },
+    {
+      "id": "context-seed-authored",
+      "description": "Sacred document `_context/sacred/context.md` exists (seeded by intake Step 3 with one-sentence intent + frontmatter)",
+      "kind": "artefact-present",
+      "severity": "block",
+      "artefact_path": "_context/sacred/context.md",
+      "remediation": "Re-run `intake` Step 3 (intent-seed) to write the seed context.md. Phase 2 pre-project-interview will expand it."
+    },
+    {
+      "id": "context-seed-schema-valid",
+      "description": "The seed `_context/sacred/context.md` frontmatter validates against schemas/sacred-docs/context.schema.json",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "validate-schema",
+      "remediation": "Inspect context.md frontmatter. intake Step 3 runs validate-schema before committing the write — if you hand-edited the file, revert to the seed shape."
+    },
+    {
+      "id": "graph-primed",
+      "description": "`.coldpress/graph/graph.json` exists and is non-empty. WARN-level (not block) per deep-dive architectural note 8 — graph prime can fail gracefully. If `.coldpress/local-config.yaml needs_graph_rebuild: true`, the gate report surfaces `graph_rebuild_error` and continues.",
+      "kind": "artefact-present",
+      "severity": "warn",
+      "artefact_path": ".coldpress/graph/graph.json",
+      "remediation": "Run `coldpress graph rebuild` (or let orient Step 1 retry next session). Check `coldpress doctor` if it keeps failing — often a Python version / Graphify dep issue."
+    },
+    {
+      "id": "input-subfolders-walked",
+      "description": "Each of the 5 `_input/` subfolders (assets, vendor, raw, legacy, reference) has content OR a `.intake-skip` marker placed by intake Step 1",
+      "kind": "automated",
+      "severity": "warn",
+      "skill_ref": "intake",
+      "remediation": "Re-run `intake` Step 1 (material-solicitation) and either drop material into each subfolder or explicitly skip it."
     }
   ],
   "next_phase": "2-discovery"

@@ -14,6 +14,29 @@ Output: `<repo>/plugin/skills/<name>/SKILL.md` + `<repo>/plugin/plugin.json` (sk
 
 ---
 
+## Mirror policy — `plugin/skills/` is build output, not source
+
+**Canonical source of truth** for every skill is its location under `skills/<category>/<name>/` or `lifecycle/<N>/<name>/`. These are the files contributors edit. They carry rich frontmatter (`type`, `category`, `phases`, `inputs`, `outputs`, etc.) and the full step files / workflow under their directory.
+
+**`plugin/skills/<name>/SKILL.md` is the build artefact** — emitted by this generator from the canonical source. Properties of the mirror:
+
+- **Flat namespace.** Per the [Anthropic Agent Skills spec](https://agentskills.io/specification), all SKILL.md files under `plugin/skills/` live at depth 1 (no nested category directories). `skills/creative/brainstorming/SKILL.md` and `lifecycle/2-discovery/personas/SKILL.md` both emit to `plugin/skills/{name}/SKILL.md`.
+- **Reduced frontmatter** — only the spec's required fields plus `compatibility`, `version`, optional `allowed-tools`. The internal `type`, `category`, `phases`, `inputs`, `outputs` fields are intentionally **dropped** (see "Field mapping" below). Audits that flag plugin/skills/ as "missing `inputs:`" are flagging by-design behaviour — the canonical source has it, the mirror doesn't.
+- **No nested step files.** The mirror is single-file per skill. Contributor-facing step files (`steps/step-NN-*.md`, `workflow.md`) live only at canonical sources.
+- **Routers are skipped.** Per "Skipping" below — the plugin distribution is the canonical atomic skills only.
+
+**Two consequences for contributors:**
+
+1. **Never edit `plugin/skills/` directly.** All edits go to canonical sources; `npm run build:skills` regenerates the mirror.
+2. **CI guards the invariant.** `git diff --exit-code plugin/` after `npm run build:skills` must be clean.
+
+**Two consequences for auditors:**
+
+1. **Don't count `plugin/skills/` in skill inventories.** It double-counts. Inventory canonicals only (`skills/**/SKILL.md` ∪ `lifecycle/**/SKILL.md`).
+2. **Don't flag `plugin/skills/*` for "missing fields"** that the spec explicitly drops. The intentional-by-design list: `type`, `category`, `phases`, `phase` (singular), `inputs`, `outputs`, `agent` (folded into `compatibility`).
+
+---
+
 ## Input
 
 - `<repo>/skills/**/SKILL.md` — atomic skills (categorised).

@@ -1,28 +1,59 @@
 {
-  "schema_version": 1,
-  "gate_id": "phase-9-exit",
-  "phase": 9,
+  "schema_version": 2,
+  "gate_id": "phase-11-exit",
+  "phase": 11,
   "phase_name": "Evolve",
+  "shape": "A",
+  "note": "Phase 11 Evolve is FINAL phase of canonical 11-phase lifecycle (cascade rename of old Phase 9 + Shape A). Owner: @reviewer (takeover from @devops at Phase 10 → 11 transition #18). Point-in-time reflection: retrospective + product-evolution-backlog + innovation-strategy. Consumes ops_deltas[] from Phase 10 (fourth forward-carry). Outputs feed NEXT iteration's Phase 1 entry via _input/prior-iteration/ (no phase-12-handoff — Phase 11 is final).",
   "entry_conditions": [
-    "Phase 7 (Deployment) complete, or release milestone reached"
+    "Phase 10 user-invoked exit (retrospective trigger)",
+    "phase-10-to-11 handoff written (with ops_deltas[])"
   ],
   "acceptance_checks": [
     {
-      "id": "retrospective-landed",
-      "description": "A retrospective exists at `_context/audit/retro-*.md` for the completed epic/release",
+      "id": "ops-deltas-reconciled",
+      "description": "Every ops_delta in phase-10-to-11 handoff has user_decision; immediate_corrective_action deltas verified done at Phase 10",
       "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "retrospective",
-      "remediation": "Run `@scrum-master retrospective` for the completed work"
+      "severity": "block",
+      "schema_ref": "schemas/handoffs/ops-delta.schema.json",
+      "remediation": "Run retrospective Step 0 reconciliation pass."
     },
     {
-      "id": "product-evolution-authored",
-      "description": "If the retrospective surfaced roadmap shifts, `_context/planning/product-evolution-*.md` exists",
-      "kind": "human",
-      "severity": "info",
-      "human_approver": "@pm",
-      "remediation": "Run `@pm product-evolution` when the retrospective surfaces scope shifts"
+      "id": "retrospective-emitted",
+      "description": "`_context/audit/retrospective-v{latest}.md` exists with status: validated; cause analysis for accept_into_phase_11_retrospective deltas",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/audit/retrospective.schema.json",
+      "artefact_path": "_context/audit/retrospective-v*.md",
+      "remediation": "Run `@reviewer retrospective`."
+    },
+    {
+      "id": "product-evolution-backlog-emitted",
+      "description": "`_context/audit/product-evolution-backlog-v{latest}.md` exists; includes accept_into_phase_11_product_evolution deltas as backlog items",
+      "kind": "automated",
+      "severity": "block",
+      "schema_ref": "schemas/audit/product-evolution-backlog.schema.json",
+      "artefact_path": "_context/audit/product-evolution-backlog-v*.md",
+      "remediation": "Run `@reviewer product-evolution`."
+    },
+    {
+      "id": "innovation-strategy-emitted",
+      "description": "`_context/audit/innovation-strategy-v{latest}.md` exists; long-horizon strategic ideation",
+      "kind": "automated",
+      "severity": "warn",
+      "schema_ref": "schemas/audit/innovation-strategy.schema.json",
+      "artefact_path": "_context/audit/innovation-strategy-v*.md",
+      "remediation": "Run `@reviewer innovation-strategy` (warn-severity — optional for short iterations)."
     }
   ],
-  "next_phase": "Loop back to Phase 2 (Discovery) or Phase 4 (Planning) as needed"
+  "next_phase": null,
+  "is_final_phase": true,
+  "inter_iteration_cycle": {
+    "note": "Phase 11 closure (phase-transition step-03-handoff-log) copies outputs to _input/prior-iteration/ for NEXT iteration's Phase 1 entry.",
+    "outputs_to_copy": [
+      "_context/audit/retrospective-v{latest}.md → _input/prior-iteration/retrospective.md",
+      "_context/audit/product-evolution-backlog-v{latest}.md → _input/prior-iteration/product-evolution-backlog.md",
+      "_context/audit/innovation-strategy-v{latest}.md → _input/prior-iteration/innovation-strategy.md"
+    ]
+  }
 }
