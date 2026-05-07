@@ -79,7 +79,9 @@ describe("Anti-route: valid ADR doc at shortlist path → schema-mismatch error"
 
     const result = await validateDocSchema(path);
     expect(result.ok).toBe(false);
-    expect(result.issues?.some((i) => i.keyword === "const")).toBe(true);
+    if (!result.ok) {
+      expect(result.issues.some((i) => i.keyword === "const")).toBe(true);
+    }
   });
 });
 
@@ -88,6 +90,8 @@ describe("Anti-route: unknown file types return 'no schema' error", () => {
     const path = await writeDoc("notes.md", { title: "notes" });
     const result = await validateDocSchema(path);
     expect(result.ok).toBe(false);
-    expect(result.issues?.[0]?.message).toContain("No schema registered");
+    if (!result.ok) {
+      expect(result.issues[0]?.message).toContain("No schema registered");
+    }
   });
 });

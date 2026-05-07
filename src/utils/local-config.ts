@@ -30,6 +30,9 @@ export interface LocalConfig {
   /** Set to true by `coldpress update --post-phase-3` after stack-pack wrappers regenerated. */
   post_phase_3_update_ran?: boolean;
   post_phase_3_update_ran_at?: string;
+  /** Set to true by `coldpress update --post-phase-4` after Phase 4 PRD artefacts re-primed the graph. */
+  post_phase_4_update_ran?: boolean;
+  post_phase_4_update_ran_at?: string;
 }
 
 const LOCAL_CONFIG_REL = join(".coldpress", "local-config.yaml");

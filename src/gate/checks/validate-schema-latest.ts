@@ -10,10 +10,10 @@ import { resolve, join } from "node:path";
 import { validateDocSchema } from "../../governance/validate-schema.js";
 import type { SchemaValidationResult } from "../../governance/validate-schema.js";
 
-export interface ValidateSchemaLatestResult extends SchemaValidationResult {
+export type ValidateSchemaLatestResult = SchemaValidationResult & {
   resolved_path?: string;
   schema_used?: string;
-}
+};
 
 function extractVersion(filename: string): number {
   const match = /v(\d+)\.md$/.exec(filename);
