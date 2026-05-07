@@ -1,37 +1,54 @@
 ---
 name: readiness-check
-description: Deployment readiness gate with 8 quality checks before shipping
+description: Phase 9 entry skill (per Q1) + meta-aggregator. Step 0 absorbs entry-sync. Aggregates env-check + dep-health-check + security-scan + db-migration-check (conditional) into readiness-report distillate. Used both pre-deploy (full aggregation) and post-deploy (smoke + observability).
 license: MIT
-compatibility: Invoked by @qa in Phase 7
-version: "1.0"
+compatibility: Invoked by @devops in Phase 9
+version: "2.0"
 ---
 
 ## Purpose
 
-Runs 8 deployment and security readiness gates to verify a completed story or epic is safe to ship. Checks acceptance criteria, compilation, secrets, error handling, debug code, TODOs, accessibility, and build verification.
+Phase 9 entry skill + meta-aggregator. Step 0 absorbs entry-sync work (graph-first context + 8th-consumer staleness check). Subsequent steps:
+
+**Pre-deploy aggregation (Phase 9 entry):**
+- Dispatch env-check
+- Dispatch dep-health-check
+- Dispatch security-scan
+- Dispatch db-migration-check (conditional brownfield)
+- Aggregate results into readiness-report
+- Pre-deploy gate evaluation (5 checks; block if any fail)
+
+**Post-deploy verification (Phase 9 exit):**
+- Smoke tests
+- Observability baseline check
+- Post-deploy gate evaluation (3 checks; block if any fail)
 
 ## When to Use
 
-- "check deployment readiness"
-- "ready to ship?"
-- "readiness check"
-- Before deploying to staging or production
-- After completing an epic or milestone
+- Phase 9 entry — invoked automatically as the first Phase 9 skill.
+- Phase 9 exit — re-invoked for post-deploy verification.
 
 ## Prerequisites
 
-- Stories must be in `done` or `review` status
-- Project must build successfully
+- Phase 8 gate passed
+- wave-status final
+- implementation-readiness Phase 7 report status: pass
+- phase-8-to-9 handoff written
 
 ## Process
 
-This skill follows a multi-step guided workflow.
+Multi-step workflow.
 
-→ See [workflow.md](workflow.md) for the full process.
+→ See [workflow.md](workflow.md).
 
 ## Output
 
-A readiness report with pass/fail for each of the 8 gates.
+`_context/audit/readiness-v{N}.md` — meta-aggregator validated-distillate. Pre-deploy variant aggregates 5 checks; post-deploy variant aggregates 3 checks.
+
+## Cross-cutting wire-ins
+
+- `adversarial-review` — pre-deploy plan red-team
+- `editorial-structure` — readiness-report structure
 
 ---
 
@@ -39,4 +56,5 @@ A readiness report with pass/fail for each of the 8 gates.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-13 | Alfred | Migrated from impl-readiness-check, adapted for coldpress-os |
+| 2.0 | 2026-05-02 | Butler (autonomous queue unit #15 Wave 9.2) | Phase 9 rewrite. Now serves as Phase 9 entry skill per Q1 — Step 0 absorbs entry-sync (graph-first 9 graph_queries; 8th-consumer staleness helper). Inputs converted to graph-first; expanded to include wave-status, code-review reports, implementation-readiness Phase 7 report. Outputs: readiness-v{N}.md validated-distillate (meta-aggregator). Pre-deploy (5 checks) + post-deploy (3 checks) variants per Q2. |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial readiness-check skill |

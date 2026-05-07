@@ -19,7 +19,7 @@ export interface GraphStalenessResult {
 
 export async function graphStalenessCheck(
   projectRoot: string,
-  _paths: string[] = [],
+  paths: string[] = [],
 ): Promise<GraphStalenessResult> {
   const config = await readLocalConfig(projectRoot);
 
@@ -28,6 +28,11 @@ export async function graphStalenessCheck(
       ok: true,
       message: "Graph freshness override: needs_graph_rebuild = false in local-config.",
     };
+  }
+
+  // Empty path list — nothing to check stale against; trivially fresh.
+  if (paths.length === 0) {
+    return { ok: true, message: "No paths to check." };
   }
 
   try {

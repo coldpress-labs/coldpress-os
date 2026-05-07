@@ -19,12 +19,11 @@ export interface ValidateYamlBlockResult {
   message?: string;
 }
 
-let ajv: Ajv2020 | undefined;
-function getAjv(): Ajv2020 {
-  if (!ajv) {
-    ajv = new Ajv2020({ allErrors: true, strict: false });
-    addFormats(ajv);
-  }
+// A fresh Ajv per call keeps schemas with the same `$id` from colliding
+// when multiple gate-check invocations re-load the same schema file.
+function freshAjv(): Ajv2020 {
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
+  addFormats(ajv);
   return ajv;
 }
 
@@ -55,7 +54,7 @@ export async function validateYamlBlock(
   const schemaRaw = await readFile(schemaPath, "utf8");
   const schema = JSON.parse(schemaRaw) as object;
 
-  const validate = getAjv().compile(schema);
+  const validate = freshAjv().compile(schema);
   if (validate(block)) {
     return { ok: true };
   }

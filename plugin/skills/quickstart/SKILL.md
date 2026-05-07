@@ -1,42 +1,30 @@
 ---
 name: quickstart
-description: Initialize a new Convex project with best-practice configuration
+description: "Initialize a cli-npm-publishable project: TypeScript + tsup + bin entry + Vitest + changesets + GitHub Actions release workflow"
 license: MIT
-compatibility: Phase 3
+compatibility: Invoked by @developer in Phase 3
 version: "1.0"
 ---
 
 ## Purpose
 
-Scaffolds a new Convex-powered project with best-practice directory structure, TypeScript configuration, schema setup, and initial functions. Gets a Convex project from zero to a running development environment.
+Scaffolds a TypeScript CLI or library project with a production-ready build pipeline, test setup, and npm release workflow via changesets + GitHub Actions.
 
 ## When to Use
 
-- "start a new Convex project"
-- "initialize Convex"
-- "Convex quickstart"
-- When creating a new project that uses Convex as the backend
-
-## Prerequisites
-
-- Node.js installed
-- npm/pnpm/yarn available
-- Convex account (or willingness to create one)
+- `stack_pack: "cli-npm-publishable"` is set in `coldpress.yaml`
+- env-provision Step 0 dispatches to this skill (pack-branch)
 
 ## Process
-
-This skill follows a multi-step guided workflow.
 
 → See [workflow.md](workflow.md) for the full process.
 
 ## Output
 
-A fully initialized Convex project with schema, functions, and development configuration.
-
----
-
-### Version Control
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2026-04-08 | Alfred | New stack-pack skill for Convex projects |
+- `package.json` with `type: "module"`, `bin`, `exports`, `files` fields set
+- `tsup.config.ts` — CJS + ESM dual build
+- `src/index.ts` + `src/cli.ts` entry points
+- `vitest.config.ts` + sample test
+- `.changeset/` directory initialized
+- `.github/workflows/release.yml` — publish on changeset tag with npm provenance
+- `npm run build`, `npm test`, `npm pack --dry-run` all pass

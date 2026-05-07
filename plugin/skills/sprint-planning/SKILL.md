@@ -1,37 +1,45 @@
 ---
 name: sprint-planning
-description: Generate sprint-status.yaml tracking file from epics with intelligent status detection
+description: Phase 7 — generate sprint-status from PERT chart waves + stories. Owned by @scrum-master sub-persona (Pattern 7 sub_phase_boundary transitions #8a + #8b from @pm).
 license: MIT
-compatibility: Invoked by @scrum-master in Phase 5
-version: "1.0"
+compatibility: Invoked by @scrum-master in Phase 7
+version: "2.0"
 ---
 
 ## Purpose
 
-Generates the `sprint-status.yaml` tracking file by parsing all epics and stories, detecting current status by checking for existing implementation files, and building a complete sprint tracking structure. Supports intelligent status preservation — never downgrades a story's status.
+Phase 7 — assign each story to a wave per PERT chart; emit sprint-status tracking file. Owned by **@scrum-master** sub-persona (Pattern 7 sub_phase_boundary internal transition from @pm).
 
 ## When to Use
 
-- "plan the sprint"
-- "generate sprint status"
-- "set up sprint tracking"
-- After epics and stories are created
-- When resetting or updating sprint tracking
+- Phase 7 — invoked after `parallelization-strategy` (PERT chart) completes.
 
 ## Prerequisites
 
-- `_context/planning/epics.md` must exist with epics and stories defined
-- Implementation directory should be accessible for status detection
+- PERT chart sacred + locked
+- stories-index complete
 
 ## Process
 
-This skill follows a multi-step guided workflow.
+3-step workflow (graph-first + wave-to-story-assignment + sprint-status emit).
 
-→ See [workflow.md](workflow.md) for the full process.
+→ See [workflow.md](workflow.md).
 
 ## Output
 
-`_context/tracking/sprint-status.yaml` with metadata, status definitions, and development_status map for all epics, stories, and retrospectives.
+`_context/tracking/sprint-status-v{N}.md` — wave-by-wave story assignment with status tracking columns.
+
+## Pattern 7
+
+Sprint-planning entry triggers @pm → @scrum-master sub_phase_boundary (transition #8a). Sprint-planning exit triggers @scrum-master → @pm (transition #8b). Both logged in handoff log's `agent_transitions:` section.
+
+## Cross-cutting wire-ins
+
+- `brainstorming` (round_robin for capacity-trade-off discussion)
+
+## Method playbook
+
+Per `phase_7:`: brainstorming medium.
 
 ---
 
@@ -39,4 +47,5 @@ This skill follows a multi-step guided workflow.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-13 | Alfred | Migrated from bmad-sprint-planning, adapted for coldpress-os |
+| 2.0 | 2026-05-02 | Butler (autonomous queue unit #9 Wave 7.4) | Phase 7 rewrite. Inputs converted to graph-first. Owner formalised as @scrum-master (Pattern 7 sub-persona transition from @pm — #8a entry / #8b exit). 3-step workflow. |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial sprint-planning skill |

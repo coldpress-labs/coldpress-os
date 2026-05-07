@@ -42,15 +42,18 @@ async function writeDoc(name: string, frontmatter: string, body = "# doc"): Prom
 // ─── 4.3 supersedes field on sacred-doc schemas ─────────────────────────────
 
 describe("sacred-doc schemas — supersedes field (Wave 4.3)", () => {
-  const SACRED_DOCS = [
+  // tech-stack.md additionally requires `derived_from` (Phase 3 Round-5 audit fix).
+  const SACRED_DOCS: Array<{ name: string; workflowType: string; extras?: string[] }> = [
     { name: "context.md", workflowType: "context" },
-    { name: "tech-stack.md", workflowType: "tech-stack" },
+    { name: "tech-stack.md", workflowType: "tech-stack", extras: ["derived_from:", '  - "_context/sacred/context.md"'] },
     { name: "prd.md", workflowType: "prd" },
     { name: "architecture.md", workflowType: "architecture" },
     { name: "pert-chart.md", workflowType: "pert-chart" },
   ];
 
   for (const doc of SACRED_DOCS) {
+    const extras = doc.extras ?? [];
+
     it(`${doc.name}: accepts supersedes with valid _input/ paths`, async () => {
       const p = await writeDoc(
         doc.name,
@@ -59,6 +62,7 @@ describe("sacred-doc schemas — supersedes field (Wave 4.3)", () => {
           'version: "1.0"',
           'governance: "draft"',
           `workflowType: "${doc.workflowType}"`,
+          ...extras,
           "supersedes:",
           '  - "_input/raw/original-brief.md"',
           '  - "_input/reference/market-report.pdf"',
@@ -76,6 +80,7 @@ describe("sacred-doc schemas — supersedes field (Wave 4.3)", () => {
           'version: "1.0"',
           'governance: "draft"',
           `workflowType: "${doc.workflowType}"`,
+          ...extras,
         ].join("\n"),
       );
       const result = await validateSacredDocSchema(p);
@@ -90,6 +95,7 @@ describe("sacred-doc schemas — supersedes field (Wave 4.3)", () => {
           'version: "1.0"',
           'governance: "draft"',
           `workflowType: "${doc.workflowType}"`,
+          ...extras,
           "supersedes:",
           '  - "_context/sacred/other.md"',
         ].join("\n"),

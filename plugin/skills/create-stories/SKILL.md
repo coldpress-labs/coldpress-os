@@ -1,40 +1,53 @@
 ---
 name: create-stories
-description: Build comprehensive story context files that prevent AI implementation mistakes
+description: "Phase 7 — decompose epics into atomic per-story files with archetype-conditional granularity (per Q5). Each story: file scope + test coverage + acceptance criteria (BDD or AC) + UX screen ref + brand-token use + prototype-manifest reference. Outputs per-story files + stories-index."
 license: MIT
-compatibility: Invoked by @pm in Phase 5
-version: "1.0"
+compatibility: Invoked by @pm in Phase 7
+version: "2.0"
 ---
 
 ## Purpose
 
-Creates comprehensive story context files for individual stories -- the "Ultimate Context Engine" that prevents AI implementation mistakes. For each story, loads all project artifacts, extracts developer guardrails, performs web research for latest technical specifics, and produces a self-contained implementation brief.
+Phase 7 — decompose validated epics into atomic per-story files. Per-story granularity is **archetype-conditional** per Phase 7 deep-dive Q5:
 
-Each story file contains everything a developer (human or AI) needs to implement that story correctly without consulting other documents.
+| Archetype | Story granularity | Story types (Tier-1) |
+|-----------|-------------------|----------------------|
+| vibe-coder-lean | thin (1-3 hours) | acceptance_criteria |
+| standard | medium (4-8 hours) | user_stories + bdd_scenarios |
+| design-led | medium with explicit UX-screen ref + brand-token use | user_stories + job_stories |
+| WDS | medium with full spec | user_stories + bdd_scenarios + acceptance_criteria |
+
+Per Q4: **per-story files** (atomic versioning + parallel authoring + Phase 8 dev-story can lock individual stories) + index file.
 
 ## When to Use
 
-- "create story context for E1-S1"
-- "build implementation brief for this story"
-- "prepare a story for development"
-- "generate story file"
-- After epics are created, before or during implementation
+- "create stories"
+- Phase 7 — invoked after `create-epics` completes.
 
 ## Prerequisites
 
-- `_context/planning/epics.md` exists (from create-epics)
-- `_context/sacred/prd.md` and `_context/sacred/architecture.md` exist
-- Target story identified (from sprint-status or user input)
+- `epics-v{latest}.md` validated
+- `ux-design-spec-v{latest}.md` validated
+- `brand-guidelines-v{latest}.md` validated
 
 ## Process
 
-This skill follows a multi-step guided workflow.
+5-step workflow.
 
--> See [workflow.md](workflow.md) for the full process.
+→ See [workflow.md](workflow.md).
 
 ## Output
 
-`_context/implementation/{story-key}.md` -- a self-contained story context file with all implementation details, guardrails, and technical specifics needed for development. Updates `sprint-status.yaml` story status to `ready-for-dev`.
+Per-story files at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` — one file per story. Each story: id, epic_ref, prd_user_story_ids, ux_screen_refs, brand_token_uses, prototype_manifest_files, file_scope, test_coverage_targets, acceptance_criteria (or BDD scenarios), dependencies, estimated_hours, archetype_granularity.
+
+`stories-index.md` aggregates: story_id → status → epic → file paths.
+
+## Cross-cutting wire-ins
+
+- `editorial-structure` — Step 4 finalisation
+- `editorial-prose` — story prose polish
+- `advanced-elicitation` — vague_acceptance_criteria + vague_story_scope triggers
+- `story_types` — Tier-1 per-archetype selection (user_stories / job_stories / bdd_scenarios / acceptance_criteria)
 
 ---
 
@@ -42,4 +55,5 @@ This skill follows a multi-step guided workflow.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-08 | Alfred | Initial create-stories skill for Phase 5 |
+| 2.0 | 2026-04-30 | Butler (autonomous queue unit #9 Wave 7.3) | Phase 7 rewrite. Inputs converted to graph-first; expanded to include UX-spec, brand-guidelines, architecture, prototype-manifest, ADRs, breakdown-scope (was: minimal). Outputs migrated to **per-story files** at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` per Q4 (was: monolithic `_context/implementation/{story-key}.md`). Stories-index.md aggregates. Archetype-conditional granularity per Q5 (4 archetypes × 4 story types). Cross-cutting wire-ins: editorial-prose + editorial-structure + advanced-elicitation + story_types Tier-1. |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial create-stories skill |

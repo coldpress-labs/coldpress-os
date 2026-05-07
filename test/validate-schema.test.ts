@@ -232,27 +232,13 @@ describe("validateSacredDocSchema — edge cases", () => {
   });
 
   it("validates all 5 docs round-trip", async () => {
-    const docs = [
-      {
-        name: "context.md",
-        workflowType: "context",
-      },
-      {
-        name: "tech-stack.md",
-        workflowType: "tech-stack",
-      },
-      {
-        name: "prd.md",
-        workflowType: "prd",
-      },
-      {
-        name: "architecture.md",
-        workflowType: "architecture",
-      },
-      {
-        name: "pert-chart.md",
-        workflowType: "pert-chart",
-      },
+    // tech-stack.md additionally requires `derived_from` (Phase 3 Round-5 audit fix).
+    const docs: Array<{ name: string; workflowType: string; extras?: string[] }> = [
+      { name: "context.md", workflowType: "context" },
+      { name: "tech-stack.md", workflowType: "tech-stack", extras: ["derived_from:", '  - "_context/sacred/context.md"'] },
+      { name: "prd.md", workflowType: "prd" },
+      { name: "architecture.md", workflowType: "architecture" },
+      { name: "pert-chart.md", workflowType: "pert-chart" },
     ];
     for (const doc of docs) {
       const p = await writeDoc(
@@ -262,6 +248,7 @@ describe("validateSacredDocSchema — edge cases", () => {
           'version: "1.0"',
           'governance: "draft"',
           `workflowType: "${doc.workflowType}"`,
+          ...(doc.extras ?? []),
         ].join("\n"),
       );
       const result = await validateSacredDocSchema(p);

@@ -1,36 +1,38 @@
 ---
 name: sprint-status
-description: Summarize sprint progress, surface risks, and recommend next action
+description: Phase 10 entry skill (per Q1) + iterative orchestrator. Step 0 absorbs entry-sync (graph-first context + 9th-consumer staleness + ops-deltas WIP log init). Versioned per iteration as v{N}, v{N+1}, ... per user-defined cadence.
 license: MIT
-compatibility: Invoked by @scrum-master in Phase 8
-version: "1.0"
+compatibility: Invoked by @devops in Phase 10
+version: "2.0"
 ---
 
 ## Purpose
 
-Reads sprint-status.yaml and produces a clear summary: what's done, what's in progress, what's at risk, and what to do next. Acts as the Scrum Master providing visibility into sprint health.
+Phase 10 entry skill + iterative orchestrator. Step 0 absorbs entry-sync work. Subsequent steps drive iterative sprint-status updates per user-defined cadence (Phase 10 is continuous-by-default; runs until user invokes Phase 11 retrospective).
+
+ops-deltas surfaced during operations are appended to `_context/handoffs/phase-10-ops-deltas-wip-{date}.md` (initialised at Step 0). Aggregated by phase-transition step-02a-reconciliation at user-invoked Phase 11 transition.
 
 ## When to Use
 
-- "sprint status"
-- "what should I work on next?"
-- "how's the sprint?"
-- At the start of a work session to get oriented
-- When deciding which story to implement next
+- Phase 10 entry — invoked after `phase-transition` writes phase-9-to-10 handoff.
+- Re-runnable per iteration cadence.
 
 ## Prerequisites
 
-- sprint-status.yaml must exist
-
-## Process
-
-This skill follows a multi-step guided workflow.
-
-→ See [workflow.md](workflow.md) for the full process.
+- Phase 9 exit clean (post-deploy gate passed)
+- System running
 
 ## Output
 
-Interactive sprint summary with next-action recommendation. No file artifact produced.
+`_context/tracking/sprint-status-v{N}.md` — validated-distillate per iteration. Each version captures: ongoing wave-status / open incidents / closed incidents / ops-deltas surfaced / next-iteration goals.
+
+## ops-deltas WIP log
+
+Step 0 initialises `_context/handoffs/phase-10-ops-deltas-wip-{date}.md`. correct-course / sprint-status / document-project append `ops_delta` entries during execution. Aggregated by phase-transition at user-invoked Phase 11 transition.
+
+## Cross-cutting wire-ins
+
+- `editorial-structure` — sprint-status report polish
 
 ---
 
@@ -38,4 +40,5 @@ Interactive sprint summary with next-action recommendation. No file artifact pro
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-13 | Alfred | Migrated from bmad-sprint-status, adapted for coldpress-os |
+| 2.0 | 2026-05-02 | Butler (autonomous queue unit #18 Wave 10.2) | Phase 10 rewrite. Now serves as Phase 10 entry skill per Q1 — Step 0 absorbs entry-sync (graph-first 6 graph_queries; 9th-consumer staleness; ops-deltas WIP log init). Iterative versioning per user-defined cadence. Inputs converted to graph-first; reads deploy-log + readiness + wave-status + live-telemetry. |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial sprint-status skill |

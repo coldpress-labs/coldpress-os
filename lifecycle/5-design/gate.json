@@ -20,7 +20,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/sacred/prd.md",
-      "remediation": "If PRD was edited mid-Phase-5 outside the reconciliation pass, route through `phase-transition` reconciliation. If PRD-stale was caused by upstream edit, re-run Phase 5 from `design-brief` Step 0 with refreshed graph."
+      "remediation": "If PRD was edited mid-Phase-5 outside the reconciliation pass, route through `phase-transition` reconciliation. If PRD-stale was caused by upstream edit, re-run Phase 5 from `design-brief` Step 0 with refreshed graph.",
+      "skill_ref": "lifecycle/4-planning/validate-prd"
     },
     {
       "id": "design-brief-validated",
@@ -93,7 +94,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
-      "remediation": "Run `phase-transition` reconciliation pass. @pm prompts user per delta; accepted deltas trigger lightweight PRD amendment via `validate-prd --sections=<accepted_target_sections>`."
+      "remediation": "Run `phase-transition` reconciliation pass. @pm prompts user per delta; accepted deltas trigger lightweight PRD amendment via `validate-prd --sections=<accepted_target_sections>`.",
+      "skill_ref": "skills/governance/phase-transition"
     },
     {
       "id": "phase-5-handoff-written",

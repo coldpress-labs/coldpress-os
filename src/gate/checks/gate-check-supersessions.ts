@@ -58,7 +58,10 @@ export async function checkSupersessions(
     // Supersession logs embed ISO timestamps — check if any line contains a date after afterTs
     const lines = raw.split("\n");
     for (const line of lines) {
-      const match = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.exec(line);
+      // Capture the timezone suffix (Z or ±HH:MM) so Date parses as UTC,
+      // not local time. Stripping the suffix would silently shift the
+      // comparison by the local UTC offset.
+      const match = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?/.exec(line);
       if (match) {
         const ts = new Date(match[0]);
         if (ts >= afterDate) {

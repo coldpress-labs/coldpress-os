@@ -16,7 +16,8 @@
       "description": "Deploy-log shows live; observability ingesting per coldpress.yaml baselines.observability_axis (if declared)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "If system down, route through course-correct (incident response trigger)."
+      "remediation": "If system down, route through course-correct (incident response trigger).",
+      "skill_ref": "lifecycle/10-operate/sprint-status"
     },
     {
       "id": "sprint-status-current",
@@ -49,7 +50,8 @@
       "description": "`_context/handoffs/phase-10-to-11-{date}.md` exists with valid extended phase-handoff schema (incl. ops_deltas[])",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Invoke phase-transition at Phase 10 exit (user-triggered when ready for Phase 11 retrospective)."
+      "remediation": "Invoke phase-transition at Phase 10 exit (user-triggered when ready for Phase 11 retrospective).",
+      "schema_ref": "schemas/handoffs/phase-handoff.schema.json"
     },
     {
       "id": "incidents-postmortem-complete",

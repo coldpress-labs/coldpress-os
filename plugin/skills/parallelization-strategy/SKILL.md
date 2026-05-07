@@ -1,38 +1,81 @@
 ---
 name: parallelization-strategy
-description: Analyze epic dependencies, build DAG, generate PERT chart with critical path and wave grouping
+description: Phase 7 — analyse story dependencies, build DAG, generate PERT chart with critical path and wave grouping. PERT chart is sacred-doc per Q3 (downstream contract for Phase 8 wave-orchestration).
 license: MIT
-compatibility: Invoked by @scrum-master in Phase 5
-version: "1.0"
+compatibility: Invoked by @pm in Phase 7
+version: "2.0"
 ---
 
 ## Purpose
 
-Analyzes dependencies between epics and stories, builds a directed acyclic graph (DAG), performs topological sorting into parallel execution waves, identifies the critical path, and generates a PERT chart with calendar-based time estimates. The PERT chart is a **sacred document** -- it represents the authoritative execution plan.
+Phase 7 — analyse per-story dependencies + integration boundaries (from architecture); build DAG; emit PERT chart sacred-doc. PERT chart drives Phase 8 wave-orchestration: each wave is a set of independently-executable stories.
+
+**PERT chart is sacred** per Q3 — downstream contract; amendments via `governance/pert-change/` workflow.
 
 ## When to Use
 
-- "analyze dependencies between epics"
-- "create a PERT chart"
-- "identify the critical path"
-- "what can be parallelized?"
-- "build an execution timeline"
-- After epics and stories are created, before sprint planning
+- Phase 7 — invoked after `create-stories` completes.
 
 ## Prerequisites
 
-- `_context/planning/epics.md` exists (from create-epics)
-- `_context/sacred/architecture.md` exists for dependency inference
+- All per-story files validated; stories-index complete
 
 ## Process
 
-This skill follows a multi-step guided workflow.
+4-step workflow.
 
--> See [workflow.md](workflow.md) for the full process.
+→ See [workflow.md](workflow.md).
 
 ## Output
 
-`_context/sacred/pert-chart.md` (sacred) -- dependency DAG, wave groupings, critical path, and calendar projections with human gate points.
+`_context/sacred/pert-chart.md` (sacred): DAG + critical path + wave assignments + earliest/latest times per story.
+
+## Cross-cutting wire-ins
+
+- `problem_solving` Tier-1 (heavy — first_principles for dependency analysis; scenario_planning for critical-path; failure_mode_analysis)
+- `editorial-structure` — Step 4 finalisation
+
+## Method playbook
+
+Per `phase_7:`: problem_solving heavy; brainstorming medium.
+
+## ATTENTION
+
+> Pattern 2 from `docs/prompt-patterns.md` (§6.7) — non-negotiable formatting imperatives for machine-parsed output.
+
+1. Emit the wave groupings as a Markdown table with EXACTLY these columns, in this order: `Wave` / `Epics` / `Dependencies` / `Est. Duration`. Do NOT add columns. Do NOT rename columns.
+2. Use numeric wave ids (`1`, `2`, `3`) — NOT `W1` / `Wave 1` / `first`. Downstream sprint-planning consumers parse the numeric column directly.
+3. Every Epic MUST appear in exactly one wave.
+4. Use kebab-case slugs for Epic ids (e.g. `epic-auth-login`).
+5. Do NOT prose-describe the groupings between the DAG diagram and the wave table.
+
+## Forcing-function artefacts
+
+> Pattern 3 from `docs/prompt-patterns.md` (§6.7).
+
+### 1. Dependency DAG (MANDATORY)
+
+The output MUST include a `mermaid graph LR` or `graph TD` block showing the epic-level dependency DAG. Copy the scaffold from `templates/prompt-snippets/forcing-function-mermaid.md`.
+
+### 2. Wave Grouping Table (MANDATORY)
+
+As specified in the ATTENTION preamble. Copy the scaffold from `templates/prompt-snippets/forcing-function-table.md`.
+
+### 3. Critical Path Table (MANDATORY)
+
+Columns `Order` / `Epic` / `Start (wave)` / `End (wave)` / `Slack`. Empty Slack cells are a fail — put `0` for critical-path items explicitly.
+
+## Output Contract
+
+> Pattern 5 from `docs/prompt-patterns.md` (§6.7).
+
+Emit exactly one Markdown document with this structure:
+
+1. `# PERT Chart — <project.name>` as the first line.
+2. YAML frontmatter: `sacred: true`, `version: "1.0"`, `governance: "requires-review"`, `workflowType: "pert-chart"`, `inputDocuments[]` (MUST include `_context/sacred/architecture.md`), `waves[]`.
+3. Sections in order: Overview → DAG (mandatory Mermaid) → Wave Groupings (mandatory table) → Critical Path (mandatory table) → Calendar Projections → Human Gate Points.
+
+Save to `_context/sacred/pert-chart.md`.
 
 ---
 
@@ -40,4 +83,6 @@ This skill follows a multi-step guided workflow.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-08 | Alfred | Initial parallelization-strategy skill for Phase 5 |
+| 2.0 | 2026-05-02 | Butler (autonomous queue unit #9 Wave 7.4) | Phase 7 rewrite. Inputs converted to graph-first; expanded — now reads breakdown-scope, epics, stories-index, all per-story files, architecture, ADRs (was: minimal). Outputs upgraded — PERT chart sacred-doc + sidecar (per Q3); schema references (`pert-chart.schema.json` + `pert-meta.schema.json`). 4-step workflow. problem_solving Tier-1 heavy wire-ins. |
+| 1.1 | 2026-04 (pre-Shape-A) | Cadbury-hq | Earlier refinement |
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial parallelization-strategy skill |

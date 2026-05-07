@@ -28,6 +28,8 @@ Without this skill, phase exit was always prose — "the user feels confident th
 
 1. **Locate the gate** for the target phase at `coldpress-os/lifecycle/<phase>/gate.json`. Load and validate against `schemas/phase-gate.schema.ts` — malformed JSON halts with a clear error.
 
+1a. **Stage filtering (optional).** If invoked with `--stage N`, evaluate only checks where `check.stage == N` (or checks with no `stage` annotation). Skip all other checks. This enables two-stage evaluation at Phase 3 exit: `--stage 1` at stack-locking Step 5 (pre-env-provision) and `--stage 2` after `coldpress update --post-phase-3` confirms (post-provision). Phase 3 gate.json has 10 stage-1 checks + 3 stage-2 checks (13 total).
+
 2. **Evaluate each check** in `acceptance_checks[]`:
    - `kind: "artefact-present"` — assert the file at `artefact_path` exists and is readable.
    - `kind: "automated"` — dispatch to the referenced skill (`skill_ref`) and interpret its exit code: 0 = pass, non-zero = fail with message on stderr.
@@ -94,4 +96,5 @@ Signed records satisfy `human` checks at evaluation time. Re-running the gate re
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.1 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 4.14. Added `--stage N` flag: when set, evaluates only checks where `check.stage == N`. Documents two-stage Phase 3 pattern (stage 1 at stack-locking; stage 2 post-provision). |
 | 1.0 | 2026-04-23 | Cadbury-hq | Initial evaluate-phase-gate skill — part of Wave 5 Block X. Reads per-phase gate.json, runs automated + artefact-present + human checks, emits structured GateEvaluation. |

@@ -207,7 +207,7 @@ describe("GateEvaluationSchema — results shape", () => {
 describe("Shipped lifecycle/<N>/gate.json — each phase has a validated gate", () => {
   it("every phase dir has a gate.json", async () => {
     const phaseDirs = await listPhaseDirs();
-    expect(phaseDirs.length).toBe(9);
+    expect(phaseDirs.length).toBe(11);
 
     for (const dir of phaseDirs) {
       const gatePath = join(lifecycleDir, dir, "gate.json");

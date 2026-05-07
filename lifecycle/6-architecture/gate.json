@@ -21,7 +21,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/sacred/prd.md",
-      "remediation": "If PRD was edited mid-Phase-6, route through architecture-deltas reconciliation pass (forward-carry) OR re-run from architecture-design Step 0 with refreshed graph."
+      "remediation": "If PRD was edited mid-Phase-6, route through architecture-deltas reconciliation pass (forward-carry) OR re-run from architecture-design Step 0 with refreshed graph.",
+      "skill_ref": "lifecycle/4-planning/validate-prd"
     },
     {
       "id": "architecture-md-authored",
@@ -47,7 +48,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/planning/adrs/adr-*.md",
-      "remediation": "Run `architecture-design` Step 5 — author at least one ADR for a Phase 6 architectural decision."
+      "remediation": "Run `architecture-design` Step 5 — author at least one ADR for a Phase 6 architectural decision.",
+      "schema_ref": "schemas/planning-artefacts/adr.schema.json"
     },
     {
       "id": "architecture-adrs-for-flagged-deltas-emitted",
@@ -55,7 +57,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/planning/adrs/",
-      "remediation": "Run `architecture-design` Step 1 (flagged-deltas-intake) followed by Step 5 (ADR authoring). Each flagged delta requires one ADR with `resolves_design_delta: <delta_id>`, `prd_section_affected`, `design_decision_taken`, `architecture_implication`, `prd_amendment_deferred_reason`."
+      "remediation": "Run `architecture-design` Step 1 (flagged-deltas-intake) followed by Step 5 (ADR authoring). Each flagged delta requires one ADR with `resolves_design_delta: <delta_id>`, `prd_section_affected`, `design_decision_taken`, `architecture_implication`, `prd_amendment_deferred_reason`.",
+      "skill_ref": "skills/governance/phase-transition"
     },
     {
       "id": "tech-stack-imports-verified",
@@ -63,7 +66,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/sacred/architecture.md",
-      "remediation": "For each unverified import: either remove from architecture (scope-reduce) OR re-enter Phase 3 to add via ADR amendment (`stack-locking` baselines block re-run / new ADR)."
+      "remediation": "For each unverified import: either remove from architecture (scope-reduce) OR re-enter Phase 3 to add via ADR amendment (`stack-locking` baselines block re-run / new ADR).",
+      "skill_ref": "lifecycle/3-tech-stack/stack-locking"
     },
     {
       "id": "nfr-axes-addressed",
@@ -71,7 +75,8 @@
       "kind": "automated",
       "severity": "warn",
       "artefact_path": "_context/sacred/architecture.md",
-      "remediation": "If any NFR axis is unaddressed, return to `architecture-design` Step 4 (NFR strategy). Most NFR gaps surface as architecture-deltas (forward-carry to Phase 7)."
+      "remediation": "If any NFR axis is unaddressed, return to `architecture-design` Step 4 (NFR strategy). Most NFR gaps surface as architecture-deltas (forward-carry to Phase 7).",
+      "skill_ref": "lifecycle/6-architecture/architecture-design"
     },
     {
       "id": "phase-6-handoff-written",

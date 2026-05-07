@@ -17,7 +17,8 @@
       "description": "`_context/sacred/pert-chart.md` is locked + sacred (re-verified)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "PERT amendments via governance/pert-change/."
+      "remediation": "PERT amendments via governance/pert-change/.",
+      "schema_ref": "schemas/sacred-docs/pert-chart.schema.json"
     },
     {
       "id": "all-stories-complete",
@@ -25,7 +26,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/implementation/stories/",
-      "remediation": "Run wave-orchestration to complete remaining stories."
+      "remediation": "Run wave-orchestration to complete remaining stories.",
+      "skill_ref": "lifecycle/8-implementation/dev-story"
     },
     {
       "id": "wave-status-final",
@@ -48,7 +50,8 @@
       "description": "CI pipeline green; per-story test_coverage_targets met",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Run qa-automation per story until coverage met."
+      "remediation": "Run qa-automation per story until coverage met.",
+      "skill_ref": "lifecycle/8-implementation/qa-automation"
     },
     {
       "id": "implementation-deltas-resolved",
@@ -56,21 +59,24 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/handoffs/phase-8-to-9-*.md",
-      "remediation": "phase-transition step-02a-reconciliation handles this for from_phase==8."
+      "remediation": "phase-transition step-02a-reconciliation handles this for from_phase==8.",
+      "skill_ref": "skills/governance/phase-transition"
     },
     {
       "id": "ci-pipeline-locked",
       "description": "CI config set up at Phase 8 entry and not modified mid-phase",
       "kind": "automated",
       "severity": "warn",
-      "remediation": "If amendments needed, use ci-pipeline amendment workflow."
+      "remediation": "If amendments needed, use ci-pipeline amendment workflow.",
+      "skill_ref": "lifecycle/8-implementation/ci-pipeline"
     },
     {
       "id": "phase-8-handoff-written",
       "description": "`_context/handoffs/phase-8-to-9-{date}.md` exists with valid extended phase-handoff schema",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Invoke phase-transition at Phase 8 exit."
+      "remediation": "Invoke phase-transition at Phase 8 exit.",
+      "schema_ref": "schemas/handoffs/phase-handoff.schema.json"
     }
   ],
   "next_phase": "9-deployment"

@@ -1,6 +1,6 @@
 ---
 id: stack-packs/browser-extension
-name: Browser Extension Pack
+name: browser-extension-pack
 version: "1.0"
 category: "stack-packs/browser-extension"
 description: "Stack pack for browser extensions — WXT + Manifest V3 + Tailwind + Vitest + GitHub Actions release producing .zip (Chrome) and .xpi (Firefox)."

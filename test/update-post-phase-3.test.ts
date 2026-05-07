@@ -78,14 +78,14 @@ Do something demo-specific.
         return [];
       }
     })();
-    // We don't know every stack-pack skill name, but convex-specific skills
-    // start with e.g. "convex-" in their frontmatter name conventionally.
+    // We don't know every stack-pack skill name, but vibe-coder-fullstack-specific skills
+    // start with e.g. "vibe-coder-fullstack-" in their frontmatter name conventionally.
     // Just verify the directory exists and has plenty of non-stack wrappers.
     expect(dirents.length).toBeGreaterThan(10);
   });
 });
 
-describe("generateStackPackWrappers — convex pack integration", () => {
+describe("generateStackPackWrappers — vibe-coder-fullstack pack integration", () => {
   let tmp: string;
 
   beforeEach(async () => {
@@ -96,12 +96,12 @@ describe("generateStackPackWrappers — convex pack integration", () => {
     await rm(tmp, { recursive: true, force: true });
   });
 
-  it("emits wrappers for the shipped convex stack pack when invoked directly", async () => {
+  it("emits wrappers for the shipped vibe-coder-fullstack stack pack when invoked directly", async () => {
     // Scaffold a minimal project so framework files land under coldpress-os/.
     await copyTemplate({ projectName: "x", slug: "x", userName: "u", targetDir: tmp });
     await copyFramework(tmp);
 
-    const count = await generateStackPackWrappers(tmp, "convex");
+    const count = await generateStackPackWrappers(tmp, "vibe-coder-fullstack");
     expect(count).toBeGreaterThan(0);
     // Sanity: the generated wrappers point back at the framework stack pack.
     const someWrapper = await readFile(

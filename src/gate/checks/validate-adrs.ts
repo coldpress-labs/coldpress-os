@@ -67,9 +67,14 @@ export async function validateAdrs(
 
     const result = await validateDocSchema(adrPath);
     if (!result.ok) {
+      // Include the path on each issue so the field name (e.g. "tier") is
+      // visible to the user and to gate-check tests.
+      const detail = result.issues
+        .map((i) => (i.path ? `${i.path}: ${i.message}` : i.message))
+        .join("; ");
       failed.push({
         area,
-        reason: `ADR schema validation failed: ${result.issues.map((i) => i.message).join("; ")}`,
+        reason: `ADR schema validation failed: ${detail}`,
       });
       continue;
     }

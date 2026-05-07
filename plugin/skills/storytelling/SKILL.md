@@ -2,7 +2,7 @@
 name: storytelling
 description: Craft compelling narratives using 24 story types and narrative frameworks
 license: MIT
-compatibility: Invoked by @communicator in Phase 4
+compatibility: Invoked by @communicator in Phase 2
 version: "1.0"
 ---
 

@@ -66,6 +66,44 @@ Phase 7 — analyse per-story dependencies + integration boundaries (from archit
 
 Per `phase_7:`: problem_solving heavy; brainstorming medium.
 
+## ATTENTION
+
+> Pattern 2 from `docs/prompt-patterns.md` (§6.7) — non-negotiable formatting imperatives for machine-parsed output.
+
+1. Emit the wave groupings as a Markdown table with EXACTLY these columns, in this order: `Wave` / `Epics` / `Dependencies` / `Est. Duration`. Do NOT add columns. Do NOT rename columns.
+2. Use numeric wave ids (`1`, `2`, `3`) — NOT `W1` / `Wave 1` / `first`. Downstream sprint-planning consumers parse the numeric column directly.
+3. Every Epic MUST appear in exactly one wave.
+4. Use kebab-case slugs for Epic ids (e.g. `epic-auth-login`).
+5. Do NOT prose-describe the groupings between the DAG diagram and the wave table.
+
+## Forcing-function artefacts
+
+> Pattern 3 from `docs/prompt-patterns.md` (§6.7).
+
+### 1. Dependency DAG (MANDATORY)
+
+The output MUST include a `mermaid graph LR` or `graph TD` block showing the epic-level dependency DAG. Copy the scaffold from `templates/prompt-snippets/forcing-function-mermaid.md`.
+
+### 2. Wave Grouping Table (MANDATORY)
+
+As specified in the ATTENTION preamble. Copy the scaffold from `templates/prompt-snippets/forcing-function-table.md`.
+
+### 3. Critical Path Table (MANDATORY)
+
+Columns `Order` / `Epic` / `Start (wave)` / `End (wave)` / `Slack`. Empty Slack cells are a fail — put `0` for critical-path items explicitly.
+
+## Output Contract
+
+> Pattern 5 from `docs/prompt-patterns.md` (§6.7).
+
+Emit exactly one Markdown document with this structure:
+
+1. `# PERT Chart — <project.name>` as the first line.
+2. YAML frontmatter: `sacred: true`, `version: "1.0"`, `governance: "requires-review"`, `workflowType: "pert-chart"`, `inputDocuments[]` (MUST include `_context/sacred/architecture.md`), `waves[]`.
+3. Sections in order: Overview → DAG (mandatory Mermaid) → Wave Groupings (mandatory table) → Critical Path (mandatory table) → Calendar Projections → Human Gate Points.
+
+Save to `_context/sacred/pert-chart.md`.
+
 ---
 
 ### Version Control

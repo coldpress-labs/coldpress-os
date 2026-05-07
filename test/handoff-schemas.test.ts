@@ -29,6 +29,12 @@ describe("PrdToArchitectureSchema", () => {
     produced_by: "create-prd",
     produced_at: "2026-04-23T15:00:00Z",
     project_slug: "my-project",
+    prd_version: "1.0",
+    feature_count: 12,
+    nfr_axes: ["performance", "accessibility"],
+    adr_references: ["ADR-0001", "ADR-0002"],
+    baselines_active: ["seo_aeo_llm", "accessibility"],
+    brownfield_modules_count: 0,
     product_summary: "A task manager for solo creators with calendar integration.",
     architectural_drivers: [
       {

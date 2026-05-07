@@ -27,9 +27,10 @@ export const GateSeverityEnum = z.enum(["block", "warn", "info"]);
 export type GateSeverity = z.infer<typeof GateSeverityEnum>;
 
 export const GateCheckKindEnum = z.enum([
-  "automated",        // a skill runs, returns pass/fail
+  "automated",        // a skill / schema / command runs, returns pass/fail
   "human",            // a named approver must sign off
   "artefact-present", // a file at a specific path must exist and parse
+  "conditional",      // run only if a precondition holds (brownfield, archetype match, etc.)
 ]);
 export type GateCheckKind = z.infer<typeof GateCheckKindEnum>;
 
@@ -56,6 +57,31 @@ export const AcceptanceCheckSchema = z
     severity: GateSeverityEnum,
     /** For kind=automated: which skill id to invoke for evaluation. */
     skill_ref: z.string().optional(),
+    /**
+     * For kind=automated: JSON-Schema path the artefact must validate
+     * against. Used when the check is a structural validation rather
+     * than a skill invocation.
+     */
+    schema_ref: z.string().optional(),
+    /**
+     * For kind=automated: a CLI invocation the gate-evaluator runs
+     * (e.g. `coldpress validate-adrs ...`, `coldpress file-exists-after ...`).
+     * Used when the check is dispatched to a built-in gate-check helper
+     * under `src/gate/checks/`.
+     */
+    command: z.string().optional(),
+    /**
+     * For automated checks: glob describing the artefact(s) the check
+     * targets. Optional — provided for evaluator hints and reporting.
+     */
+    path_pattern: z.string().optional(),
+    /**
+     * Two-stage gating annotation. v2 gate.json files split checks
+     * across stage 1 (early/preconditions — run as artefacts are
+     * produced) and stage 2 (final/aggregate — run at phase exit).
+     * Invoked as `coldpress evaluate-phase-gate --stage N`.
+     */
+    stage: z.union([z.literal(1), z.literal(2)]).optional(),
     /** For kind=human: the named approver or role expected to sign off. */
     human_approver: z.string().optional(),
     /** For kind=artefact-present: project-relative path that must exist. */
@@ -67,8 +93,9 @@ export const AcceptanceCheckSchema = z
     remediation: z.string().optional(),
   })
   .refine(
-    (v) => v.kind !== "automated" || !!v.skill_ref,
-    { message: "kind=automated requires skill_ref" },
+    (v) =>
+      v.kind !== "automated" || !!v.skill_ref || !!v.schema_ref || !!v.command,
+    { message: "kind=automated requires skill_ref, schema_ref, or command" },
   )
   .refine(
     (v) => v.kind !== "human" || !!v.human_approver,
@@ -86,12 +113,22 @@ export type AcceptanceCheck = z.infer<typeof AcceptanceCheckSchema>;
  * must pass before the phase transition emits a clean exit signal.
  */
 export const PhaseGateSchema = z.object({
-  /** Gate schema version. Breaking changes bump the literal. */
-  schema_version: z.literal(1),
+  /**
+   * Gate schema version. v1 = pre-Shape-A 9-phase lifecycle.
+   * v2 = Shape A 11-phase lifecycle (adds Phase 5 Design + Phase 6
+   * Architecture; cascades old phases 5–9 to 7–11). Both literals are
+   * accepted — gate-evaluator branches on the value where behaviour
+   * differs.
+   */
+  schema_version: z.union([z.literal(1), z.literal(2)]),
   /** Stable gate id — `phase-N-exit`. */
   gate_id: z.string().min(1),
-  /** Phase number (1-9). */
-  phase: z.number().int().min(1).max(9),
+  /** Phase number (1-11; max=9 in v1, max=11 in v2). */
+  phase: z.number().int().min(1).max(11),
+  /** Optional Shape marker — "A" indicates v2 11-phase Shape A lifecycle. */
+  shape: z.enum(["A"]).optional(),
+  /** Free-form note — phase intent / scope reminder. */
+  note: z.string().optional(),
   /** Human-readable phase name — cross-check against phase README frontmatter. */
   phase_name: z.string().min(1),
   /**
@@ -106,8 +143,12 @@ export const PhaseGateSchema = z.object({
    * unordered and independent.
    */
   acceptance_checks: z.array(AcceptanceCheckSchema).min(1),
-  /** Where to go next on successful exit. */
-  next_phase: z.string().min(1),
+  /**
+   * Where to go next on successful exit. `null` for terminal phases —
+   * Phase 11 Evolve under Shape A is final; closure copies outputs to
+   * `_input/prior-iteration/` for the next iteration's Phase 1 entry.
+   */
+  next_phase: z.string().min(1).nullable(),
 });
 
 export type PhaseGate = z.infer<typeof PhaseGateSchema>;

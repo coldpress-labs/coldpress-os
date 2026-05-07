@@ -20,7 +20,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/sacred/architecture.md",
-      "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation at Phase 7 entry-sync."
+      "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation at Phase 7 entry-sync.",
+      "schema_ref": "schemas/sacred-docs/architecture.schema.json"
     },
     {
       "id": "breakdown-scope-emitted",
@@ -37,7 +38,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/handoffs/phase-6-to-7-*.md",
-      "remediation": "Run `breakdown-entry-sync` Step 1 (architecture-deltas reconciliation pass)."
+      "remediation": "Run `breakdown-entry-sync` Step 1 (architecture-deltas reconciliation pass).",
+      "skill_ref": "lifecycle/7-breakdown/breakdown-entry-sync"
     },
     {
       "id": "epics-validated",
@@ -72,7 +74,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/tracking/sprint-status-v*.md",
-      "remediation": "Run `@scrum-master sprint-planning` after PERT chart locked."
+      "remediation": "Run `@scrum-master sprint-planning` after PERT chart locked.",
+      "schema_ref": "schemas/tracking/wave-status.schema.json"
     },
     {
       "id": "implementation-readiness-pass",
@@ -88,7 +91,8 @@
       "description": "Every PRD user-story-ID is referenced in ≥1 story (verified by implementation-readiness check #1)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Revise stories to cover uncovered PRD user-stories OR surface as architecture-delta + reconciliation."
+      "remediation": "Revise stories to cover uncovered PRD user-stories OR surface as architecture-delta + reconciliation.",
+      "skill_ref": "lifecycle/7-breakdown/implementation-readiness"
     },
     {
       "id": "phase-7-handoff-written",

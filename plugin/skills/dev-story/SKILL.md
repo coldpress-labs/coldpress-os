@@ -2,7 +2,7 @@
 name: dev-story
 description: Execute story implementation following the story spec with red-green-refactor cycle
 license: MIT
-compatibility: Invoked by @developer in Phase 6
+compatibility: Invoked by @developer in Phase 8
 version: "1.0"
 ---
 

@@ -26,21 +26,24 @@
       "description": "Env vs baseline verification passes (DNS, SSL, env vars, secrets)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Run `@devops env-check`. Fix env config OR Phase 3 baseline re-entry."
+      "remediation": "Run `@devops env-check`. Fix env config OR Phase 3 baseline re-entry.",
+      "skill_ref": "lifecycle/9-deployment/env-check"
     },
     {
       "id": "security-scan-pass",
       "description": "5 classical security scanners + 3 LLM gates aggregated AggregateResult exit 0 (per existing security-gate.md spec)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Run `@devops security-scan`. Block-severity findings → Phase 8 re-entry to fix code."
+      "remediation": "Run `@devops security-scan`. Block-severity findings → Phase 8 re-entry to fix code.",
+      "skill_ref": "lifecycle/9-deployment/security-scan"
     },
     {
       "id": "dep-health-check-pass",
       "description": "No critical advisories outstanding; deps pinned per tech-stack",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Run `@devops dep-health-check`. Phase 3 ADR amendment if dep replacement needed."
+      "remediation": "Run `@devops dep-health-check`. Phase 3 ADR amendment if dep replacement needed.",
+      "skill_ref": "lifecycle/9-deployment/dep-health-check"
     },
     {
       "id": "db-migration-check-pass",
@@ -64,7 +67,8 @@
       "description": "Post-deploy smoke tests green",
       "kind": "automated",
       "severity": "block",
-      "remediation": "If smoke fails: rollback + Phase 8 re-entry to fix."
+      "remediation": "If smoke fails: rollback + Phase 8 re-entry to fix.",
+      "skill_ref": "lifecycle/9-deployment/readiness-check"
     },
     {
       "id": "observability-baseline-met",

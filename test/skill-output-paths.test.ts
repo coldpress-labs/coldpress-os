@@ -1,12 +1,16 @@
 /**
  * Regression test: every shipped SKILL.md writes its artefacts to one of
- * the 8 canonical `_context/*` subfolders (or `_input/.parsed/` for
+ * the 10 canonical `_context/*` subfolders (or `_input/.parsed/` for
  * document-ingest skills).
  *
  * Guards against subfolder drift — e.g., a new skill writing to
- * `_context/ops/` instead of `_context/audit/ops/`. The canonical set
- * is defined by `docs/phase-subfolder-mapping.md`; this test is the
- * automated enforcer.
+ * `_context/ops/` instead of `_context/operations/` or `_context/audit/`.
+ * The canonical set is defined by `docs/phase-subfolder-mapping.md`; this
+ * test is the automated enforcer.
+ *
+ * Shape A (v0.3.0-alpha) added two roots: `_context/operations/` for
+ * Phase 9–10 deliverables (runbooks, observability configs) and
+ * `_context/exports/` for cross-phase generator skills (pdf/docx/pptx/xlsx).
  */
 
 import { readFile, readdir } from "node:fs/promises";
@@ -16,7 +20,7 @@ import { describe, expect, it } from "vitest";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** The 8 canonical top-level `_context/*` subfolders. */
+/** The 10 canonical top-level `_context/*` subfolders. */
 const CANONICAL_CONTEXT_ROOTS = new Set([
   "_context/sacred/",
   "_context/planning/",
@@ -26,6 +30,8 @@ const CANONICAL_CONTEXT_ROOTS = new Set([
   "_context/tracking/",
   "_context/handoffs/",
   "_context/audit/",
+  "_context/operations/",
+  "_context/exports/",
 ]);
 
 /** Non-`_context/` roots that are also legitimate SKILL output destinations. */
@@ -111,8 +117,8 @@ describe("SKILL.md output-path audit", () => {
     expect(violations).toEqual([]);
   });
 
-  it("recognises all 8 canonical `_context/*` subfolders", () => {
-    expect(CANONICAL_CONTEXT_ROOTS.size).toBe(8);
+  it("recognises all 10 canonical `_context/*` subfolders", () => {
+    expect(CANONICAL_CONTEXT_ROOTS.size).toBe(10);
     for (const root of CANONICAL_CONTEXT_ROOTS) {
       expect(root.startsWith("_context/")).toBe(true);
       expect(root.endsWith("/")).toBe(true);

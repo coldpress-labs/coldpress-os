@@ -108,6 +108,35 @@ Phase 6 may surface PRD/UX gaps at architecture time. These are equivalent to Ph
 
 `problem_solving` heavy — Steps 3+4+5 (first_principles, failure_mode_analysis, scenario_planning). `advanced_elicitation` heavy. `design_thinking` medium — Step 2 ideate + Step 3 define. `brainstorming` medium. `story_types` low — feature_story for ADR rationale only.
 
+## Forcing-function artefacts
+
+> Pattern 3 from `docs/prompt-patterns.md` (§6.7) — mandatory visible artefacts that make skipped analysis reviewable.
+
+Two sections of the output carry FORCING-FUNCTION markers. Skip either and the `@reviewer` rubric will flag the section as fail:
+
+### 1. Component Interaction Diagram (MANDATORY)
+
+Every architecture.md MUST carry a `mermaid graph LR` / `graph TD` block depicting the top-level component interactions. A text-only description ("component A calls B which queues to C") is INSUFFICIENT. The diagram is the reviewable artefact. Copy the scaffold from `templates/prompt-snippets/forcing-function-mermaid.md`.
+
+### 2. Failure Mode Enumeration (MANDATORY)
+
+Every architecture.md MUST carry a failure-mode table with at least 5 rows covering the top-3 NFR axes. Columns: `Scenario` / `Probability` / `Impact` / `Mitigation`. An empty cell is a fail. Copy the scaffold from `templates/prompt-snippets/forcing-function-table.md`.
+
+## Output Contract
+
+> Pattern 5 from `docs/prompt-patterns.md` (§6.7).
+
+Emit exactly one Markdown document with this structure:
+
+1. `# Architecture — <project.name>` as the first line.
+2. YAML frontmatter: `sacred: true`, `version: "1.0"`, `governance: "requires-review"`, `workflowType: "architecture"`, `approvers[]`, `adr_references[]`, `inputDocuments[]` (MUST include the PRD path).
+3. Sections 1-N per `templates/documents/architecture.md`, each starting with `## <N>. <Section name>`.
+4. The mandatory Component Interaction Diagram (Mermaid) under Architecture Overview.
+5. The mandatory Failure Mode Enumeration table under NFR.
+6. Each section opens with the italicised meta-description (Pattern 1).
+
+Save to `_context/sacred/architecture.md`. Confirm the save in the chat with the file path and line count.
+
 ---
 
 ### Version Control

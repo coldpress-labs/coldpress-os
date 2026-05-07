@@ -2,7 +2,7 @@
 name: quick-dev
 description: Rapid implementation for bugs, small features, and refactors without full story ceremony
 license: MIT
-compatibility: Invoked by @developer in Phase 6
+compatibility: Invoked by @developer in Phase 8
 version: "1.0"
 ---
 

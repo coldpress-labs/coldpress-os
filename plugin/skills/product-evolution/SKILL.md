@@ -2,7 +2,7 @@
 name: product-evolution
 description: Plan the next iteration of the product based on learnings and market changes
 license: MIT
-compatibility: Invoked by @pm in Phase 8
+compatibility: Invoked by @pm in Phase 11
 version: "1.0"
 ---
 

@@ -47,7 +47,7 @@ const HIGH_STAKES_SKILLS: HighStakesSkill[] = [
   },
   {
     label: "create-architecture",
-    path: "lifecycle/4-planning/create-architecture/SKILL.md",
+    path: "lifecycle/6-architecture/architecture-design/SKILL.md",
     asserts: {
       outputContract: true,
       attention: false, // Architecture is prose-shaped with tables, not machine-parsed.
@@ -56,7 +56,7 @@ const HIGH_STAKES_SKILLS: HighStakesSkill[] = [
   },
   {
     label: "parallelization-strategy",
-    path: "lifecycle/5-breakdown/parallelization-strategy/SKILL.md",
+    path: "lifecycle/7-breakdown/parallelization-strategy/SKILL.md",
     asserts: {
       outputContract: true,
       attention: true, // Wave table is parsed by sprint-planning.

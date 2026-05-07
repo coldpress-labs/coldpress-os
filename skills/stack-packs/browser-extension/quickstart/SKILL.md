@@ -1,6 +1,6 @@
 ---
 id: stack-packs/browser-extension/quickstart
-name: Browser Extension Quickstart
+name: browser-extension-quickstart
 version: "1.0"
 category: "stack-packs/browser-extension"
 description: "Step-by-step workflow to scaffold a WXT browser extension with Manifest V3, Tailwind, Vitest, and a GitHub Actions release pipeline."

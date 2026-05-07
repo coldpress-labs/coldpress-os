@@ -48,10 +48,13 @@ describe("adr.schema.json — rejection fixtures", () => {
     expect(validate.errors?.some((e) => e.keyword === "const")).toBe(true);
   });
 
-  it("rejects wrong phase_authored (not 3)", () => {
+  it("rejects wrong phase_authored (not 3 or 6)", () => {
+    // Shape A widened phase_authored from `const: 3` to `enum: [3, 6]` —
+    // Phase 6 ADRs cover system architecture decisions including the
+    // REQUIRED ADRs for Phase 5 flagged_for_architecture_ADR deltas.
     const adr = { ...validAdr(), phase_authored: 4 };
     expect(validate(adr)).toBe(false);
-    expect(validate.errors?.some((e) => e.keyword === "const")).toBe(true);
+    expect(validate.errors?.some((e) => e.keyword === "enum")).toBe(true);
   });
 
   it("rejects invalid status", () => {
