@@ -6,7 +6,7 @@
  *   - Parser — rich + terse forms, malformed payloads, topic slugging
  *   - Routing — every kind has a route; budget-exhausted → human
  *   - Retry budget — spend / exhaustion / reset semantics
- *   - Subagent convention — every of the 9 subagents carries the
+ *   - Subagent convention — every of the 11 subagents (Shape A) carries the
  *     "When to Emit <NEED_INFO>" section.
  */
 

@@ -54,7 +54,7 @@ function buildAgentsMd(meta: ProjectMeta, agents: Agent[]): string {
   lines.push("");
   lines.push(`- Name: ${meta.name}`);
   lines.push(`- Slug: ${meta.slug}`);
-  lines.push("- Framework: [coldpress-os](https://github.com/coldpress-labs/coldpress-os) — 9-phase AI-native lifecycle.");
+  lines.push("- Framework: [coldpress-os](https://github.com/coldpress-labs/coldpress-os) — 11-phase Shape A AI-native lifecycle.");
   lines.push("");
 
   lines.push("## Subagents");

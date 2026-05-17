@@ -172,8 +172,8 @@ Update sprint tracking. Mark workflow steps as completed in output frontmatter. 
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 5.0 | 2026-04-14 | Alfred | Removed MAO acronym from version history. |
-| 4.0 | 2026-04-13 | Alfred | Full multi-agent orchestration rewrite — added dispatch protocol (Section 3), context transfer rules, parallel dispatch table, handoff protocol. |
-| 3.0 | 2026-04-13 | Alfred | Replaced 7 persona routing with 9 subagent dispatch. Updated agent coordination to subagent dispatch protocol. |
-| 2.0 | 2026-04-07 | Alfred | Removed estate/lab hierarchy — coldpress-os ships Butler only |
-| 1.0 | 2026-04-07 | Alfred | Initial Butler project template |
+| 5.0 | 2026-04-14 | ColdPress Labs | Removed MAO acronym from version history. |
+| 4.0 | 2026-04-13 | ColdPress Labs | Full multi-agent orchestration rewrite — added dispatch protocol (Section 3), context transfer rules, parallel dispatch table, handoff protocol. |
+| 3.0 | 2026-04-13 | ColdPress Labs | Replaced 7 persona routing with 9 subagent dispatch. Updated agent coordination to subagent dispatch protocol. |
+| 2.0 | 2026-04-07 | ColdPress Labs | Removed estate/lab hierarchy — coldpress-os ships Butler only |
+| 1.0 | 2026-04-07 | ColdPress Labs | Initial Butler project template |

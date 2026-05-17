@@ -41,7 +41,7 @@ function buildProjectContext(projectName: string): string {
     "",
     `# Project context — ${projectName}`,
     "",
-    "This project uses **coldpress-os**, a 9-phase AI-native development framework. Start by reading `CLAUDE.md` at the project root — it routes to the active subagent definitions under `.claude/agents/` and the framework skills under `coldpress-os/skills/` and `coldpress-os/lifecycle/`.",
+    "This project uses **coldpress-os**, an 11-phase AI-native development framework (Shape A). Start by reading `CLAUDE.md` at the project root — it routes to the active subagent definitions under `.claude/agents/` and the framework skills under `coldpress-os/skills/` and `coldpress-os/lifecycle/`. Type `Hello Butler` to start (or resume) any session.",
     "",
     "## Key directories",
     "",
