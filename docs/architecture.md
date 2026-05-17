@@ -29,7 +29,7 @@ coldpress-os is an **AI-native development framework**. It is not a CLI tool, no
 │                                              │
 │  coldpress-os/  ◄── git submodule (pinned)  │
 │       │                                      │
-│  .claude/agents/ ──► 9 subagent definitions │
+│  .claude/agents/ ──► 11 subagent definitions │
 │       │                                      │
 │  .claude/skills/ ──► thin wrappers ──────┐  │
 │       │                                  │  │

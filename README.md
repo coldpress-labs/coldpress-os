@@ -22,7 +22,7 @@ The 11 phases: Bootstrap · Discovery · Tech Stack · Planning · **Design** ·
 npm install -g @coldpress/core
 ```
 
-Requires Node.js `>=20` and Claude Code (the CLI or the Agent SDK) on your machine. Python `>=3.10` is additionally required for `coldpress graph rebuild` and the document-ingest skill; install on demand with `pip install graphifyy markitdown docling` when you reach Phase 2.
+Requires Node.js `>=22` and Claude Code (the CLI or the Agent SDK) on your machine. Python `>=3.10` is additionally required for `coldpress graph rebuild` and the document-ingest skill; install on demand with `pip install graphifyy markitdown docling` when you reach Phase 2.
 
 ## Quick Start
 
@@ -37,7 +37,7 @@ claude   # or: use the Agent SDK
 - `coldpress.yaml` — project configuration (Phase-1 fields only; later phases write back as you progress)
 - `CLAUDE.md` — framework routing for Butler (your main Claude Code session)
 - `.claude/agents/` — 11 subagent definitions (analyst, pm, ux-designer, architect, developer, qa, scrum-master, communicator, reviewer, devops, valet)
-- `.claude/skills/` — ~66 thin wrappers pointing at canonical skills
+- `.claude/skills/` — ~128 thin wrappers pointing at canonical skills (built from 85 atomic + 67 lifecycle SKILL.md sources)
 - `_context/` — produced artefacts (planning, design, implementation, testing, tracking, handoffs, audit, sacred docs)
 - `_input/` — raw inputs, legacy refs, vendor drops, assets
 - `secure/` — credential manifest + pre-commit secret-scan hook
@@ -65,40 +65,51 @@ coldpress upgrade                 Print upgrade instructions
 coldpress --version               Print installed version
 ```
 
-## Lifecycle phases
+## Lifecycle phases (Shape A — v0.3.0-alpha)
 
-| Phase | Name | Purpose |
-|-------|------|---------|
-| 1 | **Bootstrap** | Project init, machine setup, agent scaffold |
-| 2 | **Discovery** | Research, context building, problem understanding |
-| 3 | **Tech Stack** | Stack selection, evaluation, locking |
-| 4 | **Planning** | Product brief, design brief, PRD, architecture, UX |
-| 5 | **Breakdown** | Epics, stories, parallelization strategy, PERT |
-| 6 | **Implementation** | Build, test, review, wave orchestration |
-| 7 | **Deployment** | Readiness checks, security scan, deploy |
-| 8 | **Evolve** | Retrospective, course correction, product evolution |
+11 phases, structured as **Spec → Plan → Implement → Review** expanded with the forward-carry quartet and a silent-divergence guard at the Design → Architecture boundary.
+
+| Phase | Name | Owner | Purpose |
+|-------|------|-------|---------|
+| 1 | **Bootstrap** | butler | Project init, intake, graph-prime, working-mode detection |
+| 2 | **Discovery** | @analyst | Research, personas, context, idea validation, product brief |
+| 3 | **Tech Stack** | @architect | Stack discovery, evaluation rubric, locking, env provisioning |
+| 4 | **Planning** | @pm | PRD authoring + section-scoped re-validation (PRD-only post-split) |
+| 5 | **Design** *(new)* | @ux-designer | UX spec, brand guidelines, prototype, narrative, design-deltas |
+| 6 | **Architecture** *(new)* | @architect | Sacred architecture.md + ADRs incl. REQUIRED ADRs for flagged design-deltas (silent-divergence guard) |
+| 7 | **Breakdown** | @pm + @scrum-master | Epics, stories, parallelization strategy, PERT chart |
+| 8 | **Implementation** | @developer + @qa | Dev-story, code-review, QA automation, wave orchestration |
+| 9 | **Deployment** | @devops | Readiness checks, security scan, dep audit, observability, deploy |
+| 10 | **Operate** | @devops | Sprint status, correct-course, incident-response, ops-deltas |
+| 11 | **Evolve** *(final)* | @reviewer | Retrospective, product evolution, innovation strategy → next-iteration Phase 1 |
+
+**Forward-carry quartet** — `design-deltas` (P5 exit) · `architecture-deltas` (P7 entry) · `implementation-deltas` (P11 retrospective) · `ops-deltas` (P11 retrospective). Each delta resolves via four reconciliation options: `accept_into_prd`, `reject`, `flag_for_architecture_ADR`, `park_for_phase_11`.
 
 ## Subagents
 
+11 subagents under Shape A. Two added in v0.3.0-alpha (`@reviewer`, `@devops`) take Phase 11 and Phases 9–10 respectively.
+
 | Slug | Model | Primary phases | Role |
 |------|-------|----------------|------|
-| `analyst` | sonnet | 2, 4 | Research, interviews, brainstorming, product briefs |
-| `pm` | sonnet | 4, 5 | PRD lifecycle, product decisions, epic oversight |
-| `ux-designer` | sonnet | 4 | UX specs, design systems, scenarios |
-| `architect` | opus | 3, 4 | Tech stack, architecture, ADRs |
-| `developer` | sonnet | 6 | Implementation (standard or quick mode) |
-| `qa` | sonnet | 6, 7 | Testing (rapid or strategic mode) |
-| `scrum-master` | haiku | 5, 8 | Sprint planning, PERT, retrospectives |
-| `communicator` | sonnet | 4, 8 | Documentation, narratives, presentations |
+| `analyst` | sonnet | 2 | Research, personas, idea validation, synthesis, product brief |
+| `architect` | opus | 3, 6 | Tech stack (P3); sacred architecture + ADRs incl. silent-divergence-guard (P6) |
+| `pm` | sonnet | 4, 7 | PRD lifecycle (P4); epic oversight + breakdown (P7) |
+| `ux-designer` | sonnet | 5 | UX design spec, brand guidelines, prototypes, narrative |
+| `scrum-master` | haiku | 7 | Sprint planning (sub-dispatched from @pm at P7) |
+| `developer` | sonnet | 8 | Implementation (standard or quick mode) |
+| `qa` | sonnet | 8 | Testing (rapid or strategic mode); sub-dispatched from @developer |
+| `devops` | sonnet | 9, 10 | Deployment (P9 ship-path) → operate (P10 steady-state); two phase-modes |
+| `reviewer` | opus | 11 | Retrospective, product evolution, innovation strategy (final phase) |
+| `communicator` | sonnet | cross-cutting | Documentation, narratives, presentations |
 | `valet` | sonnet | meta | Framework evolution, meta skills |
 
-Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolded project.
+Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolded project. Pattern 7 transitions (19 transition records) formalise agent boundaries at phase entry / exit / sub-phase / reconciliation handoffs.
 
 ## Key concepts
 
 - **Subagents** are real Claude Code agents with independent context windows, tools, and models. Butler (your main session) dispatches them via the Agent tool. Not prompt-persona costume changes.
 - **Skills** are the atomic unit of work. Each is self-contained with frontmatter + step-files + references.
-- **Stack packs** are pluggable skill sets for specific technology stacks (Convex, Supabase, etc.). Activated via `stack_pack:` in `coldpress.yaml` after Phase-3 stack-locking.
+- **Stack packs** are pluggable skill sets for specific technology stacks. Six ship in-tree at v0.3.0-alpha: `vibe-coder-fullstack` (Convex + Next.js + Clerk), `cli-npm-publishable` (TypeScript + tsup + Vitest), `browser-extension` (WXT + Manifest V3), `static-single-page`, `static-multipage-blog` (Astro variants), and `seo-pack` (cross-archetype audit/content/local/schema/technical). Activated via `stack_pack:` in `coldpress.yaml` after Phase-3 stack-locking.
 - **Sacred documents** — `_context/sacred/{context,tech-stack,prd,architecture,pert-chart}.md` — are protected by governance change workflows in `coldpress-os/governance/`.
 - **`_context/` vs `_input/`** — produced artefacts vs material fed into the project. Inputs are not written by any skill.
 
@@ -107,15 +118,16 @@ Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolde
 ```
 @coldpress/core/
 ├── src/              # CLI + generators (TypeScript)
-├── template/         # Scaffolded into consumer projects
-├── lifecycle/        # 11-phase skill organisation (Shape A — v0.3.0)
-├── skills/           # ~75 atomic reusable skills
+├── template/         # Scaffolded into consumer projects (11-subagent set)
+├── lifecycle/        # 11-phase Shape A skill organisation (67 SKILL.md)
+├── skills/           # ~85 atomic reusable skills + 6 stack packs
 ├── agents/           # Subagent schema + registry
+├── schemas/          # ~30 JSON / Zod schemas (sacred docs, handoffs, audit, design)
 ├── orchestrator/     # Parallelization engine specs
-├── governance/       # Sacred-doc change workflows
-├── data/             # Portable knowledge assets (CSV/YAML)
-├── templates/        # Document / design / infrastructure templates
-├── plugin/           # Claude Code plugin marketplace tree (build-skills output)
+├── governance/       # Sacred-doc change workflows + 4 reconciliation options
+├── data/             # Portable knowledge assets (CSV/YAML, method playbook)
+├── templates/        # Document / design / infrastructure / prompt-snippet templates
+├── plugin/           # Claude Code plugin marketplace tree (~128 spec-compliant SKILL.md)
 └── docs/             # Framework documentation
 ```
 
@@ -159,7 +171,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 | [Agent Skills compatibility](docs/agent-skills-compatibility.md) | How coldpress-os fits the Anthropic Agent Skills ecosystem |
 | [Template Registry](docs/templates-registry.md) | Every template — by category, phase, consuming skill |
 | [Skill Discovery Index](docs/skill-index.md) | Every skill grouped by phase + cross-cutting utilities |
-| [Subagent × Phase Matrix](docs/subagent-phase-matrix.md) | 9×9 reference — which subagents do what in which phases |
+| [Subagent × Phase Matrix](docs/subagent-phase-matrix.md) | 11-subagent × 11-phase reference — which subagents do what in which phases |
 | [Phase → Subfolder Mapping](docs/phase-subfolder-mapping.md) | Canonical `_context/*` destinations per phase |
 | [`coldpress.yaml` schema](docs/coldpress-yaml-schema.md) | Per-field phase ownership + write-back contract |
 | [Interop generator](docs/interop-generator.md) | AGENTS.md, Cursor, Roo, OpenHands, Cline — spec + tool translation |

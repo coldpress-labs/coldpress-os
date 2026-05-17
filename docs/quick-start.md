@@ -52,7 +52,7 @@ The scaffold confirms the target directory and then:
 
 1. Copies the template tree into `./my-awesome-project/` with placeholders filled (including 5 `_input/` subfolders — `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/` — each with a README explaining what belongs there).
 2. Copies the framework files into `./my-awesome-project/coldpress-os/`.
-3. Generates ~66 `.claude/skills/` wrappers pointing at canonical skills.
+3. Generates ~128 `.claude/skills/` wrappers pointing at canonical skills.
 4. Generates interop outputs: `AGENTS.md`, `.cursor/rules/`, `.roomodes`, `.openhands/microagents/`, `.clinerules/`.
 5. Runs `git init` + makes an initial commit (`chore: coldpress init scaffold`) + installs the pre-commit secret-scan hook (`scripts/check-secrets.sh` → `.git/hooks/pre-commit`).
 6. Records the project in `~/.coldpress/registry.json` (opt out with `COLDPRESS_NO_REGISTRY=1`).
@@ -72,8 +72,8 @@ ls -a
 .
 ├── .claude/
 │   ├── SYSTEM.md              # Butler's directive
-│   ├── agents/                # 9 subagent definitions
-│   └── skills/                # ~66 thin-wrapper SKILL.md files
+│   ├── agents/                # 11 subagent definitions
+│   └── skills/                # ~128 thin-wrapper SKILL.md files
 ├── .clinerules/               # Cline / Roo compat
 ├── .cursor/rules/             # Cursor .mdc rules (one per subagent)
 ├── .cursorrules               # Legacy Cursor fallback

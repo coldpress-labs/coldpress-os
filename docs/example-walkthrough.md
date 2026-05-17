@@ -34,7 +34,7 @@ claude                          # open Claude Code in the scaffolded project
 2. Prompts for slug + user name (only the ones not provided as flags).
 3. Copies the template tree (including 5 `_input/` subfolders: `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/` — each with a README explaining purpose).
 4. Copies the coldpress-os framework into `coldpress-os/`.
-5. Generates ~66 `.claude/skills/` wrappers + interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline).
+5. Generates ~128 `.claude/skills/` wrappers + interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline).
 6. Runs `git init` + initial commit + installs the pre-commit secret-scan hook.
 
 ### What happens in-session (Butler's Phase 1)
@@ -59,7 +59,7 @@ taskpulse/
 ├── coldpress-os/              # Framework (copied, not a submodule)
 ├── .claude/
 │   ├── SYSTEM.md              # Butler's directive
-│   ├── agents/                # 9 subagent definitions
+│   ├── agents/                # 11 subagent definitions
 │   └── skills/                # 66+ skill wrappers
 ├── .coldpress/
 │   ├── graph/graph.json       # Primed knowledge graph
