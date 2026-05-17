@@ -8,7 +8,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-(empty — all post-v0.3.1 work flows here.)
+(empty — all post-v0.3.2 work flows here.)
+
+---
+
+## [0.3.2-alpha] — 2026-05-17
+
+### Fixed
+
+- **`coldpress init` now copies the framework tree.** v0.3.1-alpha (and v0.3.0-alpha) scaffolded only the 5 top-level framework files (CHANGELOG, LICENSE, NOTICE, README, coldpress.yaml) into `<project>/coldpress-os/` — all 8 framework dirs (`lifecycle/`, `skills/`, `orchestrator/`, `governance/`, `data/`, `agents/`, `templates/`, `docs/`) were silently dropped. As a result, `.claude/skills/` ended up empty (the wrapper generator scans `coldpress-os/skills/` + `coldpress-os/lifecycle/` and found nothing).
+
+  Root cause: `copyFramework`'s `cp` filter rejected any source path containing `/node_modules/`. That check is correct in dev (no `/node_modules/` between repo root and source dirs), but when the package is installed via npm/npx, `packageRoot` itself resolves to `~/.npm/_npx/<hash>/node_modules/@coldpress/core` — so EVERY recursive source path contained `/node_modules/` and the filter rejected them all. The top-level files copied fine because they go through a second `cp` call without the filter.
+
+  Fix: drop the `/node_modules/` exclusion entirely. The `frameworkDirs` whitelist (8 dirs) is already sufficient scoping — none of those whitelisted trees contain a nested `node_modules/`. Verified locally with `npm pack` + clean-dir install: scaffold now produces 112 skill wrappers + the full 8-dir framework tree.
+
+  Surfaced by the post-publish smoke test for 0.3.1-alpha. Recommended deprecation: `npm deprecate @coldpress/core@0.3.1-alpha "Broken — framework tree not copied at init. Use 0.3.2-alpha or later."`
 
 ---
 

@@ -70,9 +70,17 @@ export async function copyFramework(targetDir: string): Promise<void> {
   const copyOpts = {
     recursive: true,
     filter: (source: string) => {
-      // Skip .DS_Store and the heavy dist/ + node_modules/ + test/ trees.
+      // Skip .DS_Store noise.
+      //
+      // NOTE: do NOT add a blanket `/node_modules/` filter here. When the
+      // package is installed via npm/npx, `packageRoot` itself resolves to
+      // something like `~/.npm/_npx/<hash>/node_modules/@coldpress/core`,
+      // so a path-includes check would reject EVERY source under it and
+      // silently skip the entire framework copy. The `frameworkDirs`
+      // whitelist (lifecycle / skills / orchestrator / governance / data /
+      // agents / templates / docs) is what scopes the copy — no real
+      // need for an exclusion list inside those whitelisted trees.
       if (source.endsWith(".DS_Store")) return false;
-      if (source.includes("/node_modules/")) return false;
       return true;
     },
   };
