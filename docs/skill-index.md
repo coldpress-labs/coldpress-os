@@ -85,20 +85,46 @@ Also available (cross-cutting creative):
 
 ---
 
-## Phase 5 — Breakdown
+## Phase 5 — Design *(NEW under Shape A)*
 
 Primary:
 | Skill | Category | Invoking subagent | Status |
 |-------|----------|-------------------|--------|
+| `design-brief` | lifecycle | ux-designer | active |
+| `ux-design` | lifecycle | ux-designer | active |
+| `brand-guidelines` | lifecycle | ux-designer | active |
+| `prototype` | lifecycle | ux-designer | active |
+| `narrative` | lifecycle | ux-designer | active |
+| `legacy-ui-assessment` | lifecycle | ux-designer | conditional (brownfield) |
+| `a11y-audit` | reviews | qa | active (Phase 5 mode) |
+
+---
+
+## Phase 6 — Architecture *(NEW under Shape A)*
+
+Primary:
+| Skill | Category | Invoking subagent | Status |
+|-------|----------|-------------------|--------|
+| `architecture-design` | lifecycle | architect | active (silent-divergence guard at Step 01) |
+| `diagram-creator` | lifecycle | architect | active (on-demand) |
+
+---
+
+## Phase 7 — Breakdown *(cascade rename — was old Phase 5)*
+
+Primary:
+| Skill | Category | Invoking subagent | Status |
+|-------|----------|-------------------|--------|
+| `breakdown-entry-sync` | lifecycle | pm | active (architecture-deltas reconciliation) |
 | `create-epics` | lifecycle | pm | active |
-| `create-stories` | lifecycle | scrum-master | active |
+| `create-stories` | lifecycle | pm | active |
 | `parallelization-strategy` | lifecycle | scrum-master | active |
 | `sprint-planning` | lifecycle | scrum-master | active |
 | `implementation-readiness` | lifecycle | qa | active |
 
 ---
 
-## Phase 6 — Implementation
+## Phase 8 — Implementation *(cascade rename — was old Phase 6)*
 
 Primary:
 | Skill | Category | Invoking subagent | Status |
@@ -109,7 +135,7 @@ Primary:
 | `code-audit` | reviews | qa | active |
 | `wave-orchestration` | lifecycle | scrum-master | active |
 
-Testing skills (primary in Phase 6, also Phase 7):
+Testing skills (primary in Phase 8, also Phase 9):
 | Skill | Category | Status |
 |-------|----------|--------|
 | `test-design` | testing | active |
@@ -122,51 +148,56 @@ Testing skills (primary in Phase 6, also Phase 7):
 | `traceability` | testing | active |
 | `teach-me-testing` | testing | ad-hoc (onboarding) |
 
-Review skills (primary in Phase 6):
+Review skills (primary in Phase 8):
 | Skill | Category | Status |
 |-------|----------|--------|
 | `adversarial-review` | reviews | active (invoked by code-review) |
 | `edge-case-hunter` | reviews | active (invoked by code-review) |
 | `editorial-prose` | reviews | active |
 | `editorial-structure` | reviews | active |
+| `a11y-audit` | reviews | active (Phase 8 mode — rides #11c/d code-review pair) |
 
 ---
 
-## Phase 7 — Deployment
+## Phase 9 — Deployment *(cascade rename — was old Phase 7)*
 
 Primary:
 | Skill | Category | Invoking subagent | Status |
 |-------|----------|-------------------|--------|
-| `readiness-check` | lifecycle | qa | active |
-| `deploy` | lifecycle | developer + qa | active |
-| `env-check` | ops | qa | active |
-| `dep-health-check` | ops | qa | active |
-| `security-scan` | ops | qa | active |
-| `db-migration-check` | ops | qa | active |
-| `ci-cd-setup` | ops | developer | active |
+| `readiness-check` | lifecycle | devops (meta-aggregator) | active |
+| `deploy` | lifecycle | devops | active (ship-path mode) |
+| `env-check` | ops | devops | active |
+| `dep-health-check` | ops | devops | active |
+| `dependency-auditor` | reviews | devops | active (license/CVE/supply-chain) |
+| `security-scan` | ops | devops | active |
+| `secrets-vault-manager` | ops | devops | active |
+| `observability-designer` | ops | devops | active |
+| `db-migration-check` | ops | devops | active |
+| `ci-cd-setup` | ops | devops | active |
 | `repo-structure-audit` | ops | valet | active |
 
 ---
 
-## Phase 8 — Operate (NEW in Wave 4)
+## Phase 10 — Operate *(cascade rename — was old Phase 8)*
 
-In-flight work, runs alongside Phase 6-7:
+Continuous operational work; owner @devops continues from Phase 9 (steady-state mode):
 | Skill | Category | Invoking subagent | Status |
 |-------|----------|-------------------|--------|
-| `correct-course` | lifecycle | scrum-master | active |
-| `sprint-status` | lifecycle | scrum-master | active |
+| `sprint-status` | lifecycle | devops | active |
+| `correct-course` | lifecycle | devops | active |
+| `incident-response` | lifecycle | devops | active |
 | `document-project` | utility (router) | communicator | active |
 
 ---
 
-## Phase 9 — Evolve (NEW in Wave 4)
+## Phase 11 — Evolve *(FINAL — cascade rename + new owner @reviewer)*
 
-Post-release learning:
+Post-release learning; closure copies outputs to `_input/prior-iteration/` for next-iteration Phase 1:
 | Skill | Category | Invoking subagent | Status |
 |-------|----------|-------------------|--------|
-| `retrospective` | lifecycle | scrum-master | active |
-| `product-evolution` | lifecycle | pm | active |
-| `innovation-strategy` | creative (router) | analyst | active (cross-cutting) |
+| `retrospective` | lifecycle | reviewer | active (Step 0: ops-deltas reconciliation) |
+| `product-evolution` | lifecycle | reviewer | active |
+| `innovation-strategy` | creative (router) | reviewer | active |
 
 ---
 

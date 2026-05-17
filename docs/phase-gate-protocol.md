@@ -165,7 +165,7 @@ Sign-offs **don't expire by default** but individual checks can set a staleness 
 
 ## Migration from prose exit conditions
 
-Each of the 9 phase READMEs still has prose entry/exit conditions. The `gate.json` file replaces the *exit* conditions as authoritative; prose entry conditions remain (they're contextual guidance, not machine-verifiable). Wave 4 Block W updated Phase 6 + Phase 7 READMEs with both narratives; remaining phases get the prose-trim in a follow-up refresh.
+Each of the 11 phase READMEs (Shape A) still has prose entry/exit conditions. The `gate.json` file replaces the *exit* conditions as authoritative; prose entry conditions remain (they're contextual guidance, not machine-verifiable).
 
 Policy: **when prose disagrees with `gate.json`, trust `gate.json`.** The schema is load-bearing.
 
@@ -207,3 +207,10 @@ Edit `lifecycle/<phase>/gate.json`. Add a row to `acceptance_checks[]`. Gate re-
 - [`skills/governance/evaluate-phase-gate/`](../skills/governance/evaluate-phase-gate/) — the evaluator skill.
 - [`docs/handoff-schema-spec.md`](handoff-schema-spec.md) — complementary protocol for inter-phase typed handoffs.
 - [`governance/sacred-docs.md`](../governance/sacred-docs.md) — sacred-doc governance (content protection; this doc handles shape + transition).
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

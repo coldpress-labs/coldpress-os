@@ -73,8 +73,14 @@ Append-only. One row per lock decision (most projects have one; re-runs followin
 
 ---
 
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 ### Version Control
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial spec — Part 3 Wave 4 §4.5 |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial spec — Part 3 Wave 4 §4.5 |

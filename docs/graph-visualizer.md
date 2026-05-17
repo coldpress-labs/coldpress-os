@@ -174,3 +174,10 @@ Total: 31 tests in `test/graph-visualizer.test.ts`.
 - [`graph-query.md`](graph-query.md) — `coldpress graph query` CLI (Wave 3 Block N, skill-facing query surface).
 - [`secure-pattern.md`](secure-pattern.md) — why credential VALUES never enter the graph; only CredentialName nodes.
 - Dashboard protocol doc — lands with Block GG (§6.10).
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

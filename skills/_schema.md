@@ -313,5 +313,5 @@ For new skills, run `@valet skill-builder` (v1.1+) — interactive scaffolding w
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-05-03 | Andy-coldpress-os (Unit #29 / 29.8) | Added v0.3.0-alpha SKILL-AUTHORING-STANDARD section. Mandatory frontmatter (license / version / updated; inputs split into graph_queries / cold_file_reads / existence_checks). Body ≤10KB cap. 8 required sections (added Proactive Triggers, Output Artifacts, Activation-Gate Checklist beyond original 5). Forbidden patterns listed. Cross-references to canonical authoring reference at `templates/infrastructure/skill.md` + skill-builder v1.1 + cross-cutting docs. |
-| 1.0 | 2026-04-07 | Alfred | Initial skill schema — unified format from BMAD/MAO/Convex analysis |
+| 2.0 | 2026-05-03 | ColdPress Labs | Added v0.3.0-alpha SKILL-AUTHORING-STANDARD section. Mandatory frontmatter (license / version / updated; inputs split into graph_queries / cold_file_reads / existence_checks). Body ≤10KB cap. 8 required sections (added Proactive Triggers, Output Artifacts, Activation-Gate Checklist beyond original 5). Forbidden patterns listed. Cross-references to canonical authoring reference at `templates/infrastructure/skill.md` + skill-builder v1.1 + cross-cutting docs. |
+| 1.0 | 2026-04-07 | ColdPress Labs | Initial skill schema — unified format from BMAD/MAO/Convex analysis |

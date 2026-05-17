@@ -74,4 +74,4 @@ The `MANUAL` confidence signals to Graphify that this edge was written by the go
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial spec per Phase II Part 2 Wave 4.2. Defines append-only table format, column semantics, graph edge relationship, and downstream consumers (gate, PRD, audit). |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial spec per Phase II Part 2 Wave 4.2. Defines append-only table format, column semantics, graph edge relationship, and downstream consumers (gate, PRD, audit). |

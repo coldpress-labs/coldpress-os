@@ -76,4 +76,4 @@ Acceptance on this file: when a fixture project drops a well-formed `partial_com
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial orchestration notes per Phase II Part 2 Wave 3.8 (FP2 + FP5). Codifies parallel-research failure handling (continue-and-flag, 5-min default timeout, warn-severity at gate) and Phase 2 step_id naming convention for partial-completion markers extending the Part 1 schema. |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial orchestration notes per Phase II Part 2 Wave 3.8 (FP2 + FP5). Codifies parallel-research failure handling (continue-and-flag, 5-min default timeout, warn-severity at gate) and Phase 2 step_id naming convention for partial-completion markers extending the Part 1 schema. |

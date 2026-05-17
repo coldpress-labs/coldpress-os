@@ -90,3 +90,10 @@ agent: CodeActAgent
 New output format? Add a writer under `src/interop/<format>.ts` that exports a `write<Format>({ targetDir, agents })` function. Wire it into `runInterop` in `src/interop/index.ts` and add coverage to `test/interop.test.ts`.
 
 New tool mapping? Extend `CLAUDE_TO_ROO` in `src/interop/tool-map.ts`. Add a test in `test/interop.test.ts` (see the existing `tool-map` suite).
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

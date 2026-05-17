@@ -135,3 +135,10 @@ Commit the file; future `coldpress security aggregate` runs will suppress that f
 - [phase-gate-protocol.md](phase-gate-protocol.md) — the §5.0 contract this skill plugs into.
 - [governance.md](governance.md) — §5.2 sacred-doc validation (pairs with security at the governance boundary).
 - [secure-pattern.md](secure-pattern.md) — complementary: the `secure/` pattern keeps credential _values_ out of the repo; the security gate keeps _leaks_ out at deploy time.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

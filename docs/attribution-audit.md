@@ -64,7 +64,7 @@ files inside each section. Where the audit is uncertain, we say so explicitly.
 | `skills/planning/`, `skills/discovery/`, `skills/bootstrap/`, `skills/implementation/`, `skills/deployment/`, `skills/testing/`, `skills/reviews/`, `skills/utilities/` | BMAD-core | Derived — mix of close port and substantially modified | Most skills trace to `_bmad/core/` and `_bmad/bmm/`. `skills/utilities/` is closest to direct port; others are restructured. |
 | `skills/meta/` | BMAD-core + original | Mixed | `agent-builder`, `skill-builder`, `workflow-builder`, `template-builder` inspired by BMAD-core authoring tools; `propose-change` is original |
 | `skills/stack-packs/vibe-coder-fullstack` | — | Original — ColdPress Labs | Stack-pack mechanism is a coldpress-os extension |
-| `lifecycle/` (9-phase structure) | — | Inspired — conceptual only | 9-phase lifecycle shell is original; skill wrappers within each phase reference upstream-derived skills |
+| `lifecycle/` (11-phase Shape A structure) | — | Inspired — conceptual only | 11-phase Shape A lifecycle shell is original; skill wrappers within each phase reference upstream-derived skills |
 | `orchestrator/` | — | Original — ColdPress Labs | DAG/waves/PERT orchestrator has no upstream counterpart |
 | `governance/` | — | Original — ColdPress Labs | Sacred-docs governance model and change workflows are a coldpress-os invention |
 | `templates/documents/` | BMAD-core | Derived — substantially modified | Template concepts (PRD, architecture, story, epic, ADR) come from `_bmad/bmm/`; reformatted and extended for coldpress-os |
@@ -172,10 +172,10 @@ is by category.
 
 ### `lifecycle/`
 
-- **The 9-phase structure** (`1-bootstrap` → `8-evolve`) — *Inspired —
+- **The 11-phase Shape A structure** (`1-bootstrap` → `11-evolve`) — *Inspired —
   conceptual only.* BMAD organises workflows by module (core / bmm) and by
   BMM sub-phase (`1-analysis`, `2-plan-workflows`, `3-solutioning`,
-  `4-implementation`). coldpress-os rethinks this into an opinionated 9-phase
+  `4-implementation`). coldpress-os rethinks this into an opinionated 11-phase Shape A
   full-lifecycle pipeline. The phase model itself (Bootstrap, Discovery,
   Tech Stack, Planning, Breakdown, Implementation, Deployment, Evolve) is
   coldpress-os-original.
@@ -373,8 +373,8 @@ the coldpress-os repository.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.4 | 2026-04-23 | Cadbury-hq | Added Graphify v4 as fourth upstream — vendored verbatim into `graph/vendor/graphify/` as part of Wave 3 Block M (§3.1 + §3.2). Upstream MIT. Summary Table gains a row for the vendored tree with what-was-kept + what-was-stripped notes. Schema reshape / Butler integration land in subsequent Wave 3 blocks; this revision records the as-of-vendor state. |
-| 1.3 | 2026-04-15 | Alfred | Three-upstream reclassification: CIS (Creative Intelligence Suite) and WDS (Whiteport Design System) now credited distinctly from BMAD-core, matching the `origin:` frontmatter on legacy personas and the final NOTICE.md. Summary table gains an Upstream column. `skills/creative/` retagged as CIS-origin; `templates/design/` reclassified with WDS as the primary upstream. Purpose and Method sections rewritten around three upstreams. |
-| 1.2 | 2026-04-15 | Alfred | Legacy persona archive moved out of framework repo to `hq-p001-coldpress-os/legacy/agents-archive/`. Summary table and `agents/` section updated to reference new location and cite per-file `origin:` frontmatter as authoritative provenance record. |
-| 1.1 | 2026-04-15 | Cadbury-hq | Resolved `templates/design/` attribution to *Derived — substantially modified*. Confirmed both upstreams (`bmad-create-ux-design` skill and BMAD `wds` module v6.2.2) are BMAD; removed from Known Uncertainties. |
-| 1.0 | 2026-04-15 | Alfred | Initial attribution audit |
+| 1.4 | 2026-04-23 | ColdPress Labs | Added Graphify v4 as fourth upstream — vendored verbatim into `graph/vendor/graphify/` as part of Wave 3 Block M (§3.1 + §3.2). Upstream MIT. Summary Table gains a row for the vendored tree with what-was-kept + what-was-stripped notes. Schema reshape / Butler integration land in subsequent Wave 3 blocks; this revision records the as-of-vendor state. |
+| 1.3 | 2026-04-15 | ColdPress Labs | Three-upstream reclassification: CIS (Creative Intelligence Suite) and WDS (Whiteport Design System) now credited distinctly from BMAD-core, matching the `origin:` frontmatter on legacy personas and the final NOTICE.md. Summary table gains an Upstream column. `skills/creative/` retagged as CIS-origin; `templates/design/` reclassified with WDS as the primary upstream. Purpose and Method sections rewritten around three upstreams. |
+| 1.2 | 2026-04-15 | ColdPress Labs | Legacy persona archive moved out of framework repo to `hq-p001-coldpress-os/legacy/agents-archive/`. Summary table and `agents/` section updated to reference new location and cite per-file `origin:` frontmatter as authoritative provenance record. |
+| 1.1 | 2026-04-15 | ColdPress Labs | Resolved `templates/design/` attribution to *Derived — substantially modified*. Confirmed both upstreams (`bmad-create-ux-design` skill and BMAD `wds` module v6.2.2) are BMAD; removed from Known Uncertainties. |
+| 1.0 | 2026-04-15 | ColdPress Labs | Initial attribution audit |

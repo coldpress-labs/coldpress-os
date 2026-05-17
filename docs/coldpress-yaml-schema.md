@@ -251,5 +251,5 @@ Every intake step writes `partial_completion` before starting its work; on clean
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 4.11. Phase 3 section: added `baselines:` top-level block (4 categories, written by stack-locking step-05b; validated by `schemas/baselines.schema.json`). Local-config section: added `phase_3_completed`, `phase_3_completed_at`, `phase_3_started_at`, `product_type`, `domain_complexity`, `sub_state` (4 variants), `post_phase_3_update_ran`, `post_phase_3_update_ran_at`. |
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial schema doc — Phase I Wave 1. Phase-1 template fields; write-back contract; back-compat note; local-config schema. |
+| 2.0 | 2026-04-24 | ColdPress Labs | Phase II Part 3 Wave 4.11. Phase 3 section: added `baselines:` top-level block (4 categories, written by stack-locking step-05b; validated by `schemas/baselines.schema.json`). Local-config section: added `phase_3_completed`, `phase_3_completed_at`, `phase_3_started_at`, `product_type`, `domain_complexity`, `sub_state` (4 variants), `post_phase_3_update_ran`, `post_phase_3_update_ran_at`. |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial schema doc — Phase I Wave 1. Phase-1 template fields; write-back contract; back-compat note; local-config schema. |

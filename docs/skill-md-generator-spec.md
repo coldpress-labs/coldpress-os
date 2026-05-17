@@ -147,3 +147,10 @@ Until the CI wiring lands in Block K, contributors run `npm run build:skills` lo
 - **New field mapping**: edit `toSpecFrontmatter` in [`src/generators/skill-spec.ts`](../src/generators/skill-spec.ts). Add a unit test in `test/skill-md-generator.test.ts`.
 - **New validator**: add to `skill-spec.ts` (`validateXxx` helpers return `ValidationIssue[]`), then wire into `generatePluginSkills` in the generator.
 - **Alternate output location**: pass a different `outputDir` to `generatePluginSkills({ outputDir })`. The build-skills entry point is a thin wrapper.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

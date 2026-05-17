@@ -1,18 +1,19 @@
 ---
 name: subagent-phase-matrix
-description: 9×9 reference matrix — which subagents are active in which phases, what they do there, and what they invoke
-version: "1.0"
+description: 11×11 reference matrix — which subagents are active in which phases under Shape A (v0.3.0-alpha), what they do there, and what they invoke
+version: "2.0"
 ---
 
 # Subagent × Phase Capability Matrix
 
-> A single-surface reference for "what does subagent X do in phase Y?" Before this matrix, the answer was scattered across 9 subagent definitions + 9 phase READMEs + `docs/architecture.md`. This doc is the canonical cross-reference.
+> A single-surface reference for "what does subagent X do in phase Y?" The matrix is the canonical cross-reference across the 11 subagent definitions + 11 phase READMEs + `docs/architecture.md`.
+
+> **Hello Butler.** Butler (the main orchestrator, see [`butler.md`](butler.md)) reads this matrix at dispatch time to decide which subagent to invoke for a given phase + skill combination.
 
 **Source decision:** [framework-audit-2026-04-23.md "Discoverability gap"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md).
 
-**Axes:** 9 subagents (rows) × 9 phases (columns, post-Phase-8-split).
+**Axes:** 11 subagents (rows) × 11 phases (columns, Shape A v0.3.0-alpha — Design (P5) and Architecture (P6) split out from old P4; old phases 5-9 cascade-renamed to 7-11; @devops added for P9+P10 in two phase-modes; @reviewer added for P11).
 **Cell contents:** primary role in that phase + skills invoked, or `—` for "not active."
-**Future update:** Wave 6 §6.3 adds `@reviewer` as a 10th row once it ships.
 
 ---
 

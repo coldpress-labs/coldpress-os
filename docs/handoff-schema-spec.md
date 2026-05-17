@@ -182,3 +182,10 @@ The function never throws on validation failure; the caller decides how to surfa
 - [`schemas/handoffs/`](../schemas/handoffs/) — Zod schema source.
 - [`src/handoffs/validate.ts`](../src/handoffs/validate.ts) — validation API.
 - [`governance/sacred-docs.md`](../governance/sacred-docs.md) — complementary governance for *content* changes (handoff schemas protect *shape*).
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

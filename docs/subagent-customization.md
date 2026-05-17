@@ -311,5 +311,5 @@ Additional migrations land as we identify context-gathering skills that benefit.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.1 | 2026-04-23 | Cadbury-hq | Added "Advanced: Graph-first context gathering" section — documents the `coldpress graph query` exit-code fallback pattern used by `index-docs` + `code-audit`. Part of Wave 4 Block V. |
-| 1.0 | 2026-04-13 | Alfred | Initial subagent customization guide — modes, overrides, custom agents, model selection |
+| 1.1 | 2026-04-23 | ColdPress Labs | Added "Advanced: Graph-first context gathering" section — documents the `coldpress graph query` exit-code fallback pattern used by `index-docs` + `code-audit`. Part of Wave 4 Block V. |
+| 1.0 | 2026-04-13 | ColdPress Labs | Initial subagent customization guide — modes, overrides, custom agents, model selection |

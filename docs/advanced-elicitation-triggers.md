@@ -79,4 +79,4 @@ Fixture cases (Phase II Part 2 Wave 3.8 completion):
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial spec per Phase II Part 2 Wave 3.8 (FP10). Heuristics codified: strong triggers (word count, single-word, deflection markers) + moderate triggers (hedges, clichés, question-echoes) + ≥2-moderate invocation rule + user dismissal pattern. Method-selection bias pointer to `method-defaults.yaml`. Fixture cases for test authoring. |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial spec per Phase II Part 2 Wave 3.8 (FP10). Heuristics codified: strong triggers (word count, single-word, deflection markers) + moderate triggers (hedges, clichés, question-echoes) + ≥2-moderate invocation rule + user dismissal pattern. Method-selection bias pointer to `method-defaults.yaml`. Fixture cases for test authoring. |

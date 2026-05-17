@@ -1,7 +1,9 @@
 # Flow Map — coldpress-os
 
 > Visual mapping: Phases → Skills → Subagents → Outputs.
-> Single pipeline. 9 subagents. Unified orchestration.
+> Single pipeline. 11 subagents (Shape A v0.3.0-alpha). Unified orchestration.
+
+> **Hello Butler.** Butler (the main orchestrator, see [`butler.md`](butler.md)) walks this map at dispatch time — invoking the right skill at the right phase and handing off to subagents via the Agent tool.
 
 ---
 
@@ -9,7 +11,7 @@
 
 ```
 Pre-session (CLI):
-  coldpress doctor ──────► Environment verified (Node 20+, git 2.30+, Claude Code)
+  coldpress doctor ──────► Environment verified (Node 22+, git 2.30+, Claude Code)
   coldpress init   ──────► Project scaffolded: coldpress.yaml + .claude/ + template tree
                            + .claude/skills/ wrappers + AGENTS.md + git init + pre-commit hook
 
@@ -112,41 +114,85 @@ env-provision ──────────►  Dev environment configured + ba
 
 ---
 
-## Phase 4: Planning
+## Phase 4: Planning *(PRD-only post-split under Shape A)*
 
 ```
-product-brief ──────────► product-brief.md + trigger-map.md
-  Subagent: @analyst (brief mode)
+planning-entry-sync ────► graph-first read of Phase 2+3 outputs
+  Subagent: @pm
 
-create-prd ─────────────► prd.md [SACRED]
+create-prd ─────────────► prd.md [SACRED] + prd.meta.json sidecar
   Subagent: @pm
   Template: templates/documents/prd.md
 
 validate-prd ───────────► validation-report.md
   Subagent: @pm
+  --sections=<list> flag enables section-scoped re-validation
+  for amendments (used when Phase 5 design-deltas surface)
 
-create-ux-design ───────► ux-design-spec.md
-  Subagent: @ux-designer (standard or full-spec mode)
-  Template: templates/documents/ux-design-spec.md
-
-create-architecture ────► architecture.md [SACRED]
+legacy-assessment ──────► legacy-migration-plan-v{N}.md (brownfield only)
   Subagent: @architect
-  Template: templates/documents/architecture.md
-
-design-brief ───────────► design-brief.md
-  Subagent: @ux-designer (full-spec mode)
-  Bridge: imports product-brief, starts at content strategy
 ```
 
 **On-demand subagents:**
 - `@analyst` (creative mode — problem-solving, storytelling, innovation-strategy)
 - `@communicator` (narrative mode — pitch narratives, presentation mode — stakeholder decks)
 
-**Gate:** PRD validated, architecture complete → both become sacred
+**Gate:** PRD validated → sacred. UX-design and architecture now belong to Phase 5 (Design) and Phase 6 (Architecture) respectively under Shape A.
 
 ---
 
-## Phase 5: Breakdown
+## Phase 5: Design *(NEW under Shape A)*
+
+```
+design-brief ────────────► design-brief-v{N}.md
+  Subagent: @ux-designer
+  Output: _context/design/design-brief-v{N}.md
+
+ux-design ──────────────► ux-design-spec.md
+  Subagent: @ux-designer
+  Steps: IA → flows → wireframes → spec
+  Output: _context/design/ux-design-spec.md (validated distillate, not sacred)
+
+brand-guidelines ───────► brand-guidelines-v{N}.md
+  Subagent: @ux-designer
+  Output: _context/design/brand-guidelines-v{N}.md
+
+prototype ──────────────► prototype scaffold (archetype-shaped)
+  Subagent: @ux-designer
+
+narrative ──────────────► narrative wrapper around skills/creative/storytelling
+  Subagent: @ux-designer
+
+legacy-ui-assessment ───► legacy UI inventory (brownfield only, conditional)
+  Subagent: @ux-designer
+```
+
+**Gate:** UX spec + brand guidelines authored. Design-deltas reconciled (4 options: accept_into_prd / reject / flag_for_architecture_ADR / park_for_phase_11). Design-deltas flagged `flag_for_architecture_ADR` carry to Phase 6 as REQUIRED ADRs.
+
+---
+
+## Phase 6: Architecture *(NEW under Shape A)*
+
+```
+architecture-design ────► architecture.md [SACRED]
+  Subagent: @architect
+  Step 01 (CRITICAL): flagged-deltas-intake — reads architecture_adrs_required[]
+                      from phase-5 handoff; silent-divergence guard.
+  Steps 2–4: overview / data-flow / NFR
+  Step 5: ADRs (incl. REQUIRED ADRs for flagged deltas)
+  Step 6: emit (MANDATORY: Component Interaction Diagram (Mermaid) +
+          Failure Mode Enumeration table)
+  Output: _context/sacred/architecture.md + architecture.meta.json sidecar
+
+diagram-creator ────────► supporting Mermaid diagrams (on-demand)
+  Subagent: @architect
+```
+
+**Gate:** Architecture sacred + every Phase 5 `flag_for_architecture_ADR` delta has a corresponding ADR. Silent-divergence-guard: cannot exit Phase 6 with unresolved P5 flagged deltas.
+
+---
+
+## Phase 7: Breakdown *(cascade rename — was old Phase 5)*
 
 ```
 create-epics ───────────► epics/ directory
@@ -175,7 +221,7 @@ implementation-readiness ► readiness-report.md
 
 ---
 
-## Phase 6: Implementation
+## Phase 8: Implementation *(cascade rename — was old Phase 6)*
 
 ```
 dev-story ──────────────► Implemented code + tests
@@ -205,36 +251,75 @@ wave-orchestration ─────► Wave execution tracking
 
 ---
 
-## Phase 7: Deployment
+## Phase 9: Deployment *(cascade rename — was old Phase 7)*
 
 ```
 readiness-check ────────► deployment-readiness.md
-  Subagent: @qa
+  Subagent: @devops (meta-aggregator)
 env-check ──────────────► env-validation.md
 dep-health-check ───────► dependency-report.md
+dependency-auditor ─────► dep license / CVE / supply-chain audit
 security-scan ──────────► security-report.md
+secrets-vault-manager ──► secrets posture report
+observability-designer ─► observability plan + config
 db-migration-check ─────► migration-validation.md
 deploy ─────────────────► Deployed application
-  Subagent: @developer
+  Subagent: @devops (ship-path mode)
 ```
 
 **Gate:** All checks pass → deploy
 
 ---
 
-## Subagent Summary by Phase
+## Phase 10: Operate *(cascade rename — was old Phase 8)*
+
+```
+sprint-status ──────────► sprint-status-v{N}.md
+  Subagent: @devops (steady-state mode)
+correct-course ─────────► course-correction-v{N}.md
+  Subagent: @devops
+incident-response ──────► incident-{slug}-{date}-postmortem.md
+  Subagent: @devops
+document-project ───────► docs maintenance (on-demand)
+```
+
+**Gate:** ops-deltas aggregated for Phase 11 handoff; sprint-status current; incidents have postmortems.
+
+---
+
+## Phase 11: Evolve *(FINAL — cascade rename + new owner @reviewer)*
+
+```
+retrospective ──────────► retrospective-v{N}.md
+  Subagent: @reviewer
+  Step 0: ops-deltas reconciliation (4-option resolution)
+
+product-evolution ──────► product-evolution-backlog-v{N}.md
+  Subagent: @reviewer
+
+innovation-strategy ────► innovation-strategy-v{N}.md
+  Subagent: @reviewer
+```
+
+**Gate:** Phase 11 is final. Closure copies outputs to `_input/prior-iteration/` for next-iteration Phase 1.
+
+---
+
+## Subagent Summary by Phase (Shape A 11-phase)
 
 | Phase | Primary Subagents | On-Demand |
 |-------|------------------|-----------|
-| 1 — Bootstrap | (Butler) | — |
-| 2 — Discovery | @analyst | @architect |
-| 3 — Tech Stack | @architect (discovery/evaluation/locking) | @developer (env-provision); brainstorming + innovation-strategy (creative routers, on-demand) |
-| 4 — Planning | @pm, @ux-designer, @architect | @analyst, @communicator |
-| 5 — Breakdown | @pm, @scrum-master | @qa |
-| 6 — Implementation | @developer, @qa | @scrum-master |
-| 7 — Deployment | @qa, @developer | — |
-| 8 — Operate | @scrum-master, @communicator | — |
-| 9 — Evolve | @scrum-master, @pm | @analyst, @communicator |
+| 1 — Bootstrap | butler | — |
+| 2 — Discovery | @analyst | @ux-designer (personas) |
+| 3 — Tech Stack | @architect | @developer (env-provision); brainstorming + innovation-strategy creative routers |
+| 4 — Planning | @pm | @analyst, @communicator |
+| 5 — **Design** | @ux-designer | @communicator (narrative) |
+| 6 — **Architecture** | @architect | — |
+| 7 — Breakdown | @pm, @scrum-master | @qa |
+| 8 — Implementation | @developer, @qa | @scrum-master |
+| 9 — Deployment | @devops | @qa |
+| 10 — Operate | @devops | @communicator (document-project) |
+| 11 — Evolve | @reviewer | @analyst, @communicator |
 
 ---
 
@@ -242,11 +327,11 @@ deploy ─────────────────► Deployed applicati
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 8.0 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 5.3. Phase 3 section fully rewritten: warm-handoff note added; 4-skill complete flow with stack-discovery-sync (new), per-decision stack-evaluation (T1/T2/T3 tiered), stack-locking (two-output: sacred + distillate + pack + baselines), post-Phase-3 CLI step, env-provision (pack-branched + baselines activation). Subagent summary row 3 updated with @architect/@developer split and on-demand creative routers. Gate note updated to two-stage (10 + 3). |
-| 7.0 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 5.4. Phase 2 section fully rewritten: warm-handoff note added; 8-skill complete flow (pre-project-interview → parallel research lane [domain + market + constraint + personas] → validate-idea → synthesize-research → product-brief); @ux-designer added for personas; constraint-research clarified as analyst-only (not @architect); product-brief annotated as validated distillate (not sacred); gate updated to 7-check summary (4 block + 3 warn). |
-| 6.0 | 2026-04-24 | Cadbury-hq | Phase II Part 1 Wave 5.1b. Phase 1 section rewritten for the npm-era CLI / in-session split: `coldpress doctor` + `coldpress init` (pre-session) replace the retired `machine-setup` + `project-init` + `agent-scaffold` trio; Butler's new `orient` + `intake` lifecycle skills drive in-session Phase 1. Gate reference points at `lifecycle/1-bootstrap/gate.json` (6 acceptance checks). |
-| 5.0 | 2026-04-23 | Cadbury-hq | 9-phase lifecycle — Phase 8 split into Operate + Evolve per Wave 4 §4.11. Phase 8 section rewritten (in-flight operational work); new Phase 9 section added (post-release learning). Subagent summary table extended to 9 rows. |
-| 4.0 | 2026-04-14 | Alfred | Removed BMAD/MAO references. Renamed mao-scaffold → agent-scaffold. |
-| 3.0 | 2026-04-13 | Alfred | Rewritten for 9-subagent system. Single pipeline. Added subagent summary table. |
-| 2.0 | 2026-04-08 | Alfred | Updated all agent names to new naming convention |
-| 1.0 | 2026-04-07 | Alfred | Initial flow map — all 8 phases with agent/skill/output mapping |
+| 8.0 | 2026-04-24 | ColdPress Labs | Phase II Part 3 Wave 5.3. Phase 3 section fully rewritten: warm-handoff note added; 4-skill complete flow with stack-discovery-sync (new), per-decision stack-evaluation (T1/T2/T3 tiered), stack-locking (two-output: sacred + distillate + pack + baselines), post-Phase-3 CLI step, env-provision (pack-branched + baselines activation). Subagent summary row 3 updated with @architect/@developer split and on-demand creative routers. Gate note updated to two-stage (10 + 3). |
+| 7.0 | 2026-04-24 | ColdPress Labs | Phase II Part 2 Wave 5.4. Phase 2 section fully rewritten: warm-handoff note added; 8-skill complete flow (pre-project-interview → parallel research lane [domain + market + constraint + personas] → validate-idea → synthesize-research → product-brief); @ux-designer added for personas; constraint-research clarified as analyst-only (not @architect); product-brief annotated as validated distillate (not sacred); gate updated to 7-check summary (4 block + 3 warn). |
+| 6.0 | 2026-04-24 | ColdPress Labs | Phase II Part 1 Wave 5.1b. Phase 1 section rewritten for the npm-era CLI / in-session split: `coldpress doctor` + `coldpress init` (pre-session) replace the retired `machine-setup` + `project-init` + `agent-scaffold` trio; Butler's new `orient` + `intake` lifecycle skills drive in-session Phase 1. Gate reference points at `lifecycle/1-bootstrap/gate.json` (6 acceptance checks). |
+| 5.0 | 2026-04-23 | ColdPress Labs | 9-phase lifecycle — Phase 8 split into Operate + Evolve per Wave 4 §4.11. Phase 8 section rewritten (in-flight operational work); new Phase 9 section added (post-release learning). Subagent summary table extended to 9 rows. |
+| 4.0 | 2026-04-14 | ColdPress Labs | Removed BMAD/MAO references. Renamed mao-scaffold → agent-scaffold. |
+| 3.0 | 2026-04-13 | ColdPress Labs | Rewritten for 9-subagent system. Single pipeline. Added subagent summary table. |
+| 2.0 | 2026-04-08 | ColdPress Labs | Updated all agent names to new naming convention |
+| 1.0 | 2026-04-07 | ColdPress Labs | Initial flow map — all 8 phases with agent/skill/output mapping |

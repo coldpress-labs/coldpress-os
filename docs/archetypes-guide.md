@@ -1,12 +1,14 @@
 ---
 name: archetypes-guide
-description: Project archetypes specialise the framework within the 9-phase spine — never fork it. Schema + 4 v1 manifests (app-build / data-heavy / infrastructure / research) + loader, with override-application deferred until init.ts settles
-version: "1.0"
+description: Project archetypes specialise the framework within the 11-phase Shape A spine — never fork it. Schema + 4 v1 manifests (app-build / data-heavy / infrastructure / research) + loader, with override-application deferred until init.ts settles
+version: "2.0"
 ---
 
 # Project Archetypes (§6.3)
 
-> Coldpress-os ships one canonical 9-phase lifecycle, ten subagents, and a global skill registry. But not every project is a user-facing app — some are data pipelines, some are IaC, some are research. Forking the lifecycle for each variant would balloon maintenance and fragment best-practice. Archetypes solve this by **specialising the framework within the 9-phase spine** — different subagents at specific phases, different skill palettes, different template presets — without forking the spine itself.
+> Coldpress-os ships one canonical **11-phase Shape A lifecycle**, eleven subagents, and a global skill registry. But not every project is a user-facing app — some are data pipelines, some are IaC, some are research. Forking the lifecycle for each variant would balloon maintenance and fragment best-practice. Archetypes solve this by **specialising the framework within the 11-phase spine** — different subagents at specific phases, different skill palettes, different template presets — without forking the spine itself.
+
+> **Hello Butler — where are we?** Butler (the main orchestrator, see [`butler.md`](butler.md)) reads `coldpress.yaml.archetype` at session start to know which subagent overrides apply for the project. Archetypes don't change *what* Butler does — they change *who* Butler dispatches and *which* templates the subagents use.
 
 **Source decision:** plan §6.3, sourced from BMAD-family positioning brief + MetaGPT Data Interpreter pattern.
 
@@ -14,9 +16,9 @@ version: "1.0"
 
 ## Hard rule — never fork the spine
 
-The 9 phases (`1-bootstrap` through `9-evolve`) are universal. Every phase has the same canonical exit gate, the same sacred-doc lineage, the same wave structure. An archetype:
+The 11 phases (`1-bootstrap` through `11-evolve`) are universal under Shape A. Every phase has the same canonical exit gate, the same sacred-doc lineage, the same wave structure. An archetype:
 
-- ✅ Swap which subagent owns a specific phase (e.g. `data-heavy` swaps `@developer` for `data-interpreter` at Phase 6).
+- ✅ Swap which subagent owns a specific phase (e.g. `data-heavy` swaps `@developer` for `data-interpreter` at Phase 8).
 - ✅ Disable / enable specific skills from the global registry.
 - ✅ Override template presets (different PRD shape for research vs. app-build).
 - ❌ Add or remove phases.
@@ -35,9 +37,9 @@ Shipped at [`install/archetypes/`](../install/archetypes/):
 | id | Status | Status quo | What it changes |
 |----|--------|-----------|-----------------|
 | `app-build` | stable | Default. No overrides. | The reference contract for "default coldpress-os". |
-| `data-heavy` | experimental | Phase 6 owned by `data-interpreter` (variant of @developer). | PRD template leads with Hypothesis / Dataset / Success Metrics. Disables `quick-dev`. |
+| `data-heavy` | experimental | Phase 8 owned by `data-interpreter` (variant of @developer). | PRD template leads with Hypothesis / Dataset / Success Metrics. Disables `quick-dev`. |
 | `infrastructure` | experimental | Phase 4 owned by `@architect` directly (collapses @pm). | PRD template leads with Topology / SLO / Cost-target. Architecture template adds Network Diagram + Failure Modes + DR sections. |
-| `research` | experimental | Phase 6 owned by `@analyst` (research-as-impl). | PRD leads with Research Question / Hypotheses. Disables `quick-dev`, `deploy`, `readiness-check`, `env-check`. |
+| `research` | experimental | Phase 8 owned by `@analyst` (research-as-impl). | PRD leads with Research Question / Hypotheses. Disables `quick-dev`, `deploy`, `readiness-check`, `env-check`. |
 
 **Adding the 5th:** drop `install/archetypes/<slug>.yaml`, add the slug to `SHIPPED_ARCHETYPES` in [`schemas/archetype.schema.ts`](../schemas/archetype.schema.ts), update the table here. The disk↔registry coverage test (`test/archetypes.test.ts`) catches drift.
 
@@ -57,7 +59,7 @@ status: experimental | stable
 priority: 30                      # 0-100 (default 0); reserved for future smart-detect
 
 subagent_overrides:               # phase-specific subagent swaps
-  - phase: 6                      # 1-9
+  - phase: 8                      # 1-11 (Shape A)
     replace: developer
     replace_with: data-interpreter
     reason: "one-line rationale"
@@ -76,7 +78,7 @@ notes: |
 ```
 
 Validation invariants:
-- `phase` ∈ 1..9.
+- `phase` ∈ 1..11.
 - `id` must match the YAML filename basename.
 - `disable` and `enable` cannot overlap (a skill is in one list or the other, never both).
 - `priority` ∈ 0..100.
@@ -147,6 +149,6 @@ Authoring a variant: drop `template/.claude/agents/<variant-slug>.md` with the s
 ## See also
 
 - [`schemas/archetype.schema.ts`](../schemas/archetype.schema.ts) — the typed contract.
-- [`subagent-phase-matrix.md`](subagent-phase-matrix.md) — the canonical 10-subagent × 9-phase matrix (the "before" state archetypes specialise from).
+- [`subagent-phase-matrix.md`](subagent-phase-matrix.md) — the canonical 11-subagent × 11-phase matrix (the "before" state archetypes specialise from).
 - [`phase-gate-protocol.md`](phase-gate-protocol.md) — phase exit criteria; archetypes don't change the gate JSON schema, only the skills that satisfy it.
 - [`reviewer-subagent.md`](reviewer-subagent.md) — Block EE sibling; the `@reviewer` slot is universal (no archetype overrides it).

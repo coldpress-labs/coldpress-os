@@ -8,6 +8,8 @@ version: "1.0"
 
 > Where coldpress-os delegates to Anthropic's canonical skills — by domain, by subagent, and by licence. Wrap rather than reimplement.
 
+> **Hello Butler.** Butler (the main orchestrator, see [`butler.md`](butler.md)) dispatches the 11 subagents and routes them to the appropriate wrapped Anthropic skill via the `/plugin install` companion commands.
+
 Anthropic ships a growing catalogue of first-party Agent Skills at [anthropics/skills](https://github.com/anthropics/skills). Where those skills overlap with coldpress-os's lifecycle, we wrap them via the Claude Code plugin marketplace rather than building parallel implementations.
 
 ---
@@ -61,7 +63,7 @@ This is a coldpress-os-specific stance. Projects using coldpress-os can install 
 
 ## Remaining skill overlap — not yet audited
 
-Coldpress-os ships ~75 skills after the router collapse. This audit covers the five Anthropic skills with clear 1:1 delegation. A full sweep of remaining coldpress-os skills against Anthropic's expanding catalogue is pending — additions land here as they're confirmed. Expected candidates:
+Coldpress-os ships ~85 atomic skills (built into ~128 spec-compliant SKILL.md wrappers in `plugin/skills/`). This audit covers the five Anthropic skills with clear 1:1 delegation. A full sweep of remaining coldpress-os skills against Anthropic's expanding catalogue is pending — additions land here as they're confirmed. Expected candidates:
 
 - Possible overlap with Anthropic's future testing / QA skills → `@qa`.
 - Possible overlap with Anthropic's future CI/CD skills → existing `skills/ops/ci-cd-setup/` could delegate.

@@ -142,11 +142,11 @@ Before that, edit freely.
 | "Design the architecture" | `create-architecture` (Phase 4) |
 | "Break this into stories" | `create-epics` → `create-stories` (Phase 5) |
 | "Build this feature" | `dev-story` or `quick-dev` (Phase 6) |
-| "Review this code" | `code-review` (Phase 6) |
-| "Are we ready to deploy?" | `readiness-check` (Phase 7) |
-| "How did the sprint go?" | `retrospective` (Phase 9) |
+| "Review this code" | `code-review` (Phase 8) |
+| "Are we ready to deploy?" | `readiness-check` (Phase 9) |
+| "How did the sprint go?" | `retrospective` (Phase 11) |
 
-The full list is in `coldpress-os/REGISTRY.md` (75+ skills across 9 phases).
+The full list is in `coldpress-os/REGISTRY.md` (~85 atomic skills + 67 lifecycle skills across 11 Shape A phases — built into ~128 spec-compliant `plugin/skills/` wrappers).
 
 ---
 
@@ -222,7 +222,7 @@ See the [Subagent Customization Guide](subagent-customization.md). The short ver
 | Agent | Level | Scope |
 |-------|-------|-------|
 | **Alfred** | Estate (labs-coldpress) | Sees all Labs and Projects. Routes cross-Lab work. |
-| **Butler** | Project (your devSandbox) | Manages one project's lifecycle. Dispatches 9 subagents. |
+| **Butler** | Project (your devSandbox) | Manages one project's lifecycle. Dispatches 11 subagents (Shape A). See [`butler.md`](butler.md) for the orchestrator reference. |
 
 If you're working inside a project, you're talking to Butler. If you're working in the labs-coldpress repo itself, you're talking to Alfred.
 
@@ -259,5 +259,5 @@ Your customizations (full skill overrides, custom agents, coldpress.yaml) are ne
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-04-14 | Alfred | Renamed mao-scaffold → agent-scaffold throughout. |
-| 1.0 | 2026-04-13 | Alfred | Initial troubleshooting guide — 15 entries covering install, subagents, governance, skills, customization |
+| 2.0 | 2026-04-14 | ColdPress Labs | Renamed mao-scaffold → agent-scaffold throughout. |
+| 1.0 | 2026-04-13 | ColdPress Labs | Initial troubleshooting guide — 15 entries covering install, subagents, governance, skills, customization |

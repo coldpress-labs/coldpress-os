@@ -147,3 +147,10 @@ Don't. The whole point is uniform coverage. If a subagent shouldn't emit NEED_IN
 - [`phase-gate-protocol.md`](phase-gate-protocol.md) — gate structure; NEED_INFO pending-human states integrate here.
 - [`handoff-schema-spec.md`](handoff-schema-spec.md) — where `handoff-shape-unclear` NEED_INFOs land.
 - [`subagent-phase-matrix.md`](subagent-phase-matrix.md) — the 9 subagents × their phase ownership; the routing table keys into this.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

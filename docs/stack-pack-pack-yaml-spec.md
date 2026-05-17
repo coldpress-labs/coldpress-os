@@ -145,4 +145,4 @@ quickstart_skill: "skills/stack-packs/static-single-page/quickstart"
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial spec. All fields documented. Match scoring thresholds. baselines_out_of_box guidance. Pack discovery note. Schema reference. |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial spec. All fields documented. Match scoring thresholds. baselines_out_of_box guidance. Pack discovery note. Schema reference. |

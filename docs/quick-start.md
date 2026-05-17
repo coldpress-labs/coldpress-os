@@ -2,13 +2,15 @@
 
 > Zero to a running project in 10 minutes. This guide assumes you have Claude Code installed and a terminal open.
 
+> **Hello Butler.** Butler is your main agent — the orchestrator running in your Claude Code session, with the 11 subagents on call when their expertise is needed. Type `Hello Butler` in any session and Butler responds with `let's begin` (fresh project) or `where are we` (resumes from state). Full reference: [`butler.md`](butler.md).
+
 ---
 
 ## Prerequisites
 
 | Requirement | Check |
 |-------------|-------|
-| **Node.js 20+** | `node -v` returns `v20` or higher |
+| **Node.js 22+** | `node -v` returns `v22` or higher |
 | **Claude Code** | `claude` works in terminal (dev-time runtime — optional for Agent SDK users) |
 | **Git** | `git --version` returns 2.x+ |
 | **Python 3.10+** *(optional)* | `python3 --version` — needed for `coldpress graph rebuild` and the document-ingest skill. `pip install graphifyy markitdown docling` when you reach Phase 2 Discovery. |
@@ -27,7 +29,7 @@ npm install -g @coldpress/core
 Verify it's on your PATH:
 
 ```bash
-coldpress --version   # → 0.2.0-alpha (or later)
+coldpress --version   # → 0.3.0-alpha (or later)
 coldpress --help      # → lists init / update / feedback / upgrade
 ```
 
@@ -149,7 +151,7 @@ See [`docs/anthropic-skill-wrapping-audit.md`](anthropic-skill-wrapping-audit.md
 
 ## What's next
 
-- Read the [Example Walkthrough](example-walkthrough.md) to see a full 9-phase project (TaskPulse) play out end-to-end.
+- Read the [Example Walkthrough](example-walkthrough.md) to see a full 11-phase Shape A project (TaskPulse) play out end-to-end.
 - Keep [Troubleshooting & FAQ](troubleshooting.md) open in a tab when you hit something weird.
 - Browse [`coldpress-os/lifecycle/`](../lifecycle/) to see which skills live in each phase.
 - When ready to upgrade:

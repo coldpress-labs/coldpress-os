@@ -177,3 +177,10 @@ Edit `eval.<tool>.fail_severity` in the project's `coldpress.yaml`. Tightening (
 - [`security-gate.md`](security-gate.md) — §5.1 classical scanner stack; sibling gate with shared `ScanResult` schema + aggregator.
 - [`phase-gate-protocol.md`](phase-gate-protocol.md) — §5.0 gate protocol these three plug into as `acceptance_check` entries.
 - [`coldpress-yaml-schema.md`](coldpress-yaml-schema.md) — `coldpress.yaml` schema (the `eval:` section lives here).
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

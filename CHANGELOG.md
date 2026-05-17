@@ -710,4 +710,4 @@ Initial public release — MIT-licensed, three-source upstream attribution (BMAD
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-23 | Cadbury-hq | Changelog created as part of Wave 1 cross-cutting work per Phase I plan Q7 resolution. Retroactive one-line v0.1.0-alpha entry + full Unreleased/v0.2.0-alpha section covering Blocks A–E of Wave 1 (`_context/` rename, `_context/audit/`, project-template scaffolding for `_input/` + `secure/` + `.coldpress/`, sacred-doc §7 migration, coldpress.yaml bare-template redesign, cleanup sweep). |
+| 1.0 | 2026-04-23 | ColdPress Labs | Changelog created as part of Wave 1 cross-cutting work per Phase I plan Q7 resolution. Retroactive one-line v0.1.0-alpha entry + full Unreleased/v0.2.0-alpha section covering Blocks A–E of Wave 1 (`_context/` rename, `_context/audit/`, project-template scaffolding for `_input/` + `secure/` + `.coldpress/`, sacred-doc §7 migration, coldpress.yaml bare-template redesign, cleanup sweep). |

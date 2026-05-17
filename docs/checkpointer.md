@@ -161,3 +161,10 @@ In the meantime, the substrate is sufficient for any future orchestrator to plug
 - [`need-info-protocol.md`](need-info-protocol.md) — §5.4; `need-info` interruptions pair with NEED_INFO emissions.
 - [`dashboard.md`](dashboard.md) — Block GG; future checkpoint-aware Status tab will use `skipDriftCheck: true`.
 - [`aci-primitives.md`](aci-primitives.md) — Block HH §6.6 sibling.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

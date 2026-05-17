@@ -92,3 +92,10 @@ _Empty for v1._ As public tool-shaped primitives land they'll be tabled here wit
 - [`reviewer-subagent.md`](reviewer-subagent.md) — sibling §6.2 deliverable in Block EE.
 - [`agent-skills-compatibility.md`](agent-skills-compatibility.md) — Anthropic Agent Skills spec compatibility (separate from this doc — covers the SKILL.md emission shape).
 - [`anthropic-skill-wrapping-audit.md`](anthropic-skill-wrapping-audit.md) — license-hygiene table for wrapping external skills.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

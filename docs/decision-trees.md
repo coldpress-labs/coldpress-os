@@ -80,9 +80,10 @@ What exists so far?
                                    (pre-project-interview → research → product-brief)
   product-brief (Phase 2 output) → create-prd              → @pm
   PRD exists                     → validate-prd            → @pm
-                                 → create-architecture     → @architect
-                                 → create-ux-design        → @ux-designer
-  Everything                     → Phase 5 Breakdown
+                                 → ux-design              → @ux-designer (Phase 5 Design)
+                                 → brand-guidelines       → @ux-designer (Phase 5 Design)
+                                 → architecture-design    → @architect (Phase 6 Architecture)
+  Everything                     → Phase 7 Breakdown (Shape A)
 ```
 
 ## 5. "I need to break this into tasks"
@@ -196,9 +197,9 @@ What do you want to do?
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 6.0 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 5.3. Tree #3 ("I need to choose/change my tech stack") fully rewritten: warm-handoff pattern noted; Phase 3 4-step flow shown (discovery-sync → evaluation T1/T2/T3 → locking → post-CLI → env-provision); post-lock amendment path preserved via governance/tech-stack-change/workflow.md. |
-| 5.0 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 5.4. Tree #2 ("I need to understand the problem") fully rewritten: warm-handoff note added; 8-skill Phase 2 Discovery flow shown (interview → parallel lane [domain + market + constraints + personas] → validate-idea → synthesize-research → product-brief); constraint-research corrected to @analyst-only (removed erroneous @architect); personas → @ux-designer added; ad-hoc creative methods expanded with problem-solving + innovation-strategy. Tree #4 ("I need to plan the product"): product-brief removed from Phase 4 start; "nothing yet → Phase 2 Discovery first" added; "product-brief (Phase 2 output)" now correctly gates create-prd. |
-| 4.0 | 2026-04-24 | Cadbury-hq | Phase II Part 1 Wave 5.1b. Tree #1 ("I'm starting a new project") refreshed for the npm-era split: `coldpress doctor` + `coldpress init` (pre-session) replace the retired `project-init` reference; in-session leg now routes to `orient` → `intake` → Phase 2 handoff. |
-| 3.0 | 2026-04-13 | Alfred | Rewritten for 9-subagent system. Added subagent + mode annotations to all trees. Added tree #10 (communication) and #11 (meta). Added quick reference table. |
-| 2.0 | 2026-04-08 | Alfred | Updated all agent names to new naming convention |
-| 1.0 | 2026-04-07 | Alfred | Initial decision trees — 10 routing scenarios |
+| 6.0 | 2026-04-24 | ColdPress Labs | Phase II Part 3 Wave 5.3. Tree #3 ("I need to choose/change my tech stack") fully rewritten: warm-handoff pattern noted; Phase 3 4-step flow shown (discovery-sync → evaluation T1/T2/T3 → locking → post-CLI → env-provision); post-lock amendment path preserved via governance/tech-stack-change/workflow.md. |
+| 5.0 | 2026-04-24 | ColdPress Labs | Phase II Part 2 Wave 5.4. Tree #2 ("I need to understand the problem") fully rewritten: warm-handoff note added; 8-skill Phase 2 Discovery flow shown (interview → parallel lane [domain + market + constraints + personas] → validate-idea → synthesize-research → product-brief); constraint-research corrected to @analyst-only (removed erroneous @architect); personas → @ux-designer added; ad-hoc creative methods expanded with problem-solving + innovation-strategy. Tree #4 ("I need to plan the product"): product-brief removed from Phase 4 start; "nothing yet → Phase 2 Discovery first" added; "product-brief (Phase 2 output)" now correctly gates create-prd. |
+| 4.0 | 2026-04-24 | ColdPress Labs | Phase II Part 1 Wave 5.1b. Tree #1 ("I'm starting a new project") refreshed for the npm-era split: `coldpress doctor` + `coldpress init` (pre-session) replace the retired `project-init` reference; in-session leg now routes to `orient` → `intake` → Phase 2 handoff. |
+| 3.0 | 2026-04-13 | ColdPress Labs | Rewritten for 9-subagent system. Added subagent + mode annotations to all trees. Added tree #10 (communication) and #11 (meta). Added quick reference table. |
+| 2.0 | 2026-04-08 | ColdPress Labs | Updated all agent names to new naming convention |
+| 1.0 | 2026-04-07 | ColdPress Labs | Initial decision trees — 10 routing scenarios |

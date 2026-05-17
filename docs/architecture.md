@@ -234,9 +234,9 @@ Add subdirectories to existing `lifecycle/{N}-{phase}/` directories.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 6.0 | 2026-04-24 | Cadbury-hq | Phase II Part 3 Wave 5.3. Added "Phase 3 — The Commit-Point" subsection under Dispatch Protocol: exit-hook wiring (update.ts runPostPhase3 + local-config flag), two-stage gate rationale, pack-branching at env-provision. |
-| 5.0 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 5.4. Added "Warm Handoff (Phase 2)" subsection under Dispatch Protocol — documents the warm-handoff orchestration pattern: seed context.md + local-config.yaml + graph passed to @analyst as pre-read, implemented via condition-reader + staleness check. |
-| 4.0 | 2026-04-24 | Cadbury-hq | Phase II Part 1 Wave 5.1b. Directory-role row updated: `install/` → `install/archetypes/` (the project-scaffolding skill under `install/` was retired in Wave 4.4; `archetypes/` is what remains). |
-| 3.0 | 2026-04-14 | Alfred | Removed MAO acronym from section heading. |
-| 2.0 | 2026-04-13 | Alfred | Added multi-agent orchestration section (dispatch protocol, 9 subagents, mode config). Updated info flow for Butler dispatch model. Updated directory roles. Added handoff artifacts to state management. |
-| 1.0 | 2026-04-07 | Alfred | Initial architecture document — consumption model, info flow, directory roles |
+| 6.0 | 2026-04-24 | ColdPress Labs | Phase II Part 3 Wave 5.3. Added "Phase 3 — The Commit-Point" subsection under Dispatch Protocol: exit-hook wiring (update.ts runPostPhase3 + local-config flag), two-stage gate rationale, pack-branching at env-provision. |
+| 5.0 | 2026-04-24 | ColdPress Labs | Phase II Part 2 Wave 5.4. Added "Warm Handoff (Phase 2)" subsection under Dispatch Protocol — documents the warm-handoff orchestration pattern: seed context.md + local-config.yaml + graph passed to @analyst as pre-read, implemented via condition-reader + staleness check. |
+| 4.0 | 2026-04-24 | ColdPress Labs | Phase II Part 1 Wave 5.1b. Directory-role row updated: `install/` → `install/archetypes/` (the project-scaffolding skill under `install/` was retired in Wave 4.4; `archetypes/` is what remains). |
+| 3.0 | 2026-04-14 | ColdPress Labs | Removed MAO acronym from section heading. |
+| 2.0 | 2026-04-13 | ColdPress Labs | Added multi-agent orchestration section (dispatch protocol, 9 subagents, mode config). Updated info flow for Butler dispatch model. Updated directory roles. Added handoff artifacts to state management. |
+| 1.0 | 2026-04-07 | ColdPress Labs | Initial architecture document — consumption model, info flow, directory roles |

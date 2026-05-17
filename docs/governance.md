@@ -125,3 +125,10 @@ No policy in coldpress-os is load-bearing in a way a project can't override.
 - [sacred-docs.md](../governance/sacred-docs.md) — sacred-doc **content** governance (complements this doc's **shape** + **semantics**).
 - [security-gate.md](security-gate.md) — §5.1 security, sibling gate.
 - [handoff-schema-spec.md](handoff-schema-spec.md) — typed inter-phase handoffs use the same Zod-based validation pattern (Wave 2 Block L).
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

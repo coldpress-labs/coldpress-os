@@ -118,3 +118,10 @@ To add a new canonical top-level subfolder (rare):
 4. Update `template/_context/` + `template/coldpress.yaml` + `coldpress-os/coldpress.yaml` output-block registration.
 
 To add a nested subfolder under an existing canonical dir: no doc change needed — skills just write there. The test only validates the top-level root.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

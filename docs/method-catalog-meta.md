@@ -105,8 +105,14 @@ Parts 3-9 of the Phase II implementation plan will add `phase_3:`, `phase_4:`, .
 
 ---
 
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 ### Version Control
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial meta-reference per Phase II Part 2 Wave 3.10 (FP22 final pass round 3). Documents the 7 Tier-0 convergent universal methods (Five Whys, First Principles, SCAMPER, JTBD, Six Thinking Hats, Failure Mode Analysis, Assumption Testing/Busting). Referenced by Phase 2 step files + the method-defaults.yaml playbook. Pattern extends to later phases as their deep-dives land. |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial meta-reference per Phase II Part 2 Wave 3.10 (FP22 final pass round 3). Documents the 7 Tier-0 convergent universal methods (Five Whys, First Principles, SCAMPER, JTBD, Six Thinking Hats, Failure Mode Analysis, Assumption Testing/Busting). Referenced by Phase 2 step files + the method-defaults.yaml playbook. Pattern extends to later phases as their deep-dives land. |

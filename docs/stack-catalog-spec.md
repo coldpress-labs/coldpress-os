@@ -105,8 +105,14 @@ JSON Schema: v0.3 does not ship a formal JSON schema for per-area catalog files 
 
 ---
 
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 ### Version Control
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial spec. 10 v0.3 areas. baselines_compat scoring guide. cost_tier + lock_in conventions. |
+| 1.0 | 2026-04-24 | ColdPress Labs | Initial spec. 10 v0.3 areas. baselines_compat scoring guide. cost_tier + lock_in conventions. |

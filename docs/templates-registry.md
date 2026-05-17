@@ -34,14 +34,14 @@ See also [`templates/README.md`](../templates/README.md) for the per-subdir disp
 | `context.md` | document | Phase 2 (Discovery) | `pre-project-interview` (implicit reference) | project, stakeholders, problem, goals | sacred-doc template |
 | `tech-stack.md` | document | Phase 3 (Tech Stack) | `stack-locking` (implicit reference) | stack summary, rationale, ADRs | sacred-doc template |
 | `prd.md` | document | Phase 4 (Planning) | `create-prd` (explicit reference) | executive summary, goals, NFRs, constraints, out-of-scope | sacred-doc template |
-| `architecture.md` | document | Phase 4 (Planning) | `create-architecture` (explicit reference) | architectural drivers, components, diagrams, NFR allocation | sacred-doc template |
-| `pert-chart.md` | document | Phase 5 (Breakdown) | `parallelization-strategy` (implicit reference) | epics, dependencies, wave assignments | sacred-doc template |
-| `ux-design-spec.md` | document | Phase 4 (Planning) | `create-ux-design` (explicit reference) | scenarios, wireframes, design-system refs | in active use |
-| `epic.md` | document | Phase 5 (Breakdown) | `create-epics` (implicit reference) | epic summary, story list, component impact | in active use |
-| `story.md` | document | Phase 5 (Breakdown) → Phase 6 | `create-stories`, `dev-story` | file scope, acceptance criteria, test coverage | in active use |
-| `adr.md` | document | Phase 3, 4 (ad-hoc) | `stack-evaluation`, `create-architecture` | decision, options, trade-offs, chosen + rationale | in active use |
-| `sprint-status.yaml` | document | Phase 5, 6, 8 | `sprint-planning`, `wave-orchestration`, `sprint-status` (Phase 8) | sprint, epics, stories, velocity, status | in active use |
-| `retrospective.md` | document | Phase 9 (Evolve) | `retrospective` (implicit reference) | what went well, what went wrong, actions | in active use |
+| `architecture.md` | document | Phase 6 (Architecture) | `architecture-design` (explicit reference) | architectural drivers, components, diagrams, NFR allocation | sacred-doc template |
+| `pert-chart.md` | document | Phase 7 (Breakdown) | `parallelization-strategy` (implicit reference) | epics, dependencies, wave assignments | sacred-doc template |
+| `ux-design-spec.md` | document | Phase 5 (Design) | `ux-design` (explicit reference) | scenarios, wireframes, design-system refs | in active use |
+| `epic.md` | document | Phase 7 (Breakdown) | `create-epics` (implicit reference) | epic summary, story list, component impact | in active use |
+| `story.md` | document | Phase 7 (Breakdown) → Phase 8 (Implementation) | `create-stories`, `dev-story` | file scope, acceptance criteria, test coverage | in active use |
+| `adr.md` | document | Phase 3, 6 (ad-hoc) | `stack-evaluation`, `architecture-design` | decision, options, trade-offs, chosen + rationale | in active use |
+| `sprint-status.yaml` | document | Phase 7, 8, 10 | `sprint-planning`, `wave-orchestration`, `sprint-status` (Phase 10) | sprint, epics, stories, velocity, status | in active use |
+| `retrospective.md` | document | Phase 11 (Evolve) | `retrospective` (implicit reference) | what went well, what went wrong, actions | in active use |
 
 **Wave 4 disposition:** wire all sacred-doc templates explicitly into their producing skill's step files (currently several are implicit references). Tracked for Wave 4 §4.3 as part of skill step-file refresh.
 
@@ -122,3 +122,10 @@ When adding a new template:
 - [`docs/skill-index.md`](skill-index.md) — the companion Skill Discovery Index.
 - [`docs/architecture.md`](architecture.md) §Templates — narrative overview.
 - [`REGISTRY.md`](../REGISTRY.md) — high-level framework registry.
+
+---
+
+## Orchestration context
+
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+

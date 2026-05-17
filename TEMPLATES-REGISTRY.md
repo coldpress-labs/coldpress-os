@@ -239,4 +239,4 @@ When auditing template usage:
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-05-03 | Andy-coldpress-os (autonomous queue unit #27.3.2) | Initial Templates Registry. §1 phase × artefact-type tables (Phases 1-11) + §2 cross-cutting templates (governance, contracts, prompt-snippets, infrastructure, subagent definitions) + §3 authoring conventions (naming, placeholders, schema-driven distinction, how-to-add) + §4 audit guidance. Closes framework-audit Wave 4 §4.7 carry-forward + system review §3.2. |
+| 1.0 | 2026-05-03 | ColdPress Labs | Initial Templates Registry. §1 phase × artefact-type tables (Phases 1-11) + §2 cross-cutting templates (governance, contracts, prompt-snippets, infrastructure, subagent definitions) + §3 authoring conventions (naming, placeholders, schema-driven distinction, how-to-add) + §4 audit guidance. Closes framework-audit Wave 4 §4.7 carry-forward + system review §3.2. |

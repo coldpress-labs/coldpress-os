@@ -10,6 +10,8 @@ version: "1.0"
 
 This doc is the one-surface reference for how coldpress-os fits into the Anthropic Agent Skills ecosystem — what's compatible, what's complementary, and what's deliberately different.
 
+> **Hello Butler.** Butler is the framework's main orchestrator (the default Claude Code session running with CLAUDE.md as its directive — see [`butler.md`](butler.md)). Butler dispatches the 11 subagents and runs the gates between Shape A's 11 phases. Anthropic Agent Skills compatibility is at the *skill* layer — Butler and the orchestration spine sit on top.
+
 **Source decisions:**
 - [anthropic-skills-analysis-2026-04-23.md](../../../lab-hq-projects/hq-p001-coldpress-os/docs/anthropic-skills-analysis-2026-04-23.md) — format / distribution / vocabulary strategy.
 - [fourth-pass-oss-survey-2026-04-23.md §2.13](../../../lab-hq-projects/hq-p001-coldpress-os/docs/fourth-pass-oss-survey-2026-04-23.md) — Agent SDK compatibility declaration.
@@ -18,7 +20,7 @@ This doc is the one-surface reference for how coldpress-os fits into the Anthrop
 
 ## Positioning
 
-> **coldpress-os is Agent Skills-compatible and extends the Anthropic Skills ecosystem with an opinionated 9-phase SDLC methodology, sacred-doc governance, and multi-agent orchestration.**
+> **coldpress-os is Agent Skills-compatible and extends the Anthropic Skills ecosystem with an opinionated 11-phase SDLC methodology, sacred-doc governance, and multi-agent orchestration.**
 
 Complementary, not alternative. Anthropic Agent Skills provides the atomic unit of capability (a skill) and the distribution layer (the plugin marketplace). Coldpress-os provides the **methodology** that wires skills into a full software-development lifecycle — subagents, phases, typed handoffs, sacred-doc protection.
 
@@ -59,13 +61,13 @@ Coldpress-os's internal format carries rich metadata (inputs, outputs, step-file
 /plugin install @coldpress/core
 ```
 
-Installs the full coldpress-os skill library (~75 skills) as a Claude Code plugin. The marketplace reads `plugin/plugin.json` + the emitted `plugin/skills/` tree — both committed to the repo and kept in sync with source via the CI drift check (`git diff --exit-code plugin/`).
+Installs the full coldpress-os skill library (~128 spec-compliant SKILL.md files, built from ~85 atomic + ~67 lifecycle source skills) as a Claude Code plugin. The marketplace reads `plugin/plugin.json` + the emitted `plugin/skills/` tree — both committed to the repo and kept in sync with source via the CI drift check (`git diff --exit-code plugin/`).
 
 `plugin/plugin.json` carries metadata (name, version, description, homepage, repository, keywords) + auto-refreshed `skills_count`. See [`plugin/plugin.json`](../plugin/plugin.json).
 
 ### 3. Runtime — Claude Code CLI **and** Agent SDK
 
-The `.claude/` tree coldpress-os scaffolds — 9 subagent definitions in `.claude/agents/*.md` + ~66 skill wrappers in `.claude/skills/*/SKILL.md` — loads unchanged under two runtimes:
+The `.claude/` tree coldpress-os scaffolds — 11 subagent definitions in `.claude/agents/*.md` + ~128 skill wrappers in `.claude/skills/*/SKILL.md` — loads unchanged under two runtimes:
 
 - **Claude Code CLI** (`claude` in the terminal) — interactive dev-time.
 - **`@anthropic-ai/claude-agent-sdk`** — programmatic, used for CI pipelines and automated workflows.
@@ -95,20 +97,22 @@ Anthropic ships first-party skills that overlap with specific coldpress-os subag
 | Concept | Agent Skills | Coldpress-os addition |
 |---------|--------------|----------------------|
 | **Skill** | Atomic capability unit. Anthropic spec. | Same. Coldpress-os skills ARE Agent Skills at the emission layer. |
-| **Subagent** | Not in the spec. Runtime concept — Claude Code supports subagents via `.claude/agents/*.md`. | Coldpress-os ships **9 canonical subagents** with specific phase ownership + tool allowlists. |
-| **Phase** | Not in the spec. | Coldpress-os ships a **9-phase SDLC** (Bootstrap → Discovery → Tech Stack → Planning → Breakdown → Implementation → Deployment → Operate → Evolve). Each phase has an entry gate + exit conditions. |
+| **Subagent** | Not in the spec. Runtime concept — Claude Code supports subagents via `.claude/agents/*.md`. | Coldpress-os ships **11 canonical subagents** with specific phase ownership + tool allowlists (analyst, architect, pm, ux-designer, scrum-master, developer, qa, devops, reviewer, communicator, valet). |
+| **Phase** | Not in the spec. | Coldpress-os ships an **11-phase Shape A SDLC** (Bootstrap → Discovery → Tech Stack → Planning → Design → Architecture → Breakdown → Implementation → Deployment → Operate → Evolve). Each phase has an entry gate + exit conditions. |
 | **Sacred document** | Not in the spec. | Five governance-protected artefacts (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md`) with formal change workflows. |
 | **Typed handoff** | Not in the spec. | Four high-stakes inter-phase handoffs validated by Zod schemas on both write and read. |
-| **Stack pack** | Not in the spec. | Pluggable skill set for a specific technology stack (Convex today). |
+| **Stack pack** | Not in the spec. | Pluggable skill set for a specific technology stack — six ship in-tree at v0.3.0-alpha (vibe-coder-fullstack, cli-npm-publishable, browser-extension, static-single-page, static-multipage-blog, seo-pack). |
+| **Forward-carry quartet** | Not in the spec. | Four delta instances (design / architecture / implementation / ops) carry late-surfacing constraints across phase boundaries with structured reconciliation. New in v0.3.0-alpha Shape A. |
+| **Silent-divergence guard** | Not in the spec. | P5 design-deltas flagged `flag_for_architecture_ADR` become REQUIRED ADRs at the P6 exit gate. New in v0.3.0-alpha Shape A. |
 
-**Read:** coldpress-os's spine (subagents, phases, sacred docs, handoffs, stack packs) is **complementary** to Agent Skills — it builds on top of the atomic skill + distribution layer that Anthropic provides. A user can consume coldpress-os skills standalone via the plugin marketplace and ignore everything else; or they can opt into the full 9-phase lifecycle and get the governance layer on top.
+**Read:** coldpress-os's spine (Butler, subagents, phases, sacred docs, handoffs, stack packs, forward-carry quartet) is **complementary** to Agent Skills — it builds on top of the atomic skill + distribution layer that Anthropic provides. A user can consume coldpress-os skills standalone via the plugin marketplace and ignore everything else; or they can opt into the full 11-phase lifecycle and get the governance layer on top.
 
 ---
 
 ## When to use coldpress-os vs raw Agent Skills
 
 - **Just need a skill for a specific task?** Install the relevant Anthropic plugin (`docx`, `webapp-testing`, etc.) or browse the Anthropic skill catalogue. You don't need coldpress-os.
-- **Need a full SDLC methodology with multi-agent dispatch + sacred-doc governance + typed handoffs?** Use coldpress-os — the 9-phase spine wraps the skills into a lifecycle.
+- **Need a full SDLC methodology with multi-agent dispatch + sacred-doc governance + typed handoffs?** Use coldpress-os — the 11-phase spine wraps the skills into a lifecycle.
 - **Want both?** That's the design. Coldpress-os is Agent Skills–compatible: its skills are spec-compliant, available via the marketplace, and composable with any other Agent Skills–compatible tool.
 
 ---

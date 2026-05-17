@@ -152,5 +152,5 @@ What to report when work is complete and what to recommend next.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-04-13 | Alfred | v2 schema — Claude Code subagent format. 19 personas → 9 real subagents. Documented frontmatter, model/tool selection, system prompt structure. |
-| 1.0 | 2026-04-07 | Alfred | Initial agent schema — unified format from BMAD/MAO/CIS/WDS analysis |
+| 2.0 | 2026-04-13 | ColdPress Labs | v2 schema — Claude Code subagent format. 19 personas → 9 real subagents. Documented frontmatter, model/tool selection, system prompt structure. |
+| 1.0 | 2026-04-07 | ColdPress Labs | Initial agent schema — unified format from BMAD/MAO/CIS/WDS analysis |
