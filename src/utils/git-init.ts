@@ -2,6 +2,9 @@ import { spawn } from "node:child_process";
 import { access } from "node:fs/promises";
 import { join } from "node:path";
 
+const FALLBACK_USER_NAME = "coldpress";
+const FALLBACK_USER_EMAIL = "noreply@coldpressai.com";
+
 export type GitInitStatus = "initialised" | "already-present" | "skipped-missing-git" | "failed";
 
 export interface GitInitResult {
@@ -20,9 +23,12 @@ export interface GitInitOptions {
  *
  * - Safe if `.git/` already exists (returns `already-present`, no-op).
  * - Safe if `git` is not installed (returns `skipped-missing-git`, warning set).
- * - If `git init` succeeds but `git commit` fails (e.g. no user.name/email
- *   configured), we still return success on the init step with a warning;
- *   the repo is usable, the user can commit once identity is configured.
+ * - If git user.name/user.email is not configured globally, we still
+ *   produce the seed commit by passing a fallback identity (`coldpress`
+ *   / `noreply@coldpressai.com`) as commit-time environment variables —
+ *   the user's later commits use their own identity once they configure
+ *   git. This avoids consumers (and CI runners) getting a repo with no
+ *   initial commit.
  */
 export async function initGitRepo(opts: GitInitOptions): Promise<GitInitResult> {
   const { targetDir } = opts;
@@ -52,7 +58,15 @@ export async function initGitRepo(opts: GitInitOptions): Promise<GitInitResult> 
 
   try {
     await runGit(["add", "."], targetDir);
-    await runGit(["commit", "--quiet", "-m", commitMessage], targetDir);
+    const commitEnv = (await hasGitIdentity(targetDir))
+      ? undefined
+      : {
+          GIT_AUTHOR_NAME: FALLBACK_USER_NAME,
+          GIT_AUTHOR_EMAIL: FALLBACK_USER_EMAIL,
+          GIT_COMMITTER_NAME: FALLBACK_USER_NAME,
+          GIT_COMMITTER_EMAIL: FALLBACK_USER_EMAIL,
+        };
+    await runGit(["commit", "--quiet", "-m", commitMessage], targetDir, commitEnv);
     return { status: "initialised", committed: true };
   } catch (err) {
     return {
@@ -65,6 +79,16 @@ export async function initGitRepo(opts: GitInitOptions): Promise<GitInitResult> 
   }
 }
 
+async function hasGitIdentity(cwd: string): Promise<boolean> {
+  try {
+    await runGit(["config", "--get", "user.name"], cwd);
+    await runGit(["config", "--get", "user.email"], cwd);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function gitAvailable(): Promise<boolean> {
   try {
     await runGit(["--version"]);
@@ -74,11 +98,16 @@ async function gitAvailable(): Promise<boolean> {
   }
 }
 
-function runGit(args: string[], cwd?: string): Promise<void> {
+function runGit(
+  args: string[],
+  cwd?: string,
+  extraEnv?: Record<string, string>,
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const child = spawn("git", args, {
       cwd,
       stdio: ["ignore", "pipe", "pipe"],
+      env: extraEnv ? { ...process.env, ...extraEnv } : process.env,
     });
     let stderr = "";
     child.stderr.on("data", (chunk) => {
