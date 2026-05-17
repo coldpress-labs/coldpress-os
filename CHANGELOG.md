@@ -8,7 +8,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-(empty — all post-v0.3.0 work flows here.)
+(empty — all post-v0.3.1 work flows here.)
+
+---
+
+## [0.3.1-alpha] — 2026-05-17
+
+### Fixed
+
+- **`zod` declared as a runtime dependency.** v0.3.0-alpha shipped to npm with `zod` used by `src/` and `schemas/` at runtime but only available locally as a transitive dependency of `@anthropic-ai/claude-agent-sdk` (a devDependency). `npx @coldpress/core@alpha init` failed at startup with `ERR_MODULE_NOT_FOUND: Cannot find package 'zod'`. Surfaced by the post-publish smoke test. Added `zod: "^4.3.6"` to `dependencies`. The 0.3.0-alpha publish should be deprecated via `npm deprecate @coldpress/core@0.3.0-alpha "Broken — missing zod runtime dependency. Use 0.3.1-alpha or later."`.
+
+### Docs
+
+- **Hello Butler reference (`docs/butler.md`)** — codifies the canonical `Hello Butler` session entry point. Butler is the main orchestrator (your default Claude Code session running with CLAUDE.md as its directive), not a subagent. Documents the 11-subagent dispatch tree, cadence modes, routing patterns, gate behaviour, customisation hooks.
+- **Shape A v0.3.0-alpha propagation across 25+ public docs.** README + quick-start + example-walkthrough fully refreshed at v0.3.0-alpha tag time; this release extends the sweep to every doc under `docs/`. Old "9-phase" / "Phase 5 Breakdown" / "Phase 6 Implementation" references replaced with the 11-phase Shape A numbering (Bootstrap=1 … Evolve=11). Subagent counts 9 → 11 (added @reviewer for P11, @devops for P9-P10). Skill counts ~66 → ~128 (built wrappers) / ~75 → ~85 (atomic source). Node engine prerequisite ≥20 → ≥22 in all install instructions.
+- **Public-author cleanup.** All Version Control table rows in public docs rewritten so the Author column reads "ColdPress Labs". Internal agent names (Alfred / Cadbury-hq / Andy-coldpress-os) were leaking through the npm tarball and GitHub browse view. History preserved; byline flattened.
+- **Hello Butler footers on 24 spec docs** that previously didn't mention Butler — small "Orchestration context" callout linking to butler.md.
 
 ---
 

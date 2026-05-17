@@ -1,6 +1,6 @@
 {
   "name": "@coldpress/core",
-  "version": "0.3.0-alpha",
+  "version": "0.3.1-alpha",
   "description": "AI-native development framework: 11-phase lifecycle (Shape A), 11 subagents, atomic skills, sacred-doc governance, forward-carry quartet.",
   "type": "module",
   "bin": {
@@ -44,7 +44,8 @@
     "ajv-formats": "^3.0.1",
     "commander": "^12.1.0",
     "picocolors": "^1.1.1",
-    "yaml": "^2.8.3"
+    "yaml": "^2.8.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.2.118",
