@@ -46,8 +46,8 @@ If `design-brief` content surfaces a PRD-amendment implication (e.g., brand voic
 
 ## Cross-cutting wire-ins
 
-- `editorial-prose` — Step 4 finalisation (voice/tone polish)
-- `editorial-structure` — Step 4 finalisation (brief structure check)
+- `editorial` — Step 4 finalisation (voice/tone polish)
+- `editorial` — Step 4 finalisation (brief structure check)
 - `advanced-elicitation` — wired Tier-1 at vague-style triggers (Step 2 vague_voice, Step 3 vague_visual_direction, Step 4 vague_platform_constraints)
 
 ## Method playbook

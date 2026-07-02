@@ -67,7 +67,7 @@ Decisions per asset: **keep** / **refresh** / **discard** / **reference-only**. 
 
 ## Cross-cutting wire-ins
 
-- `editorial-structure` — Step 3 finalisation (decisions table structure check)
+- `editorial` — Step 3 finalisation (decisions table structure check)
 
 ## Decision criteria
 
@@ -84,4 +84,4 @@ Decisions per asset: **keep** / **refresh** / **discard** / **reference-only**. 
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-30 | Butler (autonomous queue unit #3 Wave 5.7) | Initial `legacy-ui-assessment` skill — NEW under Shape A. Resolves deep-dive finding B21 + Q6 resolution. Conditional skill (silent skip when no UI legacy). Compares legacy UI/design assets against new design-brief direction. Decisions: keep / refresh / discard / reference-only. Cross-references Phase 4 legacy-migration-plan (architecture-decisions overlap). Output feeds ux-design (component reuse) and brand-guidelines (token inheritance). 4-step workflow. editorial-structure wire-in at Step 3. |
+| 1.0 | 2026-04-30 | Butler (autonomous queue unit #3 Wave 5.7) | Initial `legacy-ui-assessment` skill — NEW under Shape A. Resolves deep-dive finding B21 + Q6 resolution. Conditional skill (silent skip when no UI legacy). Compares legacy UI/design assets against new design-brief direction. Decisions: keep / refresh / discard / reference-only. Cross-references Phase 4 legacy-migration-plan (architecture-decisions overlap). Output feeds ux-design (component reuse) and brand-guidelines (token inheritance). 4-step workflow. editorial wire-in at Step 3. |

@@ -19,7 +19,7 @@ Phase 6 architecture authoring. Reads PRD + UX-spec + brand-guidelines + tech-st
 | 3 | [step-03-data-flow.md](steps/step-03-data-flow.md) | Data flow + integration boundaries + supersede-check on UX-flow + tech-stack imports |
 | 4 | [step-04-nfr.md](steps/step-04-nfr.md) | NFR implementation strategy (a11y / perf / SEO / observability) — baselines + persona scale + idea-validation riskiest-assumptions driven |
 | 5 | [step-05-adr.md](steps/step-05-adr.md) | ADR authoring — organic ADRs PLUS REQUIRED ADRs for flagged deltas (each with `resolves_design_delta` field) |
-| 6 | [step-06-emit.md](steps/step-06-emit.md) | architecture.md emit + sidecar + adversarial-review + editorial-structure + editorial-prose |
+| 6 | [step-06-emit.md](steps/step-06-emit.md) | architecture.md emit + sidecar + adversarial-review + editorial |
 
 ## Execution Rules
 

@@ -17,7 +17,7 @@ Phase 5 UX design specification. Persona-grounded user flows, key screen concept
 | 1 | [step-01-context.md](steps/step-01-context.md) | Scope confirm + planning-scope memo + persona direct-read |
 | 2 | [step-02-flows.md](steps/step-02-flows.md) | Persona-grounded user flows + supersede-check (stack feasibility) |
 | 3 | [step-03-wireframes.md](steps/step-03-wireframes.md) | Wireframes/screens — design-thinking ideate + scenario-planning + problem-solving + advanced-elicitation |
-| 4 | [step-04-spec.md](steps/step-04-spec.md) | Emit validated-distillate + sidecar; aggregate design-deltas; supersede-check on PRD-feature-coverage; adversarial-review + editorial-structure wire-ins |
+| 4 | [step-04-spec.md](steps/step-04-spec.md) | Emit validated-distillate + sidecar; aggregate design-deltas; supersede-check on PRD-feature-coverage; adversarial-review + editorial wire-ins |
 
 ## Execution Rules
 

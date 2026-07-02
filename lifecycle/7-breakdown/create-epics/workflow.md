@@ -17,7 +17,7 @@ Phase 7 epic authoring. Reads breakdown-scope + PRD + architecture + UX-spec; pr
 | 1 | [step-01-prerequisites.md](steps/step-01-prerequisites.md) | Verify Phase 7 entry-sync done; load breakdown-scope memo |
 | 2 | [step-02-decompose.md](steps/step-02-decompose.md) | Group PRD user-stories by user-value into epics; brainstorming + design-thinking Tier-1 |
 | 3 | [step-03-stories.md](steps/step-03-stories.md) | Per-epic acceptance criteria + epic-to-component mapping |
-| 4 | [step-04-validate.md](steps/step-04-validate.md) | Supersede-check on PRD coverage; editorial-structure; emit distillate + sidecar |
+| 4 | [step-04-validate.md](steps/step-04-validate.md) | Supersede-check on PRD coverage; editorial; emit distillate + sidecar |
 
 ## Execution Rules
 

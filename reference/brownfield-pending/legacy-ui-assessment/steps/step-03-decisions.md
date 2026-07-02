@@ -1,7 +1,7 @@
 ---
 step_number: 3
 step_name: "Decisions + Finalisation"
-step_goal: "User decides per asset (keep / refresh / discard / reference-only); editorial-structure; emit validated-distillate + sidecar"
+step_goal: "User decides per asset (keep / refresh / discard / reference-only); editorial; emit validated-distillate + sidecar"
 halts_for_input: true
 next_step: null
 partial_completion_id: "legacy_ui_assessment_step_03"
@@ -9,7 +9,7 @@ partial_completion_id: "legacy_ui_assessment_step_03"
 
 ## Goal
 
-User decides per asset based on Step 2 comparisons. Wire `editorial-structure`. Schema-validate. Emit validated-distillate.
+User decides per asset based on Step 2 comparisons. Wire `editorial`. Schema-validate. Emit validated-distillate.
 
 ## Instructions
 
@@ -70,7 +70,7 @@ Append section:
 
 ### 5. Editorial-structure wire-in
 
-Invoke `editorial-structure` against the full document. Decisions-table structure check; section ordering.
+Invoke `editorial` against the full document. Decisions-table structure check; section ordering.
 
 ### 6. Schema-validate
 

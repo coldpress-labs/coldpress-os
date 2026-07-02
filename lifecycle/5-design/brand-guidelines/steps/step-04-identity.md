@@ -1,7 +1,7 @@
 ---
 step_number: 4
 step_name: "Identity + A11y Rules + Finalisation"
-step_goal: "Author identity (logo + iconography) + a11y rules; editorial-structure; emit validated-distillate + sidecar"
+step_goal: "Author identity (logo + iconography) + a11y rules; editorial; emit validated-distillate + sidecar"
 halts_for_input: true
 next_step: null
 partial_completion_id: "brand_guidelines_step_04"
@@ -10,7 +10,7 @@ conditional: "skip_identity_if scope_mode == tokens-only (still emit a11y rules)
 
 ## Goal
 
-Author identity section (logo treatment + iconography style) and a11y rules section. Wire `editorial-structure`. Schema-validate. Emit validated-distillate + sidecar.
+Author identity section (logo treatment + iconography style) and a11y rules section. Wire `editorial`. Schema-validate. Emit validated-distillate + sidecar.
 
 ## Instructions
 
@@ -85,11 +85,11 @@ If `scope_mode == design-led` or `WDS`: author extended icon library section wit
 
 ### 5. Editorial-prose on identity description
 
-Invoke `editorial-prose` on the identity prose for clarity.
+Invoke `editorial` on the identity prose for clarity.
 
 ### 6. Editorial-structure on full document
 
-Invoke `editorial-structure` against the full draft. Section ordering, header hierarchy, scannable structure.
+Invoke `editorial` against the full draft. Section ordering, header hierarchy, scannable structure.
 
 ### 7. Schema-validate
 

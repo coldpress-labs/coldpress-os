@@ -34,7 +34,7 @@ Under Shape A: reads archetype mode from `coldpress.yaml`/`.coldpress/state.yaml
 
 ## Cross-cutting wire-ins
 
-- `editorial-structure` — Step 4 finalisation
+- `editorial` — Step 4 finalisation
 - `brainstorming` — Step 2 epic decomposition (round_robin, mind_mapping)
 - `design_thinking` — Step 2 (define stage)
 
@@ -48,5 +48,5 @@ Per `phase_7:`: brainstorming medium; design_thinking low (define).
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-04-30 | Butler (autonomous queue unit #9 Wave 7.3) | Phase 7 rewrite. Inputs converted to graph-first (graph_queries + cold_file_reads + existence_checks per deep-dive §7b). Inputs expanded — now reads breakdown-scope, UX-spec, ADRs, prototype-manifest, personas, idea-validation, legacy-migration-plan (was: only PRD + architecture). Outputs upgraded to validated-distillate with schema. Step 0 NEW (graph-first). Cross-cutting wire-ins documented (brainstorming + design_thinking + editorial-structure). |
+| 2.0 | 2026-04-30 | Butler (autonomous queue unit #9 Wave 7.3) | Phase 7 rewrite. Inputs converted to graph-first (graph_queries + cold_file_reads + existence_checks per deep-dive §7b). Inputs expanded — now reads breakdown-scope, UX-spec, ADRs, prototype-manifest, personas, idea-validation, legacy-migration-plan (was: only PRD + architecture). Outputs upgraded to validated-distillate with schema. Step 0 NEW (graph-first). Cross-cutting wire-ins documented (brainstorming + design_thinking + editorial). |
 | 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial create-epics skill |

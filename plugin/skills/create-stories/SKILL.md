@@ -44,8 +44,8 @@ Per-story files at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` �
 
 ## Cross-cutting wire-ins
 
-- `editorial-structure` — Step 4 finalisation
-- `editorial-prose` — story prose polish
+- `editorial` — Step 4 finalisation
+- `editorial` — story prose polish
 - `advanced-elicitation` — vague_acceptance_criteria + vague_story_scope triggers
 - `story_types` — Tier-1 per-archetype selection (user_stories / job_stories / bdd_scenarios / acceptance_criteria)
 
@@ -55,5 +55,5 @@ Per-story files at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` �
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-04-30 | Butler (autonomous queue unit #9 Wave 7.3) | Phase 7 rewrite. Inputs converted to graph-first; expanded to include UX-spec, brand-guidelines, architecture, prototype-manifest, ADRs, breakdown-scope (was: minimal). Outputs migrated to **per-story files** at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` per Q4 (was: monolithic `_context/implementation/{story-key}.md`). Stories-index.md aggregates. Archetype-conditional granularity per Q5 (4 archetypes × 4 story types). Cross-cutting wire-ins: editorial-prose + editorial-structure + advanced-elicitation + story_types Tier-1. |
+| 2.0 | 2026-04-30 | Butler (autonomous queue unit #9 Wave 7.3) | Phase 7 rewrite. Inputs converted to graph-first; expanded to include UX-spec, brand-guidelines, architecture, prototype-manifest, ADRs, breakdown-scope (was: minimal). Outputs migrated to **per-story files** at `_context/implementation/stories/story-NNN-<slug>-v{N}.md` per Q4 (was: monolithic `_context/implementation/{story-key}.md`). Stories-index.md aggregates. Archetype-conditional granularity per Q5 (4 archetypes × 4 story types). Cross-cutting wire-ins: editorial + advanced-elicitation + story_types Tier-1. |
 | 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial create-stories skill |

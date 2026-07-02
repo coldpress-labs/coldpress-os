@@ -54,7 +54,7 @@ Step 0 initialises `_context/handoffs/phase-10-ops-deltas-wip-{date}.md`. correc
 
 ## Cross-cutting wire-ins
 
-- `editorial-structure` — sprint-status report polish
+- `editorial` — sprint-status report polish
 
 ---
 

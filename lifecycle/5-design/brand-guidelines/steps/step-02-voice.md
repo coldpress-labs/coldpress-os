@@ -1,7 +1,7 @@
 ---
 step_number: 2
 step_name: "Voice + Tone Authoring"
-step_goal: "Author voice traits + samples; persona-resonant; brainstorming + story_types brand_voice_samples + advanced-elicitation + editorial-prose"
+step_goal: "Author voice traits + samples; persona-resonant; brainstorming + story_types brand_voice_samples + advanced-elicitation + editorial"
 halts_for_input: true
 next_step: "step-03-tokens.md"
 partial_completion_id: "brand_guidelines_step_02"
@@ -10,7 +10,7 @@ conditional: "skip_if scope_mode == tokens-only"
 
 ## Goal
 
-Author voice + tone section: 3–5 voice traits with persona-resonant samples. Method playbook Tier-1: `brainstorming` (round_robin, scamper); `story_types` (`brand_voice_samples`); `advanced_elicitation` on vague_voice; `editorial-prose` polish.
+Author voice + tone section: 3–5 voice traits with persona-resonant samples. Method playbook Tier-1: `brainstorming` (round_robin, scamper); `story_types` (`brand_voice_samples`); `advanced_elicitation` on vague_voice; `editorial` polish.
 
 ## Instructions
 
@@ -66,7 +66,7 @@ Author tone register table:
 
 ### 8. Editorial-prose wire-in
 
-Invoke `editorial-prose` against drafted voice + samples. Polish for consistency.
+Invoke `editorial` against drafted voice + samples. Polish for consistency.
 
 ### 9. Write into draft document
 

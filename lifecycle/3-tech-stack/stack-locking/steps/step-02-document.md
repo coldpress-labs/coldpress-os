@@ -8,7 +8,7 @@ next_step: "step-03-pre-lock-review.md"
 
 ## Goal
 
-Produce the comprehensive, authoritative tech stack document (pre-lock draft) and a validated distillate summary. Invoke editorial-structure for structural polish before presenting.
+Produce the comprehensive, authoritative tech stack document (pre-lock draft) and a validated distillate summary. Invoke editorial for structural polish before presenting.
 
 ## Instructions
 
@@ -73,9 +73,9 @@ supersedes: []
 
 **Body:** Compressed stack summary — one row per decision area: area, chosen, tier, weighted_total, key rationale. Suitable for LLM context hand-offs.
 
-### 4. Invoke editorial-structure
+### 4. Invoke editorial
 
-Run `editorial-structure` on the tech-stack.md draft for structural polish — cuts, reorganisation, clarity.
+Run `editorial` on the tech-stack.md draft for structural polish — cuts, reorganisation, clarity.
 
 ### 5. Populate `supersedes:` frontmatter
 

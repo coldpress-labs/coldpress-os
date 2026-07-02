@@ -9,7 +9,7 @@ partial_completion_id: "design_brief_step_04"
 
 ## Goal
 
-Final step. Author platform/responsive strategy + accessibility requirements grounded in active a11y baseline. Run final supersede-check across the full draft. Wire `editorial-prose` and `editorial-structure`. Emit validated-distillate + sidecar. Aggregate design-deltas (the WIP log entries from Steps 2–3 stay in WIP; Phase-5 exit aggregator will move them to phase-5-to-6 handoff).
+Final step. Author platform/responsive strategy + accessibility requirements grounded in active a11y baseline. Run final supersede-check across the full draft. Wire `editorial` and `editorial`. Emit validated-distillate + sidecar. Aggregate design-deltas (the WIP log entries from Steps 2–3 stay in WIP; Phase-5 exit aggregator will move them to phase-5-to-6 handoff).
 
 ## Instructions
 
@@ -64,9 +64,9 @@ For each conflict: surface as `design_delta` in WIP log per the schema. Recommen
 
 ### 6. Editorial wire-ins
 
-Invoke `editorial-prose` skill against the draft — voice/tone consistency check across all 4 substantive sections (content strategy, voice, visual, platform/a11y). User reviews suggestions; accept/reject.
+Invoke `editorial` skill against the draft — voice/tone consistency check across all 4 substantive sections (content strategy, voice, visual, platform/a11y). User reviews suggestions; accept/reject.
 
-Invoke `editorial-structure` skill — section ordering, header consistency, scannable structure. User reviews suggestions; accept/reject.
+Invoke `editorial` skill — section ordering, header consistency, scannable structure. User reviews suggestions; accept/reject.
 
 ### 7. Write Version Control panel
 

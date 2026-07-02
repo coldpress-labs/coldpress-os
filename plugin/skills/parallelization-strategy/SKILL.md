@@ -35,7 +35,7 @@ Steps 4-6 absorb the former `sprint-planning` skill (WS5-B, §8 item 6): its @sc
 ## Cross-cutting wire-ins
 
 - `problem_solving` Tier-1 (heavy — first_principles for dependency analysis; scenario_planning for critical-path; failure_mode_analysis)
-- `editorial-structure` — Step 4 finalisation
+- `editorial` — Step 4 finalisation
 
 ## Method playbook
 

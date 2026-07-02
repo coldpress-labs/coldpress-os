@@ -80,9 +80,9 @@ Skill location: [`skills/utilities/distillator/`](../../../skills/utilities/dist
 
 Skill location: [`skills/reviews/adversarial-review/`](../../../skills/reviews/adversarial-review/). Cynical-critic pass against the distilled synthesis: bias (favouring one source over contradicting ones without rationale), missing counter-evidence, shallow generic takes, unsurfaced tensions the Step 4 pass missed. User may skip if the synthesis is clearly on target, but default is run.
 
-### 8. Invoke `editorial-structure`
+### 8. Invoke `editorial`
 
-Skill location: [`skills/reviews/editorial-structure/`](../../../skills/reviews/editorial-structure/). Structural polish — section ordering, header hierarchy, paragraph cohesion — not prose-level editing (that's `editorial-prose`, which wires into `intake` Step 11, not here). The synthesis needs to read well for Phase 3/4 skills consuming it programmatically as much as for humans.
+Skill location: [`skills/reviews/editorial/`](../../../skills/reviews/editorial/). Structural polish — section ordering, header hierarchy, paragraph cohesion — not prose-level editing (that's `editorial`, which wires into `intake` Step 11, not here). The synthesis needs to read well for Phase 3/4 skills consuming it programmatically as much as for humans.
 
 ### 9. Party-mode — opt-in offer
 

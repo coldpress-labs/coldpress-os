@@ -17,7 +17,7 @@ Conditional Phase 5 skill — assesses `_input/legacy/` UI/design assets against
 | 0 | [step-00-context.md](steps/step-00-context.md) | Graph-first context load + trigger_condition check (silent skip if false) |
 | 1 | [step-01-inventory.md](steps/step-01-inventory.md) | Inventory + categorise legacy UI assets |
 | 2 | [step-02-compare.md](steps/step-02-compare.md) | Compare each asset against design-brief direction; cross-reference legacy-migration-plan |
-| 3 | [step-03-decisions.md](steps/step-03-decisions.md) | Emit decisions per asset (keep / refresh / discard / reference-only); editorial-structure; emit validated-distillate |
+| 3 | [step-03-decisions.md](steps/step-03-decisions.md) | Emit decisions per asset (keep / refresh / discard / reference-only); editorial; emit validated-distillate |
 
 ## Execution Rules
 

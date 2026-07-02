@@ -56,9 +56,9 @@ Skill: [validate-schema](../../../skills/governance/validate-schema/)
 
 Validate context.md against `schemas/sacred-docs/context.schema.json`. If validation fails, surface errors to user and halt — do not write.
 
-### 6. Invoke `editorial-prose`
+### 6. Invoke `editorial`
 
-Skill: [editorial-prose](../../../skills/reviews/editorial-prose/)
+Skill: [editorial](../../../skills/reviews/editorial/)
 
 Final prose polish before sacred-doc signoff. Sacred-docs deserve a clean final read — this is the last touch before the governance door shuts.
 

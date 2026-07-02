@@ -87,8 +87,8 @@ Phase 9 → 10 is unique: @devops continues across the boundary (Phase 10 Operat
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — deploy plan red-team; rollback-strategy challenge
-- `editorial-structure` — deploy-log + readiness report structure
-- `editorial-prose` — rollback-strategy prose
+- `editorial` — deploy-log + readiness report structure
+- `editorial` — rollback-strategy prose
 
 ## Method playbook
 

@@ -34,8 +34,8 @@ Aggregated reconciliation status emitted as part of retro report.
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — retro red-team (challenge lessons-learned conclusions)
-- `editorial-prose` — retro prose polish
-- `editorial-structure` — report structure
+- `editorial` — retro prose polish
+- `editorial` — report structure
 
 ---
 
@@ -43,5 +43,5 @@ Aggregated reconciliation status emitted as part of retro report.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-05-02 | Butler (autonomous queue unit #19 Wave 11.1 — FINAL UNIT) | Phase 11 rewrite. Now serves as Phase 11 entry skill per Q1 — Step 0 absorbs entry-sync (graph-first 9 graph_queries; 10th-consumer staleness; ops-deltas reconciliation pass per Q2). Reads CRITICALLY: phase-10-to-11 handoff ops_deltas[] (4th forward-carry consumption point). Outputs: retrospective-v{N}.md validated-distillate. Cross-cutting: adversarial-review + editorial-prose + editorial-structure. |
+| 2.0 | 2026-05-02 | Butler (autonomous queue unit #19 Wave 11.1 — FINAL UNIT) | Phase 11 rewrite. Now serves as Phase 11 entry skill per Q1 — Step 0 absorbs entry-sync (graph-first 9 graph_queries; 10th-consumer staleness; ops-deltas reconciliation pass per Q2). Reads CRITICALLY: phase-10-to-11 handoff ops_deltas[] (4th forward-carry consumption point). Outputs: retrospective-v{N}.md validated-distillate. Cross-cutting: adversarial-review + editorial. |
 | 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial retrospective skill |

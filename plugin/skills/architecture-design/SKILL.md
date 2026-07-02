@@ -58,8 +58,8 @@ Phase 6 may surface PRD/UX gaps at architecture time. These are equivalent to Ph
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — Step 6 finalisation (challenge architectural assumptions; pre-mortem on integration boundaries)
-- `editorial-structure` — Step 6 finalisation (architecture.md structure check)
-- `editorial-prose` — Step 5 ADR rationale prose polish
+- `editorial` — Step 6 finalisation (architecture.md structure check)
+- `editorial` — Step 5 ADR rationale prose polish
 - `advanced-elicitation` — Steps 2, 3, 4 (vague_architectural_pattern / vague_nfr_strategy / vague_integration_boundary triggers)
 
 ## Method playbook

@@ -50,7 +50,7 @@ If any block-severity check fails: Phase 7 cannot exit. Loop back to upstream sk
 ## Cross-cutting wire-ins
 
 - `problem_solving` (failure_mode_analysis at check #7 ADR contradiction detection)
-- `editorial-structure` — Step 1 final report polish
+- `editorial` — Step 1 final report polish
 
 ## Method playbook
 

@@ -15,9 +15,9 @@ Phase 5 brand-guidelines — canonical reference for tokens + voice + a11y rules
 |------|------|-------------|
 | 0 | [step-00-context.md](steps/step-00-context.md) | Graph-first context load + existence_checks |
 | 1 | [step-01-scope.md](steps/step-01-scope.md) | Scope-conditional output per archetype (token-only vs full identity) |
-| 2 | [step-02-voice.md](steps/step-02-voice.md) | Voice + tone (story_types brand_voice_samples + brainstorming + advanced-elicitation + editorial-prose) |
+| 2 | [step-02-voice.md](steps/step-02-voice.md) | Voice + tone (story_types brand_voice_samples + brainstorming + advanced-elicitation + editorial) |
 | 3 | [step-03-tokens.md](steps/step-03-tokens.md) | Tokens (colour/type/spacing/motion); auto-validate against a11y baseline contrast |
-| 4 | [step-04-identity.md](steps/step-04-identity.md) | Identity (logo + iconography); finalisation; editorial-structure; emit validated-distillate + sidecar |
+| 4 | [step-04-identity.md](steps/step-04-identity.md) | Identity (logo + iconography); finalisation; editorial; emit validated-distillate + sidecar |
 
 ## Execution Rules
 

@@ -1,7 +1,7 @@
 ---
 step_number: 5
 step_name: "ADR Authoring (Organic + REQUIRED for flagged deltas)"
-step_goal: "Author Architecture Decision Records — organic from Steps 2-4 PLUS REQUIRED ADRs queued at Step 1 (silent-divergence guard); editorial-prose Tier-1"
+step_goal: "Author Architecture Decision Records — organic from Steps 2-4 PLUS REQUIRED ADRs queued at Step 1 (silent-divergence guard); editorial Tier-1"
 halts_for_input: true
 next_step: "step-06-emit.md"
 partial_completion_id: "architecture_design_step_05"
@@ -14,7 +14,7 @@ Author all ADRs. Two sources:
 1. **Organic ADRs** — significant decisions made during Steps 2–4 (architectural style, component decomposition, integration patterns, NFR strategies).
 2. **REQUIRED ADRs** — queued at Step 1 from `architecture_adrs_required[]` (Phase 5 flagged deltas). Each MUST have `resolves_design_delta` field — silent-divergence guard.
 
-Method playbook Tier-1: `problem_solving` (first_principles, failure_mode_analysis); `story_types` (feature_story for ADR rationale narratives); `editorial-prose` for prose polish.
+Method playbook Tier-1: `problem_solving` (first_principles, failure_mode_analysis); `story_types` (feature_story for ADR rationale narratives); `editorial` for prose polish.
 
 ## Instructions
 
@@ -93,7 +93,7 @@ Common organic ADR topics:
 
 ### 4. Editorial-prose wire-in
 
-Invoke `editorial-prose` against each ADR's prose blocks (Context / Decision / Consequences). User reviews; accept (revise) or reject.
+Invoke `editorial` against each ADR's prose blocks (Context / Decision / Consequences). User reviews; accept (revise) or reject.
 
 ### 5. ADR-Index update in architecture.md
 
@@ -121,7 +121,7 @@ For each entry in queued_required_adrs: verify a corresponding ADR file exists w
 - All REQUIRED ADRs authored (silent-divergence guard pre-satisfied — final check at Step 6 emit)
 - Organic ADRs authored
 - ADR Index appended to architecture.md draft
-- editorial-prose polish applied
+- editorial polish applied
 
 ## Navigation
 

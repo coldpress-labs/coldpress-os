@@ -86,8 +86,8 @@ No Phase-5-internal sub-personas at v0.3 (no @brand-specialist; no @prototype-en
 ## Cross-cutting wire-ins
 
 - **adversarial-review** — wired into `ux-design` step-04-spec finalisation, `prototype` step-04-validate.
-- **editorial-prose** — wired into `design-brief` step-04, `brand-guidelines` step-02-voice.
-- **editorial-structure** — wired into `design-brief` step-04, `ux-design` step-04-spec, `brand-guidelines` step-04-identity.
+- **editorial** — wired into `design-brief` step-04, `brand-guidelines` step-02-voice.
+- **editorial** — wired into `design-brief` step-04, `ux-design` step-04-spec, `brand-guidelines` step-04-identity.
 - **a11y-audit** (`skills/reviews/a11y-audit/`) — **NEW (Unit #28 / U07)**. Phase 5 design-time invocation: brand-guidelines token contrast verification + UX-spec a11y plan check. Phase 5 contrast failures forward-carry as design-deltas → reconcile back to `brand-guidelines` for re-tokenisation. **Archetype-conditional severity:** design-led / WDS = block; standard = warn; vibe-coder-lean = skip-unless-explicit. Reads `coldpress.yaml` `baselines.a11y` (level: A / AA / AAA; default AA).
 - **`data/design/` CSVs** — **NEW (Unit #28 / U08)**. `colors.csv` (20 palettes with WCAG-AA flag + mood); `typography.csv` (12 font pairings with licensing); `styles.csv` (12 visual archetypes with palette pairings); `stacks/{react,nextjs,svelte,vue}.csv` (framework stack recommendations). Consumed by `brand-guidelines` (token authoring), `ux-design` (stack-aware UX patterns), `design-brief` (visual direction).
 

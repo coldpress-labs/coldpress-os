@@ -79,8 +79,8 @@ Schema: `schemas/handoffs/ops-delta.schema.json`. Surfaced during course-correct
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — incident response red-team
-- `editorial-structure` — course-correction log; doc-project structure
-- `editorial-prose` — doc-project user-facing prose
+- `editorial` — course-correction log; doc-project structure
+- `editorial` — doc-project user-facing prose
 
 ## Method playbook
 

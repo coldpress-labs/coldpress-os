@@ -44,8 +44,8 @@ Compile all sections into the final PRD, validate internal consistency, and writ
 
    > "Before we lock this as a sacred document, I can offer:"
    > - **(A)** Adversarial review — challenge the PRD's assumptions and flag blind spots (`@analyst adversarial-review`)
-   > - **(B)** Editorial prose pass — improve clarity and readability (`@analyst editorial-prose`)
-   > - **(C)** Editorial structure pass — check section coherence and flow (`@analyst editorial-structure`)
+   > - **(B)** Editorial prose pass — improve clarity and readability (`@analyst editorial`)
+   > - **(C)** Editorial structure pass — check section coherence and flow (`@analyst editorial`)
    > - **(D)** Skip — lock the PRD as-is
 
    [Wait for user input — multiple options may be selected; run each in sequence]

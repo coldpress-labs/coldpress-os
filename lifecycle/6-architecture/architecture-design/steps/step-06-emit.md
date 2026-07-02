@@ -1,7 +1,7 @@
 ---
 step_number: 6
 step_name: "Emit Sacred Architecture + Sidecar"
-step_goal: "Final supersede-check sweep; adversarial-review + editorial-structure + editorial-prose; schema-validate; emit architecture.md (sacred) + sidecar"
+step_goal: "Final supersede-check sweep; adversarial-review + editorial; schema-validate; emit architecture.md (sacred) + sidecar"
 halts_for_input: true
 next_step: null
 partial_completion_id: "architecture_design_step_06"
@@ -9,7 +9,7 @@ partial_completion_id: "architecture_design_step_06"
 
 ## Goal
 
-Final step. Run sacred-doc supersede-check. Wire `adversarial-review` + `editorial-structure` + `editorial-prose`. Schema-validate. Emit architecture.md as sacred + emit sidecar.
+Final step. Run sacred-doc supersede-check. Wire `adversarial-review` + `editorial` + `editorial`. Schema-validate. Emit architecture.md as sacred + emit sidecar.
 
 ## Instructions
 
@@ -45,7 +45,7 @@ User reviews; accept (revise) or reject with rationale.
 
 ### 4. Editorial-structure wire-in
 
-Invoke `editorial-structure` against architecture.md. Section ordering, header hierarchy, scannable structure, ADR-Index completeness.
+Invoke `editorial` against architecture.md. Section ordering, header hierarchy, scannable structure, ADR-Index completeness.
 
 ### 5. Editorial-prose wire-in
 

@@ -18,7 +18,7 @@ Phase 7 story authoring. Per-archetype granularity. Per-story files + index.
 | 1 | [step-01-select.md](steps/step-01-select.md) | Per-epic story selection + archetype-conditional granularity decision |
 | 2 | [step-02-analyze.md](steps/step-02-analyze.md) | Per-story analysis: file scope + test coverage + acceptance criteria (BDD or AC per archetype) + UX-screen + brand-tokens + prototype-manifest refs |
 | 3 | [step-03-context.md](steps/step-03-context.md) | Per-story write to `_context/implementation/stories/story-NNN-<slug>-v{N}.md`; story_types Tier-1 |
-| 4 | [step-04-finalize.md](steps/step-04-finalize.md) | Stories-index emit; supersede-check on PRD/UX/architecture coverage; editorial-structure + editorial-prose; emit distillates |
+| 4 | [step-04-finalize.md](steps/step-04-finalize.md) | Stories-index emit; supersede-check on PRD/UX/architecture coverage; editorial; emit distillates |
 
 ## Execution Rules
 

@@ -1,7 +1,7 @@
 ---
 step_number: 4
 step_name: "Spec Finalisation + Distillate Emit"
-step_goal: "Author remaining sections (responsive, a11y, tokens reference, design overview); supersede-check on PRD-feature-coverage; adversarial-review + editorial-structure wire-ins; emit validated-distillate + sidecar"
+step_goal: "Author remaining sections (responsive, a11y, tokens reference, design overview); supersede-check on PRD-feature-coverage; adversarial-review + editorial wire-ins; emit validated-distillate + sidecar"
 halts_for_input: true
 next_step: null
 partial_completion_id: "ux_design_step_04"
@@ -9,7 +9,7 @@ partial_completion_id: "ux_design_step_04"
 
 ## Goal
 
-Final step. Author Section 1.1 (Design Principles), Section 6 (Responsive Strategy), Section 7 (Accessibility), Section 8 (Tokens Reference — points to brand-guidelines). Run final supersede-check. Wire `adversarial-review` + `editorial-structure`. Emit validated-distillate + sidecar.
+Final step. Author Section 1.1 (Design Principles), Section 6 (Responsive Strategy), Section 7 (Accessibility), Section 8 (Tokens Reference — points to brand-guidelines). Run final supersede-check. Wire `adversarial-review` + `editorial`. Emit validated-distillate + sidecar.
 
 NOTE: `phase-transition` is NOT invoked here. Phase 5 gate.json post-exit-action invokes phase-transition centrally (after the last skill in the archetype-flow completes).
 
@@ -81,7 +81,7 @@ User reviews adversarial findings; accept (revise) or reject with rationale.
 
 ### 8. Editorial-structure wire-in
 
-Invoke `editorial-structure` against the draft. Section ordering, header consistency, scannable structure.
+Invoke `editorial` against the draft. Section ordering, header consistency, scannable structure.
 
 ### 9. Schema-validate
 

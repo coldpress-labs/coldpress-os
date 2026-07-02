@@ -84,8 +84,8 @@ See `gate.json` (9 acceptance checks — was 11, undercounted as "10" even befor
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — story scope challenge; PERT critical-path challenge
-- `editorial-structure` — epics + stories + PERT structure check
-- `editorial-prose` — story prose polish
+- `editorial` — epics + stories + PERT structure check
+- `editorial` — story prose polish
 
 ## Method playbook
 
