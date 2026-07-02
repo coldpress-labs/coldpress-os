@@ -478,6 +478,21 @@ disable-model-invocation) · E. rebuild dev-story + deploy; team-mode demo.
 - `src/generators/frontmatter-lint.ts` + `npm run lint:frontmatter` (name+description+agent+type),
   wired into CI. **Green corpus-wide** (the §9 acceptance). Commit `b2722c2`. **934 tests**, drift clean.
 
+**Increment B — skill consolidations (in progress, 164 → 141):**
+- Deleted the **21 `type: router` stubs** (§8 item 5) — plugin discovery replaces routing; generator
+  output unchanged (140). Repointed 5 gate.json skill_refs to canonicals. Commit `0e46ea8`.
+- Retired **wave-orchestration** (→ Butler + `coldpress waves`) + **dependency-auditor** (→ readiness);
+  repointed the gate refs. Commit `b635c9f`. **934 tests**, drift clean, lint green.
+- **Remaining named DELETEs** (each 6–26 inbound refs — careful ref-cleanup): orient (→intake),
+  pre-project-interview (→intake), synthesize-research (→product-brief), planning-entry-sync +
+  breakdown-entry-sync (→handoff packets), sprint-planning + sprint-status (scrum ceremony), narrative
+  (→creative). **Research merge** (domain/market/constraint-research → one `research`). Brownfield
+  relocations (codebase-onboarding, legacy-assessment, legacy-ui-assessment). Analyst mode sprawl.
+  Target ≤80 needs these + the further §2.4 duplication clusters.
+
+**Remaining WS5:** finish B (consolidation to ≤80), C (plugin distribution + delete init wrapper
+generator §8 item 8), D (frontmatter modernization), E (rebuild dev-story/deploy + team demo).
+
 **Branch:** `overhaul/ws5-skills-consolidation`, off main, tree green, not merged.
 
 ---
