@@ -36,6 +36,12 @@ export const DeltaRecordSchema = z
     resolution: DeltaResolutionEnum.nullable(),
     resolved_by: z.string().optional(),
     resolved_at: z.string().optional(),
+    /**
+     * For `resolution: flag_for_architecture_ADR` — the ADR id/path that
+     * resolves this delta. The silent-divergence guard (`coldpress trace
+     * orphans`) requires this to point at an existing ADR.
+     */
+    adr_ref: z.string().optional(),
   })
   .strict()
   .refine((v) => v.resolution === null || !!v.resolved_by, {
