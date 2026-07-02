@@ -415,9 +415,15 @@ WS2 deferred is lit up here (P4/P6 artifacts gain requirement IDs).
 - Skill-frontmatter `agent: qa` remap **deferred to WS5** (D12 — verifier is read-only; needs
   per-skill judgment). **910 tests**, drift clean. Commit `e536dba`.
 
-**Remaining WS4:** C (`testing.yaml` L0–L7 + `outcomes.yaml` outcome-contract + P4 gate),
-D (visual-verify + acceptance-stubs skills), E (P6 additions + wire ux-spec schema; lights up
-trace requirement/component keying).
+**Increment C — testing.yaml + outcome contract (done):**
+- `schemas/testing.schema.ts` (L0–L7 layers, thresholds, pyramid, fixtures, flake).
+- `schemas/planning-artefacts/outcomes.schema.ts` + `src/outcomes/coverage.ts` +
+  `coldpress outcomes check` + the **P4 exit gate** — a P0/P1 requirement with no outcome
+  target fails P4 (§9 acceptance; full PRD cross-check with WS4-E keying). +10 tests. Commit `6a408df`.
+
+**Remaining WS4:** D (visual-verify + acceptance-stubs skills; wrap webapp-testing in verifier),
+E (P6 additions: api-contract/data-model/analytics-plan/integration-inventory + wire ux-spec
+schema; lights up trace requirement/component keying).
 
 **Branch:** `overhaul/ws4-verification-design`, off main, tree green, not merged.
 
