@@ -640,3 +640,25 @@ Landing point: **canonical 85 after two clean merges**; ≤80 is reachable only 
 
 **WS5-B consolidation: CLOSED at canonical 85.** Non-canonical payload (stack-packs 19 + creative 10 + meta 8 + edit-primitives 4 = 41) remains as designed. Next WS5 sub-workstreams: WS5-C (plugin distribution + delete init-time wrapper generator, §8 item 8), WS5-D (frontmatter modernization), WS5-E (rebuild dev-story/deploy + P7 story-slice/story-graph + team demo).
 
+---
+
+## WS5-C — Plugin as primary skill distribution (§8 item 8) — CLOSED (2026-07-03, Opus session)
+
+Made the Claude Code plugin the skill-distribution vehicle and deleted init-time wrapper generation. Plugin mechanics confirmed via the `claude-code-guide` agent against the official docs (plugins-reference / plugin-marketplaces / settings, snapshot 2026-06-30) and verified with `claude plugin validate ./plugin` (✔ passed).
+
+**Commits:** `1de2ba7` (manifest restructure + version-drift fix), `40cd048` (self-contained bundle), `e0feaa1` (init/update/paths/settings + wrappers deletion + tests), plugin marketplace description.
+
+- **Manifest → spec location:** `plugin/plugin.json` → `plugin/.claude-plugin/plugin.json`; added `plugin/.claude-plugin/marketplace.json` (directory-source marketplace `coldpress`, plugin `coldpress-os` at source `./`). Plugin name `@coldpress/core` → `coldpress-os` (the slash breaks the `plugin@marketplace` enable syntax).
+- **Version drift fixed:** `build-skills.ts` now stamps `version` from `package.json` (single source of truth) into both manifest + marketplace, and refreshes `skills_count`. Was stuck at `0.3.0-alpha` / `123`.
+- **Self-contained bundle (user decision, over thin-pointer):** `emitSkill` copies each skill's FULL source tree (steps/, workflow.md, steps-e/, steps-v/, assets) alongside the spec-transformed SKILL.md, excluding nested-skill subdirs (stack-pack children emit separately). Plugin ~130 → 435 files; skills are now portable/standalone-installable, `via steps/` resolves in-place.
+- **Distribution wiring:** `plugin` added to `frameworkDirs` (copied into `coldpress-os/plugin/`) + package.json `files[]` (ships via npm). Template `.claude/settings.json` pre-registers `extraKnownMarketplaces.coldpress` (directory `./coldpress-os/plugin`) + `enabledPlugins["coldpress-os@coldpress"] = true` → auto-enables on folder trust, no manual `/plugin install`.
+- **Wrapper generation deleted (§8 item 8):** `src/utils/wrappers.ts` removed; `init.ts` drops `generateWrappers` (+ removed the stale `@communicator/@qa/@valet` companion-skill outro — those agents were cut in WS4); `update.ts --post-phase-3` drops per-pack wrapper regen (all stack-packs ship in the plugin) but keeps `doctor --stack` + completion flag. Tests rewritten: init-scaffold asserts plugin copied + settings enable it + no `.claude/skills/` tree; update-post-phase-3 verifies stack-pack skills ship via the plugin.
+
+### D18 — SCOPE DEFERRAL (agents + hooks into the plugin) — flagged for user
+
+§9 WS5 describes the plugin bundling "skills + agents + hooks." WS5-C shipped the **skills** vehicle (the §8-item-8 hard requirement + acceptance "bootstraps via plugin, wrapper generation deleted"). **Agents and hooks were deliberately NOT migrated into the plugin this session:** the 8 agents already ship working via `template/.claude/agents/`, and the WS1 enforcement hooks via `template/.claude/settings.json` + `template/scripts/hooks/`. Moving them into the plugin risks **double-definition** (plugin agents + template agents both defining @pm, etc.) and **enforcement breakage** (hooks are the WS1 crown jewel), for no immediate functional gain — the plugin already auto-enables so its skills are discovered. **Recommendation:** migrate agents + hooks into the plugin as a single vehicle in a dedicated follow-up (WS5-D/acceptance-era), where the template's copies are removed in the same change to avoid duplication, and enforcement is re-verified end-to-end. **Awaiting user direction** on whether to do that now or defer.
+
+**Green:** typecheck ✅, lint:frontmatter ✅, **923 tests** ✅ (−3 obsolete wrapper tests), check:drift ✅, build ✅, `claude plugin validate` ✅.
+
+**WS5-C: CLOSED** (skills-via-plugin core). **Next:** WS5-D (frontmatter modernization) → WS5-E (rebuild dev-story/deploy + P7 story-slice/story-graph + team demo). D18 (agents+hooks-in-plugin) pending user direction.
+
