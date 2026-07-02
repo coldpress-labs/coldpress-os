@@ -133,6 +133,21 @@ and the repo's existing Zod convention (`schemas/phase-gate.schema.ts`).
   (`gates`, `deploy`) for phase/pack-specific keys. `parseState()` helper for hooks.
 - `test/state-schema.test.ts` — 10 tests (valid full/lite/defaults/forward-compat +
   reject typo/out-of-range/bad-enum/missing/safeParse). typecheck green; **754 tests pass**.
+- Commit `6ac246c`.
+
+**Increment B — coldpress.yaml schema (done):**
+- `schemas/coldpress-yaml.schema.ts` — whole-file validator, closes audit §2.5.
+  Requires the Phase-1 core (`project.name/slug`); `.passthrough()` for stack-pack
+  blocks (`convex:` etc.) + forward fields; types known lifecycle fields + the v0.4
+  set (`profile`, `lane`, `security_tier`, `interop`, `deploy_pack`, `verify_pack`),
+  reusing `LaneEnum`/`SecurityTierEnum` from state.schema (config↔state can't diverge).
+- `test/coldpress-yaml-schema.test.ts` — 10 tests incl. validating the real
+  `template/coldpress.yaml` (name/slug filled). **764 tests pass**. Commit `a0d8a35`.
+
+**Paused at Increment C (hook harness) — the design-heavy core.** Next session opens
+here: settings.json hook wiring + `template/scripts/hooks/` Node convention +
+`COLDPRESS_OVERRIDE` protocol + `--explain` standard, then the 8 WS1 hooks (D).
+Tree green (764 tests), 2 WS1 commits on `overhaul/ws1-enforcement`.
 
 ---
 
