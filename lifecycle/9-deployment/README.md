@@ -22,7 +22,11 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
 | `security-scan` | workflow | @devops | Wraps 5 classical + 3 LLM gates (existing security-gate spec) |
 | `dep-health-check` | workflow | @devops | Dependency pinning + advisories (cheap, runs every Phase 9 entry) |
 | `db-migration-check` | workflow | @devops | Brownfield-conditional |
-| `deploy` | workflow | @devops | Action skill; emits deploy-log |
+| `deploy-staging` | workflow | @devops | Pack-driven staging deploy (model-invocable); build via the locked stack, ship via the pack CLI |
+| `deploy-prod` | workflow | @devops | Pack-driven **human-only** prod deploy (`disable-model-invocation` + `deploy-gate`); signs the release record |
+| `deploy-preview` | simple | @devops | Per-story/wave preview URL (when the pack supports it) for the clean-room verifier + continuous review |
+| `smoke` | simple | @devops | Post-deploy smoke: routes + content sentinel + Playwright happy path + analytics-plan event arrival |
+| `rollback` | simple | @devops | Pack `rollback_cmd` recovery; human-decided; rehearsed once on staging |
 | `secrets-vault-manager` | simple | @devops | **NEW (Unit #28 / U02)** — committed-secret regex scan + manifest-vs-env consistency + CI secret audit + rotation-due tracking. **Surface-only** (does NOT auto-rotate). CRITICAL findings BLOCK Phase 9 gate. |
 | `observability-designer` | workflow | @devops | **NEW (Unit #28 / U03)** — wraps `coldpress-os/docs/observability-setup.md` doc. Emits SLO/SLI table + multi-window multi-burn-rate alerts + golden-signals dashboards + head+tail trace sampling. Vendor-neutral. |
 | `dependency-auditor` | workflow | @devops | **NEW (Unit #28 / U09)** — DEEP audit (CVE via OSV/NVD/GitHub-Advisory + supply-chain heuristics + license audit + 0-100 health score). Complements `dep-health-check` (cheap-always vs deep-on-demand). License-block findings BLOCK Phase 9 gate. |
@@ -49,10 +53,16 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
      └──→ pre-deploy gate evaluation (block if any fail)
         │
         ▼
-   deploy (action — emits deploy-log)
-        │
+   deploy-staging (pack-driven) ──→ smoke (staging)
+        │  green staging smoke
         ▼
-   readiness-check (post-deploy verification)
+   deploy-gate: prod blocked unless staging smoke green + P8 complete + acceptance record
+        │  human trigger
+        ▼
+   deploy-prod (human-only) ──→ smoke (prod) ──→ release record signed
+        │  (red prod smoke → rollback)
+        ▼
+   post-deploy verification
      ├──→ smoke tests
      ├──→ observability baseline check
      └──→ post-deploy gate evaluation

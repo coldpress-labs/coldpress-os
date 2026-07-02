@@ -16,7 +16,7 @@ Without this skill, phase exit was always prose — "the user feels confident th
 
 - `coldpress graph query --phase-ready N` before transitioning to Phase N+1
 - End of any wave in Phase 6 — verify exit conditions before Phase 7 transition
-- Before running `deploy` in Phase 7 — the readiness-check + security stack + LLM gates are all acceptance_checks in Phase 7's gate.json
+- Before `deploy-prod` in Phase 9 — the readiness + security stack + LLM gates are all acceptance_checks in Phase 9's gate.json
 - Auditing a project's phase-transition history — re-run against archived state
 
 ## Prerequisites
