@@ -73,7 +73,7 @@ function buildLegacyCursorrules(): string {
     "- `_context/sacred/architecture.md` — architecture doc (Phase 4)",
     "- `_context/sacred/pert-chart.md` — PERT chart / wave plan (Phase 5)",
     "",
-    "Change workflows live in `coldpress-os/governance/<doc>-change/workflow.md`.",
+    "Sacred-doc changes go through the `sacred-change` skill (enforced by the `sacred-guard` hook) — see `coldpress-os/governance/sacred-docs.md`.",
     "",
     "**Modern Cursor users:** `.cursor/rules/` holds one rule per subagent (see `.cursor/rules/*.mdc`).",
     "",

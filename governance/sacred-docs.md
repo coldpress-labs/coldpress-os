@@ -27,31 +27,36 @@ A document is sacred when:
 
 ## 3. Protection Rules
 
-### 3.1 No Direct Edits
+### 3.1 No Direct Edits — mechanically enforced
 
-Sacred documents MUST NOT be edited directly. All changes go through the corresponding change workflow in `governance/`.
+Sacred documents MUST NOT be edited directly. As of v0.4 this is no longer prose
+an agent may skip: the **`sacred-guard`** PreToolUse hook BLOCKS any write under
+`_context/sacred/*` unless an **approved change record** exists for that document.
+Run `coldpress hook sacred-guard --explain` for the enforced contract.
 
-### 3.2 Change Workflow Required
+### 3.2 The one change workflow
 
-Each sacred document has a dedicated change workflow:
+All four sacred documents change through a single skill — **`sacred-change`**
+(`skills/governance/sacred-change/`), which replaced the former five per-doc prose
+workflows (`governance/*-change/workflow.md`). It runs the impact analysis, takes
+human approval, and emits the approved change record at
+`_context/audit/sacred-changes/CHG-<doc>-<seq>.yaml` (schema
+`schemas/sacred-change.schema.ts`) — the record `sacred-guard` requires before the
+edit is permitted. The tech-stack severity table and per-doc impact tables live
+inside that skill.
 
-| Document | Change Workflow |
-|----------|----------------|
-| context.md | `governance/context-change/workflow.md` |
-| tech-stack.md | `governance/tech-stack-change/workflow.md` |
-| PRD | `governance/prd-change/workflow.md` |
-| architecture.md | `governance/architecture-change/workflow.md` |
-| PERT chart | `governance/pert-change/workflow.md` |
+> PERT charts are **no longer sacred** (desanctified in v0.4 — the story-graph +
+> derived waves replace them), so there is no PERT change workflow.
 
-### 3.3 Mandatory Steps in Every Change Workflow
+### 3.3 The steps (enforced by the skill + hook)
 
-1. **Describe the change** — What specifically needs to change and why
-2. **Impact analysis** — Which downstream documents are affected?
-3. **Downstream artifact check** — Review each affected artifact for required updates
-4. **Approval** — User explicitly approves the change and its downstream impacts
-5. **Execute change** — Update the sacred document
-6. **Cascade updates** — Update all affected downstream artifacts
-7. **Log the change** — Record in the document's version control panel
+1. **Describe the change** — what specifically, and why
+2. **Impact analysis** — which downstream documents are affected (WS2: `trace impact` computes the blast radius)
+3. **Downstream review** — per affected artifact
+4. **Approval** — human gate (Butler does not self-approve)
+5. **Emit the approved change record** — this is what unblocks the write
+6. **Execute + cascade** — make the edit, then update affected downstream artifacts
+7. **Log** — version control entry on the sacred doc
 
 ### 3.4 Emergency Override
 

@@ -8,6 +8,50 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### v0.4 "Enforcement" overhaul — WS1: Enforcement layer
+
+The heart of v0.4: the framework's rules stop being prose an agent may ignore and
+become **hooks that can fail**. Closes the audit's headline finding ("zero Claude
+Code hooks exist; sacred-doc protection, phase gates, and quality gates are 100%
+instructional prose").
+
+#### Added
+
+- **Enforcement hook stack** (`.claude/settings.json` + `scripts/hooks/run.mjs`,
+  scaffolded into every project). Eight hooks, each with a unit test, an
+  `--explain`, and a uniform `COLDPRESS_OVERRIDE="<gate>:<reason>"` escape hatch
+  that is loudly logged:
+  - `sacred-guard` (PreToolUse) — blocks `_context/sacred/*` writes without an approved change record.
+  - `schema-validate` (PostToolUse) — schema'd `_context/` artifacts must validate; errors fed back in-loop.
+  - `secret-scan` (PostToolUse) — catches common secret patterns at edit time.
+  - `quality-gate` (Stop) — cannot complete while typecheck/lint/test are red.
+  - `phase-gate` (PreToolUse Skill, full lane) — no skipping ahead of ungreen phase gates.
+  - `test-integrity` (PostToolUse) — flags dropped assertions / added skip markers.
+  - `run-log` (Stop/SubagentStop) — records a `session-boundary` event for the evolution loop.
+  - `load-state` (SessionStart) — injects the orchestration summary.
+  - Logic lives in `src/hooks/` (via the new `coldpress hook <name>` CLI); the shipped
+    scripts are thin, dependency-free wrappers.
+- **`.coldpress/state.yaml` schema** (`schemas/state.schema.ts`) — the single
+  orchestration truth (lane, phase, security tier, enforcement mode, gate ledger).
+- **`coldpress.yaml` whole-file schema** (`schemas/coldpress-yaml.schema.ts`) — the
+  previously-missing config validator.
+- **`sacred-change` skill** — the one change workflow for all sacred docs; produces
+  the record `sacred-guard` enforces.
+- **`check:drift`** (`npm run check:drift`) — regenerates derived artifacts and fails
+  on drift; wired into CI.
+
+#### Changed
+
+- Extended `validate-schema` routing to 17 previously-orphaned schemas (design,
+  planning, audit, tracking artifacts); fixed 4 dangling schema paths.
+- EventStream schema gains a `session-boundary` event kind; phase bound widened to 11 (Shape A).
+
+#### Removed
+
+- The five `governance/*-change/workflow.md` prose change workflows (folded into
+  `sacred-change` + `sacred-guard`); `pert-change` deleted outright (PERT desanctified).
+  `governance/` is 67% smaller.
+
 ### v0.4 "Enforcement" overhaul — WS0: Hygiene & cuts
 
 The first workstream of the v0.4 overhaul: remove ~a third of the surface before

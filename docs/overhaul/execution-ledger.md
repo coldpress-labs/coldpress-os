@@ -14,7 +14,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS | Title | State | Branch | Closed |
 |----|-------|-------|--------|--------|
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
-| WS1 | Enforcement layer | ⚪ not started | — | — |
+| WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | ⚪ not started | — | — |
 | WS3 | Two-lane lifecycle | ⚪ not started | — | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
@@ -43,6 +43,8 @@ Legend: ⚪ not started · 🟡 in progress · 🟢 green/closed · 🔴 blocked
 | D5 | tactical | The `graph.test.ts` + `graph-visualizer.test.ts` fixtures (a 144-node/330-link httpx `graph.json`) lived *inside* the deleted `graph/vendor/graphify/worked/httpx/` tree, but they exercise the **retained** `src/graph/*` modules (§4.6 keeps `index.ts` to cannibalize for WS2 `trace`). Relocated only that one JSON output file to `test/fixtures/graph/httpx/graph.json` and repointed both tests. This is indexer *output data* (a test fixture), not the Graphify runtime/source — does not violate WS0's "no vendored graphify" gate. | applied |
 | D6 | scope-boundary | A wider docs surface still advertises the removed `coldpress graph` command: whole docs `docs/graph-query.md` + `docs/graph-visualizer.md`, `docs/glossary.md` graph rows, and `graph-prime` references in `docs/coldpress-yaml-schema.md` + `docs/example-walkthrough.md`. Rewriting these belongs to the docs-regeneration workstream (§8 item 11 / WS1 drift checks) and the `graph-prime` skill deletion (§5 P1, a later WS) — **not** WS0's item set. Fixed only the single headline README feature-list line (README:160) now, as clearly implied by item 1. Remaining graph-doc surface carried forward for the docs-regen WS. Also carried: internal degraded-path strings in `src/graph/index.ts` + `src/dashboard/render/page.ts:290` still name `coldpress graph rebuild` (harmless; WS2 owns `src/graph/` rewrite). | carried-forward |
 | D8 | scope-addition (user-approved) | User directive (via Andy, 2026-07-02): beyond §8 item 11's regenerate-or-fix treatment, sweep `coldpress-os/docs/` for point-in-time working notes vs living framework docs. **Outcome:** evaluated the 4 named candidates + scanned the rest. **Moved OUT** (2, zero inbound links, pure historical): `wiring-audit-2026-05-03.md` (Unit-#29 gap inventory) + `phase-2-orchestration-notes.md` (notes on the deleted orchestrator layer) → `../legacy/docs-superseded-2026-07-02/framework-docs/` + ARCHIVE-MANIFEST section. **Kept for §8.11** (2, shipped-doc material): `anthropic-skill-wrapping-audit.md` (5 living inbound links) + `attribution-audit.md` (companion to public NOTICE.md) — the directive's own "shipped-doc → fix/regenerate" branch; ripping their links / dropping public attribution now would be worse than a §8.11 fix later. Scan found no other orphaned dated notes (the `-spec` docs' `date:` fields are format-spec metadata; the tabular docs are §8.11 regen targets). Own commit at the WS0→WS1 boundary. | applied |
+| D11 | scope-boundary | WS1-G deleted the 5 `governance/*-change/workflow.md`. Updated the functional/active references (cline.ts + cursor.ts interop generators, sacred-docs.md doctrine, 6-architecture README, decision-logger skill). **Deferred references** (not WS1-G's scope): PERT-change refs in `7-breakdown/gate.json`, `8-implementation/gate.json`, `parallelization-strategy/SKILL.md` → **WS2** (PERT desanctification removes these wholesale); `pre-project-interview` step refs → **WS5** (that skill is deleted per §8 item 6); `docs/decision-trees.md` + `docs/glossary.md` mentions → **§8 item 11** docs-regeneration (they are regen targets). Recorded so each owning WS clears its refs. | logged / deferred |
+| D10 | scope-addition (user-approved, deferred) | Quarterly BMAD upstream review (`../docs/upstream-review-bmad-2026-07-02.md`, v6.2.2→v6.9.0) — four adopts logged for FUTURE workstreams, **do not act now**: **(1) WS5/P2** — `validate-idea` + proposal mode adopt adversarial Socratic interrogation (bmad-forge-idea pattern). **(2) WS4/P6** — add a breadth-coverage exit check: every architecture dimension is decided, deferred, or explicitly open. **(3) WS5 acceptance** — add criterion: every canonical skill must run non-interactively (WS7's eval runner depends on it). **(4) WS8/P10** — incident-response records adopt a forensic case-file shape; **WS5 low-priority** — refresh `elicitation-methods.csv` + use Create/Update/Validate intent naming in skill consolidation. Each owning workstream picks these up when reached. | logged / deferred |
 | D9 | resolved | User (via Andy) confirmed stash@{0} is superseded, preserved as branch `wip/pre-overhaul-shape-a-propagation` + patch, and instructed `git stash drop stash@{0}` (do NOT apply). **Safety check before dropping (per standing rule — verify preservation exists):** branch + patch both verified to hold the **tracked** WIP (75 files, +1889/−217) — BUT both **MISSED the one untracked file** the `-u` stash held: `lifecycle/11-evolve/retrospective/steps/step-00-deltas-reconciliation.md` (209 lines, real Phase-11 content; the patch's hits on that path were all references in other files, `grep -c` for its new-file diff = 0). Extracted it from `stash@{0}^3` into `../legacy/docs-superseded-2026-07-02/pre-overhaul-wip-untracked/…` + manifest row, so nothing is lost (the other untracked entry, the `.tgz`, is disposable per §8 item 3). **Then** ran `git stash drop stash@{0}`. **Salvage candidates for later cherry-pick from the wip branch:** event-stream writer + tests → revisit at WS7; doctor-checks expansion + tests → revisit at G11/doctor work. | resolved |
 | D7 | finding (needs decision) | The CI "Vulnerability scan" step (`npm audit --audit-level=moderate`) exits 1 — **12 advisories (8 moderate, 3 high, 1 critical)** in transitive deps (esbuild via tsup; hono; etc.). **Pre-existing**: WS0's only `package.json` change was removing `orchestrator`/`graph` from `files[]`; zero dependency changes, `package-lock.json` untouched — so this red is identical on baseline `main` and is NOT a WS0 regression. Fixing it means bumping dependency versions, which is outside WS0's §8 hygiene-and-cuts scope (deviation rule → user approval before touching deps). Every other CI-relevant gate WS0 controls is green (typecheck, build, test, gate.json validation, build:skills, plugin drift). **User decision (2026-07-02): close WS0; track the audit separately.** To be resolved in a dedicated dependency-hygiene pass before the §12 v0.4.0 ship gate (candidate owner: WS1 enforcement / CI-drift work). Not a WS0 blocker. | tracked / deferred to pre-§12 dep-hygiene |
 
@@ -105,6 +107,128 @@ scaffold skill-less projects — plan v2.2 sequencing fix).
 - ⚠️ **`npm audit --audit-level=moderate`** — exit 1 (12 advisories). **Pre-existing, not a WS0 regression** (deps unchanged). See delta **D7** — escalated to user.
 
 **CHANGELOG:** entry added under [Unreleased] (WS0).
+
+### Session 2 — 2026-07-02 · WS0 merge + WS1 kickoff
+
+**WS0 merged to main** via `--no-ff` (merge commit `1355440`; −34,344 lines, mostly
+graphify). Not pushed to origin (awaiting user). Branch `overhaul/ws0-hygiene-cuts`
+retained.
+
+**WS1 — Enforcement layer** opened on branch `overhaul/ws1-enforcement` off main.
+This is the largest, greenfield P0 workstream (§9). Read for this session: §0.1,
+§11, §9 WS1, §4.1 (state), §4.4 (hook stack), operating-model §II.1 (state shape),
+and the repo's existing Zod convention (`schemas/phase-gate.schema.ts`).
+
+**Internal WS1 build order** (foundation → enforcement → drift → governance):
+- **A. state schema** (§4.1) — the routing spine every hook reads. ← this session
+- **B. coldpress.yaml schema** (§4.1, closes audit §2.5 gap) — validated by the P1 schema-validate hook.
+- **C. hook harness** — `template/.claude/settings.json` + `template/scripts/hooks/` Node convention; the `COLDPRESS_OVERRIDE` protocol (G11) + `--explain` standard baked in from hook #1.
+- **D. the hook stack** (§4.4) — WS1-scoped hooks only: `load-state`, `sacred-guard` (core block; trace blast-radius is WS2), `phase-gate`, `schema-validate`, `secret-scan`, `quality-gate`, `run-log`, `test-integrity`. `boundary-guard`/`deploy-gate`/`next-task` + delta records depend on WS2/WS6 machinery → deferred to those workstreams (noted so WS1 acceptance doesn't over-reach).
+- **E.** extend `validate-schema.ts` routing to all surviving schemas; fix the 4 dangling SKILL.md schema paths.
+- **F.** `check:drift` npm script + CI job.
+- **G.** governance prose conversion (cut-list 9): 5 change workflows → one `sacred-change` skill + the sacred-guard hook.
+
+**Increment A — state schema (done):**
+- `schemas/state.schema.ts` (Zod) — operating-model §II.1 shape + §4.1 additions
+  (`security_tier` T0/T1/T2, `enforcement` on/off/degraded) + §10 `iteration`.
+  Top-level `.strict()` (typo guard on the routing spine); permissive sub-objects
+  (`gates`, `deploy`) for phase/pack-specific keys. `parseState()` helper for hooks.
+- `test/state-schema.test.ts` — 10 tests (valid full/lite/defaults/forward-compat +
+  reject typo/out-of-range/bad-enum/missing/safeParse). typecheck green; **754 tests pass**.
+- Commit `6ac246c`.
+
+**Increment B — coldpress.yaml schema (done):**
+- `schemas/coldpress-yaml.schema.ts` — whole-file validator, closes audit §2.5.
+  Requires the Phase-1 core (`project.name/slug`); `.passthrough()` for stack-pack
+  blocks (`convex:` etc.) + forward fields; types known lifecycle fields + the v0.4
+  set (`profile`, `lane`, `security_tier`, `interop`, `deploy_pack`, `verify_pack`),
+  reusing `LaneEnum`/`SecurityTierEnum` from state.schema (config↔state can't diverge).
+- `test/coldpress-yaml-schema.test.ts` — 10 tests incl. validating the real
+  `template/coldpress.yaml` (name/slug filled). **764 tests pass**. Commit `a0d8a35`.
+
+**Increment C — hook harness + load-state reference hook (done):**
+- Execution model confirmed with user: `.claude/settings.json` → thin dep-free
+  `scripts/hooks/<name>.mjs` → `coldpress hook <name>` (logic in `src/hooks/`,
+  unit-tested, reuses src). Verified the current Claude Code hook I/O contract via
+  claude-code-guide (permissionDecision deny at exit 0; SessionStart
+  additionalContext; `${CLAUDE_PROJECT_DIR}`; stdin `tool_name`/`tool_input.file_path`/`cwd`).
+- Built: `src/hooks/types.ts` (HookHandler + COLDPRESS_OVERRIDE protocol G11 +
+  renderDecision), `src/hooks/load-state.ts` (SessionStart summary hook),
+  `src/hooks/registry.ts`, `src/commands/hook.ts` + `coldpress hook [name]
+  [--explain|--list]`, `template/.claude/settings.json`, `template/scripts/hooks/load-state.mjs`.
+- 18 tests + **verified end-to-end via the real CLI + stdin**: `coldpress hook
+  load-state` with a SessionStart payload emits the correct additionalContext JSON.
+  **782 tests pass**, plugin drift clean. Commit `447274b`.
+
+**Established pattern for the remaining WS1 hooks (Increment D).** sacred-guard,
+phase-gate, schema-validate, secret-scan, quality-gate, run-log, test-integrity all
+replicate this harness (new `src/hooks/<name>.ts` + registry entry + thin
+`scripts/hooks/<name>.mjs` + settings.json wiring + tests). Per §0.1.7 these
+settled-spec replications suit a Sonnet session. boundary-guard/deploy-gate/next-task
++ delta records depend on WS2/WS6 machinery → deferred to those workstreams.
+
+**WS1 so far:** state schema, coldpress.yaml schema, hook harness + load-state.
+
+**Increment D — the hook stack (in progress: 4 of 8 hooks):**
+- `sacred-guard` (PreToolUse Edit|Write) — headline enforcement: blocks `_context/sacred/*`
+  writes without an approved change record (`schemas/sacred-change.schema.ts`, produced by
+  WS1-G). Verified e2e (denies with `permissionDecision:"deny"`). ✅ acceptance: sacred-block.
+- `secret-scan` (PostToolUse Edit|Write) — secret patterns (ported from check-secrets.sh);
+  feeds finding back naming the pattern not the value. `renderDecision` now branches on
+  event (PreToolUse permissionDecision vs PostToolUse/Stop decision:block). Verified e2e.
+- `schema-validate` (PostToolUse Edit|Write) — schema'd `_context/` artifacts must validate;
+  errors fed back in-loop. Reuses validate-schema.ts. Verified e2e. ✅ acceptance: schema-reject.
+- Harness refactor: per-hook scripts → one generic `scripts/hooks/run.mjs <name>`.
+- Commits `17f33d6` (sacred-guard+secret-scan), `9c066d8` (schema-validate). **807 tests**, drift clean.
+
+**Increment D — the hook stack: COMPLETE (all 8 WS1 hooks).** Added since the 4 above:
+- `quality-gate` (Stop) — blocks completion while typecheck/lint/test are red (injectable
+  runner; WS4 swaps to testing.yaml). Delivers "cannot complete red". Commit `31ec9df`.
+- `phase-gate` (PreToolUse Skill, full lane) — blocks phase-N skills before p(N-1) gates green;
+  resolves skill→phase from lifecycle/ tree; new shared `state-io.ts`. `31ec9df`.
+- `test-integrity` (PostToolUse Edit) — flags dropped assertions/cases + added skip/only. `31ec9df`.
+- `run-log` (Stop/SubagentStop) — appends a `session-boundary` event; **sanctioned EventStream
+  schema extension** (new kind + PHASE 9→11). Verified event lands in events.jsonl. Commit `01c6be9`.
+- `renderDecision` branches per-event (PreToolUse permissionDecision vs PostToolUse/Stop
+  decision:block). `boundary-guard`/`deploy-gate`/`next-task` deferred to WS2/WS6 (need their machinery).
+
+**WS1 acceptance status:** sacred-block ✅, schema-reject ✅, quality-gate-red ✅ (logic + e2e),
+override-logging ✅, per-hook test+--explain ✅ (all 8). Remaining: `check:drift` (WS1-F); a
+scaffolded-project end-to-end demo (part of WS3 acceptance). **837 tests**, drift clean.
+
+**Increment E (done):** wired 17 orphaned schemas into PATH_PATTERN_SCHEMAS by artifact
+path; fixed the 4 dangling SKILL.md/gate.json paths; new test guards every routed schema
+exists. Commit `76606c6`.
+
+**Increment F (done):** `check:drift` npm script + `src/generators/check-drift.ts` (regenerate
+→ diff; extensible for §8.11 doc generators); CI step replaces the two plugin-stale steps.
+Verified: a seeded source edit is caught. Commit `13ea95d`.
+
+**Increment G (done):** 5 `governance/*-change/workflow.md` → one `sacred-change` skill +
+sacred-guard hook; `governance/` 48K→16K (67% smaller); sacred-docs.md doctrine rewritten;
+interop generators + active refs updated (remaining PERT/§8.11/WS5 refs → D11). Commit `06c0edc`.
+
+---
+
+## 🟢 WS1 CLOSED (2026-07-02)
+
+**All acceptance criteria met** (§9), verified by command:
+- Sacred write without an approved change record → **blocked** with a useful message ✅ (sacred-guard, e2e).
+- Schema-violating `_context/` artifact → **rejected in-loop** ✅ (schema-validate, e2e).
+- Task **cannot complete red** ✅ (quality-gate logic + e2e; full scaffolded-session demo lands with WS3).
+- `check:drift` **catches a seeded drift** ✅ (demonstrated + restored).
+- **Every hook has a test + `--explain`** ✅ (all 8).
+- **Override works and is loudly logged** ✅ (harness, tested).
+- Enforcement **ships into scaffolded projects** ✅ (`coldpress init` → `.claude/settings.json` + `scripts/hooks/run.mjs`, 10 hook wirings).
+
+Final gate: typecheck ✅, **849 tests** ✅, build ✅, 11 gate.json valid ✅, check:drift OK ✅.
+**Deferred to their workstreams (recorded):** boundary-guard/deploy-gate/next-task + delta
+records (WS2/WS6); pending-human-gate in load-state (WS3/§7.7); PERT-ref cleanup (WS2);
+`docs/` regen-target ref cleanup (§8.11). CHANGELOG entry added.
+
+**Branch:** `overhaul/ws1-enforcement`, off main, tree green, clean, **not merged**.
+
+---
 
 **Acceptance status:** 🟢 **WS0 CLOSED (2026-07-02).** Green on every gate WS0 owns.
 The one pre-existing, out-of-scope CI red (npm audit, D7) is tracked/deferred to a

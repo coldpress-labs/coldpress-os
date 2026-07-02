@@ -169,14 +169,13 @@ describe("Schema — per-kind invariants", () => {
     ).toBe(false);
   });
 
-  it("EventSchema rejects phase outside 1..9", () => {
+  it("EventSchema rejects phase outside 1..11 (Shape A widened the bound in v0.4 WS1)", () => {
+    // Phase 11 is now valid (Shape A); 12 is out of range.
     expect(
-      EventSchema.safeParse({
-        ...base,
-        kind: "wave-start",
-        wave_id: "w-1",
-        phase: 10,
-      }).success,
+      EventSchema.safeParse({ ...base, kind: "wave-start", wave_id: "w-1", phase: 11 }).success,
+    ).toBe(true);
+    expect(
+      EventSchema.safeParse({ ...base, kind: "wave-start", wave_id: "w-1", phase: 12 }).success,
     ).toBe(false);
   });
 
@@ -252,7 +251,7 @@ describe("EventStreamWriter", () => {
       w.append({
         kind: "wave-start",
         wave_id: "w-1",
-        // Zod guards 1..9 at runtime even though the TS type narrows
+        // Zod guards 1..11 at runtime even though the TS type narrows
         // only to `number`; use a cast to test the runtime validator.
         phase: 99 as 1,
       }),

@@ -58,7 +58,7 @@
       "description": "`_context/tracking/deploy-log-v{latest}.md` records deploy completion with status: success",
       "kind": "automated",
       "severity": "block",
-      "schema_ref": "schemas/tracking/deploy-log.schema.json",
+      "schema_ref": "schemas/audit/deploy-log.schema.json",
       "artefact_path": "_context/tracking/deploy-log-v*.md",
       "remediation": "Run `@devops deploy`. Failures trigger rollback procedure."
     },

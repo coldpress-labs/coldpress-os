@@ -63,11 +63,9 @@ jobs:
           done
           echo "All 11 phase gate.json files valid."
 
-      - name: Regenerate plugin/ from source
-        run: npm run build:skills
-
-      - name: Ensure plugin/ is not stale
-        # If source SKILL.md files changed without running `npm run build:skills`
-        # and committing the plugin/ output, CI fails. Run build:skills locally
-        # and commit the diff to fix.
-        run: git diff --exit-code plugin/
+      - name: Check drift (generated artifacts vs source)
+        # Regenerates every derived artifact (plugin/ today; registries + docs
+        # as §8 item 11 lands) and fails if the result differs from what is
+        # committed. Run `npm run check:drift` locally and commit the output to
+        # fix. Supersedes the separate build:skills + `git diff plugin/` steps.
+        run: npm run check:drift
