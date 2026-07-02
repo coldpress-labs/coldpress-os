@@ -97,12 +97,16 @@ describe("runInterop — interop set filtering", () => {
     expect(await pathExists(join(tmp, ".clinerules"))).toBe(true);
   });
 
-  it("default (no set) matches set='all' (no behaviour change for existing callers)", async () => {
+  it("default (no set) emits AGENTS.md only — matches set='claude' (v0.4 §8 item 14)", async () => {
+    // The default flipped from 'all' to 'claude' in v0.4: AGENTS.md is the
+    // vendor-neutral manifest emitted by default; cursor/roo/openhands/cline
+    // are opt-in.
     await runInterop({ targetDir: tmp, respectManagedMarker: false });
-    expect(await pathExists(join(tmp, ".cursor", "rules"))).toBe(true);
-    expect(await pathExists(join(tmp, ".roomodes"))).toBe(true);
-    expect(await pathExists(join(tmp, ".openhands", "microagents"))).toBe(true);
-    expect(await pathExists(join(tmp, ".clinerules"))).toBe(true);
+    expect(await pathExists(join(tmp, "AGENTS.md"))).toBe(true);
+    expect(await pathExists(join(tmp, ".cursor", "rules"))).toBe(false);
+    expect(await pathExists(join(tmp, ".roomodes"))).toBe(false);
+    expect(await pathExists(join(tmp, ".openhands", "microagents"))).toBe(false);
+    expect(await pathExists(join(tmp, ".clinerules"))).toBe(false);
   });
 });
 

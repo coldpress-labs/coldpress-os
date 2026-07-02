@@ -30,7 +30,7 @@ export interface InitInput {
   user?: string;
   /** Retrofit onto an existing repo — targetDir is cwd, not cwd/slug. */
   retrofit?: boolean;
-  /** Filter interop outputs. Default: "all". */
+  /** Filter interop outputs. Default: "claude" (AGENTS.md only; cursor/roo/openhands/cline are opt-in via --interop). */
   interop?: InteropSet;
   /** Skip `git init` + seed commit. */
   noGitInit?: boolean;
@@ -91,7 +91,10 @@ export function resolveNonInteractiveInputs(
 export async function runInit(input: InitInput): Promise<void> {
   const yes = input.yes === true;
   const retrofit = input.retrofit === true;
-  const interopSet: InteropSet = input.interop ?? "all";
+  // Default: AGENTS.md only (§8 item 14). Extra IDE targets are opt-in via
+  // --interop (cursor|roo|openhands|cline|all). A coldpress.yaml `interop:`
+  // list persisting the choice arrives with the coldpress.yaml schema (WS1/WS3).
+  const interopSet: InteropSet = input.interop ?? "claude";
 
   if (!INTEROP_SETS.includes(interopSet)) {
     console.error(
