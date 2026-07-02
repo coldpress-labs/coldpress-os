@@ -88,11 +88,11 @@
     },
     {
       "id": "dependency-audit-license-clean",
-      "description": "dependency-auditor deep audit completed; no GPL/AGPL transitive deps; no Critical/High CVE without remediation plan",
+      "description": "readiness (incl. dependency audit) completed; no GPL/AGPL transitive deps; no Critical/High CVE without remediation plan",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "lifecycle/9-deployment/dependency-auditor",
-      "remediation": "Run `@devops dependency-auditor`. License-block findings BLOCK deploy; CVE remediations follow ranked priority list."
+      "skill_ref": "lifecycle/9-deployment/readiness-check",
+      "remediation": "Run `@devops readiness` (absorbs dependency-auditor). License-block findings BLOCK deploy; CVE remediations follow ranked priority list."
     },
     {
       "id": "observability-spec-emitted",
