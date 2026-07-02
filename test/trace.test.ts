@@ -75,6 +75,12 @@ describe("orphans", () => {
     // DLT-6-1 (adr exists) is NOT reported.
     expect(f.some((x) => x.id === "DLT-6-1")).toBe(false);
   });
+
+  it("flags an unresolved delta (resolution: null) — blocks phase exit", () => {
+    write("_context/deltas/DLT-8-1.yaml", "id: DLT-8-1\norigin_phase: 8\ndescription: open question\nimpact: impl\nresolution: null\n");
+    const f = orphans(buildTraceGraph(dir));
+    expect(f.find((x) => x.kind === "unresolved-delta")?.id).toBe("DLT-8-1");
+  });
 });
 
 describe("impact + why", () => {

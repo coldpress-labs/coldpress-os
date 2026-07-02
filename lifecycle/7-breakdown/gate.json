@@ -102,6 +102,14 @@
       "schema_ref": "schemas/handoffs/phase-handoff.schema.json",
       "artefact_path": "_context/handoffs/phase-7-to-8-*.md",
       "remediation": "Invoke `phase-transition` at Phase 7 exit."
+    },
+    {
+      "id": "trace-orphans-clean",
+      "description": "`coldpress trace orphans` reports no blocking findings — the story graph is acyclic and consistent (no dangling `consumes`, no unresolved deltas). (§4.6 P7 orphan gate; story-without-stub coverage activates with WS4 acceptance-stubs.) Also run `coldpress waves` to validate the DAG + contract stories + ownership disjointness.",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress trace orphans",
+      "remediation": "Run `coldpress trace orphans` (resolve dependencies/deltas) and `coldpress waves` (fix cycles / missing contract stories / ownership overlaps)."
     }
   ],
   "next_phase": "8-implementation"

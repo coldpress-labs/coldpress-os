@@ -119,10 +119,20 @@ created: "<ISO timestamp>"
 With this record present, the `sacred-guard` hook allows the write to
 `target`. Without it (or while `status` is `proposed`), the write is blocked.
 
-### 6. Execute + cascade
-Make the edit to the sacred doc (now permitted). Cascade the downstream updates
-identified in Step 2 (architecture, code patterns, CI/CD, `coldpress.yaml`,
-epics/stories) as separate, in-scope work.
+### 6. Execute + cascade (with blast radius)
+Make the edit to the sacred doc (now permitted). Then compute the blast radius
+and flip the impacted stories to **re-verify**:
+
+```bash
+coldpress trace impact _context/sacred/prd.md   # or the doc you changed
+```
+
+Every story it lists must have its acceptance re-run before it counts as done
+again. Then cascade the downstream updates identified in Step 2 (architecture,
+code patterns, CI/CD, `coldpress.yaml`, epics/stories) as separate, in-scope work.
+
+> The full requirement→story blast radius activates once P4/P6 artifacts carry
+> requirement IDs (WS4 keying) — the mechanism (`coldpress trace impact`) is wired now.
 
 ### 7. Log
 Add a Version Control entry to the sacred doc. Set the change record's `status`

@@ -13,13 +13,20 @@
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" sacred-guard" }
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" sacred-guard" },
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" boundary-guard" }
         ]
       },
       {
         "matcher": "Skill",
         "hooks": [
           { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" phase-gate" }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" git-guard" }
         ]
       }
     ],

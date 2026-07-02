@@ -11,7 +11,7 @@ import type { TraceGraph } from "./graph.js";
 import type { TraceNode } from "./types.js";
 
 export interface OrphanFinding {
-  kind: "dangling-consume" | "unresolved-adr-delta" | "isolated-story";
+  kind: "dangling-consume" | "unresolved-adr-delta" | "unresolved-delta" | "isolated-story";
   id: string;
   detail: string;
 }
@@ -38,7 +38,14 @@ export function orphans(g: TraceGraph): OrphanFinding[] {
     }
   }
 
-  // 2. Silent-divergence guard — flag_for_architecture_ADR deltas without a real ADR.
+  // 2a. Unresolved deltas (resolution: null) — block phase exit (§4.3).
+  for (const d of g.byType("delta")) {
+    if (d.attrs?.resolution === null || d.attrs?.resolution === undefined) {
+      findings.push({ kind: "unresolved-delta", id: d.id, detail: `${d.id} has no resolution (blocks phase exit)` });
+    }
+  }
+
+  // 2b. Silent-divergence guard — flag_for_architecture_ADR deltas without a real ADR.
   for (const d of g.byType("delta")) {
     if (d.attrs?.resolution !== "flag_for_architecture_ADR") continue;
     const adrRef = typeof d.attrs.adr_ref === "string" ? d.attrs.adr_ref : undefined;
