@@ -118,8 +118,8 @@ describe("SKILL.md output-path audit", () => {
     expect(violations).toEqual([]);
   });
 
-  it("recognises all 10 canonical `_context/*` subfolders", () => {
-    expect(CANONICAL_CONTEXT_ROOTS.size).toBe(10);
+  it("recognises all 11 canonical `_context/*` subfolders", () => {
+    expect(CANONICAL_CONTEXT_ROOTS.size).toBe(11);
     for (const root of CANONICAL_CONTEXT_ROOTS) {
       expect(root.startsWith("_context/")).toBe(true);
       expect(root.endsWith("/")).toBe(true);
