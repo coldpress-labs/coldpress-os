@@ -37,8 +37,10 @@ Against the target URL (passed by `deploy-staging` / `deploy-prod`):
 
 ## Output
 
-A smoke verdict. **Green staging smoke** unblocks `deploy-prod` (via `deploy-gate`);
-**red prod smoke** triggers `rollback`.
+A smoke verdict. On a **staging** run, Butler records the verdict to
+`state.deploy.staging_smoke` in `.coldpress/state.yaml` (only Butler writes state) —
+that is what the **`deploy-gate`** hook reads to allow `deploy-prod`. **Green staging
+smoke** unblocks prod; **red prod smoke** triggers `rollback`.
 
 ---
 
