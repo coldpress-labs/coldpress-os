@@ -724,3 +724,22 @@ All sub-workstreams complete: **A** (frontmatter-lint + agent:qa remap) · **B**
 
 **Next workstream:** WS6 (deploy packs) — see §9. Also carried into WS6/§5-P9: the `ops/security-scan` + `dep-health-check` scanner supersession (deferred from WS5-B), and the `deploy-prod` split (where WS5-D's `disable-model-invocation` moves from `deploy` onto the split-out `deploy-prod`).
 
+
+---
+
+## WS6 — Deploy packs (§9 WS6, §5 P9) — IN PROGRESS (2026-07-03, branch `overhaul/ws6-deploy-packs`)
+
+Make deploy a swappable axis. Branch off main (WS5 merged). Greenfield — no deploy packs existed.
+
+**Design (confirmed incl. a P3-coupling review):** uniform deploy *skills* (deploy-staging/prod/preview, smoke, rollback) parameterized by the selected `deploy_pack`; packs are *data* (`data/deploy-packs/<name>/pack.yaml`). The deploy pack is **coupled to the P3 stack** two ways — (1) `deploy-select` offers only packs whose `compatible_stacks` include the locked `stack_pack`; (2) the pack **consumes** the stack's build config (`stack_inputs`: BUILD_DIR/BUILD_CMD/NODE_VERSION resolve from the locked stack, not the deploy pack). Stack owns what/how to build; deploy pack owns where/how to ship.
+
+**Planned increments:**
+- **A. Uniform pack interface** — ✅ `schemas/deploy-pack.schema.ts` + vercel/cloudflare reference packs + stack-linkage + test (`aae4674`).
+- **B. Uniform deploy skills** — `deploy-select` (P3, from the compatibility matrix), `deploy-staging`/`deploy-prod` (split; `disable-model-invocation` moves onto `deploy-prod`), `deploy-preview`, `smoke`, `rollback` — all read the pack.
+- **C. readiness rebuild** — `readiness` ← `readiness-check` + `dependency-auditor` MERGE + the deferred `ops/security-scan`+`dep-health-check` supersession + G3/G12/G13 (npm audit, SBOM via cdxgen, security headers, license, Lighthouse vs budgets).
+- **D. deploy-gate + staging convention** — prod blocked unless staging smoke green + P8 complete + acceptance record.
+- **E. UAT / acceptance-record flow** — staging feedback window → bug vs change-request triage → acceptance record before prod.
+- **F. `handover` skill (G9)** + rollback rehearsal + generated **stack×deploy compatibility matrix**.
+- Then netlify / railway / self-hosted packs (as capacity; stub expo-eas).
+
+**A green:** typecheck ✅, **935 tests** ✅ (+8), check:drift ✅. Held here for pacing — WS6 is large (B–F + more packs remain).
