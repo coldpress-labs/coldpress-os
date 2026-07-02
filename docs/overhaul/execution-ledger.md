@@ -14,7 +14,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS | Title | State | Branch | Closed |
 |----|-------|-------|--------|--------|
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
-| WS1 | Enforcement layer | ⚪ not started | — | — |
+| WS1 | Enforcement layer | 🟡 in progress | `overhaul/ws1-enforcement` | — |
 | WS2 | Trace + story graph | ⚪ not started | — | — |
 | WS3 | Two-lane lifecycle | ⚪ not started | — | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
@@ -105,6 +105,36 @@ scaffold skill-less projects — plan v2.2 sequencing fix).
 - ⚠️ **`npm audit --audit-level=moderate`** — exit 1 (12 advisories). **Pre-existing, not a WS0 regression** (deps unchanged). See delta **D7** — escalated to user.
 
 **CHANGELOG:** entry added under [Unreleased] (WS0).
+
+### Session 2 — 2026-07-02 · WS0 merge + WS1 kickoff
+
+**WS0 merged to main** via `--no-ff` (merge commit `1355440`; −34,344 lines, mostly
+graphify). Not pushed to origin (awaiting user). Branch `overhaul/ws0-hygiene-cuts`
+retained.
+
+**WS1 — Enforcement layer** opened on branch `overhaul/ws1-enforcement` off main.
+This is the largest, greenfield P0 workstream (§9). Read for this session: §0.1,
+§11, §9 WS1, §4.1 (state), §4.4 (hook stack), operating-model §II.1 (state shape),
+and the repo's existing Zod convention (`schemas/phase-gate.schema.ts`).
+
+**Internal WS1 build order** (foundation → enforcement → drift → governance):
+- **A. state schema** (§4.1) — the routing spine every hook reads. ← this session
+- **B. coldpress.yaml schema** (§4.1, closes audit §2.5 gap) — validated by the P1 schema-validate hook.
+- **C. hook harness** — `template/.claude/settings.json` + `template/scripts/hooks/` Node convention; the `COLDPRESS_OVERRIDE` protocol (G11) + `--explain` standard baked in from hook #1.
+- **D. the hook stack** (§4.4) — WS1-scoped hooks only: `load-state`, `sacred-guard` (core block; trace blast-radius is WS2), `phase-gate`, `schema-validate`, `secret-scan`, `quality-gate`, `run-log`, `test-integrity`. `boundary-guard`/`deploy-gate`/`next-task` + delta records depend on WS2/WS6 machinery → deferred to those workstreams (noted so WS1 acceptance doesn't over-reach).
+- **E.** extend `validate-schema.ts` routing to all surviving schemas; fix the 4 dangling SKILL.md schema paths.
+- **F.** `check:drift` npm script + CI job.
+- **G.** governance prose conversion (cut-list 9): 5 change workflows → one `sacred-change` skill + the sacred-guard hook.
+
+**Increment A — state schema (done):**
+- `schemas/state.schema.ts` (Zod) — operating-model §II.1 shape + §4.1 additions
+  (`security_tier` T0/T1/T2, `enforcement` on/off/degraded) + §10 `iteration`.
+  Top-level `.strict()` (typo guard on the routing spine); permissive sub-objects
+  (`gates`, `deploy`) for phase/pack-specific keys. `parseState()` helper for hooks.
+- `test/state-schema.test.ts` — 10 tests (valid full/lite/defaults/forward-compat +
+  reject typo/out-of-range/bad-enum/missing/safeParse). typecheck green; **754 tests pass**.
+
+---
 
 **Acceptance status:** 🟢 **WS0 CLOSED (2026-07-02).** Green on every gate WS0 owns.
 The one pre-existing, out-of-scope CI red (npm audit, D7) is tracked/deferred to a
