@@ -26,9 +26,8 @@ next_phase: "3-tech-stack"
 3. **Constraint Research** — Domain-technical constraints (compliance, protocols, performance envelopes, accessibility)
 4. **Personas** — User archetypes, journey maps, accessibility/device/locale targets (`@ux-designer`)
 5. **Validate-Idea** — Last cheap-pivot window: problem / riskiest assumption / differentiation / fit / metrics / prior art + conditional stakeholder/client alignment + red-flag escape hatch (warn-severity; solo may skip)
-6. **Synthesize-Research** — Consolidate all research + validation into a versioned synthesis artefact
-7. **Product Brief** — Validated-distillate executive brief, produced last from the latest synthesis
-8. **Brainstorming / Design Thinking / Problem-Solving / Innovation Strategy** — Creative methods (available on demand via routers)
+6. **Product Brief** — Step 1 consolidates all research + validation into a versioned synthesis artefact; Steps 2-5 distil it into the validated-distillate executive brief
+7. **Brainstorming / Design Thinking / Problem-Solving / Innovation Strategy** — Creative methods (available on demand via routers)
 
 ## Sub-Skills
 
@@ -39,8 +38,7 @@ next_phase: "3-tech-stack"
 | [constraint-research](constraint-research/) | workflow | analyst | Compliance, protocols, performance envelopes, accessibility — the MUST-satisfy set bounding Phase 3 |
 | [personas](personas/) | workflow | ux-designer | User archetypes + journey maps + accessibility/device/locale targets. Tier 1 methods: User Interviews, Empathy Mapping, JTBD, Journey Mapping, Diary Studies, Affinity Clustering |
 | [validate-idea](validate-idea/) | workflow | analyst | Last cheap-pivot window before Phase 3 — 6 core + 2 conditional + Step 9 red-flag escape hatch. Tier 1: Problem Refinement, Five Whys, Is/Is Not, Lean Startup, Risk Matrix, Blue Ocean, Positioning Map, VPC, JTBD, Gap Analysis, Measurement Framework, Disruptive Innovation, Crossing the Chasm. Warn-severity — solo may skip |
-| [synthesize-research](synthesize-research/) | workflow | analyst | Consolidate research + validation into a versioned synthesis artefact. Tier 1: Systems Thinking, Morphological Analysis. Wires distillator, adversarial-review, editorial-structure |
-| [product-brief](product-brief/) | workflow | analyst | Validated distillate: 1-2 page executive brief reads synthesis directly (versioned, regeneratable — not sacred) |
+| [product-brief](product-brief/) | workflow | analyst | Step 1 consolidates research + validation into a versioned synthesis artefact (Tier 1: Systems Thinking, Morphological Analysis; wires distillator, adversarial-review, editorial-structure); Steps 2-5 distil it into a validated-distillate executive brief (versioned, regeneratable — not sacred) |
 | [brainstorming](brainstorming/) | router | analyst | → `skills/creative/brainstorming/` |
 | [design-thinking](design-thinking/) | router | analyst | → `skills/creative/design-thinking/` |
 | [problem-solving](problem-solving/) | router | analyst | → `skills/creative/problem-solving/` (30 frameworks; several Tier 1 wire-ins for validate-idea) |
@@ -77,9 +75,7 @@ domain-research + market-research + constraint-research + personas (parallel, as
   ↓
 validate-idea (warn-severity — solo vibe-coder may skip; team + client must run)
   ↓
-synthesize-research (consolidate research + validation → versioned synthesis)
-  ↓
-product-brief (last — validated distillate reads latest synthesis)
+product-brief (last — Step 1 consolidates research + validation into a versioned synthesis, Steps 2-5 distil the executive brief)
   ↓
 brainstorming / design-thinking / problem-solving / innovation-strategy (optional, on demand)
   ↓
@@ -90,10 +86,10 @@ brainstorming / design-thinking / problem-solving / innovation-strategy (optiona
 
 | Scenario | Skills run |
 |---|---|
-| Solo vibe-coder (prototype) | 1 research → synthesize → brief (3 workflow skills) |
-| Solo builder (structured) | 2-3 research → validate → synthesize → brief (5-6) |
-| Team project | all 7 workflow skills + validate-idea Step 7 (stakeholder alignment) |
-| Client project | all 7 + Steps 7 + 8 + party-mode opt-in + client-signoff |
+| Solo vibe-coder (prototype) | 1 research → brief (2 workflow skills) |
+| Solo builder (structured) | 2-3 research → validate → brief (4-5) |
+| Team project | all 6 workflow skills + validate-idea Step 7 (stakeholder alignment) |
+| Client project | all 6 + Steps 7 + 8 + party-mode opt-in + client-signoff |
 
 ## Available On Demand
 
@@ -106,7 +102,7 @@ The 4 creative routers can be invoked at any point during Phase 2:
 | `problem-solving` | 30 diagnostic frameworks — Five Whys, Fishbone, Root Cause, etc. |
 | `innovation-strategy` | Strategic opportunity lenses — Blue Ocean, Disruptive Innovation, etc. |
 
-**`party-mode`** (opt-in): for complex projects, invoke during `synthesize-research` for multi-agent cross-critique. All 8 subagents weigh in. Heavy — use when synthesis quality matters more than speed.
+**`party-mode`** (opt-in): for complex projects, invoke during `product-brief` Step 1 for multi-agent cross-critique. All 8 subagents weigh in. Heavy — use when synthesis quality matters more than speed.
 
 ## Architectural Note — Supersede-check vs Sacred-doc Change-workflow
 
@@ -124,6 +120,7 @@ See `docs/supersessions-log-spec.md` for the audit log format.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 4.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `synthesize-research` merged into `product-brief` as its Step 1. Sub-Skills table drops the synthesize-research row (7→6 workflow skills); "What Happens Here", Recommended Flow, and the scaling table updated to match; `research-synthesis-exists` gate check remediation updated. |
 | 3.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `pre-project-interview` merged into Phase 1 `intake`; `context.md` now arrives already `authored` + signed-off. "What Happens Here" and Sub-Skills table drop the interview row; Entry/Exit Conditions and Recommended Flow updated (gate.json check count corrected 7→4 — the README had drifted from the actual 6-check gate.json even before this change, and never had a real graph-staleness check). Subagent roster count 9→8 (WS4 roster surgery). Dead `governance/change-workflows/context.md` reference replaced with `sacred-change` (WS1-G). |
 | 2.0 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 5 (complete). Exit conditions rewritten to mirror gate.json structure (4 block + 3 warn checks named explicitly). Forward-looking note removed — Waves 3+4 now landed. "Available On Demand" subsection added for 4 creative routers + party-mode opt-in. "Architectural Note — Supersede-check vs Sacred-doc Change-workflow" subsection added (FP16): clarifies pre-signoff vs post-signoff boundary, notes the two mechanisms compose rather than compete. |
 | 1.3 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 2 (complete). Sub-skills table now lists all 8 workflow skills (`validate-idea` + `synthesize-research` added alongside `personas` from v1.2). "What Happens Here" expanded to 9-item list including the two new skills. Recommended flow updated: interview → parallel research → validate-idea → synthesize-research → product-brief (handoff to Phase 3 via `phase-transition` skill, Wave 4.5). New "Phase 2 scales with project" subsection (FP20) — minimum-viable path by `team_shape` + `cadence`. Forward-looking note narrowed to Wave 3-5 wire-ins. |

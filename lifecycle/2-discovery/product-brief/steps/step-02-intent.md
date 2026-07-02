@@ -1,9 +1,9 @@
 ---
-step_number: 1
+step_number: 2
 step_name: "Intent"
 step_goal: "Understand why the user is here and detect the type of brief needed"
 halts_for_input: true
-next_step: "step-02-discover.md"
+next_step: "step-03-discover.md"
 ---
 
 ## Goal
@@ -35,8 +35,8 @@ Determine the user's intent and the type of product brief to create. Detect acti
 
 ## Output
 
-Intent understood, activation mode set, existing context loaded. `step_1_complete: true`
+Intent understood, activation mode set, existing context loaded. `step_2_complete: true`
 
 ## Navigation
 
--> Proceed to [step-02-discover.md](step-02-discover.md)
+-> Proceed to [step-03-discover.md](step-03-discover.md)

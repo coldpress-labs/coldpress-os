@@ -1,9 +1,9 @@
 ---
-step_number: 2
+step_number: 3
 step_name: "Discover"
 step_goal: "Contextual discovery from existing documents and user interview"
 halts_for_input: true
-next_step: "step-03-draft.md"
+next_step: "step-04-draft.md"
 ---
 
 ## Goal
@@ -37,8 +37,8 @@ Gather all necessary context for the product brief through existing documentatio
 
 ## Output
 
-Discovery findings organized and ready for drafting. `step_2_complete: true`
+Discovery findings organized and ready for drafting. `step_3_complete: true`
 
 ## Navigation
 
--> Proceed to [step-03-draft.md](step-03-draft.md)
+-> Proceed to [step-04-draft.md](step-04-draft.md)

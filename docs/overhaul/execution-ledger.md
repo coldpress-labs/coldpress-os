@@ -516,7 +516,14 @@ generator §8 item 8), D (frontmatter modernization), E (rebuild dev-story/deplo
 - **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅, `build:skills` (136 wrappers, pre-existing name-parent-mismatch warnings unrelated to this batch) + `plugin/` regenerated. Corpus: **141 → 139** SKILL.md.
 - Commit: (this session, pending).
 
-**Batches remaining this session:** 2 (`synthesize-research`→`product-brief`), 3 (`planning-entry-sync`+`breakdown-entry-sync` delete), 4 (`sprint-planning`+`sprint-status` delete), 5 (`narrative` delete), 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
+**Batch 2 (done) — `synthesize-research` merged into `product-brief` as its Step 1:**
+- `product-brief` grows from 4 steps to **5**: new Step 1 (Synthesize Research, absorbing `synthesize-research`'s consolidate/tensions/distil/critique sub-steps as one coherent step) + the renumbered original 4 (Intent, Discover, Draft, Review). `SKILL.md`/`workflow.md` rewritten; `synthesize-research` directory deleted.
+- Phase 2 `gate.json`'s `research-synthesis-exists` check remediation repointed at `product-brief` (no functional `skill_ref`/`command` pointed at the old skill — none needed repointing).
+- Direct dependents fixed: `validate-idea/SKILL.md` + its Step 9, `stack-discovery-sync/step-00-entry-check.md`, `lifecycle/2-discovery/README.md` (Sub-Skills table, flow, scaling table, party-mode note — 7→6 workflow skills).
+- **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test file existed for either skill), `build:skills` (135 wrappers) + `plugin/` regenerated, `check:drift` OK post-commit. Corpus: **139 → 138** SKILL.md.
+- Commit: (this session, pending).
+
+**Batches remaining this session:** 3 (`planning-entry-sync`+`breakdown-entry-sync` delete), 4 (`sprint-planning`+`sprint-status` delete), 5 (`narrative` delete), 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
 
 **Branch:** `overhaul/ws5-skills-consolidation`, off main, tree green, not merged.
 

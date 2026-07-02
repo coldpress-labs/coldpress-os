@@ -20,7 +20,7 @@ Silently evaluate Phase 3 entry state and route to the correct path. First match
 
 > Phase 2 is not complete. Please finish Phase 2 Discovery before entering Phase 3. Phase 2 exit requires: `phase_2_completed: true` in `.coldpress/local-config.yaml` and `_context/sacred/context.md` with `status: authored`.
 >
-> Route: return to Phase 2 and run `synthesize-research` → `phase-transition` to close it out.
+> Route: return to Phase 2 and run `product-brief` → `phase-transition` to close it out.
 
 ---
 

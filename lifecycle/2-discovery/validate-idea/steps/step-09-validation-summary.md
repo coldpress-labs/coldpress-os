@@ -178,7 +178,7 @@ Body structure:
 
 Show final file + audit row. Confirm:
 
-> Validation v{N} written. Decision: {disposition}. Ready for `synthesize-research` to consume? Or anything else to tune first?
+> Validation v{N} written. Decision: {disposition}. Ready for `product-brief` to consume? Or anything else to tune first?
 
 On confirm: workflow complete.
 

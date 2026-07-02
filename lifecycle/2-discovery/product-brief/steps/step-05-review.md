@@ -1,5 +1,5 @@
 ---
-step_number: 4
+step_number: 5
 step_name: "Review"
 step_goal: "Review, refine, validate against schema, write versioned output"
 halts_for_input: true
@@ -24,7 +24,7 @@ Finalize the brief via user review, validate against the distillate schema, writ
 - Incorporate user feedback
 - Ensure consistency across sections (e.g., if Value Prop changes, Key Features may need to re-align)
 - Verify alignment with `context.md` — no contradictions
-- Verify nothing new was authored at brief-time that should have been in `synthesize-research` or `validate-idea`
+- Verify nothing new was authored at brief-time that should have been in Step 1 (Synthesize Research) or `validate-idea`
 
 ### 3. Determine output version number
 
@@ -73,7 +73,7 @@ On yes: invoke [`skills/utilities/distillator/`](../../../skills/utilities/disti
 
 Offer **only** when `team_shape == client-project`:
 
-> Before we send this brief to the client, want all 9 agents to pressure-test it? Catches blind spots before stakeholder eyes. Takes 10-15 extra minutes.
+> Before we send this brief to the client, want all 8 agents to pressure-test it? Catches blind spots before stakeholder eyes. Takes 10-15 extra minutes.
 
 On user confirm: invoke [`skills/utilities/party-mode/`](../../../skills/utilities/party-mode/). Transcript lands at `_context/planning/discussions/party-phase-2-{date}.md`. Party-mode feedback may produce a `v{N+1}` regeneration. **Never auto-run.**
 
@@ -85,7 +85,7 @@ On user confirm: invoke [`skills/utilities/party-mode/`](../../../skills/utiliti
 
 ## Output
 
-Final `product-brief-v{N}.md` written + schema-validated. Optional distillate v{N} + party-mode transcript if invoked. `step_4_complete: true`
+Final `product-brief-v{N}.md` written + schema-validated. Optional distillate v{N} + party-mode transcript if invoked. `step_5_complete: true`
 
 ## Navigation
 

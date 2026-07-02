@@ -9,11 +9,11 @@
   "acceptance_checks": [
     {
       "id": "research-synthesis-exists",
-      "description": "`_context/planning/research-synthesis-v1.md` (or higher version) exists — synthesize-research has run at least once",
+      "description": "`_context/planning/research-synthesis-v1.md` (or higher version) exists — product-brief Step 1 (Synthesize Research) has run at least once",
       "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/planning/research-synthesis-v1.md",
-      "remediation": "Run `@analyst synthesize-research` to consolidate Phase 2 research into a synthesis document. This is required for product-brief authoring and Phase 3 tech-stack decisions."
+      "remediation": "Run `@analyst product-brief` (its Step 1 consolidates Phase 2 research into a synthesis document before drafting the brief). This is required for Phase 3 tech-stack decisions."
     },
     {
       "id": "product-brief-authored",

@@ -1,14 +1,14 @@
 ---
-step_number: 3
+step_number: 4
 step_name: "Draft"
 step_goal: "Draft the executive product brief from research-synthesis + idea-validation"
 halts_for_input: true
-next_step: "step-04-review.md"
+next_step: "step-05-review.md"
 ---
 
 ## Goal
 
-Compose the 1-2 page executive product brief. **Read the synthesis version, don't re-synthesise research.** That consolidation work already happened in `synthesize-research`; product-brief's job is to render the executive view on top.
+Compose the 1-2 page executive product brief. **Read the synthesis version, don't re-synthesise research.** That consolidation work already happened in Step 1 (Synthesize Research); this step's job is to render the executive view on top.
 
 ## Instructions
 
@@ -16,7 +16,7 @@ Compose the 1-2 page executive product brief. **Read the synthesis version, don'
 
 Find the highest-numbered `_context/planning/research-synthesis-v*.md`. That's the primary input.
 
-If no synthesis exists (user skipped `synthesize-research`), fall back to reading `_context/planning/research/*.md` fragments directly — but flag this in the output frontmatter as `derived_from: research-fragments` (weaker than synthesis-derived) and note that `synthesize-research` is recommended before regeneration.
+If no synthesis exists (user skipped Step 1), fall back to reading `_context/planning/research/*.md` fragments directly — but flag this in the output frontmatter as `derived_from: research-fragments` (weaker than synthesis-derived) and note that Step 1 is recommended before regeneration.
 
 ### 2. Load the validation (if validate-idea ran)
 
@@ -50,7 +50,7 @@ Before finalising the draft, scan the brief's claims against pre-loaded `_input/
 Butler calls `promptSupersede` with:
 - `inputPath`: path to the conflicting `_input/` file
 - `sacredDocPath`: `_context/planning/product-brief-v{N}.md` *(note: product-brief is a distillate, not sacred — the supersede audit still applies for governance traceability)*
-- `decisionContext`: `"product-brief Step 3 — brief claim contradicts pre-loaded _input/ document"`
+- `decisionContext`: `"product-brief Step 4 — brief claim contradicts pre-loaded _input/ document"`
 
 One check per conflicting document. Do not fire for `_input/` material that the brief simply doesn't reference (absence is not contradiction).
 
@@ -78,8 +78,8 @@ Iterate. Don't auto-advance.
 
 ## Output
 
-Draft product brief presented for user review. `step_3_complete: true`
+Draft product brief presented for user review. `step_4_complete: true`
 
 ## Navigation
 
-→ Proceed to [step-04-review.md](step-04-review.md)
+→ Proceed to [step-05-review.md](step-05-review.md)
