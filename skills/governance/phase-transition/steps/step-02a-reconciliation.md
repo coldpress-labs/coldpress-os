@@ -253,7 +253,7 @@ Packaging-only — no agent change; the phase-boundary transitions are emitted b
 
 ## §D — Phase 10: Ops-deltas packaging pass
 
-**No user prompts.** Ops-deltas surface during Phase 10 operations (`correct-course`, `sprint-status`, `document-project`); this step packages them for the user-invoked Phase 11 retrospective.
+**No user prompts.** Ops-deltas surface during Phase 10 operations (`correct-course`, `operate-loop`, `document-project`); this step packages them for the user-invoked Phase 11 retrospective.
 
 ### D.1 Read WIP log
 

@@ -12,7 +12,7 @@
     },
     "source_skill": {
       "type": "string",
-      "enum": ["correct-course", "sprint-status", "document-project"]
+      "enum": ["correct-course", "operate-loop", "document-project"]
     },
     "source_step": { "type": "string" },
     "surfaced_at": { "type": "string", "format": "date-time" },
