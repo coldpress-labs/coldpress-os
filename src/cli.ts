@@ -11,6 +11,7 @@ import { runLaneUpgrade } from "./commands/lane-upgrade.js";
 import { runOutcomesCheck } from "./commands/outcomes.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
+import { runVisualVerify } from "./commands/visual-verify.js";
 import { runTrace } from "./commands/trace.js";
 import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
@@ -109,6 +110,13 @@ tokensCmd
   .description("Regenerate _context/design/tokens.css (CSS custom properties) from tokens.json — the code binding the build consumes by construction.")
   .action(() => {
     process.exit(runTokensBuild());
+  });
+
+program
+  .command("visual-verify")
+  .description("Check a page's used styles (from _context/design/used-styles.json) against tokens.json — fails on any off-token color/font/size/spacing (§5 P8).")
+  .action(() => {
+    process.exit(runVisualVerify());
   });
 
 program

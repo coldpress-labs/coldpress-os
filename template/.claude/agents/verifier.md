@@ -34,9 +34,12 @@ would contaminate independent judgement.
 
 ## What you run
 
-1. **Acceptance suite** — the story's stubs must go green for real.
-2. **visual-verify** (UI) — Playwright screenshots + computed-style assertions vs
-   `tokens.json`, compared against the `/styleguide` route for the story's components.
+1. **Acceptance suite** — the story's stubs must go green for real. For web e2e,
+   drive the app with Anthropic's **`webapp-testing`** skill (wrapped here — you
+   run it, you don't re-implement browser automation).
+2. **visual-verify** (UI) — the `visual-verify` skill: Playwright computed-style
+   extraction + `coldpress visual-verify` (fails on any off-token color/font/size/
+   spacing), compared against the `/styleguide` route for the story's components.
 3. **Semantic pass** — do the tests actually test the spec? Any gamed/tautological
    assertions? A logic bug that passes lint must still be caught.
 4. **Scope pass** — `coldpress trace why` on each changed file: is the diff within
