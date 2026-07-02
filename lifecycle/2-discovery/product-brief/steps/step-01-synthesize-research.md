@@ -72,9 +72,9 @@ Iterate with user. Never finalise without explicit signoff on tensions (they dri
 
 **Advanced-elicitation bias:** when themes feel murky, unclear, or contested, `advanced-elicitation` biases toward **#11 Tree of Thoughts**, **#12 Graph of Thoughts**, and **#14 Self-Consistency Validation** per `data/methods/method-defaults.yaml`. Not mandatory — mandatory methods are Step 3 above.
 
-### 6. Invoke `distillator`
+### 6. Invoke `docs` (op: distill)
 
-Skill location: [`skills/utilities/distillator/`](../../../skills/utilities/distillator/). Pass the confirmed themes/tensions/signals for lossless LLM-optimised compression — redundant phrasing collapsed, structure preserved, citations retained. Do this before critique: critique on a compact draft surfaces real bias and weak structure; critique on a verbose one surfaces prose nits. The distilled form must retain source citations, tension resolution-owner tags, and confidence markers — re-invoke with an explicit preserve instruction if the distillator output strips any of these.
+Skill location: [`skills/utilities/docs/`](../../../skills/utilities/docs/). Pass the confirmed themes/tensions/signals for lossless LLM-optimised compression — redundant phrasing collapsed, structure preserved, citations retained. Do this before critique: critique on a compact draft surfaces real bias and weak structure; critique on a verbose one surfaces prose nits. The distilled form must retain source citations, tension resolution-owner tags, and confidence markers — re-invoke with an explicit preserve instruction if the docs output strips any of these.
 
 ### 7. Invoke `adversarial-review`
 

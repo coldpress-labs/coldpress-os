@@ -31,11 +31,11 @@ For each of `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/`:
 
 ### 3. Shard large files (> 50 KB)
 
-After each file lands, check its size. If any file in `_input/raw/` exceeds ~50 KB (common for AI conversation exports), invoke the `shard-doc` utility skill on it. This breaks it into chunks that stay legible instead of producing a single mega-document.
+After each file lands, check its size. If any file in `_input/raw/` exceeds ~50 KB (common for AI conversation exports), invoke the `docs` utility skill (op: shard) on it. This breaks it into chunks that stay legible instead of producing a single mega-document.
 
-### 4. Index the material (`index-docs`)
+### 4. Index the material (`docs`, op: index)
 
-Once all folders are walked, invoke the `index-docs` utility skill to generate `_input/INDEX.md`. This gives Butler a cheap retrieval target for later steps and later phases without re-walking the tree each time.
+Once all folders are walked, invoke the `docs` utility skill (op: index) to generate `_input/INDEX.md`. This gives Butler a cheap retrieval target for later steps and later phases without re-walking the tree each time.
 
 ### 5. Append to the intake report
 

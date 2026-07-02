@@ -84,13 +84,14 @@ describe("intake skill — structure", () => {
     expect(fm.re_entry).toBe("allowed");
   });
 
-  it("Step 5 references the wired orphan utilities (Wave 3.6)", async () => {
+  it("Step 5 references the wired doc utilities (Wave 3.6; docs toolbox post-WS5-B)", async () => {
     const raw = await readFile(
       join(skillDir, "steps", "step-05-material-solicitation.md"),
       "utf8",
     );
-    expect(raw).toMatch(/index-docs/);
-    expect(raw).toMatch(/shard-doc/);
+    // `index-docs` + `shard-doc` merged into the `docs` toolbox (op: index|shard) in WS5-B.
+    expect(raw).toMatch(/op: index/);
+    expect(raw).toMatch(/op: shard/);
   });
 
   it("Step 6 references repo-structure-audit for brownfield legacy scans", async () => {
@@ -141,14 +142,8 @@ describe("orphan utility frontmatter — Wave 3.6 wire-in markers (Part 1 baseli
     return extractFrontmatter(raw) as Record<string, unknown>;
   }
 
-  it("index-docs status includes wire-in-phase-1 and phases includes 1", async () => {
-    const fm = await readFm("skills/utilities/index-docs/SKILL.md");
-    expect(String(fm.status)).toMatch(/wire-in-phase-1/);
-    expect(fm.phases).toEqual(expect.arrayContaining([1]));
-  });
-
-  it("shard-doc status includes wire-in-phase-1 and phases includes 1 (Part 2 Wave 3.7 may also append wire-in-phase-2)", async () => {
-    const fm = await readFm("skills/utilities/shard-doc/SKILL.md");
+  it("docs toolbox (merged index-docs + shard-doc + distillator) status includes wire-in-phase-1 and phases includes 1", async () => {
+    const fm = await readFm("skills/utilities/docs/SKILL.md");
     expect(String(fm.status)).toMatch(/wire-in-phase-1/);
     expect(fm.phases).toEqual(expect.arrayContaining([1]));
   });

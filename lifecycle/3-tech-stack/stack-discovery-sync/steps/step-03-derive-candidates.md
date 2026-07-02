@@ -48,7 +48,7 @@ For each area, apply Pareto Analysis: flag the 2-3 areas where evidence signals 
 - **T3:** Graph-query first → web-search fallback
   - Run: `coldpress graph query --dir-role _input/vendor/ --topic "{decision-area}"` — surface pre-loaded vendor docs for this area
   - If graph hits exist: incorporate into candidate evidence; web-search only for gaps
-  - If no hits: normal web-search flow; `distillator` compresses into stack-ready brief
+  - If no hits: normal web-search flow; `docs` (op: distill) compresses into stack-ready brief
   - Output gets indexed on next graph rebuild
 
 **Brownfield areas (if `project_shape: brownfield`):**
@@ -56,9 +56,9 @@ For each area, apply Pareto Analysis: flag the 2-3 areas where evidence signals 
 - Weight team-familiarity dimension higher for brownfield candidates matching legacy stack
 - Flag migration cost if switching (feeds stack-evaluation rubric lock-in dimension)
 
-### 3. Invoke distillator (T3 areas)
+### 3. Invoke `docs` (op: distill) (T3 areas)
 
-For any T3 area where web-search or vendor-doc reading was needed: invoke `distillator` to produce an LLM-optimised stack-ready brief. Attach the brief to the candidate entry in the shortlist.
+For any T3 area where web-search or vendor-doc reading was needed: invoke `docs` (op: distill) to produce an LLM-optimised stack-ready brief. Attach the brief to the candidate entry in the shortlist.
 
 ### 4. Supersede check
 

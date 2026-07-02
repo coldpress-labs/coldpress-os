@@ -67,7 +67,7 @@ Target path: `_context/planning/product-brief-v{N}.md` (not `-{date}.md` — ver
 
 > Want a 3-5 sentence distillate for quick-reference and LLM consumption?
 
-On yes: invoke [`skills/utilities/distillator/`](../../../skills/utilities/distillator/) on the full brief. Output lands at `_context/planning/product-brief-distillate-v{N}.md`, same version number as the brief.
+On yes: invoke [`skills/utilities/docs/`](../../../skills/utilities/docs/) (op: distill) on the full brief. Output lands at `_context/planning/product-brief-distillate-v{N}.md`, same version number as the brief.
 
 ### 8. Party-mode opt-in (FP19 wire point)
 
