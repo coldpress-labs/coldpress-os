@@ -405,6 +405,20 @@ WS2 deferred is lit up here (P4/P6 artifacts gain requirement IDs).
 - +7 tests incl. **"a token edit propagates into the CSS with no manual code change"** (a §9
   acceptance). e2e verified. **910 tests**. Commit below.
 
+**Increment B — roster surgery (done, §4.5):**
+- 11 → **8 subagents + Butler**. DELETE scrum-master/communicator/valet; REBUILD qa→**verifier**
+  (clean-room, Butler-only dispatch, read-only Read/Grep/Glob/Bash); UPGRADE reviewer→opus;
+  `description:` frontmatter on all 8.
+- New `build:roster` generator → `data/agents/agent-roster.csv` from frontmatter; wired into
+  `check:drift`. Re-routed `NEED_INFO_ROUTES` off deleted agents; CLAUDE.md subagent table +
+  How-to-Use updated; interop/sdk/need-info tests updated (8 agents → 21 interop files).
+- Skill-frontmatter `agent: qa` remap **deferred to WS5** (D12 — verifier is read-only; needs
+  per-skill judgment). **910 tests**, drift clean. Commit `e536dba`.
+
+**Remaining WS4:** C (`testing.yaml` L0–L7 + `outcomes.yaml` outcome-contract + P4 gate),
+D (visual-verify + acceptance-stubs skills), E (P6 additions + wire ux-spec schema; lights up
+trace requirement/component keying).
+
 **Branch:** `overhaul/ws4-verification-design`, off main, tree green, not merged.
 
 ---
