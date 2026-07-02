@@ -1,0 +1,26 @@
+name: cli-npm-publishable
+archetype_fits:
+  product_types:
+    - cli-tool
+    - library
+    - npm-package
+  domain_complexity:
+    - low
+    - medium
+  functional_profile:
+    - node-runtime
+    - developer-tool
+    - publishable
+pre_picked:
+  runtime: "Node >= 20"
+  build: "tsup"
+  testing: "Vitest"
+  ci: "GitHub Actions"
+  release: "changesets"
+  package_manager: "pnpm"
+  source_control: "GitHub-private"
+overrideable: true
+baselines_out_of_box:
+  - security
+  - future_proof
+quickstart_skill: "skills/stack-packs/cli-npm-publishable/quickstart"
