@@ -1,0 +1,51 @@
+# ─── deploy-pack: vercel ───────────────────────────────────────────
+# Validated against schemas/deploy-pack.schema.ts. The uniform deploy
+# skills read this and dispatch the Vercel CLI. Select with
+# `deploy_pack: vercel` in coldpress.yaml (Phase 3 `deploy-select`).
+schema_version: 1
+name: vercel
+platform: Vercel
+cli: vercel
+
+capabilities:
+  deploy_preview: true    # `vercel deploy` yields a per-push preview URL natively
+  rollback: true          # `vercel rollback` / promote a previous deployment
+
+targets:
+  staging:
+    deploy_cmd: "vercel deploy --yes"
+    url: "${VERCEL_STAGING_URL}"
+    notes: "Non-prod deployment; the walking skeleton + every wave land here first."
+  production:
+    deploy_cmd: "vercel deploy --prod --yes"
+    url: "${VERCEL_PROD_URL}"
+    notes: "Human-triggered only (deploy-prod skill has disable-model-invocation + deploy-gate)."
+  preview:
+    deploy_cmd: "vercel deploy --yes"
+    url: "${VERCEL_PREVIEW_URL}"
+    notes: "Per-story/wave preview URL for verifier + human review (§5 P8)."
+
+env_mapping:
+  set_cmd: "vercel env add ${KEY} ${ENVIRONMENT}"
+  notes: "Reads names from secure/manifest.yaml; values from secure/.env*. Per-environment (development/preview/production)."
+
+smoke:
+  routes:
+    - "/"
+  happy_path_spec: "tests/e2e/smoke.spec.ts"
+  asserts_analytics: true
+
+rollback_cmd: "vercel rollback ${DEPLOYMENT_URL}"
+
+compatible_stacks:
+  - vibe-coder-fullstack
+  - static-multipage-blog
+  - static-single-page
+
+# Build values consumed FROM the locked stack pack / coldpress.yaml baselines
+# (Vercel auto-detects most framework presets, but the deploy pack still reads
+# these so smoke + preview know what shipped).
+stack_inputs:
+  - BUILD_CMD
+  - BUILD_DIR
+  - NODE_VERSION

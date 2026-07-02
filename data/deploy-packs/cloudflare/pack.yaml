@@ -1,0 +1,50 @@
+# ─── deploy-pack: cloudflare ───────────────────────────────────────
+# Validated against schemas/deploy-pack.schema.ts. The uniform deploy
+# skills read this and dispatch the Wrangler CLI (Cloudflare Pages).
+# Select with `deploy_pack: cloudflare` in coldpress.yaml.
+schema_version: 1
+name: cloudflare
+platform: Cloudflare Pages
+cli: wrangler
+
+capabilities:
+  deploy_preview: true    # `wrangler pages deploy --branch <name>` gives a preview alias
+  rollback: true          # roll back to a prior Pages deployment
+
+targets:
+  staging:
+    deploy_cmd: "wrangler pages deploy ${BUILD_DIR} --project-name ${CF_PROJECT} --branch staging"
+    url: "${CF_STAGING_URL}"
+    notes: "Staging branch alias; walking skeleton + every wave land here first."
+  production:
+    deploy_cmd: "wrangler pages deploy ${BUILD_DIR} --project-name ${CF_PROJECT} --branch main"
+    url: "${CF_PROD_URL}"
+    notes: "Human-triggered only (deploy-prod skill has disable-model-invocation + deploy-gate)."
+  preview:
+    deploy_cmd: "wrangler pages deploy ${BUILD_DIR} --project-name ${CF_PROJECT} --branch ${STORY_BRANCH}"
+    url: "${CF_PREVIEW_URL}"
+    notes: "Per-story/wave preview alias for verifier + human review (§5 P8)."
+
+env_mapping:
+  set_cmd: "wrangler pages secret put ${KEY} --project-name ${CF_PROJECT}"
+  notes: "Reads names from secure/manifest.yaml; values from secure/.env*. Secrets are project-scoped + encrypted at rest."
+
+smoke:
+  routes:
+    - "/"
+  happy_path_spec: "tests/e2e/smoke.spec.ts"
+  asserts_analytics: true
+
+rollback_cmd: "wrangler pages deployment tail ${CF_PROJECT}  # then promote prior deployment via dashboard/API"
+
+compatible_stacks:
+  - static-single-page
+  - static-multipage-blog
+
+# Build values consumed FROM the locked stack pack / coldpress.yaml baselines.
+# ${BUILD_DIR} above IS one of these — Cloudflare Pages ships a built output
+# directory, so the pack must know where the locked stack emits it.
+stack_inputs:
+  - BUILD_CMD
+  - BUILD_DIR
+  - NODE_VERSION
