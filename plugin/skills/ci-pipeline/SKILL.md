@@ -2,7 +2,7 @@
 name: ci-pipeline
 description: Scaffold CI/CD quality pipeline with test execution, coverage gates, and reporting
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @developer in Phase 6
 version: "1.0"
 ---
 

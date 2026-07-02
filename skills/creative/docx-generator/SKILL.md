@@ -3,7 +3,7 @@ name: "docx-generator"
 description: "Emit Word .docx documents from coldpress-os markdown sources. Uses pandoc or `docx` npm package. Targets client-archetype deliverables that must be editable in Word (vs PDF read-only). Preserves heading hierarchy → Word styles, embedded images, tables."
 type: "simple"
 category: "creative"
-agent: "communicator"
+agent: "butler"
 phases: [4, 5, 11]
 license: "MIT"
 version: "1.0"

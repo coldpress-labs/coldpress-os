@@ -2,7 +2,7 @@
 name: test-design
 description: Create system-level or epic-level test plans with coverage strategy
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @developer in Phase 6
 version: "1.0"
 ---
 

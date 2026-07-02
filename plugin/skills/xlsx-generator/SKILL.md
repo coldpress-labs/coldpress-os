@@ -2,7 +2,7 @@
 name: xlsx-generator
 description: Emit Excel .xlsx workbooks from structured data (sprint-status, retrospective tables, dependency-audit results, story breakdowns). Uses `exceljs`. Multi-sheet support; formula support; conditional formatting for dashboards.
 license: MIT
-compatibility: Invoked by @communicator in Phase 7
+compatibility: Invoked by @butler in Phase 7
 version: "1.0"
 ---
 

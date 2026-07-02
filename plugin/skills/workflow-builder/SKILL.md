@@ -2,7 +2,7 @@
 name: workflow-builder
 description: Build, convert, and analyze workflow definitions with step files
 license: MIT
-compatibility: Invoked by @valet in Phase meta
+compatibility: Invoked by @butler in Phase meta
 version: "1.0"
 ---
 

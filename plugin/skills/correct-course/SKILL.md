@@ -2,7 +2,7 @@
 name: correct-course
 description: Manage significant changes during sprint execution through structured impact analysis
 license: MIT
-compatibility: Invoked by @scrum-master in Phase 10
+compatibility: Invoked by @pm in Phase 10
 version: "1.0"
 ---
 

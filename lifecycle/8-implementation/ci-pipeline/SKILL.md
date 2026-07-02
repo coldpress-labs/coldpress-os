@@ -5,7 +5,7 @@ type: "router"
 category: "lifecycle"
 phase: 8
 routes_to: "skills/testing/ci-pipeline/"
-agent: "qa"
+agent: "developer"
 version: "1.0"
 ---
 

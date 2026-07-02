@@ -2,7 +2,7 @@
 name: sbom
 description: Generate an SPDX or CycloneDX SBOM with Syft; emits the SBOM document and a ScanResult stub for gate integration
 license: MIT
-compatibility: Invoked by @qa in Phase 7
+compatibility: Invoked by @devops in Phase 7
 version: "1.0"
 ---
 

@@ -2,7 +2,7 @@
 name: phase-transition
 description: Run the exit gate for the current phase, rebuild the graph, and write the handoff artefact — the canonical inter-phase handshake
 license: MIT
-compatibility: Invoked by @qa in Phase 1
+compatibility: Invoked by @butler in Phase 1
 version: "1.0"
 ---
 

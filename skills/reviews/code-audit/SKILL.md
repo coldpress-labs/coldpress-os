@@ -3,7 +3,7 @@ name: "code-audit"
 description: "Audit code for a completed story or scope and generate a comprehensive report"
 type: "simple"
 category: "reviews"
-agent: "qa"
+agent: "verifier"
 phases: [6]
 inputs:
   - "story number or file list defining audit scope"

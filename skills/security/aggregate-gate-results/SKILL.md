@@ -3,7 +3,7 @@ name: "aggregate-gate-results"
 description: "Merge per-scanner ScanResult JSONs into a single AggregateResult; emits pass/fail for the phase-7 security-scan-classical acceptance check"
 type: "simple"
 category: "security"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

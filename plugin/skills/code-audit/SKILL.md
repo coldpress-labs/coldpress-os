@@ -2,7 +2,7 @@
 name: code-audit
 description: Audit code for a completed story or scope and generate a comprehensive report
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @verifier in Phase 6
 version: "1.0"
 ---
 

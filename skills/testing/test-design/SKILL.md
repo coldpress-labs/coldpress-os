@@ -3,7 +3,7 @@ name: "test-design"
 description: "Create system-level or epic-level test plans with coverage strategy"
 type: "workflow"
 category: "testing"
-agent: "qa"
+agent: "developer"
 phases: [6]
 inputs:
   - "_context/sacred/prd.md"

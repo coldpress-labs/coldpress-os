@@ -2,7 +2,7 @@
 name: scan-vulns
 description: Run OSV-Scanner against dependency manifests; emits normalised ScanResult JSON
 license: MIT
-compatibility: Invoked by @qa in Phase 7
+compatibility: Invoked by @verifier in Phase 7
 version: "1.0"
 ---
 

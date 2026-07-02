@@ -3,7 +3,7 @@ name: "xlsx-generator"
 description: "Emit Excel .xlsx workbooks from structured data (sprint-status, retrospective tables, dependency-audit results, story breakdowns). Uses `exceljs`. Multi-sheet support; formula support; conditional formatting for dashboards."
 type: "simple"
 category: "creative"
-agent: "communicator"
+agent: "butler"
 phases: [7, 9, 10, 11]
 license: "MIT"
 version: "1.0"

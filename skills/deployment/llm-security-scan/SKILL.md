@@ -3,7 +3,7 @@ name: "llm-security-scan"
 description: "Run Giskard adversarial scan against project-declared LLM endpoints and emit a ScanResult for the Phase-7 llm-adversarial-scan acceptance check"
 type: "simple"
 category: "deployment"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

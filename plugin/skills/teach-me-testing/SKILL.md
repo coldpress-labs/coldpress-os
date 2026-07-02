@@ -2,7 +2,7 @@
 name: teach-me-testing
 description: Teach testing concepts progressively through structured learning sessions
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @developer in Phase 6
 version: "1.0"
 ---
 

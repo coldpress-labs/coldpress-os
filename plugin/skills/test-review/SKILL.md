@@ -2,7 +2,7 @@
 name: test-review
 description: Review test quality using best practices validation and coverage analysis
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @verifier in Phase 6
 version: "1.0"
 ---
 

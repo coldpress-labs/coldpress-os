@@ -36,6 +36,11 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      - name: Lint SKILL.md frontmatter
+        # Every SKILL.md must have valid frontmatter: name + description, a valid
+        # `agent:` (the post-§4.5 roster + Butler), and a valid `type`.
+        run: npm run lint:frontmatter
+
       - name: Build CLI
         run: npm run build
 

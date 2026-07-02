@@ -3,7 +3,7 @@ name: "llm-quality-gate"
 description: "Run DeepEval against project-declared prompts/agents and emit a ScanResult for the Phase-7 llm-correctness-gate acceptance check"
 type: "simple"
 category: "deployment"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

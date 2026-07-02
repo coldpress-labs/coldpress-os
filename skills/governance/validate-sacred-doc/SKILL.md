@@ -3,7 +3,7 @@ name: "validate-sacred-doc"
 description: "Semantic policy enforcement on sacred docs (Conftest + Rego) — upstream references, approver rules, cross-doc consistency"
 type: "simple"
 category: "governance"
-agent: "qa"
+agent: "butler"
 phases: [3, 4, 5]
 tools: ["Bash", "Read"]
 inputs:

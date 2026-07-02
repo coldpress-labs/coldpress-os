@@ -3,7 +3,7 @@ name: "agent-builder"
 description: "Build, edit, or analyze agent definitions for the coldpress-os framework"
 type: "workflow"
 category: "meta"
-agent: "valet"
+agent: "butler"
 phases: [meta]
 inputs:
   - "../../agents/_schema.md"

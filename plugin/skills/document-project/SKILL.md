@@ -2,7 +2,7 @@
 name: document-project
 description: Document existing brownfield projects for AI-assisted development context
 license: MIT
-compatibility: Invoked by @communicator in Phase 8
+compatibility: Invoked by @butler in Phase 8
 version: "1.0"
 ---
 

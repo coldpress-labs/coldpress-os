@@ -4,7 +4,7 @@ description: "Teach testing concepts progressively through structured learning s
 type: "reference"
 category: "testing"
 status: "ad-hoc"
-agent: "qa"
+agent: "developer"
 phases: [6]
 inputs:
   - "../../data/testing/curriculum.yaml"

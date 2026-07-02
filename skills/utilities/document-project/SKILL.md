@@ -3,7 +3,7 @@ name: "document-project"
 description: "Document existing brownfield projects for AI-assisted development context"
 type: "workflow"
 category: "utilities"
-agent: "communicator"
+agent: "butler"
 phases: [8]
 inputs:
   - "project root directory"

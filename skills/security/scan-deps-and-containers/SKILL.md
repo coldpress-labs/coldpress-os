@@ -3,7 +3,7 @@ name: "scan-deps-and-containers"
 description: "Run Trivy against dependency manifests + container images; emits normalised ScanResult JSON"
 type: "simple"
 category: "security"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

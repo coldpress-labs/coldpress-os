@@ -2,7 +2,7 @@
 name: sprint-planning
 description: Phase 7 — generate sprint-status from PERT chart waves + stories. Owned by @scrum-master sub-persona (Pattern 7 sub_phase_boundary transitions #8a + #8b from @pm).
 license: MIT
-compatibility: Invoked by @scrum-master in Phase 7
+compatibility: Invoked by @pm in Phase 7
 version: "2.0"
 ---
 

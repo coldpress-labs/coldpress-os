@@ -3,7 +3,7 @@ name: "a11y-audit"
 description: "WCAG 2.2-graded accessibility audit. Reviews UX spec (Phase 5) + implemented code (Phase 8) against WCAG A/AA/AAA criteria. Conditional in design-led + WDS archetypes; advisory in standard archetype. Surfaces violations + suggested fixes; categorises by impact (Critical / Serious / Moderate / Minor)."
 type: "workflow"
 category: "reviews"
-agent: "qa"
+agent: "verifier"
 phases: [5, 8]
 license: "MIT"
 version: "1.0"

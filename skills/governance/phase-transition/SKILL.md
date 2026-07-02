@@ -3,7 +3,7 @@ name: "phase-transition"
 description: "Run the exit gate for the current phase, rebuild the graph, and write the handoff artefact — the canonical inter-phase handshake"
 type: "workflow"
 category: "governance"
-agent: "qa"
+agent: "butler"
 status: "wire-in-every-phase-transition"
 phases: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 inputs:

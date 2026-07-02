@@ -2,7 +2,7 @@
 name: agent-builder
 description: Build, edit, or analyze agent definitions for the coldpress-os framework
 license: MIT
-compatibility: Invoked by @valet in Phase meta
+compatibility: Invoked by @butler in Phase meta
 version: "1.0"
 ---
 

@@ -2,7 +2,7 @@
 name: pptx-generator
 description: Emit PowerPoint .pptx decks from structured input (deck spec / story-arc / slides outline). Uses `pptxgenjs`. Pairs with `presentation` skill (deck authoring) — pptxgenjs is the renderer; presentation builds the structure.
 license: MIT
-compatibility: Invoked by @communicator in Phase 4
+compatibility: Invoked by @butler in Phase 4
 version: "1.0"
 ---
 

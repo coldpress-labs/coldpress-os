@@ -2,7 +2,7 @@
 name: evaluate-phase-gate
 description: Evaluate a phase's gate.json against the project state — runs automated checks, reports human-check pending state, emits pass/fail with severity roll-up
 license: MIT
-compatibility: Invoked by @qa in Phase 1
+compatibility: Invoked by @butler in Phase 1
 version: "1.0"
 ---
 

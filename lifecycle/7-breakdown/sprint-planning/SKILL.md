@@ -4,7 +4,7 @@ description: "Phase 7 — generate sprint-status from PERT chart waves + stories
 type: "workflow"
 category: "lifecycle"
 phase: 7
-agent: "scrum-master"
+agent: "pm"
 inputs:
   graph_queries:
     - "breakdown-scope-v{latest}"

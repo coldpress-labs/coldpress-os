@@ -3,7 +3,7 @@ name: "prompt-governance"
 description: "Portfolio-level review of prompts across coldpress-os skills + agents + snippets. Surfaces inconsistencies (same role-priming written differently in 5 places), reuse opportunities (5 step files repeating a pattern that should become a snippet), anti-patterns (vague phrasing / missing output contracts), and licensing concerns for prompts derived from external sources."
 type: "workflow"
 category: "meta"
-agent: "valet"
+agent: "butler"
 phases: [meta]
 license: "MIT"
 version: "1.0"

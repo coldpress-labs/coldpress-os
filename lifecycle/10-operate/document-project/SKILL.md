@@ -5,7 +5,7 @@ type: "router"
 category: "lifecycle"
 phase: 10
 routes_to: "skills/utilities/document-project/"
-agent: "communicator"
+agent: "butler"
 version: "1.0"
 ---
 
