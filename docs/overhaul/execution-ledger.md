@@ -15,7 +15,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 |----|-------|-------|--------|--------|
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
-| WS2 | Trace + story graph | ⚪ not started | — | — |
+| WS2 | Trace + story graph | 🟡 in progress | `overhaul/ws2-trace-storygraph` | — |
 | WS3 | Two-lane lifecycle | ⚪ not started | — | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
@@ -226,7 +226,40 @@ Final gate: typecheck ✅, **849 tests** ✅, build ✅, 11 gate.json valid ✅,
 records (WS2/WS6); pending-human-gate in load-state (WS3/§7.7); PERT-ref cleanup (WS2);
 `docs/` regen-target ref cleanup (§8.11). CHANGELOG entry added.
 
-**Branch:** `overhaul/ws1-enforcement`, off main, tree green, clean, **not merged**.
+**Branch:** `overhaul/ws1-enforcement`, off main, tree green, clean. **Merged to main
+`65e6cf4` (--no-ff)** on 2026-07-02.
+
+---
+
+### Session 3 — 2026-07-02 · WS1 merge + WS2 kickoff
+
+**WS1 merged to main** (`65e6cf4`, --no-ff). Not pushed to origin.
+
+**WS2 — Trace + story graph** opened on `overhaul/ws2-trace-storygraph` off main
+(P0, Opus per §0.1.7). Read: §4.2 (handoff packet), §4.3 (delta), §4.6 (trace),
+§4.7 (story graph + waves), operating-model §II.2/§II.3.
+
+**Internal WS2 build order:**
+- **A. Data-contract schemas** (handoff, delta, story-graph) ← this session
+- **B. `coldpress trace`** (§4.6) — load schema'd artifacts → in-memory graph; verbs
+  orphans/why/impact/coverage/release. Cannibalize `src/graph/index.ts`.
+- **C. `coldpress waves`** (§4.7) — validate DAG + contract-story-on-interface +
+  intra-wave ownership disjointness; compute waves + critical path; emit waves.yaml/schedule.yaml/mermaid.
+- **D. boundary-guard hook** (reads active packet forbidden/ownership) + delta-resolution
+  phase-exit gate + git-protocol hooks (G4). Register on the WS1 harness.
+- **E. Integration** — wire trace blast-radius into sacred-guard (the §4.4 deferred part);
+  trace-orphan gates at P6/P7.
+
+**Increment A — data contracts (done):**
+- `schemas/handoff.schema.ts` (§4.2/§II.2) — one packet for every boundary (scoped
+  inputs, forbidden globs, return contract). `.strict()`.
+- `schemas/delta.schema.ts` (§4.3/§II.3) — forward-carry quartet; `resolution: null`
+  = unresolved (blocks phase exit); `isUnresolved()` helper.
+- `schemas/story-graph.schema.ts` (§4.7) — stories (o/m/p, risk, owns/produces/consumes,
+  kind story|contract|integration) + typed edges (blocks|interface|informs).
+- `test/ws2-schemas.test.ts` — 12 tests. typecheck green.
+
+**Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, not merged.
 
 ---
 
