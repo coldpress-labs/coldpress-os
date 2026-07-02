@@ -421,9 +421,14 @@ WS2 deferred is lit up here (P4/P6 artifacts gain requirement IDs).
   `coldpress outcomes check` + the **P4 exit gate** — a P0/P1 requirement with no outcome
   target fails P4 (§9 acceptance; full PRD cross-check with WS4-E keying). +10 tests. Commit `6a408df`.
 
-**Remaining WS4:** D (visual-verify + acceptance-stubs skills; wrap webapp-testing in verifier),
-E (P6 additions: api-contract/data-model/analytics-plan/integration-inventory + wire ux-spec
-schema; lights up trace requirement/component keying).
+**Increment D — visual-verify + acceptance-stubs (done):**
+- `src/design/visual-verify.ts` `checkTokenUsage()` + `coldpress visual-verify` — flags every
+  used value that isn't a token. Delivers the §9 acceptance (catches off-palette color + off-scale
+  size; verified e2e). `skills/testing/{visual-verify,acceptance-stubs}`; verifier wraps
+  Anthropic `webapp-testing`. +8 tests. Commit `35bdafc`. **928 tests**.
+
+**Remaining WS4:** E (P6 additions: api-contract/data-model/analytics-plan/integration-inventory
++ wire ux-spec schema; lights up trace requirement/component keying).
 
 **Branch:** `overhaul/ws4-verification-design`, off main, tree green, not merged.
 
