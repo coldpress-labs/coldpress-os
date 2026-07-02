@@ -166,8 +166,30 @@ replicate this harness (new `src/hooks/<name>.ts` + registry entry + thin
 settled-spec replications suit a Sonnet session. boundary-guard/deploy-gate/next-task
 + delta records depend on WS2/WS6 machinery → deferred to those workstreams.
 
-**WS1 so far:** 4 commits on `overhaul/ws1-enforcement` (state schema, coldpress.yaml
-schema, hook harness + load-state, ledger). Tree green (782 tests), clean. Not merged.
+**WS1 so far:** state schema, coldpress.yaml schema, hook harness + load-state.
+
+**Increment D — the hook stack (in progress: 4 of 8 hooks):**
+- `sacred-guard` (PreToolUse Edit|Write) — headline enforcement: blocks `_context/sacred/*`
+  writes without an approved change record (`schemas/sacred-change.schema.ts`, produced by
+  WS1-G). Verified e2e (denies with `permissionDecision:"deny"`). ✅ acceptance: sacred-block.
+- `secret-scan` (PostToolUse Edit|Write) — secret patterns (ported from check-secrets.sh);
+  feeds finding back naming the pattern not the value. `renderDecision` now branches on
+  event (PreToolUse permissionDecision vs PostToolUse/Stop decision:block). Verified e2e.
+- `schema-validate` (PostToolUse Edit|Write) — schema'd `_context/` artifacts must validate;
+  errors fed back in-loop. Reuses validate-schema.ts. Verified e2e. ✅ acceptance: schema-reject.
+- Harness refactor: per-hook scripts → one generic `scripts/hooks/run.mjs <name>`.
+- Commits `17f33d6` (sacred-guard+secret-scan), `9c066d8` (schema-validate). **807 tests**, drift clean.
+
+**Remaining WS1-D hooks (4):** `phase-gate` (PreToolUse Skill; reads state.yaml gates),
+`quality-gate` (Stop; runs test/lint/typecheck — "single highest-leverage change", delivers
+"cannot complete red"; testing.yaml shape is WS4), `run-log` (SubagentStop/Stop; extends
+EventStream), `test-integrity` (PostToolUse test edits; assertion-weakening heuristic).
+`boundary-guard`/`deploy-gate`/`next-task` remain deferred to WS2/WS6.
+
+**WS1 acceptance status:** sacred-block ✅, schema-reject ✅, override-logging ✅ (harness);
+remaining: quality-gate-red, check:drift (WS1-F), per-hook test+--explain (done for the 4 built).
+
+**Branch:** `overhaul/ws1-enforcement`, 7 commits off main, tree green (807 tests), clean, not merged.
 
 ---
 
