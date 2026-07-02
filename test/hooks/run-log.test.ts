@@ -6,7 +6,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { runIdFromSession, runLogHandler } from "../../src/hooks/run-log";
+import { extractUsage, runIdFromSession, runLogHandler } from "../../src/hooks/run-log";
 
 let dir: string;
 beforeEach(() => {
@@ -70,5 +70,41 @@ describe("runLogHandler.run", () => {
     expect(runLogHandler.event).toBe("Stop");
     expect(runLogHandler.overrideGate).toBeNull();
     expect(runLogHandler.explain.length).toBeGreaterThan(20);
+  });
+
+  it("enriches with model + tokens when the Stop payload exposes them (WS7)", async () => {
+    await runLogHandler.run({
+      cwd: dir,
+      session_id: "sess-usage",
+      hook_event_name: "Stop",
+      model: "claude-opus-4-8",
+      usage: { input_tokens: 1200, output_tokens: 300 },
+    });
+    const e = readEvents("run-sess-usage")[0];
+    expect(e?.model).toBe("claude-opus-4-8");
+    expect(e?.tokens).toEqual({ input: 1200, output: 300, total: 1500 });
+  });
+
+  it("omits model/tokens cleanly when the payload has none (still schema-valid)", async () => {
+    await runLogHandler.run({ cwd: dir, session_id: "sess-bare", hook_event_name: "Stop" });
+    const e = readEvents("run-sess-bare")[0];
+    expect(e?.model).toBeUndefined();
+    expect(e?.tokens).toBeUndefined();
+  });
+});
+
+describe("extractUsage (WS7-C)", () => {
+  it("reads model + several token field shapes", () => {
+    expect(extractUsage({ model: "m", usage: { input_tokens: 10, output_tokens: 5 } })).toEqual({
+      model: "m",
+      tokens: { input: 10, output: 5, total: 15 },
+    });
+    expect(extractUsage({ tokens: { input: 2, output: 3, total: 5 } })).toEqual({
+      tokens: { input: 2, output: 3, total: 5 },
+    });
+  });
+
+  it("returns empty object when nothing is exposed", () => {
+    expect(extractUsage({ hook_event_name: "Stop" })).toEqual({});
   });
 });
