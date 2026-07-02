@@ -331,7 +331,18 @@ the phase-gate hook already gates full-lane-only (WS1-D) — so the field plumbi
   `lane:` block; seeds `.coldpress/state.yaml` (lite → phase `spec`, full → phase `1`;
   enforcement on, tier T0). The load-state hook reads it (verified e2e: injects
   "lane: lite · Lite:spec (entering)").
-- `test/ws3-scaffold.test.ts` (+2). **896 tests**. typecheck green.
+- `test/ws3-scaffold.test.ts` (+2). **896 tests**. typecheck green. Commit `80a9c0d`.
+
+**Increment B — lite lane skills (done):**
+- `lifecycle/lite/{spec,build,verify,ship}/SKILL.md` — the four consolidated lite phases (§6).
+  Non-negotiables kept (walking skeleton, acceptance stubs, clean-room verifier,
+  boundary-guard/quality-gate, staging-smoke→human-prod); ceremony dropped. Under
+  `lifecycle/lite/` (non-numeric → phase-gate passes them through). Emitted as plugin
+  wrappers (133 total). Release record on the canonical `_context/operations/` root.
+  Commit `ff1d306`. **896 tests**, check:drift clean.
+
+**Remaining WS3:** C (`lane-upgrade` skill — back-fill full-lane sacred docs from lite
+artifacts, no data loss), D (scaffolded CLAUDE.md routing table + statusLine script).
 
 **Branch:** `overhaul/ws3-two-lane`, off main, tree green, not merged.
 
