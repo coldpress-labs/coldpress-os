@@ -41,12 +41,12 @@ version: "2.0"
 
 Phase 7 — break PRD into user-value-grouped epics. Each epic links to PRD user-stories + architecture components + UX flows.
 
-Under Shape A: reads `breakdown-scope-v{N}.md` (from `breakdown-entry-sync`) for archetype mode + open issues + flagged-deltas-status. PRD assumed possibly v(N+1) (post-Phase-7-architecture-deltas-reconciliation if any).
+Under Shape A: reads archetype mode from `coldpress.yaml`/`.coldpress/state.yaml` and the phase-6-to-7 handoff for open issues + the (now fully-resolved, per `phase-transition` step-02a §B) `architecture_deltas:` section. PRD assumed possibly v(N+1) (post-Phase-6-architecture-deltas-reconciliation if any).
 
 ## When to Use
 
 - "create epics"
-- Phase 7 — invoked after `breakdown-entry-sync` completes.
+- Phase 7 — the phase's first skill, invoked once the phase-6-to-7 handoff exists.
 
 ## Prerequisites
 

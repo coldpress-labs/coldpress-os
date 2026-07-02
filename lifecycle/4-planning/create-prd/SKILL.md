@@ -50,13 +50,12 @@ Mode is detected automatically in step-01 based on whether a PRD already exists,
 - "create PRD"
 - "write product requirements"
 - "edit the PRD"
-- After `planning-entry-sync` completes (planning-scope memo present)
+- Phase 4 entry, once the phase-3-to-4 handoff exists
 - When the team is ready to crystallise Phase 2+3 evidence into a requirements document
 
 ## Prerequisites
 
-- `planning-entry-sync` complete — `_context/planning/planning-scope-v{N}.md` exists
-- Phase 3 complete — `_context/sacred/tech-stack.md` exists
+- Phase 3 complete — `_context/sacred/tech-stack.md` exists and the phase-3-to-4 handoff is written
 
 ## Process
 

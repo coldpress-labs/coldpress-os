@@ -14,9 +14,9 @@ Authoritative PRD-amendment author. Decoupled from `step-02a-reconciliation.md` 
 
 **Currently called from:**
 - `step-02a-reconciliation.md` §A.5 — Phase 5 design-deltas reconciliation pass.
+- `step-02a-reconciliation.md` §B.5 — Phase 6 architecture-deltas reconciliation pass (WS5-B — folded in when `breakdown-entry-sync` was deleted; see §8 item 6).
 
 **Future callers (forward-carry chain):**
-- Phase 7 `breakdown-entry-sync` Step 1 — architecture-deltas reconciliation, when user picks `accept_into_prd` for an architecture-surfaced PRD gap.
 - Phase 8 implementation-deltas amendment loop — same when implementation-deltas surface a spec gap.
 
 ## Inputs (from caller)
@@ -24,8 +24,8 @@ Authoritative PRD-amendment author. Decoupled from `step-02a-reconciliation.md` 
 | Field | Type | Description |
 |---|---|---|
 | `accept_deltas[]` | array | Deltas with `user_decision == accept_into_prd`; each has `id`, `prd_section`, `description`, `evidence`, `proposed_diff` (optional) |
-| `source_phase` | int | Calling phase (5, 7, 8, ...) |
-| `source_skill` | string | Calling skill (`phase-transition` / `breakdown-entry-sync` / ...) |
+| `source_phase` | int | Calling phase (5, 6, 8, ...) |
+| `source_skill` | string | Calling skill (always `phase-transition`) |
 | `current_prd_version` | string | e.g., "1.4.0" |
 
 ## Instructions
@@ -157,4 +157,4 @@ Output `prd-amendment-{date}-{seq}.md` conforms to `schemas/sacred-docs/prd-amen
 
 ## Navigation
 
-→ Return to caller (typically step-02a §A.6 or breakdown-entry-sync Step 1 next sub-step).
+→ Return to caller (step-02a §A.6 for Phase 5, §B.6 for Phase 6).

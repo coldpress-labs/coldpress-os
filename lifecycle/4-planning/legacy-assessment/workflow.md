@@ -32,7 +32,7 @@ agent: architect
 - `_sandbox/legacy-manifest.md` written (one entry per module)
 - `_context/planning/legacy-migration-plan-v{N}.md` written + schema-validated
 - Graph updated with legacy module nodes (decision + rationale annotations)
-- Completion signal sent to calling context (planning-entry-sync / create-prd / user-manual)
+- Completion signal sent to calling context (Phase 4 entry / create-prd / user-manual)
 
 ## Resume behaviour
 

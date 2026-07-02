@@ -4,14 +4,14 @@
   "phase": 7,
   "phase_name": "Breakdown",
   "shape": "A",
-  "note": "Phase 7 Breakdown is a cascade rename of old Phase 5 + Shape A scope refinement. Owner: @pm (with @scrum-master sub-persona for sprint-planning). Reads architecture (Phase 6 sacred) + PRD + UX-spec + brand-guidelines + ADRs + prototype-manifest. Activates **architecture-deltas reconciliation** at Phase 7 ENTRY (forward-carry from Phase 6 §12). Decomposes into per-story files + sacred PERT chart + sprint plan + 9-point implementation-readiness gate.",
+  "note": "Phase 7 Breakdown is a cascade rename of old Phase 5 + Shape A scope refinement. Owner: @pm (with @scrum-master sub-persona for sprint-planning). Reads architecture (Phase 6 sacred) + PRD + UX-spec + brand-guidelines + ADRs + prototype-manifest. **Architecture-deltas reconciliation** happens at Phase 6 EXIT (`phase-transition` step-02a §B, WS5-B — folded in from the deleted `breakdown-entry-sync` Phase 7 entry skill), so Phase 7 always opens with a fully-resolved delta set. Decomposes into per-story files + sacred PERT chart + sprint plan + 9-point implementation-readiness gate.",
   "entry_conditions": [
     "Phase 6 (Architecture) gate passed (incl. silent-divergence guard at #5)",
     "`_context/sacred/architecture.md` exists with `sacred: true` + `governance: locked`",
     "ADRs from Phase 3 + Phase 6 present at `_context/planning/adrs/`",
-    "PRD locked (possibly v(N+1) post-Phase-5-reconciliation)",
+    "PRD locked (possibly v(N+1) post-Phase-5-or-6-reconciliation)",
     "UX spec + brand-guidelines validated; prototype manifest exists",
-    "`_context/handoffs/phase-6-to-7-{date}.md` exists (with optional `architecture_deltas:` array)"
+    "`_context/handoffs/phase-6-to-7-{date}.md` exists, with a fully-resolved `architecture_deltas:` section (every entry has `user_decision` set — reconciled at Phase 6 exit, not a Phase 7 entry step)"
   ],
   "acceptance_checks": [
     {
@@ -20,26 +20,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/sacred/architecture.md",
-      "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation at Phase 7 entry-sync.",
+      "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation via `phase-transition` step-02a §B.",
       "schema_ref": "schemas/sacred-docs/architecture.schema.json"
-    },
-    {
-      "id": "breakdown-scope-emitted",
-      "description": "`_context/planning/breakdown-scope-v{latest}.md` exists (emitted by `breakdown-entry-sync` Step 2)",
-      "kind": "automated",
-      "severity": "block",
-      "schema_ref": "schemas/planning-artefacts/breakdown-scope.schema.json",
-      "artefact_path": "_context/planning/breakdown-scope-v*.md",
-      "remediation": "Run `@pm breakdown-entry-sync` first."
-    },
-    {
-      "id": "architecture-deltas-resolved",
-      "description": "Every `architecture_delta` in phase-6-to-7 handoff has user_decision set (one of: accept_into_prd, reject, flag_for_architecture_ADR, park_for_phase_11). For accept_into_prd deltas, PRD v(N+1) emitted with bumped VC.",
-      "kind": "automated",
-      "severity": "block",
-      "artefact_path": "_context/handoffs/phase-6-to-7-*.md",
-      "remediation": "Run `breakdown-entry-sync` Step 1 (architecture-deltas reconciliation pass).",
-      "skill_ref": "lifecycle/7-breakdown/breakdown-entry-sync"
     },
     {
       "id": "epics-validated",

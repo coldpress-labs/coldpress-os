@@ -20,8 +20,8 @@ idempotent: true
 
 | Trigger | Mechanism | Timing |
 |---------|-----------|--------|
-| **Auto — entry** | `planning-entry-sync` Step 0 detects `_input/legacy/` is non-empty; Step 4 confirms and routes here | Phase 4 entry, before PRD authoring |
-| **Auto — re-confirm** | `create-prd` Step 0 reads `legacy_assessment_deferred: true` in `planning-scope-v{N}.md` and resurfaces the suggestion | Mid-Phase 4, if entry was deferred |
+| **Auto — entry** | Phase 1 `intake` Step 6 (shape determination) already set `project_shape: brownfield` in `.coldpress/local-config.yaml`; Phase 4 entry routes here when that flag is set | Phase 4 entry, before PRD authoring |
+| **Auto — re-confirm** | `create-prd` Step 0 reads `project_shape: brownfield` with no `legacy-migration-plan-v{N}.md` present and resurfaces the suggestion | Mid-Phase 4, if entry was deferred |
 | **Manual** | User invokes `@architect legacy-assessment` directly | Any point post-Phase 3 lock |
 
 ---

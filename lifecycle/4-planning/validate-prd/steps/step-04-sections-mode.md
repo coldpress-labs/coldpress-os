@@ -65,14 +65,14 @@ Write `_context/planning/prd-validation-amendment-{date}.md` conforming to `sche
 
 ### 4.7 — Hand back to caller
 
-Return verdict to the calling skill (typically `breakdown-entry-sync` for Phase 7, or `phase-transition` step-02a for Phase 5/6/8). On `READY`, the caller proceeds to author the PRD amendment merge. On `NEEDS_REVISION` or `BLOCKED`, the caller surfaces to user via the standard reconciliation 4-option prompt.
+Return verdict to the calling skill (`phase-transition` step-02a for Phase 5/6/8). On `READY`, the caller proceeds to author the PRD amendment merge. On `NEEDS_REVISION` or `BLOCKED`, the caller surfaces to user via the standard reconciliation 4-option prompt.
 
 ## Output Reminders
 
 - File: `_context/planning/prd-validation-amendment-{date}.md`
 - Schema: `schemas/sacred-docs/prd-amendment.schema.json`
-- Caller integration: `breakdown-entry-sync/steps/step-01-architecture-deltas-reconciliation.md` is the first real consumer — the lightweight-amendment path documented there now has a real `validate-prd --sections` to call.
+- Caller integration: `phase-transition/steps/step-02a-reconciliation.md` §B.5 (Phase 6 architecture-deltas) is the first real consumer — the lightweight-amendment path documented there calls this `validate-prd --sections` mode.
 
 ## Pattern 7 transitions
 
-This step does not change agent — @pm continues. No transition emitted unless the calling skill has invoked validate-prd as part of a sub_phase_boundary (e.g., during Phase 7 breakdown-entry-sync, where the caller's Step 1 emits a transition record and this skill is invoked synchronously within @pm's @pm sub-context).
+This step does not change agent — @pm continues. No transition emitted unless the calling skill has invoked validate-prd as part of a sub_phase_boundary (e.g., during `phase-transition` step-02a §B, where the caller emits a transition record and this skill is invoked synchronously within @pm's sub-context).

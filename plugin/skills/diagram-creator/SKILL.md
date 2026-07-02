@@ -17,7 +17,7 @@ Two formats for two audiences: **Mermaid** (markdown-embedded, README-friendly, 
 1. Phase 6 exit — once architecture.md is locked, generate the diagram set
 2. Architecture amendment — re-run after ADR-driven structural changes
 3. User says "draw the architecture" / "diagram the system" / "make a sequence diagram for X"
-4. Phase 7 breakdown-entry-sync prerequisite — visual reference for stories
+4. Phase 7 entry prerequisite — visual reference for stories
 5. README/docs refresh — embed in `_context/sacred/architecture.md` or external README
 
 ## Output Artifacts
@@ -59,7 +59,7 @@ Two formats for two audiences: **Mermaid** (markdown-embedded, README-friendly, 
 
 ## Output
 
-Mermaid + PlantUML diagram set under `_context/design/diagrams/v{N}/`. Architecture.md gets a `## Diagrams` section appended (one-line + `![](diagrams/...)` reference). Phase 7 breakdown-entry-sync includes diagrams as graph_queries input for visual reference.
+Mermaid + PlantUML diagram set under `_context/design/diagrams/v{N}/`. Architecture.md gets a `## Diagrams` section appended (one-line + `![](diagrams/...)` reference), which Phase 7 `create-epics`/`create-stories` read directly for visual reference.
 
 ## Mermaid syntax cheat-sheet
 
@@ -82,7 +82,7 @@ node, database, cloud  — deployment elements
 
 ## Source Attribution
 
-Pattern adapted from `mhattingpete/claude-skills-marketplace` (Apache-2.0) `architecture-diagram-creator` skill. Implementation original to coldpress-os; integrates with Phase 6 architecture-design output + Phase 7 breakdown-entry-sync graph_queries.
+Pattern adapted from `mhattingpete/claude-skills-marketplace` (Apache-2.0) `architecture-diagram-creator` skill. Implementation original to coldpress-os; integrates with Phase 6 architecture-design output, read directly by Phase 7 skills.
 
 ---
 

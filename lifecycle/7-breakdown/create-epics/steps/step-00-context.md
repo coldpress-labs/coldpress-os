@@ -9,16 +9,15 @@ partial_completion_id: "create_epics_step_00"
 
 ## Goal
 
-Load Phase 7 epic-authoring context from graph (mostly cached by breakdown-entry-sync). Verify prerequisites.
+Load Phase 7 epic-authoring context directly (`breakdown-entry-sync`'s scope-memo cache was retired, WS5-B §8 item 6 — read the underlying artefacts instead). Verify prerequisites.
 
 ## Instructions
 
 1. Partial-completion: `started`.
-2. Graph queries (per SKILL.md): breakdown-scope-v{latest}, prd-v{latest}, architecture-md, ux-design-spec-v{latest}, personas-v{latest}, idea-validation-v{latest}, adrs, archetype-mode, legacy-migration-plan-v{latest}.
-3. Existence checks: breakdown-scope exists; PRD locked; architecture locked.
-4. Cold-read breakdown-scope memo (for archetype + open issues).
-5. Note supersede-check pairs: epic claims vs PRD user-stories; epic component-mapping vs architecture components.
-6. Partial-completion: `graph_loaded`.
+2. Context load: `prd-v{latest}`, `architecture-md`, `ux-design-spec-v{latest}`, `personas-v{latest}`, `idea-validation-v{latest}`, `adrs`, `legacy-migration-plan-v{latest}` from their canonical `_context/` paths; archetype mode from `coldpress.yaml`/`.coldpress/state.yaml`; open issues + resolved `architecture_deltas:` from the phase-6-to-7 handoff.
+3. Existence checks: PRD locked; architecture locked; phase-6-to-7 handoff exists.
+4. Note supersede-check pairs: epic claims vs PRD user-stories; epic component-mapping vs architecture components.
+5. Partial-completion: `context_loaded`.
 
 ## Navigation
 

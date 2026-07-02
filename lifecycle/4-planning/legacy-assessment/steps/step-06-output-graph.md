@@ -72,7 +72,7 @@ Update graph with:
 
 ### 6.4 Signal completion
 
-**If invoked from `planning-entry-sync`:** return to `planning-entry-sync` Step 5 greeting — resume warm-handoff. The scope memo will now include `legacy_migration_plan` evidence.
+**If invoked at Phase 4 entry:** proceed to `create-prd` — the migration plan is now available for PRD feature authoring.
 
 **If invoked from `create-prd` re-confirm trigger:** return to `create-prd` Step 0 — legacy module graph nodes are now available for PRD feature authoring.
 

@@ -514,16 +514,25 @@ generator §8 item 8), D (frontmatter modernization), E (rebuild dev-story/deplo
 - Tests: deleted `test/orient-workflow.test.ts` (skill gone); rewrote `test/intake-workflow.test.ts` for the 13-step shape; updated `test/phase-1-gate.test.ts` and `test/phase-2-wave4-schemas.test.ts` for the renamed/relocated gate checks; cosmetic fixture-string fix in `test/supersede.test.ts`.
 - Findings logged as deltas D13 (interpretive scope note — flagging for user review), D14 (tactical graph-rebuild cleanup), D15 (found `phase-transition` Step 2 is fully broken repo-wide — deferred, not this batch's scope).
 - **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅, `build:skills` (136 wrappers, pre-existing name-parent-mismatch warnings unrelated to this batch) + `plugin/` regenerated. Corpus: **141 → 139** SKILL.md.
-- Commit: (this session, pending).
+- Commit: `31dc0c8`.
 
 **Batch 2 (done) — `synthesize-research` merged into `product-brief` as its Step 1:**
 - `product-brief` grows from 4 steps to **5**: new Step 1 (Synthesize Research, absorbing `synthesize-research`'s consolidate/tensions/distil/critique sub-steps as one coherent step) + the renumbered original 4 (Intent, Discover, Draft, Review). `SKILL.md`/`workflow.md` rewritten; `synthesize-research` directory deleted.
 - Phase 2 `gate.json`'s `research-synthesis-exists` check remediation repointed at `product-brief` (no functional `skill_ref`/`command` pointed at the old skill — none needed repointing).
 - Direct dependents fixed: `validate-idea/SKILL.md` + its Step 9, `stack-discovery-sync/step-00-entry-check.md`, `lifecycle/2-discovery/README.md` (Sub-Skills table, flow, scaling table, party-mode note — 7→6 workflow skills).
 - **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test file existed for either skill), `build:skills` (135 wrappers) + `plugin/` regenerated, `check:drift` OK post-commit. Corpus: **139 → 138** SKILL.md.
+- Commit: `5c352a6`.
+
+**Batch 3 (done) — `planning-entry-sync` + `breakdown-entry-sync` deleted:**
+- Both were pure warm-handoff consolidators per §8 item 6 disposition ("packets + load-state replace it"), but `breakdown-entry-sync` also owned a real mechanism — the Phase 6→7 architecture-deltas 4-option reconciliation (accept_into_prd / reject / flag_for_architecture_ADR / park_for_phase_11) — that had to be relocated, not just dropped.
+- **Architecture-deltas reconciliation moved to `phase-transition` step-02a**, which already runs this exact pattern for Phase 5 design-deltas: added a new §B (full interactive reconciliation, delegating `accept_into_prd` cases to the existing `step-02b-prd-amendment-author.md`) replacing the old packaging-only §B. Reconciliation now happens at **Phase 6 EXIT** instead of a separate Phase 7 entry skill — Phase 7 always opens with a fully-resolved `architecture_deltas:` section. `coldpress trace orphans` (already block-severity at Phase 7 exit, built in WS2) is the mechanical backstop.
+- `planning-entry-sync`'s and `breakdown-entry-sync`'s context-load/scope-memo roles replaced by direct reads of the handoff + `coldpress.yaml`/`.coldpress/local-config.yaml` in their downstream consumers (`create-prd`, `legacy-assessment`, `create-epics`).
+- Gate.json: Phase 4 dropped `planning-scope-present` (9→8 checks); Phase 7 dropped `breakdown-scope-emitted` + `architecture-deltas-resolved` (11→9 checks, correcting a pre-existing miscount — the Phase 7 README had said "10" before this change).
+- Direct dependents fixed: `create-prd` (SKILL.md + step-00), `legacy-assessment` (SKILL.md + workflow.md + step-06), `create-epics` (SKILL.md + step-00), `validate-prd/steps/step-04`, `diagram-creator/SKILL.md`, `phase-transition/steps/step-02b`, `lifecycle/4-planning/README.md` (full rewrite of affected sections), `lifecycle/7-breakdown/README.md` (full rewrite of affected sections).
+- **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test file existed for either skill), `build:skills` (133 wrappers) + `plugin/` regenerated. Corpus: **138 → 136** SKILL.md.
 - Commit: (this session, pending).
 
-**Batches remaining this session:** 3 (`planning-entry-sync`+`breakdown-entry-sync` delete), 4 (`sprint-planning`+`sprint-status` delete), 5 (`narrative` delete), 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
+**Batches remaining this session:** 4 (`sprint-planning`+`sprint-status` delete), 5 (`narrative` delete), 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
 
 **Branch:** `overhaul/ws5-skills-consolidation`, off main, tree green, not merged.
 

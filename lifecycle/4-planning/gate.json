@@ -55,14 +55,6 @@
       "remediation": "Run `@pm validate-prd` to catch internal inconsistencies before Phase 5."
     },
     {
-      "id": "planning-scope-present",
-      "description": "`_context/planning/planning-scope-v{N}.md` exists (emitted by `planning-entry-sync`)",
-      "kind": "artefact-present",
-      "severity": "warn",
-      "artefact_path": "_context/planning/planning-scope-v*.md",
-      "remediation": "Run `@pm planning-entry-sync` — the scope memo is required for Phase 4 skills to load the correct context."
-    },
-    {
       "id": "legacy-assessment-run-if-applicable",
       "description": "`_input/legacy/` is empty OR `_context/planning/legacy-migration-plan-v{N}.md` exists",
       "kind": "conditional",

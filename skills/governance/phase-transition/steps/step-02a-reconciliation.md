@@ -1,7 +1,7 @@
 ---
 step_number: "2a"
 step_name: "Forward-Carry Reconciliation Pass (conditional)"
-step_goal: "Phase-aware reconciliation/packaging of forward-carry deltas: design (P5) reconciles in-line; architecture (P6) / implementation (P7-9) / ops (P10) package into next-phase handoff"
+step_goal: "Phase-aware reconciliation/packaging of forward-carry deltas: design (P5) and architecture (P6) reconcile in-line; implementation (P7-9) / ops (P10) package into next-phase handoff"
 severity: "block"
 halts_for_input: true
 next_step: "step-03-handoff-log.md"
@@ -12,11 +12,11 @@ conditional: "from_phase in [5, 6, 7, 8, 9, 10] AND corresponding deltas WIP log
 
 Forward-carry quartet reconciliation. Four delta classes feed the lifecycle:
 - **design_deltas** — Phase 5 surfaces; **reconciles at Phase 5 EXIT** (this step, full 4-option pass)
-- **architecture_deltas** — Phase 6 surfaces; **packages at Phase 6 EXIT** (this step, no prompts) → reconciles at Phase 7 ENTRY (`breakdown-entry-sync` Step 1)
+- **architecture_deltas** — Phase 6 surfaces; **reconciles at Phase 6 EXIT** (this step, full 4-option pass — same pattern as design_deltas; formerly deferred to a separate Phase 7 entry skill, folded in here per WS5-B §8 item 6, since this step already owns the handoff/delta schema plumbing)
 - **implementation_deltas** — Phase 8 surfaces (during dev-story / code-review); **packages at Phase 8 EXIT** (this step, no prompts; pass-through Phases 9 if any) → reconciles at Phase 11 retrospective
 - **ops_deltas** — Phase 10 surfaces; **packages at Phase 10 EXIT** (this step, no prompts) → reconciles at Phase 11 retrospective
 
-Phase 5 is the only branch that runs full user-facing reconciliation here. Phases 6-10 are non-interactive packaging steps that move the WIP log into the next-phase handoff for downstream resolution.
+Phases 5 and 6 run full user-facing reconciliation here. Phases 7-10 are non-interactive packaging steps that move the WIP log into the next-phase handoff for downstream resolution.
 
 ## Instructions
 
@@ -27,7 +27,7 @@ Read `from_phase` from local-config / orchestrator context.
 | from_phase | Branch | Section |
 |---|---|---|
 | 5 | Full reconciliation pass (design-deltas + 4-option per-delta prompts + PRD amendment) | §A below |
-| 6 | Packaging pass (architecture-deltas → phase-6-to-7 handoff `architecture_deltas[]`) | §B |
+| 6 | Full reconciliation pass (architecture-deltas + 4-option per-delta prompts + PRD amendment) | §B |
 | 7 | Packaging pass (implementation-deltas pass-through if any → phase-7-to-8 handoff) | §C |
 | 8 | Packaging pass (implementation-deltas → phase-8-to-9 handoff `implementation_deltas[]`; carry forward to Phase 11) | §C |
 | 9 | Packaging pass (implementation-deltas pass-through if any → phase-9-to-10 handoff) | §C |
@@ -143,25 +143,89 @@ Set each delta's `user_decision`, `user_rationale`, `applied_at`. Move/copy WIP 
 
 ---
 
-## §B — Phase 6: Architecture-deltas packaging pass
+## §B — Phase 6: Architecture-deltas reconciliation pass
 
-**No user prompts.** Architecture-deltas are surfaced during Phase 6 `architecture-design` and reconciled at Phase 7 ENTRY (`breakdown-entry-sync` Step 1) — not here. This step's job is purely to package the WIP log into the next-phase handoff so Phase 7 entry-sync can find it.
+Full user-facing reconciliation, same shape as §A. Architecture-deltas are surfaced during Phase 6 `architecture-design`; this step resolves them before the Phase 6 → 7 handoff is written, so Phase 7 always enters with a clean, fully-resolved delta set (no unresolved deltas block `coldpress trace orphans` at Phase 7 exit — §4.3).
 
-### B.1 Read WIP log
+### B.1 Aggregate deltas from WIP log
 
-Read `_context/handoffs/phase-6-architecture-deltas-wip-{date}.md`. Validate each entry against `schemas/handoffs/design-delta.schema.json` (reused with `source_skill: architecture-design`). Surface schema failures (block).
+Read `_context/handoffs/phase-6-architecture-deltas-wip-{date}.md`. Parse each `architecture_delta` entry. Validate against `schemas/handoffs/design-delta.schema.json` (reused with `source_skill: architecture-design`). Surface schema failures (block).
 
-### B.2 Forward parked deltas
+### B.2 Group by prd_section (deduplicate evidence)
 
-Forward any deltas that already have `user_decision: park_for_phase_11` (parked during Phase 5 reconciliation and now passing through Phase 6) to the `parked_for_phase_11` array in the phase-6-to-7 handoff (will be written by step-03).
+Group deltas by `prd_section`. Detect conflicts: multiple deltas targeting the same section with `delta_type: conflicting`. Surface to user before per-delta prompt.
 
-### B.3 Package into handoff payload
+### B.3 Pattern 7 transition: @architect → @pm
 
-Stage the un-resolved (no `user_decision` set) architecture-deltas under `architecture_deltas[]` in the phase-6-to-7 handoff. Step-03 writes this to `_context/handoffs/phase-6-to-7-{date}.md`.
+Log Pattern 7 transition record:
 
-### B.4 No Pattern 7 transition emission
+```yaml
+transition:
+  trigger: reconciliation_handoff
+  from_agent: architect
+  to_agent: pm
+  rationale: "PRD amendment is @pm's domain (PRD is Phase 4 sacred); architecture-deltas package handed back for reconciliation."
+  warm_handoff: null
+  resumes_to: phase-transition
+  recorded_at: <ISO>
+```
 
-This step does not change agent (@architect remains owner through Phase 6 exit; Phase 6 → 7 entry transition is emitted by step-03). Do NOT write a `reconciliation_handoff` record — that's only for the Phase 5 user-facing reconciliation pass.
+Append to the Pattern 7 transition buffer at `_context/handoffs/pattern-7-transitions-wip-{date}.yaml` (see §A.3 for the buffer convention).
+
+### B.4 Per-delta user prompt (in @pm scope)
+
+For each delta:
+
+> **Architecture Delta {id}** ({delta_type})
+>
+> Source: architecture-design → {source_step}
+> PRD section: {prd_section}
+>
+> {description}
+>
+> Evidence: {evidence}
+>
+> Recommendation: **{recommendation}**
+>
+> Options:
+> 1. accept_into_prd — author PRD v(N+1) lightweight amendment via `validate-prd --sections=<target_sections>`
+> 2. reject — architecture must conform to PRD as-is (re-enter Phase 6)
+> 3. flag_for_architecture_ADR — Phase 6 missed authoring an ADR; re-enter Phase 6 (USE SPARINGLY — silent-divergence guard breach signal)
+> 4. park_for_phase_11 — Phase 11 Evolve will revisit; not now
+>
+> Choose 1-4 + provide rationale.
+
+Halt for user input. Capture `user_decision` + `user_rationale` per delta.
+
+### B.5 Resolve per decision
+
+For deltas with `user_decision == accept_into_prd`:
+
+**Delegate to `step-02b-prd-amendment-author.md`** — pass the accept_deltas array + `source_phase: 6` + `source_skill: phase-transition` + `current_prd_version`. Step 02b handles: amendment payload authoring + PRD diff application + lightweight validate-prd + VC bump + prd.meta.json update + applied_at marking (this is the first real consumer of the `validate-prd --sections` lightweight-amendment path).
+
+On 02b return:
+- If `amendment_result.status == applied`: continue to remaining decisions below.
+- If `amendment_result.status == blocked`: surface to user; do NOT proceed to step-03 until resolved.
+- If `amendment_result.status == skipped`: no-op (no accept_into_prd deltas this run).
+
+For each `reject` delta:
+- Block Phase 6 exit until architecture is revised to comply with PRD as-is
+- Loop back to source skill (e.g., re-run `architecture-design` to revise)
+
+For each `flag_for_architecture_ADR` delta:
+- Surface warning: "this is a silent-divergence-guard breach signal — Phase 6 missed authoring a required ADR." Block Phase 6 exit until the missing ADR is authored.
+
+For each `park_for_phase_11` delta:
+- Append to `_context/audit/product-evolution-backlog.md`
+- Mark in handoff log's `parked_for_phase_11:` array
+
+### B.6 Pattern 7 transition: @pm → phase-transition
+
+Same as §A.6, adapted for this phase boundary.
+
+### B.7 Update WIP log → mark resolved
+
+Set each delta's `user_decision`, `user_rationale`, `applied_at`. Move/copy WIP log into the phase-6-to-7 handoff's `architecture_deltas:` section (all entries now carry a `user_decision` — step-03 writes a fully-resolved section, not an open WIP list).
 
 ---
 
@@ -183,7 +247,7 @@ Stage un-resolved implementation-deltas under `implementation_deltas[]` in the p
 
 ### C.4 No Pattern 7 transition emission
 
-Same as §B.4 — the phase-boundary transitions are emitted by step-03, not here.
+Packaging-only — no agent change; the phase-boundary transitions are emitted by step-03, not here.
 
 ---
 
@@ -212,14 +276,14 @@ Phase 10 → 11 transition is `phase_entry` for @reviewer, emitted by step-03 (c
 ## Output
 
 - **Phase 5 (§A):** Each design_delta has user_decision; PRD v(N+1) authored + validated for accept_into_prd; ADR-required markers staged for step-03; product-evolution backlog appended for park_for_phase_11; Pattern 7 reconciliation_handoff pair (#2/#3) logged in buffer.
-- **Phase 6 (§B):** architecture_deltas[] packaged into phase-6-to-7 handoff; Phase 5 parked_for_phase_11 carried forward; no agent change.
+- **Phase 6 (§B):** each architecture_delta has user_decision; PRD v(N+1) authored + validated for accept_into_prd; Phase 6 exit blocked on `reject`/`flag_for_architecture_ADR` until resolved; product-evolution backlog appended for park_for_phase_11; Pattern 7 reconciliation_handoff pair logged in buffer. Phase 7 always enters with a fully-resolved `architecture_deltas:` section — no separate Phase 7 entry reconciliation.
 - **Phase 7-9 (§C):** implementation_deltas[] packaged into next-phase handoff; cumulative parked_for_phase_11 carried forward.
 - **Phase 10 (§D):** ops_deltas[] packaged into phase-10-to-11 handoff; immediate_corrective_action deltas verified done.
 
 ## Halts For Input
 
-**Phase 5 only:** per-delta decision prompts. User halts once per delta + once for any conflict-group.
-**Phases 6-10:** no user halt — packaging is non-interactive. Step proceeds to step-03 immediately after WIP log read + handoff staging.
+**Phases 5 and 6:** per-delta decision prompts. User halts once per delta + once for any conflict-group.
+**Phases 7-10:** no user halt — packaging is non-interactive. Step proceeds to step-03 immediately after WIP log read + handoff staging.
 
 ## Navigation
 
