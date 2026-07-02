@@ -180,16 +180,25 @@ settled-spec replications suit a Sonnet session. boundary-guard/deploy-gate/next
 - Harness refactor: per-hook scripts → one generic `scripts/hooks/run.mjs <name>`.
 - Commits `17f33d6` (sacred-guard+secret-scan), `9c066d8` (schema-validate). **807 tests**, drift clean.
 
-**Remaining WS1-D hooks (4):** `phase-gate` (PreToolUse Skill; reads state.yaml gates),
-`quality-gate` (Stop; runs test/lint/typecheck — "single highest-leverage change", delivers
-"cannot complete red"; testing.yaml shape is WS4), `run-log` (SubagentStop/Stop; extends
-EventStream), `test-integrity` (PostToolUse test edits; assertion-weakening heuristic).
-`boundary-guard`/`deploy-gate`/`next-task` remain deferred to WS2/WS6.
+**Increment D — the hook stack: COMPLETE (all 8 WS1 hooks).** Added since the 4 above:
+- `quality-gate` (Stop) — blocks completion while typecheck/lint/test are red (injectable
+  runner; WS4 swaps to testing.yaml). Delivers "cannot complete red". Commit `31ec9df`.
+- `phase-gate` (PreToolUse Skill, full lane) — blocks phase-N skills before p(N-1) gates green;
+  resolves skill→phase from lifecycle/ tree; new shared `state-io.ts`. `31ec9df`.
+- `test-integrity` (PostToolUse Edit) — flags dropped assertions/cases + added skip/only. `31ec9df`.
+- `run-log` (Stop/SubagentStop) — appends a `session-boundary` event; **sanctioned EventStream
+  schema extension** (new kind + PHASE 9→11). Verified event lands in events.jsonl. Commit `01c6be9`.
+- `renderDecision` branches per-event (PreToolUse permissionDecision vs PostToolUse/Stop
+  decision:block). `boundary-guard`/`deploy-gate`/`next-task` deferred to WS2/WS6 (need their machinery).
 
-**WS1 acceptance status:** sacred-block ✅, schema-reject ✅, override-logging ✅ (harness);
-remaining: quality-gate-red, check:drift (WS1-F), per-hook test+--explain (done for the 4 built).
+**WS1 acceptance status:** sacred-block ✅, schema-reject ✅, quality-gate-red ✅ (logic + e2e),
+override-logging ✅, per-hook test+--explain ✅ (all 8). Remaining: `check:drift` (WS1-F); a
+scaffolded-project end-to-end demo (part of WS3 acceptance). **837 tests**, drift clean.
 
-**Branch:** `overhaul/ws1-enforcement`, 7 commits off main, tree green (807 tests), clean, not merged.
+**Remaining WS1 increments:** E (extend validate-schema routing + fix 4 dangling paths),
+F (check:drift npm script + CI job), G (governance prose → sacred-change skill + hook).
+
+**Branch:** `overhaul/ws1-enforcement`, 10 commits off main, tree green (837 tests), clean, not merged.
 
 ---
 
