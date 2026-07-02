@@ -59,7 +59,7 @@ Two formats for two audiences: **Mermaid** (markdown-embedded, README-friendly, 
 
 ## Output
 
-Mermaid + PlantUML diagram set under `_context/design/diagrams/v{N}/`. Architecture.md gets a `## Diagrams` section appended (one-line + `![](diagrams/...)` reference), which Phase 7 `create-epics`/`create-stories` read directly for visual reference.
+Mermaid + PlantUML diagram set under `_context/design/diagrams/v{N}/`. Architecture.md gets a `## Diagrams` section appended (one-line + `![](diagrams/...)` reference), which Phase 7 `story-slice` reads directly for visual reference.
 
 ## Mermaid syntax cheat-sheet
 

@@ -1,8 +1,8 @@
 /**
  * stories → implementation handoff schema (high-stakes, registry entry #7).
  *
- * Emitted by `create-stories` (Phase 5). Consumed by `dev-story` /
- * `quick-dev` (Phase 6). Each story ships a sidecar
+ * Emitted by `story-slice` (Phase 7; formerly `create-stories`). Consumed by
+ * `dev-story` / `quick-dev` (Phase 8). Each story ships a sidecar
  * `<story>.meta.json` — this schema validates one story at a time
  * (unlike the upstream schemas which describe an aggregate artefact).
  *
@@ -43,7 +43,7 @@ export const TestCoverageTarget = z.object({
  */
 export const StoriesToImplementationSchema = z.object({
   schema_version: z.literal(1),
-  produced_by: z.literal("create-stories"),
+  produced_by: z.literal("story-slice"),
   produced_at: z.string().datetime(),
   project_slug: z.string().min(1),
   /** Story ID from PERT's epic.id + local story number, e.g., "E2.S3". */

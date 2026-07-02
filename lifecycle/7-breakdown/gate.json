@@ -30,7 +30,7 @@
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/epic.schema.json",
       "artefact_path": "_context/planning/epics-v*.md",
-      "remediation": "Run `@pm create-epics`."
+      "remediation": "Run `@pm story-slice` (Step 1 emits epics)."
     },
     {
       "id": "stories-validated",
@@ -39,7 +39,7 @@
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/story.schema.json",
       "artefact_path": "_context/implementation/stories/",
-      "remediation": "Run `@pm create-stories`."
+      "remediation": "Run `@pm story-slice` (Steps 2-3 emit per-story contracts + red stubs)."
     },
     {
       "id": "pert-chart-sacred",

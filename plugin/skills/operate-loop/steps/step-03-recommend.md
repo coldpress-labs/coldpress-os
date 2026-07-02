@@ -19,7 +19,7 @@ next_step: "complete"
    1. `in-progress` story → continue with dev-story
    2. `review` story → run code-review
    3. `ready-for-dev` story → start dev-story
-   4. `backlog` story → run create-stories
+   4. `backlog` story → run story-slice
    5. Optional retrospective → run retrospective
    6. All done → Congratulations!
 
