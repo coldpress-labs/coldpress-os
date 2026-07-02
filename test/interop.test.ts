@@ -172,7 +172,10 @@ describe("runInterop — full sweep against shipped template", () => {
       join(project, ".clinerules", "10-sacred-docs.md"),
       "utf8",
     );
-    expect(clineSacred).toContain("context-change");
+    // v0.4 WS1-G: the per-doc change workflows were replaced by the sacred-change
+    // skill + sacred-guard hook — the .clinerules now point there.
+    expect(clineSacred).toContain("sacred-change");
+    expect(clineSacred).toContain("sacred-guard");
     expect(clineSacred).toContain("_context/sacred/prd.md");
   });
 

@@ -98,7 +98,7 @@ Hybrid model (Phase 6 deep-dive Q5):
 - **Significant structural changes** (e.g., adding a component family, replacing a database) → re-emit `architecture.md` with VC major bump
 - **Incremental decisions** → new ADR + architecture.md ADR-Index update + VC minor bump
 
-Both routes use the existing per-sacred-doc amendment workflow at [`governance/architecture-change/`](../../governance/architecture-change/) (per Q6 reuse decision — same pattern as Phase 3's `governance/tech-stack-change/` amendments; `governance/sacred-docs.md` documents the broader sacred-doc governance).
+Both routes use the unified `sacred-change` skill ([`skills/governance/sacred-change/`](../../skills/governance/sacred-change/)), enforced by the `sacred-guard` hook; `governance/sacred-docs.md` documents the broader sacred-doc governance.
 
 ## Method playbook
 

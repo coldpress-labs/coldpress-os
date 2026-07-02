@@ -10,7 +10,7 @@ version: "1.0"
 
 ADR is heavy machinery for architectural decisions (Phase 3 + 6). Many real decisions during a project's life are **non-architectural** — vendor pick, naming choice, process tweak, scope cut, prioritisation call — but still worth durable audit. This skill is the lightweight option: append a dated row to `_context/audit/decision-log.md` with context + alternatives + rationale.
 
-If a decision touches sacred-doc invariants (architecture, PRD scope, tech-stack lock), use the heavier `governance/architecture-change/` or `legacy-assessment/` path instead.
+If a decision touches sacred-doc invariants (architecture, PRD scope, tech-stack lock), use the heavier `sacred-change` skill (enforced by the `sacred-guard` hook) instead.
 
 ## When to Use (Proactive Triggers)
 
