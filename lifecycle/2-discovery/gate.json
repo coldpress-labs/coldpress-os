@@ -50,14 +50,6 @@
       "remediation": "Run `@analyst validate-idea` for structured problem/market/fit validation. Recommended before Phase 3 — skip only for solo vibe-coder projects with well-understood scope."
     },
     {
-      "id": "graph-freshness",
-      "description": "Knowledge graph is not stale — `.coldpress/graph/graph.json` mtime is >= the latest `_input/` file mtime",
-      "kind": "automated",
-      "severity": "warn",
-      "skill_ref": "graph-staleness-check",
-      "remediation": "Run `coldpress graph rebuild` to refresh the knowledge graph. Phase 3 skills query the graph for tech-stack research — a stale graph degrades suggestion quality."
-    },
-    {
       "id": "supersessions-log-if-applicable",
       "description": "If any `_input/` file is referenced in the Phase 2 artefacts but contradicts their conclusions, a supersession log entry exists in `_context/audit/supersessions-*.md`",
       "kind": "human",

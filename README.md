@@ -22,7 +22,7 @@ The 11 phases: Bootstrap · Discovery · Tech Stack · Planning · **Design** ·
 npm install -g @coldpress/core
 ```
 
-Requires Node.js `>=22` and Claude Code (the CLI or the Agent SDK) on your machine. Python `>=3.10` is additionally required for `coldpress graph rebuild` and the document-ingest skill; install on demand with `pip install graphifyy markitdown docling` when you reach Phase 2.
+Requires Node.js `>=22` and Claude Code (the CLI or the Agent SDK) on your machine. No Python is needed for the core framework. (Optional document-ingest and brownfield code-indexing capabilities install their own external tools on demand — see the brownfield capability pack — but the core lifecycle has no Python dependency.)
 
 ## Quick Start
 
@@ -157,7 +157,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 - **[Anthropic Agent Skills](https://agentskills.io/specification)** — *compatible + complementary.* Coldpress-os's skills conform to the Agent Skills SKILL.md spec (emitted to `plugin/skills/`). Installable as a Claude Code plugin via `/plugin marketplace add coldpress-labs/coldpress-os`. We wrap Anthropic's first-party skills where they overlap with our subagents (`docx` / `pdf` / `pptx` / `xlsx` under `@communicator`, `webapp-testing` under `@qa`, `mcp-builder` under `@architect`, `skill-creator` under `@valet`). See [`docs/agent-skills-compatibility.md`](docs/agent-skills-compatibility.md).
 - **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** — *lineage.* Coldpress-os is a soft-fork of BMAD v6.2.2 (pinned upstream, no rebase — cherry-pick only). Full attribution in [`NOTICE.md`](./NOTICE.md).
 - **GitHub Copilot Workspace** — *shared spine, richer expansion.* Both implement Spec → Plan → Implement → Review. Coldpress-os expands the 4-stage spine into 11 phases (Shape A) with sacred-doc governance and typed inter-phase handoffs. See [`docs/spec-plan-implement-review-mapping.md`](docs/spec-plan-implement-review-mapping.md).
-- **[Graphify](https://github.com/safishamsi/graphify)** — *vendored upstream.* Indexer + retrieval core at [`graph/vendor/graphify/`](./graph/vendor/graphify/). `coldpress graph rebuild` invokes it; `coldpress graph query` reads the output.
+- **[Graphify](https://github.com/safishamsi/graphify)** — *optional external backend (lineage).* Formerly vendored as the indexer + retrieval core; retired from the core in v0.4. Retrieval/traceability is now the native `coldpress trace`, and AST code-indexing is an optional brownfield-pack capability that can call Graphify (or an equivalent) as an on-demand external install — never re-vendored. See [`NOTICE.md`](./NOTICE.md) §4.
 
 ## Documentation
 

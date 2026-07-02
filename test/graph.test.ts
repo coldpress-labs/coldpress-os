@@ -13,13 +13,15 @@ import {
 import { GraphJsonSchema, NodeSchema } from "../src/graph/types";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
-// Real fixture shipped with the vendored Graphify tree — 144 nodes, 330 links.
+// Real graph.json sample (144 nodes, 330 links), relocated to test fixtures
+// in v0.4 WS0 when the vendored Graphify tree was removed (§8 item 1, ledger
+// delta D5). This is the indexer's OUTPUT data, not the Graphify runtime; it
+// exercises the retained src/graph/* modules that WS2 cannibalizes for `trace`.
 const httpxFixture = join(
   repoRoot,
+  "test",
+  "fixtures",
   "graph",
-  "vendor",
-  "graphify",
-  "worked",
   "httpx",
 );
 

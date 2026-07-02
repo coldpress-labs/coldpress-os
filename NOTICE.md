@@ -11,13 +11,15 @@ and records the nature of the derivation for each.
    and strategic workflows
 3. **BMAD-METHOD-WDS (Whiteport Design System)** — a BMAD module providing
    an opinionated UX design workflow
-4. **Graphify v4** — the indexer + retrieval core behind coldpress-os's
-   knowledge graph (vendored into `graph/vendor/graphify/` under the same
-   MIT terms)
+4. **Graphify** — the indexer + retrieval lineage behind coldpress-os's
+   former knowledge-graph backend. **No longer vendored** as of v0.4; an
+   optional external backend only (see §4)
 
-All four are MIT-licensed; coldpress-os is also MIT. The only obligation
-is preservation of copyright and license notices, which this file and
-[LICENSE](LICENSE) together satisfy.
+BMAD-METHOD, CIS and WDS are MIT-licensed and vendored/derived in-tree;
+coldpress-os is also MIT. The only obligation is preservation of copyright
+and license notices, which this file and [LICENSE](LICENSE) together satisfy.
+Graphify (also MIT) is no longer redistributed in this repository — it is
+credited as lineage in §4.
 
 ---
 
@@ -225,11 +227,19 @@ references here are for attribution only.
 
 ## 4. Graphify
 
-coldpress-os vendors **Graphify v4** into `graph/vendor/graphify/` as the
-indexer + retrieval core underpinning the project-context knowledge graph
-introduced in Wave 3 of Phase I. The vendored source is the canonical
-upstream-to-coldpress-os diff — anyone asking "what did coldpress-os change
-from Graphify?" inspects that tree.
+**Status (v0.4):** Graphify is **no longer vendored** into coldpress-os. The
+vendored tree formerly at `graph/vendor/graphify/` was removed in the v0.4
+"Enforcement" overhaul (WS0, §8 item 1). Retrieval and traceability are now
+served by the native `coldpress trace` command over coldpress-os's own schema'd
+artifacts; AST-level code indexing is demoted to an optional **brownfield
+capability pack** that may invoke Graphify — or an equivalent indexer such as
+Serena or tree-sitter tags — as an **external, on-demand install** behind a
+swappable interface, never re-vendored (framework principle: *own interfaces,
+rent implementations*).
+
+Graphify is credited here as **lineage**: it was the indexer + retrieval core
+behind coldpress-os's earlier knowledge-graph backend, and the current retrieval
+design descends from that work.
 
 | Field | Value |
 |-------|-------|
@@ -237,72 +247,18 @@ from Graphify?" inspects that tree.
 | Upstream source | https://github.com/safishamsi/graphify |
 | Upstream author | Safi Shamsi |
 | Upstream license | MIT |
-| Vendored version | v4 (tree head at clone time — see `graph/vendor/graphify/CHANGELOG.md` for upstream release line) |
-| Vendored at | `graph/vendor/graphify/` |
-| First incorporated | 2026-04-23 (Wave 3 Block M) |
+| Relationship | Optional external backend as of v0.4 (not vendored); prior vendored lineage, removed WS0 |
 
-### Nature of the derivation
-
-Graphify provides coldpress-os with:
-
-- A tree-sitter-backed code AST indexer covering 20+ languages (Python,
-  TypeScript, JavaScript, Go, Rust, Java, C/C++, Ruby, C#, Kotlin, Scala,
-  PHP, Swift, Lua, Zig, PowerShell, Elixir, Objective-C, Julia, Verilog).
-- Markdown / document ingestion with knowledge-graph extraction (nodes,
-  edges, community detection via Leiden).
-- A manifest-driven build pipeline that emits a queryable graph artifact.
-
-coldpress-os adapts Graphify by:
-
-- Reshaping the graph schema to coldpress-os's folder semantics —
-  `_context/sacred/`, `_context/planning/`, `_input/`, `sandbox/` vs `live/`
-  environment tags, and the secure-manifest exclusion rule (credential
-  values are never indexed; only credential *names* from
-  `secure/manifest.yaml` appear as nodes). See
-  [docs/graph-schema.md](docs/graph-schema.md) when Wave 3 §3.3 lands.
-- Wiring Butler and the 9 subagents to query the graph as the primary
-  context substrate, replacing direct-file-read context-gathering skills.
-  See Wave 3 §3.6.
-- Pinning a specific upstream version — coldpress-os does not rebase
-  against Graphify main; upstream changes are cherry-picked at the
-  vendored tree level when worth importing.
-
-### Soft-fork stance
-
-Parallel to the BMAD soft-fork stance (§1), the Graphify relationship is a
-**soft fork** — we diverged at a pinned upstream commit and do not track a
-living fork. Divergence is expected to be heavy (schema reshape, folder-
-semantic integration), which is precisely why vendoring in-tree is
-preferable to tracking upstream as a submodule. The vendored tree is the
-canonical diff.
-
-### Upstream assets retained
-
-- `graph/vendor/graphify/LICENSE` — upstream MIT licence (preserved verbatim).
-- `graph/vendor/graphify/README.md` — upstream README (for context).
-- `graph/vendor/graphify/ARCHITECTURE.md` — upstream architecture doc.
-- `graph/vendor/graphify/CHANGELOG.md` — upstream changelog up to vendor time.
-- `graph/vendor/graphify/graphify/` — the full Python package (34 modules).
-- `graph/vendor/graphify/pyproject.toml` — upstream dep manifest. Consumer
-  projects need Python ≥ 3.10 + `pip install -e graph/vendor/graphify`
-  (or similar) to run the indexer; wiring for this install step lands in
-  Wave 3 Block N.
-
-### Upstream assets removed at vendor time
-
-- `.git/` — replaced by our own version control.
-- `docs/translations/` — 26 README translations, unnecessary for our use.
-- `tests/` — upstream's own test suite; coldpress-os writes its own tests
-  against the reshaped integration layer.
-- `scripts/` — upstream maintenance scripts, not used by coldpress-os.
-
-Trimmed size: 2.6 MB → 1.5 MB.
+Because no Graphify source ships in coldpress-os any longer, there is no MIT
+source-redistribution obligation for it in this repository. If the brownfield
+pack later vendors any Graphify source, this section will be restored to a full
+redistribution notice at that time.
 
 ### Acknowledgment
 
 ColdPress Labs is grateful to Safi Shamsi for building and open-sourcing
-Graphify, and for the tree-sitter-powered multi-language indexing that
-gives coldpress-os its semantic graph surface.
+Graphify, and for the tree-sitter-powered multi-language indexing that shaped
+coldpress-os's retrieval design.
 
 ---
 

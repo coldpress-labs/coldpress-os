@@ -5,12 +5,6 @@ import pc from "picocolors";
 import { runDashboard } from "./commands/dashboard.js";
 import { runDoctor } from "./commands/doctor.js";
 import { runFeedback } from "./commands/feedback.js";
-import {
-  runGraphQuery,
-  runGraphRebuild,
-  runGraphStats,
-  runGraphView,
-} from "./commands/graph.js";
 import { runImportBmad } from "./commands/import.js";
 import { type InitInput, runInit } from "./commands/init.js";
 import { runRunInspect, runRunList } from "./commands/run.js";
@@ -77,86 +71,10 @@ program
     },
   );
 
-const graphCmd = program
-  .command("graph")
-  .description("Manage the project knowledge graph (powered by vendored Graphify)");
-
-graphCmd
-  .command("rebuild")
-  .description("Invoke Graphify to (re)generate .coldpress/graph/graph.json")
-  .action(async () => {
-    try {
-      await runGraphRebuild();
-    } catch (err) {
-      console.error(pc.red(`graph rebuild failed: ${err instanceof Error ? err.message : String(err)}`));
-      process.exit(1);
-    }
-  });
-
-graphCmd
-  .command("stats")
-  .description("Summarise the current graph (nodes, edges, communities, types, relations)")
-  .action(async () => {
-    try {
-      await runGraphStats();
-    } catch (err) {
-      console.error(pc.red(`graph stats failed: ${err instanceof Error ? err.message : String(err)}`));
-      process.exit(1);
-    }
-  });
-
-graphCmd
-  .command("query")
-  .description("Query the graph — filter by node_type, dir_role, env_tag, relation, id, or neighbours")
-  .option("--node-type <type>", "filter by coldpress.node_type (SacredDoc, CodeModule, ...)")
-  .option("--dir-role <role>", "filter by coldpress.dir_role (_context/sacred, sandbox, ...)")
-  .option("--env-tag <tag>", "filter by coldpress.env_tag (sandbox | live | both | neither)")
-  .option("--relation <relation>", "filter edges by relation (implements, descends_from, ...)")
-  .option("--id <id>", "look up a specific node by id")
-  .option("--neighbors <id>", "list neighbours of the given node id")
-  .option("--limit <n>", "limit number of results", (v) => parseInt(v, 10))
-  .option("--format <format>", "output format: json | pretty (default: pretty if TTY, json otherwise)")
-  .action(async (opts) => {
-    try {
-      await runGraphQuery({
-        nodeType: opts.nodeType,
-        dirRole: opts.dirRole,
-        envTag: opts.envTag,
-        relation: opts.relation,
-        id: opts.id,
-        neighborsOf: opts.neighbors,
-        limit: opts.limit,
-        format: opts.format,
-      });
-    } catch (err) {
-      console.error(pc.red(`graph query failed: ${err instanceof Error ? err.message : String(err)}`));
-      process.exit(1);
-    }
-  });
-
-graphCmd
-  .command("view")
-  .description("Render a canonical subgraph as Mermaid, DOT, or standalone interactive HTML")
-  .argument("<subgraph>", "subgraph id: sacred-doc-lineage | prd-to-impl | promotion-status | deps")
-  .option("--format <format>", "output format: mermaid | dot | html (default: mermaid)")
-  .option("--output <path>", "write output to file instead of stdout")
-  .option("--max-nodes <n>", "cap node count (0 disables)", (v) => parseInt(v, 10))
-  .option("--cytoscape-src <src>", "HTML-only: override Cytoscape.js script URL")
-  .action(async (subgraph: string, opts) => {
-    try {
-      const code = await runGraphView({
-        subgraph,
-        format: opts.format,
-        output: opts.output,
-        maxNodes: opts.maxNodes,
-        cytoscapeSrc: opts.cytoscapeSrc,
-      });
-      process.exit(code);
-    } catch (err) {
-      console.error(pc.red(`graph view failed: ${err instanceof Error ? err.message : String(err)}`));
-      process.exit(1);
-    }
-  });
+// `coldpress graph` verbs (rebuild|stats|query|view) removed in v0.4 WS0
+// §8 item 1 — vendored Graphify retired. Retrieval/traceability moves to
+// `coldpress trace` (WS2, §4.6); AST indexing demotes to the brownfield
+// capability pack (§7.6).
 
 const securityCmd = program
   .command("security")

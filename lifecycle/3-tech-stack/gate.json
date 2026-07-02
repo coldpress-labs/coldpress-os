@@ -129,16 +129,6 @@
       "command": "coldpress config-check post_phase_3_update_ran --expected true",
       "path_pattern": ".coldpress/local-config.yaml",
       "remediation": "Run `coldpress update --post-phase-3` in your terminal to regenerate skill wrappers for the locked stack pack. Return to Butler and confirm."
-    },
-    {
-      "id": "graph-freshness",
-      "stage": 2,
-      "description": "Graph build time ≥ latest `_context/` + `_input/` mtime OR `needs_graph_rebuild: false` in local-config",
-      "kind": "automated",
-      "severity": "warn",
-      "command": "coldpress graph-staleness-check _context/ _input/",
-      "path_pattern": ".coldpress/local-config.yaml",
-      "remediation": "Run `coldpress graph rebuild` to update the project graph with Phase 3 artefacts (ADRs, tech-stack, shortlist, distillate)."
     }
   ],
   "next_phase": "4-planning"
