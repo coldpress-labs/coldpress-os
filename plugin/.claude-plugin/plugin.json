@@ -1,0 +1,25 @@
+{
+  "name": "coldpress-os",
+  "displayName": "ColdPress OS",
+  "version": "0.3.2-alpha",
+  "description": "AI-native development framework (Shape A + lite lane) — subagents, atomic skills, sacred-doc governance, forward-carry quartet, stack packs. Skills are distributed via this plugin.",
+  "author": {
+    "name": "ColdPress Labs",
+    "email": "team@coldpressai.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/coldpress-labs/coldpress-os",
+  "repository": "https://github.com/coldpress-labs/coldpress-os",
+  "keywords": [
+    "lifecycle",
+    "agents",
+    "subagents",
+    "sdlc",
+    "development-framework",
+    "claude-code",
+    "shape-a",
+    "forward-carry-quartet"
+  ],
+  "skills": "./skills/",
+  "skills_count": 123
+}

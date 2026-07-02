@@ -17,7 +17,9 @@ const __filename = fileURLToPath(import.meta.url);
 const repoRoot = dirname(dirname(dirname(__filename))); // src/generators/build-skills.ts → repo/
 
 const outputDir = join(repoRoot, "plugin", "skills");
-const manifestPath = join(repoRoot, "plugin", "plugin.json");
+const manifestPath = join(repoRoot, "plugin", ".claude-plugin", "plugin.json");
+const marketplacePath = join(repoRoot, "plugin", ".claude-plugin", "marketplace.json");
+const packageJsonPath = join(repoRoot, "package.json");
 
 console.log(`> Generating plugin/ from ${repoRoot}`);
 console.log(`  output: ${outputDir}`);
@@ -60,16 +62,29 @@ if (result.skipped.length > 0) {
 
 console.log(`\n✓ Emitted ${result.emitted.length} spec-compliant SKILL.md files`);
 
-// Refresh plugin.json with the current skill count. We deliberately do NOT
-// stamp a `generated_at` timestamp — the build output must be deterministic
-// from the source corpus so CI's `git diff --exit-code plugin/` drift check
-// stays meaningful. (If the count changes, diff catches it. If only a
-// timestamp changes, diff catches nothing useful.)
+// Refresh the plugin manifest + marketplace with the current skill count and
+// the canonical version from package.json (the single source of truth — fixes
+// the historical plugin.json version drift). We deliberately do NOT stamp a
+// `generated_at` timestamp — the build output must be deterministic from the
+// source corpus so `check:drift`'s `git status plugin/` stays meaningful.
+const coreVersion = (await readManifest(packageJsonPath)).version as string | undefined;
+
 const manifest = await readManifest(manifestPath);
 delete manifest.generated_at;
 manifest.skills_count = result.emitted.length;
+if (coreVersion) manifest.version = coreVersion;
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 console.log(`✓ Refreshed ${manifestPath}`);
+
+// Keep the marketplace's plugin entry version in lock-step with the manifest.
+const marketplace = await readManifest(marketplacePath);
+if (coreVersion && Array.isArray(marketplace.plugins)) {
+  for (const p of marketplace.plugins as Array<Record<string, unknown>>) {
+    if (p.name === manifest.name) p.version = coreVersion;
+  }
+  await writeFile(marketplacePath, `${JSON.stringify(marketplace, null, 2)}\n`, "utf8");
+  console.log(`✓ Refreshed ${marketplacePath}`);
+}
 
 if (errors.length > 0) {
   process.exit(1);
