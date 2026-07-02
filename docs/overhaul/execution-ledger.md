@@ -15,7 +15,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 |----|-------|-------|--------|--------|
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
-| WS2 | Trace + story graph | 🟡 in progress | `overhaul/ws2-trace-storygraph` | — |
+| WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
 | WS3 | Two-lane lifecycle | ⚪ not started | — | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
@@ -276,10 +276,35 @@ records (WS2/WS6); pending-human-gate in load-state (WS3/§7.7); PERT-ref cleanu
   contract / ownership overlap; else emits `docs/generated/{waves,schedule}.yaml` + mermaid.
 - +12 tests (all three §9 rejections + computation). e2e verified. Commit `c504193`. **881 tests**.
 
-**Remaining WS2:** D (boundary-guard hook + delta-resolution phase-exit gate + git-protocol
-hooks), E (wire trace `impact` into sacred-guard blast-radius; trace-orphan gates at P6/P7).
+**Increment D — boundary-guard + git-guard + delta gate (done):**
+- `boundary-guard` (PreToolUse Edit|Write) — blocks writes matching the active handoff
+  packet's `forbidden` globs (new `src/utils/glob-match.ts`). `git-guard` (PreToolUse Bash) —
+  blocks subagent commits to main. `trace orphans` now flags unresolved deltas (§4.3). Commit `a35e10e`.
 
-**Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, not merged.
+**Increment E — trace integration (done):**
+- `coldpress trace orphans` gate check added to P6 + P7 exit gates. `sacred-change` skill Step 6
+  calls `coldpress trace impact` (blast radius → flip stories to re-verify). Commit `a35e10e`.
+
+---
+
+## 🟢 WS2 CLOSED (2026-07-02)
+
+**Acceptance (§9), by command:**
+- **`waves` rejects a cycle, a missing contract story, and an ownership overlap** ✅ (12 tests + e2e).
+- **Packet boundary blocks an out-of-scope write** ✅ (boundary-guard e2e — deny with packet id).
+- **`trace orphans` gates P6/P7** ✅ (gate.json checks added) and catches dangling deps + the
+  silent-divergence guard (flag_for_architecture_ADR → ADR) + unresolved deltas, exit 1 (e2e).
+- **PRD edit → impacted stories flip to re-verify** — mechanism wired (`sacred-change` Step 6 →
+  `trace impact`); the full requirement→story blast radius + the "unmapped requirement" orphan
+  **activate when WS4 adds requirement/component keying** to P4/P6 artifacts. Recorded, not a blocker.
+
+Final gate: typecheck ✅, **894 tests** ✅, build ✅, gate.json valid ✅, check:drift OK ✅.
+CHANGELOG entry added.
+
+**Deferred (recorded):** requirement/component/threat/release/test trace nodes → WS4/WS6 (the
+model + verbs already support them); `release`-verb + REL-* schema → WS6.
+
+**Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, clean, **not merged**.
 
 ---
 
