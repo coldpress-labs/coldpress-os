@@ -1,13 +1,14 @@
 ---
 name: reviewer
-model: haiku
+description: "Phase 11 (Evolve) retrospective authority, read-only. Reads the EventStream run-log + ops digests + outcomes-vs-targets and emits an evidence-linked retrospective — every claim cites a run-log event ID. Upgraded to opus for the data-driven analysis the role requires."
+model: opus
 tools:
   - Read
   - Grep
   - Glob
 color: grey
-maxTurns: 10
-effort: medium
+maxTurns: 30
+effort: high
 ---
 
 # Reviewer

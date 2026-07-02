@@ -1,5 +1,6 @@
 ---
 name: analyst
+description: "Phase 2 (Discovery). Research (domain/market/constraints), personas, idea validation against explicit kill criteria, and the product brief with north-star + guardrail metrics. Kills bad ideas while cheap."
 model: sonnet
 tools:
   - Read

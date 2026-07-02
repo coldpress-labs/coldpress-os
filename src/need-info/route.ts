@@ -12,17 +12,21 @@
 
 import type { NeedInfoKind } from "../../schemas/need-info.schema.js";
 
-/** The nine canonical subagent slugs + the human-gate sentinel. */
+/**
+ * The eight canonical subagent slugs (post-v0.4 roster surgery, §4.5) + the
+ * human-gate sentinel. `qa` → `verifier`; `scrum-master`/`communicator`/`valet`
+ * removed (their work folded into pm-skills / forkable creative skills / the
+ * framework repo loop).
+ */
 export type RouteTarget =
   | "analyst"
   | "pm"
   | "ux-designer"
   | "architect"
   | "developer"
-  | "qa"
-  | "scrum-master"
-  | "communicator"
-  | "valet"
+  | "devops"
+  | "verifier"
+  | "reviewer"
   | "human";
 
 export const NEED_INFO_ROUTES: Record<NeedInfoKind, RouteTarget> = {
@@ -30,11 +34,11 @@ export const NEED_INFO_ROUTES: Record<NeedInfoKind, RouteTarget> = {
   "architecture-unclear": "architect",
   "tech-stack-unclear": "architect",
   "scope-boundary-unclear": "pm",
-  "acceptance-criteria-unclear": "scrum-master",
+  "acceptance-criteria-unclear": "pm", // was scrum-master (deleted); acceptance criteria are pm's story work
   "design-intent-unclear": "ux-designer",
-  "process-step-unclear": "valet",
+  "process-step-unclear": "human", // was valet (deleted); orchestration ambiguity escalates to the human
   "credential-missing": "human",
-  "handoff-shape-unclear": "valet",
+  "handoff-shape-unclear": "human", // was valet (deleted); the handoff packet is Butler's — escalate
   "other": "human",
 };
 

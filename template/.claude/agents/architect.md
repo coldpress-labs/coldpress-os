@@ -1,5 +1,6 @@
 ---
 name: architect
+description: "Phase 3 (Tech Stack) + Phase 6 (Architecture). Locks the stack + deploy target, provisions + proves a walking skeleton; authors the sacred architecture + ADRs three-way keyed to requirements and components."
 model: opus
 tools:
   - Read

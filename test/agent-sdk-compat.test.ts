@@ -51,7 +51,7 @@ function toAgentDefinition(agent: Agent): AgentDefinition {
 describe("Agent SDK compatibility — .claude/agents/", () => {
   it("every shipped subagent maps to a valid SDK AgentDefinition", async () => {
     const agents = await parseAgentsDir(templateAgentsDir);
-    expect(agents.length).toBeGreaterThanOrEqual(9);
+    expect(agents.length).toBe(8); // v0.4 roster surgery (§4.5): 8 + Butler
 
     for (const agent of agents) {
       const def = toAgentDefinition(agent);
