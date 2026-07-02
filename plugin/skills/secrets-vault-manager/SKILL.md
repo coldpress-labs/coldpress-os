@@ -12,7 +12,7 @@ Phase 9 pre-deploy gate skill that surfaces secrets-management issues before tag
 
 ## When to Use (Proactive Triggers)
 
-1. Pre-deploy gate (phase-9 readiness-check sub-step)
+1. Pre-deploy gate (phase-9 readiness sub-step)
 2. User says "audit secrets" / "rotate keys" / "check credentials"
 3. Quarterly hygiene cron (rotation-due tracking)
 4. Post-incident — when a credential leak is suspected
@@ -69,7 +69,7 @@ Audit report + rotation runbook in `_context/audit/`. CRITICAL findings BLOCK Ph
 
 ## Source Attribution
 
-Pattern adapted from `alirezarezvani/claude-skills` (MIT) `env-secrets-manager` skill. Implementation original to coldpress-os; integrates with existing `secure/manifest.yaml` + Phase 9 readiness-check infrastructure.
+Pattern adapted from `alirezarezvani/claude-skills` (MIT) `env-secrets-manager` skill. Implementation original to coldpress-os; integrates with existing `secure/manifest.yaml` + Phase 9 readiness infrastructure.
 
 ---
 

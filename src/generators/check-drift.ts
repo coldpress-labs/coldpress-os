@@ -34,6 +34,11 @@ const GENERATORS: Generator[] = [
     cmd: "npm run --silent build:roster",
     paths: ["data/agents/agent-roster.csv"],
   },
+  {
+    name: "stack×deploy matrix",
+    cmd: "npm run --silent build:deploy-matrix",
+    paths: ["docs/generated/stack-deploy-matrix.md"],
+  },
   // Future generators (§8 item 11 docs-regeneration) plug in here:
   //   { name: "registries", cmd: "npm run --silent build:registries",
   //     paths: ["REGISTRY.md", "TEMPLATES-REGISTRY.md", "data/agents/agent-roster.csv", "docs/generated/"] },
