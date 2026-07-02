@@ -1,9 +1,9 @@
 ---
-step_number: 2
+step_number: 5
 step_name: "Detect Statuses"
 step_goal: "Determine current status of each work item from existing files"
 halts_for_input: false
-next_step: "step-03-generate.md"
+next_step: "step-06-generate-sprint-status.md"
 ---
 
 ## Goal
@@ -32,8 +32,17 @@ Intelligently detect statuses — never downgrade.
 
 ## Output
 
-Statuses detected. `step_2_complete: true`
+Statuses detected. `step_5_complete: true`
 
 ## Navigation
 
-→ Auto-proceed to [step-03-generate.md](step-03-generate.md)
+→ Auto-proceed to [step-06-generate-sprint-status.md](step-06-generate-sprint-status.md)
+
+---
+
+### Version Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Original `sprint-planning` Step 2. |
+| 2.0 | 2026-07-02 | Butler | Folded into `parallelization-strategy` as Step 5 (WS5-B, §8 item 6). |

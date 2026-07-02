@@ -2,7 +2,6 @@
 phase: 7
 name: Breakdown
 agent: pm
-sub_agent: scrum-master
 status: enriched — Phase 7 implementation in progress (autonomous queue unit #9, 2026-04-30)
 ---
 
@@ -22,8 +21,7 @@ Phase 7 takes the locked spec stack (PRD + UX + brand + architecture + ADRs + pr
 |-------|------|--------|------|-------|
 | `create-epics` | workflow | `_context/planning/epics-v{N}.md` | distillate | @pm |
 | `create-stories` | workflow | `_context/implementation/stories/story-NNN-*-v{N}.md` (per Q4) + `stories-index.md` | distillate (per story) | @pm |
-| `parallelization-strategy` | workflow | `_context/sacred/pert-chart.md` (SACRED per Q3) + sidecar | sacred | @pm |
-| `sprint-planning` | workflow | `_context/tracking/sprint-status-v{N}.md` | distillate | @scrum-master |
+| `parallelization-strategy` | workflow | `_context/sacred/pert-chart.md` (SACRED per Q3) + `_context/tracking/sprint-status-v{N}.md` | sacred + distillate | @pm |
 | `implementation-readiness` | workflow (gate-style) | `_context/audit/implementation-readiness-v{N}.md` (9-point checklist per Q6) | distillate | @pm |
 
 ## Recommended flow
@@ -37,8 +35,8 @@ Phase 7 takes the locked spec stack (PRD + UX + brand + architecture + ADRs + pr
      - Phase 6 exit blocks on reject / flag_for_architecture_ADR until resolved
         │  (writes phase-6-to-7 handoff with a fully-resolved architecture_deltas: section)
         ▼
-   create-epics  →  create-stories  →  parallelization-strategy  →  sprint-planning  →  implementation-readiness
-                                                                   (@scrum-master)        (gate-style 9-point)
+   create-epics  →  create-stories  →  parallelization-strategy (incl. sprint-status, Steps 4-6)  →  implementation-readiness
+                                                                                                       (gate-style 9-point)
         │
         ▼
    phase-transition (writes phase-7-to-8 handoff)
@@ -78,10 +76,8 @@ See `gate.json` (9 acceptance checks — was 11, undercounted as "10" even befor
 
 ## Agent
 
-**@pm** owns 4 of 5 skills (epics, stories, PERT, readiness). **@scrum-master** sub-persona owns sprint-planning. Pattern 7 transitions:
+**@pm** owns all 4 skills throughout — no sub-persona hand-off (the former @scrum-master sprint-planning ceremony, Pattern 7 `#8a`/`#8b`, was retired WS5-B §8 item 6). Pattern 7 transitions:
 - #8: phase_entry — phase-transition → @pm (warm_handoff: phase-6-to-7)
-- #8a: sub_phase_boundary — @pm → @scrum-master (sprint-planning entry)
-- #8b: sub_phase_boundary — @scrum-master → @pm (sprint-planning exit)
 - #9: phase_exit — @pm → phase-transition
 - #10: phase_entry (Phase 8) — phase-transition → @developer (warm_handoff: phase-7-to-8)
 
@@ -111,6 +107,7 @@ See `data/methods/method-defaults.yaml` `phase_7:` section. Tier-1 wired-in meth
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 4.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `sprint-planning` deleted; its mechanical sprint-status generation (parse epics → detect statuses → generate) folds into `parallelization-strategy` as Steps 4-6, dropping the @scrum-master sub-persona ceremony (Pattern 7 `#8a`/`#8b`). Sub-skills table (5→4 skills), flow diagram, and Agent section updated. `sub_agent: scrum-master` frontmatter removed. |
 | 3.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `breakdown-entry-sync` deleted; its architecture-deltas reconciliation role moves to `phase-transition` step-02a §B (Phase 6 exit, same pattern as Phase 5 design-deltas); its context-load + scope-memo roles are replaced by direct reads (coldpress.yaml/state.yaml + the handoff). Sub-skills table, flow diagram, entry/exit conditions, and Agent section updated. Corrected the exit-condition check count (was mis-stated as 10; actually 11 before this change, 9 after). |
 | 2.0 | 2026-04-30 | Butler (Andy-coldpress-os under autonomous queue unit #9 Wave 7.1) | Phase 7 README enriched. Cascade-rename + Shape A scope refresh framing. Sub-skills table now includes NEW breakdown-entry-sync (per Q1). Recommended-flow ASCII with 6 skills. Entry/exit conditions reflect Shape A richer upstream. Architecture-deltas reconciliation explainer. @scrum-master sub-persona ownership for sprint-planning (Pattern 7 sub_phase_boundary transitions #8a + #8b). 10 gate checks summarised. Method playbook tier-1 listing. |
 | 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial Phase 5 (now 7) Breakdown README. |

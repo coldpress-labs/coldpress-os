@@ -3,7 +3,7 @@ step_number: 3
 step_name: "PERT Chart"
 step_goal: "Generate PERT chart with estimates, human gate points, and calendar projections"
 halts_for_input: true
-next_step: null
+next_step: "step-04-parse-epics.md"
 ---
 
 ## Goal
@@ -38,4 +38,4 @@ Produce the sacred PERT chart document with time estimates and calendar projecti
 
 ## Navigation
 
-Workflow complete. Proceed to `sprint-planning` to generate sprint-status.yaml.
+→ Proceed to [step-04-parse-epics.md](step-04-parse-epics.md) — sprint-status generation, folded into this skill (WS5-B, §8 item 6 — `sprint-planning`'s @scrum-master ceremony retired; the mechanical status-file generation stays, now run directly by @pm).

@@ -1,16 +1,18 @@
 ---
 name: parallelization-strategy
-description: Phase 7 — analyse story dependencies, build DAG, generate PERT chart with critical path and wave grouping. PERT chart is sacred-doc per Q3 (downstream contract for Phase 8 wave-orchestration).
+description: Phase 7 — analyse story dependencies, build DAG, generate PERT chart with critical path and wave grouping, then generate the sprint-status tracking file. PERT chart is sacred-doc per Q3 (downstream contract for Phase 8 wave-orchestration).
 license: MIT
 compatibility: Invoked by @pm in Phase 7
-version: "2.0"
+version: "3.0"
 ---
 
 ## Purpose
 
-Phase 7 — analyse per-story dependencies + integration boundaries (from architecture); build DAG; emit PERT chart sacred-doc. PERT chart drives Phase 8 wave-orchestration: each wave is a set of independently-executable stories.
+Phase 7 — analyse per-story dependencies + integration boundaries (from architecture); build DAG; emit PERT chart sacred-doc; then (Steps 4-6) generate the sprint-status tracking file that downstream Phase 7/8/11 skills read. PERT chart drives Phase 8 wave-orchestration: each wave is a set of independently-executable stories.
 
-**PERT chart is sacred** per Q3 — downstream contract; amendments via `governance/pert-change/` workflow.
+**PERT chart is sacred** per Q3 — downstream contract.
+
+Steps 4-6 absorb the former `sprint-planning` skill (WS5-B, §8 item 6): its @scrum-master sub-persona ceremony (Pattern 7 `#8a`/`#8b` transitions) is retired, but the mechanical status-file generation it did is still needed by `create-stories`, `implementation-readiness`, Phase 8 `dev-story`, and Phase 11 `retrospective` — it now runs directly, in @pm's own scope, right after the PERT chart locks.
 
 ## When to Use
 
@@ -22,13 +24,13 @@ Phase 7 — analyse per-story dependencies + integration boundaries (from archit
 
 ## Process
 
-4-step workflow.
+6-step workflow.
 
 → See [workflow.md](workflow.md).
 
 ## Output
 
-`_context/sacred/pert-chart.md` (sacred): DAG + critical path + wave assignments + earliest/latest times per story.
+`_context/sacred/pert-chart.md` (sacred): DAG + critical path + wave assignments + earliest/latest times per story. `_context/tracking/sprint-status-v{N}.md`: epic/story status tracking, regenerated (never downgraded) each time this skill runs.
 
 ## Cross-cutting wire-ins
 
@@ -44,7 +46,7 @@ Per `phase_7:`: problem_solving heavy; brainstorming medium.
 > Pattern 2 from `docs/prompt-patterns.md` (§6.7) — non-negotiable formatting imperatives for machine-parsed output.
 
 1. Emit the wave groupings as a Markdown table with EXACTLY these columns, in this order: `Wave` / `Epics` / `Dependencies` / `Est. Duration`. Do NOT add columns. Do NOT rename columns.
-2. Use numeric wave ids (`1`, `2`, `3`) — NOT `W1` / `Wave 1` / `first`. Downstream sprint-planning consumers parse the numeric column directly.
+2. Use numeric wave ids (`1`, `2`, `3`) — NOT `W1` / `Wave 1` / `first`. Downstream consumers (Steps 4-6 of this skill, plus Phase 8 `dev-story`) parse the numeric column directly.
 3. Every Epic MUST appear in exactly one wave.
 4. Use kebab-case slugs for Epic ids (e.g. `epic-auth-login`).
 5. Do NOT prose-describe the groupings between the DAG diagram and the wave table.
@@ -83,6 +85,7 @@ Save to `_context/sacred/pert-chart.md`.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 3.0 | 2026-07-02 | Butler | Absorbed `sprint-planning` as Steps 4-6 (WS5-B, §8 item 6 — "scrum-master ceremony" retired; mechanical sprint-status generation kept, now direct @pm work). Removed the dead `governance/pert-change/` reference (that governance dir was deleted per §8 item 9; PERT amendments have no dedicated change-workflow currently — flagged for the docs-regen pass, §8.11). |
 | 2.0 | 2026-05-02 | Butler (autonomous queue unit #9 Wave 7.4) | Phase 7 rewrite. Inputs converted to graph-first; expanded — now reads breakdown-scope, epics, stories-index, all per-story files, architecture, ADRs (was: minimal). Outputs upgraded — PERT chart sacred-doc + sidecar (per Q3); schema references (`pert-chart.schema.json` + `pert-meta.schema.json`). 4-step workflow. problem_solving Tier-1 heavy wire-ins. |
 | 1.1 | 2026-04 (pre-Shape-A) | Cadbury-hq | Earlier refinement |
 | 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial parallelization-strategy skill |

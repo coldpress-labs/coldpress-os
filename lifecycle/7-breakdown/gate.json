@@ -4,7 +4,7 @@
   "phase": 7,
   "phase_name": "Breakdown",
   "shape": "A",
-  "note": "Phase 7 Breakdown is a cascade rename of old Phase 5 + Shape A scope refinement. Owner: @pm (with @scrum-master sub-persona for sprint-planning). Reads architecture (Phase 6 sacred) + PRD + UX-spec + brand-guidelines + ADRs + prototype-manifest. **Architecture-deltas reconciliation** happens at Phase 6 EXIT (`phase-transition` step-02a §B, WS5-B — folded in from the deleted `breakdown-entry-sync` Phase 7 entry skill), so Phase 7 always opens with a fully-resolved delta set. Decomposes into per-story files + sacred PERT chart + sprint plan + 9-point implementation-readiness gate.",
+  "note": "Phase 7 Breakdown is a cascade rename of old Phase 5 + Shape A scope refinement. Owner: @pm throughout (the former @scrum-master sub-persona for sprint-planning was retired, WS5-B §8 item 6 — sprint-status generation is now Steps 4-6 of `parallelization-strategy`). Reads architecture (Phase 6 sacred) + PRD + UX-spec + brand-guidelines + ADRs + prototype-manifest. **Architecture-deltas reconciliation** happens at Phase 6 EXIT (`phase-transition` step-02a §B, WS5-B — folded in from the deleted `breakdown-entry-sync` Phase 7 entry skill), so Phase 7 always opens with a fully-resolved delta set. Decomposes into per-story files + sacred PERT chart + sprint plan + 9-point implementation-readiness gate.",
   "entry_conditions": [
     "Phase 6 (Architecture) gate passed (incl. silent-divergence guard at #5)",
     "`_context/sacred/architecture.md` exists with `sacred: true` + `governance: locked`",
@@ -56,7 +56,7 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/tracking/sprint-status-v*.md",
-      "remediation": "Run `@scrum-master sprint-planning` after PERT chart locked.",
+      "remediation": "Run `@pm parallelization-strategy` (its Steps 4-6 generate sprint-status after the PERT chart locks).",
       "schema_ref": "schemas/tracking/wave-status.schema.json"
     },
     {

@@ -42,7 +42,7 @@ Phase 7 final step — 9-point structured checklist per Q6 verifying Phase 8 ent
 
 ## When to Use
 
-- Phase 7 — invoked LAST, after `sprint-planning` completes.
+- Phase 7 — invoked LAST, after `parallelization-strategy` (which now includes sprint-status generation, WS5-B) completes.
 
 ## Prerequisites
 

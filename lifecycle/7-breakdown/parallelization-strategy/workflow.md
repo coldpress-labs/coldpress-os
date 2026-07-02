@@ -1,13 +1,13 @@
 ---
-workflow_version: "1.0"
+workflow_version: "2.0"
 output_file: "_context/sacred/pert-chart.md"
-total_steps: 3
+total_steps: 6
 resume_from: "frontmatter"
 ---
 
 ## Overview
 
-Guides dependency analysis and PERT chart generation through: dependency mapping, wave grouping with critical path identification, and PERT chart generation with calendar projections.
+Guides dependency analysis and PERT chart generation through: dependency mapping, wave grouping with critical path identification, PERT chart generation with calendar projections, and (Steps 4-6) sprint-status tracking-file generation.
 
 ## Step Index
 
@@ -16,6 +16,9 @@ Guides dependency analysis and PERT chart generation through: dependency mapping
 | 1 | [step-01-dependencies.md](steps/step-01-dependencies.md) | Analyze epic/story dependencies, build DAG |
 | 2 | [step-02-waves.md](steps/step-02-waves.md) | Topological sort into parallel waves, identify critical path |
 | 3 | [step-03-pert.md](steps/step-03-pert.md) | Generate PERT chart with estimates and calendar projections |
+| 4 | [step-04-parse-epics.md](steps/step-04-parse-epics.md) | Parse epics and extract all work items |
+| 5 | [step-05-detect-statuses.md](steps/step-05-detect-statuses.md) | Detect current statuses from existing files |
+| 6 | [step-06-generate-sprint-status.md](steps/step-06-generate-sprint-status.md) | Generate sprint-status.yaml |
 
 ## Execution Rules
 
@@ -34,3 +37,13 @@ Guides dependency analysis and PERT chart generation through: dependency mapping
 - Waves identified with parallel execution groupings
 - Critical path identified and highlighted
 - PERT chart generated with time estimates and calendar projections
+- All epics and stories extracted and sprint-status.yaml generated with valid structure (never downgrading a previously-detected status)
+
+---
+
+### Version Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial 3-step PERT-chart workflow. |
+| 2.0 | 2026-07-02 | Butler | Absorbed `sprint-planning`'s 3 steps (now 4-6) per §8 item 6 — the @scrum-master ceremony (Pattern 7 sub_phase_boundary transitions #8a/#8b) is retired; the mechanical sprint-status generation stays, run directly by @pm (WS5-B). |

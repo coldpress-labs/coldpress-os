@@ -59,7 +59,7 @@ const HIGH_STAKES_SKILLS: HighStakesSkill[] = [
     path: "lifecycle/7-breakdown/parallelization-strategy/SKILL.md",
     asserts: {
       outputContract: true,
-      attention: true, // Wave table is parsed by sprint-planning.
+      attention: true, // Wave table is parsed by this skill's own Steps 4-6 (sprint-status generation).
       mermaidForcing: true, // Mandatory DAG.
     },
   },
