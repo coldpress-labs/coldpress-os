@@ -57,7 +57,7 @@ Note: Standalone mode is REMOVED in Shape A. Design-first archetypes invoke a di
 
 ### 6. Brownfield-UI detection
 
-Read `legacy-input.has_ui_assets`. If `true`, set local flag `legacy_ui_assets_detected: true` for downstream propagation. The conditional `legacy-ui-assessment` skill (Wave 5.7) consumes this flag to decide whether to run.
+Read `legacy-input.has_ui_assets`. If `true`, set local flag `legacy_ui_assets_detected: true` for downstream propagation. (This flag currently has no consumer — the conditional `legacy-ui-assessment` skill it fed moved to `reference/brownfield-pending/` pending the brownfield capability pack, WS5-B §8 item 6, ledger delta D17. Kept for when that pack lands.)
 
 If unset, scan `_input/legacy/` for files matching: `*.css`, `*.scss`, `*.tsx`, `*.jsx`, `*.figma`, `*.sketch`, `*.tokens.json`, `*.style-guide.md`. If any found: set `legacy_ui_assets_detected: true` and write back to graph.
 

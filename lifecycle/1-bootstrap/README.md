@@ -35,7 +35,8 @@ Butler runs this at the start of the first session (and on any re-entry):
 | Sub-skill | Type | Output |
 |-----------|------|--------|
 | [intake](intake/) | workflow | Thirteen steps: mode detect → greeting → sanity check → lifecycle intro → material solicitation → shape determination → intent seed → vision → users → constraints → synthesize → working mode → gate and route. Writes a fully authored `context.md`, `coldpress.yaml` fields, hands off to Phase 2. |
-| [codebase-onboarding](codebase-onboarding/) | workflow | **Conditional** — runs when `_input/legacy/code/` is populated OR on `coldpress init` of an existing repo OR on demand. Three artefacts: directory map, entry-points index, walkthrough (5-10 files in dependency-flow order). Auto-detects language manifest (npm / Python / Rust / Go / Maven / Bundler); emits Phase 3 tech-stack hint. Distinct from Phase 4 `legacy-assessment` (architecture-focused vs code-tour-focused). |
+
+`codebase-onboarding` (brownfield code-tour: directory map, entry-points index, walkthrough) moved to `../../reference/brownfield-pending/` pending the brownfield capability pack (§7.6) — WS5-B, §8 item 6. Not part of the standard Phase 1 flow until that pack lands (ledger delta D17).
 
 ## Entry conditions
 
@@ -80,6 +81,7 @@ gate.json — acceptance checks
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 4.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `codebase-onboarding` moved to `reference/brownfield-pending/` pending the brownfield capability pack (§7.6); no longer part of the standard Phase 1 sub-skill table (ledger delta D17). |
 | 3.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `orient` and `pre-project-interview` absorbed into `intake` (13 steps, one entry skill). `context.md` now reaches `status: authored` within Phase 1 itself; removed the dead graph-prime exit condition (`coldpress graph rebuild` was deleted in WS0 §8 item 1). Flow diagram, exit-condition list, and sub-skill table updated to match. |
 | 2.0 | 2026-04-24 | Cadbury-hq | Phase II Part 1 rewrite. Replaces the submodule-era `machine-setup` + `project-init` + `agent-scaffold` trio (retired in Wave 4) with the npm-era CLI surface (`coldpress doctor` + `coldpress init`) plus Butler's new `orient` + `intake` lifecycle skills (Waves 3.1 + 3.2). Sub-skills table updated. `templates/` reference dropped — the empty directory was removed (finding A5). Entry/exit conditions rewritten around the new 6-check `gate.json`. Pre-Phase-1 CLI note added so readers understand the CLI / in-session split. |
 | 1.0 | 2026-04-08 | Alfred | Initial Phase 1 definition |

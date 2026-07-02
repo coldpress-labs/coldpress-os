@@ -117,4 +117,4 @@ Then clear the partial_completion mechanic for design-brief entirely (skill comp
 
 ## Navigation
 
-→ Phase 5 continues with `legacy-ui-assessment` (conditional, if `legacy_ui_assets_detected: true`) or `ux-design` || `brand-guidelines` (parallel-OK).
+→ Phase 5 continues with `ux-design` || `brand-guidelines` (parallel-OK). (`legacy-ui-assessment` — previously conditional here on `legacy_ui_assets_detected: true` — moved to `reference/brownfield-pending/`, WS5-B §8 item 6, ledger delta D17.)

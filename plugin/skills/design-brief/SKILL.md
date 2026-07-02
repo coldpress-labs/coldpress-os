@@ -8,11 +8,11 @@ version: "2.0"
 
 ## Purpose
 
-Phase 5 entry skill. Takes the locked PRD from Phase 4 plus Phase 2 personas + Phase 3 baselines and produces the foundational design brief — content strategy, visual direction, platform/a11y requirements — that downstream Phase 5 skills (`ux-design`, `brand-guidelines`, `prototype`, `legacy-ui-assessment`, and ad-hoc `skills/creative/storytelling` narrative work) read as graph input.
+Phase 5 entry skill. Takes the locked PRD from Phase 4 plus Phase 2 personas + Phase 3 baselines and produces the foundational design brief — content strategy, visual direction, platform/a11y requirements — that downstream Phase 5 skills (`ux-design`, `brand-guidelines`, `prototype`, and ad-hoc `skills/creative/storytelling` narrative work) read as graph input.
 
 Under Shape A, `design-brief` runs in **bridge mode only** at Phase 5 entry: PRD is locked (Phase 4 exit), product-brief-v{N} exists (Phase 2 distillate), personas exist (Phase 2). Standalone mode is removed — design-first archetypes invoke a different entry path pre-Phase-2 (out of scope for Phase 5).
 
-Step 0 absorbs the entry-sync work that would otherwise need a separate `design-entry-sync` skill: graph-first context load, graph-staleness check (4th consumer of helper), bridge-mode confirmation via graph (NOT file-glob — fixes finding B2), brownfield-UI detection (sets flag for `legacy-ui-assessment` trigger), and design-deltas WIP log initialisation.
+Step 0 absorbs the entry-sync work that would otherwise need a separate `design-entry-sync` skill: graph-first context load, graph-staleness check (4th consumer of helper), bridge-mode confirmation via graph (NOT file-glob — fixes finding B2), brownfield-UI detection (the trigger it used to set is currently a no-op — `legacy-ui-assessment` moved to `reference/brownfield-pending/`, WS5-B §8 item 6, ledger delta D17), and design-deltas WIP log initialisation.
 
 ## When to Use
 

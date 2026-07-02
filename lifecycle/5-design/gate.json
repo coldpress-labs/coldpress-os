@@ -4,7 +4,7 @@
   "phase": 5,
   "phase_name": "Design",
   "shape": "A",
-  "note": "Phase 5 Design is NEW under Shape A (2026-04-24). Owner: @ux-designer. Reads PRD (Phase 4) + personas (Phase 2) + tech-stack + a11y baseline (Phase 3); produces UX spec + brand-guidelines + prototype + (conditional) legacy-ui-assessment; exits via PRD reconciliation pass that converts design-deltas into PRD v(N+1) lightweight amendments. `flag_for_architecture_ADR` deltas carry forward as MANDATORY ADR requirements at Phase 6 entry — silent-divergence guard. (The dedicated `narrative` wrapper skill was retired WS5-B §8 item 6 — narrative/brand-voice work is now ad-hoc `skills/creative/storytelling` usage, not a gated Phase 5 deliverable.)",
+  "note": "Phase 5 Design is NEW under Shape A (2026-04-24). Owner: @ux-designer. Reads PRD (Phase 4) + personas (Phase 2) + tech-stack + a11y baseline (Phase 3); produces UX spec + brand-guidelines + prototype; exits via PRD reconciliation pass that converts design-deltas into PRD v(N+1) lightweight amendments. `flag_for_architecture_ADR` deltas carry forward as MANDATORY ADR requirements at Phase 6 entry — silent-divergence guard. (The dedicated `narrative` wrapper skill was retired WS5-B §8 item 6 — narrative/brand-voice work is now ad-hoc `skills/creative/storytelling` usage, not a gated Phase 5 deliverable. `legacy-ui-assessment` moved to reference/brownfield-pending/ pending the brownfield capability pack, §7.6 — see ledger delta D17; brownfield UI legacy-assessment is not currently gated at Phase 5.)",
   "entry_conditions": [
     "Phase 4 (Planning) gate passed (`prd-locked == pass`, `phase-transition-ran == pass`)",
     "`_context/sacred/prd.md` exists with `sacred: true` frontmatter",
@@ -58,16 +58,6 @@
       "schema_ref": "schemas/design/prototype-manifest.schema.json",
       "artefact_path": "_context/design/prototype/*/manifest.json",
       "remediation": "Run `@ux-designer prototype` after `ux-design` and `brand-guidelines` complete."
-    },
-    {
-      "id": "legacy-ui-assessment-emitted",
-      "description": "`_input/legacy/` has no UI/design assets OR `_context/design/legacy-ui-assessment-v{latest}.md` exists",
-      "kind": "conditional",
-      "severity": "warn",
-      "condition": "design-brief Step 0 detected legacy_ui_assets == true",
-      "schema_ref": "schemas/design/legacy-ui-assessment.schema.json",
-      "artefact_path": "_context/design/legacy-ui-assessment-v*.md",
-      "remediation": "Run `@ux-designer legacy-ui-assessment` if `_input/legacy/` contains UI components, design tokens, or style guides. Skill is conditional — silently skips when no UI legacy detected."
     },
     {
       "id": "design-deltas-aggregated",
