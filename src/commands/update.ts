@@ -4,7 +4,6 @@ import { updateLocalConfig } from "../utils/local-config.js";
 import { intro, outro, spinner } from "@clack/prompts";
 import pc from "picocolors";
 import { runInterop } from "../interop/index.js";
-import { generateStackPackWrappers } from "../utils/wrappers.js";
 import {
   ColdpressYamlValidationError,
   assertValidColdpressYaml,
@@ -13,8 +12,9 @@ import { runDoctor } from "./doctor.js";
 
 export interface UpdateOptions {
   /**
-   * Post-Phase-3 mode: after stack-lock, regenerate stack-pack-specific
-   * skill wrappers and run `doctor --stack` to verify stack tools.
+   * Post-Phase-3 mode: after stack-lock, run `doctor --stack` to verify the
+   * locked stack's tools are installed, and record completion. (Stack-pack
+   * skills ship in the coldpress-os plugin — no per-pack wrapper regen; WS5-C.)
    */
   postPhase3?: boolean;
   /**
@@ -104,26 +104,9 @@ async function runPostPhase3({
   }
 
   console.log(pc.dim(`  ↳ stack_pack: ${stackPack}`));
-
-  const s = spinner();
-  s.start(`Generating skill wrappers for stack pack "${stackPack}"`);
-  try {
-    const count = await generateStackPackWrappers(targetDir, stackPack);
-    if (count === 0) {
-      s.stop(
-        pc.yellow(
-          `⚠ No skills found under coldpress-os/skills/stack-packs/${stackPack}/`,
-        ),
-      );
-    } else {
-      s.stop(`${pc.green("✓")} Generated ${count} stack-pack wrapper(s)`);
-    }
-  } catch (err) {
-    s.stop(
-      pc.red(`✗ Wrapper regen failed: ${err instanceof Error ? err.message : String(err)}`),
-    );
-    process.exit(1);
-  }
+  console.log(
+    pc.dim(`  ↳ stack-pack skills ship in the coldpress-os plugin — no wrapper regen needed`),
+  );
 
   // Run doctor --stack so the user knows whether stack tools are installed.
   console.log(pc.dim(""));
