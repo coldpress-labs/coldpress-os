@@ -41,7 +41,9 @@ const RUN_ID = z
 const SKILL_ID = z.string().min(1);
 const GATE_ID = z.string().min(1);
 const WAVE_ID = z.string().min(1);
-const PHASE = z.number().int().min(1).max(9);
+// Shape A = 11 phases (was max 9 pre-Shape-A; widened in v0.4 WS1 — the
+// run-log hook records phases up to 11). Widening only; existing events valid.
+const PHASE = z.number().int().min(1).max(11);
 
 const BASE = {
   schema_version: z.literal(1),
@@ -138,6 +140,25 @@ export const CondensationSchema = z.object({
   to_seq: SEQ,
 });
 
+/**
+ * Session boundary observation — emitted by the `run-log` hook (WS1, §4.4) on
+ * Stop / SubagentStop, so every run captures its arc for the evolution loop.
+ * v0.4/WS1 records what the Stop hook has (boundary, agent, phase/lane, taxonomy
+ * tags). WS7 enriches with model + token counts + gate results.
+ */
+export const SessionBoundaryObservationSchema = z.object({
+  ...BASE,
+  kind: z.literal("session-boundary"),
+  boundary: z.enum(["stop", "subagent-stop"]),
+  /** Dispatching agent slug (subagent) or "butler" for the main session. */
+  agent: z.string().optional(),
+  phase: PHASE.optional(),
+  lane: z.enum(["lite", "full"]).optional(),
+  duration_ms: z.number().int().nonnegative().optional(),
+  /** Failure taxonomy tags (WS7 loop). */
+  taxonomy_tags: z.array(z.string()).optional(),
+});
+
 // ─── Discriminated union ──────────────────────────────────────────
 
 export const EventSchema = z.discriminatedUnion("kind", [
@@ -149,6 +170,7 @@ export const EventSchema = z.discriminatedUnion("kind", [
   GatePassObservationSchema,
   GateFailObservationSchema,
   CondensationSchema,
+  SessionBoundaryObservationSchema,
 ]);
 
 export type Event = z.infer<typeof EventSchema>;

@@ -9,6 +9,7 @@
 import { loadStateHandler } from "./load-state.js";
 import { phaseGateHandler } from "./phase-gate.js";
 import { qualityGateHandler } from "./quality-gate.js";
+import { runLogHandler } from "./run-log.js";
 import { sacredGuardHandler } from "./sacred-guard.js";
 import { schemaValidateHandler } from "./schema-validate.js";
 import { secretScanHandler } from "./secret-scan.js";
@@ -19,6 +20,7 @@ export const HOOK_HANDLERS: Record<string, HookHandler> = {
   [loadStateHandler.name]: loadStateHandler,
   [phaseGateHandler.name]: phaseGateHandler,
   [qualityGateHandler.name]: qualityGateHandler,
+  [runLogHandler.name]: runLogHandler,
   [sacredGuardHandler.name]: sacredGuardHandler,
   [schemaValidateHandler.name]: schemaValidateHandler,
   [secretScanHandler.name]: secretScanHandler,

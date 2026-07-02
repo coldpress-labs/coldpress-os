@@ -125,6 +125,8 @@ function renderBadge(event: Event, opts: ResolvedOptions): string {
       return opts.colour("red", "✗ gate ");
     case "condensation":
       return opts.colour("magenta", "◈ cond ");
+    case "session-boundary":
+      return opts.colour("dim", "◌ stop ");
     default:
       return "      ";
   }
@@ -158,6 +160,8 @@ function renderBody(event: Event, opts: ResolvedOptions): string {
       return `P${event.phase} ${event.gate_id} — ${opts.colour("red", `${event.blockers.length} blocker${event.blockers.length === 1 ? "" : "s"}`)}`;
     case "condensation":
       return `${event.wave_id} — ${event.summary}${opts.colour("dim", ` (seq ${event.from_seq}..${event.to_seq})`)}`;
+    case "session-boundary":
+      return `${event.boundary}${event.agent ? opts.colour("dim", ` [${event.agent}]`) : ""}${event.phase !== undefined ? ` P${event.phase}` : ""}${event.lane ? opts.colour("dim", ` ${event.lane}`) : ""}`;
   }
 }
 

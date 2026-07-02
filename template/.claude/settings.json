@@ -37,7 +37,16 @@
       {
         "matcher": "*",
         "hooks": [
-          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" quality-gate" }
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" quality-gate" },
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" run-log" }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" run-log" }
         ]
       }
     ]
