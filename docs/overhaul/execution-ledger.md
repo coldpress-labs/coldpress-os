@@ -17,7 +17,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
 | WS3 | Two-lane lifecycle | 🟢 closed | `overhaul/ws3-two-lane` | 2026-07-02 |
-| WS4 | Verification & design system | 🟡 in progress | `overhaul/ws4-verification-design` | — |
+| WS4 | Verification & design system | 🟢 closed | `overhaul/ws4-verification-design` | 2026-07-02 |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
 | WS6 | Deploy packs | ⚪ not started | — | — |
 | WS7 | Evals & the loop | ⚪ not started | — | — |
@@ -427,10 +427,37 @@ WS2 deferred is lit up here (P4/P6 artifacts gain requirement IDs).
   size; verified e2e). `skills/testing/{visual-verify,acceptance-stubs}`; verifier wraps
   Anthropic `webapp-testing`. +8 tests. Commit `35bdafc`. **928 tests**.
 
-**Remaining WS4:** E (P6 additions: api-contract/data-model/analytics-plan/integration-inventory
-+ wire ux-spec schema; lights up trace requirement/component keying).
+**Increment E — P6 artifacts + trace keying (done):**
+- story `implements[]`; buildTraceGraph adds requirement/component nodes (implements + outcomes)
+  + implements edges; `trace impact(R1)` → implementing story + files; `trace orphans` flags an
+  **unmapped requirement** (P6 gate). `schemas/architecture/p6-artifacts.schema.ts` (api-contract/
+  data-model/analytics-plan/integration-inventory) + 4 P6 skills. ux-spec schema already wired (WS1-E).
+  Added `_context/architecture/` as an 11th canonical root. Commits `a04ba83` + fixes. **934 tests**.
 
-**Branch:** `overhaul/ws4-verification-design`, off main, tree green, not merged.
+---
+
+## 🟢 WS4 CLOSED (2026-07-02)
+
+**Acceptance (§9), by construction + command:**
+- **Verifier structurally excludes implementer context** ✅ — verifier.md: Butler-only dispatch,
+  read-only tools (no Edit/Write), "never the developer's reasoning" (roster-surgery §4.5).
+- **A loosened assertion triggers test-integrity** ✅ (WS1-D hook, tested).
+- **visual-verify catches a deliberate token violation** ✅ (off-palette color + off-scale size, e2e).
+- **A token edit propagates through tokens-build with no manual code change** ✅ (e2e).
+- **A PRD missing an outcome target for a P0 requirement fails the P4 gate** ✅ (outcome coverage, tested).
+- **Trace requirement keying** ✅ — `impact(requirement)`→stories; unmapped-requirement orphan.
+- Live-project criteria (a seeded logic bug caught by the verifier without hints; the `/styleguide`
+  route rendered from tokens.json; a styleguide visual-baseline diff on a real page) are the
+  **§10 validation-project runs** — the machinery (verifier, visual-verify, baselines skill) is in
+  place + unit-proven; the live demo runs on a real project after the Trust phase.
+
+Final gate: typecheck ✅, **934 tests** ✅, build ✅, check:drift OK ✅. CHANGELOG entry added.
+
+**Unblocked:** the sacred-guard blast-radius (WS1 TODO) + the P4 outcome full-coverage cross-check
+now have requirement nodes to traverse. **Deferred:** skill-frontmatter `agent: qa` remap → WS5 (D12).
+
+**§10 milestone:** Phase 1 (Trust) — WS4 done; **WS5 (skills consolidation & CC alignment) + WS6
+(deploy packs)** remain. **Branch:** `overhaul/ws4-verification-design`, off main, green, **not merged**.
 
 ---
 
