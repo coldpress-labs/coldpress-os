@@ -682,3 +682,18 @@ Field spec verified against `code.claude.com/docs/en/skills.md` (Frontmatter Ref
 
 **WS5-D: CLOSED.** **Next:** WS5-E (rebuild dev-story/deploy + P7 story-slice/story-graph + agent-team demo) → WS5 acceptance. D18 (agents+hooks-in-plugin) still pending user direction.
 
+---
+
+## WS5-E — Core-loop rebuilds + agent-team demo (§5 P8/P9, §9 WS5) — IN PROGRESS (2026-07-03, Opus session)
+
+Rebuilding the legacy core-path skills to the v0.4 machinery + the acceptance-gate demo. Contained pieces done first; the large P7 reshape held for a deliberate decision.
+
+| Piece | State | Commit |
+|-------|-------|--------|
+| **`dev-story` rebuild** (§5 P8) | ✅ Done — plan-mode entry + Butler approval (risk:high); packet `owns` boundary (boundary-guard); acceptance-stubs red-by-construction + test-integrity; quality-gate (can't complete red); styleguide self-check vs tokens.json (via tokens-build); out-of-scope → DLT; clean-room verifier hand-off. SKILL+workflow+step-03; VC 2.0. | `a887091` |
+| **Agent-team demo** (§9 WS5 acceptance) | ✅ Done — `docs/agent-team-demo.md`: worked P8 wave (3 disjoint stories), delegate-mode lead, per-teammate scoped packets, plan-approval gate, boundary-guard/test-integrity/quality-gate, TaskCompleted=quality-gate, clean-room verifier outside the team, contract-first sequential merge. **Satisfies "team-mode demo documented."** | (demo commit) |
+| **`deploy` rebuild** (§5 P9) | ✅ Done — staging-first → human prod trigger (disable-model-invocation + deploy-gate) → prod smoke; CLI-driven; smoke (routes/status/sentinel/Playwright/analytics); release record; pack verbs → WS6. VC 2.0. | `df8b3de` |
+| **P7 `story-slice` ← create-epics+create-stories + `story-graph` ← parallelization-strategy** (§5 P7) | ⏳ **Remaining** — the deferred WS5-B REBUILD. Large: merges 2 workflow skills into 1 + rebuilds 1, ~40 refs each, integrates the WS2 `story-graph.yaml` schema + `coldpress waves` + WS4 `acceptance-stubs`. Held for a go/deferral decision (comparable in size to a full WS5-B merge session). | — |
+
+**Green after each:** typecheck ✅, 927 tests ✅, lint ✅, plugin regenerated ✅.
+
