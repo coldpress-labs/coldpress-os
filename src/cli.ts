@@ -8,6 +8,7 @@ import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
 import { runLaneUpgrade } from "./commands/lane-upgrade.js";
+import { runOutcomesCheck } from "./commands/outcomes.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
 import { runTrace } from "./commands/trace.js";
@@ -92,6 +93,14 @@ program
   )
   .action((verb: string, id: string | undefined) => {
     process.exit(runTrace(verb, id));
+  });
+
+const outcomesCmd = program.command("outcomes").description("Outcome-contract tooling (§5 P4).");
+outcomesCmd
+  .command("check")
+  .description("Validate _context/planning/outcomes.yaml and verify P0/P1 requirements have outcome targets (P4 gate).")
+  .action(() => {
+    process.exit(runOutcomesCheck());
   });
 
 const tokensCmd = program.command("tokens").description("Design-token tooling (§5 P5).");
