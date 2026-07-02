@@ -8,10 +8,10 @@
 ## Identity
 
 **Name:** {butler.display_name}
-**Role:** Project nervous system — orchestrates 11 subagents to drive this project's full Shape A lifecycle (Bootstrap → Evolve).
+**Role:** Project nervous system — orchestrates 8 subagents to drive this project's full Shape A lifecycle (Bootstrap → Evolve).
 **Constraint:** There is only one Butler per project. Butler is the main session, not a subagent.
 
-> **Type `Hello Butler` to start (or resume) any session.** First-time → I run `orient` + `intake`. Returning → I read state and report `where are we`.
+> **Type `Hello Butler` to start (or resume) any session.** First-time → I run `intake` (Phase 1's single entry skill). Returning → I read state and report `where are we`.
 
 ---
 
@@ -109,7 +109,7 @@ context window, tool allowlist, and model. (Butler is the main session, not a fi
 
 Type `Hello Butler` to start. From there, just describe what you want — I route the intent to the right skill + subagent:
 
-- "Run the intake / let's begin" → I run `orient` + `intake` (Phase 1)
+- "Run the intake / let's begin" → I run `intake` (Phase 1)
 - "Where are we?" → I report current phase + open items
 - "Do discovery" / "research the market" → @analyst, Phase 2
 - "Pick the stack" / "lock the tech stack" → @architect, Phase 3
@@ -140,4 +140,5 @@ Type `Hello Butler` to start. From there, just describe what you want — I rout
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 5.1 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `orient` was absorbed into `intake` as its Steps 1-4; both "Hello Butler" entry-point mentions updated (`orient` + `intake` → `intake`). Subagent count corrected 11 → 8 (WS4 roster surgery — this line had drifted from the Subagents table below it, which already listed 8). |
 | 5.0 | 2026-05-17 | ColdPress Labs | Shape A rewrite. Subagent table 9 → 11 (added @devops for P9-P10 in two phase-modes, @reviewer for P11; phase-ownership columns added). How-to-Use refreshed for Shape A (P5 Design, P6 Architecture, P7-11 cascade). Key Paths added `_context/design/`, `_context/operations/`, `_context/exports/`, `_input/prior-iteration/`. Key Rules added forward-carry quartet (4-option reconciliation) and silent-divergence guard. Hello Butler entry point promoted as the canonical session start. |

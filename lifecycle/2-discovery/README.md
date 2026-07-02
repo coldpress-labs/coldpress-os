@@ -21,21 +21,17 @@ next_phase: "3-tech-stack"
 
 `context.md` arrives already `status: authored` — Phase 1 `intake` owns that transition now (WS5-B, §8 item 6). Phase 2 starts directly with research:
 
-1. **Domain Research** — Deep dive into the industry/domain, graph-first, web-second
-2. **Market Research** — Competitive analysis and market landscape
-3. **Constraint Research** — Domain-technical constraints (compliance, protocols, performance envelopes, accessibility)
-4. **Personas** — User archetypes, journey maps, accessibility/device/locale targets (`@ux-designer`)
-5. **Validate-Idea** — Last cheap-pivot window: problem / riskiest assumption / differentiation / fit / metrics / prior art + conditional stakeholder/client alignment + red-flag escape hatch (warn-severity; solo may skip)
-6. **Product Brief** — Step 1 consolidates all research + validation into a versioned synthesis artefact; Steps 2-5 distil it into the validated-distillate executive brief
-7. **Brainstorming / Design Thinking / Problem-Solving / Innovation Strategy** — Creative methods (available on demand via routers)
+1. **Research** — Domain, market, or constraint research, parameterized by `focus` + `depth` (one skill covers all three — they shared near-identical step scaffolds)
+2. **Personas** — User archetypes, journey maps, accessibility/device/locale targets (`@ux-designer`)
+3. **Validate-Idea** — Last cheap-pivot window: problem / riskiest assumption / differentiation / fit / metrics / prior art + conditional stakeholder/client alignment + red-flag escape hatch (warn-severity; solo may skip)
+4. **Product Brief** — Step 1 consolidates all research + validation into a versioned synthesis artefact; Steps 2-5 distil it into the validated-distillate executive brief
+5. **Brainstorming / Design Thinking / Problem-Solving / Innovation Strategy** — Creative methods (available on demand via routers)
 
 ## Sub-Skills
 
 | Sub-Skill | Type | Agent | Description |
 |-----------|------|-------|-------------|
-| [domain-research](domain-research/) | workflow | analyst | Domain/industry deep-dive with web research |
-| [market-research](market-research/) | workflow | analyst | Market analysis and competitive landscape |
-| [constraint-research](constraint-research/) | workflow | analyst | Compliance, protocols, performance envelopes, accessibility — the MUST-satisfy set bounding Phase 3 |
+| [research](research/) | workflow | analyst | Domain, market, or constraint research — `focus: domain\|market\|constraints` + `depth: standard\|deep`. Run 1-3 times per project (once per focus needed). Merges the former `domain-research`/`market-research`/`constraint-research` |
 | [personas](personas/) | workflow | ux-designer | User archetypes + journey maps + accessibility/device/locale targets. Tier 1 methods: User Interviews, Empathy Mapping, JTBD, Journey Mapping, Diary Studies, Affinity Clustering |
 | [validate-idea](validate-idea/) | workflow | analyst | Last cheap-pivot window before Phase 3 — 6 core + 2 conditional + Step 9 red-flag escape hatch. Tier 1: Problem Refinement, Five Whys, Is/Is Not, Lean Startup, Risk Matrix, Blue Ocean, Positioning Map, VPC, JTBD, Gap Analysis, Measurement Framework, Disruptive Innovation, Crossing the Chasm. Warn-severity — solo may skip |
 | [product-brief](product-brief/) | workflow | analyst | Step 1 consolidates research + validation into a versioned synthesis artefact (Tier 1: Systems Thinking, Morphological Analysis; wires distillator, adversarial-review, editorial-structure); Steps 2-5 distil it into a validated-distillate executive brief (versioned, regeneratable — not sacred) |
@@ -71,7 +67,7 @@ Phase 2 exit is gated by `lifecycle/2-discovery/gate.json` (4 checks, 2 block + 
 ```
 Phase 1 intake hands off with context.md already authored + sacred-signed-off
   ↓
-domain-research + market-research + constraint-research + personas (parallel, as needed)
+research (focus: domain) + research (focus: market) + research (focus: constraints) + personas (parallel, as needed)
   ↓
 validate-idea (warn-severity — solo vibe-coder may skip; team + client must run)
   ↓
@@ -86,10 +82,10 @@ brainstorming / design-thinking / problem-solving / innovation-strategy (optiona
 
 | Scenario | Skills run |
 |---|---|
-| Solo vibe-coder (prototype) | 1 research → brief (2 workflow skills) |
-| Solo builder (structured) | 2-3 research → validate → brief (4-5) |
-| Team project | all 6 workflow skills + validate-idea Step 7 (stakeholder alignment) |
-| Client project | all 6 + Steps 7 + 8 + party-mode opt-in + client-signoff |
+| Solo vibe-coder (prototype) | 1 `research` pass → brief (2 workflow skills) |
+| Solo builder (structured) | 2-3 `research` passes → validate → brief (4-5) |
+| Team project | `research` (all 3 foci) + `personas` + `validate-idea` + `product-brief` + validate-idea Step 7 (stakeholder alignment) |
+| Client project | same as team + Steps 7 + 8 + party-mode opt-in + client-signoff |
 
 ## Available On Demand
 
@@ -120,6 +116,7 @@ See `docs/supersessions-log-spec.md` for the audit log format.
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 5.0 | 2026-07-02 | Butler | WS5-B (§5 P2, §8 item 6) — `domain-research`/`market-research`/`constraint-research` merged into one `research` skill (`focus: domain\|market\|constraints` + `depth: standard\|deep`). "What Happens Here", Sub-Skills table, Recommended Flow, and scaling table updated. |
 | 4.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `synthesize-research` merged into `product-brief` as its Step 1. Sub-Skills table drops the synthesize-research row (7→6 workflow skills); "What Happens Here", Recommended Flow, and the scaling table updated to match; `research-synthesis-exists` gate check remediation updated. |
 | 3.0 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `pre-project-interview` merged into Phase 1 `intake`; `context.md` now arrives already `authored` + signed-off. "What Happens Here" and Sub-Skills table drop the interview row; Entry/Exit Conditions and Recommended Flow updated (gate.json check count corrected 7→4 — the README had drifted from the actual 6-check gate.json even before this change, and never had a real graph-staleness check). Subagent roster count 9→8 (WS4 roster surgery). Dead `governance/change-workflows/context.md` reference replaced with `sacred-change` (WS1-G). |
 | 2.0 | 2026-04-24 | Cadbury-hq | Phase II Part 2 Wave 5 (complete). Exit conditions rewritten to mirror gate.json structure (4 block + 3 warn checks named explicitly). Forward-looking note removed — Waves 3+4 now landed. "Available On Demand" subsection added for 4 creative routers + party-mode opt-in. "Architectural Note — Supersede-check vs Sacred-doc Change-workflow" subsection added (FP16): clarifies pre-signoff vs post-signoff boundary, notes the two mechanisms compose rather than compete. |

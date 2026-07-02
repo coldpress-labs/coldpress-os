@@ -545,9 +545,18 @@ generator §8 item 8), D (frontmatter modernization), E (rebuild dev-story/deplo
 - Phase 5 `gate.json`: removed the `narrative-emitted` conditional-warn check (nothing produces the artifact anymore, and it was already skippable for an entire archetype). 11 checks → 10 (the README had already mis-stated this as "10" before the change — corrected).
 - Direct dependents fixed: `lifecycle/5-design/README.md` (Sub-skills table, flow diagram, archetype branching, exit conditions, wire-ins), `design-brief/SKILL.md`, `prototype/steps/step-04-validate.md`, `ux-design/workflow.md` + `steps/step-04-spec.md`, `brand-guidelines/steps/step-04-identity.md`.
 - **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test file existed), `build:skills` (131 wrappers) + `plugin/` regenerated. Corpus: **135 → 134** SKILL.md.
+- Commit: `cb07c14`.
+
+**Batch 6 (done) — `domain-research` + `market-research` + `constraint-research` merged into one `research` skill; analyst mode sprawl removed:**
+- New `lifecycle/2-discovery/research/` (4 steps) with `focus: domain|market|constraints` + `depth: standard|deep` params. `constraint-research`'s output shape (a severity-tagged binding envelope, not a narrative report) is genuinely different from domain/market's — each step branches by focus (§Domain/§Market/§Constraints sections), same pattern used for `phase-transition` step-02a's per-phase branches earlier this session. Output paths unchanged (`_context/planning/research/{focus}-{topic}-{date}.md`), so Phase 3 consumers that reference "the constraint-research envelope" by file-path pattern needed no changes.
+- Dropped the dead `coldpress graph query` invocation from all three original Step 1s while authoring the merged content fresh (WS0 §8 item 1 removed that CLI verb; same class of finding as D14).
+- **Analyst mode sprawl** (§5 P2's other named item): `template/.claude/agents/analyst.md`'s "Mode Awareness" section (Discovery/Brief/Creative/Strategic modes — a relabeling of the same skill list, not real behavioral variance) replaced with direct skill dispatch. Its Lifecycle Mapping + Context/Artifacts tables updated (also fixed a real bug found in passing: the agent claimed to "produce context.md in Phase 2," which has been wrong since Batch 1 moved that to Phase 1 `intake`).
+- Found and fixed two more `orient` references in `template/CLAUDE.md` (the scaffolded project CLAUDE.md, missed in Batch 1 because it's under `template/`, not `lifecycle/`/`skills/`) — both "Hello Butler" entry-point mentions, plus a stale "11 subagents" vs the correct 8 (WS4 roster surgery) on the same line.
+- Direct dependents fixed: `lifecycle/2-discovery/README.md` (Sub-Skills table, flow, scaling table), `validate-idea/SKILL.md` (already fixed in Batch 2), `template/.claude/agents/architect.md` (stale artifact path).
+- **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test asserted skill names — path-pattern schema tests use "domain-research" as a sample topic string, unaffected), `build:skills` (129 wrappers) + `plugin/` regenerated. Corpus: **134 → 132** SKILL.md.
 - Commit: (this session, pending).
 
-**Batches remaining this session:** 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
+**Batches remaining this session:** 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
 
 **Branch:** `overhaul/ws5-skills-consolidation`, off main, tree green, not merged.
 
