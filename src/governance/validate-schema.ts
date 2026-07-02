@@ -85,6 +85,36 @@ export const PATH_PATTERN_SCHEMAS: Array<{ pattern: RegExp; schemaPath: string }
     pattern: /_context[\\/]planning[\\/]research[\\/].+\.md$/,
     schemaPath: "research-output.schema.json",
   },
+
+  // ── WS1-E: wire previously-orphaned schemas by their artifact output path ──
+  // Paths mirror each producing skill's `output_file` frontmatter. Ambiguous /
+  // WS2-owned schemas (story, stories-index, handoffs/*, dev-story-output,
+  // legacy-migration-plan, prototype-manifest, prd-amendment) are deferred to
+  // their workstreams — see the execution ledger (WS1-E).
+
+  // Design (P5) — _context/design/* and the planning-side design-brief.
+  { pattern: /_context[\\/]design[\\/]brand-guidelines-v\d+\.md$/, schemaPath: "design/brand-guidelines.schema.json" },
+  { pattern: /_context[\\/]design[\\/]legacy-ui-assessment-v\d+\.md$/, schemaPath: "design/legacy-ui-assessment.schema.json" },
+  { pattern: /_context[\\/]design[\\/]narrative-v\d+\.md$/, schemaPath: "design/narrative.schema.json" },
+  { pattern: /_context[\\/]design[\\/]ux-design-spec-v\d+\.md$/, schemaPath: "design/ux-design-spec.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]design-brief-v\d+\.md$/, schemaPath: "design/design-brief.schema.json" },
+
+  // Planning artefacts (P4/P7).
+  { pattern: /_context[\\/]planning[\\/]epics-v\d+\.md$/, schemaPath: "planning-artefacts/epic.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]breakdown-scope-v\d+\.md$/, schemaPath: "planning-artefacts/breakdown-scope.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]planning-scope-v\d+\.md$/, schemaPath: "planning-artefacts/planning-scope.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]readiness-report-.+\.md$/, schemaPath: "planning-artefacts/implementation-readiness.schema.json" },
+
+  // Audit / tracking artefacts (P8–P11). Note: some schemas live under
+  // schemas/audit/ while their artifact lands under _context/tracking/.
+  { pattern: /_context[\\/]audit[\\/]code-review-.+\.md$/, schemaPath: "audit/code-review.schema.json" },
+  { pattern: /_context[\\/]audit[\\/]retro-epic-.+\.md$/, schemaPath: "audit/retrospective.schema.json" },
+  { pattern: /_context[\\/]audit[\\/]deployment-readiness-.+\.md$/, schemaPath: "audit/readiness.schema.json" },
+  { pattern: /_context[\\/]tracking[\\/]deploy-.+\.md$/, schemaPath: "audit/deploy-log.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]product-evolution-.+\.md$/, schemaPath: "audit/product-evolution-backlog.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]creative[\\/]innovation-.+\.md$/, schemaPath: "audit/innovation-strategy.schema.json" },
+  { pattern: /_context[\\/]planning[\\/]sprint-change-proposal-.+\.md$/, schemaPath: "audit/course-correction.schema.json" },
+  { pattern: /_context[\\/]tracking[\\/]wave-status\.md$/, schemaPath: "tracking/wave-status.schema.json" },
 ];
 
 export function sacredDocIdFromPath(path: string): string | undefined {

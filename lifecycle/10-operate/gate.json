@@ -33,7 +33,7 @@
       "description": "Open incidents have status; closed incidents have post-mortem",
       "kind": "automated",
       "severity": "warn",
-      "schema_ref": "schemas/tracking/course-correction.schema.json",
+      "schema_ref": "schemas/audit/course-correction.schema.json",
       "artefact_path": "_context/planning/course-correction-v*.md",
       "remediation": "Close out open incidents OR document open status."
     },

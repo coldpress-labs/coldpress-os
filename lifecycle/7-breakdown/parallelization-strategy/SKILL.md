@@ -26,10 +26,9 @@ outputs:
     format: "markdown (sacred)"
     sacred: true
     schema: "schemas/sacred-docs/pert-chart.schema.json"
-  - artifact: "PERT meta sidecar"
-    location: "_context/sacred/pert-chart.meta.json"
-    format: "json"
-    schema: "schemas/handoffs/pert-meta.schema.json"
+  # (WS1-E: removed the "PERT meta sidecar" output — it referenced
+  # schemas/handoffs/pert-meta.schema.json, which was never created. PERT is
+  # desanctified in WS2 (§4.7, story-graph replaces it); this skill is rebuilt then.)
 version: "2.0"
 ---
 

@@ -114,7 +114,7 @@ Phase 5's central new mechanism. Every Phase 5 skill emits zero-or-more `design_
 
 See:
 - `schemas/handoffs/design-delta.schema.json` — design-delta shape
-- `schemas/sacred/prd-amendment.schema.json` — lightweight amendment payload
+- `schemas/sacred-docs/prd-amendment.schema.json` — lightweight amendment payload
 - `docs/cross-cutting/phase-reentry-patterns.md` — when re-entry vs reconciliation
 - Phase 5 deep-dive [§7](../../docs/lifcyle-phases-deep-dives/phase-5-deep-dive-2026-04-25.md#L370) — full spec
 
