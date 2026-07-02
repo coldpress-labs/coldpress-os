@@ -766,7 +766,7 @@ The self-improvement loop: run → tag failures → patch → re-eval → commit
 
 **Planned increments:**
 - **A. Failure taxonomy + eval-task schema** — ✅ `d093901`. `data/failure-taxonomy.yaml` + `schemas/{failure-taxonomy,eval-task}.schema.ts` + tests. Deterministic-first scoring; guards_against links tasks to taxonomy ids.
-- **B. `coldpress evals` runner** — reads `evals/**/*.yaml` golden tasks, scores deterministic checks (gate-green/schema-valid/file-exists/tests-green/…) headlessly → per-task pass/fail report; Agent SDK for the agentic tasks.
+- **B. `coldpress evals` runner** — ✅ `ec84224`. `src/evals/{score,run}.ts` + `src/commands/evals.ts` + CLI. Deterministic-first scorer (file-exists/absent, gate-green via state.yaml, tests-green, grep/absent, no-secret, schema-valid well-formedness, rubric skipped-headless) over a workspace; discovers `evals/**/*.yaml`, per-task pass/fail, failing tasks carry `guards_against` as taxonomy tags; `--dir/--workspace/--filter/--json`; exits 1 on failure. **Verified e2e (1/2 passed, exit 1) — the WS7 acceptance "runs headlessly with per-task pass/fail" is met.** Agent-SDK task execution (the full agentic loop) layers on top later. 8 tests.
 - **C. EventStream enrichment** — extend the event schema + run-log with model + token counts + gate results + taxonomy tags (the loop's intake).
 - **D. `coldpress evolve`** — cross-project aggregation: failure + override + cost leaderboards, estimation-bias report (G8), top-3 patch proposals.
 - **E. valet-loop skill** — the framework-repo loop (run log → patch skill/hook → run affected evals → commit referencing the failure id).
