@@ -25,6 +25,7 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
 | `deploy-preview` | simple | @devops | Per-story/wave preview URL (when the pack supports it) for the clean-room verifier + continuous review |
 | `smoke` | simple | @devops | Post-deploy smoke: routes + content sentinel + Playwright happy path + analytics-plan event arrival |
 | `rollback` | simple | @devops | Pack `rollback_cmd` recovery; human-decided; rehearsed once on staging |
+| `client-acceptance` | workflow | @devops | **Client projects** — UAT sub-stage between staging smoke and prod: feedback window → triage bug (blocks) vs change-request (next cycle) → acceptance record that `deploy-gate` requires |
 | `secrets-vault-manager` | simple | @devops | **NEW (Unit #28 / U02)** — committed-secret regex scan + manifest-vs-env consistency + CI secret audit + rotation-due tracking. **Surface-only** (does NOT auto-rotate). CRITICAL findings BLOCK Phase 9 gate. |
 | `observability-designer` | workflow | @devops | **NEW (Unit #28 / U03)** — wraps `coldpress-os/docs/observability-setup.md` doc. Emits SLO/SLI table + multi-window multi-burn-rate alerts + golden-signals dashboards + head+tail trace sampling. Vendor-neutral. |
 
@@ -51,6 +52,9 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
         ▼
    deploy-staging (pack-driven) ──→ smoke (staging)
         │  green staging smoke
+        ▼
+   [client projects] client-acceptance — UAT window → bug/change-request triage → acceptance record
+        │  (bugs block; change-requests → next cycle)
         ▼
    deploy-gate: prod blocked unless staging smoke green + P8 complete + acceptance record
         │  human trigger
