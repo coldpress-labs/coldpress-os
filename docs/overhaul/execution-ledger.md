@@ -14,7 +14,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS | Title | State | Branch | Closed |
 |----|-------|-------|--------|--------|
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
-| WS1 | Enforcement layer | 🟡 in progress | `overhaul/ws1-enforcement` | — |
+| WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | ⚪ not started | — | — |
 | WS3 | Two-lane lifecycle | ⚪ not started | — | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
@@ -196,10 +196,37 @@ settled-spec replications suit a Sonnet session. boundary-guard/deploy-gate/next
 override-logging ✅, per-hook test+--explain ✅ (all 8). Remaining: `check:drift` (WS1-F); a
 scaffolded-project end-to-end demo (part of WS3 acceptance). **837 tests**, drift clean.
 
-**Remaining WS1 increments:** E (extend validate-schema routing + fix 4 dangling paths),
-F (check:drift npm script + CI job), G (governance prose → sacred-change skill + hook).
+**Increment E (done):** wired 17 orphaned schemas into PATH_PATTERN_SCHEMAS by artifact
+path; fixed the 4 dangling SKILL.md/gate.json paths; new test guards every routed schema
+exists. Commit `76606c6`.
 
-**Branch:** `overhaul/ws1-enforcement`, 10 commits off main, tree green (837 tests), clean, not merged.
+**Increment F (done):** `check:drift` npm script + `src/generators/check-drift.ts` (regenerate
+→ diff; extensible for §8.11 doc generators); CI step replaces the two plugin-stale steps.
+Verified: a seeded source edit is caught. Commit `13ea95d`.
+
+**Increment G (done):** 5 `governance/*-change/workflow.md` → one `sacred-change` skill +
+sacred-guard hook; `governance/` 48K→16K (67% smaller); sacred-docs.md doctrine rewritten;
+interop generators + active refs updated (remaining PERT/§8.11/WS5 refs → D11). Commit `06c0edc`.
+
+---
+
+## 🟢 WS1 CLOSED (2026-07-02)
+
+**All acceptance criteria met** (§9), verified by command:
+- Sacred write without an approved change record → **blocked** with a useful message ✅ (sacred-guard, e2e).
+- Schema-violating `_context/` artifact → **rejected in-loop** ✅ (schema-validate, e2e).
+- Task **cannot complete red** ✅ (quality-gate logic + e2e; full scaffolded-session demo lands with WS3).
+- `check:drift` **catches a seeded drift** ✅ (demonstrated + restored).
+- **Every hook has a test + `--explain`** ✅ (all 8).
+- **Override works and is loudly logged** ✅ (harness, tested).
+- Enforcement **ships into scaffolded projects** ✅ (`coldpress init` → `.claude/settings.json` + `scripts/hooks/run.mjs`, 10 hook wirings).
+
+Final gate: typecheck ✅, **849 tests** ✅, build ✅, 11 gate.json valid ✅, check:drift OK ✅.
+**Deferred to their workstreams (recorded):** boundary-guard/deploy-gate/next-task + delta
+records (WS2/WS6); pending-human-gate in load-state (WS3/§7.7); PERT-ref cleanup (WS2);
+`docs/` regen-target ref cleanup (§8.11). CHANGELOG entry added.
+
+**Branch:** `overhaul/ws1-enforcement`, off main, tree green, clean, **not merged**.
 
 ---
 
