@@ -8,12 +8,14 @@
 
 import { loadStateHandler } from "./load-state.js";
 import { sacredGuardHandler } from "./sacred-guard.js";
+import { schemaValidateHandler } from "./schema-validate.js";
 import { secretScanHandler } from "./secret-scan.js";
 import type { HookHandler } from "./types.js";
 
 export const HOOK_HANDLERS: Record<string, HookHandler> = {
   [loadStateHandler.name]: loadStateHandler,
   [sacredGuardHandler.name]: sacredGuardHandler,
+  [schemaValidateHandler.name]: schemaValidateHandler,
   [secretScanHandler.name]: secretScanHandler,
 };
 

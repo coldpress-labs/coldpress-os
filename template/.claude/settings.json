@@ -21,7 +21,8 @@
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" secret-scan" }
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" secret-scan" },
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" schema-validate" }
         ]
       }
     ]
