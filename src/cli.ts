@@ -8,6 +8,7 @@ import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
 import { runTrace } from "./commands/trace.js";
+import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
 import { runRunInspect, runRunList } from "./commands/run.js";
 import { runSecurityAggregate } from "./commands/security.js";
@@ -85,6 +86,15 @@ program
   )
   .action((verb: string, id: string | undefined) => {
     process.exit(runTrace(verb, id));
+  });
+
+program
+  .command("waves")
+  .description(
+    "Validate the story graph and emit the derived wave plan (§4.7). Rejects cycles, missing contract stories, and intra-wave ownership overlaps; writes docs/generated/{waves,schedule}.yaml + mermaid.",
+  )
+  .action(() => {
+    process.exit(runWaves());
   });
 
 program
