@@ -615,7 +615,19 @@ The "≤80 canonical" figure counts **lifecycle + cross-cutting skills a project
 
 ### Real merges within canonical (this session)
 
-Reading the §2.4 "duplication clusters" against the actual skills showed several are NOT true dupes (the `security/scan-*` suite = designed Semgrep/OSV/Trivy normalized-ScanResult runners; the doc-gen "cluster" = four distinct ops). Only genuinely-safe merges taken (honoring "minimal risk of over-merging distinct skills"):
+Reading the §2.4 "duplication clusters" against the actual skills showed several are NOT true dupes (the `security/scan-*` suite = designed Semgrep/OSV/Trivy normalized-ScanResult runners; the doc-gen "cluster" = distinct ops but all doc-transformation). Only genuinely-safe merges taken (honoring "minimal risk of over-merging distinct skills"):
 
-_(records appended per merge below)_
+| Merge | Result | Canonical | Commit |
+|-------|--------|-----------|--------|
+| `editorial-prose` + `editorial-structure` → `editorial` (`pass: prose\|structure\|both`) | reviews 7→6 | 88 → 87 | `d86c13c` |
+| `distillator` + `shard-doc` + `index-docs` → `docs` (`op: distill\|shard\|index`) — §2.4 doc-gen cluster; `document-project` kept atomic per §5 P10 | utilities 7→5 | 87 → 85 | `71f1c35` |
+
+Each: content preserved verbatim as passes/ops; cross-cutting wire-in refs repointed across lifecycle/reference; functional tests updated; plugin/ regenerated; typecheck + tests + lint + check:drift green. Hand-maintained docs cross-refs (REGISTRY, skill-index, decision-trees, flow-map, subagent-phase-matrix, etc.) carried to the docs-regen pass (§8.11).
+
+**Honest endpoint assessment (canonical = 85):** Reaching exactly ≤80 needs ~5 more reductions. The remaining candidates are materially different from the two clean merges above:
+- **P7 `story-slice` ← `create-epics` + `create-stories`** and **`story-graph` ← `parallelization-strategy`** (§5 P7): pre-approved, but §5 marks them **REBUILD** (tied to the WS2 story-graph schema + `acceptance-stubs`) — properly belongs to the WS5-E rebuild increment, not a mechanical concat. Net −1.
+- **`ops/security-scan` + `ops/dep-health-check`** into the `security/scan-*` suite / `readiness`: −2, but requires verifying they're genuinely superseded (not still wired into Phase 9 readiness/gates) — higher risk of breaking gate refs.
+- Beyond those, forcing ≤80 means collapsing genuinely-distinct skills — contradicts the user's "minimal over-merge" directive.
+
+Landing point: **canonical 85 after two clean merges**; ≤80 is reachable only via the P7 REBUILD (WS5-E) + the riskier scanner supersession, or by over-merging distinct skills. Held for user direction on how far to push.
 
