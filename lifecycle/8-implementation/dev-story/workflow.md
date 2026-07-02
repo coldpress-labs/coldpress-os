@@ -1,13 +1,13 @@
 ---
-workflow_version: "1.0"
-output_file: "_context/implementation/{story-key}.md"
+workflow_version: "2.0"
+output_file: "_context/implementation/stories/ST-*.md"
 total_steps: 5
 resume_from: "frontmatter"
 ---
 
 ## Overview
 
-Implements a story through: story loading, context gathering, red-green-refactor implementation, validation, and completion.
+Implements ONE story red-to-green inside its packet boundary: load the story + handoff packet (plan mode; Butler approval for risk:high), gather scoped context, red-green-refactor the acceptance stubs without weakening them, validate (full suite + styleguide-conformance self-check for UI), and complete → hand a clean diff to the clean-room `@verifier`. Hooks (boundary-guard, test-integrity, quality-gate) enforce the boundary/stub/green guarantees throughout.
 
 ## Step Index
 
@@ -31,8 +31,9 @@ Implements a story through: story loading, context gathering, red-green-refactor
 
 ## Completion Criteria
 
-- All acceptance criteria satisfied
-- All tasks checked off in story file
-- All tests passing (no regressions)
-- Story file updated with File List, Change Log, Dev Agent Record
-- sprint-status.yaml updated to `review`
+- All acceptance criteria satisfied; the story's acceptance stubs are **green (and un-weakened** — test-integrity)
+- All edits stayed inside the packet's `owns` boundary (boundary-guard); out-of-scope needs parked as **DLT records**
+- Full suite passes — **quality-gate blocks completion while red**
+- UI stories: styleguide-conformance self-check passes (components match tokens.json + the `/styleguide` route)
+- Story record updated with File List, Change Log, Dev Agent Record; Status → `review`
+- Clean diff ready for the **clean-room `@verifier`** hand-off (dev-story never self-verifies)

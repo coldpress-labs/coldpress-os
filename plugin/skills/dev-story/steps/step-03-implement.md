@@ -8,24 +8,26 @@ next_step: "step-04-validate.md"
 
 ## Goal
 
-Implement the story using TDD.
+Turn the story's **red acceptance stubs green**, task by task, entirely inside the packet boundary.
 
 ## Instructions
 
+The acceptance stubs already exist and are **red by construction** (written by `acceptance-stubs` at P7). You implement the spec until they pass — you do not write the stubs, and you do not weaken them.
+
 For **each task** in the story:
 
-1. **RED:** Write failing test(s) that verify the acceptance criteria.
-2. **GREEN:** Implement minimal code to make tests pass.
-3. **REFACTOR:** Improve code quality while keeping tests green.
-4. **Check task off** in story file only when fully complete.
-5. **Update File List** with all changed/created files.
-6. **Update Change Log** with summary of changes.
+1. **RED (already there):** confirm the task's acceptance stub(s) fail for the right reason. Add finer-grained unit tests where the stubs are coarse — never delete or loosen a stub (`test-integrity` blocks that).
+2. **GREEN:** implement the minimal code to make the stubs pass — **only inside the packet's `owns` globs**. A write outside the boundary is blocked by `boundary-guard`; if a task genuinely needs an out-of-scope change, stop and record a **DLT record** (delta) for Butler to reconcile — do not make a stray edit.
+3. **REFACTOR:** improve quality while keeping tests green.
+4. **UI stories — styleguide self-check:** build components from the **tokens-build** output (CSS vars / framework theme) so token usage is correct by construction; before checking the task off, self-verify the rendered component matches tokens.json + the `/styleguide` route (the same thing `visual-verify` asserts clean-room).
+5. **Check the task off** in the story record only when it genuinely passes; update **File List** + **Change Log**.
 
 **Critical rules:**
-- Do NOT mark a task complete unless it genuinely passes all its tests.
-- Do NOT stop between tasks — continue through all tasks.
-- Follow guardrails from Step 2 — use specified libraries, follow patterns.
-- Check for regressions after each task.
+- Do NOT mark a task complete unless it genuinely passes its stubs (`quality-gate` blocks completing red anyway).
+- Do NOT weaken or delete acceptance stubs to force green (`test-integrity`).
+- Do NOT edit outside the `owns` boundary — out-of-scope → DLT record, not a stray edit.
+- Do NOT stop between tasks — continue through all tasks; check for regressions after each.
+- Follow the packet guardrails from Step 2 — specified libraries, architecture §component, patterns.
 
 ## Output
 
