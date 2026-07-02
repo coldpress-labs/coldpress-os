@@ -704,3 +704,23 @@ The story-graph rebuild retired PERT at the **skill + gate** level (no gate/skil
 
 **WS5-E: CLOSED.** All four rebuilds + the acceptance demo done. Next: **WS5 acceptance** wrap-up (confirm the four criteria + CHANGELOG), then WS6. Open threads: **D18** (agents+hooks-in-plugin) + the PERT-chain excision above, both pending direction.
 
+---
+
+## WS5 — CLOSED (2026-07-03)
+
+All sub-workstreams complete: **A** (frontmatter-lint + agent:qa remap) · **B** (consolidation → canonical basis 84, editorial/docs merges) · **C** (plugin as skill distribution, wrappers deleted, `claude plugin validate` ✔) · **D** (frontmatter modernization) · **E** (dev-story/deploy/story-slice/story-graph rebuilds + PERT retired + agent-team demo).
+
+**Acceptance (§9 WS5):**
+- ✅ frontmatter-lint green corpus-wide.
+- ✅ fresh project bootstraps via plugin; wrapper generation deleted.
+- 🟡 counts read from one generated source — plugin `skills_count` + `agent-roster.csv` are generated + drift-checked; the tabular **registries** (REGISTRY.md / TEMPLATES-REGISTRY.md / docs/generated/) remain hand-maintained until the §8-item-11 docs-regen WS. Partial by design (that generator is a separate workstream).
+- ✅ team-mode demo documented (`docs/agent-team-demo.md`).
+
+**End state:** canonical **84** skills; typecheck + **927 tests** + lint + check:drift + build all green; `overhaul/ws5-skills-consolidation` branch, not merged to main (awaiting explicit instruction, per the standing rule). CHANGELOG WS5 entry landed.
+
+**Deferred out of WS5 (both flagged, non-blocking, pending user direction):**
+1. **D18** — migrate agents + hooks into the plugin as the single vehicle (currently agents ship via `template/.claude/agents/`, hooks via `template/.claude/settings.json`; both work). Deferred to avoid double-definition + enforcement-breakage risk.
+2. **PERT-schema-chain excision** (§8 item 10 remainder) — delete `pert-chart.schema.json` + `pert-to-stories`/`architecture-to-pert` handoff schemas + their 4 test refs + validate-schema routing + registry rows. Green orphans today; bundle with docs-regen or a focused cleanup.
+
+**Next workstream:** WS6 (deploy packs) — see §9. Also carried into WS6/§5-P9: the `ops/security-scan` + `dep-health-check` scanner supersession (deferred from WS5-B), and the `deploy-prod` split (where WS5-D's `disable-model-invocation` moves from `deploy` onto the split-out `deploy-prod`).
+
