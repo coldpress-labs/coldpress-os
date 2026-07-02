@@ -17,10 +17,8 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
 
 | Skill | Type | Owner | Notes |
 |-------|------|-------|-------|
-| `readiness-check` | workflow | @devops | Phase 9 entry skill (Q1 — Step 0 absorbs entry-sync); meta-aggregator |
-| `env-check` | workflow | @devops | Env vs baseline verification |
-| `security-scan` | workflow | @devops | Wraps 5 classical + 3 LLM gates (existing security-gate spec) |
-| `dep-health-check` | workflow | @devops | Dependency pinning + advisories (cheap, runs every Phase 9 entry) |
+| `readiness` | workflow | @devops | Phase 9 entry **meta-aggregator** — the scripted hard checklist (build, env-vs-manifest, npm audit + the `security/scan-*` suite, SBOM, security headers, license, Lighthouse vs budgets, T2 lockfile). Absorbs `dependency-auditor`; supersedes the generic `ops/security-scan` + `ops/dep-health-check` |
+| `env-check` | workflow | @devops | Env vs baseline verification (invoked by readiness) |
 | `db-migration-check` | workflow | @devops | Brownfield-conditional |
 | `deploy-staging` | workflow | @devops | Pack-driven staging deploy (model-invocable); build via the locked stack, ship via the pack CLI |
 | `deploy-prod` | workflow | @devops | Pack-driven **human-only** prod deploy (`disable-model-invocation` + `deploy-gate`); signs the release record |
@@ -29,11 +27,10 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
 | `rollback` | simple | @devops | Pack `rollback_cmd` recovery; human-decided; rehearsed once on staging |
 | `secrets-vault-manager` | simple | @devops | **NEW (Unit #28 / U02)** — committed-secret regex scan + manifest-vs-env consistency + CI secret audit + rotation-due tracking. **Surface-only** (does NOT auto-rotate). CRITICAL findings BLOCK Phase 9 gate. |
 | `observability-designer` | workflow | @devops | **NEW (Unit #28 / U03)** — wraps `coldpress-os/docs/observability-setup.md` doc. Emits SLO/SLI table + multi-window multi-burn-rate alerts + golden-signals dashboards + head+tail trace sampling. Vendor-neutral. |
-| `dependency-auditor` | workflow | @devops | **NEW (Unit #28 / U09)** — DEEP audit (CVE via OSV/NVD/GitHub-Advisory + supply-chain heuristics + license audit + 0-100 health score). Complements `dep-health-check` (cheap-always vs deep-on-demand). License-block findings BLOCK Phase 9 gate. |
 
 ## Gate split (per Q2)
 
-**Pre-deploy gate (5 checks, block-severity):** readiness-check / env-check / security-scan / dep-health-check / db-migration-check (conditional). Block deploy if any fail.
+**Pre-deploy gate (block-severity):** `readiness` runs the full scripted checklist (build, env-vs-manifest, npm audit + `security/scan-*` suite, SBOM, security headers, license, Lighthouse vs budgets, T2 lockfile) + `db-migration-check` (conditional) + `secrets-vault-manager`. Block deploy if any fail.
 
 **Deploy:** action skill — runs deployment, emits deploy-log validated-distillate.
 
@@ -45,11 +42,10 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
 [Phase 8 exit: all stories complete + tests passing + implementation-deltas resolved]
         │
         ▼
-   readiness-check (Step 0 — graph-first context + entry-sync absorbed)
-     ├──→ env-check
-     ├──→ dep-health-check
-     ├──→ security-scan (5 classical + 3 LLM aggregated)
+   readiness (the scripted hard checklist — build, env-vs-manifest, npm audit +
+     │           security/scan-* suite, SBOM, headers, license, Lighthouse vs budgets)
      ├──→ db-migration-check (conditional brownfield)
+     ├──→ secrets-vault-manager
      └──→ pre-deploy gate evaluation (block if any fail)
         │
         ▼
@@ -83,7 +79,7 @@ status: rewritten — Phase 9 implementation in progress (autonomous queue unit 
 
 ## Exit conditions
 
-See `gate.json` (8 acceptance checks). Pre-deploy 5 + post-deploy 3 split per Q2.
+See `gate.json` for the full acceptance-check set (pre-deploy readiness + security + conditional checks; post-deploy deploy-success + smoke + observability).
 
 ## Agent
 

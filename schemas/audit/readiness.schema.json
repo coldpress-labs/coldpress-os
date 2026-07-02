@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://coldpressai.com/schemas/audit/readiness.json",
   "title": "Readiness Report (Phase 9)",
-  "description": "Phase 9 readiness report. Validated-distillate, meta-aggregator. Authored by @devops via the readiness-check skill. Two variants: pre-deploy (aggregates env-check + dep-health-check + security-scan + db-migration-check) and post-deploy (aggregates smoke-test + observability-baseline). Block on any failed check.",
+  "description": "Phase 9 readiness report. Validated-distillate, meta-aggregator. Authored by @devops via the readiness skill. Two variants: pre-deploy (aggregates env-check + dep-health-check + security-scan + db-migration-check) and post-deploy (aggregates smoke-test + observability-baseline). Block on any failed check.",
   "type": "object",
   "required": ["schema", "phase", "version", "variant", "author_agent", "status", "created_at", "checks", "overall_status"],
   "properties": {

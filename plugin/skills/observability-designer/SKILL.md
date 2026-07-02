@@ -51,7 +51,7 @@ Phase 9 design step that turns NFR targets (architecture.md) + baseline policy (
 
 ## Output
 
-Observability spec + alert/dashboard/sampling config drafts at `_context/operations/observability-v{N}*`. User wires into chosen vendor backend post-skill (Phase 10 operate). Pre-deploy gate (`readiness-check`) verifies spec exists; does not verify wiring.
+Observability spec + alert/dashboard/sampling config drafts at `_context/operations/observability-v{N}*`. User wires into chosen vendor backend post-skill (Phase 10 operate). Pre-deploy gate (`readiness`) verifies spec exists; does not verify wiring.
 
 ## Source Attribution
 

@@ -13,13 +13,13 @@
   ],
   "acceptance_checks": [
     {
-      "id": "readiness-check-pass",
-      "description": "`_context/audit/readiness-v{latest}.md` exists with status: pass; meta-aggregator over env-check + dep-health + security-scan + db-migration-check (conditional)",
+      "id": "readiness-pass",
+      "description": "`_context/audit/readiness-v{latest}.md` exists with status: pass — the scripted hard checklist: build, env-vs-manifest, npm audit (high/critical) + security/scan-* suite, SBOM, security headers, license, Lighthouse vs budgets, T2 lockfile pinning",
       "kind": "automated",
       "severity": "block",
       "schema_ref": "schemas/audit/readiness.schema.json",
       "artefact_path": "_context/audit/readiness-v*.md",
-      "remediation": "Run `@devops readiness-check` to verify all readiness aspects."
+      "remediation": "Run `@devops readiness` to verify all readiness aspects."
     },
     {
       "id": "env-check-pass",
@@ -31,19 +31,11 @@
     },
     {
       "id": "security-scan-pass",
-      "description": "5 classical security scanners + 3 LLM gates aggregated AggregateResult exit 0 (per existing security-gate.md spec)",
+      "description": "The security/scan-* suite (Semgrep SAST + OSV + Trivy → normalised ScanResult) aggregates to exit 0; readiness runs this + npm audit (high/critical). LLM gates are separate acceptance checks.",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Run `@devops security-scan`. Block-severity findings → Phase 8 re-entry to fix code.",
-      "skill_ref": "skills/ops/security-scan"
-    },
-    {
-      "id": "dep-health-check-pass",
-      "description": "No critical advisories outstanding; deps pinned per tech-stack",
-      "kind": "automated",
-      "severity": "block",
-      "remediation": "Run `@devops dep-health-check`. Phase 3 ADR amendment if dep replacement needed.",
-      "skill_ref": "skills/ops/dep-health-check"
+      "remediation": "Run the `security/scan-*` suite via `aggregate-gate-results`; block-severity findings → Phase 8 re-entry. (npm-audit + dep-health folded into `readiness`.)",
+      "skill_ref": "skills/security/aggregate-gate-results"
     },
     {
       "id": "db-migration-check-pass",
@@ -68,7 +60,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "If smoke fails: rollback + Phase 8 re-entry to fix.",
-      "skill_ref": "lifecycle/9-deployment/readiness-check"
+      "skill_ref": "lifecycle/9-deployment/readiness"
     },
     {
       "id": "observability-baseline-met",
@@ -91,7 +83,7 @@
       "description": "readiness (incl. dependency audit) completed; no GPL/AGPL transitive deps; no Critical/High CVE without remediation plan",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "lifecycle/9-deployment/readiness-check",
+      "skill_ref": "lifecycle/9-deployment/readiness",
       "remediation": "Run `@devops readiness` (absorbs dependency-auditor). License-block findings BLOCK deploy; CVE remediations follow ranked priority list."
     },
     {

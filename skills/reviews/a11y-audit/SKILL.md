@@ -43,7 +43,7 @@ Conditional behaviour: required for `design-led` + `WDS` archetypes (block-sever
 1. Phase 5 exit — design-time a11y check before architecture/breakdown commits
 2. Phase 8 per-story or per-wave — implemented-code a11y check
 3. User says "check accessibility" / "WCAG audit" / "a11y review"
-4. Pre-deploy gate (Phase 9 readiness-check sub-step) — final verification
+4. Pre-deploy gate (Phase 9 readiness sub-step) — final verification
 5. Brand-guidelines token change — re-verify contrast ratios
 
 ## Output Artifacts
