@@ -1,0 +1,57 @@
+# ─── Failure taxonomy (v0.4 WS7, §4.8) ─────────────────────────────
+# The controlled vocabulary for tagging framework failures. The evolution
+# loop tags each failure with one of these ids; `coldpress evolve` aggregates
+# them into leaderboards and top-3 patch proposals. One source, referenced by
+# EventStream taxonomy tags, eval results, and override records.
+#
+# Validated against schemas/failure-taxonomy.schema.ts.
+version: 1
+classes:
+  - id: wrong-file-target
+    category: targeting
+    description: "Wrote to / edited the wrong file or path — right change, wrong place."
+    default_severity: high
+  - id: hallucinated-api
+    category: correctness
+    description: "Called a function / route / package export that does not exist."
+    default_severity: high
+  - id: skipped-gate
+    category: gate
+    description: "Advanced a phase or completed work without a required gate green (or overrode without cause)."
+    default_severity: critical
+  - id: schema-violation
+    category: schema
+    description: "Emitted a schema'd artifact that fails its schema (state.yaml, story-graph, handoff, …)."
+    default_severity: high
+  - id: spec-misread
+    category: context
+    description: "Misread the spec — built the wrong thing, or missed an acceptance criterion."
+    default_severity: high
+  - id: over-scoped-diff
+    category: scope
+    description: "Edited outside the packet's ownership boundary — an out-of-scope change that should have been a DLT."
+    default_severity: high
+  - id: stale-context
+    category: context
+    description: "Acted on outdated context — a superseded doc version, an un-reconciled delta, a stale graph."
+    default_severity: medium
+  - id: design-token-violation
+    category: design
+    description: "Used an off-token value (color / font / size / spacing) instead of a design token."
+    default_severity: medium
+  - id: estimate-blown
+    category: estimation
+    description: "Actual effort/time diverged materially from the o/m/p estimate (feeds the estimation-bias report, G8)."
+    default_severity: low
+  - id: hidden-dependency
+    category: dependency
+    description: "An undeclared dependency surfaced — a `consumes` edge that wasn't in the story graph."
+    default_severity: medium
+  - id: gamed-assertion
+    category: gate
+    description: "Weakened / deleted a test or acceptance stub to force green (test-integrity territory)."
+    default_severity: critical
+  - id: secret-exposure
+    category: security
+    description: "A credential or secret was committed / printed / served publicly."
+    default_severity: critical
