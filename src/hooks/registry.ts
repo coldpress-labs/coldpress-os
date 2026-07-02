@@ -7,10 +7,14 @@
  */
 
 import { loadStateHandler } from "./load-state.js";
+import { sacredGuardHandler } from "./sacred-guard.js";
+import { secretScanHandler } from "./secret-scan.js";
 import type { HookHandler } from "./types.js";
 
 export const HOOK_HANDLERS: Record<string, HookHandler> = {
   [loadStateHandler.name]: loadStateHandler,
+  [sacredGuardHandler.name]: sacredGuardHandler,
+  [secretScanHandler.name]: secretScanHandler,
 };
 
 export function getHook(name: string): HookHandler | undefined {

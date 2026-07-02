@@ -1,14 +1,27 @@
 {
-  "$comment": "coldpress-os enforcement hooks (action plan §4.4, WS1). Each event is wired to a thin dep-free wrapper under scripts/hooks/ that forwards to `coldpress hook <name>`; the logic lives in @coldpress/core and is unit-tested. Hooks honor COLDPRESS_OVERRIDE=\"<gate>:<reason>\" (loudly logged) and support `coldpress hook <name> --explain`. More hooks (sacred-guard, phase-gate, schema-validate, secret-scan, quality-gate, run-log) land as WS1 progresses.",
+  "$comment": "coldpress-os enforcement hooks (action plan §4.4, WS1). Each event is wired to `node scripts/hooks/run.mjs <name>` — a thin dep-free runner that forwards to `coldpress hook <name>`; the logic lives in @coldpress/core and is unit-tested. Hooks honor COLDPRESS_OVERRIDE=\"<gate>:<reason>\" (loudly logged) and support `coldpress hook <name> --explain`. More hooks (phase-gate, schema-validate, quality-gate, run-log, test-integrity) land as WS1 progresses.",
   "hooks": {
     "SessionStart": [
       {
         "matcher": "startup|resume|compact",
         "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/load-state.mjs\""
-          }
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" load-state" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" sacred-guard" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" secret-scan" }
         ]
       }
     ]

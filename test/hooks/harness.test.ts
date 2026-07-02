@@ -47,6 +47,20 @@ describe("renderDecision — Claude Code hook I/O contract", () => {
     expect(payload.hookSpecificOutput.hookEventName).toBe("PreToolUse");
   });
 
+  it("renders a PostToolUse deny as the cross-event block form (feedback, not permissionDecision)", () => {
+    const { stdout, exitCode } = renderDecision({ kind: "deny", reason: "possible secret" }, "PostToolUse");
+    expect(exitCode).toBe(0);
+    const payload = JSON.parse(stdout as string);
+    expect(payload.decision).toBe("block");
+    expect(payload.reason).toBe("possible secret");
+    expect(payload.hookSpecificOutput).toBeUndefined();
+  });
+
+  it("renders a Stop deny as decision:block (prevent stopping)", () => {
+    const payload = JSON.parse(renderDecision({ kind: "deny", reason: "tests red" }, "Stop").stdout as string);
+    expect(payload.decision).toBe("block");
+  });
+
   it("renders SessionStart context as additionalContext JSON", () => {
     const { stdout } = renderDecision({ kind: "context", text: "lane: full" }, "SessionStart");
     const payload = JSON.parse(stdout as string);

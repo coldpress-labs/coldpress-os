@@ -43,11 +43,18 @@ export interface HookInput {
  * Claude Code stdout JSON + exit code for the hook's event.
  */
 export type HookDecision =
-  /** PreToolUse/PreToolUse(Skill): block the call with a reason (model sees it). */
+  /**
+   * Block / object, with a reason. Renders per-event:
+   *   - PreToolUse: deny the tool call (permissionDecision: "deny").
+   *   - PostToolUse: feed the reason back to the model (decision: "block") —
+   *     the action already ran, so this is corrective feedback, not a block.
+   *   - Stop/SubagentStop: prevent stopping (decision: "block") — e.g.
+   *     quality-gate red = cannot complete.
+   */
   | { kind: "deny"; reason: string }
   /** SessionStart/UserPromptSubmit: inject additional context into the session. */
   | { kind: "context"; text: string }
-  /** No opinion — defer to normal permission flow (exit 0, no output). */
+  /** No opinion — defer to normal flow (exit 0, no output). */
   | { kind: "none" };
 
 /** One enforcement hook. `run` is pure w.r.t. its input (+ filesystem under cwd). */
@@ -122,16 +129,22 @@ export function renderDecision(
 ): { stdout: string | null; exitCode: number } {
   switch (decision.kind) {
     case "deny":
-      return {
-        stdout: JSON.stringify({
-          hookSpecificOutput: {
-            hookEventName: event,
-            permissionDecision: "deny",
-            permissionDecisionReason: decision.reason,
-          },
-        }),
-        exitCode: 0,
-      };
+      if (event === "PreToolUse") {
+        // Preferred PreToolUse form: deny the tool call before it runs.
+        return {
+          stdout: JSON.stringify({
+            hookSpecificOutput: {
+              hookEventName: event,
+              permissionDecision: "deny",
+              permissionDecisionReason: decision.reason,
+            },
+          }),
+          exitCode: 0,
+        };
+      }
+      // PostToolUse (corrective feedback — action already ran) and Stop/
+      // SubagentStop (prevent stopping): the cross-event block form.
+      return { stdout: JSON.stringify({ decision: "block", reason: decision.reason }), exitCode: 0 };
     case "context":
       return {
         stdout: JSON.stringify({
