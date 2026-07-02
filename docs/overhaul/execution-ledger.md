@@ -592,3 +592,30 @@ patch + the extracted untracked file in `legacy/`), and `stash@{0}` is dropped.
 **Next:** WS1 — Enforcement layer (the largest, greenfield workstream). Runs on Opus
 (§0.1.7). Open a new session/branch off `main` after this branch merges, or continue
 here per your preference.
+
+---
+
+## WS5-B continuation — canonical counting basis + real merges (2026-07-02, Opus session)
+
+**Context:** Prior WS5-B sweeps exhausted the pre-approved cut list at **129 all-SKILL.md** (every §5/§8-named DELETE/MERGE done; 0 router stubs). Reaching the plan's "≤80 canonical; ≤40 discoverable in a lite project" (§5, §6) required a scope+metric decision beyond §8's pre-approved authority. **User decision (2026-07-02): "fix counting basis + real merges"** (over "aggressive all-SKILL.md merges" or "defer ≤80").
+
+### Canonical counting basis (NEW — governs the WS5 ≤80 acceptance criterion)
+
+The "≤80 canonical" figure counts **lifecycle + cross-cutting skills a project's lifecycle discovers and dispatches** — NOT contextual payload discovered only when a pack/fork/authoring path is active. Non-canonical buckets (excluded from the ≤80 count, principled — not number-gaming):
+
+| Bucket | Count | Why non-canonical |
+|--------|-------|-------------------|
+| `skills/stack-packs/` | 19 | Pack payload — discovered only when a stack pack is active (§5 P3: "harvested profiles"). |
+| `skills/creative/` | 10 | Forkable atomics — §5 P2 explicitly keeps these atomic + forked, not lifecycle-dispatched. |
+| `skills/meta/` | 8 | Framework-*authoring* (agent/skill/workflow/template-builder, prompt-eng/governance, propose-change, bmad-import) — build/govern the framework itself, not a project lifecycle. |
+| `skills/edit/aci-primitives/` | 4 | Low-level agent-computer-interface tool primitives composed by other skills, not lifecycle-dispatched. |
+| **Non-canonical total** | **41** | |
+
+**Canonical = 129 − 41 = 88** (lifecycle 40 + testing 11 + utilities 7 + reviews 7 + ops 7 + governance 6 + security 5 + deployment 3 + supply-chain 1 + ingest 1). The prior sweeps' "129 vs ≤80" was measured against the wrong denominator.
+
+### Real merges within canonical (this session)
+
+Reading the §2.4 "duplication clusters" against the actual skills showed several are NOT true dupes (the `security/scan-*` suite = designed Semgrep/OSV/Trivy normalized-ScanResult runners; the doc-gen "cluster" = four distinct ops). Only genuinely-safe merges taken (honoring "minimal risk of over-merging distinct skills"):
+
+_(records appended per merge below)_
+
