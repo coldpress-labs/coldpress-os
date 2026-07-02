@@ -144,10 +144,29 @@ and the repo's existing Zod convention (`schemas/phase-gate.schema.ts`).
 - `test/coldpress-yaml-schema.test.ts` — 10 tests incl. validating the real
   `template/coldpress.yaml` (name/slug filled). **764 tests pass**. Commit `a0d8a35`.
 
-**Paused at Increment C (hook harness) — the design-heavy core.** Next session opens
-here: settings.json hook wiring + `template/scripts/hooks/` Node convention +
-`COLDPRESS_OVERRIDE` protocol + `--explain` standard, then the 8 WS1 hooks (D).
-Tree green (764 tests), 2 WS1 commits on `overhaul/ws1-enforcement`.
+**Increment C — hook harness + load-state reference hook (done):**
+- Execution model confirmed with user: `.claude/settings.json` → thin dep-free
+  `scripts/hooks/<name>.mjs` → `coldpress hook <name>` (logic in `src/hooks/`,
+  unit-tested, reuses src). Verified the current Claude Code hook I/O contract via
+  claude-code-guide (permissionDecision deny at exit 0; SessionStart
+  additionalContext; `${CLAUDE_PROJECT_DIR}`; stdin `tool_name`/`tool_input.file_path`/`cwd`).
+- Built: `src/hooks/types.ts` (HookHandler + COLDPRESS_OVERRIDE protocol G11 +
+  renderDecision), `src/hooks/load-state.ts` (SessionStart summary hook),
+  `src/hooks/registry.ts`, `src/commands/hook.ts` + `coldpress hook [name]
+  [--explain|--list]`, `template/.claude/settings.json`, `template/scripts/hooks/load-state.mjs`.
+- 18 tests + **verified end-to-end via the real CLI + stdin**: `coldpress hook
+  load-state` with a SessionStart payload emits the correct additionalContext JSON.
+  **782 tests pass**, plugin drift clean. Commit `447274b`.
+
+**Established pattern for the remaining WS1 hooks (Increment D).** sacred-guard,
+phase-gate, schema-validate, secret-scan, quality-gate, run-log, test-integrity all
+replicate this harness (new `src/hooks/<name>.ts` + registry entry + thin
+`scripts/hooks/<name>.mjs` + settings.json wiring + tests). Per §0.1.7 these
+settled-spec replications suit a Sonnet session. boundary-guard/deploy-gate/next-task
++ delta records depend on WS2/WS6 machinery → deferred to those workstreams.
+
+**WS1 so far:** 4 commits on `overhaul/ws1-enforcement` (state schema, coldpress.yaml
+schema, hook harness + load-state, ledger). Tree green (782 tests), clean. Not merged.
 
 ---
 
