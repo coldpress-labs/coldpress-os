@@ -7,16 +7,22 @@
  */
 
 import { loadStateHandler } from "./load-state.js";
+import { phaseGateHandler } from "./phase-gate.js";
+import { qualityGateHandler } from "./quality-gate.js";
 import { sacredGuardHandler } from "./sacred-guard.js";
 import { schemaValidateHandler } from "./schema-validate.js";
 import { secretScanHandler } from "./secret-scan.js";
+import { testIntegrityHandler } from "./test-integrity.js";
 import type { HookHandler } from "./types.js";
 
 export const HOOK_HANDLERS: Record<string, HookHandler> = {
   [loadStateHandler.name]: loadStateHandler,
+  [phaseGateHandler.name]: phaseGateHandler,
+  [qualityGateHandler.name]: qualityGateHandler,
   [sacredGuardHandler.name]: sacredGuardHandler,
   [schemaValidateHandler.name]: schemaValidateHandler,
   [secretScanHandler.name]: secretScanHandler,
+  [testIntegrityHandler.name]: testIntegrityHandler,
 };
 
 export function getHook(name: string): HookHandler | undefined {
