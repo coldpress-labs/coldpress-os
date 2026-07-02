@@ -324,8 +324,10 @@ describe("Phase 2 gate.json structural contract (Wave 4.7)", () => {
     expect(gate.next_phase).toBe("3-tech-stack");
   });
 
-  it("has exactly 7 acceptance checks", () => {
-    expect(gate.acceptance_checks).toHaveLength(7);
+  it("has exactly 6 acceptance checks", () => {
+    // Was 7 before v0.4 WS0 removed the graph-freshness check (§8 item 1,
+    // Graphify retired — no graph staleness gate).
+    expect(gate.acceptance_checks).toHaveLength(6);
   });
 
   it("context-md-status-authored is block severity", () => {
@@ -358,10 +360,9 @@ describe("Phase 2 gate.json structural contract (Wave 4.7)", () => {
     expect(check!.severity).toBe("warn");
   });
 
-  it("graph-freshness is warn severity", () => {
+  it("no longer has a graph-freshness check (Graphify retired, v0.4 WS0)", () => {
     const check = gate.acceptance_checks.find((c) => c.id === "graph-freshness");
-    expect(check).toBeDefined();
-    expect(check!.severity).toBe("warn");
+    expect(check).toBeUndefined();
   });
 
   it("supersessions-log-if-applicable is warn severity", () => {

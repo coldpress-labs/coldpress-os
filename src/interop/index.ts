@@ -18,7 +18,10 @@ export interface InteropResult {
 /**
  * Which interop outputs to emit. Each level is cumulative — `cursor`
  * also produces the files of `claude` / `none`, `roo` also produces
- * cursor's, etc. `all` is the historical default.
+ * cursor's, etc. `all` was the pre-v0.4 default; as of v0.4 the default
+ * is `claude` (AGENTS.md only). Extra IDE targets (cursor/roo/openhands/
+ * cline) are opt-in (§8 item 14 — AGENTS.md is the vendor-neutral manifest;
+ * everything else is opted into explicitly).
  */
 export type InteropSet = "none" | "claude" | "cursor" | "roo" | "openhands" | "cline" | "all";
 
@@ -36,7 +39,7 @@ export interface InteropOptions {
   targetDir: string;
   /** If true, refuse to overwrite user-owned files (those missing the managed marker). Default: true. */
   respectManagedMarker?: boolean;
-  /** Filter which interop outputs to emit. Default: `all`. */
+  /** Filter which interop outputs to emit. Default: `claude` (AGENTS.md only; cursor/roo/openhands/cline are opt-in). */
   set?: InteropSet;
 }
 
@@ -90,7 +93,7 @@ function writersFor(set: InteropSet): {
 export async function runInterop({
   targetDir,
   respectManagedMarker = true,
-  set = "all",
+  set = "claude",
 }: InteropOptions): Promise<InteropResult> {
   const agentsDir = join(targetDir, ".claude", "agents");
   const agents = await parseAgentsDir(agentsDir);

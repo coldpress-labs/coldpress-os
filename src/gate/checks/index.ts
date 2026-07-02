@@ -13,9 +13,6 @@ export type { CheckSupersessionsResult } from "./gate-check-supersessions.js";
 export { configCheck } from "./config-check.js";
 export type { ConfigCheckResult } from "./config-check.js";
 
-export { graphStalenessCheck } from "./graph-staleness-check.js";
-export type { GraphStalenessResult } from "./graph-staleness-check.js";
-
 export { fileExistsAfter } from "./file-exists-after.js";
 export type { FileExistsAfterResult } from "./file-exists-after.js";
 

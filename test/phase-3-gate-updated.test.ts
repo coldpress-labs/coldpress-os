@@ -31,8 +31,10 @@ describe("Phase 3 gate.json — Wave 4 structure", () => {
     gate = JSON.parse(readFileSync(GATE_PATH, "utf8")) as GateJson;
   });
 
-  it("has exactly 13 acceptance_checks", () => {
-    expect(gate.acceptance_checks).toHaveLength(13);
+  it("has exactly 12 acceptance_checks", () => {
+    // Was 13 before v0.4 WS0 removed the stage-2 graph-freshness check
+    // (§8 item 1, Graphify retired).
+    expect(gate.acceptance_checks).toHaveLength(12);
   });
 
   it("has 10 stage-1 checks", () => {
@@ -40,18 +42,18 @@ describe("Phase 3 gate.json — Wave 4 structure", () => {
     expect(stage1).toHaveLength(10);
   });
 
-  it("has 3 stage-2 checks", () => {
+  it("has 2 stage-2 checks", () => {
     const stage2 = gate.acceptance_checks.filter((c) => c.stage === 2);
-    expect(stage2).toHaveLength(3);
+    expect(stage2).toHaveLength(2);
   });
 
-  it("stage-2 checks include env-provisioned, post-phase-3-update-ran, graph-freshness", () => {
+  it("stage-2 checks include env-provisioned, post-phase-3-update-ran (graph-freshness removed v0.4 WS0)", () => {
     const stage2Ids = gate.acceptance_checks
       .filter((c) => c.stage === 2)
       .map((c) => c.id);
     expect(stage2Ids).toContain("env-provisioned");
     expect(stage2Ids).toContain("post-phase-3-update-ran");
-    expect(stage2Ids).toContain("graph-freshness");
+    expect(stage2Ids).not.toContain("graph-freshness");
   });
 
   it("every check has a remediation field", () => {

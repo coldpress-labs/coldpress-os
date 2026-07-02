@@ -8,7 +8,39 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-(empty — all post-v0.3.2 work flows here.)
+### v0.4 "Enforcement" overhaul — WS0: Hygiene & cuts
+
+The first workstream of the v0.4 overhaul: remove ~a third of the surface before
+migrating anything. Pre-approved cut list §8, items 1–4, 13, 14 (item 8, the
+wrapper generator, is deferred to WS5). No behavioural change to the core lifecycle
+beyond the interop default; core installs with **no Python**.
+
+#### Removed
+
+- **Vendored Graphify** (`graph/vendor/graphify/`, ~1.5 MB / 73 files) and the
+  `coldpress graph rebuild|stats|query|view` verbs, the graph-staleness gate check,
+  and `src/graph/staleness.ts`. Retrieval/traceability moves to the forthcoming
+  native `coldpress trace`; AST code-indexing demotes to an optional brownfield
+  capability pack (external, on-demand install — never re-vendored). The
+  `graph-freshness` gate step is removed from the Phase 2 and Phase 3 exit gates.
+  Python is no longer a core requirement (removed from README + quick-start).
+- **`orchestrator/`** (17 spec files + one non-wired Inngest reference) — superseded
+  by native agent teams + the forthcoming `coldpress waves` script.
+- **Committed build artifacts** — root `coldpress-core-0.3.2-alpha.tgz` and
+  `packages/otel-exporter/node_modules/` (159 MB); `*.tgz` added to `.gitignore`.
+
+#### Changed
+
+- **Interop emission default is now AGENTS.md-only** (was: all IDE targets). AGENTS.md
+  is the vendor-neutral manifest emitted by default; Cursor / Roo / OpenHands / Cline
+  outputs are opt-in via `--interop`.
+- **`_sandbox/`** relocated to `reference/` (holding area until the brownfield pack lands).
+- **Unused CI templates** (Harness, GitLab, Azure) moved to `reference/ci-cd/`; GitHub
+  Actions stays in `data/ci-cd/`.
+- **`governance/promotion-flow.md`** terminology aligned to `sacred-docs.md` §6
+  (`devSandbox → App` ⇒ `sandbox/ → live/`).
+- **NOTICE.md** §4 rewritten: Graphify credited as optional-backend **lineage**, no
+  longer vendored — no source-redistribution obligation remains.
 
 ---
 

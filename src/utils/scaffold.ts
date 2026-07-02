@@ -77,9 +77,9 @@ export async function copyFramework(targetDir: string): Promise<void> {
       // something like `~/.npm/_npx/<hash>/node_modules/@coldpress/core`,
       // so a path-includes check would reject EVERY source under it and
       // silently skip the entire framework copy. The `frameworkDirs`
-      // whitelist (lifecycle / skills / orchestrator / governance / data /
-      // agents / templates / docs) is what scopes the copy — no real
-      // need for an exclusion list inside those whitelisted trees.
+      // whitelist (lifecycle / skills / governance / data / agents /
+      // templates / docs) is what scopes the copy — no real need for an
+      // exclusion list inside those whitelisted trees.
       if (source.endsWith(".DS_Store")) return false;
       return true;
     },

@@ -1,12 +1,12 @@
-# Promotion Flow — devSandbox → App
+# Promotion Flow — sandbox → live
 
-> Rules governing what promotes from the development sandbox to the production app repository. Applicable to Pattern A (Three-Tier) projects.
+> Rules governing what promotes from the development `sandbox/` tree to the production `live/` tree. Applicable to Pattern A (Three-Tier) projects. Terminology matches `sacred-docs.md` §6 (`sandbox/` → `live/`).
 
 ---
 
 ## 1. Principle
 
-The devSandbox contains everything: planning, orchestration, framework, AND application code. The app repo contains ONLY validated, production-ready application code and config.
+The `sandbox/` tree contains everything: planning, orchestration, framework, AND application code. The `live/` tree contains ONLY validated, production-ready application code and config.
 
 **Planning and orchestration never ship with the product.**
 
@@ -14,7 +14,7 @@ The devSandbox contains everything: planning, orchestration, framework, AND appl
 
 ## 2. What Promotes
 
-These directories and files are eligible for promotion from devSandbox to app:
+These directories and files are eligible for promotion from `sandbox/` to `live/`:
 
 ### Application Code
 - `app/`, `src/`
@@ -54,12 +54,12 @@ These directories and files are eligible for promotion from devSandbox to app:
 
 ## 4. Promotion Process
 
-1. **Validate in sandbox** — All tests pass, code review complete, story accepted
-2. **Copy promotable files** — Only files from the "What Promotes" list
-3. **Install dependencies** — `npm install` in app repo
-4. **Verify build** — App builds and runs in production mode
-5. **Commit in app** — With reference to the sandbox commit/story
-6. **Deploy** — From app repo per deployment pipeline
+1. **Validate in `sandbox/`** — All tests pass, code review complete, story accepted
+2. **Copy promotable files** — Only files from the "What Promotes" list, into `live/`
+3. **Install dependencies** — `npm install` in the `live/` tree
+4. **Verify build** — The `live/` tree builds and runs in production mode
+5. **Commit in `live/`** — With reference to the `sandbox/` commit/story
+6. **Deploy** — From the `live/` tree per deployment pipeline
 
 ---
 
@@ -68,8 +68,8 @@ These directories and files are eligible for promotion from devSandbox to app:
 | Location | Purpose | Committed? |
 |----------|---------|-----------|
 | `{project-root}/accounts-and-keys.md` | Master credential reference | Never (local root) |
-| `devSandbox/.env.local` | Development credentials | Never (gitignored) |
-| `app/.env.local` | Production credentials | Never (gitignored) |
+| `sandbox/.env.local` | Development credentials | Never (gitignored) |
+| `live/.env.local` | Production credentials | Never (gitignored) |
 
 ---
 
@@ -77,4 +77,5 @@ These directories and files are eligible for promotion from devSandbox to app:
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.1 | 2026-07-02 | Butler | Terminology aligned to `sacred-docs.md` §6: `devSandbox → App` replaced with `sandbox/ → live/` throughout (title, principle, promotion lists, process, credentials table). Resolves the drift flagged in the v0.4 overhaul audit (§2.2). Content/rules unchanged — only tier naming. Part of WS0 §8 item 13. |
 | 1.0 | 2026-04-07 | Alfred | Initial promotion flow — from SYSTEM.md Pattern A rules |

@@ -2,10 +2,10 @@
  * Routing lookup for `<NEED_INFO>` messages (§5.4).
  *
  * Maps each `NeedInfoKind` to its default upstream owner (a subagent
- * slug, or `"human"` for escalation). Kept in lockstep with the prose
- * table at `orchestrator/engine/need-info-routing.md` — when you change
- * one, change the other. Tests enforce the coverage invariant (every
- * kind has a route).
+ * slug, or `"human"` for escalation). This table is the single source of
+ * truth for need-info routing (the former prose table at
+ * `orchestrator/engine/need-info-routing.md` was removed in v0.4 WS0 §8
+ * item 2). Tests enforce the coverage invariant (every kind has a route).
  *
  * Budget-exhaustion ALWAYS routes to human, regardless of this table.
  */

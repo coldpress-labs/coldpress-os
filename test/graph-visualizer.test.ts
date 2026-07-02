@@ -428,7 +428,7 @@ describe("dependencies subgraph against real httpx fixture", () => {
   it("loads + produces a non-trivial code-module subgraph", async () => {
     const { loadGraph } = await import("../src/graph/index");
     const graph = await loadGraph({
-      projectDir: join(repoRoot, "graph", "vendor", "graphify", "worked", "httpx"),
+      projectDir: join(repoRoot, "test", "fixtures", "graph", "httpx"),
       graphPath: "graph.json",
     });
     const sg = dependencies(graph);

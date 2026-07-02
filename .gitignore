@@ -31,3 +31,6 @@ npm-debug.log*
 .npm
 coverage/
 .vitest-cache/
+
+# Packed tarballs (never commit; `npm pack` output — see overhaul WS0 §8 item 3)
+*.tgz

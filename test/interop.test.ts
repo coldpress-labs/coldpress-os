@@ -116,7 +116,9 @@ describe("runInterop — full sweep against shipped template", () => {
   });
 
   it("emits all four format families plus legacy outputs", async () => {
-    const result = await runInterop({ targetDir: project, respectManagedMarker: false });
+    // set:"all" is explicit — the default is now "claude" (AGENTS.md only, §8
+    // item 14); this test exercises full emission across every IDE target.
+    const result = await runInterop({ targetDir: project, respectManagedMarker: false, set: "all" });
 
     expect(result.warnings).toEqual([]);
     expect(result.skipped).toEqual([]);

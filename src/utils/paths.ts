@@ -53,7 +53,6 @@ export const templateDir = join(packageRoot, "template");
 export const frameworkDirs = [
   "lifecycle",
   "skills",
-  "orchestrator",
   "governance",
   "data",
   "agents",
