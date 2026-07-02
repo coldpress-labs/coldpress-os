@@ -629,5 +629,14 @@ Each: content preserved verbatim as passes/ops; cross-cutting wire-in refs repoi
 - **`ops/security-scan` + `ops/dep-health-check`** into the `security/scan-*` suite / `readiness`: −2, but requires verifying they're genuinely superseded (not still wired into Phase 9 readiness/gates) — higher risk of breaking gate refs.
 - Beyond those, forcing ≤80 means collapsing genuinely-distinct skills — contradicts the user's "minimal over-merge" directive.
 
-Landing point: **canonical 85 after two clean merges**; ≤80 is reachable only via the P7 REBUILD (WS5-E) + the riskier scanner supersession, or by over-merging distinct skills. Held for user direction on how far to push.
+Landing point: **canonical 85 after two clean merges**; ≤80 is reachable only via the P7 REBUILD (WS5-E) + the riskier scanner supersession, or by over-merging distinct skills.
+
+### Decision (2026-07-03) — accept 85; defer the rest
+
+**User decision: accept canonical 85 as WS5-B's landing on the corrected basis; the WS5 ≤80 criterion is met-in-spirit** (a corrected-denominator 85 vs the plan's ≤80, with no over-merging of genuinely-distinct skills). The two remaining reductions are folded into the workstreams where they're done properly, not forced here:
+
+- **P7 `story-slice` (← `create-epics`+`create-stories`) + `story-graph` (← `parallelization-strategy`) → WS5-E** — §5 marks them REBUILD, tied to the WS2 story-graph schema + `acceptance-stubs`; a mechanical concat now would be thrown away by the real rebuild.
+- **`ops/security-scan` + `ops/dep-health-check` supersession → WS6 / §5-P9 `readiness` rebuild** — where their gate/readiness wiring is in scope and can be verified before removal.
+
+**WS5-B consolidation: CLOSED at canonical 85.** Non-canonical payload (stack-packs 19 + creative 10 + meta 8 + edit-primitives 4 = 41) remains as designed. Next WS5 sub-workstreams: WS5-C (plugin distribution + delete init-time wrapper generator, §8 item 8), WS5-D (frontmatter modernization), WS5-E (rebuild dev-story/deploy + P7 story-slice/story-graph + team demo).
 
