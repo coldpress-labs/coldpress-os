@@ -16,7 +16,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
-| WS3 | Two-lane lifecycle | 🟡 in progress | `overhaul/ws3-two-lane` | — |
+| WS3 | Two-lane lifecycle | 🟢 closed | `overhaul/ws3-two-lane` | 2026-07-02 |
 | WS4 | Verification & design system | ⚪ not started | — | — |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
 | WS6 | Deploy packs | ⚪ not started | — | — |
@@ -341,10 +341,37 @@ the phase-gate hook already gates full-lane-only (WS1-D) — so the field plumbi
   wrappers (133 total). Release record on the canonical `_context/operations/` root.
   Commit `ff1d306`. **896 tests**, check:drift clean.
 
-**Remaining WS3:** C (`lane-upgrade` skill — back-fill full-lane sacred docs from lite
-artifacts, no data loss), D (scaffolded CLAUDE.md routing table + statusLine script).
+**Increment C — `lane-upgrade` (done):** `coldpress lane-upgrade` flips lite→full in
+coldpress.yaml + state.yaml (phase mapped) and back-fills the full-lane sacred-doc
+skeletons from spec.md; spec.md + decisions.md preserved byte-for-byte. + the `lane-upgrade`
+skill. +4 tests (no-data-loss + refusals + no-clobber). Commit `3daa8ed`.
 
-**Branch:** `overhaul/ws3-two-lane`, off main, tree green, not merged.
+**Increment D — statusline + routing table (done):** `coldpress statusline` (lane · phase ·
+tier · enforcement · gates) wired in template settings.json via `scripts/statusline.mjs`;
+scaffolded CLAUDE.md gains the lane routing table. +3 tests. Commit `3daa8ed`.
+
+---
+
+## 🟢 WS3 CLOSED (2026-07-02) — Phase 0 Foundation complete
+
+**Acceptance (§9):**
+- **`coldpress init` produces a lite project** ✅ — defaults to `lane: lite`; the lite lane's
+  sacred set is `spec.md` + `decisions.md` (≤3), and the flow is Spec/Build/Verify/Ship (no
+  P5/6/7 machinery). Verified e2e (statusline reads `lite · lite:spec`).
+- **Lane upgrade back-fills without data loss** ✅ (tested + e2e; lite artifacts byte-for-byte preserved).
+- **Demo Spec→Ship end-to-end, all gates firing** — the machinery is in place + unit-proven
+  (init lite, the 4 lite skills, hooks, statusline, lane-upgrade). The full live run is the
+  **§10 validation project** ("one real lite-lane client site"), which runs *after* Phase 0 —
+  recorded as the next milestone, not a WS3 code gap.
+
+Final gate: typecheck ✅, **903 tests** ✅, build ✅, check:drift OK ✅. CHANGELOG entry added.
+
+**§10 milestone:** Phase 0 (WS0→WS1→WS2→WS3) is DONE — cuts, enforcement, trace/waves, and the
+two-lane lifecycle. Next per build order: **Phase 1 — Trust (WS4 → WS5 → WS6)**, starting with
+WS4 (verification & design system), which also lights up the deferred trace requirement/component
+keying and the sacred-guard blast-radius.
+
+**Branch:** `overhaul/ws3-two-lane`, off main, tree green, clean, **not merged**.
 
 ---
 

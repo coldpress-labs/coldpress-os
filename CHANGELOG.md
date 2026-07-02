@@ -8,6 +8,28 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### v0.4 "Enforcement" overhaul — WS3: Two-lane lifecycle
+
+The lite lane becomes the structural default — full ceremony by consent, not by
+default. Completes the v0.4 foundation phase.
+
+#### Added
+
+- **Lite lane** — `coldpress init` now defaults to `lane: lite`: four consolidated
+  phases (**Spec → Build → Verify → Ship**, `lifecycle/lite/*`) with one `spec.md`
+  instead of the five-doc sacred set. *The lane changes ceremony, never safety* —
+  the same hooks, verifier, and deploy packs apply. `--lane full` for the 11-phase
+  lane.
+- **`.coldpress/state.yaml`** is now seeded at init (the orchestration spine the
+  hooks route off).
+- **`coldpress lane-upgrade`** — promote a lite project to the full lane without
+  data loss: flips the lane and back-fills the full-lane sacred-doc skeletons from
+  `spec.md`, which (with `decisions.md`) is preserved.
+- **`coldpress statusline`** — one-line orchestration status (lane · phase · tier ·
+  enforcement · gates), wired into Claude Code's statusLine.
+- Scaffolded `CLAUDE.md` gains a **lane routing table** (external users / payment /
+  novel architecture / effort → recommend full).
+
 ### v0.4 "Enforcement" overhaul — WS2: Trace + story graph
 
 Traceability and parallelism become computed, enforceable machinery — and the
