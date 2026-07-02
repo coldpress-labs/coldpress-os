@@ -36,6 +36,27 @@ This project uses **coldpress-os** at `coldpress-os/` (Shape A 11-phase lifecycl
 - Flow map: `coldpress-os/docs/flow-map.md`
 - Butler reference: `coldpress-os/docs/butler.md`
 
+## Lane (lite by default)
+
+This project runs in a **ceremony lane** (`lane:` in `coldpress.yaml`). **Lite** is
+the default: four phases — **Spec → Build → Verify → Ship** — with one `spec.md`
+instead of the five-doc sacred set. **Full** is the 11-phase lifecycle. *The lane
+changes ceremony, never safety* — the same hooks, verifier, and deploy packs apply
+in both.
+
+**When to recommend the full lane** — if **any two** are true:
+
+| Signal | Lean full when… |
+|--------|-----------------|
+| **External users** | real users beyond you/the client depend on it |
+| **Payment / PII** | it handles money, credentials, or personal data (tier T1/T2) |
+| **Novel architecture** | the design is genuinely new, not a known pattern |
+| **Effort** | the build is estimated > ~2 weeks |
+
+Upgrade any time with **`coldpress lane-upgrade`** — it back-fills the full-lane
+sacred docs from `spec.md` **without data loss**. The statusLine shows the current
+lane · phase · tier · enforcement.
+
 ## Subagents
 
 11 subagents are defined in `.claude/agents/`. Each runs with its own context window, tool allowlist, and model.

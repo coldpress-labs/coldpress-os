@@ -36,6 +36,8 @@ export interface InitInput {
   noGitInit?: boolean;
   /** Skip the pre-flight `coldpress doctor` check. */
   skipDoctor?: boolean;
+  /** Ceremony lane (§6). Default `lite`. */
+  lane?: "lite" | "full";
 }
 
 export interface ResolvedInitInputs {
@@ -179,6 +181,7 @@ export async function runInit(input: InitInput): Promise<void> {
       targetDir,
       retrofit,
       preferredIdes: preferredIdesFor(interopSet),
+      lane: input.lane ?? "lite",
     });
 
     // Post-write validation — catches template corruption or substitution bugs

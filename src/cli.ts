@@ -7,6 +7,8 @@ import { runDoctor } from "./commands/doctor.js";
 import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
+import { runLaneUpgrade } from "./commands/lane-upgrade.js";
+import { runStatusLine } from "./commands/statusline.js";
 import { runTrace } from "./commands/trace.js";
 import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
@@ -41,6 +43,7 @@ program
   )
   .option("--no-git-init", "skip `git init` + seed commit after scaffolding")
   .option("--skip-doctor", "skip the pre-flight `coldpress doctor` check")
+  .option("--lane <lane>", "ceremony lane: lite (default) | full")
   .action(
     async (
       projectNameArg: string | undefined,
@@ -53,6 +56,7 @@ program
         interop?: string;
         gitInit?: boolean;
         skipDoctor?: boolean;
+        lane?: string;
       },
     ) => {
       try {
@@ -66,6 +70,7 @@ program
           interop: opts.interop as InitInput["interop"],
           noGitInit: opts.gitInit === false,
           skipDoctor: opts.skipDoctor,
+          lane: opts.lane === "full" ? "full" : "lite",
         });
       } catch (err) {
         console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
@@ -86,6 +91,22 @@ program
   )
   .action((verb: string, id: string | undefined) => {
     process.exit(runTrace(verb, id));
+  });
+
+program
+  .command("statusline")
+  .description("Print the one-line orchestration status (lane · phase · tier · enforcement · gates) for Claude Code's statusLine.")
+  .action(() => {
+    process.exit(runStatusLine());
+  });
+
+program
+  .command("lane-upgrade")
+  .description(
+    "Promote a lite-lane project to the full lane without data loss (§6): flips lane in coldpress.yaml + state.yaml and back-fills the full-lane sacred-doc skeletons from spec.md (which is preserved).",
+  )
+  .action(() => {
+    process.exit(runLaneUpgrade());
   });
 
 program
