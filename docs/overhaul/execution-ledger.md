@@ -268,8 +268,16 @@ records (WS2/WS6); pending-human-gate in load-state (WS3/§7.7); PERT-ref cleanu
 - +20 tests; e2e verified (`trace orphans` catches seeded dangling consume + unresolved-ADR
   delta). Commit `934e4c0`. **869 tests**.
 
-**Remaining WS2:** C (`coldpress waves`), D (boundary-guard + delta-exit-gate + git hooks),
-E (wire trace `impact` into sacred-guard; trace-orphan gates at P6/P7).
+**Increment C — `coldpress waves` (done):**
+- `src/waves/compute.ts` `analyzeWaves()` — validates (acyclic; contract story on every
+  interface edge; intra-wave ownership disjointness) + computes wave layers, critical path
+  `(o+4m+p)/6`, team-mode qualification, IN-<wave> integration stories.
+- `src/commands/waves.ts` + `coldpress waves` — rejects (exit 1, no emit) on cycle / missing
+  contract / ownership overlap; else emits `docs/generated/{waves,schedule}.yaml` + mermaid.
+- +12 tests (all three §9 rejections + computation). e2e verified. Commit `c504193`. **881 tests**.
+
+**Remaining WS2:** D (boundary-guard hook + delta-resolution phase-exit gate + git-protocol
+hooks), E (wire trace `impact` into sacred-guard blast-radius; trace-orphan gates at P6/P7).
 
 **Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, not merged.
 
