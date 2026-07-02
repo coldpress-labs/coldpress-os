@@ -51,7 +51,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "Run qa-automation per story until coverage met.",
-      "skill_ref": "lifecycle/8-implementation/qa-automation"
+      "skill_ref": "skills/testing/test-automation"
     },
     {
       "id": "implementation-deltas-resolved",
@@ -68,7 +68,7 @@
       "kind": "automated",
       "severity": "warn",
       "remediation": "If amendments needed, use ci-pipeline amendment workflow.",
-      "skill_ref": "lifecycle/8-implementation/ci-pipeline"
+      "skill_ref": "skills/testing/ci-pipeline"
     },
     {
       "id": "phase-8-handoff-written",

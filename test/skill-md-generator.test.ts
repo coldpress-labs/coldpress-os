@@ -174,9 +174,13 @@ describe("generatePluginSkills end-to-end against shipped corpus", () => {
 
     expect(result.emitted.length).toBeGreaterThan(70);
 
-    // Routers get skipped with a known reason.
-    const skippedReasons = new Set(result.skipped.map((s) => s.reason));
-    expect(skippedReasons).toContain("router");
+    // Any skip carries a known reason. (The 21 `type: router` stubs were deleted
+    // in v0.4 WS5-B — plugin discovery replaces routing — so there are no longer
+    // routers to skip; the generator still skips dedupe/other cases cleanly.)
+    for (const s of result.skipped) {
+      expect(typeof s.reason).toBe("string");
+      expect(s.reason.length).toBeGreaterThan(0);
+    }
   });
 
   it("every emitted SKILL.md has spec-compliant frontmatter", async () => {
