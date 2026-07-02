@@ -17,7 +17,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
 | WS3 | Two-lane lifecycle | 🟢 closed | `overhaul/ws3-two-lane` | 2026-07-02 |
-| WS4 | Verification & design system | ⚪ not started | — | — |
+| WS4 | Verification & design system | 🟡 in progress | `overhaul/ws4-verification-design` | — |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
 | WS6 | Deploy packs | ⚪ not started | — | — |
 | WS7 | Evals & the loop | ⚪ not started | — | — |
@@ -371,7 +371,40 @@ two-lane lifecycle. Next per build order: **Phase 1 — Trust (WS4 → WS5 → W
 WS4 (verification & design system), which also lights up the deferred trace requirement/component
 keying and the sacred-guard blast-radius.
 
-**Branch:** `overhaul/ws3-two-lane`, off main, tree green, clean, **not merged**.
+**Branch:** `overhaul/ws3-two-lane`, off main, tree green, clean. **Merged to main
+`bcbe746` (--no-ff)** on 2026-07-02 — completes Phase 0 Foundation.
+
+---
+
+### Session 5 — 2026-07-02 · WS3 merge + WS4 kickoff
+
+**WS3 merged to main** (`bcbe746`, --no-ff). **Phase 0 Foundation complete** (WS0→WS3). Not pushed.
+
+**WS4 — Verification & design system** opened on `overhaul/ws4-verification-design` off main
+(P0/P1 — the differentiator; Opus per §0.1.7). This is the largest workstream after WS1.
+
+**Internal WS4 build order:**
+- **A. Design tokens + tokens-build** — the P5 enforcement contract + code binding. ← this session
+- **B. Roster surgery** (§4.5) — delete scrum-master/communicator/valet; rebuild qa→verifier
+  (clean-room, no Edit/Write); upgrade reviewer→opus; add `description:` frontmatter to all;
+  regenerate agent-roster.csv.
+- **C. testing.yaml schema** (L0–L7) + **outcomes.yaml** (outcome contract, P4 gate).
+- **D. visual-verify + acceptance-stubs skills**; wrap Anthropic webapp-testing in the verifier.
+- **E. P6 additions** (api-contract, data-model, analytics-plan, integration-inventory); wire ux-spec schema.
+
+Note: `test-integrity` hook already built (WS1-D). The trace requirement/component keying that
+WS2 deferred is lit up here (P4/P6 artifacts gain requirement IDs).
+
+**Increment A — design tokens + tokens-build (done):**
+- `schemas/design/tokens.schema.ts` — the load-bearing tokens contract (typography/color-roles+
+  dark/spacing/radii/shadows/breakpoints/z-index/motion), `.strict()`.
+- `src/design/tokens-build.ts` `buildCss()` + `coldpress tokens build` — regenerates
+  `_context/design/tokens.css` (CSS custom properties + `prefers-color-scheme: dark` override)
+  from tokens.json. The build consumes tokens by construction.
+- +7 tests incl. **"a token edit propagates into the CSS with no manual code change"** (a §9
+  acceptance). e2e verified. **910 tests**. Commit below.
+
+**Branch:** `overhaul/ws4-verification-design`, off main, tree green, not merged.
 
 ---
 

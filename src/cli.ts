@@ -9,6 +9,7 @@ import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
 import { runLaneUpgrade } from "./commands/lane-upgrade.js";
 import { runStatusLine } from "./commands/statusline.js";
+import { runTokensBuild } from "./commands/tokens.js";
 import { runTrace } from "./commands/trace.js";
 import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
@@ -91,6 +92,14 @@ program
   )
   .action((verb: string, id: string | undefined) => {
     process.exit(runTrace(verb, id));
+  });
+
+const tokensCmd = program.command("tokens").description("Design-token tooling (§5 P5).");
+tokensCmd
+  .command("build")
+  .description("Regenerate _context/design/tokens.css (CSS custom properties) from tokens.json — the code binding the build consumes by construction.")
+  .action(() => {
+    process.exit(runTokensBuild());
   });
 
 program
