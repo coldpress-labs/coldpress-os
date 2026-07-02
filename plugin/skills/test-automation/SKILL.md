@@ -2,7 +2,7 @@
 name: test-automation
 description: Expand test automation coverage for existing features in the codebase
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @developer in Phase 6
 version: "1.0"
 ---
 

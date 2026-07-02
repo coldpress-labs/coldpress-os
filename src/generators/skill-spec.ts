@@ -1,14 +1,18 @@
 /**
- * Agent Skills spec frontmatter (Anthropic, September 2025,
- * https://agentskills.io/specification).
+ * Agent Skills / Claude Code SKILL.md frontmatter (Anthropic).
+ * Field spec verified against https://code.claude.com/docs/en/skills.md
+ * (Frontmatter Reference, snapshot 2026-06-30) — WS5-D.
  *
- * Required: name, description.
- * Recommended: license, compatibility, allowed-tools, version.
+ * Emitted: name, description, license, compatibility, allowed-tools,
+ * disallowed-tools, context (`fork`), agent (only with `context: fork`),
+ * disable-model-invocation, version.
  *
- * Field constraints (per plan §2.10):
+ * Field constraints:
  *   - name: lowercase + hyphens only, 64-char max, matches parent dir
  *   - description: 1024-char max, "WHAT + WHEN" format
- *   - allowed-tools: space-separated (experimental per spec status)
+ *   - allowed-tools: space-separated built-in tool names (pre-approves, not restricts)
+ *   - context: only valid value is `fork` (runs the skill in an isolated subagent)
+ *   - disable-model-invocation: boolean; blocks model auto-invoke (explicit `/skill` still works)
  */
 
 export interface SpecFrontmatter {
@@ -17,6 +21,13 @@ export interface SpecFrontmatter {
   license: string;
   compatibility?: string;
   "allowed-tools"?: string;
+  "disallowed-tools"?: string;
+  /** `fork` runs the skill in an isolated subagent context (no conversation history). */
+  context?: string;
+  /** Fork subagent type — only meaningful with `context: fork` (defaults to general-purpose). */
+  agent?: string;
+  /** `true` blocks model auto-invocation; explicit `/skill` still works. */
+  "disable-model-invocation"?: boolean;
   version?: string;
 }
 
@@ -35,6 +46,12 @@ export interface RichFrontmatter {
   agent?: string;
   version?: string;
   tools?: string[];
+  /** `disallowed-tools` — removed from the available pool while the skill is active. */
+  disallowedTools?: string[];
+  /** `fork` runs the skill in an isolated subagent context. */
+  context?: string;
+  /** `true` blocks model auto-invocation (deploy-prod / sacred-change et al). */
+  disableModelInvocation?: boolean;
 }
 
 export interface ValidationIssue {
@@ -127,6 +144,18 @@ export function toSpecFrontmatter(rich: RichFrontmatter): SpecFrontmatter {
   if (rich.tools && rich.tools.length) {
     spec["allowed-tools"] = rich.tools.join(" ");
   }
+  if (rich.disallowedTools && rich.disallowedTools.length) {
+    spec["disallowed-tools"] = rich.disallowedTools.join(" ");
+  }
+  // `context: fork` runs the skill in an isolated subagent. `agent` is only
+  // meaningful alongside a fork (defaults to general-purpose otherwise), so we
+  // emit it only in that case — the source `agent` field otherwise drives the
+  // compatibility prose above, not a fork target.
+  if (rich.context === "fork") {
+    spec.context = "fork";
+    if (rich.agent) spec.agent = rich.agent;
+  }
+  if (rich.disableModelInvocation) spec["disable-model-invocation"] = true;
   if (rich.version) spec.version = rich.version;
   return spec;
 }
@@ -145,6 +174,18 @@ export function renderSpecFrontmatter(spec: SpecFrontmatter): string {
   }
   if (spec["allowed-tools"]) {
     lines.push(`allowed-tools: "${spec["allowed-tools"]}"`);
+  }
+  if (spec["disallowed-tools"]) {
+    lines.push(`disallowed-tools: "${spec["disallowed-tools"]}"`);
+  }
+  if (spec.context) {
+    lines.push(`context: ${spec.context}`);
+  }
+  if (spec.agent) {
+    lines.push(`agent: ${spec.agent}`);
+  }
+  if (spec["disable-model-invocation"]) {
+    lines.push("disable-model-invocation: true");
   }
   if (spec.version) {
     lines.push(`version: "${spec.version}"`);

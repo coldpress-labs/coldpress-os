@@ -3,6 +3,7 @@ name: lite-ship
 description: "Lite lane, phase 4 of 4 (Ship). Absorbs full-lane P9 (+ minimal P10): staging smoke → human-triggered production deploy → release record → uptime check wired. Production deploys are human-only, always."
 license: MIT
 compatibility: Invoked by @devops
+allowed-tools: "Read Write Bash"
 version: "1.0"
 ---
 

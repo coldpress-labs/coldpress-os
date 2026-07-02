@@ -3,7 +3,7 @@ name: "scan-vulns"
 description: "Run OSV-Scanner against dependency manifests; emits normalised ScanResult JSON"
 type: "simple"
 category: "security"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

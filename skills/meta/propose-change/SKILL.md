@@ -3,7 +3,7 @@ name: "propose-change"
 description: "Formalize feedback as GitHub Issues or PRs on the coldpress-os repository"
 type: "simple"
 category: "meta"
-agent: "valet"
+agent: "butler"
 phases: [meta]
 inputs:
   - "change description and rationale"

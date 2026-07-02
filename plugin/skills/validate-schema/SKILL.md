@@ -2,7 +2,8 @@
 name: validate-schema
 description: Structural validation of sacred-doc frontmatter against per-doc JSON Schemas (Ajv)
 license: MIT
-compatibility: Invoked by @qa in Phase 1
+compatibility: Invoked by @butler in Phase 1
+allowed-tools: "Bash Read"
 version: "1.0"
 ---
 

@@ -3,7 +3,7 @@ name: "scan-secrets"
 description: "Run Gitleaks against the repo history + working tree; emits normalised ScanResult JSON"
 type: "simple"
 category: "security"
-agent: "qa"
+agent: "verifier"
 phases: [1, 7]
 tools: ["Bash", "Read", "Write"]
 inputs:

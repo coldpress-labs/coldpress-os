@@ -17,7 +17,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "If system down, route through course-correct (incident response trigger).",
-      "skill_ref": "lifecycle/10-operate/sprint-status"
+      "skill_ref": "lifecycle/10-operate/operate-loop"
     },
     {
       "id": "sprint-status-current",
@@ -26,7 +26,7 @@
       "severity": "block",
       "schema_ref": "schemas/tracking/wave-status.schema.json",
       "artefact_path": "_context/tracking/sprint-status-v*.md",
-      "remediation": "Run `@devops sprint-status` to update."
+      "remediation": "Run `@devops operate-loop` to update."
     },
     {
       "id": "course-correction-logs-up-to-date",

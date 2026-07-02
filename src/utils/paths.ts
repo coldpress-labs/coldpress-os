@@ -46,9 +46,10 @@ export const templateDir = join(packageRoot, "template");
 
 /**
  * Framework directories copied into each consumer project at
- * `<project>/coldpress-os/`. Mirrors the pre-npm git-submodule layout so
- * `.claude/skills/*` wrappers resolving `coldpress-os/skills/…` continue
- * to work without change.
+ * `<project>/coldpress-os/`. Mirrors the pre-npm git-submodule layout.
+ * `plugin/` is the self-contained skill distribution (WS5-C, §8 item 8) —
+ * copied into `coldpress-os/plugin/` and enabled via the scaffolded
+ * `.claude/settings.json`, replacing init-time wrapper generation.
  */
 export const frameworkDirs = [
   "lifecycle",
@@ -58,6 +59,7 @@ export const frameworkDirs = [
   "agents",
   "templates",
   "docs",
+  "plugin",
 ] as const;
 
 /**

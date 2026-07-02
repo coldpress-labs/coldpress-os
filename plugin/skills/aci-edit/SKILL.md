@@ -3,6 +3,7 @@ name: aci-edit
 description: Bounded edit primitive — single-purpose edit + post-edit verification feedback (typecheck/lint) before the next step
 license: MIT
 compatibility: Invoked by @developer in Phase 6
+allowed-tools: "Read Edit Bash"
 version: "1.0"
 ---
 

@@ -3,6 +3,7 @@ name: acceptance-stubs
 description: Per story, write the acceptance test skeletons BEFORE implementation — unit-test stubs + Playwright spec skeletons, red by construction. For UI stories, computed-style assertions referencing tokens.json. The contract the developer implements to and the verifier runs.
 license: MIT
 compatibility: Invoked by @developer
+allowed-tools: "Read Write Bash"
 version: "1.0"
 ---
 

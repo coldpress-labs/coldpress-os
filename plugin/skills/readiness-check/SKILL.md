@@ -48,7 +48,7 @@ Multi-step workflow.
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — pre-deploy plan red-team
-- `editorial-structure` — readiness-report structure
+- `editorial` — readiness-report structure
 
 ---
 

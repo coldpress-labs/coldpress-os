@@ -2,7 +2,7 @@
 name: skill-builder
 description: Create and edit skill definitions for the coldpress-os framework. Enforces SKILL-AUTHORING-STANDARD v0.3.0-alpha (license-in-frontmatter, ≤10KB body, 8 required sections, license-checking, schema-driven outputs).
 license: MIT
-compatibility: Invoked by @valet in Phase meta
+compatibility: Invoked by @butler in Phase meta
 version: "1.1"
 ---
 

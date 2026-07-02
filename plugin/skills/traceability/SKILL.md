@@ -2,7 +2,7 @@
 name: traceability
 description: Generate traceability matrix linking requirements to tests and produce quality gate decision
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @verifier in Phase 6
 version: "1.0"
 ---
 

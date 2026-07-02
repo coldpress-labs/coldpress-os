@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join, relative } from "node:path";
 import type { RichFrontmatter, ValidationIssue } from "./skill-spec.js";
 import {
@@ -110,14 +110,53 @@ async function emitSkill(outputDir: string, skill: SourceSkill): Promise<string>
   const skillDir = join(outputDir, skill.frontmatter.name ?? "unnamed");
   await mkdir(skillDir, { recursive: true });
 
+  // Bundle the FULL skill tree so plugin skills are self-contained + portable:
+  // steps/, workflow.md, and any assets travel with the SKILL.md so references
+  // like "via steps/" resolve relative to the plugin skill dir. Nested skills
+  // (a subdir with its own SKILL.md — e.g. stack-pack sub-skills) are skipped;
+  // they emit separately under their own name.
+  const srcDir = dirname(skill.sourcePath);
+  await copyTreeExcludingNestedSkills(srcDir, skillDir);
+
+  // Overwrite the top-level SKILL.md with the spec-transformed frontmatter+body
+  // (the verbatim copy from the tree walk is replaced here).
   const spec = toSpecFrontmatter(skill.frontmatter);
   const frontmatter = renderSpecFrontmatter(spec);
   const body = skill.body.trim();
-
   const content = `${frontmatter}\n\n${body}\n`;
   const emittedPath = join(skillDir, "SKILL.md");
   await writeFile(emittedPath, content, "utf8");
   return emittedPath;
+}
+
+/**
+ * Recursively copy a source skill directory into the plugin, excluding the
+ * top-level SKILL.md (written transformed by the caller) and any subdirectory
+ * that is itself a skill (contains its own SKILL.md — emitted separately).
+ */
+async function copyTreeExcludingNestedSkills(srcDir: string, destDir: string): Promise<void> {
+  const entries = await readdir(srcDir, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = join(srcDir, entry.name);
+    const destPath = join(destDir, entry.name);
+    if (entry.isDirectory()) {
+      // Skip nested skills — a subdir with its own SKILL.md emits on its own.
+      if (await pathExists(join(srcPath, "SKILL.md"))) continue;
+      await mkdir(destPath, { recursive: true });
+      await copyTreeExcludingNestedSkills(srcPath, destPath);
+    } else if (entry.isFile() && entry.name !== "SKILL.md") {
+      await copyFile(srcPath, destPath);
+    }
+  }
+}
+
+async function pathExists(path: string): Promise<boolean> {
+  try {
+    await stat(path);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function parseSkillFile(sourcePath: string, sourceRel: string): Promise<SourceSkill | null> {
@@ -197,6 +236,19 @@ function parseRichFrontmatter(block: string): RichFrontmatter {
         case "version":
           result.version = value;
           break;
+        case "context":
+          result.context = value;
+          break;
+        case "disable-model-invocation":
+          result.disableModelInvocation = value === "true";
+          break;
+        case "tools":
+          // Inline array form: tools: ["Read", "Bash"] (multi-line handled below).
+          result.tools = parseInlineArray(value);
+          break;
+        case "disallowed-tools":
+          result.disallowedTools = parseInlineArray(value);
+          break;
         case "phase": {
           const n = parseInt(value, 10);
           result.phase = Number.isFinite(n) ? n : value;
@@ -233,6 +285,7 @@ function parseRichFrontmatter(block: string): RichFrontmatter {
       i++;
     }
     if (key === "tools") result.tools = items;
+    else if (key === "disallowed-tools") result.disallowedTools = items;
     else if (key === "phases") {
       result.phases = items.map((s) => {
         const n = parseInt(s, 10);
@@ -244,6 +297,16 @@ function parseRichFrontmatter(block: string): RichFrontmatter {
   }
 
   return result;
+}
+
+/** Parse an inline YAML array — `["Read", "Bash"]` or `[Read, Bash]` — to strings. */
+function parseInlineArray(value: string): string[] {
+  const m = /^\[(.*)\]$/.exec(value.trim());
+  if (!m) return [];
+  return (m[1] ?? "")
+    .split(",")
+    .map((s) => unquote(s.trim()))
+    .filter(Boolean);
 }
 
 async function* walkSkillFiles(root: string): AsyncGenerator<string> {

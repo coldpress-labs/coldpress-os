@@ -3,6 +3,7 @@ name: adversarial-review
 description: Perform a cynical adversarial review and produce a findings report
 license: MIT
 compatibility: Phase 2
+context: fork
 version: "1.0"
 ---
 

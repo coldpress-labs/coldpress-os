@@ -3,6 +3,7 @@ name: lane-upgrade
 description: Promote a lite-lane project to the full 11-phase lane without data loss. Runs `coldpress lane-upgrade` (flips the lane + back-fills the full-lane sacred-doc skeletons), then guides splitting spec.md's content into them.
 license: MIT
 compatibility: Invoked by @butler
+allowed-tools: "Read Write Bash"
 version: "1.0"
 ---
 

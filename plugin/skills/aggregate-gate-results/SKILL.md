@@ -2,7 +2,8 @@
 name: aggregate-gate-results
 description: Merge per-scanner ScanResult JSONs into a single AggregateResult; emits pass/fail for the phase-7 security-scan-classical acceptance check
 license: MIT
-compatibility: Invoked by @qa in Phase 7
+compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

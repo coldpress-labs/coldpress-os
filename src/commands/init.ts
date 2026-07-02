@@ -13,7 +13,6 @@ import { installSecretScanHook } from "../utils/install-precommit-hook.js";
 import { packageRoot } from "../utils/paths.js";
 import { recordInit as recordInitInRegistry } from "../utils/registry.js";
 import { assertNoCollision, copyFramework, copyTemplate, slugify } from "../utils/scaffold.js";
-import { generateWrappers } from "../utils/wrappers.js";
 import { assertValidColdpressYaml } from "../utils/yaml-validator.js";
 import { runDoctor } from "./doctor.js";
 
@@ -189,11 +188,8 @@ export async function runInit(input: InitInput): Promise<void> {
     const writtenYaml = await readFile(join(targetDir, "coldpress.yaml"), "utf8");
     assertValidColdpressYaml(writtenYaml, { phase: "init" });
 
-    s.message("Copying coldpress-os framework");
+    s.message("Copying coldpress-os framework + skill plugin");
     await copyFramework(targetDir);
-
-    s.message("Generating skill wrappers");
-    const wrapperCount = await generateWrappers(targetDir);
 
     s.message(interopMessage(interopSet));
     const interop = await runInterop({
@@ -203,7 +199,7 @@ export async function runInit(input: InitInput): Promise<void> {
     });
 
     s.stop(
-      `${pc.green("✓")} ${wrapperCount} skill wrappers + ${interop.files.length} interop files (${interopSet})`,
+      `${pc.green("✓")} coldpress-os skill plugin bundled + ${interop.files.length} interop files (${interopSet})`,
     );
 
     for (const warning of interop.warnings) {
@@ -256,9 +252,8 @@ export async function runInit(input: InitInput): Promise<void> {
       `  ${pc.cyan("claude")}   ${pc.dim("# open Claude Code in the project")}`;
   outro(
     `${nextSteps}\n\n` +
-      `${pc.dim("Inside Claude Code, install Anthropic's companion skills (one-time):")}\n` +
-      `  ${pc.cyan("/plugin install document-skills@anthropic-agent-skills")}   ${pc.dim("# for @communicator")}\n` +
-      `  ${pc.cyan("/plugin install example-skills@anthropic-agent-skills")}    ${pc.dim("# for @qa / @architect / @valet")}\n\n` +
+      `${pc.dim("The coldpress-os skill plugin auto-enables when you trust the folder in Claude Code —")}\n` +
+      `${pc.dim("no manual /plugin install needed. Then type `Hello Butler` to begin.")}\n\n` +
       `${pc.dim("If anything surprised you during init, run `coldpress feedback` — first impressions help.")}`,
   );
 }

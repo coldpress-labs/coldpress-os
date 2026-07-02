@@ -3,7 +3,7 @@ name: "scan-code"
 description: "Run Semgrep OSS rule-based SAST on the project source; emits normalised ScanResult JSON"
 type: "simple"
 category: "security"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

@@ -3,7 +3,7 @@ name: "workflow-builder"
 description: "Build, convert, and analyze workflow definitions with step files"
 type: "workflow"
 category: "meta"
-agent: "valet"
+agent: "butler"
 phases: [meta]
 inputs:
   - "../../docs/step-file-spec.md"

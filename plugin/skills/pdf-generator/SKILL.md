@@ -2,7 +2,7 @@
 name: pdf-generator
 description: Emit PDF documents from coldpress-os artefacts (PRD / architecture.md / retrospective / design-brief / etc.). Markdown-source primary; supports custom layouts via CSS @page rules. Pairs with `parse-document` (ingest side); together they form the document round-trip for Phase 4 / 5 / 11 deliverables.
 license: MIT
-compatibility: Invoked by @communicator in Phase 4
+compatibility: Invoked by @butler in Phase 4
 version: "1.0"
 ---
 

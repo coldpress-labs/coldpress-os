@@ -51,7 +51,7 @@ UX flows may surface PRD gaps: ambiguous user stories, missing acceptance criter
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — Step 4 finalisation (challenge UX assumptions; offer before lock)
-- `editorial-structure` — Step 4 finalisation (spec structure check)
+- `editorial` — Step 4 finalisation (spec structure check)
 - `advanced-elicitation` — Step 3 wireframes (vague_interaction_pattern triggers)
 - `problem-solving` — Step 3 wireframes (edge_case_hunter for UX edge cases)
 

@@ -2,7 +2,8 @@
 name: scan-secrets
 description: Run Gitleaks against the repo history + working tree; emits normalised ScanResult JSON
 license: MIT
-compatibility: Invoked by @qa in Phase 1
+compatibility: Invoked by @verifier in Phase 1
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

@@ -2,7 +2,7 @@
 name: nfr-assessment
 description: Assess non-functional requirements like performance, security, reliability, and scalability
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @verifier in Phase 6
 version: "1.0"
 ---
 

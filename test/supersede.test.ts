@@ -9,7 +9,7 @@ const BASE_OPTS = {
   sacredDocPath: "_context/sacred/context.md",
   conflictingContent: "Old brief states target is enterprise.",
   newContent: "Discovery confirms target is SMBs.",
-  decisionContext: "pre-project-interview Step 1 — vision question revealed pivot",
+  decisionContext: "intake Step 8 (vision) — vision question revealed pivot",
 };
 
 describe("promptSupersede", () => {
@@ -166,6 +166,6 @@ describe("promptSupersede", () => {
     const today = new Date().toISOString().slice(0, 10);
     await promptSupersede({ projectRoot: tmp, ...BASE_OPTS, confirmed: true });
     const content = await auditFileContent(today);
-    expect(content).toMatch(/pre-project-interview Step 1/);
+    expect(content).toMatch(/intake Step 8/);
   });
 });

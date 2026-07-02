@@ -2,7 +2,7 @@
 name: xlsx-generator
 description: Emit Excel .xlsx workbooks from structured data (sprint-status, retrospective tables, dependency-audit results, story breakdowns). Uses `exceljs`. Multi-sheet support; formula support; conditional formatting for dashboards.
 license: MIT
-compatibility: Invoked by @communicator in Phase 7
+compatibility: Invoked by @butler in Phase 7
 version: "1.0"
 ---
 
@@ -15,7 +15,7 @@ Multi-sheet by design: a sprint-status export gets one sheet per sprint + one su
 ## When to Use (Proactive Triggers)
 
 1. User says "export sprint-status to Excel" / "give me the dep-audit spreadsheet" / "render retrospective metrics as XLSX"
-2. Phase 7 sprint-planning artefact for stakeholder review
+2. Phase 7 sprint-status artefact for stakeholder review
 3. Phase 9 dep-audit / readiness-report for security review board
 4. Phase 10 sprint-status weekly stakeholder update
 5. Phase 11 retrospective metrics deliverable

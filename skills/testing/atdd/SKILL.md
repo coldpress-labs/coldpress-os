@@ -3,7 +3,7 @@ name: "atdd"
 description: "Generate failing acceptance tests from story criteria using Acceptance Test-Driven Development"
 type: "workflow"
 category: "testing"
-agent: "qa"
+agent: "developer"
 phases: [6]
 inputs:
   - "story file with acceptance criteria"

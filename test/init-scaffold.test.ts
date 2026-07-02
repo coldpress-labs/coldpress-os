@@ -6,7 +6,6 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { initGitRepo } from "../src/utils/git-init";
 import { installSecretScanHook } from "../src/utils/install-precommit-hook";
 import { assertNoCollision, copyFramework, copyTemplate, slugify } from "../src/utils/scaffold";
-import { generateWrappers } from "../src/utils/wrappers";
 import { assertValidColdpressYaml } from "../src/utils/yaml-validator";
 
 describe("scaffold helpers", () => {
@@ -25,7 +24,7 @@ describe("scaffold helpers", () => {
   });
 });
 
-describe("end-to-end scaffold (template + framework + wrappers)", () => {
+describe("end-to-end scaffold (template + framework + plugin)", () => {
   let tmp: string;
 
   beforeEach(async () => {
@@ -48,7 +47,6 @@ describe("end-to-end scaffold (template + framework + wrappers)", () => {
       targetDir,
     });
     await copyFramework(targetDir);
-    const wrapperCount = await generateWrappers(targetDir);
 
     // Template files landed with filled values.
     const yaml = await readFile(join(targetDir, "coldpress.yaml"), "utf8");
@@ -83,25 +81,39 @@ describe("end-to-end scaffold (template + framework + wrappers)", () => {
       await expect(stat(join(targetDir, relPath))).resolves.toBeTruthy();
     }
 
-    // Framework dirs copied under coldpress-os/.
+    // Framework dirs (incl. the bundled plugin) copied under coldpress-os/.
     const frameworkProbes = [
       "coldpress-os/lifecycle/1-bootstrap",
       "coldpress-os/skills/reviews/code-review/SKILL.md",
       "coldpress-os/governance/sacred-docs.md",
       "coldpress-os/data/agents/agent-roster.csv",
+      "coldpress-os/plugin/.claude-plugin/plugin.json",
+      "coldpress-os/plugin/.claude-plugin/marketplace.json",
     ];
     for (const relPath of frameworkProbes) {
       await expect(stat(join(targetDir, relPath))).resolves.toBeTruthy();
     }
 
-    // Wrappers generated — reasonable floor + at least one known skill.
-    expect(wrapperCount).toBeGreaterThan(40);
-    const codeReviewWrapper = await readFile(
-      join(targetDir, ".claude/skills/code-review/SKILL.md"),
+    // Skills ship via the self-contained plugin — NOT init-time wrappers (WS5-C,
+    // §8 item 8). No `.claude/skills/` wrapper tree is generated.
+    await expect(stat(join(targetDir, ".claude/skills"))).rejects.toThrow();
+
+    // The plugin manifest is spec-shaped, and each skill bundles its full tree.
+    const pluginManifest = JSON.parse(
+      await readFile(join(targetDir, "coldpress-os/plugin/.claude-plugin/plugin.json"), "utf8"),
+    );
+    expect(pluginManifest.name).toBe("coldpress-os");
+    const codeReviewSkill = await readFile(
+      join(targetDir, "coldpress-os/plugin/skills/code-review/SKILL.md"),
       "utf8",
     );
-    expect(codeReviewWrapper).toContain('name: "code-review"');
-    expect(codeReviewWrapper).toContain("coldpress-os/skills/reviews/code-review/SKILL.md");
+    expect(codeReviewSkill).toContain("name: code-review");
+
+    // The scaffolded settings enable the plugin via a local directory marketplace,
+    // so it auto-activates on folder trust — no manual `/plugin install`.
+    const settings = JSON.parse(await readFile(join(targetDir, ".claude/settings.json"), "utf8"));
+    expect(settings.enabledPlugins["coldpress-os@coldpress"]).toBe(true);
+    expect(settings.extraKnownMarketplaces.coldpress.source.path).toBe("./coldpress-os/plugin");
   });
 
   it("matches the full runInit flow — validator, git init, scaffold commit, pre-commit hook", async () => {
@@ -118,7 +130,6 @@ describe("end-to-end scaffold (template + framework + wrappers)", () => {
     expect(() => assertValidColdpressYaml(yamlSource, { phase: "init" })).not.toThrow();
 
     await copyFramework(targetDir);
-    await generateWrappers(targetDir);
 
     // Git repo initialised with a seed commit.
     const gitResult = await initGitRepo({ targetDir });

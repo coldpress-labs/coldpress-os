@@ -3,7 +3,7 @@ name: "evaluate-phase-gate"
 description: "Evaluate a phase's gate.json against the project state — runs automated checks, reports human-check pending state, emits pass/fail with severity roll-up"
 type: "simple"
 category: "governance"
-agent: "qa"
+agent: "butler"
 status: "wire-in-every-phase-transition"
 phases: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 inputs:

@@ -4,7 +4,7 @@ description: "Create presentations and visual communication strategies"
 type: "workflow"
 category: "creative"
 status: "cross-cutting"
-agent: "communicator"
+agent: "butler"
 phases: [4, 8]
 inputs:
   - "content, data, or message to present"

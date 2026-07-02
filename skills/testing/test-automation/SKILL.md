@@ -3,7 +3,7 @@ name: "test-automation"
 description: "Expand test automation coverage for existing features in the codebase"
 type: "workflow"
 category: "testing"
-agent: "qa"
+agent: "developer"
 phases: [6]
 inputs:
   - "project source code"

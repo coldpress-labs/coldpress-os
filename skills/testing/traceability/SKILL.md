@@ -3,7 +3,7 @@ name: "traceability"
 description: "Generate traceability matrix linking requirements to tests and produce quality gate decision"
 type: "simple"
 category: "testing"
-agent: "qa"
+agent: "verifier"
 phases: [6]
 inputs:
   - "_context/sacred/prd.md"

@@ -1,0 +1,25 @@
+name: static-single-page
+archetype_fits:
+  product_types:
+    - marketing-landing
+    - portfolio
+    - single-page-brochure
+  domain_complexity:
+    - low
+  functional_profile:
+    - mostly-static
+    - content-first
+    - no-backend
+pre_picked:
+  frontend: "Astro"
+  hosting: "Cloudflare Pages"
+  styling: "Tailwind"
+  package_manager: "pnpm"
+  source_control: "GitHub-private"
+overrideable: true
+baselines_out_of_box:
+  - seo_aeo_llm
+  - accessibility
+  - security
+  - future_proof
+quickstart_skill: "skills/stack-packs/static-single-page/quickstart"

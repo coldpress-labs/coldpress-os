@@ -3,7 +3,7 @@ name: "template-builder"
 description: "Create and edit document or infrastructure templates"
 type: "workflow"
 category: "meta"
-agent: "valet"
+agent: "butler"
 phases: [meta]
 inputs:
   - "../../templates/"

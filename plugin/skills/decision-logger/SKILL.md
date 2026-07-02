@@ -2,7 +2,7 @@
 name: decision-logger
 description: Lightweight ADR companion. Capture non-architectural decisions (process, scope, prioritisation, vendor choice, naming, etc.) that don't warrant a full ADR but should still be auditable. Emits dated decision-log entries with context + alternatives + rationale.
 license: MIT
-compatibility: Invoked by @scrum-master in Phase 2
+compatibility: Invoked by @pm in Phase 2
 version: "1.0"
 ---
 

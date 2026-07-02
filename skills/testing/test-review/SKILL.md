@@ -3,7 +3,7 @@ name: "test-review"
 description: "Review test quality using best practices validation and coverage analysis"
 type: "simple"
 category: "testing"
-agent: "qa"
+agent: "verifier"
 phases: [6]
 inputs:
   - "test files to review"

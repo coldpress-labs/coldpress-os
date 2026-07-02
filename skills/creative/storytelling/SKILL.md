@@ -4,7 +4,7 @@ description: "Craft compelling narratives using 24 story types and narrative fra
 type: "workflow"
 category: "creative"
 status: "cross-cutting"
-agent: "communicator"
+agent: "butler"
 phases: [2, 5, 8, 11]
 inputs:
   - "message, product, or concept to communicate"

@@ -1,0 +1,21 @@
+{
+  "name": "coldpress",
+  "metadata": {
+    "description": "ColdPress OS — the AI-native development framework, distributed as a Claude Code skill plugin (full Shape A lifecycle + lite lane)."
+  },
+  "owner": {
+    "name": "ColdPress Labs",
+    "email": "team@coldpressai.com"
+  },
+  "plugins": [
+    {
+      "name": "coldpress-os",
+      "source": "./",
+      "description": "AI-native development framework — skills for the full Shape A lifecycle + lite lane.",
+      "version": "0.3.2-alpha",
+      "author": {
+        "name": "ColdPress Labs"
+      }
+    }
+  ]
+}

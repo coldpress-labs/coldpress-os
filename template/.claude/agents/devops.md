@@ -33,7 +33,7 @@ DevOps is a single agent with two phase modes — Phase 9 ship-path discipline a
 - Incident response and course-correction
 - SLO tracking and alert tuning
 - Capacity / cost monitoring
-- Operational sprint cadence (sprint-status, mid-iteration adjustments)
+- Operational cadence (operate-loop, mid-iteration adjustments)
 - Production-impacting fixes via the dev-story → wave-orchestration loop
 - Surfacing ops-deltas for Phase 11 retrospective
 
@@ -42,7 +42,7 @@ DevOps is a single agent with two phase modes — Phase 9 ship-path discipline a
 | Phase | Role | Key Skills |
 |-------|------|------------|
 | 9 — Deployment | Pre-deploy readiness owner / deploy executor / post-deploy verifier | `readiness-check` (aggregator), `env-check`, `dep-health-check`, `security-scan`, `db-migration-check`, `deploy`, `observability-setup` |
-| 10 — Operate | Steady-state operator / incident responder | `sprint-status`, `course-correction`, `doc-project`, `monitor`, `incident-response` |
+| 10 — Operate | Steady-state operator / incident responder | `operate-loop`, `course-correction`, `doc-project`, `monitor`, `incident-response` |
 
 ## Context You Need
 

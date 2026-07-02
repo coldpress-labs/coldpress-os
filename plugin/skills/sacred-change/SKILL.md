@@ -3,6 +3,8 @@ name: sacred-change
 description: The one change workflow for every sacred doc (context, tech-stack, prd, architecture). Runs impact analysis, gets human approval, and emits the approved change record the sacred-guard hook requires before the edit is allowed.
 license: MIT
 compatibility: Invoked by @butler in Phase 2
+allowed-tools: "Read Write Bash"
+disable-model-invocation: true
 version: "1.0"
 ---
 

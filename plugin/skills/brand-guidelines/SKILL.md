@@ -44,8 +44,8 @@ Token tables auto-validated against active a11y baseline contrast minimums. Fail
 
 ## Cross-cutting wire-ins
 
-- `editorial-prose` — Step 2 voice/tone polish; Step 4 identity description polish
-- `editorial-structure` — Step 4 finalisation (full-doc structure check)
+- `editorial` — Step 2 voice/tone polish; Step 4 identity description polish
+- `editorial` — Step 4 finalisation (full-doc structure check)
 - `advanced-elicitation` — Steps 2, 3, 4 (vague_voice / vague_token_value / vague_brand_identity triggers)
 - `brainstorming` — Steps 2, 3 (round_robin, scamper for tokens; round_robin, what_if_mashup for voice)
 - `story_types` — Step 2 (`brand_voice_samples` type)
@@ -60,4 +60,4 @@ Token tables auto-validated against active a11y baseline contrast minimums. Fail
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-30 | Butler (autonomous queue unit #3 Wave 5.4) | Initial `brand-guidelines` skill — NEW under Shape A. Resolves deep-dive findings B17 (no canonical brand-guidelines home), B25 (ux-design-spec Section 8 token-scope conflict resolved by referencing this skill's output). Scope (iii) per Q3 — broadest: tokens + voice + tone + a11y + identity. Validated-distillate per Q4 (NOT sacred). 5-step workflow with graph-first inputs per §7b.3. Tier-1 method wire-ins: brainstorming (round_robin/scamper for tokens, voice exploration), advanced-elicitation (vague-style triggers), story_types (brand_voice_samples). Token tables auto-validated against active a11y baseline contrast minimums (B7 supersede-check pattern). Cross-cutting wire-ins: editorial-prose Step 2, editorial-structure Step 4. Schemas/template emitted. |
+| 1.0 | 2026-04-30 | Butler (autonomous queue unit #3 Wave 5.4) | Initial `brand-guidelines` skill — NEW under Shape A. Resolves deep-dive findings B17 (no canonical brand-guidelines home), B25 (ux-design-spec Section 8 token-scope conflict resolved by referencing this skill's output). Scope (iii) per Q3 — broadest: tokens + voice + tone + a11y + identity. Validated-distillate per Q4 (NOT sacred). 5-step workflow with graph-first inputs per §7b.3. Tier-1 method wire-ins: brainstorming (round_robin/scamper for tokens, voice exploration), advanced-elicitation (vague-style triggers), story_types (brand_voice_samples). Token tables auto-validated against active a11y baseline contrast minimums (B7 supersede-check pattern). Cross-cutting wire-ins: editorial Step 2, editorial Step 4. Schemas/template emitted. |

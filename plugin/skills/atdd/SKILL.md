@@ -2,7 +2,7 @@
 name: atdd
 description: Generate failing acceptance tests from story criteria using Acceptance Test-Driven Development
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @developer in Phase 6
 version: "1.0"
 ---
 

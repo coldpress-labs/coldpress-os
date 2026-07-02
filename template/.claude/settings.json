@@ -1,5 +1,13 @@
 {
   "$comment": "coldpress-os enforcement hooks (action plan §4.4, WS1) + statusLine (§7.7). Each hook event is wired to `node scripts/hooks/run.mjs <name>` — a thin dep-free runner that forwards to `coldpress hook <name>`; the logic lives in @coldpress/core and is unit-tested. Hooks honor COLDPRESS_OVERRIDE=\"<gate>:<reason>\" (loudly logged) and support `coldpress hook <name> --explain`.",
+  "extraKnownMarketplaces": {
+    "coldpress": {
+      "source": { "source": "directory", "path": "./coldpress-os/plugin" }
+    }
+  },
+  "enabledPlugins": {
+    "coldpress-os@coldpress": true
+  },
   "statusLine": {
     "type": "command",
     "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/statusline.mjs\""

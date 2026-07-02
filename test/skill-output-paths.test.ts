@@ -129,7 +129,7 @@ describe("SKILL.md output-path audit", () => {
   it("isPermitted accepts nested paths under canonical roots", () => {
     expect(isPermitted("_context/audit/ops/security-scan-{date}.md")).toBe(true);
     expect(isPermitted("_context/planning/creative/brainstorm-{topic}.md")).toBe(true);
-    expect(isPermitted("_context/audit/reviews/editorial-prose-{date}.md")).toBe(true);
+    expect(isPermitted("_context/audit/reviews/editorial-{date}.md")).toBe(true);
   });
 
   it("isPermitted rejects top-level non-canonical `_context/*` subfolders", () => {

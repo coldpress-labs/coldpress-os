@@ -3,6 +3,7 @@ name: lite-spec
 description: "Lite lane, phase 1 of 4 (Spec). Absorbs full-lane P1–P4 (+P5 lightly) into one pass: ingest → understand → lock stack+deploy → walking skeleton → a single spec.md. Ceremony compressed; safety kept."
 license: MIT
 compatibility: Invoked by @butler
+allowed-tools: "Read Write Bash WebSearch"
 version: "1.0"
 ---
 

@@ -6,7 +6,7 @@ version: "1.0"
 
 # Prompt Patterns (§6.7)
 
-> Five well-tested MetaGPT prompt patterns, ported as **discipline conventions** for the highest-stakes skills (`create-prd`, `create-architecture`, `parallelization-strategy`, code-review). Not a runtime, not a framework — a set of markup idioms that make skill outputs more machine-parseable, reviewer-grounded, and gap-visible.
+> Five well-tested MetaGPT prompt patterns, ported as **discipline conventions** for the highest-stakes skills (`create-prd`, `create-architecture`, `story-graph`, code-review). Not a runtime, not a framework — a set of markup idioms that make skill outputs more machine-parseable, reviewer-grounded, and gap-visible.
 
 **Source decision:** plan §6.7 (tier3-positioning-brief-2026-04-22.md §7.2).
 
@@ -17,7 +17,7 @@ version: "1.0"
 | # | Pattern | Problem it solves | Applied in |
 |---|---------|-------------------|------------|
 | 1 | **Inline section-level meta-descriptions** | Authors skip or misunderstand what a template section is for. | All 5 sacred-doc templates + high-stakes skill Process sections |
-| 2 | **"ATTENTION" preamble** | Agents treat formatting requirements as suggestions; machine-parsed outputs (PERT, epic sharding) arrive malformed. | `parallelization-strategy`, epic/story shard skills, any skill with downstream schema consumers |
+| 2 | **"ATTENTION" preamble** | Agents treat formatting requirements as suggestions; machine-parsed outputs (story-graph.yaml, epic sharding) arrive malformed. | `story-graph`, epic/story shard skills, any skill with downstream schema consumers |
 | 3 | **Forcing-function artefacts** | Agents skim / skip analysis; skipped work is invisible in the output. | Architecture diagram (mandatory Mermaid), PERT DAG (mandatory table), review rubric (mandatory row per criterion) |
 | 4 | **Tripartite code-review CoT scaffold** | Review becomes vibes-based; no line citations, no threshold gate. | `code-review`, `@reviewer` rubric-grounding |
 | 5 | **Closing "Output Contract" block** | Output format drifts between runs because the spec is stated once at the top + forgotten by generation time. | Every machine-consumed skill output |
@@ -68,7 +68,7 @@ For skills whose output is parsed downstream (PERT DAG → wave grouping, epics 
 
 **Why numbered:** imperatives in a list resist paraphrase the way prose advice doesn't. "Exactly these columns" survives truncation; "the output should have the columns …" doesn't.
 
-**Applied in:** `parallelization-strategy` (PERT shape), epic/story sharding (downstream consumer: sprint-planning), any skill whose output feeds a Zod schema validator.
+**Applied in:** `story-graph` (story-graph.yaml shape), epic/story sharding (downstream consumer: sprint-planning), any skill whose output feeds a Zod schema validator.
 
 ---
 
@@ -109,7 +109,7 @@ Or for tabular forcing:
 
 **Applied in:**
 - `create-architecture` — mandatory component diagram (Mermaid) + failure-mode table
-- `parallelization-strategy` — mandatory DAG (Mermaid) + wave table
+- `story-graph` — mandatory DAG (Mermaid) + wave table
 - `@reviewer` rubric — mandatory row per criterion
 
 ---
@@ -192,7 +192,7 @@ Pattern adoption is opt-in per skill, but the canonical high-stakes set is:
 |-------|-------|------------------|
 | 4 | `create-prd` | 1 + 2 + 5 |
 | 4 | `create-architecture` | 1 + 3 (Mermaid diagram + failure table) + 5 |
-| 5 | `parallelization-strategy` (PERT) | 1 + 2 (ATTENTION preamble) + 3 (DAG + wave table) + 5 |
+| 5 | `story-graph` (story-graph.yaml) | 1 + 2 (ATTENTION preamble) + 3 (DAG + wave table) + 5 |
 | 6 | `code-review` / `@reviewer` | 4 (tripartite CoT) + 5 |
 
 Block II ships the patterns doc + the snippet library + retrofits these 4 skills. Smaller skills (single-file single-artefact) don't need the full ceremony.
@@ -203,7 +203,7 @@ Block II ships the patterns doc + the snippet library + retrofits these 4 skills
 
 `test/prompt-patterns.test.ts` asserts:
 - Every flagged high-stakes skill SKILL.md carries `## Output Contract` (Pattern 5 enforcement — the one pattern that's cheap to check textually).
-- `parallelization-strategy` carries `## ATTENTION` (Pattern 2).
+- `story-graph` carries `## ATTENTION` (Pattern 2).
 - `create-architecture` carries a Mermaid block reference in the Process section (Pattern 3).
 
 If a skill is in the high-stakes set but misses a required marker, the test fails. Adding a new skill to the set: update the flagged-list in the test + apply the patterns.

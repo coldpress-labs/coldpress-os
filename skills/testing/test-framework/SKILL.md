@@ -3,7 +3,7 @@ name: "test-framework"
 description: "Initialize test framework with Playwright, Vitest, or Cypress based on project stack"
 type: "workflow"
 category: "testing"
-agent: "qa"
+agent: "developer"
 phases: [6]
 inputs:
   - "_context/sacred/tech-stack.md"

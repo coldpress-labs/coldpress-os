@@ -3,6 +3,7 @@ name: lite-verify
 description: "Lite lane, phase 3 of 4 (Verify). The full lane's verification half, unchanged: a structurally-independent @verifier checks the build against spec + tokens and emits a verdict record. Lite changes ceremony, never verification."
 license: MIT
 compatibility: Invoked by @verifier
+allowed-tools: "Read Grep Glob Bash"
 version: "1.0"
 ---
 

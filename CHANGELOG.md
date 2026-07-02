@@ -8,6 +8,60 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### v0.4 "Enforcement" overhaul — WS5: Skills consolidation & Claude Code alignment
+
+The skill corpus is consolidated to a canonical set, distributed as a Claude Code
+plugin, and modernised to current SKILL.md frontmatter — and the core P7–P9 loop
+skills are rebuilt around the v0.4 enforcement machinery.
+
+#### Added
+
+- **The skill plugin is the distribution vehicle** — `coldpress init` copies a
+  self-contained plugin (`coldpress-os/plugin/`, each skill bundled with its
+  `steps/`) and the scaffolded `.claude/settings.json` **auto-enables** it via a
+  local directory marketplace — no manual `/plugin install`, no generated skill
+  wrappers. Validated with `claude plugin validate`.
+- **`story-slice`** (Phase 7) — merges the former `create-epics` + `create-stories`
+  into one slicer that cuts the **three-way-keyed architecture (PRD × components ×
+  ADRs)** into story *contracts*: `owns`/`produces`/`consumes` globs, o/m/p
+  estimates, risk (forced high on security-registry paths), styleguide refs,
+  attached analytics events, and red acceptance stubs.
+- **`story-graph`** (Phase 7) — rebuilt from `parallelization-strategy`: authors
+  `story-graph.yaml` (typed edges) and runs **`coldpress waves`**, so waves,
+  critical path, and schedule are *computed*, never hand-authored.
+- **Modern SKILL.md frontmatter** — the generator now emits `disable-model-invocation`
+  (on `deploy` + `sacred-change` — never model-auto-fired), `context: fork` (on
+  `adversarial-review` — clean-room critique), and `disallowed-tools`; verified
+  against the official docs.
+- **Agent-team demo** — `docs/agent-team-demo.md`: a worked Phase 8 wave in team
+  mode (plan-approval + TaskCompleted gates, boundary-guard/quality-gate, clean-room
+  verifier outside the team).
+
+#### Changed
+
+- **`dev-story` + `deploy` rebuilt** to the v0.4 model — `dev-story`: plan-mode
+  entry, packet `owns` boundary, red stubs (test-integrity), quality-gate, styleguide
+  self-check, DLT for out-of-scope, clean-room verifier hand-off. `deploy`:
+  staging-first → human prod trigger → smoke → release record.
+- **Canonical skill count** counts lifecycle + cross-cutting skills (excludes
+  stack-pack payload, forkable creative atomics, framework-authoring meta, and
+  tool-primitives). Consolidations (research trio, editorial, doc utilities, P7
+  merges) landed it at **84**. `plugin.json`/marketplace versions now stamp from
+  `package.json` (drift fixed).
+- **`sprint-status` skill → `operate-loop`** (Phase 10 entry/orchestrator; the
+  scrum-era name retired, function preserved).
+
+#### Removed
+
+- **Init-time skill wrapper generation** (`src/utils/wrappers.ts`) — the plugin
+  replaces it.
+- **Merged/renamed away:** `editorial-prose`+`editorial-structure` → `editorial`;
+  `distillator`+`shard-doc`+`index-docs` → `docs`; `create-epics`+`create-stories`
+  → `story-slice`; `parallelization-strategy` → `story-graph`.
+- **PERT chart retired** at the skill + gate level — the computed wave plan
+  supersedes it (P7/P8 gate checks repointed to the story graph). Removed the dead
+  `phase-transition` graph-rebuild step (post-Graphify).
+
 ### v0.4 "Enforcement" overhaul — WS4: Verification & design system
 
 The studio's differentiator: verification made structurally independent, and the

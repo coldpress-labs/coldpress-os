@@ -2,7 +2,7 @@
 name: propose-change
 description: Formalize feedback as GitHub Issues or PRs on the coldpress-os repository
 license: MIT
-compatibility: Invoked by @valet in Phase meta
+compatibility: Invoked by @butler in Phase meta
 version: "1.0"
 ---
 

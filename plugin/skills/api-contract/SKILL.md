@@ -3,6 +3,7 @@ name: api-contract
 description: Phase 6. Author the API/type surface as a first-class artifact (OpenAPI or a typed route map), keyed to requirement ids. P7's contract stories are extracted FROM this — the wave-safety mechanism gets its content designed here, not invented per story.
 license: MIT
 compatibility: Invoked by @architect in Phase 6
+allowed-tools: "Read Write"
 version: "1.0"
 ---
 

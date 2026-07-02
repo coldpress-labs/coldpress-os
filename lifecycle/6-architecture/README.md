@@ -39,7 +39,7 @@ ADR authoring is a sub-flow inside `architecture-design` Step 5 (per Phase 6 dee
      ├── Step 3: Data flow + integration boundaries (with tech-stack imports verification)
      ├── Step 4: NFR implementation strategy (a11y / perf / SEO / observability — baseline-driven)
      ├── Step 5: ADR authoring — organic ADRs PLUS REQUIRED ADRs for flagged deltas
-     ├── Step 6: Architecture.md emit + sidecar + adversarial-review + editorial-structure + editorial-prose
+     ├── Step 6: Architecture.md emit + sidecar + adversarial-review + editorial
         │
         ▼
    phase-transition (writes phase-6-to-7 handoff)
@@ -88,8 +88,8 @@ No Phase-6-internal sub-personas at v0.3 (single-agent phase per Phase 6 §10b).
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — `architecture-design` Step 6 finalisation (challenge architectural assumptions; pre-mortem on integration boundaries)
-- `editorial-structure` — Step 6 finalisation (architecture.md structure check)
-- `editorial-prose` — Step 5 ADR rationale prose polish
+- `editorial` — Step 6 finalisation (architecture.md structure check)
+- `editorial` — Step 5 ADR rationale prose polish
 
 ## Architecture amendment workflow
 

@@ -18,7 +18,7 @@ For team + client-project shapes, the skill gains weight (Steps 7 + 8 unlock), b
 
 ## Versioning
 
-Output is versioned — `idea-validation-v{N}.md`. Re-running (e.g., after Step 9 routes to "revise") produces `v{N+1}`, not overwrite. Each version stays for traceability; `product-brief` and `synthesize-research` both read the latest `v{N}`.
+Output is versioned — `idea-validation-v{N}.md`. Re-running (e.g., after Step 9 routes to "revise") produces `v{N+1}`, not overwrite. Each version stays for traceability; `product-brief` (Steps 1 and 3) reads the latest `v{N}`.
 
 ## Conditional step rules
 
@@ -36,7 +36,7 @@ Butler reads `team_shape` at skill dispatch (via `condition-reader` helper, Wave
 - "before Phase 3"
 - "pressure test"
 - After parallel research + (optional) `personas` complete
-- Before `synthesize-research` — validation signals feed synthesis
+- Before `product-brief` — validation signals feed its Step 1 synthesis
 
 ## Prerequisites
 

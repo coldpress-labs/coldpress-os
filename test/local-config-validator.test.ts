@@ -34,7 +34,6 @@ phase_1_completed_at: "2026-04-24T12:34:56Z"
 orient_skipped: false
 project_shape: greenfield
 partial_completion: null
-needs_graph_rebuild: false
 `;
     expect(validateLocalConfig(yaml).valid).toBe(true);
   });
@@ -73,12 +72,6 @@ needs_graph_rebuild: false
 
   it("accepts partial_completion: null", () => {
     expect(validateLocalConfig("partial_completion: null").valid).toBe(true);
-  });
-
-  it("warns when needs_graph_rebuild is true but graph_rebuild_error is empty", () => {
-    const r = validateLocalConfig("needs_graph_rebuild: true");
-    expect(r.valid).toBe(true);
-    expect(r.warnings.some((w) => w.path === "graph_rebuild_error")).toBe(true);
   });
 
   it("rejects non-parseable phase_1_completed_at timestamp", () => {

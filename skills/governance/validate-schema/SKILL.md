@@ -3,7 +3,7 @@ name: "validate-schema"
 description: "Structural validation of sacred-doc frontmatter against per-doc JSON Schemas (Ajv)"
 type: "simple"
 category: "governance"
-agent: "qa"
+agent: "butler"
 phases: [1, 3, 4, 5]
 tools: ["Bash", "Read"]
 inputs:

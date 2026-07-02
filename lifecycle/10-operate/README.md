@@ -24,7 +24,7 @@ status: rewritten — Phase 10 implementation in progress (autonomous queue unit
 
 | Skill | Type | Owner |
 |-------|------|-------|
-| `sprint-status` | workflow | @devops (entry skill per Q1) |
+| `operate-loop` | workflow | @devops (entry skill per Q1) |
 | `correct-course` | workflow | @devops (3 triggers per Q5) — process drift / scope creep / metric anomaly |
 | `document-project` | workflow | @devops (post-deploy end-user-facing docs per Q4) |
 | `incident-response` | workflow | @devops — **NEW (Unit #28 / U12)**. Three sub-modes (in-flight timeline / post-mitigation postmortem / codify runbook). Distinct from `correct-course` (process drift) and Phase 11 retrospective (multi-incident pattern analysis). 5 artefacts: timeline / postmortem / runbook / ops-delta / action-items. Pattern-match against priors at detection (search-first reduces MTTR). Forward-carry per `ops-delta.schema.json`. |
@@ -35,11 +35,11 @@ status: rewritten — Phase 10 implementation in progress (autonomous queue unit
 [Phase 9 exit: deployed + post-deploy gate passed]
         │
         ▼
-   sprint-status (Step 0 — graph-first context + entry-sync)
+   operate-loop (Step 0 — graph-first context + entry-sync)
         │
         ▼
    Continuous loop (user-defined iteration cadence):
-     ├──→ sprint-status update (per iteration)
+     ├──→ operate-loop update (sprint-status-v{N}, per iteration)
      ├──→ correct-course (incident / bug / friction triggers)
      └──→ document-project (canonical user-facing docs)
         │
@@ -72,15 +72,15 @@ See `gate.json` (5 acceptance checks). User-invoked exit (Phase 11 retrospective
 
 ## ops-deltas mechanism (NEW — fourth forward-carry instance)
 
-Schema: `schemas/handoffs/ops-delta.schema.json`. Surfaced during course-correction or sprint-status iterations. delta_type enum: bug / performance / ux-friction / doc-gap / dependency-issue / security-incident. reconciliation_options enum: accept_into_phase_11_retrospective / accept_into_phase_11_product_evolution / immediate_corrective_action / park_for_phase_11.
+Schema: `schemas/handoffs/ops-delta.schema.json`. Surfaced during course-correction or operate-loop iterations. delta_type enum: bug / performance / ux-friction / doc-gap / dependency-issue / security-incident. reconciliation_options enum: accept_into_phase_11_retrospective / accept_into_phase_11_product_evolution / immediate_corrective_action / park_for_phase_11.
 
 **Reconciliation:** at Phase 10 EXIT (user-invoked Phase 11 transition). phase-transition step-02a-reconciliation extends to handle from_phase==10 — forwards ops_deltas[] to Phase 11 handoff (does NOT amend PRD; ops issues are learnings/improvements, not spec changes).
 
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — incident response red-team
-- `editorial-structure` — course-correction log; doc-project structure
-- `editorial-prose` — doc-project user-facing prose
+- `editorial` — course-correction log; doc-project structure
+- `editorial` — doc-project user-facing prose
 
 ## Method playbook
 

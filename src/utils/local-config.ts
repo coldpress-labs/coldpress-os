@@ -23,10 +23,6 @@ export interface LocalConfig {
     env_provision_category?: string;
     stack_lock_checkpoint?: "schema-valid" | "sacred-written" | "yaml-written";
   } | null;
-  /** Graph-prime failed; prompt retry on next orient. */
-  needs_graph_rebuild?: boolean;
-  /** Recorded reason for the failure — surfaced in the orient retry prompt. */
-  graph_rebuild_error?: string;
   /** Set to true by `coldpress update --post-phase-3` after stack-pack wrappers regenerated. */
   post_phase_3_update_ran?: boolean;
   post_phase_3_update_ran_at?: string;
@@ -77,8 +73,9 @@ export async function writeLocalConfig(
 }
 
 /**
- * Mark the start of an intake step. Writes `partial_completion` so orient
- * Step 0 can resume here on next boot if the step doesn't complete cleanly.
+ * Mark the start of an intake step. Writes `partial_completion` so intake's
+ * own Step 1 (mode detect) can resume here on next boot if the step doesn't
+ * complete cleanly.
  */
 export async function markStepStart(
   projectRoot: string,

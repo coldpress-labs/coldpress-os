@@ -2,7 +2,7 @@
 name: test-framework
 description: Initialize test framework with Playwright, Vitest, or Cypress based on project stack
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @developer in Phase 6
 version: "1.0"
 ---
 

@@ -3,7 +3,7 @@ name: "pptx-generator"
 description: "Emit PowerPoint .pptx decks from structured input (deck spec / story-arc / slides outline). Uses `pptxgenjs`. Pairs with `presentation` skill (deck authoring) — pptxgenjs is the renderer; presentation builds the structure."
 type: "simple"
 category: "creative"
-agent: "communicator"
+agent: "butler"
 phases: [4, 10, 11]
 license: "MIT"
 version: "1.0"

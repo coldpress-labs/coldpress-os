@@ -241,7 +241,7 @@ describe("PertToStoriesSchema", () => {
 describe("StoriesToImplementationSchema", () => {
   const validPayload = {
     schema_version: 1,
-    produced_by: "create-stories",
+    produced_by: "story-slice",
     produced_at: "2026-04-23T18:00:00Z",
     project_slug: "my-project",
     story_id: "E1.S1",

@@ -27,7 +27,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "Run `@devops env-check`. Fix env config OR Phase 3 baseline re-entry.",
-      "skill_ref": "lifecycle/9-deployment/env-check"
+      "skill_ref": "skills/ops/env-check"
     },
     {
       "id": "security-scan-pass",
@@ -35,7 +35,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "Run `@devops security-scan`. Block-severity findings → Phase 8 re-entry to fix code.",
-      "skill_ref": "lifecycle/9-deployment/security-scan"
+      "skill_ref": "skills/ops/security-scan"
     },
     {
       "id": "dep-health-check-pass",
@@ -43,7 +43,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "Run `@devops dep-health-check`. Phase 3 ADR amendment if dep replacement needed.",
-      "skill_ref": "lifecycle/9-deployment/dep-health-check"
+      "skill_ref": "skills/ops/dep-health-check"
     },
     {
       "id": "db-migration-check-pass",
@@ -88,11 +88,11 @@
     },
     {
       "id": "dependency-audit-license-clean",
-      "description": "dependency-auditor deep audit completed; no GPL/AGPL transitive deps; no Critical/High CVE without remediation plan",
+      "description": "readiness (incl. dependency audit) completed; no GPL/AGPL transitive deps; no Critical/High CVE without remediation plan",
       "kind": "automated",
       "severity": "block",
-      "skill_ref": "lifecycle/9-deployment/dependency-auditor",
-      "remediation": "Run `@devops dependency-auditor`. License-block findings BLOCK deploy; CVE remediations follow ranked priority list."
+      "skill_ref": "lifecycle/9-deployment/readiness-check",
+      "remediation": "Run `@devops readiness` (absorbs dependency-auditor). License-block findings BLOCK deploy; CVE remediations follow ranked priority list."
     },
     {
       "id": "observability-spec-emitted",

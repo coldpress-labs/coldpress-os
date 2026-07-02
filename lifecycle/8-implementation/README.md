@@ -106,8 +106,8 @@ See `gate.json` (8 acceptance checks). Summary: pert-locked re-verified; all-sto
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — code-review (per Q6); challenge implementation, edge-case-hunter
-- `editorial-prose` — code-comment polish
-- `editorial-structure` — test-spec structure, code-review report structure
+- `editorial` — code-comment polish
+- `editorial` — test-spec structure, code-review report structure
 
 ## Method playbook
 

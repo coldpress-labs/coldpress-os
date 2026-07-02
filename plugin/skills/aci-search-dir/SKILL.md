@@ -3,6 +3,7 @@ name: aci-search-dir
 description: "Bounded directory-scoped search primitive — Grep with capped result count + structured output (file:line:snippet)"
 license: MIT
 compatibility: Invoked by @developer in Phase 6
+allowed-tools: "Grep"
 version: "1.0"
 ---
 

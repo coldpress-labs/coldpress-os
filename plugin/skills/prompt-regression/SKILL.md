@@ -2,7 +2,8 @@
 name: prompt-regression
 description: Run Promptfoo eval against the project's promptfooconfig.yaml and emit a ScanResult for the Phase-7 llm-regression-gate acceptance check
 license: MIT
-compatibility: Invoked by @qa in Phase 7
+compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

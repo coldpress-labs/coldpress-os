@@ -3,7 +3,7 @@ name: "sbom"
 description: "Generate an SPDX or CycloneDX SBOM with Syft; emits the SBOM document and a ScanResult stub for gate integration"
 type: "simple"
 category: "supply-chain"
-agent: "qa"
+agent: "devops"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

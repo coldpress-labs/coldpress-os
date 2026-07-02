@@ -3,7 +3,7 @@ name: "nfr-assessment"
 description: "Assess non-functional requirements like performance, security, reliability, and scalability"
 type: "workflow"
 category: "testing"
-agent: "qa"
+agent: "verifier"
 phases: [6]
 inputs:
   - "_context/sacred/prd.md"

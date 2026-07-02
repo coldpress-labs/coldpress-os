@@ -3,7 +3,7 @@ name: "bmad-import"
 description: "One-way inbound adapter that translates a BMAD module directory (config.yaml + agents/ + workflows/ + templates/) into coldpress-os-shaped equivalents"
 type: "simple"
 category: "meta"
-agent: "valet"
+agent: "butler"
 phases: []
 tools: ["Bash", "Read", "Write"]
 inputs:

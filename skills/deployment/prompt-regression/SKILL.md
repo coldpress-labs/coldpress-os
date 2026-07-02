@@ -3,7 +3,7 @@ name: "prompt-regression"
 description: "Run Promptfoo eval against the project's promptfooconfig.yaml and emit a ScanResult for the Phase-7 llm-regression-gate acceptance check"
 type: "simple"
 category: "deployment"
-agent: "qa"
+agent: "verifier"
 phases: [7]
 tools: ["Bash", "Read", "Write"]
 inputs:

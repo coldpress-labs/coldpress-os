@@ -3,7 +3,7 @@ name: "ci-pipeline"
 description: "Scaffold CI/CD quality pipeline with test execution, coverage gates, and reporting"
 type: "workflow"
 category: "testing"
-agent: "qa"
+agent: "developer"
 phases: [6]
 inputs:
   - "_context/sacred/tech-stack.md"

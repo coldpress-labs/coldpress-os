@@ -150,7 +150,7 @@ export function validateColdpressYaml(
  * Throws {@link ColdpressYamlValidationError} if the yaml is invalid.
  * Returns the parsed data on success. Use at boundaries where a clean
  * yaml is required to proceed (init post-write, update pre-edit,
- * orient Step 2).
+ * intake Step 3 sanity check).
  */
 export function assertValidColdpressYaml(
   source: string,

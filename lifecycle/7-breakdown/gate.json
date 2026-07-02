@@ -4,14 +4,14 @@
   "phase": 7,
   "phase_name": "Breakdown",
   "shape": "A",
-  "note": "Phase 7 Breakdown is a cascade rename of old Phase 5 + Shape A scope refinement. Owner: @pm (with @scrum-master sub-persona for sprint-planning). Reads architecture (Phase 6 sacred) + PRD + UX-spec + brand-guidelines + ADRs + prototype-manifest. Activates **architecture-deltas reconciliation** at Phase 7 ENTRY (forward-carry from Phase 6 §12). Decomposes into per-story files + sacred PERT chart + sprint plan + 9-point implementation-readiness gate.",
+  "note": "Phase 7 Breakdown. Owner: @pm throughout. Two skills post-WS5-E: `story-slice` (merges the former create-epics + create-stories) slices the three-way-keyed architecture (PRD × components × ADRs) into epics + atomic ST-*.md story contracts (owns/produces/consumes, o/m/p, risk, acceptance-stubs); `story-graph` (rebuilt from parallelization-strategy) authors story-graph.yaml + runs `coldpress waves` (computed waves/critical-path/schedule) + the tracking file. Reads architecture (Phase 6 sacred) + PRD + UX-spec + tokens/styleguide + ADRs + api-contract + security-registry + analytics-plan. **Architecture-deltas reconciliation** happens at Phase 6 EXIT (`phase-transition` step-02a §B). **PERT retired** — the computed wave plan supersedes the old sacred PERT chart. Exit: 9-point implementation-readiness gate.",
   "entry_conditions": [
     "Phase 6 (Architecture) gate passed (incl. silent-divergence guard at #5)",
     "`_context/sacred/architecture.md` exists with `sacred: true` + `governance: locked`",
     "ADRs from Phase 3 + Phase 6 present at `_context/planning/adrs/`",
-    "PRD locked (possibly v(N+1) post-Phase-5-reconciliation)",
+    "PRD locked (possibly v(N+1) post-Phase-5-or-6-reconciliation)",
     "UX spec + brand-guidelines validated; prototype manifest exists",
-    "`_context/handoffs/phase-6-to-7-{date}.md` exists (with optional `architecture_deltas:` array)"
+    "`_context/handoffs/phase-6-to-7-{date}.md` exists, with a fully-resolved `architecture_deltas:` section (every entry has `user_decision` set — reconciled at Phase 6 exit, not a Phase 7 entry step)"
   ],
   "acceptance_checks": [
     {
@@ -20,26 +20,8 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/sacred/architecture.md",
-      "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation at Phase 7 entry-sync.",
+      "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation via `phase-transition` step-02a §B.",
       "schema_ref": "schemas/sacred-docs/architecture.schema.json"
-    },
-    {
-      "id": "breakdown-scope-emitted",
-      "description": "`_context/planning/breakdown-scope-v{latest}.md` exists (emitted by `breakdown-entry-sync` Step 2)",
-      "kind": "automated",
-      "severity": "block",
-      "schema_ref": "schemas/planning-artefacts/breakdown-scope.schema.json",
-      "artefact_path": "_context/planning/breakdown-scope-v*.md",
-      "remediation": "Run `@pm breakdown-entry-sync` first."
-    },
-    {
-      "id": "architecture-deltas-resolved",
-      "description": "Every `architecture_delta` in phase-6-to-7 handoff has user_decision set (one of: accept_into_prd, reject, flag_for_architecture_ADR, park_for_phase_11). For accept_into_prd deltas, PRD v(N+1) emitted with bumped VC.",
-      "kind": "automated",
-      "severity": "block",
-      "artefact_path": "_context/handoffs/phase-6-to-7-*.md",
-      "remediation": "Run `breakdown-entry-sync` Step 1 (architecture-deltas reconciliation pass).",
-      "skill_ref": "lifecycle/7-breakdown/breakdown-entry-sync"
     },
     {
       "id": "epics-validated",
@@ -48,7 +30,7 @@
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/epic.schema.json",
       "artefact_path": "_context/planning/epics-v*.md",
-      "remediation": "Run `@pm create-epics`."
+      "remediation": "Run `@pm story-slice` (Step 1 emits epics)."
     },
     {
       "id": "stories-validated",
@@ -57,16 +39,16 @@
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/story.schema.json",
       "artefact_path": "_context/implementation/stories/",
-      "remediation": "Run `@pm create-stories`."
+      "remediation": "Run `@pm story-slice` (Steps 2-3 emit per-story contracts + red stubs)."
     },
     {
-      "id": "pert-chart-sacred",
-      "description": "`_context/sacred/pert-chart.md` exists with `sacred: true` + `governance: locked`; schema-validates; sidecar exists",
+      "id": "story-graph-validated",
+      "description": "`_context/implementation/story-graph.yaml` exists, schema-validates, and `coldpress waves` accepts it (acyclic; every interface edge has a contract story; intra-wave ownership disjoint)",
       "kind": "automated",
       "severity": "block",
-      "schema_ref": "schemas/sacred-docs/pert-chart.schema.json",
-      "artefact_path": "_context/sacred/pert-chart.md",
-      "remediation": "Run `@pm parallelization-strategy`. PERT chart is SACRED per Q3 — amendments via governance/pert-change/."
+      "schema_ref": "schemas/story-graph.schema.ts",
+      "artefact_path": "_context/implementation/story-graph.yaml",
+      "remediation": "Run `@pm story-graph` (emits story-graph.yaml + runs `coldpress waves`). PERT chart retired — the computed wave plan supersedes it."
     },
     {
       "id": "sprint-status-validated",
@@ -74,7 +56,7 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/tracking/sprint-status-v*.md",
-      "remediation": "Run `@scrum-master sprint-planning` after PERT chart locked.",
+      "remediation": "Run `@pm story-graph` (Step 5 generates the tracking file from the computed wave assignment).",
       "schema_ref": "schemas/tracking/wave-status.schema.json"
     },
     {

@@ -13,12 +13,12 @@
   ],
   "acceptance_checks": [
     {
-      "id": "pert-chart-locked",
-      "description": "`_context/sacred/pert-chart.md` is locked + sacred (re-verified)",
+      "id": "story-graph-present",
+      "description": "`_context/implementation/story-graph.yaml` + the computed wave plan exist (Phase 7 output that Phase 8 executes)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "PERT amendments via governance/pert-change/.",
-      "schema_ref": "schemas/sacred-docs/pert-chart.schema.json"
+      "remediation": "Run `@pm story-graph` at Phase 7 (emits story-graph.yaml + `coldpress waves`). PERT chart retired.",
+      "schema_ref": "schemas/story-graph.schema.ts"
     },
     {
       "id": "all-stories-complete",
@@ -26,7 +26,7 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/implementation/stories/",
-      "remediation": "Run wave-orchestration to complete remaining stories.",
+      "remediation": "Butler orchestrates the remaining stories per `coldpress waves` (wave-orchestration retired).",
       "skill_ref": "lifecycle/8-implementation/dev-story"
     },
     {
@@ -51,7 +51,7 @@
       "kind": "automated",
       "severity": "block",
       "remediation": "Run qa-automation per story until coverage met.",
-      "skill_ref": "lifecycle/8-implementation/qa-automation"
+      "skill_ref": "skills/testing/test-automation"
     },
     {
       "id": "implementation-deltas-resolved",
@@ -68,7 +68,7 @@
       "kind": "automated",
       "severity": "warn",
       "remediation": "If amendments needed, use ci-pipeline amendment workflow.",
-      "skill_ref": "lifecycle/8-implementation/ci-pipeline"
+      "skill_ref": "skills/testing/ci-pipeline"
     },
     {
       "id": "phase-8-handoff-written",

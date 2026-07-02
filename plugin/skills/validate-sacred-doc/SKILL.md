@@ -2,7 +2,8 @@
 name: validate-sacred-doc
 description: Semantic policy enforcement on sacred docs (Conftest + Rego) — upstream references, approver rules, cross-doc consistency
 license: MIT
-compatibility: Invoked by @qa in Phase 3
+compatibility: Invoked by @butler in Phase 3
+allowed-tools: "Bash Read"
 version: "1.0"
 ---
 

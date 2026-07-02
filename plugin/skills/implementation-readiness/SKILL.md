@@ -12,7 +12,7 @@ Phase 7 final step — 9-point structured checklist per Q6 verifying Phase 8 ent
 
 ## When to Use
 
-- Phase 7 — invoked LAST, after `sprint-planning` completes.
+- Phase 7 — invoked LAST, after `story-graph` completes.
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ If any block-severity check fails: Phase 7 cannot exit. Loop back to upstream sk
 ## Cross-cutting wire-ins
 
 - `problem_solving` (failure_mode_analysis at check #7 ADR contradiction detection)
-- `editorial-structure` — Step 1 final report polish
+- `editorial` — Step 1 final report polish
 
 ## Method playbook
 

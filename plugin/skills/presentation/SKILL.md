@@ -2,7 +2,7 @@
 name: presentation
 description: Create presentations and visual communication strategies
 license: MIT
-compatibility: Invoked by @communicator in Phase 4
+compatibility: Invoked by @butler in Phase 4
 version: "1.0"
 ---
 

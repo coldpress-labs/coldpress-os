@@ -76,8 +76,8 @@ NEXT iteration's Phase 1 entry reads `_input/prior-iteration/` (brownfield-style
 ## Cross-cutting wire-ins
 
 - `adversarial-review` — retrospective challenge (red-team lessons)
-- `editorial-structure` — retro report + backlog structure
-- `editorial-prose` — retrospective prose
+- `editorial` — retro report + backlog structure
+- `editorial` — retrospective prose
 
 ## Method playbook
 

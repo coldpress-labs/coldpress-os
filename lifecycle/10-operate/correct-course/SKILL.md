@@ -4,7 +4,7 @@ description: "Manage significant changes during sprint execution through structu
 type: "workflow"
 category: "lifecycle"
 phase: 10
-agent: "scrum-master"
+agent: "pm"
 inputs:
   - "change trigger description"
   - "_context/sacred/prd.md"
