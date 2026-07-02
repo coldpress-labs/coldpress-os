@@ -6,6 +6,8 @@
  * machinery (handoff packets, deploy packs) exists.
  */
 
+import { boundaryGuardHandler } from "./boundary-guard.js";
+import { gitGuardHandler } from "./git-guard.js";
 import { loadStateHandler } from "./load-state.js";
 import { phaseGateHandler } from "./phase-gate.js";
 import { qualityGateHandler } from "./quality-gate.js";
@@ -17,6 +19,8 @@ import { testIntegrityHandler } from "./test-integrity.js";
 import type { HookHandler } from "./types.js";
 
 export const HOOK_HANDLERS: Record<string, HookHandler> = {
+  [boundaryGuardHandler.name]: boundaryGuardHandler,
+  [gitGuardHandler.name]: gitGuardHandler,
   [loadStateHandler.name]: loadStateHandler,
   [phaseGateHandler.name]: phaseGateHandler,
   [qualityGateHandler.name]: qualityGateHandler,

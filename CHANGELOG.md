@@ -8,6 +8,40 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### v0.4 "Enforcement" overhaul — WS2: Trace + story graph
+
+Traceability and parallelism become computed, enforceable machinery — and the
+sacred PERT chart is retired.
+
+#### Added
+
+- **`coldpress trace`** — a derived, in-memory traceability graph over the
+  project's schema'd artifacts (story-graph, ADRs, deltas today; requirement/
+  component keying activates in WS4). Verbs: `orphans` (dependency integrity +
+  the **silent-divergence guard** — every `flag_for_architecture_ADR` delta must
+  resolve to a real ADR — + the unresolved-delta phase-exit gate; exit 1 on a
+  blocking finding), `why` (upstream lineage), `impact` (downstream blast radius),
+  `coverage`. Wired into the P6 + P7 exit gates.
+- **`coldpress waves`** — validates the story graph (acyclic; a contract story on
+  every `interface` edge; intra-wave ownership disjointness) and derives the wave
+  plan: topological waves, critical path via `(o+4m+p)/6`, team-mode qualification,
+  auto-generated `IN-<wave>` integration stories. Emits `docs/generated/{waves,
+  schedule}.yaml` + a mermaid render. Waves are computed, never authored.
+- **Data-contract schemas**: `handoff.schema.ts` (one packet per inter-agent
+  boundary — scoped inputs + forbidden globs + return contract), `delta.schema.ts`
+  (the forward-carry quartet; `resolution: null` blocks phase exit),
+  `story-graph.schema.ts` (stories with o/m/p estimates + ownership globs + typed
+  edges — replaces the sacred PERT chart).
+- **`boundary-guard`** hook (PreToolUse) — blocks a write matching the active
+  handoff packet's `forbidden` globs, so a delegated subagent cannot write outside
+  its lane. **`git-guard`** hook (PreToolUse Bash) — trunk-based protocol: blocks
+  direct subagent commits to `main`.
+
+#### Changed
+
+- `sacred-change` skill computes the blast radius (`coldpress trace impact`) and
+  flips impacted stories to re-verify when a sacred doc changes.
+
 ### v0.4 "Enforcement" overhaul — WS1: Enforcement layer
 
 The heart of v0.4: the framework's rules stop being prose an agent may ignore and

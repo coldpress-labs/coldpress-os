@@ -15,7 +15,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 |----|-------|-------|--------|--------|
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
-| WS2 | Trace + story graph | ⚪ not started | — | — |
+| WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
 | WS3 | Two-lane lifecycle | ⚪ not started | — | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
@@ -226,7 +226,85 @@ Final gate: typecheck ✅, **849 tests** ✅, build ✅, 11 gate.json valid ✅,
 records (WS2/WS6); pending-human-gate in load-state (WS3/§7.7); PERT-ref cleanup (WS2);
 `docs/` regen-target ref cleanup (§8.11). CHANGELOG entry added.
 
-**Branch:** `overhaul/ws1-enforcement`, off main, tree green, clean, **not merged**.
+**Branch:** `overhaul/ws1-enforcement`, off main, tree green, clean. **Merged to main
+`65e6cf4` (--no-ff)** on 2026-07-02.
+
+---
+
+### Session 3 — 2026-07-02 · WS1 merge + WS2 kickoff
+
+**WS1 merged to main** (`65e6cf4`, --no-ff). Not pushed to origin.
+
+**WS2 — Trace + story graph** opened on `overhaul/ws2-trace-storygraph` off main
+(P0, Opus per §0.1.7). Read: §4.2 (handoff packet), §4.3 (delta), §4.6 (trace),
+§4.7 (story graph + waves), operating-model §II.2/§II.3.
+
+**Internal WS2 build order:**
+- **A. Data-contract schemas** (handoff, delta, story-graph) ← this session
+- **B. `coldpress trace`** (§4.6) — load schema'd artifacts → in-memory graph; verbs
+  orphans/why/impact/coverage/release. Cannibalize `src/graph/index.ts`.
+- **C. `coldpress waves`** (§4.7) — validate DAG + contract-story-on-interface +
+  intra-wave ownership disjointness; compute waves + critical path; emit waves.yaml/schedule.yaml/mermaid.
+- **D. boundary-guard hook** (reads active packet forbidden/ownership) + delta-resolution
+  phase-exit gate + git-protocol hooks (G4). Register on the WS1 harness.
+- **E. Integration** — wire trace blast-radius into sacred-guard (the §4.4 deferred part);
+  trace-orphan gates at P6/P7.
+
+**Increment A — data contracts (done):**
+- `schemas/handoff.schema.ts` (§4.2/§II.2) — one packet for every boundary (scoped
+  inputs, forbidden globs, return contract). `.strict()`.
+- `schemas/delta.schema.ts` (§4.3/§II.3) — forward-carry quartet; `resolution: null`
+  = unresolved (blocks phase exit); `isUnresolved()` helper.
+- `schemas/story-graph.schema.ts` (§4.7) — stories (o/m/p, risk, owns/produces/consumes,
+  kind story|contract|integration) + typed edges (blocks|interface|informs).
+- `test/ws2-schemas.test.ts` — 12 tests. typecheck green.
+
+**Increment B — `coldpress trace` (done):**
+- `src/trace/{types,graph,build,verbs}.ts` + `src/commands/trace.ts` + CLI. In-memory
+  graph over story-graph.yaml + ADRs + deltas (extends to P4/P6 keying in WS4).
+- Verbs: `orphans` (dangling consumes + **silent-divergence guard** [flag_for_architecture_ADR
+  delta → real ADR] + isolated stories; exit 1 on blocking finding), `why`, `impact`
+  (sacred-guard blast-radius uses this in WS2-E), `coverage`. `delta.schema` gained `adr_ref`.
+- +20 tests; e2e verified (`trace orphans` catches seeded dangling consume + unresolved-ADR
+  delta). Commit `934e4c0`. **869 tests**.
+
+**Increment C — `coldpress waves` (done):**
+- `src/waves/compute.ts` `analyzeWaves()` — validates (acyclic; contract story on every
+  interface edge; intra-wave ownership disjointness) + computes wave layers, critical path
+  `(o+4m+p)/6`, team-mode qualification, IN-<wave> integration stories.
+- `src/commands/waves.ts` + `coldpress waves` — rejects (exit 1, no emit) on cycle / missing
+  contract / ownership overlap; else emits `docs/generated/{waves,schedule}.yaml` + mermaid.
+- +12 tests (all three §9 rejections + computation). e2e verified. Commit `c504193`. **881 tests**.
+
+**Increment D — boundary-guard + git-guard + delta gate (done):**
+- `boundary-guard` (PreToolUse Edit|Write) — blocks writes matching the active handoff
+  packet's `forbidden` globs (new `src/utils/glob-match.ts`). `git-guard` (PreToolUse Bash) —
+  blocks subagent commits to main. `trace orphans` now flags unresolved deltas (§4.3). Commit `a35e10e`.
+
+**Increment E — trace integration (done):**
+- `coldpress trace orphans` gate check added to P6 + P7 exit gates. `sacred-change` skill Step 6
+  calls `coldpress trace impact` (blast radius → flip stories to re-verify). Commit `a35e10e`.
+
+---
+
+## 🟢 WS2 CLOSED (2026-07-02)
+
+**Acceptance (§9), by command:**
+- **`waves` rejects a cycle, a missing contract story, and an ownership overlap** ✅ (12 tests + e2e).
+- **Packet boundary blocks an out-of-scope write** ✅ (boundary-guard e2e — deny with packet id).
+- **`trace orphans` gates P6/P7** ✅ (gate.json checks added) and catches dangling deps + the
+  silent-divergence guard (flag_for_architecture_ADR → ADR) + unresolved deltas, exit 1 (e2e).
+- **PRD edit → impacted stories flip to re-verify** — mechanism wired (`sacred-change` Step 6 →
+  `trace impact`); the full requirement→story blast radius + the "unmapped requirement" orphan
+  **activate when WS4 adds requirement/component keying** to P4/P6 artifacts. Recorded, not a blocker.
+
+Final gate: typecheck ✅, **894 tests** ✅, build ✅, gate.json valid ✅, check:drift OK ✅.
+CHANGELOG entry added.
+
+**Deferred (recorded):** requirement/component/threat/release/test trace nodes → WS4/WS6 (the
+model + verbs already support them); `release`-verb + REL-* schema → WS6.
+
+**Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, clean, **not merged**.
 
 ---
 

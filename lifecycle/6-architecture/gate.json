@@ -95,6 +95,14 @@
       "skill_ref": "lifecycle/6-architecture/diagram-creator",
       "artefact_path": "_context/design/diagrams/v*/index-*.md",
       "remediation": "Run `@architect diagram-creator` after `architecture-design` locks. Minimum: 1 system-context + 1 component diagram covering every ArchitectureComponent node."
+    },
+    {
+      "id": "trace-orphans-clean",
+      "description": "`coldpress trace orphans` reports no blocking findings — every flag_for_architecture_ADR delta has a matching ADR, no unresolved deltas, no dangling dependencies. (§4.6 P6 orphan gate; requirement→component coverage activates with WS4 keying.)",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress trace orphans",
+      "remediation": "Run `coldpress trace orphans` and resolve each finding: map the requirement to a component, add the missing ADR, or resolve the delta."
     }
   ],
   "next_phase": "7-breakdown"

@@ -7,6 +7,8 @@ import { runDoctor } from "./commands/doctor.js";
 import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
+import { runTrace } from "./commands/trace.js";
+import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
 import { runRunInspect, runRunList } from "./commands/run.js";
 import { runSecurityAggregate } from "./commands/security.js";
@@ -76,6 +78,24 @@ program
 // §8 item 1 — vendored Graphify retired. Retrieval/traceability moves to
 // `coldpress trace` (WS2, §4.6); AST indexing demotes to the brownfield
 // capability pack (§7.6).
+
+program
+  .command("trace <verb> [id]")
+  .description(
+    "Traceability over the project's schema'd artifacts (§4.6). Verbs: orphans (integrity + silent-divergence guard; exit 1 on a blocking finding), why <id>, impact <id>, coverage.",
+  )
+  .action((verb: string, id: string | undefined) => {
+    process.exit(runTrace(verb, id));
+  });
+
+program
+  .command("waves")
+  .description(
+    "Validate the story graph and emit the derived wave plan (§4.7). Rejects cycles, missing contract stories, and intra-wave ownership overlaps; writes docs/generated/{waves,schedule}.yaml + mermaid.",
+  )
+  .action(() => {
+    process.exit(runWaves());
+  });
 
 program
   .command("hook [name]")
