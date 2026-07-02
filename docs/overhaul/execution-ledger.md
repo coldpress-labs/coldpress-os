@@ -662,3 +662,23 @@ Made the Claude Code plugin the skill-distribution vehicle and deleted init-time
 
 **WS5-C: CLOSED** (skills-via-plugin core). **Next:** WS5-D (frontmatter modernization) → WS5-E (rebuild dev-story/deploy + P7 story-slice/story-graph + team demo). D18 (agents+hooks-in-plugin) pending user direction.
 
+---
+
+## WS5-D — Frontmatter modernization (§9 WS5) — CLOSED (2026-07-03, Opus session)
+
+Field spec verified against `code.claude.com/docs/en/skills.md` (Frontmatter Reference, snapshot 2026-06-30) via the `claude-code-guide` agent **before** editing (per the plan's "verify current field names before mass-editing"). **Commit `cf7645e`.**
+
+**Generator support added** (`skill-spec.ts` + `skill-md-generator.ts`): emit `disable-model-invocation` (boolean), `context: fork`, `agent` (only alongside a fork — the source `agent` otherwise drives compatibility prose, NOT a fork target, per the guide's "agent does nothing without context: fork"), and `disallowed-tools`. Parser now also reads **inline-array** `tools: [...]` / `disallowed-tools: [...]` (previously only multi-line lists parsed) — a latent bug fix: 28 tools-declaring skills (e.g. `sacred-change`) now correctly emit `allowed-tools`. `frontmatter-lint` validates `context` (only `fork`) + `disable-model-invocation` (boolean). +4 generator tests.
+
+**Applied — the clear, safe, plan-specified cases only:**
+- `disable-model-invocation: true` → `deploy` (P9) + `sacred-change`. Never model-auto-fired; explicit `/skill` invocation still works. (No separate `deploy-prod` skill exists yet — it's a WS6 deploy-pack split; the flag lands on the current `deploy` now and moves to `deploy-prod` when WS6 splits staging/prod.)
+- `context: fork` → `adversarial-review` — the canonical clean-room critique (isolated subagent, default general-purpose; reads artifacts by path so forking is viable). `code-audit`/`visual-verify` deliberately skipped: already run inside the clean-room `@verifier` (forking within it is redundant).
+
+**Deliberately NOT done (documented, not silently skipped):**
+- **Blanket `allowed-tools`** — the docs confirm it only *pre-approves* permissions (doesn't restrict availability), so mass-applying it across 126 skills is low-value + risky (per-skill tool analysis). Left as per-skill opt-in; the 28 skills that already declare `tools:` get it.
+- **Broader `context: fork` adoption** — deferred to per-skill validation in the WS5-E team demo (fork semantics for cross-cutting skills — how the specific artifact reaches the forked subagent — should be exercised before wider rollout).
+
+**Green:** typecheck ✅, **927 tests** ✅ (+4), lint:frontmatter ✅, check:drift ✅.
+
+**WS5-D: CLOSED.** **Next:** WS5-E (rebuild dev-story/deploy + P7 story-slice/story-graph + agent-team demo) → WS5 acceptance. D18 (agents+hooks-in-plugin) still pending user direction.
+
