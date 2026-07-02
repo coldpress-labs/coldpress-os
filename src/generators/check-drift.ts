@@ -29,6 +29,11 @@ const GENERATORS: Generator[] = [
     cmd: "npm run --silent build:skills",
     paths: ["plugin/"],
   },
+  {
+    name: "agent roster",
+    cmd: "npm run --silent build:roster",
+    paths: ["data/agents/agent-roster.csv"],
+  },
   // Future generators (§8 item 11 docs-regeneration) plug in here:
   //   { name: "registries", cmd: "npm run --silent build:registries",
   //     paths: ["REGISTRY.md", "TEMPLATES-REGISTRY.md", "data/agents/agent-roster.csv", "docs/generated/"] },

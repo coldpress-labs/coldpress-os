@@ -13,6 +13,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { DeltaRecordSchema } from "../../schemas/delta.schema.js";
+import { OutcomesSchema } from "../../schemas/planning-artefacts/outcomes.schema.js";
 import { StoryGraphSchema } from "../../schemas/story-graph.schema.js";
 import { TraceGraph } from "./graph.js";
 
@@ -58,6 +59,12 @@ export function buildTraceGraph(projectDir: string): TraceGraph {
           g.addNode({ id: glob, type: "file-scope", path: glob, source: "consumes" });
           g.addEdge(s.id, glob, "consumes");
         }
+        // P4/P6 keying (WS4-E): the story implements requirement/component ids.
+        // Edge points requirement/component → story so `impact(R1)` reaches it.
+        for (const ref of s.implements ?? []) {
+          g.addNode({ id: ref, type: ref.startsWith("C") ? "component" : "requirement", source: "implements" });
+          g.addEdge(ref, s.id, "implements");
+        }
       }
       for (const e of sg.edges) g.addEdge(e.from, e.to, e.type);
     }
@@ -83,6 +90,18 @@ export function buildTraceGraph(projectDir: string): TraceGraph {
     });
     if (d.resolution === "flag_for_architecture_ADR" && d.adr_ref) {
       g.addEdge(d.id, d.adr_ref, "resolves");
+    }
+  }
+
+  // 4. Requirements from outcomes.yaml (P4 keying) — each requirement_id is a
+  //    requirement node. One with no implementing story is a P6 orphan.
+  const outcomesPath = join(projectDir, "_context/planning/outcomes.yaml");
+  if (existsSync(outcomesPath)) {
+    const parsed = OutcomesSchema.safeParse(safeReadYaml(outcomesPath));
+    if (parsed.success) {
+      for (const o of parsed.data.outcomes) {
+        g.addNode({ id: o.requirement_id, type: "requirement", source: "outcomes" });
+      }
     }
   }
 

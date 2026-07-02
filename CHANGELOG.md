@@ -8,6 +8,36 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### v0.4 "Enforcement" overhaul — WS4: Verification & design system
+
+The studio's differentiator: verification made structurally independent, and the
+design system made mechanically enforceable.
+
+#### Added
+
+- **Design tokens as an enforcement contract** — `tokens.json` (schema'd) +
+  **`coldpress tokens build`** generates `tokens.css` (CSS custom properties +
+  dark-mode), so the build consumes tokens by construction.
+- **`coldpress visual-verify`** — fails on any used style that isn't a token
+  (off-palette color, non-token font, off-scale size/spacing). The `visual-verify`
+  + `acceptance-stubs` skills; the verifier wraps Anthropic's `webapp-testing`.
+- **`testing.yaml` schema** (L0–L7 test architecture) and the **outcome contract**
+  (`outcomes.yaml` + `coldpress outcomes check`) — a P0/P1 requirement with no
+  measurable outcome target fails the P4 gate.
+- **P6 structured artifacts** — `api-contract`, `data-model`, `analytics-plan`,
+  `integration-inventory` (schemas + skills), each keyed to requirements.
+- **Trace requirement/component keying** — stories declare `implements[]`;
+  `coldpress trace impact <requirement>` reaches the implementing stories, and
+  `trace orphans` flags an unmapped requirement (P6 gate).
+
+#### Changed
+
+- **Subagent roster: 11 → 8 + Butler** (§4.5). `qa` → **`verifier`** (dispatched by
+  Butler only, clean-room context, read-only — cannot edit code); `reviewer`
+  upgraded to opus (evidence-linked); `scrum-master` / `communicator` / `valet`
+  removed. All agents gained `description:` frontmatter; `agent-roster.csv` is now
+  generated from frontmatter + drift-checked.
+
 ### v0.4 "Enforcement" overhaul — WS3: Two-lane lifecycle
 
 The lite lane becomes the structural default — full ceremony by consent, not by

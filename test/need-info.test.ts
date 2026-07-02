@@ -326,11 +326,11 @@ describe("routeNeedInfo", () => {
       "architecture-unclear": "architect",
       "tech-stack-unclear": "architect",
       "scope-boundary-unclear": "pm",
-      "acceptance-criteria-unclear": "scrum-master",
+      "acceptance-criteria-unclear": "pm",
       "design-intent-unclear": "ux-designer",
-      "process-step-unclear": "valet",
+      "process-step-unclear": "human",
       "credential-missing": "human",
-      "handoff-shape-unclear": "valet",
+      "handoff-shape-unclear": "human",
       "other": "human",
     };
     for (const [kind, target] of Object.entries(expected)) {
@@ -410,22 +410,21 @@ describe("NeedInfoBudgetTracker", () => {
   });
 });
 
-describe("Subagent convention — all 11 carry a NEED_INFO section", () => {
+describe("Subagent convention — all 8 carry a NEED_INFO section", () => {
+  // Post-v0.4 roster surgery (§4.5): 8 + Butler. qa → verifier; scrum-master,
+  // communicator, valet removed.
   const AGENTS = [
     "analyst",
     "architect",
-    "communicator",
     "developer",
     "devops",
     "pm",
-    "qa",
     "reviewer",
-    "scrum-master",
     "ux-designer",
-    "valet",
+    "verifier",
   ];
 
-  it("template ships exactly these 11 subagents", async () => {
+  it("template ships exactly these 8 subagents", async () => {
     const dir = join(repoRoot, "template/.claude/agents");
     const files = (await readdir(dir))
       .filter((f) => f.endsWith(".md"))

@@ -59,21 +59,24 @@ lane · phase · tier · enforcement.
 
 ## Subagents
 
-11 subagents are defined in `.claude/agents/`. Each runs with its own context window, tool allowlist, and model.
+**8 subagents + Butler** are defined in `.claude/agents/`. Each runs with its own
+context window, tool allowlist, and model. (Butler is the main session, not a file.)
 
 | Subagent | Primary phase(s) | When to dispatch |
 |----------|------------------|-----------------|
-| @analyst | 2 (Discovery) | Research, interviews, personas, idea-validation, product brief |
-| @architect | 3 (Tech Stack) + 6 (Architecture) | Stack evaluation + locking; sacred architecture + ADRs (incl. silent-divergence-guard) |
-| @pm | 4 (Planning) + 7 (Breakdown) | PRD lifecycle; epic + story breakdown oversight |
-| @ux-designer | 5 (Design) | UX spec, brand guidelines, prototype, narrative |
-| @scrum-master | 7 (Breakdown sub) | Sprint planning, PERT, wave grouping |
-| @developer | 8 (Implementation) | Implementation (standard or quick mode) |
-| @qa | 8 (Implementation sub) | Testing (rapid or strategic mode); a11y-audit, code-review |
-| @devops | 9 (Deployment) + 10 (Operate) | Ship-path readiness + steady-state operate + incident response |
-| @reviewer | 11 (Evolve) | Retrospective, product-evolution, innovation-strategy |
-| @communicator | cross-cutting | Documentation, narratives, presentations |
-| @valet | meta | Framework improvements (escalate via `meta/propose-change`) |
+| @analyst | 2 (Discovery) | Research, personas, idea-validation, product brief with outcome metrics |
+| @architect | 3 (Tech Stack) + 6 (Architecture) | Stack + deploy lock, walking skeleton; sacred architecture + ADRs, three-way keyed |
+| @pm | 4 (Planning) + 7 (Breakdown) | Slice-able PRD; story-graph breakdown (owns/produces/consumes + estimates → `coldpress waves`) |
+| @ux-designer | 5 (Design) | tokens.json, styleguide + live /styleguide route, ux-spec, perf/a11y budgets |
+| @developer | 8 (Implementation) | Implementation in plan mode, red stubs → green within the packet boundary |
+| @verifier | 8 (Butler-dispatched only) | **Clean-room** verification vs spec + tokens; verdict record. Read-only. Replaces @qa |
+| @devops | 9 (Deployment) + 10 (Operate) | Readiness (SBOM/headers/budgets), staging→human-prod deploy, ops digests |
+| @reviewer | 11 (Evolve) | Evidence-linked retrospective (cites run-log event IDs), opus |
+
+> v0.4 roster surgery: `@qa` → `@verifier` (structurally independent, Butler-only
+> dispatch); `@scrum-master` (wave planning → `@pm` + `coldpress waves`),
+> `@communicator` (→ forkable creative skills), and `@valet` (→ the coldpress-os
+> repo loop) were removed.
 
 ## Key Paths
 
@@ -113,9 +116,9 @@ Type `Hello Butler` to start. From there, just describe what you want — I rout
 - "Create the PRD" → @pm, Phase 4
 - "Design the UX" / "build brand guidelines" → @ux-designer, Phase 5
 - "Author the architecture" → @architect, Phase 6 (with silent-divergence guard for Phase 5 deltas)
-- "Break it into epics and stories" → @pm + @scrum-master, Phase 7
-- "Build this story" → @developer (standard or quick), Phase 8
-- "Review this code" → @qa code-review, Phase 8
+- "Break it into stories" → @pm (story-graph → `coldpress waves`), Phase 7
+- "Build this story" → @developer (plan mode), Phase 8
+- "Verify this story" → @verifier (Butler dispatches clean-room), Phase 8
 - "Ready to deploy?" → @devops readiness-check, Phase 9
 - "Something broke in prod" → @devops incident-response, Phase 10
 - "Run the retrospective" → @reviewer, Phase 11

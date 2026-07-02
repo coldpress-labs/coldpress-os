@@ -72,6 +72,14 @@
       "remediation": "Run `@pm legacy-assessment` if `_input/legacy/` contains files to assess for migration."
     },
     {
+      "id": "outcomes-contract-present",
+      "description": "`_context/planning/outcomes.yaml` is present + valid, and every P0/P1 requirement has a measurable outcome target + measurement source (`coldpress outcomes check`). Closes the plan's biggest v1 gap: the framework measures whether the product works for its purpose. (Full P0-coverage cross-check activates with WS4-E PRD requirement-id keying.)",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress outcomes check",
+      "remediation": "Run `outcome-contract` (P4): author outcomes.yaml — each P0/P1 requirement links a target (activation/conversion/task-completion/latency/SEO/cost) + its measurement source (analytics event, uptime probe, search console, revenue report)."
+    },
+    {
       "id": "phase-transition-ran",
       "description": "`_context/handoffs/phase-4-to-5-{date}.md` exists (emitted by phase-transition invocation at Phase 4 exit)",
       "kind": "artefact-present",

@@ -17,7 +17,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
 | WS3 | Two-lane lifecycle | 🟢 closed | `overhaul/ws3-two-lane` | 2026-07-02 |
-| WS4 | Verification & design system | ⚪ not started | — | — |
+| WS4 | Verification & design system | 🟢 closed | `overhaul/ws4-verification-design` | 2026-07-02 |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
 | WS6 | Deploy packs | ⚪ not started | — | — |
 | WS7 | Evals & the loop | ⚪ not started | — | — |
@@ -43,6 +43,7 @@ Legend: ⚪ not started · 🟡 in progress · 🟢 green/closed · 🔴 blocked
 | D5 | tactical | The `graph.test.ts` + `graph-visualizer.test.ts` fixtures (a 144-node/330-link httpx `graph.json`) lived *inside* the deleted `graph/vendor/graphify/worked/httpx/` tree, but they exercise the **retained** `src/graph/*` modules (§4.6 keeps `index.ts` to cannibalize for WS2 `trace`). Relocated only that one JSON output file to `test/fixtures/graph/httpx/graph.json` and repointed both tests. This is indexer *output data* (a test fixture), not the Graphify runtime/source — does not violate WS0's "no vendored graphify" gate. | applied |
 | D6 | scope-boundary | A wider docs surface still advertises the removed `coldpress graph` command: whole docs `docs/graph-query.md` + `docs/graph-visualizer.md`, `docs/glossary.md` graph rows, and `graph-prime` references in `docs/coldpress-yaml-schema.md` + `docs/example-walkthrough.md`. Rewriting these belongs to the docs-regeneration workstream (§8 item 11 / WS1 drift checks) and the `graph-prime` skill deletion (§5 P1, a later WS) — **not** WS0's item set. Fixed only the single headline README feature-list line (README:160) now, as clearly implied by item 1. Remaining graph-doc surface carried forward for the docs-regen WS. Also carried: internal degraded-path strings in `src/graph/index.ts` + `src/dashboard/render/page.ts:290` still name `coldpress graph rebuild` (harmless; WS2 owns `src/graph/` rewrite). | carried-forward |
 | D8 | scope-addition (user-approved) | User directive (via Andy, 2026-07-02): beyond §8 item 11's regenerate-or-fix treatment, sweep `coldpress-os/docs/` for point-in-time working notes vs living framework docs. **Outcome:** evaluated the 4 named candidates + scanned the rest. **Moved OUT** (2, zero inbound links, pure historical): `wiring-audit-2026-05-03.md` (Unit-#29 gap inventory) + `phase-2-orchestration-notes.md` (notes on the deleted orchestrator layer) → `../legacy/docs-superseded-2026-07-02/framework-docs/` + ARCHIVE-MANIFEST section. **Kept for §8.11** (2, shipped-doc material): `anthropic-skill-wrapping-audit.md` (5 living inbound links) + `attribution-audit.md` (companion to public NOTICE.md) — the directive's own "shipped-doc → fix/regenerate" branch; ripping their links / dropping public attribution now would be worse than a §8.11 fix later. Scan found no other orphaned dated notes (the `-spec` docs' `date:` fields are format-spec metadata; the tabular docs are §8.11 regen targets). Own commit at the WS0→WS1 boundary. | applied |
+| D12 | scope-boundary | WS4-B roster surgery deleted `@qa`/`@scrum-master`/`@communicator`/`@valet`. ~30 skills carry `agent: "qa"` in frontmatter — but a blanket remap to `verifier` is WRONG (verifier is read-only; many of those skills, e.g. test-design/atdd/test-framework, WRITE tests → belong to `@developer`; scans → `@devops`/`verifier`; governance validators → Butler). Correct per-skill reassignment is **WS5 skills-consolidation** work ("interop generators re-read from the new roster"). Fixed now: the scaffolded CLAUDE.md subagent table + How-to-Use, `NEED_INFO_ROUTES` (re-routed off deleted agents), and the generated `agent-roster.csv`. Skill-frontmatter `agent:` remap deferred to WS5. | logged / deferred to WS5 |
 | D11 | scope-boundary | WS1-G deleted the 5 `governance/*-change/workflow.md`. Updated the functional/active references (cline.ts + cursor.ts interop generators, sacred-docs.md doctrine, 6-architecture README, decision-logger skill). **Deferred references** (not WS1-G's scope): PERT-change refs in `7-breakdown/gate.json`, `8-implementation/gate.json`, `parallelization-strategy/SKILL.md` → **WS2** (PERT desanctification removes these wholesale); `pre-project-interview` step refs → **WS5** (that skill is deleted per §8 item 6); `docs/decision-trees.md` + `docs/glossary.md` mentions → **§8 item 11** docs-regeneration (they are regen targets). Recorded so each owning WS clears its refs. | logged / deferred |
 | D10 | scope-addition (user-approved, deferred) | Quarterly BMAD upstream review (`../docs/upstream-review-bmad-2026-07-02.md`, v6.2.2→v6.9.0) — four adopts logged for FUTURE workstreams, **do not act now**: **(1) WS5/P2** — `validate-idea` + proposal mode adopt adversarial Socratic interrogation (bmad-forge-idea pattern). **(2) WS4/P6** — add a breadth-coverage exit check: every architecture dimension is decided, deferred, or explicitly open. **(3) WS5 acceptance** — add criterion: every canonical skill must run non-interactively (WS7's eval runner depends on it). **(4) WS8/P10** — incident-response records adopt a forensic case-file shape; **WS5 low-priority** — refresh `elicitation-methods.csv` + use Create/Update/Validate intent naming in skill consolidation. Each owning workstream picks these up when reached. | logged / deferred |
 | D9 | resolved | User (via Andy) confirmed stash@{0} is superseded, preserved as branch `wip/pre-overhaul-shape-a-propagation` + patch, and instructed `git stash drop stash@{0}` (do NOT apply). **Safety check before dropping (per standing rule — verify preservation exists):** branch + patch both verified to hold the **tracked** WIP (75 files, +1889/−217) — BUT both **MISSED the one untracked file** the `-u` stash held: `lifecycle/11-evolve/retrospective/steps/step-00-deltas-reconciliation.md` (209 lines, real Phase-11 content; the patch's hits on that path were all references in other files, `grep -c` for its new-file diff = 0). Extracted it from `stash@{0}^3` into `../legacy/docs-superseded-2026-07-02/pre-overhaul-wip-untracked/…` + manifest row, so nothing is lost (the other untracked entry, the `.tgz`, is disposable per §8 item 3). **Then** ran `git stash drop stash@{0}`. **Salvage candidates for later cherry-pick from the wip branch:** event-stream writer + tests → revisit at WS7; doctor-checks expansion + tests → revisit at G11/doctor work. | resolved |
@@ -371,7 +372,92 @@ two-lane lifecycle. Next per build order: **Phase 1 — Trust (WS4 → WS5 → W
 WS4 (verification & design system), which also lights up the deferred trace requirement/component
 keying and the sacred-guard blast-radius.
 
-**Branch:** `overhaul/ws3-two-lane`, off main, tree green, clean, **not merged**.
+**Branch:** `overhaul/ws3-two-lane`, off main, tree green, clean. **Merged to main
+`bcbe746` (--no-ff)** on 2026-07-02 — completes Phase 0 Foundation.
+
+---
+
+### Session 5 — 2026-07-02 · WS3 merge + WS4 kickoff
+
+**WS3 merged to main** (`bcbe746`, --no-ff). **Phase 0 Foundation complete** (WS0→WS3). Not pushed.
+
+**WS4 — Verification & design system** opened on `overhaul/ws4-verification-design` off main
+(P0/P1 — the differentiator; Opus per §0.1.7). This is the largest workstream after WS1.
+
+**Internal WS4 build order:**
+- **A. Design tokens + tokens-build** — the P5 enforcement contract + code binding. ← this session
+- **B. Roster surgery** (§4.5) — delete scrum-master/communicator/valet; rebuild qa→verifier
+  (clean-room, no Edit/Write); upgrade reviewer→opus; add `description:` frontmatter to all;
+  regenerate agent-roster.csv.
+- **C. testing.yaml schema** (L0–L7) + **outcomes.yaml** (outcome contract, P4 gate).
+- **D. visual-verify + acceptance-stubs skills**; wrap Anthropic webapp-testing in the verifier.
+- **E. P6 additions** (api-contract, data-model, analytics-plan, integration-inventory); wire ux-spec schema.
+
+Note: `test-integrity` hook already built (WS1-D). The trace requirement/component keying that
+WS2 deferred is lit up here (P4/P6 artifacts gain requirement IDs).
+
+**Increment A — design tokens + tokens-build (done):**
+- `schemas/design/tokens.schema.ts` — the load-bearing tokens contract (typography/color-roles+
+  dark/spacing/radii/shadows/breakpoints/z-index/motion), `.strict()`.
+- `src/design/tokens-build.ts` `buildCss()` + `coldpress tokens build` — regenerates
+  `_context/design/tokens.css` (CSS custom properties + `prefers-color-scheme: dark` override)
+  from tokens.json. The build consumes tokens by construction.
+- +7 tests incl. **"a token edit propagates into the CSS with no manual code change"** (a §9
+  acceptance). e2e verified. **910 tests**. Commit below.
+
+**Increment B — roster surgery (done, §4.5):**
+- 11 → **8 subagents + Butler**. DELETE scrum-master/communicator/valet; REBUILD qa→**verifier**
+  (clean-room, Butler-only dispatch, read-only Read/Grep/Glob/Bash); UPGRADE reviewer→opus;
+  `description:` frontmatter on all 8.
+- New `build:roster` generator → `data/agents/agent-roster.csv` from frontmatter; wired into
+  `check:drift`. Re-routed `NEED_INFO_ROUTES` off deleted agents; CLAUDE.md subagent table +
+  How-to-Use updated; interop/sdk/need-info tests updated (8 agents → 21 interop files).
+- Skill-frontmatter `agent: qa` remap **deferred to WS5** (D12 — verifier is read-only; needs
+  per-skill judgment). **910 tests**, drift clean. Commit `e536dba`.
+
+**Increment C — testing.yaml + outcome contract (done):**
+- `schemas/testing.schema.ts` (L0–L7 layers, thresholds, pyramid, fixtures, flake).
+- `schemas/planning-artefacts/outcomes.schema.ts` + `src/outcomes/coverage.ts` +
+  `coldpress outcomes check` + the **P4 exit gate** — a P0/P1 requirement with no outcome
+  target fails P4 (§9 acceptance; full PRD cross-check with WS4-E keying). +10 tests. Commit `6a408df`.
+
+**Increment D — visual-verify + acceptance-stubs (done):**
+- `src/design/visual-verify.ts` `checkTokenUsage()` + `coldpress visual-verify` — flags every
+  used value that isn't a token. Delivers the §9 acceptance (catches off-palette color + off-scale
+  size; verified e2e). `skills/testing/{visual-verify,acceptance-stubs}`; verifier wraps
+  Anthropic `webapp-testing`. +8 tests. Commit `35bdafc`. **928 tests**.
+
+**Increment E — P6 artifacts + trace keying (done):**
+- story `implements[]`; buildTraceGraph adds requirement/component nodes (implements + outcomes)
+  + implements edges; `trace impact(R1)` → implementing story + files; `trace orphans` flags an
+  **unmapped requirement** (P6 gate). `schemas/architecture/p6-artifacts.schema.ts` (api-contract/
+  data-model/analytics-plan/integration-inventory) + 4 P6 skills. ux-spec schema already wired (WS1-E).
+  Added `_context/architecture/` as an 11th canonical root. Commits `a04ba83` + fixes. **934 tests**.
+
+---
+
+## 🟢 WS4 CLOSED (2026-07-02)
+
+**Acceptance (§9), by construction + command:**
+- **Verifier structurally excludes implementer context** ✅ — verifier.md: Butler-only dispatch,
+  read-only tools (no Edit/Write), "never the developer's reasoning" (roster-surgery §4.5).
+- **A loosened assertion triggers test-integrity** ✅ (WS1-D hook, tested).
+- **visual-verify catches a deliberate token violation** ✅ (off-palette color + off-scale size, e2e).
+- **A token edit propagates through tokens-build with no manual code change** ✅ (e2e).
+- **A PRD missing an outcome target for a P0 requirement fails the P4 gate** ✅ (outcome coverage, tested).
+- **Trace requirement keying** ✅ — `impact(requirement)`→stories; unmapped-requirement orphan.
+- Live-project criteria (a seeded logic bug caught by the verifier without hints; the `/styleguide`
+  route rendered from tokens.json; a styleguide visual-baseline diff on a real page) are the
+  **§10 validation-project runs** — the machinery (verifier, visual-verify, baselines skill) is in
+  place + unit-proven; the live demo runs on a real project after the Trust phase.
+
+Final gate: typecheck ✅, **934 tests** ✅, build ✅, check:drift OK ✅. CHANGELOG entry added.
+
+**Unblocked:** the sacred-guard blast-radius (WS1 TODO) + the P4 outcome full-coverage cross-check
+now have requirement nodes to traverse. **Deferred:** skill-frontmatter `agent: qa` remap → WS5 (D12).
+
+**§10 milestone:** Phase 1 (Trust) — WS4 done; **WS5 (skills consolidation & CC alignment) + WS6
+(deploy packs)** remain. **Branch:** `overhaul/ws4-verification-design`, off main, green, **not merged**.
 
 ---
 

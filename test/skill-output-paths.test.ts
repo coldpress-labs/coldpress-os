@@ -20,11 +20,12 @@ import { describe, expect, it } from "vitest";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** The 10 canonical top-level `_context/*` subfolders. */
+/** The 11 canonical top-level `_context/*` subfolders. */
 const CANONICAL_CONTEXT_ROOTS = new Set([
   "_context/sacred/",
   "_context/planning/",
   "_context/design/",
+  "_context/architecture/", // v0.4 WS4-E: P6 structured artifacts (api-contract, data-model, threat-model, security-registry, …)
   "_context/implementation/",
   "_context/testing/",
   "_context/tracking/",
@@ -117,8 +118,8 @@ describe("SKILL.md output-path audit", () => {
     expect(violations).toEqual([]);
   });
 
-  it("recognises all 10 canonical `_context/*` subfolders", () => {
-    expect(CANONICAL_CONTEXT_ROOTS.size).toBe(10);
+  it("recognises all 11 canonical `_context/*` subfolders", () => {
+    expect(CANONICAL_CONTEXT_ROOTS.size).toBe(11);
     for (const root of CANONICAL_CONTEXT_ROOTS) {
       expect(root.startsWith("_context/")).toBe(true);
       expect(root.endsWith("/")).toBe(true);

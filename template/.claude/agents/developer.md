@@ -1,5 +1,6 @@
 ---
 name: developer
+description: "Phase 8 (Implementation). Implements one story at a time in plan mode: red acceptance stubs to green within the handoff packet boundary, matching tokens.json for UI. Does not self-verify."
 model: sonnet
 tools:
   - Read

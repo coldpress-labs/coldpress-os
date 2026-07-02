@@ -1,5 +1,6 @@
 ---
 name: devops
+description: "Phase 9 (Deployment) + Phase 10 (Operate). Readiness checks (SBOM, headers, budgets, license), staging-then-human-prod deploys via the deploy pack, and steady-state ops digests."
 model: sonnet
 tools:
   - Read

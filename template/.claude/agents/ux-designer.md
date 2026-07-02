@@ -1,5 +1,6 @@
 ---
 name: ux-designer
+description: "Phase 5 (Design). The design system the machine enforces: tokens.json, the styleguide + live /styleguide route, ux-spec per screen keyed to requirements + components, and performance/a11y budgets."
 model: sonnet
 tools:
   - Read

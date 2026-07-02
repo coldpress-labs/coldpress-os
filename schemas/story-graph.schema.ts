@@ -47,6 +47,12 @@ export const StorySchema = z
     produces: z.array(z.string()).default([]),
     /** Globs/ids this story consumes (reads). */
     consumes: z.array(z.string()).default([]),
+    /**
+     * Requirement/component ids this story implements (P4/P6 keying, WS4-E).
+     * `R*` = requirement, `C*` = component. Powers `trace impact`/`orphans`:
+     * a requirement with no implementing story is a P6 orphan.
+     */
+    implements: z.array(z.string()).optional(),
     /** Styleguide component references for UI stories (§5 P7). */
     styleguide_refs: z.array(z.string()).optional(),
     /** True when the story touches a security-registry path. */

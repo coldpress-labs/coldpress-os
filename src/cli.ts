@@ -8,7 +8,10 @@ import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
 import { runLaneUpgrade } from "./commands/lane-upgrade.js";
+import { runOutcomesCheck } from "./commands/outcomes.js";
 import { runStatusLine } from "./commands/statusline.js";
+import { runTokensBuild } from "./commands/tokens.js";
+import { runVisualVerify } from "./commands/visual-verify.js";
 import { runTrace } from "./commands/trace.js";
 import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
@@ -91,6 +94,29 @@ program
   )
   .action((verb: string, id: string | undefined) => {
     process.exit(runTrace(verb, id));
+  });
+
+const outcomesCmd = program.command("outcomes").description("Outcome-contract tooling (§5 P4).");
+outcomesCmd
+  .command("check")
+  .description("Validate _context/planning/outcomes.yaml and verify P0/P1 requirements have outcome targets (P4 gate).")
+  .action(() => {
+    process.exit(runOutcomesCheck());
+  });
+
+const tokensCmd = program.command("tokens").description("Design-token tooling (§5 P5).");
+tokensCmd
+  .command("build")
+  .description("Regenerate _context/design/tokens.css (CSS custom properties) from tokens.json — the code binding the build consumes by construction.")
+  .action(() => {
+    process.exit(runTokensBuild());
+  });
+
+program
+  .command("visual-verify")
+  .description("Check a page's used styles (from _context/design/used-styles.json) against tokens.json — fails on any off-token color/font/size/spacing (§5 P8).")
+  .action(() => {
+    process.exit(runVisualVerify());
   });
 
 program

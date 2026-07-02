@@ -30,6 +30,7 @@
   "scripts": {
     "build": "tsup",
     "build:skills": "tsx src/generators/build-skills.ts",
+    "build:roster": "tsx src/generators/build-agent-roster.ts",
     "check:drift": "tsx src/generators/check-drift.ts",
     "dev": "tsup --watch",
     "test": "vitest run",
