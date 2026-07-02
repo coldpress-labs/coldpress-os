@@ -93,8 +93,6 @@ from_phase: {from_phase}
 to_phase: {to_phase}
 transitioned_at: "{ISO-8601}"
 gate_result: "pass" | "pass-with-warnings"
-graph_rebuilt: true | false
-graph_rebuild_error: null | "{error}"
 artefact_type: "phase-transition-handoff"
 ---
 

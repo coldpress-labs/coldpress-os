@@ -86,27 +86,12 @@ export function validateLocalConfig(source: string): LocalConfigValidationResult
   checkBoolean(root, "orient_skipped", errors);
   checkEnum(root, "project_shape", PROJECT_SHAPES, errors);
   checkPartialCompletion(root, errors);
-  checkBoolean(root, "needs_graph_rebuild", errors);
-  checkString(root, "graph_rebuild_error", errors);
   checkBoolean(root, "post_phase_3_update_ran", errors);
   checkIsoString(root, "post_phase_3_update_ran_at", errors);
 
   // Phase 3 classification fields (written by stack-discovery-sync Step 2)
   checkString(root, "product_type", errors);
   checkString(root, "domain_complexity", errors);
-
-  // Coupled invariant: if needs_graph_rebuild is true, a reason should be
-  // recorded. Missing reason is a warning, not an error.
-  if (root.needs_graph_rebuild === true) {
-    const reason = root.graph_rebuild_error;
-    if (reason === undefined || reason === null || reason === "") {
-      warnings.push({
-        path: "graph_rebuild_error",
-        message: "needs_graph_rebuild is true but graph_rebuild_error is empty — add a reason for clearer recovery",
-        severity: "warning",
-      });
-    }
-  }
 
   return {
     valid: errors.length === 0,

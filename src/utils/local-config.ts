@@ -23,10 +23,6 @@ export interface LocalConfig {
     env_provision_category?: string;
     stack_lock_checkpoint?: "schema-valid" | "sacred-written" | "yaml-written";
   } | null;
-  /** A phase-transition graph rebuild failed; surfaced for manual retry. */
-  needs_graph_rebuild?: boolean;
-  /** Recorded reason for the failure — surfaced alongside the retry prompt. */
-  graph_rebuild_error?: string;
   /** Set to true by `coldpress update --post-phase-3` after stack-pack wrappers regenerated. */
   post_phase_3_update_ran?: boolean;
   post_phase_3_update_ran_at?: string;

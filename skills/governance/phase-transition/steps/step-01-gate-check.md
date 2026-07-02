@@ -4,7 +4,7 @@ step_name: "Gate Check"
 step_goal: "Run evaluate-phase-gate for the outgoing phase; block transition on failure"
 severity: "block"
 halts_for_input: true
-next_step: "step-02-graph-rebuild.md"
+next_step: "step-03-handoff-log.md"
 ---
 
 ## Goal
@@ -74,5 +74,5 @@ On any block severity failure or pending-human check. Does not halt on clean pas
 
 ## Navigation
 
-→ Proceed to [step-02-graph-rebuild.md](step-02-graph-rebuild.md) on pass.
+→ Proceed to [step-03-handoff-log.md](step-03-handoff-log.md) on pass (step 2a reconciliation is inserted first when `from_phase == 5` with non-empty design-deltas).
 → Halt and return control to user on block or pending-human.
