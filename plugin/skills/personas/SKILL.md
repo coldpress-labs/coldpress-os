@@ -13,7 +13,7 @@ Produces user archetypes, journey maps, and accessibility/device/locale targets 
 - **Phase 3 stack selection:** offline-first requirements, accessibility standards (WCAG levels), device matrices, language/locale support all hinge on persona needs. Without personas, stack decisions pick for "nobody specific."
 - **Phase 4 UX design:** `@ux-designer`'s `create-ux-design` skill consumes personas as its primary input. Clean handoff because the same subagent authors both.
 
-Personas differ from `pre-project-interview`'s Users section by degree of rigour: that section captures rough audience shape; `personas` applies discipline-specific research methods (user interviews, empathy mapping, journey mapping, diary studies, jobs-to-be-done) to produce archetypes solid enough to drive design decisions.
+Personas differ from `intake`'s Users step (Phase 1) by degree of rigour: that step captures rough audience shape; `personas` applies discipline-specific research methods (user interviews, empathy mapping, journey mapping, diary studies, jobs-to-be-done) to produce archetypes solid enough to drive design decisions.
 
 ## When to Use
 
@@ -22,11 +22,11 @@ Personas differ from `pre-project-interview`'s Users section by degree of rigour
 - "journey map"
 - When Phase 3 needs accessibility / device / locale targets
 - When Phase 4 UX design needs user archetypes as input
-- After `pre-project-interview` has established basic audience shape but before Phase 3 stack evaluation
+- After Phase 1 `intake` has established basic audience shape but before Phase 3 stack evaluation
 
 ## Prerequisites
 
-- `_context/sacred/context.md` with `status: authored` (pre-project-interview ran)
+- `_context/sacred/context.md` with `status: authored` (Phase 1 `intake` ran)
 - At least one of `_context/planning/research/domain-*.md` or `market-*.md` (market signal for audience segments)
 - Web access for secondary research if no prior user-research material landed in `_input/`
 

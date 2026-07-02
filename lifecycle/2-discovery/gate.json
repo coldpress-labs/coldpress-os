@@ -4,26 +4,9 @@
   "phase": 2,
   "phase_name": "Discovery",
   "entry_conditions": [
-    "Phase 1 (Bootstrap) gate passed"
+    "Phase 1 (Bootstrap) gate passed — `_context/sacred/context.md` is already `status: authored` and sacred-signed-off (intake Steps 7-11); Phase 2 does not re-author it"
   ],
   "acceptance_checks": [
-    {
-      "id": "context-md-status-authored",
-      "description": "`_context/sacred/context.md` exists and its frontmatter `status` field is `authored` (not `seed` — pre-project-interview must have completed Step 4 synthesis)",
-      "kind": "automated",
-      "severity": "block",
-      "skill_ref": "validate-schema",
-      "artefact_path": "_context/sacred/context.md",
-      "remediation": "Run `@analyst pre-project-interview` to complete context.md authoring. Status must be `authored` — a `seed` status means intake ran but Phase 2 interview did not complete."
-    },
-    {
-      "id": "context-sacred-signoff",
-      "description": "User has explicitly accepted `_context/sacred/context.md` as complete (sacred-doc protection becomes active after this sign-off)",
-      "kind": "human",
-      "severity": "block",
-      "human_approver": "user",
-      "remediation": "Review `_context/sacred/context.md`, confirm its vision + constraints sections are accurate, and sign off. This triggers sacred-doc governance — future changes require the context change-workflow."
-    },
     {
       "id": "research-synthesis-exists",
       "description": "`_context/planning/research-synthesis-v1.md` (or higher version) exists — synthesize-research has run at least once",

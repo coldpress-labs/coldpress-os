@@ -96,12 +96,11 @@ Distinct from `legacy-assessment`: that skill is architecture-focused (what tech
 
 Three artefacts in `_context/planning/`. Phase 3 stack-discovery-sync reads tech-stack-hint as prior state. Phase 4 create-prd skill can reference codebase-onboarding for "what already exists" framing in PRD scope section.
 
-## Integration with `orient` and `intake`
+## Integration with `intake`
 
 | Skill | When | Scope |
 |---|---|---|
-| `orient` (Phase 1 entry) | First-Butler-session of every project | Confirms scaffold + introduces 11-phase journey |
-| `intake` (Phase 1 setup) | Once per project | Fills `coldpress.yaml` + Butler.display_name |
+| `intake` (all of Phase 1) | Once per project | Check-in + scaffold confirm + 11-phase journey intro + material + context.md authoring + `coldpress.yaml` fields |
 | `codebase-onboarding` (this skill) | Conditional brownfield + on-demand re-orient | Code-tour walkthrough + directory map |
 | `legacy-assessment` (Phase 4) | Conditional brownfield | Architecture-focused: stack inventory + migration plan |
 

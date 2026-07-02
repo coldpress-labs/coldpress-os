@@ -40,7 +40,7 @@ describe("phase-1 gate.json — Wave 3.5 rewrite", () => {
     expect(raw).not.toContain("project-init");
   });
 
-  it("defines all 6 acceptance checks from the deep-dive design", async () => {
+  it("defines all 6 acceptance checks (WS5-B: graph-primed dropped — coldpress graph rebuild was removed in WS0)", async () => {
     const gate = await loadGate();
     const ids = gate.acceptance_checks.map((c) => c.id).sort();
     expect(ids).toEqual(
@@ -48,18 +48,11 @@ describe("phase-1 gate.json — Wave 3.5 rewrite", () => {
         "phase-1-completed-flag",
         "working-mode-captured",
         "butler-display-name-present",
-        "context-seed-authored",
-        "context-seed-schema-valid",
-        "graph-primed",
+        "context-authored",
+        "context-schema-valid",
         "input-subfolders-walked",
       ].sort(),
     );
-  });
-
-  it("graph-primed check is severity=warn (not block) per architectural note 8", async () => {
-    const gate = await loadGate();
-    const check = gate.acceptance_checks.find((c) => c.id === "graph-primed");
-    expect(check?.severity).toBe("warn");
   });
 
   it("phase-1-completed-flag is block-level", async () => {
@@ -76,14 +69,14 @@ describe("phase-1 gate.json — Wave 3.5 rewrite", () => {
     expect(check?.severity).toBe("warn");
   });
 
-  it("context-seed checks route through validate-schema and target the sacred doc", async () => {
+  it("context checks route through validate-schema and target the sacred doc", async () => {
     const gate = await loadGate();
 
-    const exists = gate.acceptance_checks.find((c) => c.id === "context-seed-authored");
+    const exists = gate.acceptance_checks.find((c) => c.id === "context-authored");
     expect(exists?.kind).toBe("artefact-present");
     expect(exists?.artefact_path).toBe("_context/sacred/context.md");
 
-    const schemaValid = gate.acceptance_checks.find((c) => c.id === "context-seed-schema-valid");
+    const schemaValid = gate.acceptance_checks.find((c) => c.id === "context-schema-valid");
     expect(schemaValid?.kind).toBe("automated");
     expect(schemaValid?.skill_ref).toBe("validate-schema");
     expect(schemaValid?.severity).toBe("block");

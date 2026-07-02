@@ -1,9 +1,9 @@
 ---
-step_number: 3
+step_number: 10
 step_name: "Constraints & Rules"
 step_goal: "Capture technical + non-technical constraints; brownfield path asks about legacy carry-over"
 halts_for_input: true
-next_step: "step-04-synthesize.md"
+next_step: "step-11-synthesize.md"
 ---
 
 ## Goal
@@ -12,7 +12,7 @@ Extract the rules and constraints that downstream phases must honour. Two layers
 
 ## Instructions
 
-### 0. Read project_shape (same as Step 2)
+### 0. Read project_shape (same as Step 9)
 
 If `project_shape == brownfield`, the §Legacy carry-over block fires alongside the Technical + Non-technical blocks.
 
@@ -24,9 +24,9 @@ If `project_shape == brownfield`, the §Legacy carry-over block fires alongside 
 4. Accessibility requirements (WCAG level)?
 5. Data handling rules (privacy, retention, residency)?
 
-### Non-technical constraints (5-question checklist — FP12)
+### Non-technical constraints (5-question checklist)
 
-The deep-dive enriched Step 3 with a systematic non-technical checklist. Don't skim these — all five questions fire:
+Don't skim these — all five questions fire:
 
 1. **Budget range** — *"What's the budget ceiling for v1? (rough bracket — $5k / $50k / $500k / not capped?)"*
 2. **Time horizon** — *"When does v1 need to ship? (by month; if no hard deadline, what's the decision cost of slipping 3 months?)"*
@@ -42,11 +42,11 @@ When `_input/legacy/` contains prior code:
 2. *"What's the hotfix escape-hatch policy for the legacy system? (keep live until v2 ships, deprecate at v2 launch, sunset on a schedule?)"*
 3. *"Is there anything in the legacy we're explicitly NOT bringing forward? (design debt, failed experiments, deprecated features)"*
 
-The `repo-structure-audit` skill ([ops/repo-structure-audit](../../../skills/ops/repo-structure-audit/)) wires in here for deeper legacy scan (Wave 3.7 — may not be wired yet; invoke manually if `_input/legacy/` contains code).
+The `repo-structure-audit` skill ([ops/repo-structure-audit](../../../skills/ops/repo-structure-audit/)) wires in here for a deeper legacy scan — invoke manually if `_input/legacy/` contains code.
 
-### Supersede-check for `_input/` constraint conflicts (Wave 4.4)
+### Supersede-check for `_input/` constraint conflicts
 
-After gathering constraints, check the graph for pre-loaded `_input/reference/` or `_input/raw/` docs that state constraints. If any user-stated constraint (budget, timeline, team, compliance) **contradicts** a constraint expressed in a pre-loaded document:
+After gathering constraints, check for pre-loaded `_input/reference/` or `_input/raw/` docs that state constraints. If any user-stated constraint (budget, timeline, team, compliance) **contradicts** a constraint expressed in a pre-loaded document:
 
 Present:
 > *"Your brief in `_input/{source-file}` stated {old constraint}. You've described {new constraint} here. Want me to mark that document's constraint section as superseded by what we've captured now?"*
@@ -54,7 +54,7 @@ Present:
 Butler calls `promptSupersede` with:
 - `inputPath`: path to the conflicting `_input/` file
 - `sacredDocPath`: `_context/sacred/context.md`
-- `decisionContext`: `"pre-project-interview Step 3 — constraint conflict: {summary of conflict}"`
+- `decisionContext`: `"intake Step 10 (constraints) — constraint conflict: {summary of conflict}"`
 
 Only fire this when there is a genuine conflict (old doc says X, user says not-X). Additions (constraint not previously mentioned) are not conflicts.
 
@@ -79,12 +79,21 @@ Non-obvious rules prevent downstream implementation mistakes. If the user says *
 
 Push for specifics. If the user hand-waves a constraint (e.g., *"it should be fast"*), ask for numbers (*"under 300ms for the common path? under 2s? under 10s?"*). Numbers are load-bearing for Phase 3 stack decisions.
 
-**Advanced-elicitation bias (per method-defaults.yaml):** if constraints come back thin / generic, Butler may invoke advanced-elicitation biased toward **#39 First Principles** and **#35 Failure Mode Analysis** (strip assumptions; surface hidden constraint classes).
+**Advanced-elicitation bias:** if constraints come back thin / generic, Butler may invoke advanced-elicitation biased toward **#39 First Principles** and **#35 Failure Mode Analysis** (strip assumptions; surface hidden constraint classes).
 
 ## Output
 
-Constraints section populated across technical + non-technical + (if brownfield) legacy carry-over. `step_3_complete: true`
+Constraints section populated across technical + non-technical + (if brownfield) legacy carry-over. `step_10_complete: true`
 
 ## Navigation
 
-→ Proceed to [step-04-synthesize.md](step-04-synthesize.md)
+→ Proceed to [step-11-synthesize.md](step-11-synthesize.md)
+
+---
+
+### Version Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-04-08 | Alfred | Migrated from bmad-generate-project-context as `pre-project-interview` Step 3. |
+| 2.0 | 2026-07-02 | Butler | Renumbered to Step 10 inside `intake` (WS5-B, §8 item 6). |

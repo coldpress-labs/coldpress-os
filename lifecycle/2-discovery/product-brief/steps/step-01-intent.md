@@ -22,7 +22,7 @@ Determine the user's intent and the type of product brief to create. Detect acti
    - "What decisions should this brief enable?"
 
 3. **Load existing context:**
-   - Check for `_context/sacred/context.md` — expect `status: authored` (pre-project-interview ran)
+   - Check for `_context/sacred/context.md` — expect `status: authored` (Phase 1 `intake` ran)
    - Check for the latest `_context/planning/research-synthesis-v{N}.md` — the primary upstream input
    - Check for discovery outputs in `_context/planning/research/` (domain, market, constraint, personas)
    - Check for `_context/planning/idea-validation-v{N}.md` if validate-idea ran

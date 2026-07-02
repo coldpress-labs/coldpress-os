@@ -1,9 +1,9 @@
 ---
-step_number: 4
+step_number: 12
 step_name: "Working mode"
 step_goal: "Four quick questions on how the user wants to work; write back to coldpress.yaml"
 halts_for_input: true
-next_step: "step-05-graph-prime.md"
+next_step: "step-13-gate-and-route.md"
 ---
 
 ## Goal
@@ -15,7 +15,7 @@ Dial in Butler's defaults to match how the user actually works. Four questions, 
 ### 1. Mark partial completion
 
 ```ts
-await markStepStart(projectRoot, "intake/step-04-working-mode");
+await markStepStart(projectRoot, "intake/step-12-working-mode");
 ```
 
 ### 2. Ask the four questions
@@ -79,4 +79,13 @@ Yes — four prompts. The user can accept defaults by pressing Enter on each.
 
 ## Navigation
 
-→ `step-05-graph-prime.md`
+→ `step-13-gate-and-route.md`
+
+---
+
+### Version Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-04-24 | Cadbury-hq | Original `intake` Step 4. |
+| 2.0 | 2026-07-02 | Butler | Renumbered to Step 12 (WS5-B, §8 item 6 — now runs after context.md authoring rather than before it). |

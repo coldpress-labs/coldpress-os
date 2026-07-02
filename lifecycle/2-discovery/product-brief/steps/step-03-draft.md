@@ -38,7 +38,7 @@ Skip gracefully if no validation exists (solo vibe-coder skipped). Flag in front
 - **Key Features** — 3-7; derive from synthesis themes + convergent signals
 - **Success Metrics** — North Star + leading indicators from `validation-v{N}` Step 5 verbatim (they're the input to Phase 4 PRD acceptance criteria)
 - **Strategic Context** — synthesis tensions that Phase 3 or Phase 4 will resolve
-- **What's Different This Time** — *(brownfield only — fires when `.coldpress/local-config.yaml project_shape == brownfield`)*. One paragraph contrasting this v2 with the prior attempt preserved in `_input/legacy/`. What changed — audience shift / scope narrowing / technical reset / business pivot? Lift explicit signals from `pre-project-interview` Step 2 brownfield prose + Step 3 legacy carry-over. Skip this section in greenfield / ambiguous projects.
+- **What's Different This Time** — *(brownfield only — fires when `.coldpress/local-config.yaml project_shape == brownfield`)*. One paragraph contrasting this v2 with the prior attempt preserved in `_input/legacy/`. What changed — audience shift / scope narrowing / technical reset / business pivot? Lift explicit signals from Phase 1 `intake` Step 9 (users) brownfield prose + Step 10 (constraints) legacy carry-over. Skip this section in greenfield / ambiguous projects.
 - **Constraints** — surface blocking constraints from `_context/planning/research/constraint-*.md` that matter to stakeholders (accessibility level, compliance obligations, performance budgets)
 
 ### 4. Supersede-check for `_input/` conflicts (Wave 4.4)

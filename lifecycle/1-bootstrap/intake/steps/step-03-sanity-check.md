@@ -8,11 +8,11 @@ next_step: "step-04-lifecycle-intro.md"
 
 ## Goal
 
-Catch obvious scaffold drift early — *before* intake starts writing sacred-doc seeds — so the user isn't chasing phantom bugs later.
+Catch obvious scaffold drift early — *before* the rest of intake starts writing sacred-doc seeds — so the user isn't chasing phantom bugs later.
 
 ## Instructions
 
-Run four checks. Each produces a line in the orient report.
+Run four checks. Each produces a line in the intake report.
 
 ### 1. Core environment (`coldpress doctor` silent mode)
 
@@ -56,7 +56,7 @@ ls .git/hooks/pre-commit
 
 ### 5. Write the health report
 
-Append all four findings to `_context/tracking/orient-{date}.md`:
+Append all four findings to `_context/tracking/intake-{date}.md`:
 
 ```markdown
 ## Scaffold health
@@ -76,4 +76,13 @@ Only when a `✗` critical failure requires user acknowledgement before proceedi
 ## Navigation
 
 → `step-04-lifecycle-intro.md` on all-green or warnings-only.
-→ Abort orient (back to user) on critical failure — Butler surfaces the remediation.
+→ Abort intake (back to user) on critical failure — Butler surfaces the remediation.
+
+---
+
+### Version Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-04-24 | Cadbury-hq | Original `orient` Step 3. |
+| 2.0 | 2026-07-02 | Butler | Folded into `intake` as Step 3 (WS5-B, §8 item 6). Output renamed to the intake report (single report per session, not a separate `orient-{date}.md`). |

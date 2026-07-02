@@ -10,7 +10,7 @@ next_step: "step-02-hypotheses-and-risks.md"
 
 ### 1. Revisit the problem statement
 
-Read `_context/sacred/context.md` §Problem space (authored by `pre-project-interview`). Extract the claim about what problem this product solves.
+Read `_context/sacred/context.md` §Problem space (authored by Phase 1 `intake`). Extract the claim about what problem this product solves.
 
 ### 2. Apply Tier 1 methods — mandatory
 

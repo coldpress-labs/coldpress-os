@@ -31,8 +31,8 @@ Use the user's `cadence` preference from `coldpress.yaml user.cadence` (or defau
 Hey {user.name} — I'm {butler.display_name}, the orchestrator for {project.name}.
 
 I'll walk you through the first phase (Bootstrap): checking the scaffold,
-collecting any material you already have, and seeding this project's
-single-sentence intent. Takes about five minutes.
+collecting any material you already have, and capturing this project's
+context. Takes about ten minutes.
 
 Ready to start?
 ```
@@ -40,9 +40,9 @@ Ready to start?
 Adapt tone to cadence:
 - `silent` — skip the tagline, just announce the next step.
 - `summary` — the template above (default).
-- `verbose` — add a one-line note on the 9-phase arc and why Phase 1 matters.
+- `verbose` — add a one-line note on the lifecycle arc and why Phase 1 matters.
 
-### 3. Log to the orient report
+### 3. Log to the intake report
 
 ```yaml
 greeting_shown: true
@@ -51,8 +51,17 @@ greeting_cadence: silent | summary | verbose
 
 ## Halts for Input
 
-No. The greeting is declarative — the user's first input lands at step 4 (lifecycle intro acknowledgement).
+No. The greeting is declarative — the user's first input lands at Step 4 (lifecycle intro acknowledgement).
 
 ## Navigation
 
 → `step-03-sanity-check.md`
+
+---
+
+### Version Control
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-04-24 | Cadbury-hq | Original `orient` Step 2. |
+| 2.0 | 2026-07-02 | Butler | Folded into `intake` as Step 2 (WS5-B, §8 item 6). |
