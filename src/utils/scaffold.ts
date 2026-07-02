@@ -12,6 +12,8 @@ export interface ScaffoldOptions {
   retrofit?: boolean;
   /** IDE preferences to persist in coldpress.yaml. Matches the interop set chosen at init. */
   preferredIdes?: string[];
+  /** Ceremony lane (§6). Default `lite` — the structural default. */
+  lane?: "lite" | "full";
 }
 
 export async function assertNoCollision(targetDir: string): Promise<void> {
@@ -48,6 +50,11 @@ export async function copyTemplate(opts: ScaffoldOptions): Promise<void> {
   // Overwrite coldpress.yaml with filled Phase-1 values. (The collision
   // check guarantees this file did not exist before, even in retrofit mode.)
   await writeFile(join(targetDir, "coldpress.yaml"), buildYaml(opts), "utf8");
+
+  // Seed .coldpress/state.yaml — the orchestration spine the load-state /
+  // phase-gate hooks route off (schemas/state.schema.ts). Lite lane starts at
+  // Spec; the full lane starts at Phase 1. enforcement on, tier T0 by default.
+  await writeState(opts);
 
   // Fill placeholders in files that address the user / the agent by name.
   // Both CLAUDE.md and .claude/SYSTEM.md contain self-references that honour
@@ -119,6 +126,12 @@ function buildYaml(opts: ScaffoldOptions): string {
 # completes. See docs/coldpress-yaml-schema.md for the full schema and
 # per-field phase ownership.
 
+# ─── Lane ──────────────────────────────────────────────────────────
+# Ceremony lane: lite (default — Spec/Build/Verify/Ship) or full (11 phases).
+# The lane changes ceremony, never safety. \`coldpress lane-upgrade\` back-fills
+# the full-lane sacred docs from lite artifacts without data loss.
+lane: ${opts.lane ?? "lite"}
+
 # ─── Project Identity ──────────────────────────────────────────────
 project:
   name: ${yamlString(opts.projectName)}
@@ -136,6 +149,30 @@ ${preferredIdesBlock}
 butler:
   display_name: ${yamlString(butlerDisplayName)}
 ${retrofitBlock}`;
+}
+
+/** Seed `.coldpress/state.yaml` with the initial orchestration state. */
+async function writeState(opts: ScaffoldOptions): Promise<void> {
+  const lane = opts.lane ?? "lite";
+  const phase = lane === "full" ? "1" : "spec";
+  const dir = join(opts.targetDir, ".coldpress");
+  await mkdir(dir, { recursive: true });
+  const body = [
+    "# .coldpress/state.yaml — orchestration state (written by Butler + phase-exit hooks).",
+    "# The single source of routing truth; the load-state hook injects a summary each session.",
+    `lane: ${lane}`,
+    `phase: ${phase}`,
+    "phase_status: entering",
+    "security_tier: T0",
+    "enforcement: on",
+    "iteration: 0",
+    "gates: {}",
+    "active_stories: []",
+    "deltas_open: {}",
+    "deploy: {}",
+    "",
+  ].join("\n");
+  await writeFile(join(dir, "state.yaml"), body, "utf8");
 }
 
 function fillPlaceholders(template: string, opts: ScaffoldOptions): string {

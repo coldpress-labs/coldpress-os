@@ -16,7 +16,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS0 | Hygiene & cuts (items 1–4, 13, 14) | 🟢 closed | `overhaul/ws0-hygiene-cuts` | 2026-07-02 |
 | WS1 | Enforcement layer | 🟢 closed | `overhaul/ws1-enforcement` | 2026-07-02 |
 | WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
-| WS3 | Two-lane lifecycle | ⚪ not started | — | — |
+| WS3 | Two-lane lifecycle | 🟡 in progress | `overhaul/ws3-two-lane` | — |
 | WS4 | Verification & design system | ⚪ not started | — | — |
 | WS5 | Skills consolidation & CC alignment | ⚪ not started | — | — |
 | WS6 | Deploy packs | ⚪ not started | — | — |
@@ -304,7 +304,36 @@ CHANGELOG entry added.
 **Deferred (recorded):** requirement/component/threat/release/test trace nodes → WS4/WS6 (the
 model + verbs already support them); `release`-verb + REL-* schema → WS6.
 
-**Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, clean, **not merged**.
+**Branch:** `overhaul/ws2-trace-storygraph`, off main, tree green, clean. **Merged to main
+`16a4714` (--no-ff)** on 2026-07-02.
+
+---
+
+### Session 4 — 2026-07-02 · WS2 merge + WS3 kickoff
+
+**WS2 merged to main** (`16a4714`, --no-ff). Not pushed. This completes **Phase 0 foundation
+except WS3** (§10: WS0→WS1→WS2 done; WS3 remaining).
+
+**WS3 — Two-lane lifecycle** opened on `overhaul/ws3-two-lane` off main (P0). Read §6 (lite lane),
+§9 WS3. Note: the coldpress.yaml + state schemas already carry `lane`/`profile` (WS1-B/A), and
+the phase-gate hook already gates full-lane-only (WS1-D) — so the field plumbing is partly done.
+
+**Internal WS3 build order:**
+- **A. Lane defaulting + state scaffolding** — `coldpress init` defaults to `lane: lite`, seeds
+  `.coldpress/state.yaml`. ← this session
+- **B. Lite lane skills** (Spec/Build/Verify/Ship, §6) — consolidations of the full-lane skills.
+- **C. `lane-upgrade` skill** — back-fills full-lane sacred docs from lite artifacts (no data loss).
+- **D. Scaffolded CLAUDE.md routing table** (effort/novelty/external-users/payment → lane) +
+  statusLine script (lane/phase/gate/pending-human-gate).
+
+**Increment A — lane defaulting + state.yaml (done):**
+- `coldpress init` defaults to `lane: lite` (`--lane full` override); coldpress.yaml gains a
+  `lane:` block; seeds `.coldpress/state.yaml` (lite → phase `spec`, full → phase `1`;
+  enforcement on, tier T0). The load-state hook reads it (verified e2e: injects
+  "lane: lite · Lite:spec (entering)").
+- `test/ws3-scaffold.test.ts` (+2). **896 tests**. typecheck green.
+
+**Branch:** `overhaul/ws3-two-lane`, off main, tree green, not merged.
 
 ---
 

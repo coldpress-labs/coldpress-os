@@ -41,6 +41,7 @@ program
   )
   .option("--no-git-init", "skip `git init` + seed commit after scaffolding")
   .option("--skip-doctor", "skip the pre-flight `coldpress doctor` check")
+  .option("--lane <lane>", "ceremony lane: lite (default) | full")
   .action(
     async (
       projectNameArg: string | undefined,
@@ -53,6 +54,7 @@ program
         interop?: string;
         gitInit?: boolean;
         skipDoctor?: boolean;
+        lane?: string;
       },
     ) => {
       try {
@@ -66,6 +68,7 @@ program
           interop: opts.interop as InitInput["interop"],
           noGitInit: opts.gitInit === false,
           skipDoctor: opts.skipDoctor,
+          lane: opts.lane === "full" ? "full" : "lite",
         });
       } catch (err) {
         console.error(pc.red(`init failed: ${err instanceof Error ? err.message : String(err)}`));
