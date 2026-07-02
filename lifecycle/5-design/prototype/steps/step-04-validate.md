@@ -85,4 +85,4 @@ Add/update node `prototype-{date}` with manifest properties.
 
 ## Navigation
 
-→ Phase 5 continues with `narrative` (after brand-guidelines available — typically already done by this point).
+→ Phase 5 continues — optionally invoke `skills/creative/storytelling` directly for narrative/brand-voice work (after brand-guidelines available — typically already done by this point; the dedicated `narrative` wrapper skill was retired, WS5-B §8 item 6).

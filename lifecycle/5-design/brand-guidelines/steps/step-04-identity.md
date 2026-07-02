@@ -136,4 +136,4 @@ Update node `brand-guidelines-v{N}` with version, status, validated_at, scope_mo
 
 ## Navigation
 
-→ Phase 5 continues with `prototype` (after both `ux-design` and `brand-guidelines` are validated) and/or `narrative`.
+→ Phase 5 continues with `prototype` (after both `ux-design` and `brand-guidelines` are validated) and/or ad-hoc `skills/creative/storytelling` narrative work.

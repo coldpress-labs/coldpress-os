@@ -126,4 +126,4 @@ Update node `ux-design-spec-v{N}` with version, status, validated_at, source_ver
 
 ## Navigation
 
-→ Phase 5 continues with `prototype` (after brand-guidelines also emits) and/or `narrative` (parallel-OK after brand-guidelines).
+→ Phase 5 continues with `prototype` (after brand-guidelines also emits) and/or ad-hoc `skills/creative/storytelling` narrative work (parallel-OK after brand-guidelines).

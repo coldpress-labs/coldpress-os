@@ -27,7 +27,7 @@ Phase 5 UX design specification. Persona-grounded user flows, key screen concept
 4. **Partial-completion mechanic** active in every step.
 5. **Graph-first.** Step 0 loads; subsequent steps consult graph for derived facts.
 6. **Design-deltas.** Steps 2–4 may surface; appended to `phase-5-design-deltas-wip-{date}.md`.
-7. **NO `phase-transition` invocation here.** Last-skill-in-flow invokes phase-transition; ux-design isn't always last (prototype/narrative may follow). Phase 5 gate.json post-exit-action handles phase-transition centrally.
+7. **NO `phase-transition` invocation here.** Last-skill-in-flow invokes phase-transition; ux-design isn't always last (`prototype`, or ad-hoc `skills/creative/storytelling` narrative work, may follow). Phase 5 gate.json post-exit-action handles phase-transition centrally.
 
 ## Outputs
 

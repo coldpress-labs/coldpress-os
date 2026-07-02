@@ -531,16 +531,23 @@ generator §8 item 8), D (frontmatter modernization), E (rebuild dev-story/deplo
 - Gate.json: Phase 4 dropped `planning-scope-present` (9→8 checks); Phase 7 dropped `breakdown-scope-emitted` + `architecture-deltas-resolved` (11→9 checks, correcting a pre-existing miscount — the Phase 7 README had said "10" before this change).
 - Direct dependents fixed: `create-prd` (SKILL.md + step-00), `legacy-assessment` (SKILL.md + workflow.md + step-06), `create-epics` (SKILL.md + step-00), `validate-prd/steps/step-04`, `diagram-creator/SKILL.md`, `phase-transition/steps/step-02b`, `lifecycle/4-planning/README.md` (full rewrite of affected sections), `lifecycle/7-breakdown/README.md` (full rewrite of affected sections).
 - **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test file existed for either skill), `build:skills` (133 wrappers) + `plugin/` regenerated. Corpus: **138 → 136** SKILL.md.
-- Commit: (this session, pending).
+- Commit: `4d18520`.
 
 **Batch 4 (done, partial per D16) — `sprint-planning` deleted; `sprint-status` retained:**
 - `sprint-planning` (Phase 7) was genuinely self-contained ceremony: 3 mechanical steps (parse epics → detect statuses → generate sprint-status.yaml) wrapped in a fictional @scrum-master sub-persona hand-off (Pattern 7 `#8a`/`#8b`). The mechanical steps are real and load-bearing (Phase 7's own exit gate, `create-stories`, `implementation-readiness`, Phase 8 `dev-story`, Phase 11 `retrospective` all read `sprint-status-v{N}.md`) — folded them into `parallelization-strategy` as Steps 4-6 (now 6-step workflow), run directly by @pm with no hand-off ceremony.
 - **`sprint-status` (Phase 10) was NOT deleted** — investigation found it's actually the Phase 10 entry skill + ops-deltas WIP-log initializer + iteration orchestrator, not ceremony. Deleting it as the plan's one-line cut-list entry instructed would have broken Phase 10 entry and the `phase-transition` step-02a §D ops-deltas chain into Phase 11. Recorded as **D16** — a "reality contradicts the plan" deviation, not implemented, flagged for user direction.
 - Phase 7 `gate.json`'s `sprint-status-validated` remediation repointed at `parallelization-strategy`; `note` field and README's Sub-skills/flow/Agent sections updated (5→4 skills, no more @scrum-master). Direct dependents fixed: `create-stories/steps/step-01-select.md`, `implementation-readiness/SKILL.md`, `skills/creative/xlsx-generator/SKILL.md`.
 - **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅, `build:skills` (132 wrappers) + `plugin/` regenerated. Corpus: **136 → 135** SKILL.md (only `sprint-planning` removed; `sprint-status` retained).
+- Commit: `249e4af`.
+
+**Batch 5 (done) — `narrative` deleted:**
+- Confirmed via its own SKILL.md ("thin wrapper... NOT a duplicate of storytelling") that this genuinely was just Phase-5-shaped input framing around `skills/creative/storytelling`. Deleted the wrapper; narrative/brand-voice work becomes ad-hoc invocation of the cross-cutting creative skill, matching how brainstorming/design-thinking/problem-solving/innovation-strategy are already treated (no dedicated gate check).
+- Phase 5 `gate.json`: removed the `narrative-emitted` conditional-warn check (nothing produces the artifact anymore, and it was already skippable for an entire archetype). 11 checks → 10 (the README had already mis-stated this as "10" before the change — corrected).
+- Direct dependents fixed: `lifecycle/5-design/README.md` (Sub-skills table, flow diagram, archetype branching, exit conditions, wire-ins), `design-brief/SKILL.md`, `prototype/steps/step-04-validate.md`, `ux-design/workflow.md` + `steps/step-04-spec.md`, `brand-guidelines/steps/step-04-identity.md`.
+- **Green:** typecheck ✅, lint:frontmatter ✅, **928 tests** ✅ (no dedicated test file existed), `build:skills` (131 wrappers) + `plugin/` regenerated. Corpus: **135 → 134** SKILL.md.
 - Commit: (this session, pending).
 
-**Batches remaining this session:** 5 (`narrative` delete), 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
+**Batches remaining this session:** 6 (research merge + analyst mode sprawl), 7 (brownfield relocations — park, pack scaffold doesn't exist yet).
 
 **Branch:** `overhaul/ws5-skills-consolidation`, off main, tree green, not merged.
 
