@@ -739,7 +739,21 @@ Make deploy a swappable axis. Branch off main (WS5 merged). Greenfield — no de
 - **C. readiness rebuild** — ✅ `1c342d9`. `readiness-check` → `readiness`: the scripted hard checklist (build, env-vs-manifest, npm audit + security/scan-* suite, SBOM via cdxgen, security headers + cookie flags, .env/sourcemap probe, DNS/robots/sitemap, license re-run, Lighthouse vs budgets, T2 lockfile, conditional db-migration). **Resolved the WS5-B-deferred scanner supersession:** deleted `ops/security-scan` + `ops/dep-health-check` (superseded by the security/scan-* suite + readiness npm audit); absorbs the already-removed `dependency-auditor`. P9 gate reworked (readiness-pass checklist; security-scan-pass → aggregate-gate-results; dep-health-check-pass removed); README updated. `observability-designer` left for its P10/WS8 fold.
 - **D. deploy-gate + staging convention** — ✅ `2c742b4`. `src/hooks/deploy-gate.ts` — PreToolUse(Skill) hook, the second independent guard on prod (atop `deploy-prod`'s `disable-model-invocation`). Blocks `deploy-prod` unless build+verify complete (`gates.p8` green / phase ≥ 9; lite `gates.verify`/`ship`) + staging smoke green (`state.deploy.staging_smoke`) + acceptance record when `deploy.requires_acceptance`. Reuses the existing `state.deploy` sub-state (no schema change) + phase-gate's `isGateGreen`. Registered + wired into template settings (Skill matcher); COLDPRESS_OVERRIDE-able; 9 tests. Staging convention: staging-first → smoke → Butler records `state.deploy.staging_smoke` → gate reads it.
 - **E. UAT / acceptance-record flow** — ✅ `46a347d`. `schemas/operations/acceptance-record.schema.ts` (who/scope/date/release_ref/verdict + triaged feedback; refinements: bugs block a plain `accepted`, conditions required for conditional) + `client-acceptance` skill (staging feedback window → bug-blocks/change-request-defers triage → `ACC-*.yaml` under `_context/operations/acceptance/`, the path `deploy-gate` scans). Closes the loop with WS6-D. 5 tests.
-- **F. `handover` skill (G9)** + rollback rehearsal + generated **stack×deploy compatibility matrix**.
-- Then netlify / railway / self-hosted packs (as capacity; stub expo-eas).
+- **F. `handover` skill (G9)** + rollback rehearsal + generated **stack×deploy compatibility matrix** — ✅ `4bb2fc1`. `build-deploy-matrix` generator → `docs/generated/stack-deploy-matrix.md` (wired into check:drift; `deploy-select` reads it); `handover` skill (client pack from live sources — credentials/runbook/architecture/content/deps+license/DNS/support-boundary); rollback rehearsal cited by handover's runbook.
+- Then netlify / railway / self-hosted packs (as capacity; stub expo-eas). **← remaining (additional packs only).**
+
+### WS6 core (A–F): COMPLETE
+
+All six core increments done + green (typecheck, **949 tests**, lint, check:drift, build). Branch `overhaul/ws6-deploy-packs`, off main, not merged.
+
+**Acceptance (§9 WS6) — framework pieces met:**
+- ✅ same project ships to Vercel OR Cloudflare by changing one config line (`deploy_pack:`) — uniform skills + the two reference packs.
+- ✅ story preview URL produced + verified against — `deploy-preview` (gated on pack `capabilities.deploy_preview`).
+- ✅ a missing precondition blocks prod — `deploy-gate` (staging smoke + P8 + acceptance) atop `disable-model-invocation`; readiness blocks on env/audit/etc.
+- ✅ handover pack generates from live sources — `handover` skill.
+- ✅ acceptance-record flow — `client-acceptance` + schema.
+- 🟡 the **runtime demo** (a real Astro project shipping to both targets, smoke green on both) is a validation step needing a live project — like WS3's demo Astro; deferred to the ship-gate demo pass (§12).
+
+**Remaining WS6 (optional/as-capacity):** netlify / railway / self-hosted / digitalocean packs (+ stub expo-eas) — each is just a `pack.yaml` implementing the interface; the machinery is done. The deferred `ops/security-scan`+`dep-health-check` supersession was resolved in WS6-C; the `deploy-prod` split (WS5-D carry-over) landed in WS6-B.
 
 **A green:** typecheck ✅, **935 tests** ✅ (+8), check:drift ✅. Held here for pacing — WS6 is large (B–F + more packs remain).
