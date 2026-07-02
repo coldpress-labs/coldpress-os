@@ -5,6 +5,7 @@ import pc from "picocolors";
 import { runDashboard } from "./commands/dashboard.js";
 import { runDoctor } from "./commands/doctor.js";
 import { runFeedback } from "./commands/feedback.js";
+import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
 import { type InitInput, runInit } from "./commands/init.js";
 import { runRunInspect, runRunList } from "./commands/run.js";
@@ -75,6 +76,23 @@ program
 // §8 item 1 — vendored Graphify retired. Retrieval/traceability moves to
 // `coldpress trace` (WS2, §4.6); AST indexing demotes to the brownfield
 // capability pack (§7.6).
+
+program
+  .command("hook [name]")
+  .description(
+    "Run an enforcement hook (invoked by .claude/settings.json via scripts/hooks/*.mjs). Reads the Claude Code hook payload on stdin.",
+  )
+  .option("--explain", "print what this hook enforces, then exit")
+  .option("--list", "list registered hook names")
+  .action(async (name: string | undefined, opts: { explain?: boolean; list?: boolean }) => {
+    if (opts.list || !name) {
+      const { hookNames } = await import("./hooks/registry.js");
+      console.log(hookNames().join("\n"));
+      process.exit(0);
+    }
+    const code = await runHook(name, { explain: opts.explain });
+    process.exit(code);
+  });
 
 const securityCmd = program
   .command("security")
