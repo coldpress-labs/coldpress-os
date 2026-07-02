@@ -3,6 +3,7 @@ name: aci-find-file
 description: Bounded file-discovery primitive — Glob with capped result count + structured output (path-per-line)
 license: MIT
 compatibility: Invoked by @developer in Phase 6
+allowed-tools: "Glob"
 version: "1.0"
 ---
 

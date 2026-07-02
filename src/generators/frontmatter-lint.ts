@@ -66,6 +66,9 @@ export function lintFrontmatter(root: string = packageRoot): Violation[] {
     if (typeof fm.name !== "string" || !fm.name.trim()) violations.push({ file: rel, message: "missing `name`" });
     if (typeof fm.description !== "string" || !fm.description.trim()) violations.push({ file: rel, message: "missing `description` (required by the Agent Skills spec)" });
     if (typeof fm.type === "string" && !VALID_TYPES.has(fm.type)) violations.push({ file: rel, message: `invalid \`type: ${fm.type}\` (expected ${[...VALID_TYPES].join(" | ")})` });
+    // Modern Claude Code frontmatter fields (WS5-D): validate values when present.
+    if (fm.context !== undefined && fm.context !== "fork") violations.push({ file: rel, message: `invalid \`context: ${String(fm.context)}\` (only \`fork\` is valid)` });
+    if (fm["disable-model-invocation"] !== undefined && typeof fm["disable-model-invocation"] !== "boolean") violations.push({ file: rel, message: "`disable-model-invocation` must be a boolean" });
     if (fm.agent !== undefined) {
       if (typeof fm.agent !== "string" || !VALID_AGENTS.has(fm.agent)) {
         violations.push({ file: rel, message: `invalid \`agent: ${String(fm.agent)}\` (not in the roster: ${[...VALID_AGENTS].join(", ")})` });

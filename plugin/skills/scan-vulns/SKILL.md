@@ -3,6 +3,7 @@ name: scan-vulns
 description: Run OSV-Scanner against dependency manifests; emits normalised ScanResult JSON
 license: MIT
 compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

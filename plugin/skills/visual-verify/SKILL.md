@@ -3,6 +3,7 @@ name: visual-verify
 description: "Verify a UI story against the design tokens: screenshot components with Playwright, extract computed styles, and fail on any off-token color/font/size/spacing (via `coldpress visual-verify`). Also diffs against the /styleguide route baselines. Run by the verifier."
 license: MIT
 compatibility: Invoked by @verifier
+allowed-tools: "Read Bash"
 version: "1.0"
 ---
 

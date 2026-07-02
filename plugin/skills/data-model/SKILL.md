@@ -3,6 +3,7 @@ name: data-model
 description: Phase 6. Entities/relations, migration-zero, seed strategy, and per-entity retention/erasure notes (feeds the DPDPA/GDPR acceptance criteria from P4). Migration-as-story (G5) hangs off this.
 license: MIT
 compatibility: Invoked by @architect in Phase 6
+allowed-tools: "Read Write"
 version: "1.0"
 ---
 

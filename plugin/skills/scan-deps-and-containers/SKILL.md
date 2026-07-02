@@ -3,6 +3,7 @@ name: scan-deps-and-containers
 description: Run Trivy against dependency manifests + container images; emits normalised ScanResult JSON
 license: MIT
 compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

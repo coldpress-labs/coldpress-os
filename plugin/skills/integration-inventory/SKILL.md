@@ -3,6 +3,7 @@ name: integration-inventory
 description: Phase 6. Every third-party service (payment, CMS, LiveKit/Deepgram, email, …) with sandbox strategy, webhook signature verification, rate limits, cost model, and an explicit failure-mode row — resilience designed at the moment dependencies are chosen. Includes an infra cost estimate.
 license: MIT
 compatibility: Invoked by @architect in Phase 6
+allowed-tools: "Read Write"
 version: "1.0"
 ---
 

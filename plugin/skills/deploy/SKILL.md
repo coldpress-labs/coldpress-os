@@ -3,6 +3,7 @@ name: deploy
 description: Execute deployment to target environment with verification
 license: MIT
 compatibility: Invoked by @developer in Phase 9
+disable-model-invocation: true
 version: "1.0"
 ---
 

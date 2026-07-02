@@ -3,6 +3,7 @@ name: llm-security-scan
 description: Run Giskard adversarial scan against project-declared LLM endpoints and emit a ScanResult for the Phase-7 llm-adversarial-scan acceptance check
 license: MIT
 compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

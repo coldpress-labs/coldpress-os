@@ -3,6 +3,7 @@ name: bmad-import
 description: One-way inbound adapter that translates a BMAD module directory (config.yaml + agents/ + workflows/ + templates/) into coldpress-os-shaped equivalents
 license: MIT
 compatibility: Invoked by @butler
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

@@ -236,6 +236,19 @@ function parseRichFrontmatter(block: string): RichFrontmatter {
         case "version":
           result.version = value;
           break;
+        case "context":
+          result.context = value;
+          break;
+        case "disable-model-invocation":
+          result.disableModelInvocation = value === "true";
+          break;
+        case "tools":
+          // Inline array form: tools: ["Read", "Bash"] (multi-line handled below).
+          result.tools = parseInlineArray(value);
+          break;
+        case "disallowed-tools":
+          result.disallowedTools = parseInlineArray(value);
+          break;
         case "phase": {
           const n = parseInt(value, 10);
           result.phase = Number.isFinite(n) ? n : value;
@@ -272,6 +285,7 @@ function parseRichFrontmatter(block: string): RichFrontmatter {
       i++;
     }
     if (key === "tools") result.tools = items;
+    else if (key === "disallowed-tools") result.disallowedTools = items;
     else if (key === "phases") {
       result.phases = items.map((s) => {
         const n = parseInt(s, 10);
@@ -283,6 +297,16 @@ function parseRichFrontmatter(block: string): RichFrontmatter {
   }
 
   return result;
+}
+
+/** Parse an inline YAML array — `["Read", "Bash"]` or `[Read, Bash]` — to strings. */
+function parseInlineArray(value: string): string[] {
+  const m = /^\[(.*)\]$/.exec(value.trim());
+  if (!m) return [];
+  return (m[1] ?? "")
+    .split(",")
+    .map((s) => unquote(s.trim()))
+    .filter(Boolean);
 }
 
 async function* walkSkillFiles(root: string): AsyncGenerator<string> {

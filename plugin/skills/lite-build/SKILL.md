@@ -3,6 +3,7 @@ name: lite-build
 description: "Lite lane, phase 2 of 4 (Build). Absorbs full-lane P6–P8: red acceptance stubs → implement to green, story by story, in plan mode. Same hooks as the full lane (boundary-guard, quality-gate)."
 license: MIT
 compatibility: Invoked by @developer
+allowed-tools: "Read Write Edit Bash"
 version: "1.0"
 ---
 

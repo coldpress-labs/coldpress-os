@@ -3,6 +3,7 @@ name: aci-scroll
 description: Bounded read primitive — read a fixed window of a file and report the cursor position so subsequent steps don't re-read the whole file
 license: MIT
 compatibility: Invoked by @developer in Phase 6
+allowed-tools: "Read"
 version: "1.0"
 ---
 

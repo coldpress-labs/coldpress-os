@@ -3,6 +3,7 @@ name: analytics-plan
 description: Phase 6. The event schema implementing the outcome contract — events, properties, trigger points, destination — so instrumentation is DESIGNED, not sprinkled. Events attach to stories at P7; P9 smoke asserts they fire.
 license: MIT
 compatibility: Invoked by @architect in Phase 6
+allowed-tools: "Read Write"
 version: "1.0"
 ---
 

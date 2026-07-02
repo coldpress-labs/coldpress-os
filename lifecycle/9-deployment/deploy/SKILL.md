@@ -5,6 +5,7 @@ type: "workflow"
 category: "lifecycle"
 phase: 9
 agent: "developer"
+disable-model-invocation: true
 inputs:
   - "_context/sacred/tech-stack.md"
   - "coldpress.yaml"

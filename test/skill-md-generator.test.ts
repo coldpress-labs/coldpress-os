@@ -138,6 +138,47 @@ describe("renderSpecFrontmatter", () => {
   });
 });
 
+describe("modern frontmatter fields (WS5-D)", () => {
+  it("emits context: fork and the fork agent only when context is fork", () => {
+    expect(toSpecFrontmatter({ name: "x", description: "y", context: "fork", agent: "reviewer" })).toMatchObject(
+      { context: "fork", agent: "reviewer" },
+    );
+    // agent without fork drives compatibility prose, NOT a spec `agent:` field.
+    const noFork = toSpecFrontmatter({ name: "x", description: "y", agent: "pm" });
+    expect(noFork.context).toBeUndefined();
+    expect(noFork.agent).toBeUndefined();
+    // fork without an explicit agent omits agent (Claude Code defaults to general-purpose).
+    expect(toSpecFrontmatter({ name: "x", description: "y", context: "fork" }).agent).toBeUndefined();
+  });
+
+  it("emits disable-model-invocation only when true", () => {
+    expect(
+      toSpecFrontmatter({ name: "x", description: "y", disableModelInvocation: true })["disable-model-invocation"],
+    ).toBe(true);
+    expect(
+      toSpecFrontmatter({ name: "x", description: "y" })["disable-model-invocation"],
+    ).toBeUndefined();
+  });
+
+  it("maps disallowed-tools to a space-separated string", () => {
+    expect(
+      toSpecFrontmatter({ name: "x", description: "y", disallowedTools: ["Bash", "WebFetch"] })["disallowed-tools"],
+    ).toBe("Bash WebFetch");
+  });
+
+  it("renders the modern fields in the frontmatter block", () => {
+    const out = renderSpecFrontmatter({
+      name: "adversarial-review",
+      description: "A review",
+      license: "MIT",
+      context: "fork",
+      "disable-model-invocation": true,
+    });
+    expect(out).toContain("context: fork");
+    expect(out).toContain("disable-model-invocation: true");
+  });
+});
+
 describe("SKILL_NAME_RE", () => {
   it("matches only lowercase + hyphens, starting with a letter", () => {
     expect(SKILL_NAME_RE.test("abc")).toBe(true);

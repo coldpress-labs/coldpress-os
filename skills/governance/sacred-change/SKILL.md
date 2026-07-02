@@ -6,6 +6,7 @@ category: "governance"
 agent: "butler"
 phases: [2, 3, 4, 6]
 tools: ["Read", "Write", "Bash"]
+disable-model-invocation: true
 inputs:
   - "target sacred doc path (_context/sacred/*.md)"
   - "the requested change + rationale"

@@ -3,6 +3,7 @@ name: scan-code
 description: Run Semgrep OSS rule-based SAST on the project source; emits normalised ScanResult JSON
 license: MIT
 compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 

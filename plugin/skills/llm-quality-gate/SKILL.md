@@ -3,6 +3,7 @@ name: llm-quality-gate
 description: Run DeepEval against project-declared prompts/agents and emit a ScanResult for the Phase-7 llm-correctness-gate acceptance check
 license: MIT
 compatibility: Invoked by @verifier in Phase 7
+allowed-tools: "Bash Read Write"
 version: "1.0"
 ---
 
