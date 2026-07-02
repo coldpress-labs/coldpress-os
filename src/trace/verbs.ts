@@ -11,7 +11,7 @@ import type { TraceGraph } from "./graph.js";
 import type { TraceNode } from "./types.js";
 
 export interface OrphanFinding {
-  kind: "dangling-consume" | "unresolved-adr-delta" | "unresolved-delta" | "isolated-story";
+  kind: "dangling-consume" | "unresolved-adr-delta" | "unresolved-delta" | "unmapped-requirement" | "isolated-story";
   id: string;
   detail: string;
 }
@@ -53,6 +53,14 @@ export function orphans(g: TraceGraph): OrphanFinding[] {
       findings.push({ kind: "unresolved-adr-delta", id: d.id, detail: `${d.id} is flagged for an ADR but has no adr_ref` });
     } else if (!g.has(adrRef)) {
       findings.push({ kind: "unresolved-adr-delta", id: d.id, detail: `${d.id} references ADR "${adrRef}" which does not exist` });
+    }
+  }
+
+  // 2c. Unmapped requirements (P6 orphan gate, §4.6) — a requirement with no
+  //     implementing story. Activates once P4/P6 keying is present.
+  for (const r of g.byType("requirement")) {
+    if (g.out(r.id, "implements").length === 0) {
+      findings.push({ kind: "unmapped-requirement", id: r.id, detail: `requirement ${r.id} has no implementing story` });
     }
   }
 
