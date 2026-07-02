@@ -757,3 +757,19 @@ All six core increments done + green (typecheck, **949 tests**, lint, check:drif
 **Remaining WS6 (optional/as-capacity):** netlify / railway / self-hosted / digitalocean packs (+ stub expo-eas) — each is just a `pack.yaml` implementing the interface; the machinery is done. The deferred `ops/security-scan`+`dep-health-check` supersession was resolved in WS6-C; the `deploy-prod` split (WS5-D carry-over) landed in WS6-B.
 
 **A green:** typecheck ✅, **935 tests** ✅ (+8), check:drift ✅. Held here for pacing — WS6 is large (B–F + more packs remain).
+
+---
+
+## WS7 — Evals & the loop (§9 WS7, §4.8) — IN PROGRESS (2026-07-03, branch `overhaul/ws7-evals-loop`)
+
+The self-improvement loop: run → tag failures → patch → re-eval → commit-referencing-the-failure. P2 workstream, greenfield (no evals/, no runner). The run-log hook already anticipates the EventStream enrichment. Framework evals ≠ product evals (the latter = the existing `eval:` config + src/llm-gates/).
+
+**Planned increments:**
+- **A. Failure taxonomy + eval-task schema** — ✅ `d093901`. `data/failure-taxonomy.yaml` + `schemas/{failure-taxonomy,eval-task}.schema.ts` + tests. Deterministic-first scoring; guards_against links tasks to taxonomy ids.
+- **B. `coldpress evals` runner** — reads `evals/**/*.yaml` golden tasks, scores deterministic checks (gate-green/schema-valid/file-exists/tests-green/…) headlessly → per-task pass/fail report; Agent SDK for the agentic tasks.
+- **C. EventStream enrichment** — extend the event schema + run-log with model + token counts + gate results + taxonomy tags (the loop's intake).
+- **D. `coldpress evolve`** — cross-project aggregation: failure + override + cost leaderboards, estimation-bias report (G8), top-3 patch proposals.
+- **E. valet-loop skill** — the framework-repo loop (run log → patch skill/hook → run affected evals → commit referencing the failure id).
+- **F. Golden tasks** — a starter set (8–15 per lane/stack-pack; 3–5 pack-specific).
+
+**A green:** typecheck ✅, **956 tests** ✅ (+7), lint ✅, check:drift ✅. Held here for pacing — WS7 B–F remain (the runner + evolve are substantial code).
