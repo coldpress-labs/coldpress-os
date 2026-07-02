@@ -19,10 +19,11 @@ Phase 7 takes the locked spec stack (PRD + UX + brand + architecture + ADRs + pr
 
 | Skill | Type | Output | Tier | Owner |
 |-------|------|--------|------|-------|
-| `create-epics` | workflow | `_context/planning/epics-v{N}.md` | distillate | @pm |
-| `create-stories` | workflow | `_context/implementation/stories/story-NNN-*-v{N}.md` (per Q4) + `stories-index.md` | distillate (per story) | @pm |
-| `parallelization-strategy` | workflow | `_context/sacred/pert-chart.md` (SACRED per Q3) + `_context/tracking/sprint-status-v{N}.md` | sacred + distillate | @pm |
+| `story-slice` | workflow | `_context/planning/epics-v{N}.md` + `_context/implementation/stories/ST-*.md` (contracts) + `stories-index.md` | distillate | @pm |
+| `story-graph` | workflow | `_context/implementation/story-graph.yaml` + computed `waves.yaml`/`schedule.yaml` (`coldpress waves`) + `_context/tracking/sprint-status-v{N}.md` | distillate | @pm |
 | `implementation-readiness` | workflow (gate-style) | `_context/audit/implementation-readiness-v{N}.md` (9-point checklist per Q6) | distillate | @pm |
+
+> **v0.4 (WS5-E):** `create-epics` + `create-stories` merged into **`story-slice`** (slices the three-way-keyed architecture — PRD × components × ADRs — into story contracts with owns/produces/consumes + acceptance-stubs). `parallelization-strategy` rebuilt into **`story-graph`** (authors story-graph.yaml + runs `coldpress waves`). **PERT retired** — the computed wave plan supersedes the old sacred PERT chart.
 
 ## Recommended flow
 
@@ -35,7 +36,7 @@ Phase 7 takes the locked spec stack (PRD + UX + brand + architecture + ADRs + pr
      - Phase 6 exit blocks on reject / flag_for_architecture_ADR until resolved
         │  (writes phase-6-to-7 handoff with a fully-resolved architecture_deltas: section)
         ▼
-   create-epics  →  create-stories  →  parallelization-strategy (incl. sprint-status, Steps 4-6)  →  implementation-readiness
+   story-slice (epics → ST-* contracts + acceptance-stubs)  →  story-graph (story-graph.yaml + coldpress waves + tracking)  →  implementation-readiness
                                                                                                        (gate-style 9-point)
         │
         ▼

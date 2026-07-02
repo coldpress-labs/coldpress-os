@@ -13,12 +13,12 @@
   ],
   "acceptance_checks": [
     {
-      "id": "pert-chart-locked",
-      "description": "`_context/sacred/pert-chart.md` is locked + sacred (re-verified)",
+      "id": "story-graph-present",
+      "description": "`_context/implementation/story-graph.yaml` + the computed wave plan exist (Phase 7 output that Phase 8 executes)",
       "kind": "automated",
       "severity": "block",
-      "remediation": "PERT amendments via governance/pert-change/.",
-      "schema_ref": "schemas/sacred-docs/pert-chart.schema.json"
+      "remediation": "Run `@pm story-graph` at Phase 7 (emits story-graph.yaml + `coldpress waves`). PERT chart retired.",
+      "schema_ref": "schemas/story-graph.schema.ts"
     },
     {
       "id": "all-stories-complete",

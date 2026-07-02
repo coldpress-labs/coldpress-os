@@ -55,11 +55,11 @@ const HIGH_STAKES_SKILLS: HighStakesSkill[] = [
     },
   },
   {
-    label: "parallelization-strategy",
-    path: "lifecycle/7-breakdown/parallelization-strategy/SKILL.md",
+    label: "story-graph",
+    path: "lifecycle/7-breakdown/story-graph/SKILL.md",
     asserts: {
       outputContract: true,
-      attention: true, // Wave table is parsed by this skill's own Steps 4-6 (sprint-status generation).
+      attention: true, // story-graph.yaml is machine-parsed by `coldpress waves`.
       mermaidForcing: true, // Mandatory DAG.
     },
   },
@@ -154,7 +154,7 @@ describe("docs/prompt-patterns.md — self-consistency", () => {
       expect(body, `doc should contain: ${heading}`).toContain(heading);
     }
     // Applied-set table mentions each high-stakes skill by name.
-    for (const skill of ["create-prd", "create-architecture", "parallelization-strategy"]) {
+    for (const skill of ["create-prd", "create-architecture", "story-graph"]) {
       expect(body, `applied-set should mention ${skill}`).toContain(skill);
     }
   });

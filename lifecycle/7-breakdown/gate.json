@@ -4,7 +4,7 @@
   "phase": 7,
   "phase_name": "Breakdown",
   "shape": "A",
-  "note": "Phase 7 Breakdown is a cascade rename of old Phase 5 + Shape A scope refinement. Owner: @pm throughout (the former @scrum-master sub-persona for sprint-planning was retired, WS5-B §8 item 6 — sprint-status generation is now Steps 4-6 of `parallelization-strategy`). Reads architecture (Phase 6 sacred) + PRD + UX-spec + brand-guidelines + ADRs + prototype-manifest. **Architecture-deltas reconciliation** happens at Phase 6 EXIT (`phase-transition` step-02a §B, WS5-B — folded in from the deleted `breakdown-entry-sync` Phase 7 entry skill), so Phase 7 always opens with a fully-resolved delta set. Decomposes into per-story files + sacred PERT chart + sprint plan + 9-point implementation-readiness gate.",
+  "note": "Phase 7 Breakdown. Owner: @pm throughout. Two skills post-WS5-E: `story-slice` (merges the former create-epics + create-stories) slices the three-way-keyed architecture (PRD × components × ADRs) into epics + atomic ST-*.md story contracts (owns/produces/consumes, o/m/p, risk, acceptance-stubs); `story-graph` (rebuilt from parallelization-strategy) authors story-graph.yaml + runs `coldpress waves` (computed waves/critical-path/schedule) + the tracking file. Reads architecture (Phase 6 sacred) + PRD + UX-spec + tokens/styleguide + ADRs + api-contract + security-registry + analytics-plan. **Architecture-deltas reconciliation** happens at Phase 6 EXIT (`phase-transition` step-02a §B). **PERT retired** — the computed wave plan supersedes the old sacred PERT chart. Exit: 9-point implementation-readiness gate.",
   "entry_conditions": [
     "Phase 6 (Architecture) gate passed (incl. silent-divergence guard at #5)",
     "`_context/sacred/architecture.md` exists with `sacred: true` + `governance: locked`",
@@ -42,13 +42,13 @@
       "remediation": "Run `@pm story-slice` (Steps 2-3 emit per-story contracts + red stubs)."
     },
     {
-      "id": "pert-chart-sacred",
-      "description": "`_context/sacred/pert-chart.md` exists with `sacred: true` + `governance: locked`; schema-validates; sidecar exists",
+      "id": "story-graph-validated",
+      "description": "`_context/implementation/story-graph.yaml` exists, schema-validates, and `coldpress waves` accepts it (acyclic; every interface edge has a contract story; intra-wave ownership disjoint)",
       "kind": "automated",
       "severity": "block",
-      "schema_ref": "schemas/sacred-docs/pert-chart.schema.json",
-      "artefact_path": "_context/sacred/pert-chart.md",
-      "remediation": "Run `@pm parallelization-strategy`. PERT chart is SACRED per Q3 — amendments via governance/pert-change/."
+      "schema_ref": "schemas/story-graph.schema.ts",
+      "artefact_path": "_context/implementation/story-graph.yaml",
+      "remediation": "Run `@pm story-graph` (emits story-graph.yaml + runs `coldpress waves`). PERT chart retired — the computed wave plan supersedes it."
     },
     {
       "id": "sprint-status-validated",
@@ -56,7 +56,7 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/tracking/sprint-status-v*.md",
-      "remediation": "Run `@pm parallelization-strategy` (its Steps 4-6 generate sprint-status after the PERT chart locks).",
+      "remediation": "Run `@pm story-graph` (Step 5 generates the tracking file from the computed wave assignment).",
       "schema_ref": "schemas/tracking/wave-status.schema.json"
     },
     {
