@@ -1,0 +1,53 @@
+# ─── deploy-pack: netlify ──────────────────────────────────────────
+# Validated against schemas/deploy-pack.schema.ts. The uniform deploy
+# skills read this and dispatch the Netlify CLI. Select with
+# `deploy_pack: netlify` in coldpress.yaml (Phase 3 `deploy-select`).
+schema_version: 1
+name: netlify
+platform: Netlify
+cli: netlify
+
+capabilities:
+  deploy_preview: true    # `netlify deploy --alias <name>` yields a named draft URL
+  rollback: true          # restore/publish a prior deploy (Deploys → Publish deploy)
+
+targets:
+  staging:
+    deploy_cmd: "netlify deploy --dir ${BUILD_DIR} --alias staging"
+    url: "${NETLIFY_STAGING_URL}"
+    notes: "Draft (non-prod) deploy; the walking skeleton + every wave land here first. Omitting --prod keeps it a draft."
+  production:
+    deploy_cmd: "netlify deploy --dir ${BUILD_DIR} --prod"
+    url: "${NETLIFY_PROD_URL}"
+    notes: "Human-triggered only (deploy-prod skill has disable-model-invocation + deploy-gate)."
+  preview:
+    deploy_cmd: "netlify deploy --dir ${BUILD_DIR} --alias ${STORY_BRANCH}"
+    url: "${NETLIFY_PREVIEW_URL}"
+    notes: "Per-story/wave draft alias for verifier + human review (§5 P8)."
+
+env_mapping:
+  set_cmd: "netlify env:set ${KEY} ${VALUE} --context ${ENVIRONMENT}"
+  notes: "Reads names from secure/manifest.yaml; values from secure/.env*. Scoped per deploy context (production/deploy-preview/branch-deploy)."
+
+smoke:
+  routes:
+    - "/"
+  happy_path_spec: "tests/e2e/smoke.spec.ts"
+  asserts_analytics: true
+
+# Netlify has no first-class `rollback` verb — you re-publish a prior deploy.
+# `netlify api listSiteDeploys` finds the last-good id; restoreSiteDeploy promotes it.
+rollback_cmd: "netlify api restoreSiteDeploy --data '{\"site_id\":\"${NETLIFY_SITE_ID}\",\"deploy_id\":\"${LAST_GOOD_DEPLOY_ID}\"}'"
+
+compatible_stacks:
+  - vibe-coder-fullstack
+  - static-multipage-blog
+  - static-single-page
+
+# Build values consumed FROM the locked stack pack / coldpress.yaml baselines.
+# ${BUILD_DIR} above IS one of these — Netlify publishes a built output dir, so
+# the pack must know where the locked stack emits it.
+stack_inputs:
+  - BUILD_CMD
+  - BUILD_DIR
+  - NODE_VERSION
