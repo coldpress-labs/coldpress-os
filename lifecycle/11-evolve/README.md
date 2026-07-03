@@ -25,9 +25,10 @@ is_final_phase: true
 
 | Skill | Type | Owner |
 |-------|------|-------|
-| `retrospective` | workflow | @reviewer (entry skill per Q1) |
-| `product-evolution` | workflow | @reviewer (next-iteration backlog) |
-| `innovation-strategy` | workflow | @reviewer (long-horizon ideation) |
+| `retrospective` | workflow | @reviewer (entry skill per Q1) — **rebuilt (WS8):** product+process, evidence-linked (cites run-log event IDs), reads outcomes actual-vs-target + failure-lineage via `trace`; @reviewer on opus |
+| `product-evolution` | workflow | @reviewer (next-iteration product backlog) |
+| `framework-feedback` | workflow | @reviewer — **NEW (WS8)**. Framework-attributable learnings → issues against coldpress-os (the WS7 valet-loop intake): taxonomy summary + override review + proposed skill/hook/schema patches |
+| `pack-harvest` | workflow | @reviewer — **NEW (WS8, principle 7)**. Graduate what worked (components/snippets/config/skills/golden evals) into the relevant pack, or propose a new profile when a shape ships first |
 
 ## Recommended flow
 
@@ -41,7 +42,10 @@ is_final_phase: true
    product-evolution (consumes accept_into_phase_11_product_evolution deltas + retro lessons)
         │
         ▼
-   innovation-strategy (long-horizon ideation; reads everything)
+   framework-feedback (framework learnings → coldpress-os issues; WS7 loop intake)
+        │
+        ▼
+   pack-harvest (graduate what worked → the relevant pack / a new profile)
         │
         ▼
    phase-transition (FINAL closure — copies outputs to _input/prior-iteration/ for NEXT iteration)
@@ -65,7 +69,8 @@ See `gate.json` (4 acceptance checks). Final phase — no phase-12 link.
 Phase 11 closure (phase-transition step-03-handoff-log) copies outputs to `_input/prior-iteration/`:
 - `retrospective.md`
 - `product-evolution-backlog.md`
-- `innovation-strategy.md`
+- `framework-feedback-v{N}.md` (+ issues on coldpress-os)
+- `pack-harvest-v{N}.md`
 
 NEXT iteration's Phase 1 entry reads `_input/prior-iteration/` (brownfield-style branching). Lifecycle is non-cyclic by default but supports re-entry for next iteration.
 
