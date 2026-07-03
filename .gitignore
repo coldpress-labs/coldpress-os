@@ -34,3 +34,7 @@ coverage/
 
 # Packed tarballs (never commit; `npm pack` output — see overhaul WS0 §8 item 3)
 *.tgz
+
+# Runtime state — EventStream run-logs, graph index, local-config (never tracked;
+# tests + live CLI runs write here in the repo cwd)
+.coldpress/
