@@ -1,0 +1,14 @@
+schema_version: 1
+id: brochure-site
+name: "Brochure site"
+description: "A small marketing/landing site — no auth, no PII. Static, ships fast."
+status: harvested
+defaults:
+  stack_pack: static-single-page
+  deploy_pack: cloudflare
+  verify_pack: web
+  lane: lite
+  security_tier: T0
+flags: {}
+mcp_set: []
+eval_subset: [lite-spec, security-no-committed-secret]

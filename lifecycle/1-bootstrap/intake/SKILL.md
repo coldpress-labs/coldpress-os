@@ -36,6 +36,7 @@ The whole of Phase 1. Thirteen steps, one output each; the user can stop after a
 4. **Lifecycle intro** — 30-second phase preview, skippable.
 5. **Material solicitation** — walk the 5 `_input/` subfolders with the user.
 6. **Shape determination** — greenfield / brownfield / ambiguous, derived from whether `_input/legacy/` has content.
+6a. **Profile** — the one question that configures everything (§4.9): pick a project profile (`data/profiles/`) → pre-fill lane, tier, and stack/deploy/verify packs in `coldpress.yaml`; everything after is confirm/override.
 7. **Intent seed** — one-sentence project intent, written as a frontmatter + `status: seed` shell into `_context/sacred/context.md`.
 8. **Vision** — enrich the seed into problem, scope, and success criteria.
 9. **Users** — user types, value proposition, brownfield prior-user notes.

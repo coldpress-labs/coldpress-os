@@ -34,6 +34,7 @@
     "build:skills": "tsx src/generators/build-skills.ts",
     "build:roster": "tsx src/generators/build-agent-roster.ts",
     "build:deploy-matrix": "tsx src/generators/build-deploy-matrix.ts",
+    "build:client-touchpoints": "tsx src/generators/build-client-touchpoints.ts",
     "lint:frontmatter": "tsx src/generators/frontmatter-lint.ts",
     "check:drift": "tsx src/generators/check-drift.ts",
     "dev": "tsup --watch",

@@ -1,0 +1,12 @@
+schema_version: 1
+id: research-spike
+name: "Research spike"
+description: "A timeboxed investigation — findings memo exit, no code gates. Not a project cosplaying as lite."
+status: harvested
+defaults:
+  verify_pack: research-spike
+  lane: lite
+  security_tier: T0
+flags: {}
+mcp_set: []
+eval_subset: []

@@ -1,0 +1,13 @@
+schema_version: 1
+id: cli-tool
+name: "CLI / npm package"
+description: "A publishable CLI/library. Ships to npm (no web deploy target); release via changesets."
+status: harvested
+defaults:
+  stack_pack: cli-npm-publishable
+  verify_pack: web
+  lane: lite
+  security_tier: T0
+flags: {}
+mcp_set: []
+eval_subset: [security-no-committed-secret]

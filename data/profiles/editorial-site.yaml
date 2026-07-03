@@ -1,0 +1,15 @@
+schema_version: 1
+id: editorial-site
+name: "Editorial / content site"
+description: "A content-led multipage site. Content population is explicit work (dies on content, not code)."
+status: harvested
+defaults:
+  stack_pack: static-multipage-blog
+  deploy_pack: cloudflare
+  verify_pack: web
+  lane: lite
+  security_tier: T0
+flags:
+  content_workstream: true
+mcp_set: []
+eval_subset: [lite-spec, security-no-committed-secret]

@@ -798,3 +798,45 @@ Make P10 measure outcomes (not just uptime) and close the P11 loops (product / f
 **Acceptance (§9 WS8):** both criteria — ops-check digest against a live project (≥1 outcome actual-vs-target) + one incident flowing signal→skill→resolution→run-log+taxonomy-tag→pinning-test — are **runtime demos needing a live deployed project** (like WS3's demo Astro / WS7's loop demo); all the machinery is built + wired. Deferred to the §12 ship-gate demo.
 
 **WS8: CORE COMPLETE.** Remaining overhaul: WS9 (profiles, proposal mode, compounding) + the standing deferrals (D18, PERT-schema-chain excision, extra deploy packs, §12 runtime demos + ship gate).
+
+---
+
+## WS9 — Profiles, proposal mode & compounding (§9 WS9, §4.9) — IN PROGRESS (2026-07-03, branch `overhaul/ws9-profiles`)
+
+The final workstream. `pack-harvest` (P11) already landed in WS8. Remaining: profiles, proposal mode, verify_pack:llm-app, client-touchpoints registry.
+
+- **A. Profile roster + schema** — ✅ `ba9bd60`. `schemas/profile.schema.ts` + `data/profiles/` (6 **harvested** profiles: brochure-site, editorial-site, saas-app, cli-tool, browser-extension, research-spike — only shapes backed by a real stack pack; no speculation). Folds in the archetype override mechanics; supersedes `install/archetypes/`. Cross-checked (stack/deploy packs exist + compatible). 6 tests.
+- **B. proposal mode (P2)** — the `proposal` pre-sales skill: timeboxed P1–P2 + stack shortlist → proposal pack (brief + 85%-confidence timeline G8-lite + scope/price scaffold + assumptions register). If won, artifacts carry into the real project.
+- **C. verify_pack: llm-app** — wire the existing `src/llm-gates/` normalizers + `skills/deployment/{llm-quality-gate,llm-security-scan,prompt-regression}` into the llm-app verify pack (already-implemented code the v1.0 plan left unplaced).
+- **D. client-touchpoints registry (§7.17)** — generated table of the client-facing rhythm (kickoff/brief/proposal/stack-cost/design-signoff/preview/UAT/handover/health-reports).
+
+**A green:** typecheck ✅, **982 tests** ✅ (+6), lint ✅, check:drift ✅.
+
+- **B. proposal mode** — ✅ `01aae8b`. `lifecycle/2-discovery/proposal` — timeboxed pre-sales P1–P2 + stack shortlist → proposal pack (brief + 85%-confidence timeline + scope/price + assumptions); won artifacts carry into the real project.
+- **C. verify_pack: llm-app** — ✅ `01aae8b`. `schemas/verify-pack.schema.ts` + `data/verify-packs/{web,llm-app,research-spike}.yaml`. llm-app wires the existing `src/llm-gates/` normalizers (DeepEval/Promptfoo/Giskard) + the deployment LLM skills as product-eval gates (§7.19 code un-placed by v1.0). 4 tests; every profile's verify_pack has a shipped pack.
+- **D. client-touchpoints registry** — ✅ `24d0abe`. `data/client-touchpoints.yaml` → `build-client-touchpoints` → `docs/generated/client-touchpoints.md` (drift-checked); 8 touchpoints each mapping to a real skill.
+- **Profile→intake wiring** — ✅ `a2a8133`. New `step-06a-profile` applies a chosen profile's defaults at P1 (§5 P1's "first question is the profile").
+- **pack-harvest** — done in WS8 (P11).
+
+### WS9 — COMPLETE
+
+Green: typecheck, **986 tests**, lint, check:drift. Branch `overhaul/ws9-profiles`, off main, not merged.
+
+**Acceptance (§9 WS9):**
+- ✅ `coldpress init` + a profile answer → preconfigured project (packs/tier/lane), every default overridable — profile schema + roster + intake step-06a.
+- ✅ proposal pack generates from a timeboxed P1–P2 run — the `proposal` skill.
+- 🟡 one shipped project's harvest lands ≥1 component + ≥1 eval task; 🟡 an llm-app demo runs the product-eval gate end-to-end — both **runtime demos** (need a real project run); the machinery (`pack-harvest`, `verify_pack: llm-app` + the wired llm-gates) is built.
+
+---
+
+## v0.4 "Enforcement" overhaul — ALL WORKSTREAMS COMPLETE (2026-07-03)
+
+**WS0–WS9 done.** Merged to main: WS0–WS8. Unmerged branches: WS9 (this), and WS9's predecessor merges already landed. Green everywhere (typecheck, ~986 tests, lint, check:drift, build).
+
+**Standing deferrals (flagged, non-blocking):**
+1. **D18** — migrate agents + hooks into the plugin as the single vehicle (currently ship working via template/.claude/).
+2. **PERT-schema-chain excision** (§8 item 10 remainder) — the orphaned pert-chart/pert-to-stories/architecture-to-pert schemas + tests.
+3. **Optional deploy packs** — netlify/railway/self-hosted/digitalocean (+ stub expo-eas); each is just a `pack.yaml` on the finished interface.
+4. **§12 ship gate + runtime demos** — several workstreams' acceptance converges here: the demo Astro shipping to two targets (WS3/WS6), the full evals→patch loop pass (WS7), a live ops-check digest + incident→pinning-test (WS8), a harvest + llm-app demo (WS9). All machinery is built; these need a live estate project run.
+
+**Next:** the §12 ship gate (v0.4.0) — run the deferred dependency-hygiene pass (D7 npm audit + any remaining), the runtime demos above, then tag/publish per the ship-gate checklist. Merge WS9 to main when ready.

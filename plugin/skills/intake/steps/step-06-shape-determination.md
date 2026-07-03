@@ -3,7 +3,7 @@ step_number: 6
 step_name: "Shape determination"
 step_goal: "Classify the project as greenfield, brownfield, or ambiguous"
 halts_for_input: false
-next_step: "step-07-intent-seed.md"
+next_step: "step-06a-profile.md"
 ---
 
 ## Goal
