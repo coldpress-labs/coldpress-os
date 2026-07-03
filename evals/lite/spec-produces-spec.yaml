@@ -1,0 +1,10 @@
+schema_version: 1
+id: lite-spec-produces-spec-md
+description: "Running the lite Spec phase produces a schema-valid spec.md and a green spec gate."
+lane: lite
+prompt: "Run the lite Spec phase for a simple todo web app (one page, no auth)."
+checks:
+  - { kind: file-exists, target: "_context/spec.md" }
+  - { kind: schema-valid, target: "_context/spec.md" }
+  - { kind: gate-green, target: "spec" }
+guards_against: [skipped-gate, schema-violation]

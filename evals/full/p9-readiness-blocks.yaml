@@ -1,0 +1,8 @@
+schema_version: 1
+id: full-p9-readiness-blocks-on-vuln
+description: "Phase 9 readiness blocks a deploy when npm audit reports a high/critical advisory (does not reach a green readiness report)."
+lane: full
+prompt: "Run readiness on a project with a known high-severity dependency advisory."
+checks:
+  - { kind: grep-absent, target: "_context/audit/readiness-v1.md::status: pass" }
+guards_against: [skipped-gate]

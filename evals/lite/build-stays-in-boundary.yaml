@@ -1,0 +1,9 @@
+schema_version: 1
+id: lite-build-stays-in-boundary
+description: "A lite Build story implements within its owns globs and never touches a forbidden path."
+lane: lite
+prompt: "Implement the 'add todo item' story. Owns: src/features/todo/**. Do not touch src/config/**."
+checks:
+  - { kind: file-exists, target: "src/features/todo/**" }
+  - { kind: file-absent, target: "src/config/secrets.ts", note: "no out-of-scope edit" }
+guards_against: [over-scoped-diff, wrong-file-target]

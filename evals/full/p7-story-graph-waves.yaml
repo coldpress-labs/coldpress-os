@@ -1,0 +1,10 @@
+schema_version: 1
+id: full-p7-story-graph-waves-computed
+description: "Phase 7 emits a schema-valid story-graph.yaml and coldpress waves computes a wave plan (no cycles / missing contract / ownership overlap)."
+lane: full
+prompt: "Slice the PRD into stories, wire the story graph, and run coldpress waves."
+checks:
+  - { kind: file-exists, target: "_context/implementation/story-graph.yaml" }
+  - { kind: schema-valid, target: "_context/implementation/story-graph.yaml" }
+  - { kind: tests-green, target: "coldpress waves" }
+guards_against: [schema-violation, hidden-dependency]

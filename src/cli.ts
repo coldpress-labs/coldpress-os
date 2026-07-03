@@ -4,6 +4,8 @@ import { Command } from "commander";
 import pc from "picocolors";
 import { runDashboard } from "./commands/dashboard.js";
 import { runDoctor } from "./commands/doctor.js";
+import { runEvalsCommand } from "./commands/evals.js";
+import { runEvolve } from "./commands/evolve.js";
 import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
@@ -142,6 +144,32 @@ program
   )
   .action(() => {
     process.exit(runWaves());
+  });
+
+program
+  .command("evals")
+  .description(
+    "Run the framework golden tasks headlessly and report per-task pass/fail (§4.8). Scores deterministic checks (gates/schema/files/tests/grep/no-secret) against a workspace; exits 1 on any failure.",
+  )
+  .option("--dir <dir>", "golden-task directory (default: <project>/evals)")
+  .option("--workspace <dir>", "workspace the checks score against (default: project dir)")
+  .option("--filter <substr>", "only run tasks whose id includes this substring")
+  .option("--json", "emit the machine-readable report")
+  .action((opts: { dir?: string; workspace?: string; filter?: string; json?: boolean }) => {
+    process.exit(
+      runEvalsCommand({ dir: opts.dir, workspace: opts.workspace, filter: opts.filter, json: opts.json }),
+    );
+  });
+
+program
+  .command("evolve")
+  .description(
+    "Aggregate EventStream run-logs across ≥1 project into the evolution report (§4.8): failure + cost leaderboards, estimation bias, and top-3 patch proposals.",
+  )
+  .option("--project <dirs...>", "project roots to aggregate (default: current dir)")
+  .option("--json", "emit the machine-readable report")
+  .action(async (opts: { project?: string[]; json?: boolean }) => {
+    process.exit(await runEvolve({ projects: opts.project, json: opts.json }));
   });
 
 program

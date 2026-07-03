@@ -15,7 +15,37 @@
 
 import { EventStreamWriter } from "../event-stream/writer.js";
 import { readState } from "./state-io.js";
+import type { TokenUsage } from "../../schemas/event-stream.schema.js";
 import type { HookDecision, HookHandler, HookInput } from "./types.js";
+
+function num(v: unknown): number | undefined {
+  return typeof v === "number" && Number.isFinite(v) && v >= 0 ? v : undefined;
+}
+
+/**
+ * Extract `model` + token usage from the Stop payload WHERE the runtime exposes
+ * it (§4.8 "tokens where exposed"). Reads the common field shapes defensively;
+ * omits what isn't present (both fields are optional on the event). Enrichment
+ * plumbing — populated as/when Claude Code surfaces usage on Stop.
+ */
+export function extractUsage(input: HookInput): { model?: string; tokens?: TokenUsage } {
+  const out: { model?: string; tokens?: TokenUsage } = {};
+  if (typeof input.model === "string") out.model = input.model;
+  const usage = (input.usage ?? input.tokens) as Record<string, unknown> | undefined;
+  if (usage && typeof usage === "object") {
+    const inTok = num(usage.input_tokens ?? usage.input);
+    const outTok = num(usage.output_tokens ?? usage.output);
+    const total =
+      num(usage.total_tokens ?? usage.total) ??
+      (inTok !== undefined || outTok !== undefined ? (inTok ?? 0) + (outTok ?? 0) : undefined);
+    const tokens: TokenUsage = {};
+    if (inTok !== undefined) tokens.input = inTok;
+    if (outTok !== undefined) tokens.output = outTok;
+    if (total !== undefined) tokens.total = total;
+    if (Object.keys(tokens).length) out.tokens = tokens;
+  }
+  return out;
+}
 
 const EXPLAIN = `run-log (Stop / SubagentStop)
 Appends a session-boundary event to .coldpress/runs/<run>/events.jsonl on every
@@ -51,6 +81,7 @@ export const runLogHandler: HookHandler = {
         agent: typeof input.agent_type === "string" ? input.agent_type : "butler",
         ...(state && typeof state.phase === "number" ? { phase: state.phase } : {}),
         ...(state ? { lane: state.lane } : {}),
+        ...extractUsage(input), // model + tokens where the runtime exposes them (WS7)
       });
       await writer.close();
     } catch {

@@ -1,0 +1,9 @@
+schema_version: 1
+id: full-p8-visual-verify-catches-off-token
+description: "visual-verify catches a UI story that uses an off-token color instead of a design token."
+lane: full
+stack_pack: static-single-page
+prompt: "Build the header component. Use only tokens.json colors."
+checks:
+  - { kind: grep-absent, target: "src/components/Header.css::#ff00aa", note: "no hard-coded off-palette color" }
+guards_against: [design-token-violation]

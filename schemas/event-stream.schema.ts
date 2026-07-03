@@ -140,11 +140,21 @@ export const CondensationSchema = z.object({
   to_seq: SEQ,
 });
 
+/** Token usage where the runtime exposes it (WS7 §4.8 — "tokens where exposed"). */
+export const TokenUsageSchema = z
+  .object({
+    input: z.number().int().nonnegative(),
+    output: z.number().int().nonnegative(),
+    total: z.number().int().nonnegative(),
+  })
+  .partial();
+export type TokenUsage = z.infer<typeof TokenUsageSchema>;
+
 /**
  * Session boundary observation — emitted by the `run-log` hook (WS1, §4.4) on
  * Stop / SubagentStop, so every run captures its arc for the evolution loop.
- * v0.4/WS1 records what the Stop hook has (boundary, agent, phase/lane, taxonomy
- * tags). WS7 enriches with model + token counts + gate results.
+ * WS7 (§4.8) enriches with `model` + `tokens` (where exposed) + taxonomy tags;
+ * gate results are captured as their own `gate-pass`/`gate-fail` events.
  */
 export const SessionBoundaryObservationSchema = z.object({
   ...BASE,
@@ -155,6 +165,10 @@ export const SessionBoundaryObservationSchema = z.object({
   phase: PHASE.optional(),
   lane: z.enum(["lite", "full"]).optional(),
   duration_ms: z.number().int().nonnegative().optional(),
+  /** Model that ran the session, where the runtime exposes it (WS7). */
+  model: z.string().optional(),
+  /** Token usage, where exposed (WS7). Feeds `evolve`'s cost leaderboard. */
+  tokens: TokenUsageSchema.optional(),
   /** Failure taxonomy tags (WS7 loop). */
   taxonomy_tags: z.array(z.string()).optional(),
 });
@@ -182,6 +196,7 @@ export type GateEvaluateAction = z.infer<typeof GateEvaluateActionSchema>;
 export type GatePassObservation = z.infer<typeof GatePassObservationSchema>;
 export type GateFailObservation = z.infer<typeof GateFailObservationSchema>;
 export type Condensation = z.infer<typeof CondensationSchema>;
+export type SessionBoundaryObservation = z.infer<typeof SessionBoundaryObservationSchema>;
 
 /** Input shape for `EventStreamWriter.append()` — writer fills the base fields. */
 export type EventInput = {
