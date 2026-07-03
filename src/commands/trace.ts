@@ -4,11 +4,13 @@
  * Verbs: `orphans` (integrity + silent-divergence guard; exit 1 on a blocking
  * finding so phase-exit gates can call it), `why <id>` (upstream lineage),
  * `impact <id>` (downstream blast radius — also used by sacred-guard, WS2-E),
- * `coverage` (per-story test coverage). Derived + in-memory: rebuilt each call.
+ * `coverage` (per-story test coverage), `release` (P8→P9 release-scope preview:
+ * stories × requirements × diffstat × verification). Derived + in-memory:
+ * rebuilt each call.
  */
 
 import { buildTraceGraph } from "../trace/build.js";
-import { coverage, impact, orphans, why } from "../trace/verbs.js";
+import { coverage, impact, orphans, release, why } from "../trace/verbs.js";
 
 export interface RunTraceOptions {
   projectDir?: string;
@@ -69,8 +71,32 @@ export function runTrace(verb: string, id: string | undefined, opts: RunTraceOpt
       return 0;
     }
 
+    case "release": {
+      const scope = release(g);
+      if (scope.stories.length === 0) {
+        write("trace release: no stories in the graph — nothing to preview.\n");
+        return 0;
+      }
+      const ready = scope.stories.length - scope.blockers.length;
+      write(
+        `trace release (preview): ${scope.stories.length} stor${scope.stories.length === 1 ? "y" : "ies"} in scope, ` +
+          `${ready} verified, ${scope.blockers.length} blocking; ` +
+          `${scope.requirements.length} requirement(s), ${scope.diffstat.length} file-scope path(s).\n`,
+      );
+      for (const s of scope.stories) {
+        const mark = s.verified ? "✓" : "✗";
+        const reqs = s.requirements.length ? ` → ${s.requirements.join(", ")}` : "";
+        write(`  ${mark} ${s.id}${s.title ? ` (${s.title})` : ""}${reqs}\n`);
+      }
+      if (scope.blockers.length > 0) {
+        write(`  blockers (unverified): ${scope.blockers.join(", ")}\n`);
+      }
+      // Preview, not a gate — the P9 readiness gate decides. Always exit 0.
+      return 0;
+    }
+
     default:
-      warn(`trace: unknown verb "${verb}". Use one of: orphans, why, impact, coverage.\n`);
+      warn(`trace: unknown verb "${verb}". Use one of: orphans, why, impact, coverage, release.\n`);
       return 1;
   }
 }
