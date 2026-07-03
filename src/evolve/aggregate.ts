@@ -2,8 +2,9 @@
  * `coldpress evolve` aggregation (WS7-D, §4.8). Pure reduction over EventStream
  * events (across ≥1 project run-logs) into the evolution report: failure
  * leaderboard (which taxonomy classes recur), cost leaderboard (tokens by model
- * / agent), an estimation-bias signal, and top-3 patch proposals (the most
- * frequent failure classes → where to patch). Consumes what WS7-A/B/C produce.
+ * / agent), an estimation-bias signal, an override leaderboard (which gates get
+ * bypassed most), and top-3 patch proposals (the most frequent failure classes →
+ * where to patch). Consumes what WS7-A/B/C produce.
  */
 
 import type { Event } from "../../schemas/event-stream.schema.js";
@@ -21,6 +22,13 @@ export interface EvolveReport {
   cost: { total_tokens: number; by_model: Record<string, number>; by_agent: Record<string, number> };
   /** Estimation bias (G8) — `estimate-blown` frequency; full estimate-vs-actual is a follow-up. */
   estimation_bias: { estimate_blown: number; note: string };
+  /**
+   * Override leaderboard — enforcement gates bypassed via COLDPRESS_OVERRIDE,
+   * ranked by frequency, with the reasons given. A gate that is overridden often
+   * is a mis-designed gate (too strict, wrong trigger) — the valet-loop +
+   * framework-feedback read this to decide whether to relax or re-scope it.
+   */
+  override_leaderboard: { gate: string; count: number; reasons: string[] }[];
   /** Top-3 patch proposals — the highest-frequency failure classes to fix first. */
   top_patches: { rank: number; failure_class: string; count: number; proposal: string }[];
 }
@@ -42,6 +50,8 @@ export function aggregateEvolve(input: AggregateInput): EvolveReport {
   const failureCounts: Record<string, number> = {};
   const byModel: Record<string, number> = {};
   const byAgent: Record<string, number> = {};
+  const overrideCounts: Record<string, number> = {};
+  const overrideReasons: Record<string, string[]> = {};
   let totalTokens = 0;
 
   for (const e of events) {
@@ -56,7 +66,16 @@ export function aggregateEvolve(input: AggregateInput): EvolveReport {
     }
     // gate-fail blockers are a distinct failure signal — count them as `skipped-gate` proxies.
     if (e.kind === "gate-fail") bump(failureCounts, "skipped-gate", 0); // presence-only; ranked below by taxonomy_tags
+    // gate-override — a bypassed enforcement gate. Rank by gate + keep the reasons.
+    if (e.kind === "gate-override") {
+      bump(overrideCounts, e.gate_id, 1);
+      (overrideReasons[e.gate_id] ??= []).push(e.reason);
+    }
   }
+
+  const override_leaderboard = Object.entries(overrideCounts)
+    .map(([gate, count]) => ({ gate, count, reasons: overrideReasons[gate] ?? [] }))
+    .sort((a, b) => b.count - a.count || a.gate.localeCompare(b.gate));
 
   const failure_leaderboard = Object.entries(failureCounts)
     .filter(([, c]) => c > 0)
@@ -86,6 +105,7 @@ export function aggregateEvolve(input: AggregateInput): EvolveReport {
       estimate_blown: failureCounts["estimate-blown"] ?? 0,
       note: "Frequency of the estimate-blown tag. Full estimate-vs-actual (o/m/p vs actual duration, G8) wires in when client-timeline records land.",
     },
+    override_leaderboard,
     top_patches,
   };
 }

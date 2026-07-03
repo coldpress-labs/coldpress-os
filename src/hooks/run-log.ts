@@ -63,6 +63,35 @@ export function runIdFromSession(sessionId: string | undefined): string | undefi
   return slug ? `run-${slug}` : undefined;
 }
 
+/**
+ * Append a `gate-override` event to the EventStream when a `COLDPRESS_OVERRIDE`
+ * directive bypasses a deny (§4.4 G11). Fully fail-open — a logging failure must
+ * never turn an allowed override into a wedged session. Keyed by session_id so
+ * it lands in the same run as the rest of the session's arc. Feeds `coldpress
+ * evolve`'s override leaderboard.
+ */
+export async function recordGateOverride(
+  input: HookInput,
+  directive: { gate: string; reason: string },
+): Promise<void> {
+  try {
+    const cwd = input.cwd ?? process.cwd();
+    const state = readState(cwd);
+    const sessionId = typeof input.session_id === "string" ? input.session_id : undefined;
+    const writer = await EventStreamWriter.open(cwd, { runId: runIdFromSession(sessionId) });
+    await writer.append({
+      kind: "gate-override",
+      gate_id: directive.gate,
+      reason: directive.reason,
+      ...(state && typeof state.phase === "number" ? { phase: state.phase } : {}),
+      ...(typeof input.agent_type === "string" ? { agent: input.agent_type } : {}),
+    });
+    await writer.close();
+  } catch {
+    // Fail-open: the override is already honored; recording it is best-effort.
+  }
+}
+
 export const runLogHandler: HookHandler = {
   name: "run-log",
   event: "Stop",

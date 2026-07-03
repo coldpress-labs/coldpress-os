@@ -90,6 +90,17 @@ function printHuman(r: EvolveReport, write: (s: string) => void): void {
 
   write(`\nEstimation bias: estimate-blown ×${r.estimation_bias.estimate_blown}\n  ${r.estimation_bias.note}\n`);
 
+  write(`\nOverride leaderboard (enforcement gates bypassed via COLDPRESS_OVERRIDE):\n`);
+  if (r.override_leaderboard.length === 0) {
+    write(`  (no overrides — gates held)\n`);
+  } else {
+    for (const o of r.override_leaderboard) {
+      write(`  ${String(o.count).padStart(4)}  ${o.gate}\n`);
+      // Show up to 2 distinct reasons — a frequently-overridden gate is a mis-designed gate.
+      for (const reason of [...new Set(o.reasons)].slice(0, 2)) write(`        · ${reason}\n`);
+    }
+  }
+
   write(`\nTop-3 patch proposals:\n`);
   if (r.top_patches.length === 0) write(`  (nothing to patch — no recurring failures)\n`);
   for (const p of r.top_patches) write(`  ${p.rank}. [${p.count}×] ${p.proposal}\n`);

@@ -13,6 +13,7 @@
  */
 
 import { getHook } from "../hooks/registry.js";
+import { recordGateOverride } from "../hooks/run-log.js";
 import { logOverride, parseOverride, renderDecision } from "../hooks/types.js";
 import type { HookHandler, HookInput } from "../hooks/types.js";
 
@@ -91,6 +92,9 @@ export async function runHook(name: string, opts: RunHookOptions = {}): Promise<
     if (override) {
       logOverride(override, warn);
       warn(`   Overridden decision was: ${decision.reason}\n`);
+      // Record the bypass to the EventStream (fail-open) so `coldpress evolve`
+      // can rank frequently-overridden gates. Loud stderr + durable event.
+      await recordGateOverride(input, override);
       return 0; // allow — defer to normal flow
     }
   }
