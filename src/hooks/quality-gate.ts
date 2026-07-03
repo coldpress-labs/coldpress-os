@@ -3,45 +3,107 @@
  * change in this plan": a session cannot COMPLETE while the project's quality
  * checks are red.
  *
- * v0.4/WS1 scope: runs the checks present in the project's `package.json`
- * scripts — `typecheck`, `lint`, `test` (fast→slow). Any non-zero exit blocks
- * stopping (decision:block) with the failing check named, so the agent fixes it
- * before completing. WS4 replaces script-detection with the stack pack's
- * `testing.yaml` (layers L0–L7). Overridable via
- * COLDPRESS_OVERRIDE="quality-gate:<reason>" (loudly logged).
+ * The gate is driven by the stack pack's `testing.yaml` (layers L0–L7) when the
+ * project has one: the Stop gate runs the FAST layers only — L0 static
+ * (typecheck + lint) and L1 unit (test) — because a Stop hook must stay <2s;
+ * the heavier layers L2–L7 (integration/e2e/visual/a11y/perf) are the verifier's
+ * + readiness's job, not every session-stop. testing.yaml decides WHICH layers
+ * gate; the project's package.json scripts are what execute them (testing.yaml
+ * declares tools, not commands). When no testing.yaml is present, the gate falls
+ * back to detecting {typecheck, lint, test} scripts directly (v0.4/WS1 behavior).
  *
- * Only projects that actually define these scripts are gated; a project with no
- * checks (or no package.json) passes through.
+ * Any non-zero exit blocks stopping (decision:block) with the failing check
+ * named, so the agent fixes it before completing. Projects with no checks (or no
+ * package.json) pass through. Overridable via
+ * COLDPRESS_OVERRIDE="quality-gate:<reason>" (loudly logged).
  */
 
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { parse as parseYaml } from "yaml";
+import { TestingSchema } from "../../schemas/testing.schema.js";
 import type { HookDecision, HookHandler, HookInput } from "./types.js";
 
 /** Ordered fast→slow — cheapest signal first. */
 const CANDIDATE_CHECKS = ["typecheck", "lint", "test"] as const;
 
-const EXPLAIN = `quality-gate (Stop)
-Blocks session completion while the project's quality checks are red. Runs the
-package.json scripts among {typecheck, lint, test} that exist (fast→slow); any
-failure prevents stopping and reports which check failed, so it is fixed before
-completing. Projects with no such scripts pass through. (WS4 swaps script
-detection for the stack pack's testing.yaml.) Override (logged):
-COLDPRESS_OVERRIDE="quality-gate:<reason>".`;
+/**
+ * Fast testing layers the Stop gate runs, mapped to the package.json scripts
+ * that execute them. L0 static → typecheck + lint; L1 unit → test. L2–L7 are
+ * excluded here by design (verifier/readiness own them — too slow for a Stop).
+ */
+const FAST_LAYER_SCRIPTS: Record<string, readonly string[]> = {
+  L0: ["typecheck", "lint"],
+  L1: ["test"],
+};
 
-/** Which of the candidate checks the project actually defines. */
-export function detectChecks(cwd: string): string[] {
+/** Conventional locations a project's testing.yaml may live. */
+const TESTING_YAML_PATHS = ["_context/testing/testing.yaml", "testing.yaml"] as const;
+
+const EXPLAIN = `quality-gate (Stop)
+Blocks session completion while the project's quality checks are red. Driven by
+the stack pack's testing.yaml when present: runs the FAST layers only — L0 static
+(typecheck + lint) and L1 unit (test); L2–L7 are the verifier's job. testing.yaml
+picks the layers; package.json scripts run them. With no testing.yaml, falls back
+to detecting {typecheck, lint, test} scripts. Any failure prevents stopping and
+names the failing check. Projects with no such scripts pass through. Override
+(logged): COLDPRESS_OVERRIDE="quality-gate:<reason>".`;
+
+/** package.json scripts the project defines (empty on missing/unparseable). */
+function packageScripts(cwd: string): Record<string, unknown> {
   const pkgPath = join(cwd, "package.json");
-  if (!existsSync(pkgPath)) return [];
-  let scripts: Record<string, unknown> = {};
+  if (!existsSync(pkgPath)) return {};
   try {
     const pkg = JSON.parse(readFileSync(pkgPath, "utf8")) as { scripts?: Record<string, unknown> };
-    scripts = pkg.scripts ?? {};
+    return pkg.scripts ?? {};
   } catch {
-    return [];
+    return {};
   }
-  return CANDIDATE_CHECKS.filter((c) => typeof scripts[c] === "string");
+}
+
+/**
+ * The enabled FAST layers (L0/L1) from the project's testing.yaml, or null when
+ * no valid testing.yaml exists. A layer with `enabled: false` is excluded.
+ */
+export function readFastLayers(cwd: string): string[] | null {
+  for (const rel of TESTING_YAML_PATHS) {
+    const p = join(cwd, rel);
+    if (!existsSync(p)) continue;
+    let parsed;
+    try {
+      parsed = TestingSchema.safeParse(parseYaml(readFileSync(p, "utf8")));
+    } catch {
+      return null; // present but unreadable → fall back to script detection
+    }
+    if (!parsed.success) return null;
+    return Object.entries(parsed.data.layers)
+      .filter(([layer, cfg]) => layer in FAST_LAYER_SCRIPTS && cfg.enabled !== false)
+      .map(([layer]) => layer);
+  }
+  return null;
+}
+
+/**
+ * The checks the Stop gate will run. testing.yaml-driven when a valid one exists
+ * (the enabled fast layers → their scripts, intersected with scripts that are
+ * actually defined); otherwise the plain {typecheck, lint, test} detection.
+ */
+export function detectChecks(cwd: string): string[] {
+  const scripts = packageScripts(cwd);
+  const has = (s: string) => typeof scripts[s] === "string";
+
+  const fastLayers = readFastLayers(cwd);
+  if (fastLayers !== null) {
+    // Layer-driven: only the scripts implied by enabled fast layers, and only
+    // those the project actually defines (can't `npm run` a missing script).
+    const wanted = new Set<string>();
+    for (const layer of fastLayers) for (const s of FAST_LAYER_SCRIPTS[layer] ?? []) wanted.add(s);
+    return CANDIDATE_CHECKS.filter((c) => wanted.has(c) && has(c));
+  }
+
+  // Fallback (no testing.yaml): detect the candidate scripts directly.
+  return CANDIDATE_CHECKS.filter((c) => has(c));
 }
 
 export interface CheckResult {
