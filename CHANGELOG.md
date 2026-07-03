@@ -26,6 +26,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 - **Agent routing fix** — scaffolded subagents no longer route to the removed `@qa`
   / `@scrum-master` (they now route to `@verifier` / `@pm`, matching the need-info
   router).
+- **`coldpress trace release`** — the 5th trace verb: a P8→P9 release-scope preview
+  (stories × requirements it satisfies × diffstat surface × verification state),
+  wired into the Phase 9 `readiness` step-01.
+- **`coldpress evolve` override leaderboard** — enforcement gates bypassed via
+  `COLDPRESS_OVERRIDE` are now recorded as a durable `gate-override` EventStream
+  event and ranked (with reasons), so a frequently-overridden gate is visible as a
+  mis-designed gate.
+- **quality-gate reads `testing.yaml`** — the Stop gate is now driven by the stack
+  pack's enabled fast test layers (L0 static → typecheck/lint, L1 unit → test)
+  rather than raw package.json script detection; heavier layers stay with the
+  verifier. Falls back to script detection when no `testing.yaml` is present.
+- **Removed the superseded archetype system** — `install/archetypes/`,
+  `src/archetypes/load.ts`, and the archetype schema (folded into project profiles
+  in WS9).
 
 ### v0.4 "Enforcement" overhaul — WS9: Profiles, proposal & harvest
 
