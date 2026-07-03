@@ -835,7 +835,7 @@ Green: typecheck, **986 tests**, lint, check:drift. Branch `overhaul/ws9-profile
 
 **Standing deferrals (flagged, non-blocking):**
 1. **D18** — migrate agents + hooks into the plugin as the single vehicle (currently ship working via template/.claude/).
-2. **PERT-schema-chain excision** (§8 item 10 remainder) — the orphaned pert-chart/pert-to-stories/architecture-to-pert schemas + tests.
+2. ~~PERT-schema-chain excision~~ — **DONE (2026-07-03, `df58d4c`, branch `chore/pert-chain-excision`).** Deleted pert-chart + architecture-to-pert + pert-to-stories schemas; repointed handoff index (PERT bridge gone — architecture→stories direct via story-slice), validate-schema (4 sacred docs), dashboard/interop lists, `upstream_pert_path`→`upstream_graph_path`; cleaned the 4 test files. Kept the legitimate PERT-weighted `(o+4m+p)/6` critical-path math. 972 tests green. Hand-maintained PERT doc mentions → §8.11 docs-regen.
 3. **Optional deploy packs** — netlify/railway/self-hosted/digitalocean (+ stub expo-eas); each is just a `pack.yaml` on the finished interface.
 4. **§12 ship gate + runtime demos** — several workstreams' acceptance converges here: the demo Astro shipping to two targets (WS3/WS6), the full evals→patch loop pass (WS7), a live ops-check digest + incident→pinning-test (WS8), a harvest + llm-app demo (WS9). All machinery is built; these need a live estate project run.
 
