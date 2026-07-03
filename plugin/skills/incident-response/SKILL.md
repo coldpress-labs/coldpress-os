@@ -3,7 +3,7 @@ name: incident-response
 description: "Drive incident from detection to resolution to postmortem. Distinct from retrospective (Phase 11): incident-response is in-flight (Phase 10 mid-incident); retrospective is after-action across many incidents. Emits incident-runbook + postmortem doc + ops-deltas (if user-impact / repeat-pattern)."
 license: MIT
 compatibility: Invoked by @devops in Phase 10
-version: "1.0"
+version: "1.1"
 ---
 
 ## Purpose
@@ -19,6 +19,7 @@ Five outputs across the incident lifecycle: timeline (live), mitigation actions,
 3. User says "incident on X" / "open an incident" / "we have an outage"
 4. Post-mitigation — to codify runbook + write postmortem
 5. Pattern-match on existing incident (similar slug / same component) — cross-reference priors
+6. **CVE high/critical from `ops-check`** — a re-scan of the shipped lockfile that surfaces a high+ advisory **auto-creates an incident** (WS8)
 
 ## Output Artifacts
 
@@ -27,6 +28,7 @@ Five outputs across the incident lifecycle: timeline (live), mitigation actions,
 3. **Runbook entry** at `_context/operations/runbooks/{slug}.md` — codified resolution steps for next time (search-first shortcut)
 4. **Ops-deltas** at `_context/handoffs/phase-10-ops-deltas-wip-{date}.md` (per `schemas/handoffs/ops-delta.schema.json`) — if user-impact significant or repeat pattern, forward-carry to Phase 11 retrospective
 5. **Action-items list** — assignable items for @developer / @qa / @architect / @pm depending on root-cause class
+6. **Failure-taxonomy tag** (WS8 → WS7 loop) — the postmortem tags the root cause with a `data/failure-taxonomy.yaml` class id (e.g. `secret-exposure`, `hidden-dependency`, `schema-violation`). The tag rides the ops-delta / run-log so **`coldpress evolve`** counts it and the **valet-loop** can turn a recurring incident into a golden eval + fix. Every incident must also add a **pinning test** before its fix merges (test-integrity).
 
 ## Prerequisites
 
@@ -96,4 +98,5 @@ Pattern adapted from `alirezarezvani/claude-skills` (MIT) `incident-response` an
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.1 | 2026-07-03 | Butler (v0.4 WS8) | Wired into the WS7/WS8 loop: (6th trigger) CVE high+ from `ops-check` **auto-creates an incident**; (6th output) the postmortem carries a **failure-taxonomy tag** (`data/failure-taxonomy.yaml`) that rides the ops-delta/run-log → `coldpress evolve` counts it + the valet-loop can graduate a recurring incident into a golden eval; every incident adds a pinning test before its fix merges. |
 | 1.0 | 2026-05-03 | Andy-coldpress-os (Unit #28 / U12) | Initial incident-response skill. Authored to v0.3.0-alpha SKILL-AUTHORING-STANDARD. Pattern from alirezarezvani/claude-skills (MIT). Three sub-modes (in-flight / post-mitigation / codify); distinct from Phase 11 retrospective. |
