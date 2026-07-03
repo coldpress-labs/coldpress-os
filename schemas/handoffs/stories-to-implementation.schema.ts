@@ -52,8 +52,8 @@ export const StoriesToImplementationSchema = z.object({
   epic_id: z.string().min(1),
   /** Wave number — developer can check context for siblings in the same wave. */
   wave: z.number().int().min(1),
-  /** Upstream PERT sidecar for traceability. */
-  upstream_pert_path: z.string().min(1),
+  /** Upstream story-graph for traceability (was the PERT sidecar; PERT retired). */
+  upstream_graph_path: z.string().min(1),
   /** 1-line story summary for quick ref. */
   summary: z.string().min(10),
   /** File scope — the developer does not open files outside this list. */

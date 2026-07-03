@@ -63,7 +63,7 @@ async function checkSacredDocFrontmatter(
   projectDir: string,
 ): Promise<SanityPanel> {
   const root = join(projectDir, "_context/sacred");
-  const docs = ["context.md", "tech-stack.md", "prd.md", "architecture.md", "pert-chart.md"];
+  const docs = ["context.md", "tech-stack.md", "prd.md", "architecture.md"];
   const noFrontmatter: string[] = [];
   let presentCount = 0;
   for (const doc of docs) {

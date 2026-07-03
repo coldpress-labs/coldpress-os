@@ -102,7 +102,7 @@ describe("assembleStats", () => {
     expect(data.skill_invocations.total).toBe(0);
     expect(data.graph).toBeNull();
     expect(data.sacred_docs.present).toBe(0);
-    expect(data.sacred_docs.missing.length).toBe(5);
+    expect(data.sacred_docs.missing.length).toBe(4);
     expect(data.runs.total).toBe(0);
   });
 
@@ -169,7 +169,6 @@ describe("assembleStats", () => {
     expect(data.sacred_docs.missing).toEqual([
       "context.md",
       "tech-stack.md",
-      "pert-chart.md",
     ]);
   });
 

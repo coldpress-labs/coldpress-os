@@ -71,7 +71,6 @@ function buildLegacyCursorrules(): string {
     "- `_context/sacred/tech-stack.md` — locked tech stack (Phase 3)",
     "- `_context/sacred/prd.md` — product requirements (Phase 4)",
     "- `_context/sacred/architecture.md` — architecture doc (Phase 4)",
-    "- `_context/sacred/pert-chart.md` — PERT chart / wave plan (Phase 5)",
     "",
     "Sacred-doc changes go through the `sacred-change` skill (enforced by the `sacred-guard` hook) — see `coldpress-os/governance/sacred-docs.md`.",
     "",
