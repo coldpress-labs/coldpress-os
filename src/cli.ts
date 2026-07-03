@@ -5,6 +5,7 @@ import pc from "picocolors";
 import { runDashboard } from "./commands/dashboard.js";
 import { runDoctor } from "./commands/doctor.js";
 import { runEvalsCommand } from "./commands/evals.js";
+import { runEvolve } from "./commands/evolve.js";
 import { runFeedback } from "./commands/feedback.js";
 import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
@@ -158,6 +159,17 @@ program
     process.exit(
       runEvalsCommand({ dir: opts.dir, workspace: opts.workspace, filter: opts.filter, json: opts.json }),
     );
+  });
+
+program
+  .command("evolve")
+  .description(
+    "Aggregate EventStream run-logs across ≥1 project into the evolution report (§4.8): failure + cost leaderboards, estimation bias, and top-3 patch proposals.",
+  )
+  .option("--project <dirs...>", "project roots to aggregate (default: current dir)")
+  .option("--json", "emit the machine-readable report")
+  .action(async (opts: { project?: string[]; json?: boolean }) => {
+    process.exit(await runEvolve({ projects: opts.project, json: opts.json }));
   });
 
 program
