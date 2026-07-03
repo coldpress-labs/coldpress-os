@@ -25,6 +25,8 @@ status: rewritten — Phase 10 implementation in progress (autonomous queue unit
 | Skill | Type | Owner |
 |-------|------|-------|
 | `operate-loop` | workflow | @devops (entry skill per Q1) |
+| `ops-check` | workflow | @devops — **NEW (WS8)**. Scheduled ops digest: deploy-pack connectors (analytics/uptime/error/cert/backup/CVE-rescan) → **actual-vs-target against outcomes.yaml**. CVE high+ auto-creates an incident. |
+| `client-health-report` | workflow | @devops — **NEW (WS8, client projects)**. Monthly one-pager from the ops-check digests: outcome trends, reliability, renewals, recommended next work. |
 | `correct-course` | workflow | @devops (3 triggers per Q5) — process drift / scope creep / metric anomaly |
 | `document-project` | workflow | @devops (post-deploy end-user-facing docs per Q4) |
 | `incident-response` | workflow | @devops — **NEW (Unit #28 / U12)**. Three sub-modes (in-flight timeline / post-mitigation postmortem / codify runbook). Distinct from `correct-course` (process drift) and Phase 11 retrospective (multi-incident pattern analysis). 5 artefacts: timeline / postmortem / runbook / ops-delta / action-items. Pattern-match against priors at detection (search-first reduces MTTR). Forward-carry per `ops-delta.schema.json`. |

@@ -8,7 +8,17 @@ version: "2.0"
 
 ## Purpose
 
-Phase 11 entry skill + reflective cause-analysis. Step 0 absorbs entry-sync work (graph-first context + 10th-consumer staleness + ops-deltas reconciliation pass). Subsequent steps perform cause analysis using problem_solving Tier-1 (root_cause + five_whys + fishbone) and emit retrospective report.
+Phase 11 entry skill + reflective cause-analysis — a **product** retrospective, not
+just a process one, and **evidence-linked** (@reviewer on **opus**, read-only). Step 0
+absorbs entry-sync. It reads:
+
+- **`.coldpress/runs/*.jsonl` (EventStream)** — the run arc; **every claim must cite a
+  run-log event ID** (scripted check — no un-evidenced lessons).
+- **`outcomes.yaml` actual-vs-target** (from the P10 ops-check digests) — did the product
+  achieve what it was built for? Outcome misses are first-class retro findings.
+- **parked DLTs** + the ops-deltas reconciliation.
+- **failure-lineage via `trace`** — "which requirement generated the most failures?" — plus
+  the run's failure-taxonomy tags (feeding `framework-feedback` → the WS7 loop).
 
 Reads CRITICALLY: phase-10-to-11 handoff `ops_deltas[]` array. Per delta:
 - `accept_into_phase_11_retrospective` → analyse cause; document in retro
@@ -29,7 +39,7 @@ Aggregated reconciliation status emitted as part of retro report.
 
 ## Output
 
-`_context/audit/retrospective-v{N}.md` — validated-distillate. Cause analysis + lessons learned + reconciled ops_deltas summary + recommendations forwarded to product-evolution + innovation-strategy.
+`_context/audit/retrospective-v{N}.md` — validated-distillate. **Product + process** retrospective: outcomes actual-vs-target, evidence-linked lessons (each citing a run-log event ID), failure-lineage, reconciled ops_deltas. Recommendations fork three ways: **product** → `product-evolution` backlog; **framework** → `framework-feedback` (issues against coldpress-os); **reusable wins** → `pack-harvest`.
 
 ## Cross-cutting wire-ins
 
