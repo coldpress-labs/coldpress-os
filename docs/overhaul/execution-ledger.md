@@ -839,4 +839,6 @@ Green: typecheck, **986 tests**, lint, check:drift. Branch `overhaul/ws9-profile
 3. **Optional deploy packs** — netlify/railway/self-hosted/digitalocean (+ stub expo-eas); each is just a `pack.yaml` on the finished interface.
 4. **§12 ship gate + runtime demos** — several workstreams' acceptance converges here: the demo Astro shipping to two targets (WS3/WS6), the full evals→patch loop pass (WS7), a live ops-check digest + incident→pinning-test (WS8), a harvest + llm-app demo (WS9). All machinery is built; these need a live estate project run.
 
-**Next:** the §12 ship gate (v0.4.0) — run the deferred dependency-hygiene pass (D7 npm audit + any remaining), the runtime demos above, then tag/publish per the ship-gate checklist. Merge WS9 to main when ready.
+**D7 dependency-hygiene — DONE (2026-07-03, `b79eb27`, branch `chore/d7-dep-hygiene`).** 12 advisories (1 critical + 3 high + 8 moderate) → 1 low (esbuild dev-server, Windows-only, below the gate). CI `npm audit --audit-level=moderate` promoted to a hard gate. WS0–WS9 all merged to main.
+
+**Next:** the §12 ship gate (v0.4.0) — the remaining runtime demos above (need a live estate project), then tag/publish per the ship-gate checklist. Optional deferrals (D18, PERT-chain excision, extra deploy packs) can land before or after the tag.
