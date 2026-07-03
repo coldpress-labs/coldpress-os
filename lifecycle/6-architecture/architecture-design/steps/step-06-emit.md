@@ -51,6 +51,28 @@ Invoke `editorial` against architecture.md. Section ordering, header hierarchy, 
 
 Already applied to ADRs at Step 5. Apply to architecture.md prose sections (System Purpose, Style Rationale, NFR strategies) here.
 
+### 5.5. Dimension-coverage sweep — breadth-coverage exit check (P6 gate `architecture-dimensions-breadth-covered`)
+
+Before validating, author a `## Dimension Coverage` section near the end of architecture.md. Walk **every** canonical architecture dimension and force each into exactly one status — `decided`, `deferred`, or `open`. Nothing may be silently absent.
+
+| Dimension | Status | One-line note |
+|---|---|---|
+| Data model | decided / deferred / open | … |
+| API / contracts | … | … |
+| Auth / authz | … | … |
+| State & concurrency | … | … |
+| Error handling | … | … |
+| Observability | … | … |
+| Deployment topology | … | … |
+| Scaling / performance | … | … |
+| Security posture | … | … |
+| External integrations | … | … |
+
+Rules:
+- A dimension the project genuinely doesn't need is **`decided`** with `N/A because …` — never omitted. Omission is the exact failure the gate catches.
+- `deferred` / `open` are legitimate: each forward-carries as an **architecture-delta** to Phase 7 (record it in Step 10's WIP log). The gate is warn-severity — it flags *silence*, not *incompleteness*.
+- Mirror the table into the sidecar's `dimension_coverage` map (Step 9) so the gate can read it without parsing prose.
+
 ### 6. Schema-validate
 
 Validate architecture.md frontmatter against `schemas/sacred-docs/architecture.schema.json`. Fix or surface failures.
@@ -91,7 +113,19 @@ status: pending_review
   "brownfield_modules_handled": <N>,
   "flagged_deltas_resolved": <N>,
   "adversarial_review_findings": <N>,
-  "editorial_findings": <N>
+  "editorial_findings": <N>,
+  "dimension_coverage": {
+    "data_model": "decided",
+    "api_contracts": "decided",
+    "auth_authz": "decided",
+    "state_concurrency": "deferred",
+    "error_handling": "decided",
+    "observability": "decided",
+    "deployment_topology": "decided",
+    "scaling_performance": "deferred",
+    "security_posture": "decided",
+    "external_integrations": "open"
+  }
 }
 ```
 

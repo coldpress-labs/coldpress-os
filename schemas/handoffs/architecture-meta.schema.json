@@ -61,6 +61,28 @@
       "type": "integer",
       "minimum": 0,
       "description": "Count of Phase 6 architecture-deltas (PRD/UX gaps surfaced at architecture time). Forward-carry mechanism — see Phase 6 deep-dive §12."
+    },
+    "dimension_coverage": {
+      "type": "object",
+      "description": "Breadth-coverage exit check (P6 gate `architecture-dimensions-breadth-covered`, D10 adopt 2). Every canonical architecture dimension mapped to exactly one status. A dimension the project doesn't need is `decided` (with an N/A note in the architecture.md `## Dimension Coverage` table), never omitted — omission is the failure the gate catches. `deferred`/`open` forward-carry as architecture-deltas to Phase 7.",
+      "properties": {
+        "data_model": { "$ref": "#/$defs/dimensionStatus" },
+        "api_contracts": { "$ref": "#/$defs/dimensionStatus" },
+        "auth_authz": { "$ref": "#/$defs/dimensionStatus" },
+        "state_concurrency": { "$ref": "#/$defs/dimensionStatus" },
+        "error_handling": { "$ref": "#/$defs/dimensionStatus" },
+        "observability": { "$ref": "#/$defs/dimensionStatus" },
+        "deployment_topology": { "$ref": "#/$defs/dimensionStatus" },
+        "scaling_performance": { "$ref": "#/$defs/dimensionStatus" },
+        "security_posture": { "$ref": "#/$defs/dimensionStatus" },
+        "external_integrations": { "$ref": "#/$defs/dimensionStatus" }
+      }
+    }
+  },
+  "$defs": {
+    "dimensionStatus": {
+      "type": "string",
+      "enum": ["decided", "deferred", "open"]
     }
   }
 }

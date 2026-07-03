@@ -34,6 +34,19 @@ Rank each hypothesis on two axes:
 
 The top-right cell is where "riskiest assumptions" live. Tag the **top 1-3** hypotheses that land here.
 
+### 1c. Adversarial Socratic Interrogation (Forge) — mandatory on the riskiest — `data/methods/elicitation-methods.csv` #51
+
+Before checking testability, **forge** each of the top 1-3 riskiest assumptions. This is the bmad forge-idea pattern: an adversarial Socratic chain, not a friendly clarification. For each riskiest assumption, drive the four-question chain to ground:
+
+1. **Why do you believe this is true?** — force the founder's actual reasoning into the open, not the hoped-for outcome.
+2. **What evidence would we already have if it were true?** — and do we have it? Absence of expected evidence is itself a signal.
+3. **What single observation would falsify it?** — if nothing could falsify it, it's faith, not a hypothesis (flag it).
+4. **Who loses / what breaks if you're wrong?** — sizes the blast radius, feeding the Risk Assessment Matrix above.
+
+Run the chain adversarially — the goal is to *break* the assumption cheaply now, not to reassure. An assumption that survives the forge is **evidenced**; one that doesn't is a **bet** — label it as such so Step 9 sees it plainly. Do not soften a bet into a belief.
+
+> A bet is legitimate (every product rests on some) — but it must be *named* as a bet, sized, and ideally testable. The forge exists to stop bets from masquerading as evidenced facts.
+
 ### 2. Check riskiest-assumption testability
 
 For each tagged riskiest assumption, ask:
@@ -60,7 +73,7 @@ When user's hypothesis list feels cheap or obvious, `advanced-elicitation` biase
 
 ## Output
 
-Ordered hypothesis list + top 1-3 riskiest assumptions + testability flag per riskiest. `step_2_complete: true`
+Ordered hypothesis list + top 1-3 riskiest assumptions + **forge verdict per riskiest (`evidenced` | `bet`)** + testability flag per riskiest. `step_2_complete: true`
 
 ## Navigation
 

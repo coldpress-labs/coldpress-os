@@ -51,7 +51,7 @@ Per Phase II deep-dive v1.4 §Tier 1 (round 3, FP22):
 | Step | Core methods | Source CSV |
 |---|---|---|
 | 1 Problem validation | **Problem Statement Refinement**, **Five Whys Root Cause** (Tier 0), **Is/Is Not Analysis** | `data/methods/problem-solving-methods.csv` (diagnosis) |
-| 2 Hypotheses + riskiest | **Lean Startup Methodology**, **Risk Assessment Matrix** | `data/methods/innovation-frameworks.csv` (strategic) + `data/methods/problem-solving-methods.csv` (evaluation) |
+| 2 Hypotheses + riskiest | **Lean Startup Methodology**, **Risk Assessment Matrix**, **Adversarial Socratic Interrogation (Forge)** | `data/methods/innovation-frameworks.csv` (strategic) + `data/methods/problem-solving-methods.csv` (evaluation) + `data/methods/elicitation-methods.csv` #51 (bmad forge-idea) |
 | 3 Differentiation | **Blue Ocean Strategy**, **Competitive Positioning Map**, **Value Proposition Canvas** | `data/methods/innovation-frameworks.csv` (disruption + business_model + market_analysis) |
 | 4 Problem-solution fit | **Jobs to be Done** (Tier 0), **Gap Analysis** | `data/methods/innovation-frameworks.csv` (disruption) + `data/methods/problem-solving-methods.csv` (analysis) |
 | 5 Success metrics | **Measurement Framework** | `data/methods/design-thinking-methods.csv` (implement) |
@@ -107,4 +107,5 @@ Formal client signoff per engagement. Required only for `team_shape = client-pro
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.1 | 2026-07-03 | Butler (v0.4 D10 adopt 1 — BMAD forge-idea) | Step 2 gains sub-routine **1c. Adversarial Socratic Interrogation (Forge)** — mandatory four-question adversarial Socratic chain (why / expected-evidence / falsifier / who-loses) over the top 1-3 riskiest assumptions, verdicting each `evidenced` vs `bet` before testability. Bets must be named, not softened. Tier 1 table + Step 2 output updated. Sources elicitation-methods.csv #51 (added same pass). Closes D10 adopt (1) at its owning phase (P2). |
 | 1.0 | 2026-04-24 | Cadbury-hq | Initial validate-idea skill per Phase II Part 2 Wave 2.4 (FP11 + FP14). 6 core steps + 2 conditional (team_shape-scaled) + Step 9 always-runs red-flag escape hatch. Warn-severity at gate — solo vibe-coders may legitimately skip. Versioned output. Tier 1 methods wired across problem-solving / innovation / D-T CSVs (~25 distinct methods across 9 steps — the densest methodological skill in Phase 2 by design). Step 9 writes to `_context/audit/validation-decisions-{date}.md`; Step 8 (conditional) to `_context/audit/client-signoffs/`. |
