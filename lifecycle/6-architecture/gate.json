@@ -79,6 +79,15 @@
       "skill_ref": "lifecycle/6-architecture/architecture-design"
     },
     {
+      "id": "architecture-dimensions-breadth-covered",
+      "description": "BREADTH-COVERAGE EXIT CHECK (D10 adopt 2 — BMAD upstream). architecture.md carries a `## Dimension Coverage` section (or the meta sidecar a `dimension_coverage` map) in which every canonical architecture dimension — data model, API/contracts, auth/authz, state & concurrency, error handling, observability, deployment topology, scaling/performance, security posture, external integrations — is tagged exactly one of `decided` | `deferred` | `open`. No dimension may be silently absent: a dimension the project genuinely doesn't need is `decided` with a one-line 'N/A because…'. The gate does not require every dimension to be *decided* — only that none is *unaddressed*. Complements `trace-orphans-clean` (which guards requirement→component→ADR provenance) with decision-space completeness.",
+      "kind": "automated",
+      "severity": "warn",
+      "artefact_path": "_context/sacred/architecture.md",
+      "remediation": "Return to `architecture-design` and add/complete the `## Dimension Coverage` section — tag each canonical dimension decided/deferred/open. A `deferred` or `open` dimension is legitimate (forward-carries as an architecture-delta to Phase 7); a *missing* one is the failure this check catches.",
+      "skill_ref": "lifecycle/6-architecture/architecture-design"
+    },
+    {
       "id": "phase-6-handoff-written",
       "description": "`_context/handoffs/phase-6-to-7-{date}.md` exists, valid against extended phase-handoff schema (includes `agent_transitions:` for Pattern 7; optional `architecture_deltas:` if forward-carry mechanism activated)",
       "kind": "automated",
