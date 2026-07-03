@@ -5,6 +5,7 @@ import { parse as parseYaml } from "yaml";
 import { describe, expect, it } from "vitest";
 import { EvalResultSchema, EvalTaskSchema } from "../schemas/eval-task.schema";
 import { FailureTaxonomySchema, taxonomyIds } from "../schemas/failure-taxonomy.schema";
+import { discoverTasks } from "../src/evals/run";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const taxonomyYaml = parseYaml(readFileSync(join(repoRoot, "data/failure-taxonomy.yaml"), "utf8"));
@@ -84,5 +85,27 @@ describe("eval-task schema (WS7-A)", () => {
       taxonomy_tags: ["skipped-gate"],
     };
     expect(EvalResultSchema.safeParse(result).success).toBe(true);
+  });
+});
+
+describe("shipped golden-task corpus (WS7-F)", () => {
+  const tasks = discoverTasks(join(repoRoot, "evals")); // throws if any task is invalid
+  const ids = taxonomyIds(taxonomyYaml);
+
+  it("ships a starter set of well-formed golden tasks", () => {
+    expect(tasks.length).toBeGreaterThanOrEqual(8);
+  });
+
+  it("every task's guards_against references valid taxonomy ids", () => {
+    for (const { task } of tasks) {
+      for (const tag of task.guards_against) {
+        expect(ids.has(tag), `${task.id}: unknown taxonomy tag '${tag}'`).toBe(true);
+      }
+    }
+  });
+
+  it("task ids are unique", () => {
+    const seen = new Set(tasks.map((t) => t.task.id));
+    expect(seen.size).toBe(tasks.length);
   });
 });

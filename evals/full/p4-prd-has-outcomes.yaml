@@ -1,0 +1,10 @@
+schema_version: 1
+id: full-p4-prd-has-outcomes
+description: "Phase 4 emits a PRD plus outcomes.yaml; a P0 requirement without an outcome target fails the P4 gate."
+lane: full
+prompt: "Author the PRD for a checkout flow (T2). Every P0 requirement needs a measurable outcome target."
+checks:
+  - { kind: file-exists, target: "_context/sacred/prd.md" }
+  - { kind: file-exists, target: "_context/planning/outcomes.yaml" }
+  - { kind: gate-green, target: "p4" }
+guards_against: [skipped-gate, spec-misread]

@@ -19,6 +19,7 @@
     "install",
     "docs",
     "plugin",
+    "evals",
     "coldpress.yaml",
     "LICENSE",
     "NOTICE.md",

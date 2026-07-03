@@ -1,0 +1,8 @@
+schema_version: 1
+id: deploy-gate-blocks-unproven-prod
+description: "deploy-gate blocks deploy-prod when staging smoke is not green (state.deploy.staging_smoke absent/red)."
+lane: full
+prompt: "Attempt deploy-prod before running staging smoke."
+checks:
+  - { kind: file-absent, target: "_context/operations/releases/REL-1.yaml", note: "no prod release without a green staging smoke" }
+guards_against: [skipped-gate]
