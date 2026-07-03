@@ -798,3 +798,16 @@ Make P10 measure outcomes (not just uptime) and close the P11 loops (product / f
 **Acceptance (§9 WS8):** both criteria — ops-check digest against a live project (≥1 outcome actual-vs-target) + one incident flowing signal→skill→resolution→run-log+taxonomy-tag→pinning-test — are **runtime demos needing a live deployed project** (like WS3's demo Astro / WS7's loop demo); all the machinery is built + wired. Deferred to the §12 ship-gate demo.
 
 **WS8: CORE COMPLETE.** Remaining overhaul: WS9 (profiles, proposal mode, compounding) + the standing deferrals (D18, PERT-schema-chain excision, extra deploy packs, §12 runtime demos + ship gate).
+
+---
+
+## WS9 — Profiles, proposal mode & compounding (§9 WS9, §4.9) — IN PROGRESS (2026-07-03, branch `overhaul/ws9-profiles`)
+
+The final workstream. `pack-harvest` (P11) already landed in WS8. Remaining: profiles, proposal mode, verify_pack:llm-app, client-touchpoints registry.
+
+- **A. Profile roster + schema** — ✅ `ba9bd60`. `schemas/profile.schema.ts` + `data/profiles/` (6 **harvested** profiles: brochure-site, editorial-site, saas-app, cli-tool, browser-extension, research-spike — only shapes backed by a real stack pack; no speculation). Folds in the archetype override mechanics; supersedes `install/archetypes/`. Cross-checked (stack/deploy packs exist + compatible). 6 tests.
+- **B. proposal mode (P2)** — the `proposal` pre-sales skill: timeboxed P1–P2 + stack shortlist → proposal pack (brief + 85%-confidence timeline G8-lite + scope/price scaffold + assumptions register). If won, artifacts carry into the real project.
+- **C. verify_pack: llm-app** — wire the existing `src/llm-gates/` normalizers + `skills/deployment/{llm-quality-gate,llm-security-scan,prompt-regression}` into the llm-app verify pack (already-implemented code the v1.0 plan left unplaced).
+- **D. client-touchpoints registry (§7.17)** — generated table of the client-facing rhythm (kickoff/brief/proposal/stack-cost/design-signoff/preview/UAT/handover/health-reports).
+
+**A green:** typecheck ✅, **982 tests** ✅ (+6), lint ✅, check:drift ✅.
