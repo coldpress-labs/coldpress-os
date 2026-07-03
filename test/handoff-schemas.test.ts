@@ -1,18 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
-  ArchitectureToPertSchema,
   HANDOFF_SCHEMAS,
-  PertToStoriesSchema,
   PrdToArchitectureSchema,
   StoriesToImplementationSchema,
 } from "../schemas/handoffs";
 import { validateHandoff } from "../src/handoffs/validate";
 
 describe("HANDOFF_SCHEMAS registry", () => {
-  it("exposes the 4 high-stakes handoff schemas keyed by id", () => {
+  it("exposes the high-stakes handoff schemas keyed by id (PERT bridge excised)", () => {
     expect(Object.keys(HANDOFF_SCHEMAS).sort()).toEqual([
-      "architecture-to-pert",
-      "pert-to-stories",
       "prd-to-architecture",
       "stories-to-implementation",
     ]);
@@ -115,126 +111,6 @@ describe("PrdToArchitectureSchema", () => {
 });
 
 // ────────────────────────────────────────────────────────────────────
-// architecture-to-pert
-// ────────────────────────────────────────────────────────────────────
-
-describe("ArchitectureToPertSchema", () => {
-  const validPayload = {
-    schema_version: 1,
-    produced_by: "create-architecture",
-    produced_at: "2026-04-23T16:00:00Z",
-    project_slug: "my-project",
-    upstream_prd_path: "_context/sacred/prd.meta.json",
-    style: "modular-monolith",
-    components: [
-      {
-        id: "C-AUTH",
-        name: "Auth Service",
-        responsibility: "User authentication and session management",
-        layer: "service",
-        risk: "medium",
-        risk_rationale: "OAuth flow is well-understood but token storage is sensitive",
-        effort_size: "m",
-      },
-    ],
-    dependencies: [
-      { from: "C-AUTH", to: "C-DB", kind: "data" },
-    ],
-    cross_cutting_concerns: [
-      { nfr_id: "NFR-01", impacted_components: ["C-AUTH"] },
-    ],
-  };
-
-  it("accepts a well-formed payload", () => {
-    expect(validateHandoff("architecture-to-pert", validPayload).ok).toBe(true);
-  });
-
-  it("rejects empty components", () => {
-    const bad = { ...validPayload, components: [] };
-    expect(validateHandoff("architecture-to-pert", bad).ok).toBe(false);
-  });
-
-  it("rejects unknown layer", () => {
-    const bad = {
-      ...validPayload,
-      components: [{ ...validPayload.components[0], layer: "quantum-mesh" }],
-    };
-    expect(validateHandoff("architecture-to-pert", bad).ok).toBe(false);
-  });
-
-  it("allows empty cross_cutting_concerns", () => {
-    const payload = { ...validPayload, cross_cutting_concerns: [] };
-    expect(validateHandoff("architecture-to-pert", payload).ok).toBe(true);
-  });
-
-  it("parseable via schema directly", () => {
-    expect(() => ArchitectureToPertSchema.parse(validPayload)).not.toThrow();
-  });
-});
-
-// ────────────────────────────────────────────────────────────────────
-// pert-to-stories
-// ────────────────────────────────────────────────────────────────────
-
-describe("PertToStoriesSchema", () => {
-  const validPayload = {
-    schema_version: 1,
-    produced_by: "parallelization-strategy",
-    produced_at: "2026-04-23T17:00:00Z",
-    project_slug: "my-project",
-    upstream_architecture_path: "_context/sacred/architecture.meta.json",
-    wave_count: 2,
-    epics: [
-      {
-        id: "E1",
-        name: "Auth MVP",
-        summary: "Ship login + signup + session management",
-        components: ["C-AUTH", "C-DB"],
-      },
-    ],
-    waves: [
-      {
-        wave: 1,
-        epic_ids: ["E1"],
-        depends_on_waves: [],
-        rationale: "No dependencies — can start immediately",
-      },
-    ],
-    acceptance_criteria_shape: {
-      required_sections: ["functional", "non-functional"],
-      min_items_per_section: 2,
-    },
-  };
-
-  it("accepts a well-formed payload", () => {
-    expect(validateHandoff("pert-to-stories", validPayload).ok).toBe(true);
-  });
-
-  it("rejects wave 0 (waves are 1-indexed)", () => {
-    const bad = {
-      ...validPayload,
-      waves: [{ ...validPayload.waves[0], wave: 0 }],
-    };
-    expect(validateHandoff("pert-to-stories", bad).ok).toBe(false);
-  });
-
-  it("rejects empty required_sections", () => {
-    const bad = {
-      ...validPayload,
-      acceptance_criteria_shape: {
-        ...validPayload.acceptance_criteria_shape,
-        required_sections: [],
-      },
-    };
-    expect(validateHandoff("pert-to-stories", bad).ok).toBe(false);
-  });
-
-  it("parseable via schema directly", () => {
-    expect(() => PertToStoriesSchema.parse(validPayload)).not.toThrow();
-  });
-});
-
-// ────────────────────────────────────────────────────────────────────
 // stories-to-implementation
 // ────────────────────────────────────────────────────────────────────
 
@@ -247,7 +123,7 @@ describe("StoriesToImplementationSchema", () => {
     story_id: "E1.S1",
     epic_id: "E1",
     wave: 1,
-    upstream_pert_path: "_context/sacred/pert-chart.meta.json",
+    upstream_graph_path: "_context/implementation/story-graph.yaml",
     summary: "Add email/password signup flow",
     file_scope: [
       {

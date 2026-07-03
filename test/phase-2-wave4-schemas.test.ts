@@ -48,7 +48,6 @@ describe("sacred-doc schemas — supersedes field (Wave 4.3)", () => {
     { name: "tech-stack.md", workflowType: "tech-stack", extras: ["derived_from:", '  - "_context/sacred/context.md"'] },
     { name: "prd.md", workflowType: "prd" },
     { name: "architecture.md", workflowType: "architecture" },
-    { name: "pert-chart.md", workflowType: "pert-chart" },
   ];
 
   for (const doc of SACRED_DOCS) {

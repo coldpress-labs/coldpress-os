@@ -1,7 +1,7 @@
 /**
  * Ajv-backed sacred-doc frontmatter validator tests (§5.2).
  *
- * Exercises the in-process validator against the 5 shipped sacred-doc
+ * Exercises the in-process validator against the 4 shipped sacred-doc
  * JSON Schemas, via fixture docs written to a tmpdir.
  */
 
@@ -35,9 +35,9 @@ async function writeDoc(name: string, frontmatter: string, body = "# doc"): Prom
 }
 
 describe("SACRED_DOC_SCHEMAS", () => {
-  it("covers the 5 canonical sacred docs", () => {
+  it("covers the 4 canonical sacred docs (PERT retired)", () => {
     expect(Object.keys(SACRED_DOC_SCHEMAS).sort()).toEqual(
-      ["architecture", "context", "pert-chart", "prd", "tech-stack"],
+      ["architecture", "context", "prd", "tech-stack"],
     );
   });
 });
@@ -46,7 +46,6 @@ describe("sacredDocIdFromPath", () => {
   it("resolves by basename", () => {
     expect(sacredDocIdFromPath("/a/b/prd.md")).toBe("prd");
     expect(sacredDocIdFromPath("architecture.md")).toBe("architecture");
-    expect(sacredDocIdFromPath("pert-chart.md")).toBe("pert-chart");
   });
 
   it("returns undefined for unknown docs", () => {
@@ -161,44 +160,6 @@ describe("validateSacredDocSchema — architecture", () => {
   });
 });
 
-describe("validateSacredDocSchema — pert-chart", () => {
-  it("accepts with properly shaped waves", async () => {
-    const p = await writeDoc(
-      "pert-chart.md",
-      [
-        "sacred: true",
-        'version: "1.0"',
-        'governance: "draft"',
-        'workflowType: "pert-chart"',
-        "waves:",
-        '  - id: "wave-1"',
-        '    name: "Foundations"',
-        '  - id: "wave-2"',
-        '    name: "Core"',
-      ].join("\n"),
-    );
-    const result = await validateSacredDocSchema(p);
-    expect(result.ok).toBe(true);
-  });
-
-  it("rejects a malformed wave id", async () => {
-    const p = await writeDoc(
-      "pert-chart.md",
-      [
-        "sacred: true",
-        'version: "1.0"',
-        'governance: "draft"',
-        'workflowType: "pert-chart"',
-        "waves:",
-        '  - id: "phase-1"',
-        '    name: "Wrong prefix"',
-      ].join("\n"),
-    );
-    const result = await validateSacredDocSchema(p);
-    expect(result.ok).toBe(false);
-  });
-});
-
 describe("validateSacredDocSchema — edge cases", () => {
   it("rejects unknown sacred-doc basename", async () => {
     const p = await writeDoc("readme.md", 'foo: "bar"');
@@ -231,14 +192,13 @@ describe("validateSacredDocSchema — edge cases", () => {
     expect(result.ok).toBe(true);
   });
 
-  it("validates all 5 docs round-trip", async () => {
+  it("validates all 4 docs round-trip", async () => {
     // tech-stack.md additionally requires `derived_from` (Phase 3 Round-5 audit fix).
     const docs: Array<{ name: string; workflowType: string; extras?: string[] }> = [
       { name: "context.md", workflowType: "context" },
       { name: "tech-stack.md", workflowType: "tech-stack", extras: ["derived_from:", '  - "_context/sacred/context.md"'] },
       { name: "prd.md", workflowType: "prd" },
       { name: "architecture.md", workflowType: "architecture" },
-      { name: "pert-chart.md", workflowType: "pert-chart" },
     ];
     for (const doc of docs) {
       const p = await writeDoc(

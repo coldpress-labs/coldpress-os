@@ -2,7 +2,7 @@
  * Ajv-backed frontmatter validator.
  *
  * Validates YAML frontmatter at the top of:
- *   - Sacred docs (context.md, tech-stack.md, prd.md, architecture.md, pert-chart.md)
+ *   - Sacred docs (context.md, tech-stack.md, prd.md, architecture.md)
  *     → `schemas/sacred-docs/<id>.schema.json`
  *   - Phase 2 research outputs (`_context/planning/research/*.md`)
  *     → `schemas/research-output.schema.json`
@@ -46,7 +46,6 @@ export const SACRED_DOC_SCHEMAS: Record<string, string> = {
   "tech-stack": "tech-stack.schema.json",
   "prd": "prd.schema.json",
   "architecture": "architecture.schema.json",
-  "pert-chart": "pert-chart.schema.json",
 };
 
 /**

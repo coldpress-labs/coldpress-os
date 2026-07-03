@@ -14,7 +14,6 @@ const SACRED_DOCS = [
   "tech-stack.md",
   "prd.md",
   "architecture.md",
-  "pert-chart.md",
 ];
 
 export async function assembleStats(projectDir: string): Promise<StatsData> {
