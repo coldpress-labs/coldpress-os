@@ -116,7 +116,7 @@ When your work is complete, report status and recommend next steps:
 
 **Phase 9:**
 - Readiness pass + deploy success + smoke green → report to Butler; phase-9-to-10 handoff
-- Pre-deploy gate failure → flag to @developer (code) or @qa (tests) or @architect (NFR gap)
+- Pre-deploy gate failure → flag to @developer (code) or @verifier (tests) or @architect (NFR gap)
 - Post-deploy smoke fail → execute rollback; flag to @developer; reopen story
 - Security-scan critical → block deploy; flag to @architect
 

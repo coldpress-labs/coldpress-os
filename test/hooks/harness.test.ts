@@ -3,8 +3,12 @@
  * rendering, and the `runHook` dispatcher (§4.4, WS1).
  */
 
-import { describe, expect, it } from "vitest";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { runHook } from "../../src/commands/hook";
+import { listRuns, readRun } from "../../src/event-stream/reader";
 import {
   type HookHandler,
   parseOverride,
@@ -105,19 +109,44 @@ describe("runHook — dispatcher + override integration", () => {
     expect(JSON.parse(out).hookSpecificOutput.permissionDecision).toBe("deny");
   });
 
-  it("overrides a deny (allow + loud log) when COLDPRESS_OVERRIDE matches", async () => {
-    let out = "";
-    let err = "";
-    const code = await runHook("fake-guard", {
-      handler: denyHandler,
-      input: {},
-      env: { COLDPRESS_OVERRIDE: "fake-guard:intentional" },
-      stdout: (s) => (out += s),
-      stderr: (s) => (err += s),
+  describe("with a tmp project (override recording)", () => {
+    let dir: string;
+    beforeEach(() => {
+      dir = mkdtempSync(join(tmpdir(), "coldpress-override-"));
     });
-    expect(code).toBe(0);
-    expect(out).toBe(""); // no deny emitted — allowed
-    expect(err).toContain("COLDPRESS_OVERRIDE ACTIVE");
-    expect(err).toContain("intentional");
+    afterEach(() => {
+      rmSync(dir, { recursive: true, force: true });
+    });
+
+    it("overrides a deny (allow + loud log) when COLDPRESS_OVERRIDE matches", async () => {
+      let out = "";
+      let err = "";
+      const code = await runHook("fake-guard", {
+        handler: denyHandler,
+        input: { cwd: dir, session_id: "sess-1", agent_type: "developer" },
+        env: { COLDPRESS_OVERRIDE: "fake-guard:intentional" },
+        stdout: (s) => (out += s),
+        stderr: (s) => (err += s),
+      });
+      expect(code).toBe(0);
+      expect(out).toBe(""); // no deny emitted — allowed
+      expect(err).toContain("COLDPRESS_OVERRIDE ACTIVE");
+      expect(err).toContain("intentional");
+    });
+
+    it("records a gate-override event to the EventStream (feeds evolve's leaderboard)", async () => {
+      await runHook("fake-guard", {
+        handler: denyHandler,
+        input: { cwd: dir, session_id: "sess-2", agent_type: "developer" },
+        env: { COLDPRESS_OVERRIDE: "fake-guard:hotfix" },
+        stderr: () => {},
+      });
+      const runs = await listRuns({ projectDir: dir });
+      expect(runs.length).toBe(1);
+      const events = await readRun(runs[0] as string, { projectDir: dir });
+      const over = events.find((e) => e.kind === "gate-override");
+      expect(over).toBeDefined();
+      expect(over).toMatchObject({ gate_id: "fake-guard", reason: "hotfix", agent: "developer" });
+    });
   });
 });

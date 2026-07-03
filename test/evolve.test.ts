@@ -67,5 +67,24 @@ describe("aggregateEvolve (WS7-D)", () => {
     expect(clean.failure_leaderboard).toEqual([]);
     expect(clean.top_patches).toEqual([]);
     expect(clean.cost.total_tokens).toBe(100);
+    expect(clean.override_leaderboard).toEqual([]);
+  });
+});
+
+describe("aggregateEvolve — override leaderboard", () => {
+  function override(seq: number, gate: string, reason: string): Event {
+    return { ...BASE, seq, kind: "gate-override", gate_id: gate, reason } as Event;
+  }
+
+  it("ranks bypassed gates by frequency and keeps the reasons", () => {
+    const events: Event[] = [
+      override(0, "quality-gate", "flaky coverage tool, fixing next PR"),
+      override(1, "quality-gate", "hotfix — CI down"),
+      override(2, "deploy-gate", "manual smoke done out-of-band"),
+    ];
+    const report = aggregateEvolve({ events, projects: 1, runs: 1 });
+    expect(report.override_leaderboard[0]).toMatchObject({ gate: "quality-gate", count: 2 });
+    expect(report.override_leaderboard[0]?.reasons).toContain("hotfix — CI down");
+    expect(report.override_leaderboard[1]).toMatchObject({ gate: "deploy-gate", count: 1 });
   });
 });

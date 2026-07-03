@@ -8,6 +8,130 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### v0.4 "Enforcement" overhaul — post-overhaul hardening
+
+- **Optional deploy packs** — `netlify` (Netlify CLI; `--alias` previews,
+  `restoreSiteDeploy` rollback) and `self-hosted` (SSH + rsync, atomic-symlink
+  releases; symlink-swap rollback) join `vercel` + `cloudflare`. The stack×deploy
+  matrix regenerates to 4 packs; the deploy-pack test schema-validates every pack.
+- **BMAD upstream adopts** — `validate-idea` + `proposal` gain an adversarial
+  Socratic **Forge** pass (evidenced-vs-bet); a P6 **breadth-coverage** exit gate
+  (every architecture dimension decided/deferred/open); incident-response postmortem
+  reshaped into a **forensic case-file** (evidence register + hypotheses ledger).
+- **Dependency hygiene** — `npm audit` clean to 1 low (dev-only); CI `npm audit`
+  promoted to a hard gate; vitest 2 → 4.
+- **PERT-schema chain excised** — `pert-chart` sacred schema + the
+  `architecture-to-pert` / `pert-to-stories` handoff bridges removed (architecture →
+  stories is direct via `story-slice`); `SACRED_DOC_SCHEMAS` down to 4 docs.
+- **Agent routing fix** — scaffolded subagents no longer route to the removed `@qa`
+  / `@scrum-master` (they now route to `@verifier` / `@pm`, matching the need-info
+  router).
+- **`coldpress trace release`** — the 5th trace verb: a P8→P9 release-scope preview
+  (stories × requirements it satisfies × diffstat surface × verification state),
+  wired into the Phase 9 `readiness` step-01.
+- **`coldpress evolve` override leaderboard** — enforcement gates bypassed via
+  `COLDPRESS_OVERRIDE` are now recorded as a durable `gate-override` EventStream
+  event and ranked (with reasons), so a frequently-overridden gate is visible as a
+  mis-designed gate.
+- **quality-gate reads `testing.yaml`** — the Stop gate is now driven by the stack
+  pack's enabled fast test layers (L0 static → typecheck/lint, L1 unit → test)
+  rather than raw package.json script detection; heavier layers stay with the
+  verifier. Falls back to script detection when no `testing.yaml` is present.
+- **Removed the superseded archetype system** — `install/archetypes/`,
+  `src/archetypes/load.ts`, and the archetype schema (folded into project profiles
+  in WS9).
+
+### v0.4 "Enforcement" overhaul — WS9: Profiles, proposal & harvest
+
+Turn the framework's rigor into repeatable client delivery — start-configured by
+intent, priced before signing, and improved from what ships.
+
+#### Added
+
+- **Project profiles** — `data/profiles/*.yaml` (6 harvested: brochure-site,
+  saas-app, editorial-site, …) with a schema; an `intake` profile step preconfigures
+  packs/tier/lane from a single answer, every default overridable.
+- **`proposal`** (Phase 2) — a timeboxed pre-sales run of P1–P2 + a stack shortlist
+  emitting a proposal pack (brief + 85%-confidence timeline + scope/price scaffold +
+  assumptions register); won artifacts carry into the real project unchanged.
+- **Verify-packs** — `data/verify-packs/{web,llm-app,research-spike}.yaml` +
+  schema; the llm-app pack wires a product-eval gate.
+- **Client-touchpoints registry** — `docs/generated/client-touchpoints.md`,
+  generated + drift-checked.
+
+### v0.4 "Enforcement" overhaul — WS8: Operate loop
+
+Phase 10–11 made evidence-driven: steady-state ops that measure against the outcome
+contract, and incidents that feed the self-improvement loop.
+
+#### Added
+
+- **`ops-check`** — scheduled digest (analytics/uptime/error/cert/backup/CVE) scored
+  **actual-vs-target against `outcomes.yaml`**; a high+ CVE on the shipped lockfile
+  **auto-creates an incident**.
+- **`client-health-report`** — a monthly, outcome-trend, results-first client
+  one-pager.
+- **`pack-harvest`** + **`framework-feedback`** — graduate patterns from a shipped
+  project back into packs / upstream framework feedback.
+
+#### Changed
+
+- **`incident-response`** wired into the evals loop — postmortems carry a
+  failure-taxonomy tag that `coldpress evolve` counts; every incident adds a pinning
+  test before its fix merges.
+- **`retrospective`** rebuilt evidence-linked (every claim cites a run-log event ID),
+  upgraded to opus.
+
+### v0.4 "Enforcement" overhaul — WS7: Evals & the self-improvement loop
+
+Close the loop: failures become a taxonomy, a headless scorer, leaderboards, and
+golden tasks that guard against regression.
+
+#### Added
+
+- **`coldpress evals`** — a deterministic, **headless** eval runner (file-exists,
+  gate-green, tests-green, grep/absent, no-secret, schema-valid) over a workspace;
+  per-task pass/fail, exits non-zero on failure. Ships an 8-task golden starter set
+  (`evals/`).
+- **`coldpress evolve`** — failure/cost leaderboards + top-3 candidate patches from
+  the EventStream.
+- **Failure taxonomy** — `data/failure-taxonomy.yaml` + schema; failing eval tasks
+  carry `guards_against` taxonomy tags.
+- **`valet-loop`** (meta) — the loop skill that turns a recurring failure into a
+  golden eval + fix.
+
+#### Changed
+
+- **EventStream session-boundary** enriched with `model` + token usage, so evolve's
+  cost leaderboard is real.
+
+### v0.4 "Enforcement" overhaul — WS6: Deploy packs
+
+Make "deploy anywhere" real: uniform deploy skills over swappable, data-only packs,
+with production behind a three-layer human gate.
+
+#### Added
+
+- **Deploy packs are data** — `data/deploy-packs/<name>/pack.yaml` (schema'd);
+  reference packs **vercel** + **cloudflare**. Coupled to the P3 stack two ways
+  (compatibility matrix ∩ locked stack; `stack_inputs` build config).
+- **Uniform deploy skills** — `deploy-select` (P3), `deploy-staging` (model-ok),
+  `deploy-prod` (human-only), `deploy-preview`, `smoke`, `rollback` — the same verbs
+  ship to any pack by changing one config line.
+- **`deploy-gate` hook** — a PreToolUse Skill guard: production deploy requires
+  staging smoke green + P8 gate + an acceptance record.
+- **`client-acceptance`** + acceptance-record schema, **`handover`** skill, and the
+  generated **stack×deploy matrix**.
+
+#### Changed
+
+- **`readiness-check` → `readiness`** rebuilt (SBOM/headers/budgets/license);
+  superseded `ops/security-scan` + `dep-health-check`.
+
+#### Removed
+
+- The transitional `deploy` umbrella skill (split into the uniform verbs above).
+
 ### v0.4 "Enforcement" overhaul — WS5: Skills consolidation & Claude Code alignment
 
 The skill corpus is consolidated to a canonical set, distributed as a Claude Code

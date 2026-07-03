@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { buildTraceGraph } from "../src/trace/build";
-import { coverage, impact, orphans, why } from "../src/trace/verbs";
+import { coverage, impact, orphans, release, why } from "../src/trace/verbs";
 import { runTrace } from "../src/commands/trace";
 
 let dir: string;
@@ -109,7 +109,53 @@ describe("coverage", () => {
   });
 });
 
+describe("release (P8→P9 preview)", () => {
+  it("previews every story as scope, all unverified without test coverage", () => {
+    seedProject();
+    const scope = release(buildTraceGraph(dir));
+    expect(scope.stories.length).toBe(3);
+    expect(scope.stories.every((s) => !s.verified)).toBe(true);
+    expect(scope.blockers.sort()).toEqual(["CT-1", "ST-1", "ST-2"]);
+    // diffstat surface = union of owns + produces globs.
+    expect(scope.diffstat).toContain("src/a/*");
+    expect(scope.diffstat).toContain("src/b/*");
+    expect(scope.diffstat).toContain("src/types/*");
+  });
+
+  it("surfaces the requirements a keyed story satisfies", () => {
+    write(
+      "_context/implementation/story-graph.yaml",
+      [
+        "stories:",
+        "  - id: ST-9",
+        "    estimate: {o: 1, m: 2, p: 3}",
+        "    owns: ['src/feature/*']",
+        "    implements: ['R1', 'R2']",
+        "edges: []",
+      ].join("\n"),
+    );
+    const scope = release(buildTraceGraph(dir));
+    expect(scope.stories).toHaveLength(1);
+    expect(scope.stories[0]?.requirements.sort()).toEqual(["R1", "R2"]);
+    expect(scope.requirements).toEqual(["R1", "R2"]);
+  });
+});
+
 describe("runTrace CLI", () => {
+  it("release exits 0 and prints the scope preview", () => {
+    seedProject();
+    let out = "";
+    expect(runTrace("release", undefined, { projectDir: dir, stdout: (s) => (out += s) })).toBe(0);
+    expect(out).toMatch(/trace release \(preview\): 3 stories in scope/);
+    expect(out).toMatch(/blockers \(unverified\)/);
+  });
+
+  it("release on an empty graph exits 0 with a nothing-to-preview note", () => {
+    let out = "";
+    expect(runTrace("release", undefined, { projectDir: dir, stdout: (s) => (out += s) })).toBe(0);
+    expect(out).toMatch(/nothing to preview/);
+  });
+
   it("orphans exits 1 on a blocking finding, 0 when clean", () => {
     seedProject();
     let out = "";

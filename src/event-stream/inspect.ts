@@ -123,6 +123,8 @@ function renderBadge(event: Event, opts: ResolvedOptions): string {
       return opts.colour("green", "✓ gate ");
     case "gate-fail":
       return opts.colour("red", "✗ gate ");
+    case "gate-override":
+      return opts.colour("yellow", "⚠ over ");
     case "condensation":
       return opts.colour("magenta", "◈ cond ");
     case "session-boundary":
@@ -158,6 +160,8 @@ function renderBody(event: Event, opts: ResolvedOptions): string {
       return `P${event.phase} ${event.gate_id}`;
     case "gate-fail":
       return `P${event.phase} ${event.gate_id} — ${opts.colour("red", `${event.blockers.length} blocker${event.blockers.length === 1 ? "" : "s"}`)}`;
+    case "gate-override":
+      return `${event.gate_id} — ${opts.colour("yellow", "OVERRIDDEN")}${opts.colour("dim", `: ${event.reason}`)}${event.agent ? opts.colour("dim", ` [${event.agent}]`) : ""}`;
     case "condensation":
       return `${event.wave_id} — ${event.summary}${opts.colour("dim", ` (seq ${event.from_seq}..${event.to_seq})`)}`;
     case "session-boundary":

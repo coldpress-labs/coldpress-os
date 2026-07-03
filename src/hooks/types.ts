@@ -106,10 +106,12 @@ export function parseOverride(
 }
 
 /**
- * Loud override logging (G11). For now writes a prominent line to stderr so it
- * surfaces in the session and the hook's own logs. TODO(WS1-D run-log): also
- * append to the EventStream run-log + `_context/audit/decisions.md` + feed the
- * `coldpress evolve` override leaderboard, once the run-log hook lands.
+ * Loud override logging (G11). Writes a prominent line to stderr so the bypass
+ * surfaces in the session and the hook's own logs. The dispatcher
+ * (`src/commands/hook.ts`) ALSO appends a durable `gate-override` event to the
+ * EventStream (via `recordGateOverride`), which `coldpress evolve` aggregates
+ * into the override leaderboard — a frequently-overridden gate is a mis-designed
+ * gate. (`_context/audit/decisions.md` mirroring remains a follow-up.)
  */
 export function logOverride(directive: OverrideDirective, writer: (s: string) => void = (s) => process.stderr.write(s)): void {
   writer(

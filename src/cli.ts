@@ -92,7 +92,7 @@ program
 program
   .command("trace <verb> [id]")
   .description(
-    "Traceability over the project's schema'd artifacts (§4.6). Verbs: orphans (integrity + silent-divergence guard; exit 1 on a blocking finding), why <id>, impact <id>, coverage.",
+    "Traceability over the project's schema'd artifacts (§4.6). Verbs: orphans (integrity + silent-divergence guard; exit 1 on a blocking finding), why <id>, impact <id>, coverage, release (P8→P9 release-scope preview).",
   )
   .action((verb: string, id: string | undefined) => {
     process.exit(runTrace(verb, id));

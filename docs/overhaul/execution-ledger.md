@@ -18,13 +18,21 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS2 | Trace + story graph | 🟢 closed | `overhaul/ws2-trace-storygraph` | 2026-07-02 |
 | WS3 | Two-lane lifecycle | 🟢 closed | `overhaul/ws3-two-lane` | 2026-07-02 |
 | WS4 | Verification & design system | 🟢 closed | `overhaul/ws4-verification-design` | 2026-07-02 |
-| WS5 | Skills consolidation & CC alignment | 🟡 in progress | `overhaul/ws5-skills-consolidation` | — |
-| WS6 | Deploy packs | ⚪ not started | — | — |
-| WS7 | Evals & the loop | ⚪ not started | — | — |
-| WS8 | Operate with substance | ⚪ not started | — | — |
-| WS9 | Profiles, proposal mode & compounding | ⚪ not started | — | — |
+| WS5 | Skills consolidation & CC alignment | 🟢 closed | `overhaul/ws5-skills-consolidation` | 2026-07-03 |
+| WS6 | Deploy packs | 🟢 closed | `overhaul/ws6-deploy-packs` | 2026-07-03 |
+| WS7 | Evals & the loop | 🟢 closed | `overhaul/ws7-evals-loop` | 2026-07-03 |
+| WS8 | Operate with substance | 🟢 closed | `overhaul/ws8-operate` | 2026-07-03 |
+| WS9 | Profiles, proposal mode & compounding | 🟢 closed | `overhaul/ws9-profiles` | 2026-07-03 |
 
 Legend: ⚪ not started · 🟡 in progress · 🟢 green/closed · 🔴 blocked/amber
+
+**All WS0–WS9 merged to main (2026-07-03).** Post-overhaul work landed on main since:
+D7 dep-hygiene, PERT-schema-chain excision + D18 close, D10 BMAD adopts sweep,
+optional deploy packs (netlify + self-hosted), and the post-audit **Fix pass**
+(F1 agent-routing · F4 CHANGELOG + this board · F5 small builds · F7 leftovers) —
+see the post-overhaul sections at the foot of this ledger. Remaining before v0.4.0
+tag: the §12 runtime demos (need a live estate project) + the docs/public-accuracy
+pass (audit F2/F3/F6).
 
 ---
 
@@ -36,6 +44,10 @@ Legend: ⚪ not started · 🟡 in progress · 🟢 green/closed · 🔴 blocked
 
 | # | Type | Summary | Status |
 |---|------|---------|--------|
+| D19 | post-audit fix (F1, CRITICAL) | Post-overhaul audit (`../docs/post-overhaul-audit-2026-07-03.md`) found the abolished `@qa` sub-dispatch survived in `template/.claude/agents/*`: developer.md routed story-complete → `@qa`, devops.md → `@qa` for tests, reviewer.md + architect.md + pm.md → deleted `@scrum-master`. Every scaffolded project shipped the author-grades-own-homework pattern WS4 exists to abolish. Fixed: routing corrected to match `src/need-info/route.ts` (qa→verifier, scrum-master's kinds→pm; wave/orchestration→Butler). Roster CSV is derived FROM these files (drift green). Kept 2 legit descriptive mentions (verifier's "replace the old @qa"; pm's "folded into @pm"). | **applied (`overhaul/fix-pass-f1-f4-f5-f7`)** |
+| D20 | post-audit fix (F4, protocol) | Audit F4: two §0.1 protocol violations. (a) CHANGELOG missing one-per-WS entries for WS6–WS9 (§0.1.4) — added WS6/7/8/9 sections + a post-overhaul-hardening block (deploy packs, D10 adopts, D7, PERT excision, F1 routing fix). (b) The ledger status board (this file, lines 14–25) still showed WS5 in-progress / WS6–9 not-started while the body closed them all — corrected to 🟢 closed with branches + a merged-to-main note. | applied |
+| D21 | post-audit fix (F5, small builds) | Audit F5: promised small pieces not built. Scope for this pass (per audit recommendation step 1): `coldpress trace release` verb, override leaderboard in `coldpress evolve`, and quality-gate → stack-pack `testing.yaml` wiring. (SDK `runTask` loop, estimation-bias enrichment, railway pack remain out of this pass — bigger / docs-pass scope.) | **applied** — `coldpress trace release` (release-scope preview: stories × requirements × diffstat × verified; +5 tests); `override_leaderboard` in `coldpress evolve` (new `gate-override` EventStream event, recorded at the hook dispatcher, aggregated + rendered; resolves the WS1-D TODO; +6 tests); quality-gate now testing.yaml-driven (enabled fast layers L0/L1 → scripts; fallback preserved; +8 tests). |
+| D22 | post-audit fix (F7, leftovers) | Audit F7: leftovers + drift. This pass: delete superseded `install/archetypes/` + orphaned `src/archetypes/load.ts`; re-sync the divergent `lifecycle/9-deployment/readiness/` steps with the rebuilt v3.0 that lives in `plugin/skills/readiness/`. (`templates/` prune/rename §8.14 + the ≤80-corpus question stay with the docs/public-accuracy pass — audit recommendation step 2, not this pass.) §8-deletion note: archetypes were already ledger-marked "superseded" by the profiles migration (WS3/WS9); this completes an already-decided supersession, not a new cut. | **applied** — deleted `install/archetypes/` (4 YAMLs) + `src/archetypes/load.ts` + `schemas/archetype.schema.ts` + `test/archetypes.test.ts` + the dangling `install` files[] entry (no live imports; profile.schema.ts carries the override mechanics). Re-synced `lifecycle/9-deployment/readiness/` steps + workflow.md from the stale story-level 8-gate flow to the v3.0 deploy hard-checklist (SKILL.md was already v3.0; its steps had drifted); plugin regenerated. |
 | D1 | tactical | `_sandbox/` (§8 item 4) is destined for the brownfield capability pack (§7.6), which does not exist yet. Getting it out of framework root now; parking the single file (`legacy-manifest.md`) under `reference/` as a holding location until the brownfield pack lands (WS6-era). Final home unchanged from plan intent. | applied |
 | D2 | correction | Plan §2.9 calls `packages/otel-exporter/node_modules/` a "committed (~41 MB)" artifact. Reality: **0 files git-tracked** (already matched by the global `node_modules/` gitignore) and **159 MB** on disk. Action reduces to a disk deletion; no `git rm` needed. gitignore already covers the pattern. | applied |
 | D3 | correction | Root `coldpress-core-0.3.2-alpha.tgz` (§8 item 3) is **untracked** (disk-only), not committed. Delete from disk + add `*.tgz` to `.gitignore` so it can never be committed. | applied |

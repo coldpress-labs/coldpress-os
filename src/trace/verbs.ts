@@ -1,10 +1,13 @@
 /**
- * `coldpress trace` verbs (§4.6): orphans, why, impact, coverage.
+ * `coldpress trace` verbs (§4.6): orphans, why, impact, coverage, release.
  * Pure functions over a built TraceGraph — the CLI + enforcement hooks call these.
  *
- * (`release` waits for the REL-* schema in WS6; requirement/component orphan
- * checks activate once P4/P6 keying lands in WS4 — the model already supports
- * those node kinds.)
+ * `release` is a P8→P9 handoff PREVIEW (§4.6 / plan §HND-p8-devops): it derives
+ * the release scope — which stories ship, the requirements they satisfy, the
+ * file-scope they touch (diffstat surface), and each story's verification state
+ * (test-coverage as the verifier-verdict proxy) — straight from the story graph.
+ * It needs no persistent REL-* record: the preview is what FEEDS the release
+ * record, computed before it exists.
  */
 
 import type { TraceGraph } from "./graph.js";
@@ -111,4 +114,56 @@ export function coverage(g: TraceGraph): CoverageRow[] {
     const tests = g.in(s.id, "covers").map((e) => e.from);
     return { story: s.id, tests, covered: tests.length > 0 };
   });
+}
+
+export interface ReleaseStory {
+  id: string;
+  title?: string;
+  /** Requirements this story satisfies (via `implements` keying). */
+  requirements: string[];
+  /** File-scope globs the story owns + produces — the release's diffstat surface. */
+  diffstat: string[];
+  /** Verification state — has ≥1 covering test node (the verifier-verdict proxy). */
+  verified: boolean;
+}
+
+export interface ReleaseScope {
+  stories: ReleaseStory[];
+  /** Union of all requirements the release satisfies. */
+  requirements: string[];
+  /** Union of every owned/produced file-scope glob the release touches. */
+  diffstat: string[];
+  /** Story ids in scope that are NOT verified — release-readiness blockers. */
+  blockers: string[];
+}
+
+/**
+ * Release-scope preview for the P8→P9 handoff. Every story in the graph is a
+ * shippable unit; the preview reports what it satisfies (requirements), what it
+ * touches (diffstat surface), and whether it is verified (coverage proxy). An
+ * unverified story is surfaced as a blocker — the preview reports it, the P9
+ * gate decides.
+ */
+export function release(g: TraceGraph): ReleaseScope {
+  const stories: TraceNode[] = [...g.byType("story"), ...g.byType("contract-story"), ...g.byType("integration-story")];
+  const requirements = new Set<string>();
+  const diffstat = new Set<string>();
+  const blockers: string[] = [];
+
+  const rows: ReleaseStory[] = stories.map((s) => {
+    const reqs = g.in(s.id, "implements").map((e) => e.from);
+    const files = [...g.out(s.id, "owns"), ...g.out(s.id, "produces")].map((e) => e.to);
+    const verified = g.in(s.id, "covers").length > 0;
+    reqs.forEach((r) => requirements.add(r));
+    files.forEach((f) => diffstat.add(f));
+    if (!verified) blockers.push(s.id);
+    return { id: s.id, title: s.label, requirements: reqs, diffstat: files, verified };
+  });
+
+  return {
+    stories: rows,
+    requirements: [...requirements].sort(),
+    diffstat: [...diffstat].sort(),
+    blockers,
+  };
 }

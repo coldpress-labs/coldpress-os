@@ -128,6 +128,23 @@ export const GateFailObservationSchema = z.object({
   blockers: z.array(z.string()),
 });
 
+/**
+ * Gate override observation — emitted when a `COLDPRESS_OVERRIDE="<gate>:<reason>"`
+ * directive bypasses an enforcement deny (§4.4 G11). Recorded so the override is
+ * auditable and countable: `coldpress evolve`'s override leaderboard ranks the
+ * gates bypassed most (a frequently-overridden gate is a mis-designed gate).
+ */
+export const GateOverrideObservationSchema = z.object({
+  ...BASE,
+  kind: z.literal("gate-override"),
+  gate_id: GATE_ID,
+  /** The mandatory free-text reason from the override directive. */
+  reason: z.string().min(1),
+  phase: PHASE.optional(),
+  /** Dispatching agent slug, when the overridden call came from a subagent. */
+  agent: z.string().optional(),
+});
+
 // ─── Meta event ───────────────────────────────────────────────────
 
 export const CondensationSchema = z.object({
@@ -183,6 +200,7 @@ export const EventSchema = z.discriminatedUnion("kind", [
   SkillResultObservationSchema,
   GatePassObservationSchema,
   GateFailObservationSchema,
+  GateOverrideObservationSchema,
   CondensationSchema,
   SessionBoundaryObservationSchema,
 ]);
@@ -195,6 +213,7 @@ export type SkillResultObservation = z.infer<typeof SkillResultObservationSchema
 export type GateEvaluateAction = z.infer<typeof GateEvaluateActionSchema>;
 export type GatePassObservation = z.infer<typeof GatePassObservationSchema>;
 export type GateFailObservation = z.infer<typeof GateFailObservationSchema>;
+export type GateOverrideObservation = z.infer<typeof GateOverrideObservationSchema>;
 export type Condensation = z.infer<typeof CondensationSchema>;
 export type SessionBoundaryObservation = z.infer<typeof SessionBoundaryObservationSchema>;
 
