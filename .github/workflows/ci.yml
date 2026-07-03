@@ -27,11 +27,11 @@ jobs:
         run: npm ci
 
       - name: Vulnerability scan (npm audit)
-        # Fails on moderate-or-higher severity advisories. Run `npm audit` locally
-        # and address with `npm audit fix` (or document an unfixable advisory) to
-        # recover. To-do C.1.
+        # Hard gate (D7 dep-hygiene, 2026-07-03): fails on moderate-or-higher
+        # advisories. The D7 pass cleared 12 vulns (1 critical + 3 high + 8
+        # moderate) → 1 low (esbuild dev-server, Windows-only, below the gate).
+        # Run `npm audit` locally + `npm audit fix` to recover.
         run: npm audit --audit-level=moderate
-        continue-on-error: true
 
       - name: Typecheck
         run: npm run typecheck
