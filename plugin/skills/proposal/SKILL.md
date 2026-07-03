@@ -24,6 +24,13 @@ a week.
 1. **Timeboxed P1–P2** — run `intake` (lite) + `research`/`validate-idea` /
    `product-brief` at proposal depth: enough to understand the problem, audience,
    and kill-risks — not the full discovery.
+   - **Adversarial Socratic pass (Forge)** — before writing anything client-facing,
+     forge the engagement's load-bearing assumptions (`elicitation-methods.csv` #51,
+     the same bmad forge-idea chain `validate-idea` Step 2 runs): *why do we believe
+     the client's framing? what evidence would we already have? what would falsify
+     it? who loses if we're wrong?* Every assumption that survives becomes an
+     evidenced line in the brief; every one that doesn't becomes a **named entry in
+     the assumptions register (§5)** — this is precisely what protects the quote.
 2. **Stack shortlist** — a coarse `deploy-select`-informed stack direction (which
    profile/pack fits), not a locked stack.
 3. **Indicative timeline (G8-lite)** — a coarse story estimate → an **85%-confidence
@@ -48,4 +55,5 @@ Feeds the client-touchpoints registry (§7.17).
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.1 | 2026-07-03 | Butler (v0.4 D10 adopt 1 — BMAD forge-idea) | Process Step 1 gains an **adversarial Socratic pass (Forge)** — the same `elicitation-methods.csv` #51 four-question chain `validate-idea` Step 2 runs — over the engagement's load-bearing assumptions before any client-facing text; survivors become evidenced brief lines, the rest become named entries in the assumptions register (§5). Closes D10 adopt (1) on the proposal side. |
 | 1.0 | 2026-07-03 | Butler (v0.4 WS9) | NEW (§5 P2). Timeboxed pre-sales mode: P1–P2 (proposal depth) + stack shortlist → proposal pack (brief + 85%-confidence timeline G8-lite + scope/price scaffold + assumptions register). Won artifacts carry into the real project unchanged; converts framework rigor into win-rate. |
