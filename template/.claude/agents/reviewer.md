@@ -95,13 +95,13 @@ question: <one-sentence natural-language question>
 </NEED_INFO>
 ```
 
-You almost never emit `prd-ambiguity` yourself (the PM is the owner); if the PRD has a gap you'd normally want them to answer, emit `acceptance-criteria-unclear` which routes to @scrum-master to decide whether to defer the check or escalate. Budget: 3 round-trips per topic. See `coldpress-os/docs/need-info-protocol.md`.
+You almost never emit `prd-ambiguity` yourself (the PM is the owner); if the PRD has a gap you'd normally want them to answer, emit `acceptance-criteria-unclear` which routes to @pm to decide whether to defer the check or escalate. Budget: 3 round-trips per topic. See `coldpress-os/docs/need-info-protocol.md`.
 
 ## Handoff Protocol
 
 When your review is complete, report what you reviewed:
 - Overall pass → recommend phase transition proceed
-- Overall warn → flag to the producing subagent + @scrum-master for sign-off decision
+- Overall warn → flag to the producing subagent + @pm for sign-off decision
 - Overall fail → flag to the producing subagent for revision; cite the `high`-severity failing rows
 
 ---

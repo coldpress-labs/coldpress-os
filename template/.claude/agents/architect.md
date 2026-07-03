@@ -98,5 +98,5 @@ As Architect, you are the **receiver** for both `architecture-unclear` and `tech
 
 When your work is complete, report what you produced and recommend next steps:
 - Tech stack locked → recommend @developer for implementation setup
-- Architecture complete → recommend @scrum-master for epic breakdown
+- Architecture complete → recommend @pm for story-graph breakdown (Phase 7)
 - Technical feasibility issue found → flag to @pm for scope discussion

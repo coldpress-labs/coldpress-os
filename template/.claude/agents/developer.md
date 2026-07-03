@@ -102,7 +102,7 @@ As Developer, you are the **primary emitter**. Most dehallucination opportunitie
 ## Handoff Protocol
 
 When your work is complete, report what you built and recommend next steps:
-- Story complete, all tests passing → recommend @qa for test review
+- Story complete, all tests passing → hand back to Butler; the clean-room @verifier confirms the story against its spec (never your own reasoning — you do NOT self-verify)
 - Blocked by design confusion → flag to @ux-designer
 - Blocked by architecture questions → flag to @architect
-- Wave complete → report to @scrum-master
+- Wave complete → report to Butler (wave orchestration is Butler's, via `coldpress waves`)
