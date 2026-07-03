@@ -1,0 +1,39 @@
+# ─── Client touchpoints registry (v0.4 WS9, §7.17) ─────────────────
+# The client-facing rhythm, made as mechanical as the internal gates —
+# for a services studio the client is part of the lifecycle, not an
+# interruption to it. Source for the generated docs/generated/client-touchpoints.md
+# (one source, generated view; drift-checked). Ordered by phase.
+version: 1
+touchpoints:
+  - phase: 1
+    touchpoint: "Kickoff"
+    produced_by: "intake"
+    artifact: "Project kickoff — scope, tier, deploy expectation confirmed"
+  - phase: 2
+    touchpoint: "Brief / proposal"
+    produced_by: "proposal"
+    artifact: "Proposal pack (brief + 85%-confidence timeline + scope/price + assumptions)"
+  - phase: 3
+    touchpoint: "Stack cost implications"
+    produced_by: "deploy-select"
+    artifact: "Stack + deploy choice with cost-at-scale note"
+  - phase: 5
+    touchpoint: "Design sign-off"
+    produced_by: "styleguide"
+    artifact: "Design sign-off (human gate — taste is the product)"
+  - phase: 8
+    touchpoint: "Preview access"
+    produced_by: "deploy-preview"
+    artifact: "Per-story/wave preview URL (continuous review, not once at P9)"
+  - phase: 9
+    touchpoint: "UAT + acceptance record"
+    produced_by: "client-acceptance"
+    artifact: "Acceptance record (who approved, what scope, when)"
+  - phase: 9
+    touchpoint: "Handover"
+    produced_by: "handover"
+    artifact: "Handover pack (credentials/runbook/architecture/DNS/support boundary)"
+  - phase: 10
+    touchpoint: "Health reports"
+    produced_by: "client-health-report"
+    artifact: "Monthly one-pager — outcome trends + recommended next work"
