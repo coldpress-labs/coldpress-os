@@ -1,0 +1,13 @@
+schema_version: 1
+id: browser-extension
+name: "Browser extension"
+description: "A browser extension. Ships to a store (no web deploy pack); store-review constraints apply."
+status: harvested
+defaults:
+  stack_pack: browser-extension
+  verify_pack: web
+  lane: lite
+  security_tier: T1
+flags: {}
+mcp_set: []
+eval_subset: [security-no-committed-secret]

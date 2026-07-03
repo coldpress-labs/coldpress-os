@@ -1,0 +1,14 @@
+schema_version: 1
+id: saas-app
+name: "SaaS app"
+description: "A full-stack product app with auth + database. Real users depend on it → full lane, T1."
+status: harvested
+defaults:
+  stack_pack: vibe-coder-fullstack
+  deploy_pack: vercel
+  verify_pack: web
+  lane: full
+  security_tier: T1
+flags: {}
+mcp_set: [playwright]
+eval_subset: [full-p4, full-p7, full-p8, full-p9, security-no-committed-secret]
