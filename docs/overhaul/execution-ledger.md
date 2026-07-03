@@ -782,3 +782,19 @@ The self-improvement loop is wired end-to-end: **taxonomy** (A) → **eval runne
 - 🟡 `evolve` produces a report across ≥2 project run-logs — the aggregator **supports it** (`--project <dirs...>`, tested with multi-run synthetic events); a live ≥2-project report needs real run-logs to exist.
 
 Both 🟡 are runtime demos (need live project run-logs), not missing machinery.
+
+---
+
+## WS8 — Operate with substance (§9 WS8, §5 P10/P11) — CORE COMPLETE (2026-07-03, branch `overhaul/ws8-operate`)
+
+Make P10 measure outcomes (not just uptime) and close the P11 loops (product / framework / packs). Mostly skill authoring on the finished WS4/6/7 machinery (outcomes.yaml, deploy packs, evals/evolve/taxonomy).
+
+- **A. P10 substance** — ✅ `9700d87`. `ops-check` (scheduled digest: deploy-pack connectors analytics/uptime/error/cert/backup/CVE-rescan → **actual-vs-target against outcomes.yaml**; CVE high+ auto-incident; headless via cron→SDK) + `client-health-report` (monthly client one-pager, outcome trends, results-first).
+- **B. incident wiring** — ✅ `673cb73`. `incident-response` v1.1: CVE-from-ops-check auto-trigger + **failure-taxonomy tag** on the postmortem → rides the ops-delta/run-log → `coldpress evolve` + valet-loop; pinning test before fix merges. `correct-course` KEEP.
+- **C. P11 rebuild** — ✅ `a356e05`. `retrospective` rebuilt (product+process, **evidence-linked** cites run-log event IDs, outcomes actual-vs-target, failure-lineage via `trace`, @reviewer on opus) + `framework-feedback` NEW (learnings → coldpress-os issues, the WS7 valet-loop intake) + `pack-harvest` NEW (graduate what worked → packs/new profile, principle 7). README stale `innovation-strategy` P11-router refs cleaned.
+
+**Green:** typecheck ✅, **976 tests** ✅, lint ✅, check:drift ✅. Branch off main, not merged.
+
+**Acceptance (§9 WS8):** both criteria — ops-check digest against a live project (≥1 outcome actual-vs-target) + one incident flowing signal→skill→resolution→run-log+taxonomy-tag→pinning-test — are **runtime demos needing a live deployed project** (like WS3's demo Astro / WS7's loop demo); all the machinery is built + wired. Deferred to the §12 ship-gate demo.
+
+**WS8: CORE COMPLETE.** Remaining overhaul: WS9 (profiles, proposal mode, compounding) + the standing deferrals (D18, PERT-schema-chain excision, extra deploy packs, §12 runtime demos + ship gate).
