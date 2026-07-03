@@ -4,16 +4,16 @@
 > `compatible_stacks`. Do not hand-edit — run the generator and commit. `deploy-select` (Phase 3)
 > reads this to offer only compatible packs and warn on unsupported pairs.
 
-Platforms: **cloudflare** (Cloudflare Pages) · **vercel** (Vercel)
+Platforms: **cloudflare** (Cloudflare Pages) · **netlify** (Netlify) · **self-hosted** (Self-hosted (SSH + rsync, atomic-symlink releases)) · **vercel** (Vercel)
 
-| stack pack ↓ / deploy pack → | cloudflare | vercel |
-|---|---|---|
-| `browser-extension` | · | · |
-| `cli-npm-publishable` | · | · |
-| `seo-pack` | · | · |
-| `static-multipage-blog` | ✓ | ✓ |
-| `static-single-page` | ✓ | ✓ |
-| `vibe-coder-fullstack` | · | ✓ |
+| stack pack ↓ / deploy pack → | cloudflare | netlify | self-hosted | vercel |
+|---|---|---|---|---|
+| `browser-extension` | · | · | · | · |
+| `cli-npm-publishable` | · | · | · | · |
+| `seo-pack` | · | · | · | · |
+| `static-multipage-blog` | ✓ | ✓ | ✓ | ✓ |
+| `static-single-page` | ✓ | ✓ | ✓ | ✓ |
+| `vibe-coder-fullstack` | · | ✓ | ✓ | ✓ |
 
 **Legend:** ✓ supported · · not supported.
 

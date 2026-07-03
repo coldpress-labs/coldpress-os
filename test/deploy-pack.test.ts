@@ -21,7 +21,14 @@ describe("deploy-pack contract (WS6-A)", () => {
     expect(packNames).toEqual(expect.arrayContaining(["vercel", "cloudflare"]));
   });
 
-  for (const name of ["vercel", "cloudflare"]) {
+  it("ships the netlify + self-hosted optional packs", () => {
+    expect(packNames).toEqual(expect.arrayContaining(["netlify", "self-hosted"]));
+  });
+
+  // Every shipped pack — reference + optional — must validate + carry its
+  // required fields. Discovered from disk, so a new pack.yaml is covered
+  // automatically.
+  for (const name of packNames) {
     describe(name, () => {
       it("validates against DeployPackSchema", () => {
         const result = DeployPackSchema.safeParse(loadPack(name));

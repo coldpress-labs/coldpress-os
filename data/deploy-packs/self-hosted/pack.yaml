@@ -1,0 +1,52 @@
+# ─── deploy-pack: self-hosted ──────────────────────────────────────
+# Validated against schemas/deploy-pack.schema.ts. No vendor platform —
+# ships to your own host over SSH with rsync + atomic-symlink releases.
+# Select with `deploy_pack: self-hosted` in coldpress.yaml (Phase 3
+# `deploy-select`). Works for static output behind nginx OR a Node
+# server behind a process manager (systemd/pm2) + reverse proxy; the
+# ${RELOAD_CMD} baseline is what differs (nginx -s reload vs. restart).
+schema_version: 1
+name: self-hosted
+platform: Self-hosted (SSH + rsync, atomic-symlink releases)
+cli: ssh
+
+capabilities:
+  deploy_preview: false   # no per-story preview URLs out of the box (single host, no alias domains)
+  rollback: true          # repoint the `current` symlink to the previous release dir — atomic + instant
+
+targets:
+  staging:
+    deploy_cmd: "rsync -az --delete ${BUILD_DIR}/ ${DEPLOY_USER}@${STAGING_HOST}:${STAGING_RELEASES_DIR}/${RELEASE_ID}/ && ssh ${DEPLOY_USER}@${STAGING_HOST} 'ln -sfn ${STAGING_RELEASES_DIR}/${RELEASE_ID} ${STAGING_CURRENT_LINK} && ${RELOAD_CMD}'"
+    url: "${STAGING_URL}"
+    notes: "rsync the built output to a timestamped release dir, then atomically repoint the staging `current` symlink + reload. Walking skeleton + every wave land here first."
+  production:
+    deploy_cmd: "rsync -az --delete ${BUILD_DIR}/ ${DEPLOY_USER}@${PROD_HOST}:${PROD_RELEASES_DIR}/${RELEASE_ID}/ && ssh ${DEPLOY_USER}@${PROD_HOST} 'ln -sfn ${PROD_RELEASES_DIR}/${RELEASE_ID} ${PROD_CURRENT_LINK} && ${RELOAD_CMD}'"
+    url: "${PROD_URL}"
+    notes: "Same atomic-symlink release on the prod host. Human-triggered only (deploy-prod skill has disable-model-invocation + deploy-gate). Keep the last N release dirs so rollback is a symlink swap."
+
+env_mapping:
+  set_cmd: "ssh ${DEPLOY_USER}@${PROD_HOST} 'umask 077 && printf \"%s=%s\\n\" ${KEY} ${VALUE} >> ${ENV_FILE}' && ssh ${DEPLOY_USER}@${PROD_HOST} ${RELOAD_CMD}"
+  notes: "Reads names from secure/manifest.yaml; values from secure/.env*. Appends to a root-/deploy-user-owned EnvironmentFile (0600) the service loads on reload — secrets never enter the release dir or git. For static-only stacks with no server, env is build-time (baked by ${BUILD_CMD}) and this is a no-op."
+
+smoke:
+  routes:
+    - "/"
+  happy_path_spec: "tests/e2e/smoke.spec.ts"
+  asserts_analytics: true
+
+# Rollback = repoint `current` to the previous release + reload. Instant, no
+# rebuild. ${PREVIOUS_RELEASE_ID} resolves to the last-good release dir on the host.
+rollback_cmd: "ssh ${DEPLOY_USER}@${PROD_HOST} 'ln -sfn ${PROD_RELEASES_DIR}/${PREVIOUS_RELEASE_ID} ${PROD_CURRENT_LINK} && ${RELOAD_CMD}'"
+
+compatible_stacks:
+  - static-single-page
+  - static-multipage-blog
+  - vibe-coder-fullstack
+
+# Build values consumed FROM the locked stack pack / coldpress.yaml baselines.
+# ${BUILD_DIR} is what rsync ships; ${BUILD_CMD} produced it; ${NODE_VERSION}
+# matters when the host runs a Node server (nvm/asdf on the box must match).
+stack_inputs:
+  - BUILD_CMD
+  - BUILD_DIR
+  - NODE_VERSION
