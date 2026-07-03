@@ -6,7 +6,7 @@ category: "lifecycle"
 phase: 10
 agent: "devops"
 license: "MIT"
-version: "1.1"
+version: "1.2"
 updated: "2026-07-03"
 inputs:
   graph_queries:
@@ -57,7 +57,12 @@ Five outputs across the incident lifecycle: timeline (live), mitigation actions,
 ## Output Artifacts
 
 1. **Incident timeline** at `_context/audit/incident-{slug}-{date}-timeline.md` — append-only during incident: detected_at, alert_source, first_responder, hypothesis_1, action_1, observation_1, ..., mitigated_at, resolved_at
-2. **Postmortem** at `_context/audit/incident-{slug}-{date}-postmortem.md` — structured: summary, impact (users + duration + revenue if applicable), timeline (clean version), root cause, contributing factors, what-went-well, what-didn't, action-items
+2. **Postmortem — forensic case-file shape** at `_context/audit/incident-{slug}-{date}-postmortem.md` (D10 adopt 4a). The postmortem is authored as a **case file**, not a narrative, so a later reader (or `coldpress evolve`) can audit the reasoning as evidence, not recollection:
+   - **Case header** — `case_id` (= incident slug + date), `classification` (failure-taxonomy class from `data/failure-taxonomy.yaml`), `severity`, `status` (open / resolved / monitoring), `first_responder`, `blast_radius` (users + duration + SLO-burn + revenue if applicable).
+   - **Evidence register** — a numbered table `[E1, E2, …]` with, per row: `evidence_id`, `source` (log line / dashboard panel / deploy-log entry / alert payload / graph node), `collected_at`, `link_or_path`, `what_it_shows`. This is the chain-of-custody: every downstream claim cites an `E#`.
+   - **Hypotheses ledger** — every hypothesis considered, each marked `confirmed` / `rejected` / `inconclusive` **with the evidence id(s) that decided it**. Rejected hypotheses stay in the file (they're the forensic value — they stop the next responder re-walking a dead end).
+   - **Root-cause determination** — the confirmed cause, stated as a finding that cites its evidence (`root cause: X, per E3 + E7`). Contributing factors likewise cited.
+   - **Findings & action-items** — what-went-well / what-didn't, then assignable action-items (owner agent + the `E#` that motivates each).
 3. **Runbook entry** at `_context/operations/runbooks/{slug}.md` — codified resolution steps for next time (search-first shortcut)
 4. **Ops-deltas** at `_context/handoffs/phase-10-ops-deltas-wip-{date}.md` (per `schemas/handoffs/ops-delta.schema.json`) — if user-impact significant or repeat pattern, forward-carry to Phase 11 retrospective
 5. **Action-items list** — assignable items for @developer / @qa / @architect / @pm depending on root-cause class
@@ -84,8 +89,8 @@ Five outputs across the incident lifecycle: timeline (live), mitigation actions,
 ### Sub-mode B — Post-mitigation (write postmortem)
 
 6. Compile clean timeline from append-only log (deduplicate; remove debug-noise)
-7. Author postmortem template fields: summary, impact (users / duration / SLO-burn), root cause, contributing factors, what-went-well, what-didn't, action-items
-8. Cross-reference: did a recent deploy (`deploy-log-v{N}.md`) correlate? Was an existing alert insufficient?
+7. **Assemble the forensic case-file** (not a prose narrative): build the **evidence register** first (each artefact you actually looked at becomes a numbered `E#` with source + link + what-it-shows), then the **hypotheses ledger** (every hypothesis confirmed/rejected/inconclusive, each citing the `E#`(s) that decided it — rejected ones stay in), then the **root-cause determination** stated as an evidence-cited finding. Author the case header (case_id, classification, severity, status, blast_radius) up top.
+8. Cross-reference as evidence: did a recent deploy (`deploy-log-v{N}.md`) correlate? — capture it as an `E#`, not a sentence. Was an existing alert insufficient? — that's a finding with an owner.
 
 ### Sub-mode C — Codify (runbook + ops-deltas)
 
@@ -102,7 +107,10 @@ Five outputs across the incident lifecycle: timeline (live), mitigation actions,
 - [ ] Timeline file initialised at incident detection
 - [ ] All actions during incident logged with timestamp + observation
 - [ ] mitigated_at and resolved_at set before postmortem
-- [ ] Postmortem fields all filled (no `TBD` in summary / root_cause / action-items)
+- [ ] Case-file assembled: header + evidence register (≥1 `E#`) + hypotheses ledger (every hypothesis dispositioned) + root-cause determination
+- [ ] Root cause and every action-item cite the evidence id(s) that support them (no uncited claims)
+- [ ] Rejected hypotheses retained in the file (not deleted)
+- [ ] Postmortem fields all filled (no `TBD` in header / root_cause / action-items)
 - [ ] Runbook entry written if resolution is reproducible
 - [ ] Ops-delta disposition chosen + appended to WIP log
 - [ ] Action-items have owner agents assigned
@@ -131,5 +139,6 @@ Pattern adapted from `alirezarezvani/claude-skills` (MIT) `incident-response` an
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 1.2 | 2026-07-03 | Butler (v0.4 D10 adopt 4a — BMAD forensic case-file) | Postmortem reshaped from prose narrative into a **forensic case-file**: case header (case_id / classification / severity / status / blast_radius) + numbered **evidence register** (chain-of-custody `E#` per artefact) + **hypotheses ledger** (every hypothesis confirmed/rejected/inconclusive citing the deciding `E#`; rejected ones retained) + evidence-cited **root-cause determination**. Sub-mode B steps 7–8 + activation-gate checklist updated to enforce uncited-claim-free, evidence-first authoring. Makes incident reasoning auditable by `coldpress evolve` / valet-loop, not recollected. |
 | 1.1 | 2026-07-03 | Butler (v0.4 WS8) | Wired into the WS7/WS8 loop: (6th trigger) CVE high+ from `ops-check` **auto-creates an incident**; (6th output) the postmortem carries a **failure-taxonomy tag** (`data/failure-taxonomy.yaml`) that rides the ops-delta/run-log → `coldpress evolve` counts it + the valet-loop can graduate a recurring incident into a golden eval; every incident adds a pinning test before its fix merges. |
 | 1.0 | 2026-05-03 | Andy-coldpress-os (Unit #28 / U12) | Initial incident-response skill. Authored to v0.3.0-alpha SKILL-AUTHORING-STANDARD. Pattern from alirezarezvani/claude-skills (MIT). Three sub-modes (in-flight / post-mitigation / codify); distinct from Phase 11 retrospective. |
