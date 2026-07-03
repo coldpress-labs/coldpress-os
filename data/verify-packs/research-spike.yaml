@@ -1,0 +1,6 @@
+schema_version: 1
+name: research-spike
+description: "Timeboxed research: no code gates. The only exit gate is a findings memo — a spike must not cosplay as a shippable project."
+gates:
+  - { id: findings-memo, skill_ref: "skills/ingest/parse-document", severity: block, note: "a findings memo exists as the spike's exit artifact" }
+normalizers: []

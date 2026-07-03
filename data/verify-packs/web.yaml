@@ -1,0 +1,9 @@
+schema_version: 1
+name: web
+description: "Default verify pack for web projects: Playwright e2e + tokens/visual + axe a11y + Lighthouse vs budgets."
+gates:
+  - { id: e2e, skill_ref: "skills/testing/test-automation", severity: block, layer: L4 }
+  - { id: visual-verify, skill_ref: "skills/testing/visual-verify", severity: block, layer: L5, note: "computed styles vs tokens.json + /styleguide baselines" }
+  - { id: a11y, skill_ref: "skills/reviews/a11y-audit", severity: block, layer: L6 }
+  - { id: budgets, skill_ref: "skills/deployment/llm-quality-gate", severity: block, layer: L7, note: "Lighthouse vs budgets.yaml (replace skill_ref when a dedicated budgets gate lands)" }
+normalizers: []

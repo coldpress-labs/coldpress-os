@@ -1,0 +1,8 @@
+schema_version: 1
+name: llm-app
+description: "Verification for products whose OUTPUT is an LLM system (agentic workflows, assistants). Wires the src/llm-gates/ normalizers + the deployment LLM skills as product-eval gates over src/llm-gates/."
+gates:
+  - { id: llm-quality, skill_ref: "skills/deployment/llm-quality-gate", severity: block, note: "DeepEval quality thresholds over the normalized ScanResult" }
+  - { id: prompt-regression, skill_ref: "skills/deployment/prompt-regression", severity: block, note: "Promptfoo regression suite — no drift vs the pinned dataset" }
+  - { id: llm-security, skill_ref: "skills/deployment/llm-security-scan", severity: block, note: "Giskard adversarial/security scan (major → high)" }
+normalizers: [deepeval, promptfoo, giskard]
