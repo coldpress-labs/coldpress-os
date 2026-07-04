@@ -10,11 +10,10 @@ Platforms: **cloudflare** (Cloudflare Pages) · **netlify** (Netlify) · **self-
 |---|---|---|---|---|
 | `browser-extension` | · | · | · | · |
 | `cli-npm-publishable` | · | · | · | · |
-| `seo-pack` | · | · | · | · |
 | `static-multipage-blog` | ✓ | ✓ | ✓ | ✓ |
 | `static-single-page` | ✓ | ✓ | ✓ | ✓ |
 | `vibe-coder-fullstack` | · | ✓ | ✓ | ✓ |
 
 **Legend:** ✓ supported · · not supported.
 
-**No web-deploy pack** for: `browser-extension`, `cli-npm-publishable`, `seo-pack` — these ship elsewhere (npm packages, browser stores) or are capability packs, not web-deploy targets.
+**No web-deploy pack** for: `browser-extension`, `cli-npm-publishable` — these ship elsewhere (npm packages, browser stores) or are capability packs, not web-deploy targets.

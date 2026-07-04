@@ -2,7 +2,7 @@
 name: "seo-audit"
 description: "Baseline SEO state — technical health (crawlability / Core Web Vitals / broken links / sitemap validity) + content gaps (keyword coverage / cluster maturity) + competitive position. Emits prioritised remediation list. Quarterly cadence; also runs Phase 9 pre-deploy."
 type: "simple"
-category: "stack-packs/seo-pack"
+category: "capability-packs/seo-pack"
 phases: [3, 5, 9, 10]
 license: "MIT"
 version: "1.0"

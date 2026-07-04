@@ -10,6 +10,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **seo-pack reclassified as a capability pack (S2)** — moved
+  `skills/stack-packs/seo-pack` → `skills/capability-packs/seo-pack` (it's an
+  invocable capability pack, not a technology stack). The generated stack×deploy
+  matrix now correctly shows **5 stack packs**. A dated framework working note
+  (`agent-team-demo.md`) was archived out of the shipped docs tree.
 - **Internal overhaul workspace no longer ships (S2)** — `docs/overhaul/` (the
   execution ledger + working notes) was shipping in the npm tarball and being
   copied into every scaffolded project. Excluded it from both `package.json`

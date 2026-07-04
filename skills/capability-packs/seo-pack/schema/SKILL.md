@@ -2,7 +2,7 @@
 name: "seo-schema"
 description: "Structured data: JSON-LD schema.org markup, Open Graph, Twitter Cards, per-page-type templates (Article / Product / Organisation / FAQPage / HowTo / LocalBusiness / BreadcrumbList). Framework-aware emit (Next.js generateMetadata / Astro <head> / SvelteKit +page.ts / Nuxt useHead)."
 type: "simple"
-category: "stack-packs/seo-pack"
+category: "capability-packs/seo-pack"
 phases: [8]
 license: "MIT"
 version: "1.0"

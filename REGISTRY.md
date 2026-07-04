@@ -348,12 +348,12 @@
 
 | Skill | Path | Phase(s) | Owner agent | Source |
 |---|---|---|---|---|
-| seo-pack (top-level) | `skills/stack-packs/seo-pack/` | 3, 5, 8, 9, 10 | @architect (router) | AgriciDaniel (MIT) |
-| seo-pack/audit | `skills/stack-packs/seo-pack/audit/` | 3, 5, 9, 10 | @devops | AgriciDaniel (MIT) |
-| seo-pack/content | `skills/stack-packs/seo-pack/content/` | 5 | @communicator | AgriciDaniel (MIT) |
-| seo-pack/schema | `skills/stack-packs/seo-pack/schema/` | 8 | @developer | AgriciDaniel (MIT) |
-| seo-pack/local | `skills/stack-packs/seo-pack/local/` | 5, 8 | @ux-designer | AgriciDaniel (MIT) |
-| seo-pack/technical | `skills/stack-packs/seo-pack/technical/` | 8, 9 | @devops | AgriciDaniel (MIT) |
+| seo-pack (top-level) | `skills/capability-packs/seo-pack/` | 3, 5, 8, 9, 10 | @architect (router) | AgriciDaniel (MIT) |
+| seo-pack/audit | `skills/capability-packs/seo-pack/audit/` | 3, 5, 9, 10 | @devops | AgriciDaniel (MIT) |
+| seo-pack/content | `skills/capability-packs/seo-pack/content/` | 5 | @communicator | AgriciDaniel (MIT) |
+| seo-pack/schema | `skills/capability-packs/seo-pack/schema/` | 8 | @developer | AgriciDaniel (MIT) |
+| seo-pack/local | `skills/capability-packs/seo-pack/local/` | 5, 8 | @ux-designer | AgriciDaniel (MIT) |
+| seo-pack/technical | `skills/capability-packs/seo-pack/technical/` | 8, 9 | @devops | AgriciDaniel (MIT) |
 | pdf-generator | `skills/creative/pdf-generator/` | 4, 5, 8, 10, 11 | @communicator | anthropics/skills (reference only) |
 | docx-generator | `skills/creative/docx-generator/` | 4, 5, 11 | @communicator | anthropics/skills (reference only) |
 | pptx-generator | `skills/creative/pptx-generator/` | 4, 10, 11 | @communicator | anthropics/skills + nextlevelbuilder |

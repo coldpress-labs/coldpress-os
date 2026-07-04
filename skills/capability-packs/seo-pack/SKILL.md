@@ -2,7 +2,7 @@
 name: "seo-pack"
 description: "Archetype-keyed SEO discipline pack for content sites, marketing, e-commerce, and local businesses. Five sub-skills: audit / content / schema / local / technical. Engine-agnostic — wraps any frontend stack. Invocable across Phase 3 (stack pick) / Phase 5 (content design) / Phase 8 (implementation) / Phase 9-10 (deploy + steady-state)."
 type: "pack"
-category: "stack-packs/seo-pack"
+category: "capability-packs/seo-pack"
 phases: [3, 5, 8, 9, 10]
 license: "MIT"
 version: "1.0"
