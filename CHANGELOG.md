@@ -10,6 +10,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **`templates/` → `authoring/`; ~51 orphaned templates pruned (S2 §8.14)** —
+  resolved the long-standing `template/` (scaffold source) vs `templates/`
+  (authoring meta-templates) name collision by renaming the latter to
+  `authoring/`. Consumer-traced every file: 48 WDS-era `design/` templates + 3
+  `contracts/` templates had zero runtime consumers (superseded by the v0.4
+  tokens.json/styleguide design system) and moved to the non-shipping
+  `reference/` parking lot. The Conftest `governance/` policies were **kept** —
+  they're live (referenced by the sacred-doc validator + scaffolded ADR/RFC docs).
+  `paths.ts`, `package.json` `files:`, and all inbound references updated; the
+  npm package + scaffold now carry only the runtime-consumed authoring templates.
+
 - **seo-pack reclassified as a capability pack (S2)** — moved
   `skills/stack-packs/seo-pack` → `skills/capability-packs/seo-pack` (it's an
   invocable capability pack, not a technology stack). The generated stack×deploy

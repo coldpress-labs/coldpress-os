@@ -46,7 +46,7 @@ Exit codes:
 | `config.yaml` | Module metadata (no file emitted) | Parsed for id / name / version / licence. |
 | `agents/<name>.md` | `.claude/agents/bmad-<module>-<name>.md` | Body preserved verbatim; synthesised frontmatter (model, tools, colour); original BMAD frontmatter preserved in a `<details>` block. |
 | `workflows/<name>/workflow.yaml` + step files | `coldpress-os/skills/meta/bmad-imports/<module>/<name>/SKILL.md` | SKILL.md frontmatter synthesised; step files **listed as opaque references** (no logic synthesis); original YAML preserved in a fenced block. |
-| `templates/**/*` | `coldpress-os/templates/imports/<module>/**/*` | Text files get `@coldpress-os:imported-from=bmad` header; binary files copy verbatim. |
+| `templates/**/*` | `coldpress-os/authoring/imports/<module>/**/*` | Text files get `@coldpress-os:imported-from=bmad` header; binary files copy verbatim. |
 | `module-help.csv` | _(not parsed)_ | Referenced in `ATTRIBUTION.md` "known non-translating concerns"; port manually. |
 | Runtime task-file dispatch | _(not translatable)_ | Flagged in `ATTRIBUTION.md`. |
 
@@ -121,7 +121,7 @@ Edit `renderAgent()` in `src/imports/bmad.ts`. Current defaults (model `sonnet`,
 ## See also
 
 - [skill-index.md](skill-index.md) — global skill registry; imported skills appear under `skills/meta/bmad-imports/`.
-- [templates-registry.md](templates-registry.md) — global template registry; imported templates appear under `templates/imports/`.
+- [templates-registry.md](templates-registry.md) — global template registry; imported templates appear under `authoring/imports/`.
 - [agent-skills-compatibility.md](agent-skills-compatibility.md) — coldpress-os's outbound agent-format generator (the reverse direction: coldpress-os → AGENTS.md / Cursor / etc.).
 
 ---

@@ -14,9 +14,9 @@ inputs:
   cold_file_reads:
     - "../_schema.md"
     - "../../data/agents/skill-catalog.csv"
-    - "../../templates/infrastructure/skill.md"
+    - "../../authoring/infrastructure/skill.md"
   existence_checks:
-    - "templates/infrastructure/skill.md (authoring standard reference)"
+    - "authoring/infrastructure/skill.md (authoring standard reference)"
 outputs:
   - artifact: "Skill Definition"
     location: "../{category}/{skill-name}/SKILL.md"
@@ -32,7 +32,7 @@ outputs:
 
 ## Purpose
 
-Creates or edits skill definitions following the **coldpress-os SKILL-AUTHORING-STANDARD v0.3.0-alpha** (`templates/infrastructure/skill.md`). Generates SKILL.md, workflow.md, and step files as needed. Validates against the standard pre-emit. Updates the skill catalog CSV. Refuses to emit skills missing required frontmatter or exceeding the 10KB body cap.
+Creates or edits skill definitions following the **coldpress-os SKILL-AUTHORING-STANDARD v0.3.0-alpha** (`authoring/infrastructure/skill.md`). Generates SKILL.md, workflow.md, and step files as needed. Validates against the standard pre-emit. Updates the skill catalog CSV. Refuses to emit skills missing required frontmatter or exceeding the 10KB body cap.
 
 ## When to Use (Proactive Triggers)
 
@@ -53,7 +53,7 @@ Creates or edits skill definitions following the **coldpress-os SKILL-AUTHORING-
 
 - Skill schema reference: `../_schema.md`
 - Skill catalog: `../../data/agents/skill-catalog.csv`
-- **Authoring standard:** `../../templates/infrastructure/skill.md` (canonical reference; load this first)
+- **Authoring standard:** `../../authoring/infrastructure/skill.md` (canonical reference; load this first)
 
 ## Process
 
@@ -76,7 +76,7 @@ If any check fails: emit validation report + halt for user revision. Do NOT writ
 
 ## Activation-Gate Checklist
 
-- [ ] Authoring-standard reference loaded (`templates/infrastructure/skill.md`)
+- [ ] Authoring-standard reference loaded (`authoring/infrastructure/skill.md`)
 - [ ] All standard-enforcement checks pass
 - [ ] Skill catalog CSV row added/updated
 - [ ] Skill registered in `REGISTRY.md` (relevant phase or category section)
@@ -96,5 +96,5 @@ Pattern enhancement adapted from `alirezarezvani/claude-skills` (MIT) `SKILL-AUT
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.1 | 2026-05-03 | Andy-coldpress-os (Unit #28 / U05) | Adopted SKILL-AUTHORING-STANDARD v0.3.0-alpha. Frontmatter expanded (license, updated, graph_queries / cold_file_reads / existence_checks blocks). Body sections updated to 8-section convention. Pre-emit standard-enforcement checklist added. Source attribution requirement codified. References `templates/infrastructure/skill.md` as canonical authoring reference. Pattern from alirezarezvani/claude-skills (MIT). |
+| 1.1 | 2026-05-03 | Andy-coldpress-os (Unit #28 / U05) | Adopted SKILL-AUTHORING-STANDARD v0.3.0-alpha. Frontmatter expanded (license, updated, graph_queries / cold_file_reads / existence_checks blocks). Body sections updated to 8-section convention. Pre-emit standard-enforcement checklist added. Source attribution requirement codified. References `authoring/infrastructure/skill.md` as canonical authoring reference. Pattern from alirezarezvani/claude-skills (MIT). |
 | 1.0 | 2026-04-08 | Alfred | New meta skill for coldpress-os framework evolution |

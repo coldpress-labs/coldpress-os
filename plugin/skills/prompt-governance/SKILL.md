@@ -29,7 +29,7 @@ Three categories of finding: (1) **inconsistency** — the same concept phrased 
 
 ## Prerequisites
 
-- `templates/prompt-snippets/` exists with current snippet library
+- `authoring/prompt-snippets/` exists with current snippet library
 - For inconsistency detection: at least 3 skills exist in the same category (otherwise nothing to compare)
 - For licensing scan: skills with `Source Attribution` sections (per SKILL-AUTHORING-STANDARD v0.3.0-alpha)
 
@@ -41,14 +41,14 @@ Three categories of finding: (1) **inconsistency** — the same concept phrased 
    - Scan `skills/**/SKILL.md` body sections
    - Scan `lifecycle/*/*/steps/*.md` instruction blocks
    - Scan `template/.claude/agents/*.md` system prompts
-   - Scan `templates/prompt-snippets/*.md` (the canonical library)
+   - Scan `authoring/prompt-snippets/*.md` (the canonical library)
 2. **Step 2 — Inconsistency detection**:
    - Cluster phrases by intent (n-gram similarity over 3-7 token sliding windows)
    - Surface clusters with ≥3 distinct phrasings
    - Recommend canonical phrasing per cluster
 3. **Step 3 — Reuse-opportunity detection**:
    - Find patterns repeated in ≥3 skills
-   - Propose new `templates/prompt-snippets/<name>.md` for each
+   - Propose new `authoring/prompt-snippets/<name>.md` for each
    - Include before/after diff (what each skill would import)
 4. **Step 4 — Anti-pattern scan**:
    - Vague phrasing: "do appropriate", "where applicable", "as needed"
@@ -85,7 +85,7 @@ Two audit reports + reuse proposals + remediation list. `prompt-engineering` con
 
 ## Source Attribution
 
-Pattern adapted from `alirezarezvani/claude-skills` (MIT) `prompt-governance` skill. Implementation original to coldpress-os; integrates with existing `templates/prompt-snippets/` library + governance skills (`propose-change`).
+Pattern adapted from `alirezarezvani/claude-skills` (MIT) `prompt-governance` skill. Implementation original to coldpress-os; integrates with existing `authoring/prompt-snippets/` library + governance skills (`propose-change`).
 
 ---
 

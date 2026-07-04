@@ -13,7 +13,7 @@ inputs:
     - "source artefact (sacred-doc or validated-distillate by id)"
   cold_file_reads:
     - "source markdown file (path passed by caller)"
-    - "templates/documents/<doc-type>.md (style hints)"
+    - "authoring/documents/<doc-type>.md (style hints)"
   existence_checks:
     - "source markdown file exists"
 outputs:

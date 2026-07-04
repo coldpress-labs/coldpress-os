@@ -122,7 +122,7 @@ planning-entry-sync ────► graph-first read of Phase 2+3 outputs
 
 create-prd ─────────────► prd.md [SACRED] + prd.meta.json sidecar
   Subagent: @pm
-  Template: templates/documents/prd.md
+  Template: authoring/documents/prd.md
 
 validate-prd ───────────► validation-report.md
   Subagent: @pm
@@ -197,11 +197,11 @@ diagram-creator ────────► supporting Mermaid diagrams (on-dema
 ```
 create-epics ───────────► epics/ directory
   Subagent: @pm
-  Template: templates/documents/epic.md
+  Template: authoring/documents/epic.md
 
 create-stories ─────────► stories within epics
   Subagent: @pm
-  Template: templates/documents/story.md
+  Template: authoring/documents/story.md
 
 story-slice ────────────► story-graph.yaml
   Subagent: @pm

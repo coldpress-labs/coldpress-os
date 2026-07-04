@@ -57,7 +57,7 @@ export const frameworkDirs = [
   "governance",
   "data",
   "agents",
-  "templates",
+  "authoring",
   "docs",
   "plugin",
 ] as const;

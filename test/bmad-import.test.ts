@@ -116,7 +116,7 @@ describe("importBmadModule — happy path", () => {
 
     const tmplPath = join(
       workDir,
-      "coldpress-os/templates/imports/demo-module/demo-artefact.md",
+      "coldpress-os/authoring/imports/demo-module/demo-artefact.md",
     );
     const body = await readFile(tmplPath, "utf8");
 

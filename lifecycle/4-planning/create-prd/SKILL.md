@@ -75,7 +75,7 @@ You must emit exactly one Markdown document with this structure:
 
 1. `# Product Requirements Document — <project.name>` as the first line.
 2. YAML frontmatter with fields: `sacred: true`, `version: "1.0"`, `created` (ISO date), `last_modified` (ISO date), `governance: "requires-review"`, `workflowType: "prd"`, `stepsCompleted: []`, `inputDocuments: []`, `adr_references: []` (at least one ADR id matching `^ADR-\d{4}$` per the `prd_has_adr` Rego policy in Block Y).
-3. Sections 1 through 12 in the order specified by `templates/documents/prd.md`, each starting with `## <N>. <Section name>`.
+3. Sections 1 through 12 in the order specified by `authoring/documents/prd.md`, each starting with `## <N>. <Section name>`.
 4. Each section opens with the italicised meta-description inherited from the template (Pattern 1) — replace the placeholder prose, never delete the description.
 5. No additional top-level sections. No trailing "Closing Thoughts" / "Summary" / "Notes" block.
 
@@ -90,5 +90,5 @@ Do NOT produce prose commentary around the artefact in the chat. The sacred doc 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.2 | 2026-04-25 | Cadbury-hq | Phase II Part 4 Wave 2. Graph-first inputs block (graph_queries + cold_file_reads + existence_checks). prd.meta.json sidecar added to outputs. Prerequisites updated: planning-entry-sync now precondition. |
-| 1.1 | 2026-04-24 | Cadbury-hq | Added Output Contract (Pattern 5 from §6.7 MetaGPT prompt-pattern refactor, Block II). References templates/prompt-snippets/output-contract.md. |
+| 1.1 | 2026-04-24 | Cadbury-hq | Added Output Contract (Pattern 5 from §6.7 MetaGPT prompt-pattern refactor, Block II). References authoring/prompt-snippets/output-contract.md. |
 | 1.0 | 2026-04-08 | Alfred | Initial create-prd skill definition |

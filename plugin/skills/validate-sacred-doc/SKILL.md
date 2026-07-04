@@ -29,7 +29,7 @@ Pairs with the Ajv-based structural validator (`validate-schema`) — both run a
 ## Prerequisites
 
 - **Conftest on PATH.** Install: `brew install conftest` or `curl -L https://github.com/open-policy-agent/conftest/releases/latest/download/conftest_<version>_Linux_x86_64.tar.gz | tar xz`.
-- Rego policies shipped with coldpress-os at `templates/governance/policies/`.
+- Rego policies shipped with coldpress-os at `authoring/governance/policies/`.
 
 ## Process
 
@@ -37,7 +37,7 @@ Pairs with the Ajv-based structural validator (`validate-schema`) — both run a
 2. Invoke Conftest with the shipped policy bundle:
    ```bash
    conftest test <doc-path> \
-     --policy coldpress-os/templates/governance/policies/ \
+     --policy coldpress-os/authoring/governance/policies/ \
      --namespace sacred_doc \
      --output json > /tmp/conftest-out.json || true
    ```
@@ -49,7 +49,7 @@ Pairs with the Ajv-based structural validator (`validate-schema`) — both run a
 
 ## The shipped Rego policies (seed set)
 
-At `templates/governance/policies/`:
+At `authoring/governance/policies/`:
 
 | Policy file | What it enforces |
 |-------------|------------------|
@@ -57,7 +57,7 @@ At `templates/governance/policies/`:
 | `architecture_has_approvers.rego` | `workflowType == "architecture"` docs MUST have ≥1 `approvers[]` entry. |
 | `pert_references_architecture.rego` | `workflowType == "pert-chart"` docs MUST list `architecture.md` under `inputDocuments[]`. |
 
-Adding a new policy: drop a new `.rego` file under `templates/governance/policies/`, restart Conftest. No registry update required.
+Adding a new policy: drop a new `.rego` file under `authoring/governance/policies/`, restart Conftest. No registry update required.
 
 ## Output
 
@@ -79,4 +79,4 @@ Conftest is Apache-2.0. Rego policies shipped with coldpress-os are MIT (matchin
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-04-24 | Cadbury-hq | Initial Conftest-backed semantic validator — part of Wave 5 Block Y §5.2. Seed Rego policies shipped at `templates/governance/policies/`. Subprocess adapter script deferred pending Conftest install for end-to-end validation. |
+| 1.0 | 2026-04-24 | Cadbury-hq | Initial Conftest-backed semantic validator — part of Wave 5 Block Y §5.2. Seed Rego policies shipped at `authoring/governance/policies/`. Subprocess adapter script deferred pending Conftest install for end-to-end validation. |

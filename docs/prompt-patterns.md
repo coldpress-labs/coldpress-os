@@ -172,7 +172,7 @@ Save the artefact to `_context/sacred/prd.md`. Confirm the save in the chat.
 
 ## Reusable snippet library
 
-Copy-paste-ready template fragments under [`templates/prompt-snippets/`](../templates/prompt-snippets/):
+Copy-paste-ready template fragments under [`authoring/prompt-snippets/`](../authoring/prompt-snippets/):
 
 - `attention-preamble.md` — Pattern 2 scaffolding
 - `forcing-function-mermaid.md` — Pattern 3 Mermaid example
@@ -282,7 +282,7 @@ transition:
 
 ## What this block does NOT do
 
-- **Rewrite every sacred-doc template.** The templates (`templates/documents/prd.md`, etc.) are out-of-scope for Block II beyond adding Pattern 1 (inline meta-descriptions). Deeper restructuring of the templates is a follow-up if the current shape proves too prose-heavy.
+- **Rewrite every sacred-doc template.** The templates (`authoring/documents/prd.md`, etc.) are out-of-scope for Block II beyond adding Pattern 1 (inline meta-descriptions). Deeper restructuring of the templates is a follow-up if the current shape proves too prose-heavy.
 - **Add a prompt-pattern linter at scaffold time.** The test is build-time; runtime enforcement would need the orchestrator shell (deferred).
 - **Port every MetaGPT pattern.** Five is the starting set per the positioning brief; additional patterns (tool-use scaffolds, memory-retrieval templates) are deferred until they have a concrete coldpress-os need.
 - **Change downstream schemas to require these outputs.** Pattern 3's "mandatory Mermaid" is a convention (forcing function) not a schema constraint — the downstream parser still accepts the artefact if it's missing; the REVIEW catches the gap. This keeps the patterns a drafting discipline, not a validator.

@@ -67,10 +67,10 @@ files inside each section. Where the audit is uncertain, we say so explicitly.
 | `lifecycle/` (11-phase Shape A structure) | — | Inspired — conceptual only | 11-phase Shape A lifecycle shell is original; skill wrappers within each phase reference upstream-derived skills |
 | `orchestrator/` | — | Original — ColdPress Labs | DAG/waves/PERT orchestrator has no upstream counterpart |
 | `governance/` | — | Original — ColdPress Labs | Sacred-docs governance model and change workflows are a coldpress-os invention |
-| `templates/documents/` | BMAD-core | Derived — substantially modified | Template concepts (PRD, architecture, story, epic, ADR) come from `_bmad/bmm/`; reformatted and extended for coldpress-os |
-| `templates/design/` | **WDS** (primary) + BMAD-core | Derived — substantially modified | Design-system/UX templates sourced primarily from the BMAD `wds` module (v6.2.2, workflows `wds-0` through `wds-8`, © Whiteport Collective / Mårten Angner). `wds4-`/`wds8-` prefixes, `stitch-prompt.template.md`, trigger-map, scenario, and page-specification templates all originate in WDS. Some overlap with the BMAD-core `create-ux-design` skill. |
-| `templates/contracts/` | — | Original — ColdPress Labs | Business/legal contract templates; no upstream precedent |
-| `templates/infrastructure/` | BMAD-core (concept) | Inspired — conceptual only | `agent.md`/`skill.md`/`workflow.md` schemas reflect the BMAD format, authored fresh |
+| `authoring/documents/` | BMAD-core | Derived — substantially modified | Template concepts (PRD, architecture, story, epic, ADR) come from `_bmad/bmm/`; reformatted and extended for coldpress-os |
+| `reference/orphaned-templates/design/` | **WDS** (primary) + BMAD-core | Derived — substantially modified | Design-system/UX templates sourced primarily from the BMAD `wds` module (v6.2.2, workflows `wds-0` through `wds-8`, © Whiteport Collective / Mårten Angner). `wds4-`/`wds8-` prefixes, `stitch-prompt.template.md`, trigger-map, scenario, and page-specification templates all originate in WDS. Some overlap with the BMAD-core `create-ux-design` skill. |
+| `reference/orphaned-templates/contracts/` | — | Original — ColdPress Labs | Business/legal contract templates; no upstream precedent |
+| `authoring/infrastructure/` | BMAD-core (concept) | Inspired — conceptual only | `agent.md`/`skill.md`/`workflow.md` schemas reflect the BMAD format, authored fresh |
 | `install/` | — | Original — ColdPress Labs | Submodule-based install and thin-wrapper generation are coldpress-os inventions |
 | `docs/` (framework docs) | — | Original — ColdPress Labs | Architecture, glossary, flow map, walkthrough etc. written for coldpress-os |
 | `data/methods/brainstorming-techniques.csv` | **CIS** | Derived — close port | Byte-identical (or nearly so) to CIS's `brain-methods.csv` |
@@ -209,7 +209,7 @@ is by category.
 
 ### `templates/`
 
-- **`templates/documents/`** (`adr.md`, `architecture.md`, `context.md`,
+- **`authoring/documents/`** (`adr.md`, `architecture.md`, `context.md`,
   `epic.md`, `pert-chart.md`, `prd.md`, `retrospective.md`,
   `sprint-status.yaml`, `story.md`, `tech-stack.md`, `ux-design-spec.md`) —
   *Derived — substantially modified.*
@@ -222,7 +222,7 @@ is by category.
   coldpress-os use. `pert-chart.md` and `sprint-status.yaml` are
   coldpress-os-original (tied to the orchestrator).
 
-- **`templates/design/`** (~40 files: `00-design-system.template.md`,
+- **`reference/orphaned-templates/design/`** (~40 files: `00-design-system.template.md`,
   `00-trigger-map.template.md`, `persona-document.template.md`,
   `stitch-prompt.template.md`, `visual-direction.template.md`,
   `wds4-delivery-templates.md`, `wds8-delivery-templates.md`, etc.) —
@@ -241,11 +241,11 @@ is by category.
   coldpress-os's versions were reformatted and extended for the
   orchestrator/sacred-docs model.
 
-- **`templates/contracts/`** (`contract.template.md`, `pitch.template.md`,
+- **`reference/orphaned-templates/contracts/`** (`contract.template.md`, `pitch.template.md`,
   `service-agreement.template.md`) — *Original — ColdPress Labs.*
   Business/legal templates. No BMAD precedent.
 
-- **`templates/infrastructure/`** (`CLAUDE.md`, `SYSTEM.md`, `agent.md`,
+- **`authoring/infrastructure/`** (`CLAUDE.md`, `SYSTEM.md`, `agent.md`,
   `cursorrules.md`, `skill.md`, `workflow.md`) — *Inspired — conceptual only.*
   These are templates for *authoring* coldpress-os primitives. The shapes
   (agent / skill / workflow) follow BMAD's conventions but the template files
@@ -374,7 +374,7 @@ the coldpress-os repository.
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.4 | 2026-04-23 | ColdPress Labs | Added Graphify v4 as fourth upstream — vendored verbatim into `graph/vendor/graphify/` as part of Wave 3 Block M (§3.1 + §3.2). Upstream MIT. Summary Table gains a row for the vendored tree with what-was-kept + what-was-stripped notes. Schema reshape / Butler integration land in subsequent Wave 3 blocks; this revision records the as-of-vendor state. |
-| 1.3 | 2026-04-15 | ColdPress Labs | Three-upstream reclassification: CIS (Creative Intelligence Suite) and WDS (Whiteport Design System) now credited distinctly from BMAD-core, matching the `origin:` frontmatter on legacy personas and the final NOTICE.md. Summary table gains an Upstream column. `skills/creative/` retagged as CIS-origin; `templates/design/` reclassified with WDS as the primary upstream. Purpose and Method sections rewritten around three upstreams. |
+| 1.3 | 2026-04-15 | ColdPress Labs | Three-upstream reclassification: CIS (Creative Intelligence Suite) and WDS (Whiteport Design System) now credited distinctly from BMAD-core, matching the `origin:` frontmatter on legacy personas and the final NOTICE.md. Summary table gains an Upstream column. `skills/creative/` retagged as CIS-origin; `reference/orphaned-templates/design/` reclassified with WDS as the primary upstream. Purpose and Method sections rewritten around three upstreams. |
 | 1.2 | 2026-04-15 | ColdPress Labs | Legacy persona archive moved out of framework repo to `hq-p001-coldpress-os/legacy/agents-archive/`. Summary table and `agents/` section updated to reference new location and cite per-file `origin:` frontmatter as authoritative provenance record. |
-| 1.1 | 2026-04-15 | ColdPress Labs | Resolved `templates/design/` attribution to *Derived — substantially modified*. Confirmed both upstreams (`bmad-create-ux-design` skill and BMAD `wds` module v6.2.2) are BMAD; removed from Known Uncertainties. |
+| 1.1 | 2026-04-15 | ColdPress Labs | Resolved `reference/orphaned-templates/design/` attribution to *Derived — substantially modified*. Confirmed both upstreams (`bmad-create-ux-design` skill and BMAD `wds` module v6.2.2) are BMAD; removed from Known Uncertainties. |
 | 1.0 | 2026-04-15 | ColdPress Labs | Initial attribution audit |

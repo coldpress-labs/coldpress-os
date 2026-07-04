@@ -40,7 +40,7 @@ Translate a [BMAD](https://github.com/bmadcode/BMAD-METHOD) module (orchestrator
    - **`config.yaml`** → module metadata (id / name / version / licence).
    - **`agents/<name>.md`** → `.claude/agents/bmad-<module>-<name>.md`. The persona body is preserved as-is; frontmatter is synthesised (default model `sonnet`, standard tool set, `color: purple` to visually flag imports). Any original BMAD frontmatter is preserved in a collapsed `<details>` block for reference.
    - **`workflows/<name>/`** → `coldpress-os/skills/meta/bmad-imports/<module>/<name>/SKILL.md`. One skill per workflow. Step files are listed as opaque references — the adapter **does not** fake step logic in coldpress-os Process-section form. The original `workflow.yaml` is preserved in a fenced block.
-   - **`templates/`** → `coldpress-os/templates/imports/<module>/`. Straight file copy; text files get a `@coldpress-os:imported-from=bmad` comment header (Markdown HTML comment, YAML/CSV `#` comment). Binary files copy verbatim.
+   - **`templates/`** → `coldpress-os/authoring/imports/<module>/`. Straight file copy; text files get a `@coldpress-os:imported-from=bmad` comment header (Markdown HTML comment, YAML/CSV `#` comment). Binary files copy verbatim.
 
 3. Writes `ATTRIBUTION.md` at `coldpress-os/skills/meta/bmad-imports/<module>/ATTRIBUTION.md` listing:
    - Source module path + metadata

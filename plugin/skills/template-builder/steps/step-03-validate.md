@@ -15,7 +15,7 @@ Final validation and file writing.
 1. **Validate** frontmatter is complete.
 2. **Check** version control table exists.
 3. **Verify** no section is empty or placeholder-only without instructions.
-4. **Write** to `../../templates/{category}/{template-name}.md`.
+4. **Write** to `../../authoring/{category}/{template-name}.md`.
 5. **Present confirmation.**
 
 ## Output

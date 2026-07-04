@@ -46,7 +46,7 @@ Doc-specific fields (PRD's `adr_references[]`, architecture's `approvers[]`) lay
 
 (The `pert_references_architecture.rego` policy was retired with the PERT sacred doc in v0.4.)
 
-Policies ship at `templates/governance/policies/`. Adding one: drop a new `.rego` file; no registry update needed.
+Policies ship at `authoring/governance/policies/`. Adding one: drop a new `.rego` file; no registry update needed.
 
 **Run order:** structural first, semantic second. A doc that fails structural validation can't be meaningfully checked for semantics.
 
@@ -74,7 +74,7 @@ Outcome: a PRD can never land without anchoring to at least one ADR. Re-litigati
 
 RFCs live at `docs/rfc/` in consumer projects. They're for **larger proposals that need space to think** before reaching a decision. Once an RFC resolves, distill the outcome into a new ADR and cross-link.
 
-Template shipped at [`templates/governance/rfc-amendment.md`](../templates/governance/rfc-amendment.md):
+Template shipped at [`authoring/governance/rfc-amendment.md`](../authoring/governance/rfc-amendment.md):
 
 - Status, author(s), started / resolved dates, target release, discussion link
 - Motivation, detailed design, drawbacks, alternatives, open questions, references
@@ -109,12 +109,12 @@ An accepted RFC produces an ADR; the RFC itself stays in `docs/rfc/` as the exte
 
 ### Adding a semantic policy
 
-Drop a new `.rego` file under `templates/governance/policies/`. Use `package sacred_doc`; any `deny[msg]` rule triggers a Conftest failure. No registry update required — Conftest globs the whole directory.
+Drop a new `.rego` file under `authoring/governance/policies/`. Use `package sacred_doc`; any `deny[msg]` rule triggers a Conftest failure. No registry update required — Conftest globs the whole directory.
 
 ### Relaxing a policy for a specific project
 
 The shipped Rego policies are **suggested defaults**. Consumer projects can:
-1. Drop in their own `.rego` policies in a project-local `templates/governance/policies-local/`.
+1. Drop in their own `.rego` policies in a project-local `authoring/governance/policies-local/`.
 2. Override the Conftest invocation to point at the local dir instead of (or in addition to) the framework's.
 
 No policy in coldpress-os is load-bearing in a way a project can't override.

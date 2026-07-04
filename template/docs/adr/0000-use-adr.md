@@ -15,7 +15,7 @@ We use Architecture Decision Records (ADRs), following the format proposed by [M
 
 Each decision lives as a numbered file under `docs/adr/NNNN-short-slug.md`. Numbering is sequential and immutable — superseded decisions stay in place; new decisions supersede them explicitly.
 
-ADRs are referenced from the PRD (`_context/sacred/prd.md` frontmatter `adr_references[]`) and enforced by Conftest (`templates/governance/policies/prd_has_adr.rego`). Every PRD must link to at least one ADR.
+ADRs are referenced from the PRD (`_context/sacred/prd.md` frontmatter `adr_references[]`) and enforced by Conftest (`authoring/governance/policies/prd_has_adr.rego`). Every PRD must link to at least one ADR.
 
 ## Consequences
 

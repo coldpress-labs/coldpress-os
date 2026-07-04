@@ -14,7 +14,7 @@ inputs:
   cold_file_reads:
     - "deck spec markdown or YAML (path passed by caller)"
     - "_context/design/brand-guidelines-v{latest}.md (token application)"
-    - "templates/documents/deck-reference.pptx (optional master)"
+    - "authoring/documents/deck-reference.pptx (optional master)"
   existence_checks:
     - "deck spec source exists"
     - "pptxgenjs in dev-deps"

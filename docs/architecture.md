@@ -180,7 +180,7 @@ Butler receives result  ← Presents to user, routes handoff
 | `plugin/` | Generated Claude Code plugin (the skill-distribution vehicle) | Generated |
 | `governance/` | Sacred doc protection and change workflows | Framework |
 | `data/` | Portable knowledge assets (CSV/YAML method playbook, profiles, deploy packs, failure taxonomy) | Framework |
-| `templates/` | Document and infrastructure templates | Framework |
+| `authoring/` | Document and infrastructure templates | Framework |
 | `docs/` | Internal framework documentation | Framework |
 
 ---
