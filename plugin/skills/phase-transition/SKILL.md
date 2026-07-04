@@ -36,7 +36,7 @@ This skill follows a 3-step guided workflow.
 
 ## Output
 
-Handoff log at `_context/handoffs/phase-{from}-to-phase-{to}-{date}.md` + gate evaluation JSON.
+Handoff log at `_context/handoffs/phase-{from}-to-{to}-{date}.md` + gate evaluation JSON.
 
 ---
 

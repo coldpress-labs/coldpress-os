@@ -69,7 +69,12 @@ export const boundaryGuardHandler: HookHandler = {
     const cwd = input.cwd ?? process.cwd();
     const agentType = typeof input.agent_type === "string" ? input.agent_type : undefined;
     const packet = activePacket(cwd, agentType);
-    if (!packet || packet.forbidden.length === 0) return { kind: "none" };
+    if (!packet) return { kind: "none" };
+    const owns = packet.owns ?? [];
+    // No boundary declared at all → no opinion.
+    if (packet.forbidden.length === 0 && owns.length === 0) return { kind: "none" };
+
+    // Denylist: a forbidden write is always blocked.
     if (pathMatchesAny(filePath, packet.forbidden)) {
       return {
         kind: "deny",
@@ -79,6 +84,23 @@ export const boundaryGuardHandler: HookHandler = {
           `If the scope is genuinely wrong, record a delta or re-issue the packet — ` +
           `override once (logged): COLDPRESS_OVERRIDE="boundary-guard:<reason>".`,
       };
+    }
+
+    // Allowlist (WS10-B4): when the packet declares `owns`, a write must land
+    // inside `owns` ∪ `produces` — the story-as-contract write-scope. This makes
+    // dev-story's "edits stay inside the packet's owns globs" a real guarantee.
+    if (owns.length > 0) {
+      const writeScope = [...owns, ...(packet.produces ?? [])];
+      if (!pathMatchesAny(filePath, writeScope)) {
+        return {
+          kind: "deny",
+          reason:
+            `Blocked by handoff packet ${packet.id}: ${filePath} is outside this task's ownership scope ` +
+            `(not within owns/produces: ${writeScope.join(", ")}). A story writes only what it owns — ` +
+            `an out-of-scope need is a delta (DLT record), not a stray edit. ` +
+            `Override once (logged): COLDPRESS_OVERRIDE="boundary-guard:<reason>".`,
+        };
+      }
     }
     return { kind: "none" };
   },

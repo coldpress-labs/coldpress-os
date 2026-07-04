@@ -16,7 +16,7 @@ Determine which story to implement.
 2. **If `in-progress` exists**, resume that story (detect review continuation).
 3. **If multiple `ready-for-dev`**, present the next one in sprint order.
 4. **If user specifies a story directly**, use that instead.
-5. **Load the story spec file** from `_context/implementation/{story-key}.md`.
+5. **Load the story spec file** from `_context/implementation/stories/{story-key}.md` (where `story-slice` writes it).
 6. **Mark story as `in-progress`** in sprint-status.yaml.
 
 ## User Interaction

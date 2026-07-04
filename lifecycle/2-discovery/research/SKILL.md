@@ -8,6 +8,7 @@ agent: "analyst"
 inputs:
   - "coldpress.yaml"
   - "_context/sacred/context.md"
+  - "_context/handoffs/phase-1-to-2-{date}.md (the P1→P2 handoff — what intake completed/deferred + open questions)"
   - "_context/tracking/intake-{date}.md"
   - ".coldpress/local-config.yaml (for project_shape)"
   - "_input/reference/ and _input/vendor/ (pre-loaded material — checked before web search)"

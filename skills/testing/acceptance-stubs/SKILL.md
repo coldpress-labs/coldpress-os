@@ -10,7 +10,7 @@ inputs:
   - "_context/design/tokens.json + styleguide component names (UI stories)"
 outputs:
   - artifact: "acceptance stubs"
-    location: "_context/implementation/{story}.tests.md + the test files"
+    location: "_context/implementation/stories/{story}.tests.md + the test files"
     format: "markdown + code"
 version: "1.0"
 ---
@@ -34,7 +34,7 @@ Written at Breakdown (P7) / at the start of a Build story (lite lane).
    with `visual-verify`.
 3. **Red by construction.** Every stub must fail before implementation exists —
    run the suite and confirm red. A stub that passes empty is not a stub.
-4. **Manifest.** Record `_context/implementation/{story}.tests.md` listing each
+4. **Manifest.** Record `_context/implementation/stories/{story}.tests.md` listing each
    criterion → its stub(s), so `coldpress trace` can check coverage (a story
    without stubs is a P7 orphan).
 
