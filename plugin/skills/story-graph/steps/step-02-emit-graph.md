@@ -18,7 +18,7 @@ single source `coldpress waves` consumes.
    - `stories[]` — each with `id`, `kind` (story/contract/integration), `owns` globs,
      `estimate` (o/m/p), `risk` (low/medium/high), and `implements[]` (the requirement
      IDs it satisfies — keys back to `trace`).
-   - `edges[]` — each `{ from, to, kind: blocks|interface|informs }`.
+   - `edges[]` — each `{ from, to, type: blocks|interface|informs }` (the field is `type`, not `kind` — a graph authored with `kind` on edges is rejected by `coldpress waves`).
 2. Keep `owns` globs disjoint across stories intended for the same wave (waves will
    reject overlaps — better to catch it here).
 3. Do NOT author waves, ordering, or a schedule — those are computed in Step 4.

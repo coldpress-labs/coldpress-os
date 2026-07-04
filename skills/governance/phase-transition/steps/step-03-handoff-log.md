@@ -85,7 +85,7 @@ This keeps each phase's buffer self-contained for that phase's transitions, with
 
 ### 3. Write handoff artefact
 
-Create `_context/handoffs/phase-{from}-to-phase-{to}-{date}.md`:
+Create `_context/handoffs/phase-{from}-to-{to}-{date}.md`:
 
 ```markdown
 ---
@@ -209,7 +209,7 @@ transitions:
     gate_evaluated_at: "{ISO-8601}"
     gate_result: "pass" | "pass-with-warnings"
     handoff_written_at: "{ISO-8601}"
-    handoff_path: "_context/handoffs/phase-{from}-to-phase-{to}-{date}.md"
+    handoff_path: "_context/handoffs/phase-{from}-to-{to}-{date}.md"
 ```
 
 ### 5. Clean step marker

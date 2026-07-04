@@ -22,7 +22,7 @@ initial tracking file. Nothing about the schedule is hand-authored.
 | 2 | [step-02-emit-graph.md](steps/step-02-emit-graph.md) | No | Write `story-graph.yaml` per `story-graph.schema.ts` |
 | 3 | [step-03-contract-stories.md](steps/step-03-contract-stories.md) | On gap | Every `interface` edge has a `kind: contract` story |
 | 4 | [step-04-waves.md](steps/step-04-waves.md) | On rejection | `coldpress waves` computes + validates (cycle / missing contract / ownership overlap) |
-| 5 | [step-05-tracking.md](steps/step-05-tracking.md) | No | Initial `sprint-status-v{N}.md` from stories × wave assignment |
+| 5 | [step-05-tracking.md](steps/step-05-tracking.md) | No | Initial `sprint-status.yaml` from stories × wave assignment |
 
 ## Completion Criteria
 

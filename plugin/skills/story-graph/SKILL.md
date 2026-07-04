@@ -52,14 +52,14 @@ Five steps — see [workflow.md](workflow.md):
 4. **Waves** — run `coldpress waves`: it validates the graph and emits the derived
    `waves.yaml` + `schedule.yaml` (critical path = (o + 4m + p)/6). It **rejects** a
    cycle, a missing contract story, or an intra-wave ownership overlap — fix the graph, don't override.
-5. **Tracking** — generate the initial `sprint-status-v{N}.md` tracking file from the
+5. **Tracking** — generate the initial `sprint-status.yaml` tracking file from the
    stories × wave assignment (every story assigned to a wave, status `ready-for-dev`).
 
 ## Output Contract
 
 - `_context/implementation/story-graph.yaml` — schema-valid (`story-graph.schema.ts`), acyclic.
 - `docs/generated/waves.yaml` + `schedule.yaml` — **computed** by `coldpress waves`, never authored; includes a **mandatory** `mermaid` wave/critical-path diagram (a forcing-function view — the graph must render as a legible DAG).
-- `_context/tracking/sprint-status-v{N}.md` — every story assigned to exactly one wave.
+- `_context/tracking/sprint-status.yaml` — every story assigned to exactly one wave.
 
 Hand off to `implementation-readiness` (P7 exit gate).
 

@@ -8,7 +8,7 @@ agent: "devops"
 tools: ["Read", "Bash"]
 inputs:
   graph_queries:
-    - "wave-status-v{latest}"
+    - "sprint-status.yaml (story tracking)"
     - "implementation-readiness-v{latest}"
     - "coldpress-yaml-baselines"
   cold_file_reads:
@@ -16,7 +16,7 @@ inputs:
     - "secure/manifest.yaml"
     - "_context/design/budgets.yaml (schema: schemas/design/budgets.schema.ts — the Lighthouse/CWV + a11y contract, G12)"
   existence_checks:
-    - "wave-status-final == true"
+    - "sprint-status-final == true (all stories done)"
     - "phase-8-to-9 handoff exists"
     - "implementation-readiness Phase 7 report exists with overall_status: pass"
 outputs:

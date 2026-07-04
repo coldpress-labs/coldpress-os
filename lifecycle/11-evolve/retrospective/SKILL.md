@@ -11,7 +11,7 @@ inputs:
     - "sprint-status-iterations"
     - "deploy-log-v{latest}"
     - "course-correction-logs"
-    - "wave-status-final"
+    - "sprint-status-final"
     - "code-review-reports"
     - "implementation-readiness"
     - "all upstream phase artefacts (full provenance chain)"

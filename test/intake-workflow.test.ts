@@ -131,7 +131,8 @@ describe("intake skill — structure", () => {
     const body = withoutChangelog(raw);
     expect(body).toMatch(/research/);
     expect(body).not.toMatch(/pre-project-interview/);
-    expect(body).toMatch(/_context\/handoffs\/intake-to-phase2/);
+    // Canonical phase-handoff filename (WS10-B5 unified — was intake-to-phase2).
+    expect(body).toMatch(/_context\/handoffs\/phase-1-to-2/);
     expect(body).toMatch(/evaluate-phase-gate/);
   });
 });

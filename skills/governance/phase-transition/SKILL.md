@@ -14,7 +14,7 @@ inputs:
   - "`.coldpress/graph/graph.json`"
 outputs:
   - artifact: "Handoff Log"
-    location: "_context/handoffs/phase-{from}-to-phase-{to}-{date}.md"
+    location: "_context/handoffs/phase-{from}-to-{to}-{date}.md"
     format: "markdown"
   - artifact: "Gate Evaluation"
     location: "_context/audit/gate-eval-phase-{from}-{date}.json"
@@ -52,7 +52,7 @@ This skill follows a 3-step guided workflow.
 
 ## Output
 
-Handoff log at `_context/handoffs/phase-{from}-to-phase-{to}-{date}.md` + gate evaluation JSON.
+Handoff log at `_context/handoffs/phase-{from}-to-{to}-{date}.md` + gate evaluation JSON.
 
 ---
 

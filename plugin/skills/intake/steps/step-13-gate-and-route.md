@@ -68,7 +68,7 @@ phase-transition --from 1 --to 2
 
 If skip: invoke `phase-transition --from 1 --to 4` instead. Note the skip in the handoff artefact under `deferred:`.
 
-**Legacy path (if `phase-transition` is not yet wired):** write the handoff artefact manually at `_context/handoffs/intake-to-phase2-{date}.md`:
+**Legacy path (if `phase-transition` is not yet wired):** write the handoff artefact manually at `_context/handoffs/phase-1-to-2-{date}.md`:
 
 ```markdown
 ---
@@ -110,7 +110,7 @@ created: "<ISO-8601>"
 ## Handoff
 
 - Next skill: research (Phase 2, @analyst)
-- Handoff artefact: `_context/handoffs/intake-to-phase2-{date}.md`
+- Handoff artefact: `_context/handoffs/phase-1-to-2-{date}.md`
 ```
 
 ### 6. Clean exit

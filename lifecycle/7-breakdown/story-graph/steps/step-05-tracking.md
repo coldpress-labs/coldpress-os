@@ -15,7 +15,7 @@ status-file generation formerly done by `sprint-planning` / the old Steps 4-6.)
 ## Instructions
 
 1. From the sliced stories × the computed wave assignment, write
-   `_context/tracking/sprint-status-v{N}.md`:
+   `_context/tracking/sprint-status.yaml`:
    - `metadata` — generated date, project, story location, wave count.
    - `development_status` — every story with its wave, `owns`, risk, estimate, and
      status `ready-for-dev`.
@@ -25,5 +25,5 @@ status-file generation formerly done by `sprint-planning` / the old Steps 4-6.)
 
 ## Output
 
-`sprint-status-v{N}.md` written + validated. Phase 7 hands off to
+`sprint-status.yaml` written + validated. Phase 7 hands off to
 `implementation-readiness` (the P7 exit gate), then Phase 8.

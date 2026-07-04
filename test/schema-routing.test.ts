@@ -41,7 +41,7 @@ describe("WS1-E wired routes resolve", () => {
     ["_context/audit/code-review-2026-07-02.md", "audit/code-review.schema.json"],
     ["_context/audit/retro-epic-1-2026-07-02.md", "audit/retrospective.schema.json"],
     ["_context/tracking/deploy-2026-07-02.md", "audit/deploy-log.schema.json"],
-    ["_context/tracking/wave-status.md", "tracking/wave-status.schema.json"],
+    ["_context/tracking/sprint-status.yaml", "tracking/sprint-status.schema.json"],
   ];
   for (const [path, expected] of cases) {
     it(`routes ${path}`, () => {

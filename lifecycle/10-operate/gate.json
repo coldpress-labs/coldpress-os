@@ -21,11 +21,11 @@
     },
     {
       "id": "sprint-status-current",
-      "description": "Latest `sprint-status-v{N}.md` iteration date >= phase-9 deploy date",
+      "description": "`_context/tracking/sprint-status.yaml` reflects the current iteration (the single unified tracking artefact, WS10-B2).",
       "kind": "automated",
       "severity": "block",
-      "schema_ref": "schemas/tracking/wave-status.schema.json",
-      "artefact_path": "_context/tracking/sprint-status-v*.md",
+      "schema_ref": "schemas/tracking/sprint-status.schema.json",
+      "artefact_path": "_context/tracking/sprint-status.yaml",
       "remediation": "Run `@devops operate-loop` to update."
     },
     {

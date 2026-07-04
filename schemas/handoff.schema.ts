@@ -50,6 +50,17 @@ export const HandoffPacketSchema = z
     /** Hard constraints on the work (deps, file scope, …). */
     constraints: z.array(z.string()).default([]),
     /**
+     * Globs the recipient exclusively OWNS (writes). When non-empty, the
+     * boundary-guard hook enforces an ALLOWLIST: a write outside `owns` ∪
+     * `produces` is blocked (WS10-B4 — makes the story-as-contract write-scope
+     * real, not just a denylist). Empty `owns` → denylist-only (backward compat).
+     */
+    owns: z.array(z.string()).default([]),
+    /** Globs the recipient produces (a superset/refinement of `owns`). */
+    produces: z.array(z.string()).default([]),
+    /** Globs the recipient reads (dependency scope; not write-gated). */
+    consumes: z.array(z.string()).default([]),
+    /**
      * Globs the recipient must NOT write. Read by the boundary-guard hook.
      * Always include `_context/sacred/*` unless the packet is a sacred-change.
      */

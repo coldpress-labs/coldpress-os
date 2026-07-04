@@ -35,7 +35,7 @@ describe("boundary-guard", () => {
   });
   afterEach(() => rmSync(dir, { recursive: true, force: true }));
 
-  function writePacket(name: string, toAgent: string, forbidden: string[]): void {
+  function writePacket(name: string, toAgent: string, forbidden: string[], owns: string[] = []): void {
     mkdirSync(join(dir, "_context/handoffs"), { recursive: true });
     const yaml = [
       `id: ${name}`,
@@ -46,6 +46,7 @@ describe("boundary-guard", () => {
       "  - {doc: sacred/prd.md, sections: ['4.2']}",
       "acceptance: stories/ST-1.tests.md",
       `forbidden: [${forbidden.map((f) => `'${f}'`).join(", ")}]`,
+      `owns: [${owns.map((f) => `'${f}'`).join(", ")}]`,
       "return_contract: diff + gates",
     ].join("\n");
     writeFileSync(join(dir, "_context/handoffs", `${name}.yaml`), yaml, "utf8");
@@ -77,6 +78,25 @@ describe("boundary-guard", () => {
 
   it("no active packet → no opinion", () => {
     expect(boundaryGuardHandler.run({ tool_name: "Write", tool_input: { file_path: join(dir, "src/x.ts") }, cwd: dir })).toEqual({ kind: "none" });
+  });
+
+  it("owns allowlist (WS10-B4): ALLOWS a write inside owns, BLOCKS one outside", async () => {
+    writePacket("HND-p7-developer-1", "developer", ["_context/sacred/*"], ["src/features/auth/*"]);
+    // inside owns → allowed
+    expect(
+      await boundaryGuardHandler.run({ tool_name: "Write", tool_input: { file_path: join(dir, "src/features/auth/login.ts") }, cwd: dir, agent_type: "developer" }),
+    ).toEqual({ kind: "none" });
+    // outside owns (and not forbidden) → blocked by the allowlist
+    const d = await boundaryGuardHandler.run({ tool_name: "Write", tool_input: { file_path: join(dir, "src/features/billing/charge.ts") }, cwd: dir, agent_type: "developer" });
+    expect(d.kind).toBe("deny");
+    if (d.kind === "deny") expect(d.reason).toContain("ownership scope");
+  });
+
+  it("empty owns → denylist-only (backward compat): a non-forbidden write passes", async () => {
+    writePacket("HND-p7-developer-1", "developer", ["_context/sacred/*"]);
+    expect(
+      await boundaryGuardHandler.run({ tool_name: "Write", tool_input: { file_path: join(dir, "src/anything.ts") }, cwd: dir, agent_type: "developer" }),
+    ).toEqual({ kind: "none" });
   });
 });
 
