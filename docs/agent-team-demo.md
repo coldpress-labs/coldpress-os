@@ -97,8 +97,11 @@ self-check** (components match tokens.json + the `/styleguide` route).
 (teammate ST-41) 1 stub red → quality-gate BLOCKS completion → keep working
 ```
 
-**TeammateIdle → next-task**: when a teammate finishes and the wave has more
-ready work, the next-task hook assigns it; otherwise the teammate winds down.
+**TeammateIdle → next ready story**: when a teammate finishes and the wave has
+more ready work, Butler assigns the next story from the computed `coldpress
+waves` schedule + `sprint-status.yaml`; otherwise the teammate winds down.
+(There is no separate `next-task` hook — the schedule + sprint-status already
+hold the ready-work order; WS10-C3.)
 
 ### 6. Clean-room verification — outside the team
 

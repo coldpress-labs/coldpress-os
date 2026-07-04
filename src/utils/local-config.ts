@@ -5,6 +5,10 @@ import { assertValidLocalConfig } from "./local-config-validator.js";
 
 /** Runtime state that survives between Butler sessions. Lives at `.coldpress/local-config.yaml`. */
 export interface LocalConfig {
+  /** Phase-entry timestamps (WS10-C6). `phase_<n>_started_at` is stamped by
+   *  `coldpress gate enter <n>`; the file-exists-after gate checks read it via
+   *  `--after-key phase_<n>_started_at` to assert an artefact is fresh-for-phase. */
+  [key: `phase_${number}_started_at`]: string | undefined;
   phase_1_completed?: boolean;
   phase_1_completed_at?: string;
   phase_3_completed?: boolean;

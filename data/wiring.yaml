@@ -84,6 +84,12 @@ artifacts:
     consumers:
       - "lifecycle/8-implementation/dev-story"
       - "skills/testing/acceptance-stubs"
+  - path: "docs/generated/schedule.yaml"
+    note: "Computed critical path + per-story durations; the client-timeline input (WS10-C3)."
+    producer: "src/commands/waves.ts"
+    consumers:
+      - "lifecycle/7-breakdown/client-timeline"
+      - "lifecycle/2-discovery/proposal"
 
   # ── Verification loop (P8) ──
   - path: "_context/handoffs/HND-*.yaml"
