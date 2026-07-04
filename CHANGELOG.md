@@ -10,6 +10,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Framework repo has a directive at last (S3.6-1)** — added
+  `coldpress-os/CLAUDE.md`, the framework repo's first-ever `CLAUDE.md`. Framework
+  sessions previously inherited the Project-root (Andy) directive and contributors
+  got none. It defines Butler-the-maintainer with explicit scope boundaries vs the
+  Project-root agent and vs consumer-Butler (`template/CLAUDE.md`), the 8-agent
+  roster, the 4 sacred docs, the command surface, the green-bar dev workflow, and
+  the no-tag/publish gate. Framework-repo-only — not shipped in the npm package,
+  not scaffolded into consumer projects.
+
 - **Recovered 3 silently-dropped stack-pack quickstarts (S1.3)** — the
   `cli-npm-publishable`, `vibe-coder-fullstack`, `static-single-page`, and
   `static-multipage-blog` quickstart skills all declared `name: quickstart`, so
