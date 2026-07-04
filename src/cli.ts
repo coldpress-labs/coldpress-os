@@ -96,8 +96,9 @@ program
   .description(
     "Traceability over the project's schema'd artifacts (§4.6). Verbs: orphans (integrity + silent-divergence guard; exit 1 on a blocking finding), why <id>, impact <id>, coverage, release (P8→P9 release-scope preview).",
   )
-  .action((verb: string, id: string | undefined) => {
-    process.exit(runTrace(verb, id));
+  .option("--strict", "orphans: treat an empty graph (nothing to check) as a non-pass (exit 2), not a vacuous clean pass")
+  .action((verb: string, id: string | undefined, opts: { strict?: boolean }) => {
+    process.exit(runTrace(verb, id, { strict: opts.strict }));
   });
 
 const outcomesCmd = program.command("outcomes").description("Outcome-contract tooling (§5 P4).");

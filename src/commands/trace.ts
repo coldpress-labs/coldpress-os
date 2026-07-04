@@ -14,6 +14,8 @@ import { coverage, impact, orphans, release, why } from "../trace/verbs.js";
 
 export interface RunTraceOptions {
   projectDir?: string;
+  /** `orphans --strict`: an empty graph (nothing to check) is NOT a clean pass. */
+  strict?: boolean;
   stdout?: (s: string) => void;
   stderr?: (s: string) => void;
 }
@@ -26,6 +28,19 @@ export function runTrace(verb: string, id: string | undefined, opts: RunTraceOpt
 
   switch (verb) {
     case "orphans": {
+      // E2 (WS10-D): --strict distinguishes "nothing to check" (an empty/unbuilt
+      // graph) from "all clean". A vacuous pass on an empty project is a lie a
+      // gate must not accept.
+      if (opts.strict) {
+        const isEmpty =
+          g.byType("story").length + g.byType("contract-story").length + g.byType("integration-story").length +
+            g.byType("requirement").length + g.byType("delta").length + g.byType("file-scope").length ===
+          0;
+        if (isEmpty) {
+          warn("trace orphans --strict: nothing to check — no stories/requirements/deltas in the graph (not a clean pass).\n");
+          return 2;
+        }
+      }
       const findings = orphans(g);
       if (findings.length === 0) {
         write("trace orphans: none — every consumed scope is produced and every flagged delta has an ADR.\n");

@@ -36,6 +36,7 @@ export async function runCoreChecks(): Promise<CheckSuiteResult> {
     checkGitVersion(),
     checkGitIdentity(),
     checkClaudeCode(),
+    checkColdpressCli(),
   ];
   return summarise(results);
 }
@@ -168,6 +169,38 @@ function checkClaudeCode(): CheckResult {
   return {
     id: "claude-code",
     label: "Claude Code CLI",
+    severity: "ok",
+    detail: (res.stdout ?? "").trim(),
+  };
+}
+
+/**
+ * The `coldpress` CLI must be on PATH (WS10-E1). Every enforcement hook, the
+ * SessionStart state-load, and the statusLine invoke `coldpress …` via the thin
+ * `scripts/hooks/run.mjs` runner — which fail-opens (exit 0) when the CLI is
+ * absent. That is the correct safety posture, but it means a user whose global
+ * `coldpress` is missing gets NO enforcement while believing sacred-guard,
+ * quality-gate, boundary-guard, etc. are protecting them. This check makes that
+ * silent no-op loud: error (not warning), because "protection you think you have
+ * but don't" is worse than a visibly-broken install.
+ */
+function checkColdpressCli(): CheckResult {
+  const res = spawnSync("coldpress", ["--version"], { encoding: "utf8" });
+  if (res.status !== 0 || res.error) {
+    return {
+      id: "coldpress-cli",
+      // Warning (not error): visible + exit-2 so it never hard-blocks `init`,
+      // but loud enough that a user sees enforcement is off. The danger is
+      // "protection you think you have but don't".
+      label: "coldpress CLI on PATH (enforcement hooks depend on it)",
+      severity: "warning",
+      detail: "coldpress not found on PATH — ALL hooks + state-load + statusLine silently no-op (NO enforcement)",
+      remedy: "Install it globally: `npm i -g @coldpress/core`. Without it, sacred-guard / quality-gate / boundary-guard do nothing.",
+    };
+  }
+  return {
+    id: "coldpress-cli",
+    label: "coldpress CLI on PATH (enforcement hooks depend on it)",
     severity: "ok",
     detail: (res.stdout ?? "").trim(),
   };

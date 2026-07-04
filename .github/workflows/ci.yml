@@ -147,17 +147,24 @@ jobs:
         run: |
           # Exit 1 is expected here (tasks assert a live project's artefacts,
           # absent in the framework repo) — capture output and gate on the
-          # RUNNER having scored every task, not on pass/fail.
+          # RUNNER having scored EVERY shipped task, not on pass/fail.
           node dist/cli.js evals --dir evals --json > evals-out.json || true
-          node --input-type=module -e "
+          # Self-adjusting floor (WS10-E4): the guard is "scored every shipped
+          # eval file", derived from the corpus on disk — not a magic number
+          # with zero margin. Catches a broken runner (n<total) AND silent
+          # corpus shrinkage, and never needs bumping when tasks are added.
+          EVAL_FILES=$(find evals -name '*.yaml' | wc -l | tr -d ' ')
+          EXPECTED="$EVAL_FILES" node --input-type=module -e "
             import fs from 'node:fs';
+            const expected = Number(process.env.EXPECTED);
             const r = JSON.parse(fs.readFileSync('evals-out.json','utf8'));
             const n = r.results?.length ?? 0;
-            if (n < 8) { console.error('::error::evals CLI scored '+n+' tasks, expected >= 8 (broken runner or corpus?)'); process.exit(1); }
+            if (expected < 8) { console.error('::error::only '+expected+' eval files on disk — the golden corpus shrank below its floor'); process.exit(1); }
+            if (n !== expected) { console.error('::error::evals CLI scored '+n+' tasks but '+expected+' eval files exist (broken runner or discovery bug?)'); process.exit(1); }
             for (const t of r.results) {
               if (!Array.isArray(t.checks) || t.checks.length === 0) {
                 console.error('::error::eval task '+t.task_id+' produced no check results — the runner did not execute it'); process.exit(1);
               }
             }
-            console.log('✓ evals CLI ran the shipped corpus: '+n+' tasks scored ('+r.passed+' pass / '+r.failed+' fail vs the framework repo — pass/fail is workspace-dependent).');
+            console.log('✓ evals CLI scored all '+n+' shipped tasks ('+r.passed+' pass / '+r.failed+' fail vs the framework repo — pass/fail is workspace-dependent).');
           "

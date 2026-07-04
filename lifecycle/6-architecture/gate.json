@@ -107,10 +107,10 @@
     },
     {
       "id": "trace-orphans-clean",
-      "description": "`coldpress trace orphans` reports no blocking findings — every flag_for_architecture_ADR delta has a matching ADR, no unresolved deltas, no dangling dependencies. (§4.6 P6 orphan gate; requirement→component coverage activates with WS4 keying.)",
+      "description": "`coldpress trace orphans --strict` reports no blocking findings — every flag_for_architecture_ADR delta has a matching ADR, no unresolved deltas, no dangling dependencies. `--strict` (WS10-E2) rejects a vacuous pass on an empty graph. The requirement→story orphan check correctly does NOT fire at P6 (stories aren't authored until P7 — WS10-C4 ordering fix); it activates at the P7 gate.",
       "kind": "automated",
       "severity": "block",
-      "command": "coldpress trace orphans",
+      "command": "coldpress trace orphans --strict",
       "remediation": "Run `coldpress trace orphans` and resolve each finding: map the requirement to a component, add the missing ADR, or resolve the delta."
     }
   ],
