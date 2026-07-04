@@ -8,6 +8,27 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### WS11 "Structure & Diet" — structure-hygiene audit remediation
+
+- **Gate checks now run (S1.1)** — the eight acceptance-check verbs the phase-gate
+  runner spawns (`config-check`, `validate-adrs`, `validate-pack-match`,
+  `validate-yaml-block`, `validate-schema-latest`, `validate-schema`,
+  `file-exists-after`, `gate-check-supersessions`) are registered on the CLI.
+  Previously every block-severity `gate.json` check failed as "unknown command"
+  — the check functions existed and were unit-tested but were unreachable from
+  `coldpress gate check`. Also fixed the schema-path resolution so a gate.json's
+  `--schema schemas/<name>` string resolves under the framework `schemas/` dir
+  instead of doubling to `schemas/schemas/<name>`. A build-free source invariant
+  test asserts every gate.json command verb is CLI-registered (catches the class
+  for any future gate), plus an end-to-end test spawning the built CLI.
+- **Lane-aware gate phase ids (S1.2)** — `coldpress gate check|enter <phase>`
+  accepts a full-lane number/name (`3`, `3-tech-stack`, `1-bootstrap`) or a
+  lite-lane id (`lite:spec`). Previously the CLI did `Number(phase)`, so any
+  non-bare-integer form parsed to `NaN` and no gate was ever found. Unparseable
+  ids get a helpful error; lite phases with no gate report an honest "no gate for
+  this phase"; `gate enter` on a lite phase is a no-op (the lite lane drops phase
+  sequencing).
+
 ### v0.4 "Enforcement" overhaul — post-overhaul hardening
 
 - **Optional deploy packs** — `netlify` (Netlify CLI; `--alias` previews,

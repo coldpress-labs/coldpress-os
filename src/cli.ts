@@ -14,6 +14,16 @@ import { runOutcomesCheck } from "./commands/outcomes.js";
 import { recordVerdict } from "./commands/verdict.js";
 import { checkWiring } from "./wiring/check.js";
 import { runGateCheck, runGateEnter } from "./commands/gate.js";
+import {
+  runConfigCheck,
+  runValidateAdrs,
+  runValidatePackMatch,
+  runValidateYamlBlock,
+  runValidateSchemaLatest,
+  runValidateSchema,
+  runFileExistsAfter,
+  runGateCheckSupersessions,
+} from "./commands/gate-checks.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
 import { runVisualVerify } from "./commands/visual-verify.js";
@@ -351,13 +361,13 @@ gateCmd
   .command("check <phase>")
   .description("Evaluate lifecycle/<phase>/gate.json — run each check's command, existence-check artefacts, surface human/agent checks as pending. Exit 1 iff a block-severity check failed.")
   .action((phase: string) => {
-    process.exit(runGateCheck(Number(phase)));
+    process.exit(runGateCheck(phase));
   });
 gateCmd
   .command("enter <phase>")
   .description("Stamp phase_<n>_started_at in .coldpress/local-config.yaml (fresh-for-phase key read by file-exists-after gate checks).")
   .action(async (phase: string) => {
-    process.exit(await runGateEnter(Number(phase)));
+    process.exit(await runGateEnter(phase));
   });
 
 const wiringCmd = program.command("wiring").description("Cross-phase wiring manifest tooling (WS10-G).");
@@ -373,6 +383,76 @@ wiringCmd
       if (r.severity === "error") errors++;
     }
     process.exit(errors > 0 ? 1 : 0);
+  });
+
+// ── Gate-check verbs (WS11 S1.1) ───────────────────────────────────────────
+// The eight acceptance-check verbs the phase-gate runner (`coldpress gate check`)
+// invokes as CLI subprocesses for each `gate.json` `command`. Without these,
+// every block-severity gate check fails as "unknown command". Thin wrappers in
+// ./commands/gate-checks.ts run the tested check functions in the project cwd.
+
+program
+  .command("config-check <key>")
+  .description("Gate check: assert a .coldpress/local-config.yaml key is set (optionally equal to --expected).")
+  .option("--allow-empty-string", "treat an explicit empty string as a pass")
+  .option("--expected <value>", "require the key to equal this value")
+  .action(async (key: string, opts: { allowEmptyString?: boolean; expected?: string }) => {
+    process.exit(await runConfigCheck(key, opts));
+  });
+
+program
+  .command("validate-adrs <adrsDir>")
+  .description("Gate check: assert ADRs cover every decision area in the stack shortlist.")
+  .option("--shortlist <path>", "path to the stack-shortlist file")
+  .action(async (adrsDir: string, opts: { shortlist?: string }) => {
+    process.exit(await runValidateAdrs(adrsDir, opts));
+  });
+
+program
+  .command("validate-pack-match [file]")
+  .description("Gate check: assert the latest stack-shortlist resolved a pack_match.")
+  .action(async (file: string | undefined) => {
+    process.exit(await runValidatePackMatch(file));
+  });
+
+program
+  .command("validate-yaml-block <file> <blockKey>")
+  .description("Gate check: validate a named top-level YAML block against a schema.")
+  .option("--schema <path>", "schema path (relative to the framework schemas/ dir)")
+  .action(async (file: string, blockKey: string, opts: { schema?: string }) => {
+    process.exit(await runValidateYamlBlock(file, blockKey, opts));
+  });
+
+program
+  .command("validate-schema-latest <glob>")
+  .description("Gate check: resolve a v{N} glob to its highest version and schema-validate it.")
+  .option("--schema <path>", "accepted for gate.json parity; schema is derived from the doc")
+  .action(async (glob: string, opts: { schema?: string }) => {
+    process.exit(await runValidateSchemaLatest(glob, opts));
+  });
+
+program
+  .command("validate-schema <file>")
+  .description("Gate check: schema-validate a single doc (sacred-doc or path-pattern resolved).")
+  .action(async (file: string) => {
+    process.exit(await runValidateSchema(file));
+  });
+
+program
+  .command("file-exists-after <glob>")
+  .description("Gate check: assert a file matching <glob> exists, freshly created since --after-key/--after-timestamp.")
+  .option("--after-key <key>", "local-config key holding the reference ISO timestamp (e.g. phase_3_started_at)")
+  .option("--after-timestamp <iso>", "explicit reference ISO timestamp")
+  .action(async (glob: string, opts: { afterKey?: string; afterTimestamp?: string }) => {
+    process.exit(await runFileExistsAfter(glob, opts));
+  });
+
+program
+  .command("gate-check-supersessions")
+  .description("Gate check: assert any supersession logs in this phase post-date --after-key.")
+  .option("--after-key <key>", "local-config key holding the phase-start timestamp", "phase_3_started_at")
+  .action(async (opts: { afterKey?: string }) => {
+    process.exit(await runGateCheckSupersessions(opts));
   });
 
 program

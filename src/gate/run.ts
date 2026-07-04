@@ -28,7 +28,8 @@ export interface GateCheckOutcome {
 }
 
 export interface GateRunReport {
-  phase: number;
+  /** The phase label as given ("3", "1-bootstrap", or "lite:spec"). */
+  phase: string;
   gate_id: string;
   results: GateCheckOutcome[];
   /** True when a block-severity check was evaluated and FAILED. */
@@ -60,11 +61,48 @@ interface GateJson {
   acceptance_checks: AcceptanceCheck[];
 }
 
-/** Find the gate.json under `lifecycle/<phase>-<slug>/` (e.g. `lifecycle/3-tech-stack/gate.json`). */
-export function findGateJson(phase: number, frameworkDir: string): string | undefined {
+/**
+ * A phase identifier as typed by a human/agent to `coldpress gate check|enter`.
+ * Two lanes:
+ *   - full: numbered phases 1–11, given as `3` or `3-tech-stack` or `1-bootstrap`.
+ *   - lite: the lite lane's named phases, given as `lite:spec` / `lite/spec`.
+ */
+export type PhaseRef =
+  | { lane: "full"; n: number; label: string }
+  | { lane: "lite"; slug: string; label: string };
+
+/**
+ * Parse a raw phase argument into a PhaseRef. Returns null for an unparseable
+ * id (the CLI surfaces a helpful error instead of silently probing for `NaN`).
+ * Fixes WS11 S1.2: `Number("1-bootstrap")` / `Number("lite:spec")` → NaN.
+ */
+export function parsePhaseRef(raw: number | string): PhaseRef | null {
+  if (typeof raw === "number") {
+    return Number.isFinite(raw) ? { lane: "full", n: raw, label: String(raw) } : null;
+  }
+  const s = raw.trim();
+  const lite = /^lite[:/](\w[\w-]*)$/i.exec(s); // lite:spec | lite/build
+  if (lite) return { lane: "lite", slug: lite[1]!.toLowerCase(), label: s };
+  const full = /^(\d{1,2})(?:-[A-Za-z].*)?$/.exec(s); // 3 | 3-tech-stack | 1-bootstrap
+  if (full) return { lane: "full", n: Number(full[1]), label: s };
+  return null;
+}
+
+/**
+ * Find the gate.json for a phase.
+ *   full → `lifecycle/<n>-<slug>/gate.json` (e.g. `lifecycle/3-tech-stack/gate.json`)
+ *   lite → `lifecycle/lite/<slug>/gate.json`
+ * The lite lane drops phase sequencing, so most lite phases ship no gate.json —
+ * that returns undefined (an honest "no gate for this phase"), not an error.
+ */
+export function findGateJson(ref: PhaseRef, frameworkDir: string): string | undefined {
   const lifecycle = join(frameworkDir, "lifecycle");
   if (!existsSync(lifecycle)) return undefined;
-  const dir = readdirSync(lifecycle).find((d) => new RegExp(`^${phase}-`).test(d));
+  if (ref.lane === "lite") {
+    const gate = join(lifecycle, "lite", ref.slug, "gate.json");
+    return existsSync(gate) ? gate : undefined;
+  }
+  const dir = readdirSync(lifecycle).find((d) => new RegExp(`^${ref.n}-`).test(d));
   if (!dir) return undefined;
   const gate = join(lifecycle, dir, "gate.json");
   return existsSync(gate) ? gate : undefined;
@@ -106,7 +144,7 @@ export function resolvePlaceholders(command: string, projectDir: string, today: 
 }
 
 export function runGate(
-  phase: number,
+  phase: number | string,
   opts: { projectDir?: string; frameworkDir?: string; run?: GateCommandRunner; today?: string } = {},
 ): GateRunReport {
   const projectDir = opts.projectDir ?? process.cwd();
@@ -114,9 +152,15 @@ export function runGate(
   const run = opts.run ?? defaultRunner;
   const today = opts.today ?? new Date().toISOString().slice(0, 10);
 
-  const gatePath = findGateJson(phase, frameworkDir);
+  const ref = parsePhaseRef(phase);
+  if (!ref) {
+    return { phase: String(phase), gate_id: `phase-${String(phase)}-exit`, results: [], blocked: false, pending: 0, evaluated: 0 };
+  }
+  const label = ref.label;
+
+  const gatePath = findGateJson(ref, frameworkDir);
   if (!gatePath) {
-    return { phase, gate_id: `phase-${phase}-exit`, results: [], blocked: false, pending: 0, evaluated: 0 };
+    return { phase: label, gate_id: `phase-${label}-exit`, results: [], blocked: false, pending: 0, evaluated: 0 };
   }
   const gate = JSON.parse(readFileSync(gatePath, "utf8")) as GateJson;
 
@@ -165,5 +209,5 @@ export function runGate(
     results.push({ ...base, status: "pending", detail: `not auto-evaluable (${kind}) - needs a human/agent` });
   }
 
-  return { phase, gate_id: gate.gate_id, results, blocked, pending, evaluated };
+  return { phase: label, gate_id: gate.gate_id, results, blocked, pending, evaluated };
 }
