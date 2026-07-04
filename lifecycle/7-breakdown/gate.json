@@ -52,12 +52,12 @@
     },
     {
       "id": "sprint-status-validated",
-      "description": "`_context/tracking/sprint-status-v{latest}.md` exists; every story assigned to a wave",
+      "description": "`_context/tracking/sprint-status.yaml` exists + validates; every story assigned to a wave (the single unified tracking artefact, WS10-B2).",
       "kind": "automated",
       "severity": "block",
-      "artefact_path": "_context/tracking/sprint-status-v*.md",
+      "artefact_path": "_context/tracking/sprint-status.yaml",
       "remediation": "Run `@pm story-graph` (Step 5 generates the tracking file from the computed wave assignment).",
-      "schema_ref": "schemas/tracking/wave-status.schema.json"
+      "schema_ref": "schemas/tracking/sprint-status.schema.json"
     },
     {
       "id": "implementation-readiness-pass",

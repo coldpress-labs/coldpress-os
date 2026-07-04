@@ -30,12 +30,12 @@
       "skill_ref": "lifecycle/8-implementation/dev-story"
     },
     {
-      "id": "wave-status-final",
-      "description": "All waves marked complete in `wave-status-v{latest}.md`",
+      "id": "sprint-status-final",
+      "description": "Every story in `_context/tracking/sprint-status.yaml` has status `done` (all waves complete). The single unified tracking artefact (WS10-B2 — replaces the retired wave-status-v{N}.md; one file, produced by story-graph, transitioned by dev-story).",
       "kind": "automated",
       "severity": "block",
-      "schema_ref": "schemas/tracking/wave-status.schema.json",
-      "artefact_path": "_context/tracking/wave-status-v*.md"
+      "schema_ref": "schemas/tracking/sprint-status.schema.json",
+      "artefact_path": "_context/tracking/sprint-status.yaml"
     },
     {
       "id": "code-review-passed-all-stories",

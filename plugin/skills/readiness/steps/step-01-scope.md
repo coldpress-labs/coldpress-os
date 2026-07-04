@@ -9,7 +9,7 @@ next_step: "step-02-gates.md"
 ## Instructions
 
 1. **Confirm Phase 9 entry conditions** (from the SKILL's `existence_checks`):
-   - `wave-status-final == true`,
+   - `sprint-status-final == true`,
    - the `phase-8-to-9-{date}` handoff exists,
    - the Phase 7 `implementation-readiness` report is `overall_status: pass`.
    If any is missing, halt — readiness does not run against an unfinished wave.

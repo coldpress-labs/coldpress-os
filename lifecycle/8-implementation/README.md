@@ -18,7 +18,7 @@ status: rewritten — Phase 8 implementation in progress (autonomous queue unit 
 - Implement per acceptance criteria (BDD or AC depending on archetype)
 - Author tests per archetype-conditional discipline
 - Code-review per story (@qa sub-persona)
-- Update wave-status as stories complete
+- Update sprint-status as stories complete
 
 CI pipeline set up once at phase entry; per-wave gate evaluation.
 
@@ -61,7 +61,7 @@ CI pipeline set up once at phase entry; per-wave gate evaluation.
        ├──→ code-review (@qa sub-transition; recurring per story)
         │
         ▼
-   wave-status update (per wave)
+   sprint-status update (per wave)
         │
         ▼
    [last wave complete]
@@ -90,7 +90,7 @@ Schema reuses `design-delta.schema.json` with `source_skill: dev-story | quick-d
 
 ## Exit conditions
 
-See `gate.json` (8 acceptance checks). Summary: pert-locked re-verified; all-stories-complete; wave-status-final; code-review-passed-all-stories; tests-passing; implementation-deltas-resolved; ci-pipeline-locked (warn); phase-8-handoff-written.
+See `gate.json` (8 acceptance checks). Summary: pert-locked re-verified; all-stories-complete; sprint-status-final; code-review-passed-all-stories; tests-passing; implementation-deltas-resolved; ci-pipeline-locked (warn); phase-8-handoff-written.
 
 ## Agent
 

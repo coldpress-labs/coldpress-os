@@ -114,7 +114,7 @@ export const PATH_PATTERN_SCHEMAS: Array<{ pattern: RegExp; schemaPath: string }
   { pattern: /_context[\\/]planning[\\/]product-evolution-.+\.md$/, schemaPath: "audit/product-evolution-backlog.schema.json" },
   { pattern: /_context[\\/]planning[\\/]creative[\\/]innovation-.+\.md$/, schemaPath: "audit/innovation-strategy.schema.json" },
   { pattern: /_context[\\/]planning[\\/]sprint-change-proposal-.+\.md$/, schemaPath: "audit/course-correction.schema.json" },
-  { pattern: /_context[\\/]tracking[\\/]wave-status\.md$/, schemaPath: "tracking/wave-status.schema.json" },
+  { pattern: /_context[\\/]tracking[\\/]sprint-status\.ya?ml$/, schemaPath: "tracking/sprint-status.schema.json" },
 ];
 
 export function sacredDocIdFromPath(path: string): string | undefined {
@@ -263,20 +263,32 @@ export async function validateDocSchema(
     return { ...result, schema_used: `sacred-docs/${SACRED_DOC_SCHEMAS[sacredId]}` };
   }
 
-  // 2. Try path-pattern match
+  // 2. Try path-pattern match. Markdown docs validate their FRONTMATTER; pure
+  //    data files (.yaml/.yml/.json — e.g. sprint-status.yaml, WS10-B2) validate
+  //    their WHOLE parsed body.
   const relSchemaPath = pathPatternSchemaFromPath(docPath);
   if (relSchemaPath) {
     const raw = await readFile(docPath, "utf8");
-    const frontmatter = extractFrontmatter(raw);
-    if (frontmatter === undefined) {
-      return {
-        ok: false,
-        issues: [{ path: "(frontmatter)", message: "Malformed frontmatter: expected closing `---` delimiter and valid YAML." }],
-      };
+    const isData = /\.(ya?ml|json)$/.test(docPath);
+    let body: Record<string, unknown> | undefined;
+    if (isData) {
+      try {
+        body = (docPath.endsWith(".json") ? JSON.parse(raw) : parseYaml(raw)) as Record<string, unknown>;
+      } catch (e) {
+        return { ok: false, schema_used: relSchemaPath, issues: [{ path: "(file)", message: `Unparseable data file: ${e instanceof Error ? e.message : String(e)}` }] };
+      }
+    } else {
+      body = extractFrontmatter(raw);
+      if (body === undefined) {
+        return {
+          ok: false,
+          issues: [{ path: "(frontmatter)", message: "Malformed frontmatter: expected closing `---` delimiter and valid YAML." }],
+        };
+      }
     }
     const validator = await loadValidatorByRelPath(relSchemaPath);
-    if (validator(frontmatter)) {
-      return { ok: true, frontmatter, schema_used: relSchemaPath };
+    if (validator(body)) {
+      return { ok: true, frontmatter: body, schema_used: relSchemaPath };
     }
     return { ok: false, issues: ajvIssuesToIssues(validator.errors), schema_used: relSchemaPath };
   }

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://coldpressai.com/schemas/tracking/sprint-status.json",
+  "title": "Sprint status tracking",
+  "description": "The single Phase 7-11 story-tracking artefact: _context/tracking/sprint-status.yaml. Produced by `story-graph` (P7, one story per wave), read + written by `dev-story` (P8 status transitions), and read by `operate-loop`/`readiness`/`retrospective`. Supersedes the retired wave-status-v{N}.md (WS10-B2 unification): one file, unversioned YAML, `ST-*`/`CT-*`/`IN-*` ids matching the story-graph convention.",
+  "type": "object",
+  "required": ["stories"],
+  "properties": {
+    "stories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "wave", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^(ST|CT|IN)-",
+            "description": "Story id — matches the story-graph convention (ST-*, CT-*, IN-*)."
+          },
+          "wave": { "type": "integer", "minimum": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["ready-for-dev", "in-progress", "review", "done", "blocked"],
+            "description": "dev-story transitions ready-for-dev → in-progress → review → done. A wave is complete when all its stories are done."
+          },
+          "blocked_reason": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}
