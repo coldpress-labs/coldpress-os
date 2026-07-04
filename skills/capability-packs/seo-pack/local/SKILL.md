@@ -2,7 +2,7 @@
 name: "seo-local"
 description: "Local SEO: NAP (Name/Address/Phone) consistency, Google Business Profile setup + optimisation, local-pack ranking factors, citation building, location-page templates, schema.org LocalBusiness markup. Conditional — runs when project archetype includes brick-and-mortar / service-area-business presence."
 type: "simple"
-category: "stack-packs/seo-pack"
+category: "capability-packs/seo-pack"
 phases: [5, 8]
 license: "MIT"
 version: "1.0"

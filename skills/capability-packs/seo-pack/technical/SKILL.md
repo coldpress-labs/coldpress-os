@@ -2,7 +2,7 @@
 name: "seo-technical"
 description: "Crawl-optimisation + on-page technical SEO: sitemap.xml, robots.txt, canonical tags, hreflang (i18n), redirect map, performance (Core Web Vitals — LCP/INP/CLS), mobile responsiveness, render-blocking resources, image-optimisation. Framework-aware emit; integrates with Phase 9 deploy + Phase 10 monitoring."
 type: "simple"
-category: "stack-packs/seo-pack"
+category: "capability-packs/seo-pack"
 phases: [8, 9]
 license: "MIT"
 version: "1.0"

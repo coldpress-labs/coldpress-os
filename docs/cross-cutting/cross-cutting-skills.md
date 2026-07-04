@@ -201,7 +201,7 @@ When auditing agent-ownership:
 
 | Pack | Path | Phases | Sub-skills |
 |---|---|---|---|
-| `seo-pack` ⭐NEW | `skills/stack-packs/seo-pack/` | [3, 5, 8, 9, 10] | audit / content / schema / local / technical (5 sub-skills) |
+| `seo-pack` ⭐NEW | `skills/capability-packs/seo-pack/` | [3, 5, 8, 9, 10] | audit / content / schema / local / technical (5 sub-skills) |
 | (others — vibe-coder-fullstack, browser-extension, cli-npm-publishable, static-single-page, static-multipage-blog) | `skills/stack-packs/<name>/` | varies | varies |
 
 ---

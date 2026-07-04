@@ -2,7 +2,7 @@
 name: "seo-content"
 description: "Content strategy + cluster/topical authority + programmatic SEO templates. Produces content brief per target keyword, internal-linking map for topical clusters, programmatic-page templates for high-volume thin-cardinality patterns (city pages, comparison pages, integration pages)."
 type: "simple"
-category: "stack-packs/seo-pack"
+category: "capability-packs/seo-pack"
 phases: [5]
 license: "MIT"
 version: "1.0"
