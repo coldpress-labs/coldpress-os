@@ -13,6 +13,7 @@ import { runLaneUpgrade } from "./commands/lane-upgrade.js";
 import { runOutcomesCheck } from "./commands/outcomes.js";
 import { recordVerdict } from "./commands/verdict.js";
 import { checkWiring } from "./wiring/check.js";
+import { runGateCheck, runGateEnter } from "./commands/gate.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
 import { runVisualVerify } from "./commands/visual-verify.js";
@@ -343,6 +344,20 @@ program
       console.error(pc.red(`doctor failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
+  });
+
+const gateCmd = program.command("gate").description("Phase-gate runner (WS10-C1): evaluate a phase's gate.json checks + stamp phase-entry timestamps.");
+gateCmd
+  .command("check <phase>")
+  .description("Evaluate lifecycle/<phase>/gate.json — run each check's command, existence-check artefacts, surface human/agent checks as pending. Exit 1 iff a block-severity check failed.")
+  .action((phase: string) => {
+    process.exit(runGateCheck(Number(phase)));
+  });
+gateCmd
+  .command("enter <phase>")
+  .description("Stamp phase_<n>_started_at in .coldpress/local-config.yaml (fresh-for-phase key read by file-exists-after gate checks).")
+  .action(async (phase: string) => {
+    process.exit(await runGateEnter(Number(phase)));
   });
 
 const wiringCmd = program.command("wiring").description("Cross-phase wiring manifest tooling (WS10-G).");

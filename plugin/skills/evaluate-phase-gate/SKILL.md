@@ -26,6 +26,8 @@ Without this skill, phase exit was always prose — "the user feels confident th
 
 ## Process
 
+> **Mechanized runner (WS10-C1).** The steps below are now executed by **`coldpress gate check <phase>`** — the gate-runner reads the phase's `gate.json`, runs each check's `command` (resolving `{date}`/`{latest}` placeholders), existence-checks `artefact-present` paths, and surfaces human/skill_ref-only checks as `pending`. It exits 1 iff a **block-severity** check was evaluated and failed; `pending` checks are reported loudly but never fabricate a pass. Butler runs it at **phase exit**, and stamps **`coldpress gate enter <phase>`** at phase entry (writes `phase_<n>_started_at`, the fresh-for-phase key the `file-exists-after` checks read).
+
 1. **Locate the gate** for the target phase at `coldpress-os/lifecycle/<phase>/gate.json`. Load and validate against `schemas/phase-gate.schema.ts` — malformed JSON halts with a clear error.
 
 1a. **Stage filtering (optional).** If invoked with `--stage N`, evaluate only checks where `check.stage == N` (or checks with no `stage` annotation). Skip all other checks. This enables two-stage evaluation at Phase 3 exit: `--stage 1` at stack-locking Step 5 (pre-env-provision) and `--stage 2` after `coldpress update --post-phase-3` confirms (post-provision). Phase 3 gate.json has 10 stage-1 checks + 3 stage-2 checks (13 total).
