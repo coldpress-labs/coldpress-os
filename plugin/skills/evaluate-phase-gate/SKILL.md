@@ -14,7 +14,7 @@ Without this skill, phase exit was always prose — "the user feels confident th
 
 ## When to Use
 
-- `coldpress graph query --phase-ready N` before transitioning to Phase N+1
+- Before transitioning to Phase N+1 — verify the outgoing phase's exit gate is green
 - End of any wave in Phase 6 — verify exit conditions before Phase 7 transition
 - Before `deploy-prod` in Phase 9 — the readiness + security stack + LLM gates are all acceptance_checks in Phase 9's gate.json
 - Auditing a project's phase-transition history — re-run against archived state

@@ -1,7 +1,7 @@
 ---
 step_number: 0
 step_name: "Entry Check"
-step_goal: "Determine the correct entry path via 6-branch first-match-wins decision tree"
+step_goal: "Determine the correct entry path via 5-branch first-match-wins decision tree"
 halts_for_input: false
 next_step: "step-01-evidence-intake.md"
 ---
@@ -54,22 +54,7 @@ Silently evaluate Phase 3 entry state and route to the correct path. First match
 
 ---
 
-### Branch 5 — Graph staleness check
-
-**Condition:** Graph staleness check (via `src/graph/staleness.ts`) detects new `_input/` content since Phase 2 exit (delta > 0 files unindexed)
-
-**Action:** Prompt user:
-
-> I see {N} new file(s) in `_input/` since Phase 2 exit ({delta files listed}). Rebuild the knowledge graph before we start? This takes ~30 seconds and ensures stack-discovery uses up-to-date vendor docs.
->
-> [Y] Rebuild now → run `coldpress graph rebuild`, then proceed to Step 1
-> [N] Skip → proceed to Step 1 with stale graph; log decision to `_context/tracking/phase-3-entry-{date}.md`
-
-Halt for user input; proceed per response.
-
----
-
-### Branch 6 — First entry (default)
+### Branch 5 — First entry (default)
 
 **Condition:** None of the above matched.
 
@@ -94,5 +79,4 @@ Entry path determined. Proceed to the appropriate next step.
 → Branch 2: Resume at `partial_completion.step_id`
 → Branch 3: Dispatch env-provision
 → Branch 4: Dispatch re-entry router
-→ Branch 5: Halt for graph-rebuild confirm, then → [step-01-evidence-intake.md](step-01-evidence-intake.md)
-→ Branch 6: [step-01-evidence-intake.md](step-01-evidence-intake.md)
+→ Branch 5: [step-01-evidence-intake.md](step-01-evidence-intake.md)

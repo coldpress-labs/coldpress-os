@@ -193,4 +193,36 @@ describe("runTrace CLI", () => {
   it("rejects an unknown verb", () => {
     expect(runTrace("frobnicate", undefined, { projectDir: dir, stderr: () => {} })).toBe(1);
   });
+
+  it("orphans --strict: empty graph is NOT a clean pass (exit 2), E2", () => {
+    let err = "";
+    expect(runTrace("orphans", undefined, { projectDir: dir, strict: true, stderr: (s) => (err += s) })).toBe(2);
+    expect(err).toMatch(/nothing to check/);
+    // non-strict on the same empty project is the old vacuous pass (exit 0)
+    expect(runTrace("orphans", undefined, { projectDir: dir, stdout: () => {} })).toBe(0);
+  });
+});
+
+describe("orphans ordering (WS10-C4)", () => {
+  it("does NOT flag unmapped requirements before stories exist (P6), but does once they do (P7+)", () => {
+    // A requirement (from outcomes.yaml) with no stories → P6, must NOT be an orphan.
+    write("_context/planning/outcomes.yaml", "outcomes:\n  - {requirement_id: R-1, metric: activation, target: '40%', source: {type: analytics_event, ref: e}}\n");
+    let f = orphans(buildTraceGraph(dir));
+    expect(f.some((x) => x.kind === "unmapped-requirement")).toBe(false);
+
+    // Add a story graph that does NOT implement R-1 → now (P7+) it IS an orphan.
+    write("_context/implementation/story-graph.yaml", "stories:\n  - {id: ST-1, estimate: {o: 1, m: 1, p: 1}, owns: ['src/a/*']}\nedges: []\n");
+    f = orphans(buildTraceGraph(dir));
+    expect(f.some((x) => x.kind === "unmapped-requirement" && x.id === "R-1")).toBe(true);
+  });
+});
+
+describe("coverage from acceptance-stub manifests (WS10-C4)", () => {
+  it("a story with a {story}.tests.md manifest is covered (was always zero before)", () => {
+    write("_context/implementation/story-graph.yaml", "stories:\n  - {id: ST-1, estimate: {o: 1, m: 1, p: 1}, owns: ['src/a/*']}\n  - {id: ST-2, estimate: {o: 1, m: 1, p: 1}, owns: ['src/b/*']}\nedges: []\n");
+    write("_context/implementation/stories/ST-1.tests.md", "# ST-1 acceptance stubs\n- AC-1 → a.test.ts\n");
+    const rows = coverage(buildTraceGraph(dir));
+    expect(rows.find((r) => r.story === "ST-1")?.covered).toBe(true);
+    expect(rows.find((r) => r.story === "ST-2")?.covered).toBe(false);
+  });
 });

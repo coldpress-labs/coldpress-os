@@ -22,6 +22,11 @@ export interface DiscoveredTask {
 /** Walk an evals dir for `*.yaml`/`*.yml` task files; validate each. Invalid tasks throw. */
 export function discoverTasks(evalsDir: string, filter?: string): DiscoveredTask[] {
   const found: DiscoveredTask[] = [];
+  // `--filter` accepts a COMMA-SEPARATED list so a profile's `eval_subset`
+  // (an array) maps cleanly (WS10-E4): a task matches if its id contains ANY
+  // of the substrings. A single substring still works (a one-element list).
+  const needles = (filter ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const matches = (id: string): boolean => needles.length === 0 || needles.some((n) => id.includes(n));
   const walk = (dir: string): void => {
     let entries: string[];
     try {
@@ -35,7 +40,7 @@ export function discoverTasks(evalsDir: string, filter?: string): DiscoveredTask
         walk(p);
       } else if (/\.ya?ml$/.test(e)) {
         const task = EvalTaskSchema.parse(parseYaml(readFileSync(p, "utf8")));
-        if (!filter || task.id.includes(filter)) found.push({ task, source: p });
+        if (matches(task.id)) found.push({ task, source: p });
       }
     }
   };

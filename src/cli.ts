@@ -12,6 +12,7 @@ import { runImportBmad } from "./commands/import.js";
 import { runLaneUpgrade } from "./commands/lane-upgrade.js";
 import { runOutcomesCheck } from "./commands/outcomes.js";
 import { recordVerdict } from "./commands/verdict.js";
+import { checkWiring } from "./wiring/check.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
 import { runVisualVerify } from "./commands/visual-verify.js";
@@ -95,8 +96,9 @@ program
   .description(
     "Traceability over the project's schema'd artifacts (§4.6). Verbs: orphans (integrity + silent-divergence guard; exit 1 on a blocking finding), why <id>, impact <id>, coverage, release (P8→P9 release-scope preview).",
   )
-  .action((verb: string, id: string | undefined) => {
-    process.exit(runTrace(verb, id));
+  .option("--strict", "orphans: treat an empty graph (nothing to check) as a non-pass (exit 2), not a vacuous clean pass")
+  .action((verb: string, id: string | undefined, opts: { strict?: boolean }) => {
+    process.exit(runTrace(verb, id, { strict: opts.strict }));
   });
 
 const outcomesCmd = program.command("outcomes").description("Outcome-contract tooling (§5 P4).");
@@ -331,15 +333,31 @@ program
   .command("doctor")
   .description("Verify the local environment: Node, package manager, git, Claude Code CLI")
   .option("--stack", "also verify stack-specific tools (reads coldpress.yaml stack_pack)")
+  .option("--wiring", "also run the wiring-manifest check (every cross-phase artifact has a producer + resolvable consumers/schema)")
   .option("--verbose", "show extra detail on every check")
-  .action(async (opts: { stack?: boolean; verbose?: boolean }) => {
+  .action(async (opts: { stack?: boolean; wiring?: boolean; verbose?: boolean }) => {
     try {
-      const { exitCode } = await runDoctor({ stack: opts.stack, verbose: opts.verbose });
+      const { exitCode } = await runDoctor({ stack: opts.stack, wiring: opts.wiring, verbose: opts.verbose });
       process.exit(exitCode);
     } catch (err) {
       console.error(pc.red(`doctor failed: ${err instanceof Error ? err.message : String(err)}`));
       process.exit(1);
     }
+  });
+
+const wiringCmd = program.command("wiring").description("Cross-phase wiring manifest tooling (WS10-G).");
+wiringCmd
+  .command("check")
+  .description("Assert every cross-phase artifact in data/wiring.yaml has a producer + resolvable consumers/schema.")
+  .action(() => {
+    const results = checkWiring();
+    let errors = 0;
+    for (const r of results) {
+      const mark = r.severity === "error" ? "✗" : r.severity === "warning" ? "⚠" : "✓";
+      process.stdout.write(`  ${mark} ${r.label}${r.detail ? ` — ${r.detail}` : ""}\n`);
+      if (r.severity === "error") errors++;
+    }
+    process.exit(errors > 0 ? 1 : 0);
   });
 
 program

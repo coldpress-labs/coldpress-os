@@ -45,11 +45,10 @@ For each area, apply Pareto Analysis: flag the 2-3 areas where evidence signals 
 - Persona filter: flag any T2 candidate that conflicts with accessibility targets or locale requirements
 
 **Areas with no catalog entry, or user rejects all T2 options:**
-- **T3:** Graph-query first → web-search fallback
-  - Run: `coldpress graph query --dir-role _input/vendor/ --topic "{decision-area}"` — surface pre-loaded vendor docs for this area
-  - If graph hits exist: incorporate into candidate evidence; web-search only for gaps
-  - If no hits: normal web-search flow; `docs` (op: distill) compresses into stack-ready brief
-  - Output gets indexed on next graph rebuild
+- **T3:** Local vendor docs first → web-search fallback
+  - Read `_input/vendor/` directly for pre-loaded vendor docs relevant to this decision area
+  - If relevant vendor docs exist: incorporate into candidate evidence; web-search only for gaps
+  - If none: normal web-search flow; `docs` (op: distill) compresses into stack-ready brief
 
 **Brownfield areas (if `project_shape: brownfield`):**
 - Add legacy candidate: the existing technology in use (from legacy gravity signals)

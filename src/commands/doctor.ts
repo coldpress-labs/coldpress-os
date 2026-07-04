@@ -7,10 +7,13 @@ import {
   runCoreChecks,
   runStackChecks,
 } from "../utils/doctor-checks.js";
+import { checkWiring } from "../wiring/check.js";
 
 export interface DoctorOptions {
   /** When true, include stack-pack-specific checks (reads coldpress.yaml). */
   stack?: boolean;
+  /** When true, run the WS10-G wiring-manifest check (producer/consumer/schema). */
+  wiring?: boolean;
   /** Extra detail on each check in the output. */
   verbose?: boolean;
   /** Suppress all output (used by init pre-flight). */
@@ -37,11 +40,13 @@ export async function runDoctor(opts: DoctorOptions = {}): Promise<DoctorRunResu
   if (opts.stack) {
     stackSuite = await runStackChecks({ projectRoot });
   }
+  const wiringResults: CheckResult[] = opts.wiring ? checkWiring() : [];
 
+  const extra = [...(stackSuite?.results ?? []), ...wiringResults];
   const combined: CheckSuiteResult = {
-    results: [...core.results, ...(stackSuite?.results ?? [])],
-    hasError: core.hasError || (stackSuite?.hasError ?? false),
-    hasWarning: core.hasWarning || (stackSuite?.hasWarning ?? false),
+    results: [...core.results, ...extra],
+    hasError: core.hasError || extra.some((r) => r.severity === "error"),
+    hasWarning: core.hasWarning || extra.some((r) => r.severity === "warning"),
   };
 
   if (!opts.silent) {

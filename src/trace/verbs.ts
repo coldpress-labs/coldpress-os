@@ -59,11 +59,18 @@ export function orphans(g: TraceGraph): OrphanFinding[] {
     }
   }
 
-  // 2c. Unmapped requirements (P6 orphan gate, §4.6) — a requirement with no
-  //     implementing story. Activates once P4/P6 keying is present.
-  for (const r of g.byType("requirement")) {
-    if (g.out(r.id, "implements").length === 0) {
-      findings.push({ kind: "unmapped-requirement", id: r.id, detail: `requirement ${r.id} has no implementing story` });
+  // 2c. Unmapped requirements — a requirement with no implementing story.
+  //     ORDERING (WS10-C4): requirements exist at P6 exit but stories aren't
+  //     authored until P7, so this check would spuriously block P6. Only fire it
+  //     once ≥1 story exists in the graph (i.e. P7+) — story presence is the
+  //     natural phase gate, no flag needed. Before P7 there is simply nothing to
+  //     map to yet, which is not an orphan.
+  const anyStory = g.byType("story").length + g.byType("contract-story").length + g.byType("integration-story").length > 0;
+  if (anyStory) {
+    for (const r of g.byType("requirement")) {
+      if (g.out(r.id, "implements").length === 0) {
+        findings.push({ kind: "unmapped-requirement", id: r.id, detail: `requirement ${r.id} has no implementing story` });
+      }
     }
   }
 

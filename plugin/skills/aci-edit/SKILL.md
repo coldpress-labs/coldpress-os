@@ -41,7 +41,7 @@ The discipline matters more than the mechanics. Agents that batch many edits bef
 5. **Decide:**
    - Verification clean → continue to the next ACI invocation.
    - Verification fails AND the failure is plausibly fixable from the edit's local context → ONE corrective edit, then re-verify.
-   - Verification fails twice → escalate. Emit `<NEED_INFO>` (`kind: architecture-unclear`) or hand back to @scrum-master via the standard handoff protocol.
+   - Verification fails twice → escalate. Emit `<NEED_INFO>` (`kind: architecture-unclear`) or hand back to @pm via the standard handoff protocol.
 
 ## Output
 

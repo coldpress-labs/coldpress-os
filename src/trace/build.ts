@@ -105,5 +105,17 @@ export function buildTraceGraph(projectDir: string): TraceGraph {
     }
   }
 
+  // 5. Test nodes from the acceptance-stub manifests (WS10-C4): each
+  //    `_context/implementation/stories/{story}.tests.md` is a story's stub
+  //    manifest → a `test` node + a `covers` edge (test → story), so
+  //    `trace coverage` reflects reality instead of always reporting zero.
+  for (const testPath of listFiles(join(projectDir, "_context/implementation/stories"), (f) => /\.tests\.md$/.test(f))) {
+    const storyId = basename(testPath, ".tests.md");
+    const testId = `${storyId}.tests`;
+    g.addNode({ id: testId, type: "test", path: testPath, source: "acceptance-stubs" });
+    // Only wire coverage to a story that actually exists in the graph.
+    if (g.has(storyId)) g.addEdge(testId, storyId, "covers");
+  }
+
   return g;
 }

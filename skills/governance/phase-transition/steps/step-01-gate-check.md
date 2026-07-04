@@ -24,7 +24,7 @@ await markStepStart(projectRoot, `phase-transition.from-phase-${fromPhase}.step-
 Invoke `governance/evaluate-phase-gate` with `from_phase`:
 
 ```
-@qa evaluate-phase-gate --phase {from_phase}
+evaluate-phase-gate --phase {from_phase}
 ```
 
 This reads `lifecycle/{from-phase}-*/gate.json`, evaluates all `acceptance_checks`, and emits a `GateEvaluation` JSON.

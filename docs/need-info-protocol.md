@@ -20,7 +20,7 @@ version: "1.0"
 |-------|------|-------|
 | **1. Schema** | Zod types for `NeedInfoMessage`, `NeedInfoResolution`, `NeedInfoBudget` | [`schemas/need-info.schema.ts`](../schemas/need-info.schema.ts) |
 | **2. Parser** | Extract `<NEED_INFO>…</NEED_INFO>` tags from subagent text | [`src/need-info/parse.ts`](../src/need-info/parse.ts) |
-| **3. Routing + budget** | Map uncertainty kind → upstream owner; track retry budget per topic | [`src/need-info/route.ts`](../src/need-info/route.ts) + [`src/need-info/budget.ts`](../src/need-info/budget.ts) + [`orchestrator/engine/need-info-routing.md`](../orchestrator/engine/need-info-routing.md) |
+| **3. Routing + budget** | Map uncertainty kind → upstream owner; track retry budget per topic | [`src/need-info/route.ts`](../src/need-info/route.ts) + [`src/need-info/budget.ts`](../src/need-info/budget.ts) |
 | **4. Agent convention** | Every subagent's persona includes "When to emit `<NEED_INFO>`" | [`template/.claude/agents/*.md`](../template/.claude/agents/) × 8 |
 
 ---
@@ -57,7 +57,7 @@ Accepted but routes to `kind: "other"` → **human gate**. Use the rich form unl
 
 ## The 10 uncertainty kinds
 
-Full table in [`orchestrator/engine/need-info-routing.md`](../orchestrator/engine/need-info-routing.md). In brief:
+Full table in `NEED_INFO_ROUTES` ([`src/need-info/route.ts`](../src/need-info/route.ts)). In brief:
 
 | `kind` | Canonical question shape | Routes to |
 |--------|--------------------------|-----------|
@@ -129,7 +129,7 @@ For now, the protocol is available to:
 
 ### Adding a new `kind`
 
-See the routing table's [§"Adding a new kind"](../orchestrator/engine/need-info-routing.md) recipe. In short: extend the Zod enum, add a routing-table row, update `NEED_INFO_ROUTES`, add an example emission to the relevant subagent's `.claude/agents/<slug>.md`.
+See the routing table's "Adding a new kind" recipe. In short: extend the Zod enum, add a routing-table row, update `NEED_INFO_ROUTES`, add an example emission to the relevant subagent's `.claude/agents/<slug>.md`.
 
 ### Changing default budget
 
@@ -143,7 +143,6 @@ Don't. The whole point is uniform coverage. If a subagent shouldn't emit NEED_IN
 
 ## See also
 
-- [`orchestrator/engine/need-info-routing.md`](../orchestrator/engine/need-info-routing.md) — routing table source.
 - [`phase-gate-protocol.md`](phase-gate-protocol.md) — gate structure; NEED_INFO pending-human states integrate here.
 - [`handoff-schema-spec.md`](handoff-schema-spec.md) — where `handoff-shape-unclear` NEED_INFOs land.
 - [`subagent-phase-matrix.md`](subagent-phase-matrix.md) — the 8 subagents × their phase ownership; the routing table keys into this.

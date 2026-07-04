@@ -106,7 +106,7 @@ Two audit reports + reuse proposals + remediation list. `prompt-engineering` con
 | Scope | Single prompt | Portfolio (all prompts) |
 | Cadence | On-demand (when authoring) | Quarterly + pre-release |
 | Output | Revised prompt | Audit report + proposals |
-| Owner | @valet (authoring) | @valet (review) |
+| Owner | Butler (authoring) | Butler (review) |
 
 ## Source Attribution
 

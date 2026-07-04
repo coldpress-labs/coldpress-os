@@ -15,6 +15,7 @@ describe("doctor — core checks", () => {
     const ids = suite.results.map((r) => r.id).sort();
     expect(ids).toEqual([
       "claude-code",
+      "coldpress-cli",
       "git",
       "git-identity",
       "node",

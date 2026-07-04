@@ -88,7 +88,7 @@
       "severity": "warn",
       "command": "coldpress gate-check-supersessions --after-key phase_3_started_at",
       "path_pattern": "_context/audit/supersessions-*.md",
-      "remediation": "If a Phase 3 artefact superseded a `_input/` document, ensure the supersessions log was written. Run `@valet propose-change` to capture the decision."
+      "remediation": "If a Phase 3 artefact superseded a `_input/` document, ensure the supersessions log was written. Run `propose-change` to capture the decision."
     },
     {
       "id": "pack-match-resolved",

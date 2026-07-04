@@ -73,18 +73,18 @@ function buildAgentsMd(meta: ProjectMeta, agents: Agent[]): string {
 
   lines.push("## Project conventions");
   lines.push("");
-  lines.push("- **Sacred documents** live under `_context/sacred/` (context, tech-stack, PRD, architecture, PERT chart). Do not edit directly — use the change workflows in `coldpress-os/governance/`.");
+  lines.push("- **Sacred documents** live under `_context/sacred/` (context, tech-stack, PRD, architecture — the lite lane collapses these to one `spec.md`). Do not edit directly — use the change workflows in `coldpress-os/governance/`.");
   lines.push("- **Produced artefacts** go under `_context/{planning,design,implementation,testing,tracking,handoffs,audit}/`.");
   lines.push("- **Inputs** go under `_input/{raw,legacy,reference,vendor,assets}/`.");
   lines.push("- **Secrets** never commit. Declare shape in `secure/manifest.yaml`, put values in `secure/.env*` (git-ignored). See `docs/secure-pattern.md`.");
-  lines.push("- **Runtime state** (graph index, caches) lives under `.coldpress/` — git-ignored.");
+  lines.push("- **Runtime state** (EventStream run-logs, caches) lives under `.coldpress/` — git-ignored.");
   lines.push("");
 
   lines.push("## Framework location");
   lines.push("");
   lines.push("- `coldpress-os/` — framework files (lifecycle phases, skills, governance, data assets). Read-only; upgrade via `coldpress update`.");
   lines.push("- `.claude/agents/` — active subagent definitions (this project's copy).");
-  lines.push("- `.claude/skills/` — thin wrappers pointing at canonical SKILL.md files inside `coldpress-os/`.");
+  lines.push("- `.claude/settings.json` — auto-enables the coldpress skill **plugin** (`coldpress-os/plugin/`); skills ship via the plugin, not per-skill wrappers.");
   lines.push("");
 
   return lines.join("\n") + "\n";

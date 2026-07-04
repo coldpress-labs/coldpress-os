@@ -4,7 +4,7 @@
   "phase": 8,
   "phase_name": "Implementation",
   "shape": "A",
-  "note": "Phase 8 Implementation is cascade rename of old Phase 6 + Shape A scope refinement. Owner: @developer (with @qa sub-persona for test-* + code-review). Wave-by-wave story execution per PERT chart. Activates implementation-deltas reconciliation at Phase 8 EXIT (third forward-carry instance — mirror of Phase 5 design-deltas + Phase 7 architecture-deltas).",
+  "note": "Phase 8 Implementation is cascade rename of old Phase 6 + Shape A scope refinement. Owner: @developer (implements + authors tests; @verifier sub-persona for code-review). Wave-by-wave story execution per PERT chart. Activates implementation-deltas reconciliation at Phase 8 EXIT (third forward-carry instance — mirror of Phase 5 design-deltas + Phase 7 architecture-deltas).",
   "entry_conditions": [
     "Phase 7 (Breakdown) gate passed (incl. implementation-readiness 9-point all pass)",
     "PERT chart sacred + locked",

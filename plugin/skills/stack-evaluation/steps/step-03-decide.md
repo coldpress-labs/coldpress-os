@@ -101,7 +101,7 @@ Restraining forces (trade-offs accepted): {list}
 
 ## References
 
-{Sources consulted: vendor docs, graph query results, catalog entry, etc.}
+{Sources consulted: vendor docs, `coldpress trace` results, catalog entry, etc.}
 ```
 
 ### 4. Supersede check

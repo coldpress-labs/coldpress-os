@@ -26,7 +26,7 @@ Result ordering: matches Glob's modification-time order (newest first) — typic
 
 - Searching file CONTENT. Use `aci-search-dir`.
 - Looking up a known canonical path (you know it's at `_context/sacred/prd.md`). Use `Read` directly.
-- Querying the graph (e.g. "all SacredDoc nodes"). Use `coldpress graph query`.
+- Querying the derived trace graph. Use `coldpress trace` (`why` / `impact` / `orphans`).
 
 ## Process
 

@@ -297,7 +297,7 @@ The schema above defines the structural contract. For NEW skills authored from v
 
 ### Authoring helper
 
-For new skills, run `@valet skill-builder` (v1.1+) — interactive scaffolding with pre-emit standard-enforcement (10 checks; GPL/AGPL refused; source-attribution required for vendored skills).
+For new skills, run `skill-builder` (v1.1+) — interactive scaffolding with pre-emit standard-enforcement (10 checks; GPL/AGPL refused; source-attribution required for vendored skills).
 
 ### See also
 

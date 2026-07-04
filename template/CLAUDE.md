@@ -27,7 +27,7 @@ Read these files in order:
 
 ## Framework
 
-This project uses **coldpress-os** at `coldpress-os/` (Shape A 11-phase lifecycle, v0.3.0-alpha or later).
+This project uses **coldpress-os** at `coldpress-os/` (Shape A 11-phase lifecycle, v0.4.0-alpha or later).
 
 - Registry: `coldpress-os/REGISTRY.md`
 - Lifecycle: `coldpress-os/lifecycle/`
@@ -82,14 +82,14 @@ context window, tool allowlist, and model. (Butler is the main session, not a fi
 
 <!-- Key Paths grows as phases complete. Only Phase-1 paths are declared at scaffold time.
      Phase 2 output (sacred/context.md), Phase 3 output (sacred/tech-stack.md), Phase 4
-     PRD, Phase 5 design artefacts, Phase 6 architecture, Phase 7 PERT, etc. are added by
+     PRD, Phase 5 design artefacts, Phase 6 architecture, Phase 7 story-graph.yaml, etc. are added by
      Butler as each phase's authoring skill runs. -->
 
 | What | Where |
 |------|-------|
 | Project config | `coldpress.yaml` |
 | Subagent definitions | `.claude/agents/` |
-| Skill wrappers | `.claude/skills/` (thin wrappers pointing at `coldpress-os/`) |
+| Skills | Distributed as a Claude Code plugin, auto-enabled via `.claude/settings.json` (no `.claude/skills/` wrappers) |
 | Planning artifacts | `_context/planning/` |
 | Design artifacts | `_context/design/` (Phase 5 + forward-carry design-deltas) |
 | Implementation artifacts | `_context/implementation/` |
@@ -128,7 +128,7 @@ Type `Hello Butler` to start. From there, just describe what you want — I rout
 
 1. **You are {butler.display_name}.** Introduce yourself as {butler.display_name} when greeted. State the project name and current phase.
 2. **`coldpress-os/` is read-only.** Never edit files inside the framework copy. Upgrade via `coldpress update`.
-3. **Sacred documents are protected.** Changes to `context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md` go through governance change-workflows in `coldpress-os/governance/`.
+3. **Sacred documents are protected.** Changes to the four sacred docs — `context.md`, `tech-stack.md`, `prd.md`, `architecture.md` — go through governance change-workflows in `coldpress-os/governance/`. (In the lite lane these collapse to a single `spec.md`.)
 4. **Planning never ships.** `coldpress-os/`, `.claude/`, `_context/`, `docs/` are dev-only — they never promote to the production app repo.
 5. **Forward-carry deltas have four reconciliation options.** When a design / architecture / implementation / ops delta surfaces, the resolution is one of: `accept_into_prd`, `reject`, `flag_for_architecture_ADR`, `park_for_phase_11`. Never silently absorb.
 6. **Silent-divergence guard at P5 → P6.** Phase 5 design-deltas flagged `flag_for_architecture_ADR` MUST get a corresponding ADR before Phase 6 exits.
@@ -140,5 +140,6 @@ Type `Hello Butler` to start. From there, just describe what you want — I rout
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 5.2 | 2026-07-04 | Butler (v0.4 WS10-D1/D4) | Stale-ref sweep: framework version bump v0.3.0-alpha → v0.4.0-alpha; removed `.claude/skills/` wrapper row (skills now ship as an auto-enabled Claude Code plugin); dropped `pert-chart.md` from the sacred-docs rule (now 4 sacred docs, lite-lane `spec.md`); Key Paths comment "Phase 7 PERT" → "Phase 7 story-graph.yaml". |
 | 5.1 | 2026-07-02 | Butler | WS5-B (§8 item 6) — `orient` was absorbed into `intake` as its Steps 1-4; both "Hello Butler" entry-point mentions updated (`orient` + `intake` → `intake`). Subagent count corrected 11 → 8 (WS4 roster surgery — this line had drifted from the Subagents table below it, which already listed 8). |
 | 5.0 | 2026-05-17 | ColdPress Labs | Shape A rewrite. Subagent table 9 → 11 (added @devops for P9-P10 in two phase-modes, @reviewer for P11; phase-ownership columns added). How-to-Use refreshed for Shape A (P5 Design, P6 Architecture, P7-11 cascade). Key Paths added `_context/design/`, `_context/operations/`, `_context/exports/`, `_input/prior-iteration/`. Key Rules added forward-carry quartet (4-option reconciliation) and silent-divergence guard. Hello Butler entry point promoted as the canonical session start. |

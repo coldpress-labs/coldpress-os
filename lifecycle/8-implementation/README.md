@@ -2,13 +2,13 @@
 phase: 8
 name: Implementation
 agent: developer
-sub_agent: qa
+sub_agent: verifier
 status: rewritten — Phase 8 implementation in progress (autonomous queue unit #12, 2026-05-02)
 ---
 
 # Phase 8 — Implementation
 
-> **Cascade rename of old Phase 6 (Implementation) + Shape A scope refinement (2026-04-24).** Same 9 skills, same owner (@developer with @qa sub-persona). Now consumes a fully-specified upstream stack: PRD + UX-spec + brand-guidelines + sacred architecture + ADRs + sacred PERT chart + per-story files + sprint-status + prototype manifest.
+> **Cascade rename of old Phase 6 (Implementation) + Shape A scope refinement (2026-04-24).** Same 9 skills, same owner (@developer, who implements + authors tests, with @verifier sub-persona for code-review). Now consumes a fully-specified upstream stack: PRD + UX-spec + brand-guidelines + sacred architecture + ADRs + sacred PERT chart + per-story files + sprint-status + prototype manifest.
 
 ## Purpose
 
@@ -17,39 +17,40 @@ status: rewritten — Phase 8 implementation in progress (autonomous queue unit 
 - Reference prototype-manifest for code-skeleton starting point
 - Implement per acceptance criteria (BDD or AC depending on archetype)
 - Author tests per archetype-conditional discipline
-- Code-review per story (@qa sub-persona)
+- Code-review per story (@verifier sub-persona)
 - Update sprint-status as stories complete
 
 CI pipeline set up once at phase entry; per-wave gate evaluation.
 
 ## Sub-skills
 
+The wave schedule is **computed at Phase 7** by `coldpress waves` (from `story-graph.yaml`) — there is no separate P8 orchestration skill. Butler reads that schedule and dispatches `dev-story` per story, wave by wave.
+
 | Skill | Type | Owner | Notes |
 |-------|------|-------|-------|
-| `wave-orchestration` | workflow (orchestrator) | @developer | Phase 8 entry skill (Q1 — Step 0 absorbs entry-sync) |
 | `ci-pipeline` | workflow | @developer | Pre-Wave-1 setup once per Q5 |
-| `test-framework` | workflow | @qa | One-time setup; Pattern 7 sub-transition #11a |
-| `test-design` | workflow | @qa | Per-story test strategy |
+| `test-framework` | workflow | @developer | One-time setup; Pattern 7 sub-transition #11a |
+| `test-design` | workflow | @developer | Per-story test strategy |
 | `dev-story` | workflow | @developer | Per-story execution; reads story.archetype_granularity per Q2 |
 | `quick-dev` | workflow | @developer | Light dev for vibe-coder-lean per Q3 |
-| `atdd` | workflow | @qa | Per-story ATDD authoring; standard / WDS only per Q3 |
-| `qa-automation` | workflow | @qa | Per-wave automated testing |
-| `code-review` | workflow | @qa | Per-story; adversarial-review wire-in per Q6 |
+| `atdd` | workflow | @developer | Per-story ATDD authoring; standard / WDS only per Q3 |
+| `qa-automation` | workflow | @developer | Per-wave automated testing |
+| `code-review` | workflow | @verifier | Per-story; adversarial-review wire-in per Q6 |
 
 ## Recommended flow
 
 ```
-[Phase 7 exit: PERT sacred + stories validated + sprint-status + readiness pass]
+[Phase 7 exit: story-graph.yaml + coldpress waves computed + stories validated + sprint-status + readiness pass]
         │
         ▼
-   wave-orchestration (Step 0 — graph-first context + entry-sync absorbed)
+   Butler reads the computed `coldpress waves` schedule (P7)
      │
      ├──→ ci-pipeline (one-time setup; locks CI config)
-     ├──→ test-framework (one-time setup; @qa Pattern 7 sub-transition)
+     ├──→ test-framework (one-time setup; @developer test-authoring)
      │
      ▼
-   FOR each wave in PERT chart:
-     wave-orchestration assigns stories → triggers per-story flow:
+   FOR each wave in the computed schedule:
+     Butler dispatches per-story → per-story flow:
      │
      ▼
    FOR each story in wave:
@@ -58,7 +59,7 @@ CI pipeline set up once at phase entry; per-wave gate evaluation.
        ├──→ atdd (if standard / WDS)
        ├──→ implement code
        ├──→ qa-automation (run tests)
-       ├──→ code-review (@qa sub-transition; recurring per story)
+       ├──→ code-review (@verifier sub-transition; recurring per story)
         │
         ▼
    sprint-status update (per wave)
@@ -94,12 +95,10 @@ See `gate.json` (8 acceptance checks). Summary: pert-locked re-verified; all-sto
 
 ## Agent
 
-**@developer** primary; **@qa** sub-persona for test-* + code-review. Pattern 7 fourth invocation:
+**@developer** primary (implements + authors tests); **@verifier** sub-persona for code-review. Pattern 7 fourth invocation:
 - #11: phase_entry — phase-transition → @developer
-- #11a: sub_phase_boundary — @developer → @qa (test-framework setup)
-- #11b: sub_phase_boundary — @qa → @developer (back to wave execution)
-- #11c: sub_phase_boundary — @developer → @qa (code-review per story; recurring)
-- #11d: sub_phase_boundary — @qa → @developer
+- #11a: sub_phase_boundary — @developer → @verifier (code-review per story; recurring)
+- #11b: sub_phase_boundary — @verifier → @developer
 - #12: phase_exit — @developer → phase-transition
 - #13: phase_entry (Phase 9) — phase-transition → @devops
 
