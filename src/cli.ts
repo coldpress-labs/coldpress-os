@@ -11,6 +11,7 @@ import { runHook } from "./commands/hook.js";
 import { runImportBmad } from "./commands/import.js";
 import { runLaneUpgrade } from "./commands/lane-upgrade.js";
 import { runOutcomesCheck } from "./commands/outcomes.js";
+import { recordVerdict } from "./commands/verdict.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
 import { runVisualVerify } from "./commands/visual-verify.js";
@@ -104,6 +105,14 @@ outcomesCmd
   .description("Validate _context/planning/outcomes.yaml and verify P0/P1 requirements have outcome targets (P4 gate).")
   .action(() => {
     process.exit(runOutcomesCheck());
+  });
+
+const verdictCmd = program.command("verdict").description("Clean-room verifier verdict tooling (§5 P8, WS10-A4/A5).");
+verdictCmd
+  .command("record <file>")
+  .description("Validate a verifier verdict record + append a `verdict` EventStream event (taxonomy tags feed `coldpress evolve`).")
+  .action(async (file: string) => {
+    process.exit(await recordVerdict(file));
   });
 
 const tokensCmd = program.command("tokens").description("Design-token tooling (§5 P5).");
