@@ -31,7 +31,7 @@
     Domain/industry    → domain-research                     → @analyst
     Market/competition → market-research                     → @analyst
     Constraints/compliance → constraint-research             → @analyst
-    User archetypes    → personas                            → @ux-designer
+    User archetypes    → personas                            → @analyst
 
   Then sequentially:
     → validate-idea  (warn-severity — solo may skip)         → @analyst
@@ -64,7 +64,7 @@ First time choosing? (Phase 2 complete, no tech-stack.md yet)
 
     Step 4: coldpress update --post-phase-3      (manual — between lock and provision)
 
-    Step 5: env-provision                        → @developer
+    Step 5: env-provision                        → @architect
       Pack branch → quickstart skill OR generic runtime-install + baselines activation
 
   NO → Is tech-stack.md sacred (locked)?
@@ -89,12 +89,12 @@ What exists so far?
 ## 5. "I need to break this into tasks"
 
 ```
-→ Phase 5: Breakdown
+→ Phase 7: Breakdown
   → create-epics                              → @pm
   → create-stories                            → @pm
-  → parallelization-strategy (generates PERT) → @scrum-master
-  → sprint-planning                           → @scrum-master
-  → implementation-readiness (gate check)     → @qa
+  → story-slice (builds story-graph.yaml)     → @pm
+  → coldpress waves (waves + critical-path + schedule)  (CLI)
+  → implementation-readiness (gate check)     → @pm
 ```
 
 ## 6. "I need to build / implement"
@@ -103,26 +103,26 @@ What exists so far?
 What are you building?
   A specific story        → dev-story (lifecycle/8-implementation/) → @developer (standard)
   Something quick/small   → quick-dev                               → @developer (quick)
-  Need to review code     → code-review (skills/reviews/)
-  Need to audit code      → code-audit (skills/reviews/)
+  Need to review code     → code-review (skills/reviews/)           → @verifier
+  Need to audit code      → code-audit (skills/reviews/)            → @verifier
   Need tests              → What kind?
-    Acceptance tests      → atdd (skills/testing/)                  → @qa (strategic)
-    Test plan/strategy    → test-design                             → @qa (strategic)
-    Setup test framework  → test-framework                          → @qa (strategic)
-    Expand coverage       → test-automation                         → @qa (rapid)
-    Review test quality   → test-review                             → @qa
+    Acceptance tests      → atdd (skills/testing/)                  → @developer
+    Test plan/strategy    → test-design                             → @developer
+    Setup test framework  → test-framework                          → @developer
+    Expand coverage       → test-automation                         → @developer
+    Review test quality   → test-review                             → @verifier
 ```
 
 ## 7. "I need to deploy"
 
 ```
-→ Phase 7: Deployment
-  → readiness-check                                                 → @qa
+→ Phase 9: Deployment
+  → readiness-check                                                 → @devops
   → env-check
   → dep-health-check
   → security-scan
   → db-migration-check (if applicable)
-  → deploy                                                          → @developer
+  → deploy                                                          → @devops
 ```
 
 ## 8. "I need to review / improve"
@@ -131,12 +131,12 @@ What are you building?
 What kind of review?
   Adversarial/critical     → adversarial-review (skills/reviews/)
   Edge cases               → edge-case-hunter
-  Writing quality          → editorial-prose                        → @communicator
-  Document structure       → editorial-structure                    → @communicator
-  Code quality             → code-review or code-audit              → @qa
-  Sprint/project status    → sprint-status (lifecycle/10-operate/)    → @scrum-master
-  Post-sprint lessons      → retrospective                          → @scrum-master
-  Course correction needed → correct-course                         → @scrum-master + @pm
+  Writing quality          → editorial-prose                        (forkable editorial skill)
+  Document structure       → editorial-structure                    (forkable editorial skill)
+  Code quality             → code-review or code-audit              → @verifier
+  Sprint/project status    → sprint-status (lifecycle/10-operate/)    → @devops
+  Post-sprint lessons      → retrospective                          → @reviewer
+  Course correction needed → correct-course                         → @pm
   Product evolution ideas  → product-evolution                      → @pm
 ```
 
@@ -148,8 +148,8 @@ What kind of thinking?
   User-centered design     → design-thinking     → @analyst (creative mode)
   Solve a hard problem     → problem-solving     → @analyst (creative mode)
   Business strategy        → innovation-strategy → @analyst (strategic mode)
-  Craft a narrative        → storytelling        → @communicator (narrative mode)
-  Create a presentation    → presentation        → @communicator (presentation mode)
+  Craft a narrative        → storytelling        (forkable creative skill)
+  Create a presentation    → presentation        (forkable creative skill)
   Push my thinking deeper  → advanced-elicitation (skills/utilities/)
   Get multiple perspectives → party-mode (skills/utilities/)
 ```
@@ -158,21 +158,21 @@ What kind of thinking?
 
 ```
 What do you need?
-  Technical documentation  → document-project    → @communicator (documentation mode)
-  API documentation        →                     → @communicator (documentation mode)
-  Pitch narrative          → storytelling         → @communicator (narrative mode)
-  Stakeholder presentation → presentation         → @communicator (presentation mode)
+  Technical documentation  → document-project    (forkable export skill)
+  API documentation        → document-project    (forkable export skill)
+  Pitch narrative          → storytelling         (forkable creative skill)
+  Stakeholder presentation → presentation         (forkable creative skill)
 ```
 
 ## 11. "I want to improve coldpress-os itself"
 
 ```
 What do you want to do?
-  Create/edit an agent     → agent-builder (skills/meta/)   → @valet
-  Create/edit a skill      → skill-builder                  → @valet
-  Create/edit a workflow   → workflow-builder                → @valet
-  Create/edit a template   → template-builder                → @valet
-  Propose a change         → propose-change (creates GH issue) → @valet
+  Create/edit an agent     → agent-builder (skills/meta/)   → Butler (main session)
+  Create/edit a skill      → skill-builder                  → Butler (main session)
+  Create/edit a workflow   → workflow-builder                → Butler (main session)
+  Create/edit a template   → template-builder                → Butler (main session)
+  Propose a change         → propose-change (creates GH issue) → Butler (main session)
 ```
 
 ---
@@ -181,15 +181,14 @@ What do you want to do?
 
 | I need... | Dispatch to | Mode |
 |-----------|------------|------|
-| Research, interviews, brainstorming | @analyst | discovery / brief / creative / strategic |
-| PRD, product decisions, epics | @pm | — |
+| Research, interviews, brainstorming, personas | @analyst | discovery / brief / creative / strategic |
+| PRD, planning, breakdown, stories | @pm | — |
 | UX specs, design system | @ux-designer | standard / full-spec |
-| Architecture, tech stack | @architect | — |
-| Code implementation | @developer | standard / quick |
-| Tests, quality gates | @qa | rapid / strategic |
-| Sprint planning, tracking | @scrum-master | — |
-| Docs, narratives, presentations | @communicator | documentation / narrative / presentation |
-| Framework improvements | @valet | — |
+| Architecture, tech stack, provisioning | @architect | — |
+| Code implementation, tests | @developer | standard / quick |
+| Independent verification, quality gates | @verifier | — |
+| Deployment, CI/CD, operations | @devops | — |
+| Retrospective, evolve review | @reviewer | — |
 
 ---
 

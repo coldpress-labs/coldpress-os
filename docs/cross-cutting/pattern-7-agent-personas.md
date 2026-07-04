@@ -94,7 +94,7 @@ Any skill that performs an agent transition appends a transition record to the b
 Skills that emit:
 - **`phase-transition` step-03-handoff-log** — writes the `phase_entry` transition into the next phase's buffer (cross-buffer write — uses the to-phase's date stamp).
 - **`phase-transition` step-02a-reconciliation** — writes the `reconciliation_handoff` pair (out + back) for Phase 5/7/8/10 reconciliation passes.
-- **Sub-persona dispatchers** (e.g., Phase 7 sprint-planning skill that hands @pm → @scrum-master → back) — write the `sub_phase_boundary` pair around the dispatch.
+- **Sub-persona dispatchers** (e.g., Phase 8 code-review that hands @developer → @verifier → back) — write the `sub_phase_boundary` pair around the dispatch.
 - **Recurring sub-flows** (Phase 8 code-review per story) — write the `sub_phase_boundary` pair per story; these accumulate as multiple `#11c/#11d` entries in the buffer.
 
 ### Flush at phase exit
@@ -226,7 +226,7 @@ If Phase 6 architecture-deltas reconciliation pass is implemented (mirror of Pha
 
 ## Phase 7 transitions — third sustained invocation
 
-Phase 7 has 5 Pattern 7 transitions per run (3 phase-boundary + 2 internal sub_phase_boundary for sprint-planning).
+Phase 7 has 3 Pattern 7 transitions per run (all phase-boundary). Wave planning — formerly a @scrum-master sub-persona dispatch — is now @pm-native via `coldpress waves`, so there is no internal sub_phase_boundary pair.
 
 ### Transition #8 — Phase 6 → Phase 7 entry
 
@@ -240,30 +240,9 @@ transition:
   recorded_at: <ISO>
 ```
 
-### Transition #8a — Sprint-planning sub-persona dispatch
+### Wave planning — no sub-persona dispatch
 
-```yaml
-transition:
-  trigger: sub_phase_boundary
-  from_agent: pm
-  to_agent: scrum-master
-  rationale: "Sprint planning is @scrum-master's specialist domain"
-  warm_handoff: null  # in-session
-  resumes_to: pm
-  recorded_at: <ISO>
-```
-
-### Transition #8b — Sprint-planning sub-persona return
-
-```yaml
-transition:
-  trigger: sub_phase_boundary
-  from_agent: scrum-master
-  to_agent: pm
-  rationale: "Sprint plan complete; returning to @pm for implementation-readiness"
-  warm_handoff: null
-  recorded_at: <ISO>
-```
+Breakdown wave planning is @pm-native, driven by `coldpress waves`; it no longer dispatches a separate sprint-planning persona. The former #8a/#8b `sub_phase_boundary` pair (@pm → @scrum-master → back) is retired — @pm owns the whole of Phase 7.
 
 ### Transition #9 — Phase 7 exit (in-flight)
 
@@ -296,7 +275,7 @@ Phase 8 (Implementation) deep-dive will spec its own Pattern 7 transitions. Pred
 
 - Phase 7 → Phase 8: `phase_entry` (already covered as Transition #10)
 - Phase 8 → Phase 9 (Deployment): `phase_entry`, @developer → @devops
-- Optional: Phase 8 internal sub-transitions (e.g., @developer dispatches @qa for code-review sub-flow — would be `sub_phase_boundary`)
+- Optional: Phase 8 internal sub-transitions (e.g., @developer dispatches @verifier for code-review sub-flow — would be `sub_phase_boundary`)
 
 Each subsequent phase deep-dive references this doc and appends its own transitions section.
 
@@ -357,9 +336,9 @@ For `sub_phase_boundary` and `reconciliation_handoff`, ALWAYS pair the out-recor
 
 ### Sentinel reference
 
-`lifecycle/7-breakdown/sprint-planning/` is the canonical reference for sub_phase_boundary emission:
-- step-01-parse.md emits `#8a` (out) at entry
-- step-03-generate.md emits `#8b` (back) at successful completion
+`skills/reviews/a11y-audit/` is the canonical reference for sub_phase_boundary emission:
+- step-01 emits the out-record at entry
+- the final step emits the back-record at successful completion
 
 Other Phase 7-11 skills with sub-persona dispatch follow the same shape:
 - `lifecycle/8-implementation/test-framework/` — pair `#11a + #11b` (one-time setup)
@@ -373,14 +352,14 @@ Mechanism wired in audit-fix #22a. Per-skill emission retrofit is incremental �
 |---|---|---|
 | `phase-transition/steps/step-02a-reconciliation.md` | #2/#3, #6/#7, #9/#10, #12/#13, #15, #17 (multi-phase) | ✅ (audit-fix #22a) |
 | `lifecycle/7-breakdown/sprint-planning/` | #8a/#8b | ✅ (sentinel — wake #36) |
-| `skills/reviews/a11y-audit/` (Phase 5 invocation) | **#4.5a/#4.5b** — @ux-designer ↔ @qa sub-persona dispatch (one pair per Phase 5 run; emitted by a11y-audit step-01 entry + step-N return) | ⏳ pending — convention documented; per-step emission deferred |
+| `skills/reviews/a11y-audit/` (Phase 5 invocation) | **#4.5a/#4.5b** — @ux-designer ↔ @verifier sub-persona dispatch (one pair per Phase 5 run; emitted by a11y-audit step-01 entry + step-N return) | ⏳ pending — convention documented; per-step emission deferred |
 | `skills/reviews/a11y-audit/` (Phase 8 invocation) | rides existing #11c/#11d code-review pair (no new transitions) | ✅ (no new emission needed) |
 | `lifecycle/8-implementation/test-framework/` | #11a/#11b | ⏳ pending |
 | `lifecycle/8-implementation/code-review/` | #11c/#11d (recurring) | ⏳ pending |
 | `lifecycle/9-deployment/readiness-check/` (entry + exit transitions to phase-transition) | #14, #15 | ⏳ pending — investigate whether phase-transition handles or whether skill emits |
 | (others — phase_entry / phase_exit) | handled by `phase-transition` step-03 | ✅ (audit-fix #22a) |
 
-**Note on a11y-audit Phase 5 transitions (#4.5a/#4.5b):** these are NEW sub-persona transitions introduced by Unit #28 / U07. The numbering convention `#4.5a/b` slots between the existing Phase 5 transitions (#1-4) and Phase 6 transitions (#5+). The pair fires when Phase 5 design-time a11y-audit dispatches: @ux-designer (running brand-guidelines / ux-design) → @qa (a11y-audit execution) → @ux-designer (resume). Emit at a11y-audit step-01 (entry) + final step (return). Mirrors the @pm ↔ @scrum-master pattern at sprint-planning (#8a/#8b) — same shape, different agents.
+**Note on a11y-audit Phase 5 transitions (#4.5a/#4.5b):** these are NEW sub-persona transitions introduced by Unit #28 / U07. The numbering convention `#4.5a/b` slots between the existing Phase 5 transitions (#1-4) and Phase 6 transitions (#5+). The pair fires when Phase 5 design-time a11y-audit dispatches: @ux-designer (running brand-guidelines / ux-design) → @verifier (a11y-audit execution) → @ux-designer (resume). Emit at a11y-audit step-01 (entry) + final step (return). Mirrors the @developer ↔ @verifier pattern at code-review (#11c/#11d) — same shape, different agents.
 
 ---
 
@@ -400,10 +379,10 @@ Phase 8 has 7 Pattern 7 transitions per run (most so far — recurring code-revi
 | # | Trigger | From | To | Notes |
 |---|---------|------|-----|-------|
 | 11 | phase_entry | phase-transition | @developer | warm_handoff: phase-7-to-8 |
-| 11a | sub_phase_boundary | @developer | @qa | one-time test-framework setup |
-| 11b | sub_phase_boundary | @qa | @developer | back to wave loop |
-| 11c | sub_phase_boundary | @developer | @qa | code-review (RECURRING per story) |
-| 11d | sub_phase_boundary | @qa | @developer | back after code-review pass |
+| 11a | sub_phase_boundary | @developer | @verifier | one-time test-framework setup |
+| 11b | sub_phase_boundary | @verifier | @developer | back to wave loop |
+| 11c | sub_phase_boundary | @developer | @verifier | code-review (RECURRING per story) |
+| 11d | sub_phase_boundary | @verifier | @developer | back after code-review pass |
 | 12 | phase_exit | @developer | phase-transition | all waves complete |
 | 13 | phase_entry (Phase 9) | phase-transition | @devops | warm_handoff: phase-8-to-9 |
 
@@ -456,8 +435,8 @@ Phase 11 closure mechanism is unique: outputs (retrospective + product-evolution
 |---|---|---|---|
 | 1st | Phase 5 Design | @ux-designer | #1 entry / #2-3 reconciliation handoff / #4 to architect |
 | 2nd | Phase 6 Architecture | @architect | #5 entry / #6 exit / #7 to pm |
-| 3rd | Phase 7 Breakdown | @pm + @scrum-master sub | #8 entry / #8a-b sub-flow / #9 exit / #10 to developer |
-| 4th | Phase 8 Implementation | @developer + @qa sub | #11 entry / #11a-d recurring sub-flows / #12 exit / #13 to devops |
+| 3rd | Phase 7 Breakdown | @pm | #8 entry / #9 exit / #10 to developer |
+| 4th | Phase 8 Implementation | @developer + @verifier sub | #11 entry / #11a-d recurring sub-flows / #12 exit / #13 to devops |
 | 5th | Phase 9 Deployment | @devops | #14 entry / #15 exit / #16 to devops (continues) |
 | 6th | Phase 10 Operate | @devops (continued) | #16 / #17 exit / #18 to reviewer |
 | 7th + FINAL | Phase 11 Evolve | @reviewer | #18 entry / #19 exit FINAL |

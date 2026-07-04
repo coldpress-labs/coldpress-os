@@ -6,7 +6,7 @@ version: "1.0"
 
 # `<NEED_INFO>` Protocol (§5.4)
 
-> Subagents hallucinate forward when a required input is missing or ambiguous — they guess, invent, or over-scope. ChatDev's *Communicative Dehallucination* pattern replaces the guess with a structured round-trip: emit a question, pause, wait for resolution. This doc specifies coldpress-os's port of that pattern as a first-class orchestrator message type across all nine subagents.
+> Subagents hallucinate forward when a required input is missing or ambiguous — they guess, invent, or over-scope. ChatDev's *Communicative Dehallucination* pattern replaces the guess with a structured round-trip: emit a question, pause, wait for resolution. This doc specifies coldpress-os's port of that pattern as a first-class orchestrator message type across all eight subagents.
 
 **Claim:** coldpress-os is the only BMAD-family framework with a named, protocol-level hallucination mitigation. Other frameworks rely on per-prompt discipline; we enforce it at the dispatch layer.
 
@@ -21,7 +21,7 @@ version: "1.0"
 | **1. Schema** | Zod types for `NeedInfoMessage`, `NeedInfoResolution`, `NeedInfoBudget` | [`schemas/need-info.schema.ts`](../schemas/need-info.schema.ts) |
 | **2. Parser** | Extract `<NEED_INFO>…</NEED_INFO>` tags from subagent text | [`src/need-info/parse.ts`](../src/need-info/parse.ts) |
 | **3. Routing + budget** | Map uncertainty kind → upstream owner; track retry budget per topic | [`src/need-info/route.ts`](../src/need-info/route.ts) + [`src/need-info/budget.ts`](../src/need-info/budget.ts) + [`orchestrator/engine/need-info-routing.md`](../orchestrator/engine/need-info-routing.md) |
-| **4. Agent convention** | Every subagent's persona includes "When to emit `<NEED_INFO>`" | [`template/.claude/agents/*.md`](../template/.claude/agents/) × 9 |
+| **4. Agent convention** | Every subagent's persona includes "When to emit `<NEED_INFO>`" | [`template/.claude/agents/*.md`](../template/.claude/agents/) × 8 |
 
 ---
 
@@ -65,11 +65,11 @@ Full table in [`orchestrator/engine/need-info-routing.md`](../orchestrator/engin
 | `architecture-unclear` | "Which service owns X?" / "Is async OK here?" | `@architect` |
 | `tech-stack-unclear` | "Which library for X?" / "Node or Python?" | `@architect` |
 | `scope-boundary-unclear` | "In this epic or a follow-up?" | `@pm` |
-| `acceptance-criteria-unclear` | "What counts as 'done' for story Y?" | `@scrum-master` |
+| `acceptance-criteria-unclear` | "What counts as 'done' for story Y?" | `@pm` |
 | `design-intent-unclear` | "Modal or full-page?" / "Which interaction pattern?" | `@ux-designer` |
-| `process-step-unclear` | "Which skill for this?" / "Step order?" | `@valet` |
+| `process-step-unclear` | "Which skill for this?" / "Step order?" | **human** |
 | `credential-missing` | "What API key for X?" | **human** |
-| `handoff-shape-unclear` | "What fields does the PRD→architecture sidecar require?" | `@valet` |
+| `handoff-shape-unclear` | "What fields does the PRD→architecture sidecar require?" | **human** |
 | `other` | Fallthrough. | **human** |
 
 ---
@@ -97,7 +97,7 @@ A `<NEED_INFO>` emission that escalates to human creates an implicit pending-hum
 
 ### Handoff schemas (Wave 2 Block L)
 
-A `handoff-shape-unclear` NEED_INFO with `context_refs` pointing at a specific schema file is the idiomatic way for a downstream subagent to ask "which fields are required?" when they hit a shape mismatch. Route is `@valet` because handoff schemas are framework-level.
+A `handoff-shape-unclear` NEED_INFO with `context_refs` pointing at a specific schema file is the idiomatic way for a downstream subagent to ask "which fields are required?" when they hit a shape mismatch. Route is **human** because the handoff packet is framework-level (Butler's) and escalates.
 
 ### Sacred-doc governance (§5.2)
 
@@ -137,7 +137,7 @@ Edit `DEFAULT_RETRY_BUDGET` in `schemas/need-info.schema.ts` OR construct `NeedI
 
 ### Disabling NEED_INFO for a specific subagent
 
-Don't. The whole point is uniform coverage. If a subagent shouldn't emit NEED_INFO for a specific class of question (e.g., `@valet` doesn't emit `design-intent-unclear` because that's not its domain), scope discipline lives in that subagent's persona, not in the protocol.
+Don't. The whole point is uniform coverage. If a subagent shouldn't emit NEED_INFO for a specific class of question (e.g., `@devops` doesn't emit `design-intent-unclear` because that's not its domain), scope discipline lives in that subagent's persona, not in the protocol.
 
 ---
 
@@ -146,11 +146,11 @@ Don't. The whole point is uniform coverage. If a subagent shouldn't emit NEED_IN
 - [`orchestrator/engine/need-info-routing.md`](../orchestrator/engine/need-info-routing.md) — routing table source.
 - [`phase-gate-protocol.md`](phase-gate-protocol.md) — gate structure; NEED_INFO pending-human states integrate here.
 - [`handoff-schema-spec.md`](handoff-schema-spec.md) — where `handoff-shape-unclear` NEED_INFOs land.
-- [`subagent-phase-matrix.md`](subagent-phase-matrix.md) — the 9 subagents × their phase ownership; the routing table keys into this.
+- [`subagent-phase-matrix.md`](subagent-phase-matrix.md) — the 8 subagents × their phase ownership; the routing table keys into this.
 
 ---
 
 ## Orchestration context
 
-> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 8 Shape A subagents (analyst · architect · pm · ux-designer · developer · verifier · devops · reviewer) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 

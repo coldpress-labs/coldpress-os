@@ -35,7 +35,7 @@ coldpress-os/skills/<category>/<skill-name>/
 ```
 
 - Categories so far: `creative/`, `reviews/`, `governance/`, `utilities/`, `meta/`, `testing/`, `ops/`.
-- Frontmatter declares `phases: [N, M, ...]` (array — multi-phase) and `agent: <slug>` (the **domain-owner** agent — `analyst` for ideation, `communicator` for editorial, `qa` for review, etc.).
+- Frontmatter declares `phases: [N, M, ...]` (array — multi-phase) and `agent: <slug>` (the **domain-owner** agent — `analyst` for ideation, `reviewer` for retrospective, `verifier` for review, etc.).
 - Implementation logic lives here. Skill files (`SKILL.md` + `workflow.md` + `steps/`) are authored once.
 
 ### 2. Phase router form (optional)
@@ -52,13 +52,13 @@ The router:
 - Has minimal SKILL.md + workflow that **delegates to the canonical skill**, framing inputs and capturing the canonical output into the phase's artefact paths.
 - Does not duplicate the canonical skill's logic.
 
-Example: `narrative` (Phase 5) is a router that wraps `skills/creative/storytelling/`. `narrative.SKILL.md` declares `phase: 5` + `agent: ux-designer`; the canonical `skills/creative/storytelling/SKILL.md` declares `phases: [2, 5, 8, 11]` + `agent: communicator`.
+Example: `narrative` (Phase 5) is a router that wraps `skills/creative/storytelling/`. `narrative.SKILL.md` declares `phase: 5` + `agent: ux-designer`; the canonical `skills/creative/storytelling/SKILL.md` declares `phases: [2, 5, 8, 11]` + `agent: butler`.
 
 ### Why the apparent conflict in agent-ownership is by design
 
 Audits flag entries like:
 - `brainstorming` declared `agent: analyst` at `skills/creative/brainstorming/` AND `agent: architect` at `lifecycle/3-tech-stack/brainstorming-router/` (hypothetical).
-- `storytelling` declared `agent: communicator` at `skills/creative/storytelling/` AND `agent: analyst` at `lifecycle/4-planning/storytelling/` (the Phase 4 instance).
+- `storytelling` declares `agent: butler` at `skills/creative/storytelling/` AND `agent: analyst` at `lifecycle/4-planning/storytelling/` (the Phase 4 instance).
 
 This is **not a conflict** — it's the canonical-vs-router pattern. The audit must distinguish:
 
@@ -77,7 +77,7 @@ A future audit should **only flag**: (a) two canonicals with the same name; (b) 
 | Skill kind | Canonical lives at | Canonical's `agent:` | Router (if needed) lives at | Router's `agent:` |
 |---|---|---|---|---|
 | Ideation router (brainstorming, design-thinking, innovation-strategy, problem-solving) | `skills/creative/<name>/` | `analyst` | `lifecycle/<N>/<router-name>/` | phase-owner agent |
-| Storytelling | `skills/creative/storytelling/` | `communicator` | `lifecycle/<N>/<router-name>/` | phase-owner (e.g., `ux-designer` in Phase 5) |
+| Storytelling | `skills/creative/storytelling/` | `butler` | `lifecycle/<N>/<router-name>/` | phase-owner (e.g., `ux-designer` in Phase 5) |
 | Review (adversarial-review, editorial-prose, editorial-structure) | `skills/reviews/<name>/` | `qa` (most cases) or `reviewer` | (rarely needs a router) | n/a |
 | Governance (phase-transition, validate-schema, supersede-check) | `skills/governance/<name>/` | varies | n/a | n/a |
 | Utility (party-mode, distillator, advanced-elicitation) | `skills/utilities/<name>/` | varies | n/a | n/a |
@@ -135,12 +135,12 @@ When auditing agent-ownership:
 | `design-thinking` | `skills/creative/design-thinking/` | analyst | (declared in frontmatter) |
 | `innovation-strategy` | `skills/creative/innovation-strategy/` | analyst | (declared in frontmatter) |
 | `problem-solving` | `skills/creative/problem-solving/` | analyst | (declared in frontmatter) |
-| `storytelling` | `skills/creative/storytelling/` | communicator | [2, 5, 8, 11] |
-| `presentation` | `skills/creative/presentation/` | communicator | (declared in frontmatter) |
-| `pdf-generator` ⭐NEW | `skills/creative/pdf-generator/` | communicator | [4, 5, 8, 10, 11] |
-| `docx-generator` ⭐NEW | `skills/creative/docx-generator/` | communicator | [4, 5, 11] |
-| `pptx-generator` ⭐NEW | `skills/creative/pptx-generator/` | communicator | [4, 10, 11] |
-| `xlsx-generator` ⭐NEW | `skills/creative/xlsx-generator/` | communicator | [7, 9, 10, 11] |
+| `storytelling` | `skills/creative/storytelling/` | butler | [2, 5, 8, 11] |
+| `presentation` | `skills/creative/presentation/` | butler | (declared in frontmatter) |
+| `pdf-generator` ⭐NEW | `skills/creative/pdf-generator/` | butler | [4, 5, 8, 10, 11] |
+| `docx-generator` ⭐NEW | `skills/creative/docx-generator/` | butler | [4, 5, 11] |
+| `pptx-generator` ⭐NEW | `skills/creative/pptx-generator/` | butler | [4, 10, 11] |
+| `xlsx-generator` ⭐NEW | `skills/creative/xlsx-generator/` | butler | [7, 9, 10, 11] |
 
 ### Phase routers wrapping creatives
 
@@ -152,25 +152,25 @@ When auditing agent-ownership:
 
 | Skill | Path | Agent | Phases |
 |---|---|---|---|
-| `adversarial-review` | `skills/reviews/adversarial-review/` | qa | (multi) |
-| `editorial-prose` | `skills/reviews/editorial-prose/` | communicator/qa | (multi) |
-| `editorial-structure` | `skills/reviews/editorial-structure/` | communicator/qa | (multi) |
-| `code-review` | `skills/reviews/code-review/` | qa | [8] |
-| `code-audit` | `skills/reviews/code-audit/` | qa | (multi) |
-| `edge-case-hunter` | `skills/reviews/edge-case-hunter/` | qa | (multi) |
-| `a11y-audit` ⭐NEW | `skills/reviews/a11y-audit/` | qa | [5, 8] (archetype-conditional severity) |
+| `adversarial-review` | `skills/reviews/adversarial-review/` | verifier | (multi) |
+| `editorial-prose` | `skills/reviews/editorial-prose/` | verifier | (multi) |
+| `editorial-structure` | `skills/reviews/editorial-structure/` | verifier | (multi) |
+| `code-review` | `skills/reviews/code-review/` | verifier | [8] |
+| `code-audit` | `skills/reviews/code-audit/` | verifier | (multi) |
+| `edge-case-hunter` | `skills/reviews/edge-case-hunter/` | verifier | (multi) |
+| `a11y-audit` ⭐NEW | `skills/reviews/a11y-audit/` | verifier | [5, 8] (archetype-conditional severity) |
 
 ### Utilities (cross-phase, no router pattern)
 
 | Skill | Path | Agent | Phases |
 |---|---|---|---|
-| `decision-logger` ⭐NEW | `skills/utilities/decision-logger/` | scrum-master | [2-11] |
+| `decision-logger` ⭐NEW | `skills/utilities/decision-logger/` | pm | [2-11] |
 | `advanced-elicitation` | `skills/utilities/advanced-elicitation/` | (any) | (any) |
 | `party-mode` | `skills/utilities/party-mode/` | (all 11 dispatched) | (any) |
 | `distillator` | `skills/utilities/distillator/` | (any) | (any) |
 | `index-docs` | `skills/utilities/index-docs/` | (any) | (any) |
 | `shard-doc` | `skills/utilities/shard-doc/` | (any) | (any) |
-| `document-project` | `skills/utilities/document-project/` | communicator | [10] |
+| `document-project` | `skills/utilities/document-project/` | butler | [10] |
 
 ### Ops skills (cross-phase deployment + operations)
 
@@ -181,21 +181,21 @@ When auditing agent-ownership:
 | `db-migration-check` | `skills/ops/db-migration-check/` | devops | [9] |
 | `dep-health-check` | `skills/ops/dep-health-check/` | devops | [9] |
 | `env-check` | `skills/ops/env-check/` | devops | [9] |
-| `repo-structure-audit` | `skills/ops/repo-structure-audit/` | devops/valet | (any) |
+| `repo-structure-audit` | `skills/ops/repo-structure-audit/` | devops | (any) |
 | `security-scan` | `skills/ops/security-scan/` | devops | [9] |
 
 ### Meta skills (framework evolution)
 
 | Skill | Path | Agent | Phases |
 |---|---|---|---|
-| `skill-builder` v1.1 ⭐UPDATED | `skills/meta/skill-builder/` | valet | meta |
-| `agent-builder` | `skills/meta/agent-builder/` | valet | meta |
-| `template-builder` | `skills/meta/template-builder/` | valet | meta |
-| `workflow-builder` | `skills/meta/workflow-builder/` | valet | meta |
-| `propose-change` | `skills/meta/propose-change/` | valet | meta |
-| `bmad-import` | `skills/meta/bmad-import/` | valet | meta |
-| `prompt-engineering` ⭐NEW | `skills/meta/prompt-engineering/` | valet | meta |
-| `prompt-governance` ⭐NEW | `skills/meta/prompt-governance/` | valet | meta |
+| `skill-builder` v1.1 ⭐UPDATED | `skills/meta/skill-builder/` | butler | meta |
+| `agent-builder` | `skills/meta/agent-builder/` | butler | meta |
+| `template-builder` | `skills/meta/template-builder/` | butler | meta |
+| `workflow-builder` | `skills/meta/workflow-builder/` | butler | meta |
+| `propose-change` | `skills/meta/propose-change/` | butler | meta |
+| `bmad-import` | `skills/meta/bmad-import/` | butler | meta |
+| `prompt-engineering` ⭐NEW | `skills/meta/prompt-engineering/` | butler | meta |
+| `prompt-governance` ⭐NEW | `skills/meta/prompt-governance/` | butler | meta |
 
 ### Stack-pack (cross-phase domain bundle)
 

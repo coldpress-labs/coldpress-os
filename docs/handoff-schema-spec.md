@@ -6,7 +6,7 @@ version: "1.0"
 
 # Handoff Schema Spec
 
-> Every phase boundary in coldpress-os is a handoff. The four **high-stakes** handoffs (PRD → architecture, architecture → PERT, PERT → stories, stories → implementation) carry a typed sidecar validated by a Zod schema; validation failure blocks the phase transition. This doc is the contract.
+> Every phase boundary in coldpress-os is a handoff. The two **high-stakes** handoffs (PRD → architecture, stories → implementation) carry a typed sidecar validated by a Zod schema; validation failure blocks the phase transition. This doc is the contract.
 
 **Source decision:** [bmad-family-positioning-brief-2026-04-23.md](../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) — MetaGPT's `cause_by` + `instruct_content` patterns ported as **convention**, not code. No pub/sub runtime.
 
@@ -17,7 +17,7 @@ version: "1.0"
 | Layer | What | Where |
 |-------|------|-------|
 | **1. Registry** | Canonical list of every handoff in the framework | [`docs/handoff-registry.md`](handoff-registry.md) |
-| **2. Schemas** | Zod definitions for the 4 high-stakes handoffs | [`schemas/handoffs/*.schema.ts`](../schemas/handoffs/) |
+| **2. Schemas** | Zod definitions for the 2 high-stakes handoffs | [`schemas/handoffs/*.schema.ts`](../schemas/handoffs/) |
 | **3. `produced_by` field** | Frontmatter annotation on every handoff artefact | every producing skill emits it |
 | **4. `.meta.json` sidecars** | Structured payload alongside the prose artefact | written by producer, validated by producer + consumer |
 
@@ -38,8 +38,6 @@ Every high-stakes handoff has a schema at `schemas/handoffs/<id>.schema.ts`. The
 | Handoff id | File | Covers |
 |------------|------|--------|
 | `prd-to-architecture` | `prd-to-architecture.schema.ts` | Architectural drivers, NFRs, constraints, out-of-scope. |
-| `architecture-to-pert` | `architecture-to-pert.schema.ts` | Components, dependencies, risk ratings. |
-| `pert-to-stories` | `pert-to-stories.schema.ts` | Epic assignment, wave number, acceptance-criteria shape. |
 | `stories-to-implementation` | `stories-to-implementation.schema.ts` | File scope, test coverage target. |
 
 Every schema:
@@ -187,5 +185,5 @@ The function never throws on validation failure; the caller decides how to surfa
 
 ## Orchestration context
 
-> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 8 Shape A subagents (analyst · architect · pm · ux-designer · developer · verifier · devops · reviewer) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 

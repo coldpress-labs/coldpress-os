@@ -64,7 +64,7 @@ Evaluator: dispatches to `skill_ref`. Skill exit code → check status (0 = pass
 
 ### `kind: "human"`
 
-A named approver (user, `@qa`, `@architect`, etc.) must sign off. Not a phase blocker by default — but sign-off is recorded in `.coldpress/signoffs/` for audit.
+A named approver (user, `@verifier`, `@architect`, etc.) must sign off. Not a phase blocker by default — but sign-off is recorded in `.coldpress/signoffs/` for audit.
 
 ```json
 {
@@ -212,5 +212,5 @@ Edit `lifecycle/<phase>/gate.json`. Add a row to `acceptance_checks[]`. Gate re-
 
 ## Orchestration context
 
-> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 8 Shape A subagents (analyst · architect · pm · ux-designer · developer · verifier · devops · reviewer) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 

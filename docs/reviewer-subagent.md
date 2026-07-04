@@ -1,12 +1,12 @@
 ---
 name: reviewer-subagent
-description: @reviewer — the 10th subagent. Pure critic with read-only tools; emits structured JSON rubrics at phase boundaries; invoked by the orchestrator, not by Butler directly
+description: @reviewer — the dedicated pure-critic subagent. Read-only tools; emits structured JSON rubrics at phase boundaries; invoked by the orchestrator, not by Butler directly
 version: "1.0"
 ---
 
 # `@reviewer` (§6.2)
 
-> Coldpress-os had no pure critic before this block. PRD review was an @pm side-task; story review was a @qa side-task; architecture review was an @architect side-task. Critics that can also produce tend to collapse reviewing into re-authoring. This doc specifies a dedicated 10th subagent with read-only tools whose only output is a structured rubric.
+> Coldpress-os had no pure critic before this block. PRD review was an @pm side-task; story review was a @qa side-task; architecture review was an @architect side-task. Critics that can also produce tend to collapse reviewing into re-authoring. This doc specifies a dedicated pure-critic subagent with read-only tools whose only output is a structured rubric.
 
 **Source decision:** [bmad-family-positioning-brief-2026-04-23.md §"Dedicated-critic subagent audit"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) — audit found no pure-critic subagent in the framework; this block fills the gap.
 
@@ -92,7 +92,7 @@ Per Block R's canonical-subfolder mapping. Audit-shaped artefact under `_context
 3. **Don't propose rewrites.** `remediation` is one sentence identifying the gap. Rewriting is the producer's job.
 4. **No editorial opinions.** "This PRD could be more compelling" is not a rubric row. "The vision statement lacks a time bound" is.
 5. **Idempotent.** Running you twice on the same inputs produces identical rubric rows (modulo `reviewed_at`).
-6. **Emit `<NEED_INFO>` when criteria are silent.** Don't score generously. Default routing for `acceptance-criteria-unclear` goes to @scrum-master to decide whether to defer the check or escalate.
+6. **Emit `<NEED_INFO>` when criteria are silent.** Don't score generously. Default routing for `acceptance-criteria-unclear` goes to @pm to decide whether to defer the check or escalate.
 
 ---
 
@@ -108,11 +108,11 @@ A failing-`high` rubric row is a gate blocker. The phase-gate evaluator (`evalua
 
 ### `<NEED_INFO>` (§5.4)
 
-Reviewer's `## When to Emit <NEED_INFO>` section in `template/.claude/agents/reviewer.md` defaults to `acceptance-criteria-unclear` (routes to @scrum-master). Reviewers don't typically emit `prd-ambiguity` themselves — the PM owns that route as the receiver.
+Reviewer's `## When to Emit <NEED_INFO>` section in `template/.claude/agents/reviewer.md` defaults to `acceptance-criteria-unclear` (routes to @pm). Reviewers don't typically emit `prd-ambiguity` themselves — the PM owns that route as the receiver.
 
 ### Interop generator (Wave 2 §2.8)
 
-`runInterop` reads `template/.claude/agents/*.md` dynamically — no code change needed; reviewer.md is auto-included in AGENTS.md, .cursor/rules/reviewer.mdc, .roomodes (10 customModes), .openhands/microagents/reviewer.md, and .clinerules. Test counts updated from 9→10 in `test/interop.test.ts`.
+`runInterop` reads `template/.claude/agents/*.md` dynamically — no code change needed; reviewer.md is auto-included in AGENTS.md, .cursor/rules/reviewer.mdc, .roomodes (8 customModes), .openhands/microagents/reviewer.md, and .clinerules. Test counts track the agent roster in `test/interop.test.ts`.
 
 ---
 

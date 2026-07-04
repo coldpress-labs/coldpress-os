@@ -96,7 +96,7 @@ Primary:
 | `prototype` | lifecycle | ux-designer | active |
 | `narrative` | lifecycle | ux-designer | active |
 | `legacy-ui-assessment` | lifecycle | ux-designer | conditional (brownfield) |
-| `a11y-audit` | reviews | qa | active (Phase 5 mode) |
+| `a11y-audit` | reviews | verifier | active (Phase 5 mode) |
 
 ---
 
@@ -118,9 +118,9 @@ Primary:
 | `breakdown-entry-sync` | lifecycle | pm | active (architecture-deltas reconciliation) |
 | `create-epics` | lifecycle | pm | active |
 | `create-stories` | lifecycle | pm | active |
-| `parallelization-strategy` | lifecycle | scrum-master | active |
-| `sprint-planning` | lifecycle | scrum-master | active |
-| `implementation-readiness` | lifecycle | qa | active |
+| `parallelization-strategy` | lifecycle | pm | active |
+| `sprint-planning` | lifecycle | pm | active |
+| `implementation-readiness` | lifecycle | pm | active |
 
 ---
 
@@ -131,9 +131,9 @@ Primary:
 |-------|----------|-------------------|--------|
 | `dev-story` | lifecycle | developer | active |
 | `quick-dev` | lifecycle | developer | active |
-| `code-review` | reviews | qa | active |
-| `code-audit` | reviews | qa | active |
-| `wave-orchestration` | lifecycle | scrum-master | active |
+| `code-review` | reviews | verifier | active |
+| `code-audit` | reviews | verifier | active |
+| `wave-orchestration` | lifecycle | pm | active |
 
 Testing skills (primary in Phase 8, also Phase 9):
 | Skill | Category | Status |
@@ -174,7 +174,7 @@ Primary:
 | `observability-designer` | ops | devops | active |
 | `db-migration-check` | ops | devops | active |
 | `ci-cd-setup` | ops | devops | active |
-| `repo-structure-audit` | ops | valet | active |
+| `repo-structure-audit` | ops | butler | active |
 
 ---
 
@@ -186,7 +186,7 @@ Continuous operational work; owner @devops continues from Phase 9 (steady-state 
 | `sprint-status` | lifecycle | devops | active |
 | `correct-course` | lifecycle | devops | active |
 | `incident-response` | lifecycle | devops | active |
-| `document-project` | utility (router) | communicator | active |
+| `document-project` | utility (router) | butler | active |
 
 ---
 
@@ -210,9 +210,9 @@ Creative skills are **phase-agnostic**. They ship in `skills/creative/` and are 
 | `brainstorming` | Phase 2, 4, 9 | analyst |
 | `design-thinking` | Phase 2, 4 | analyst |
 | `problem-solving` | Phase 2, 4, 6 | analyst + developer |
-| `storytelling` | Phase 4, 9 | analyst + communicator |
+| `storytelling` | Phase 4, 9 | analyst |
 | `innovation-strategy` | Phase 2, 9 | analyst |
-| `presentation` | Phase 4, 9 | communicator |
+| `presentation` | Phase 4, 9 | butler |
 
 ---
 
@@ -222,10 +222,10 @@ Utility skills that sit outside the phase spine. Invoked on demand by a user req
 
 | Skill | Category | Typical invoker | Status |
 |-------|----------|-----------------|--------|
-| `distillator` | utility | analyst, communicator | ad-hoc (forward-carry: wire into Phase 2 Discovery — tracked in phase-ii-implementation-plan Forward carries) |
+| `distillator` | utility | analyst | ad-hoc (forward-carry: wire into Phase 2 Discovery — tracked in phase-ii-implementation-plan Forward carries) |
 | `advanced-elicitation` | utility | analyst | forward-carry — wire into Phase 2 Discovery (Part 2 of the Phase II plan) |
 | `index-docs` | utility | butler (intake), any | wire-in-phase-1 (invoked by `intake` Step 1 after material solicitation) |
-| `shard-doc` | utility | butler (intake), communicator | wire-in-phase-1 (invoked by `intake` Step 1 for large `_input/raw/` files > 50KB) |
+| `shard-doc` | utility | butler (intake) | wire-in-phase-1 (invoked by `intake` Step 1 for large `_input/raw/` files > 50KB) |
 | `party-mode` | utility | any | ad-hoc (creative assist, not lifecycle-critical) |
 | `parse-document` | ingest | analyst | active — routes PDF / Office / image / AI-conversation inputs to markdown. Replaces the retired `pdf-deep-parser` (whose PDF coverage is absorbed by parse-document's Docling adapter). |
 | `teach-me-testing` | utility | any | ad-hoc (onboarding / education) |
@@ -236,7 +236,7 @@ Block V of Wave 4 formalises these dispositions in skill frontmatter (`status: a
 
 ## Meta skills
 
-Meta skills are framework-evolution skills — invoked by `@valet` to extend coldpress-os itself, not to drive a project.
+Meta skills are framework-evolution skills — invoked by the framework-internal meta loop to extend coldpress-os itself, not to drive a project.
 
 | Skill | Purpose | Status |
 |-------|---------|--------|
@@ -260,7 +260,7 @@ Skills specific to a technology stack. Activated when `stack_pack:` is set in `c
 | `setup-auth` | developer | 6 | active |
 | `create-component` | developer | 6 | active |
 | `migration-helper` | developer | 6 | active |
-| `performance-audit` | qa | 8 | active |
+| `performance-audit` | verifier | 8 | active |
 
 ---
 

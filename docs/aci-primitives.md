@@ -71,7 +71,7 @@ Every ACI loop has a hard ceiling of **2 corrective attempts** at any single ste
 
 Escalation paths:
 - Emit `<NEED_INFO>` per Block AA — typically `architecture-unclear` or `acceptance-criteria-unclear`.
-- Hand back to @scrum-master via the standard handoff protocol.
+- Hand back to @pm via the standard handoff protocol.
 - For @reviewer: produce the rubric row as `status: fail, severity: high` with the verifier output as `evidence` — DO NOT keep iterating.
 
 Why a hard cap: agents asked to "keep trying" on a stubborn failure rarely converge. The compute spent on corrective attempts past 2 is better spent escalating to a higher-context decision.
@@ -124,5 +124,5 @@ A typical bug-fix loop using all four primitives:
 
 ## Orchestration context
 
-> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 8 Shape A subagents (analyst · architect · pm · ux-designer · developer · verifier · devops · reviewer) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 

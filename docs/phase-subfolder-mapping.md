@@ -16,7 +16,7 @@ This mapping is enforced by the test suite: `test/skill-output-paths.test.ts` fa
 
 | Subfolder | What lives here | Example artefacts |
 |-----------|-----------------|-------------------|
-| `_context/sacred/` | Sacred documents (governance-protected) | `context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md` |
+| `_context/sacred/` | Sacred documents (governance-protected) | `context.md`, `tech-stack.md`, `prd.md`, `architecture.md` |
 | `_context/planning/` | Forward-looking planning artefacts | epics, validation reports, design briefs, product briefs, research outputs, creative outputs (brainstorm / design-thinking / problem-solving / storytelling / innovation-strategy), distillates, ADRs |
 | `_context/design/` | UX / design artefacts | UX design spec, design system docs |
 | `_context/implementation/` | Code-side deliverables | story files, implementation notes, spec-wip |
@@ -44,7 +44,7 @@ This mapping is enforced by the test suite: `test/skill-output-paths.test.ts` fa
 | Planning (Phase 4) | PRD, validate-prd, legacy-assessment, design-brief (entry), product-brief reconciliation | `sacred/` (PRD), `planning/` (briefs, legacy-assessment) |
 | Design (Phase 5) | _scaffolded — UX spec, design-system, brand-guidelines, prototype, storytelling. Final output shapes locked in Phase 5 deep dive Round 2._ | `design/` (UX, design-system), `planning/` (storytelling), `design/prototype/` |
 | Architecture (Phase 6) | _scaffolded — architecture.md (sacred), updated ADRs. Output shapes locked in Phase 6 deep dive._ | `sacred/` (architecture.md), `planning/` (ADRs) |
-| Breakdown (Phase 7) | PERT chart, epics, stories, sprint-status, readiness report | `sacred/` (PERT), `implementation/` (stories), `tracking/` (sprint-status), `planning/` (epics, readiness) |
+| Breakdown (Phase 7) | epics, stories, story-graph.yaml (+ waves/schedule via `coldpress waves`), sprint-status, readiness report | `implementation/` (stories, story-graph.yaml), `tracking/` (sprint-status), `planning/` (epics, readiness) |
 | Implementation (Phase 8) | dev-story outputs, wave-status, review reports | `implementation/`, `tracking/`, `audit/` (reviews) |
 | Deployment (Phase 9) | Deploy logs, readiness reports, security scans | `tracking/` (deploy), `audit/` (readiness + scans) |
 | Operate (Phase 10) | Sprint status updates, course-correction, document-project | `tracking/`, `planning/` (course-correction), `audit/` (doc-project) |
@@ -58,7 +58,7 @@ Canonical dirs are the **top-level contract**. Inside each, specialised subfolde
 
 ```
 _context/
-├── sacred/          # 5 files, flat — no nesting
+├── sacred/          # 4 files, flat — no nesting
 ├── planning/
 │   ├── research/       # domain / market / technical (constraint) research outputs
 │   ├── creative/       # brainstorm, design-thinking, problem-solving, storytelling, innovation-strategy, presentation
@@ -123,5 +123,5 @@ To add a nested subfolder under an existing canonical dir: no doc change needed 
 
 ## Orchestration context
 
-> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 8 Shape A subagents (analyst · architect · pm · ux-designer · developer · verifier · devops · reviewer) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 

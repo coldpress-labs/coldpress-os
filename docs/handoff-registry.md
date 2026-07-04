@@ -12,7 +12,7 @@ version: "1.4"
 
 > **Shape A note (v0.3.0-alpha).** The registry below uses Shape A phase numbering (Bootstrap=1, Discovery=2, Tech Stack=3, Planning=4, **Design=5**, **Architecture=6**, Breakdown=7, Implementation=8, Deployment=9, Operate=10, Evolve=11). Additionally, four **forward-carry delta handoffs** carry late-surfacing constraints across phase boundaries — see [`example-walkthrough.md`](example-walkthrough.md) §"forward-carry quartet" and [`schemas/handoffs/design-delta.schema.json`](../schemas/handoffs/design-delta.schema.json) + [`schemas/handoffs/ops-delta.schema.json`](../schemas/handoffs/ops-delta.schema.json).
 
-Before this registry existed, 6 of 7 inter-phase handoffs were implicit — the producing skill emitted prose, the consuming skill read it, and the contract lived in English-language prose inside the two SKILL.md files. That was survivable when the framework had one author; it's not survivable at scale. This registry makes every handoff explicit, auditable, and — for the high-stakes four — typed.
+Before this registry existed, 6 of 7 inter-phase handoffs were implicit — the producing skill emitted prose, the consuming skill read it, and the contract lived in English-language prose inside the two SKILL.md files. That was survivable when the framework had one author; it's not survivable at scale. This registry makes every handoff explicit, auditable, and — for the high-stakes two — typed.
 
 **Stakes:**
 - **high** — a schema mismatch breaks the downstream phase. Typed sidecar (`.meta.json`) validated by Zod schema in [`schemas/handoffs/`](../schemas/handoffs/); validation failure = gate failure.
@@ -31,16 +31,16 @@ Before this registry existed, 6 of 7 inter-phase handoffs were implicit — the 
 | 2 | Phase 2 (Discovery) | Phase 3 (Tech Stack) | `_context/sacred/context.md` (status: authored) + `_context/planning/research-synthesis-v{N}.md` + `_context/planning/product-brief-v{N}.md` + `_context/planning/idea-validation-v{N}.md` (if ran) + `_context/planning/personas-*.md` (if ran) + `_context/planning/research/*.md` fragments + `_context/audit/supersessions-*.md` (if any) + `_context/handoffs/phase-2-to-phase-3-{date}.md` (written by `phase-transition`) | prose + structured (product-brief schema + research-output schema) | `pre-project-interview`, `domain-research`, `market-research`, `constraint-research`, `personas`, `validate-idea`, `synthesize-research`, `product-brief` → `phase-transition` | `stack-evaluation` | med | `schemas/distillates/product-brief.schema.json`, `schemas/research-output.schema.json` |
 | 3 | Phase 3 (Tech Stack) | Phase 4 (Planning) | `_context/sacred/tech-stack.md` + `_context/planning/adrs/adr-*-v*.md` + `_context/planning/stack-selection-summary-v{N}.md` + `_context/planning/stack-shortlist-v{N}.md` + `_context/handoffs/phase-3-to-4-{date}.md` (written by `phase-transition`) + `_context/audit/stack-lock-decisions-{date}.md` (if applicable) + `_context/audit/supersessions-{date}.md` (if applicable) | prose + structured (tech-stack schema + ADR schema + shortlist schema + distillate schema) | `stack-discovery-sync`, `stack-evaluation`, `stack-locking` → `phase-transition` | `create-prd`, `create-architecture` | med | `schemas/sacred-docs/tech-stack.schema.json`, `schemas/planning-artefacts/adr.schema.json`, `schemas/planning-artefacts/stack-shortlist.schema.json`, `schemas/distillates/stack-selection-summary.schema.json` |
 | 4 | Phase 4 (Planning) | Phase 6 (Architecture) | `_context/sacred/prd.md` + `_context/sacred/prd.meta.json` + `_context/planning/planning-scope-v{N}.md` + `_context/planning/legacy-migration-plan-v{N}.md` **(brownfield only — conditional on `_input/legacy/` non-empty; validated against `schemas/planning-artefacts/legacy-migration-plan.schema.json`; recorded in `prd.meta.json` as `brownfield_modules_count > 0`)** + `_context/planning/prd-validation-{date}.md` + `_context/handoffs/phase-4-to-5-{date}.md` (written by `phase-transition`) | prose + structured | `planning-entry-sync`, `create-prd`, `validate-prd`, `legacy-assessment` → `phase-transition` | `planning-entry-sync` (Phase 6 warm-handoff) | **high** | `schemas/handoffs/prd-to-architecture.schema.ts` |
-| 5 | Phase 6 (Architecture) | Phase 7 (Breakdown) | `_context/sacred/architecture.md` → `_context/sacred/pert-chart.md` | structured | `architecture-design` | `parallelization-strategy` | **high** | `architecture-to-pert.schema.ts` |
-| 6 | Phase 7 (Breakdown) — intra | Phase 7 (Breakdown) — intra | `_context/sacred/pert-chart.md` → `_context/planning/stories/*.md` | structured | `parallelization-strategy` | `create-stories` | **high** | `pert-to-stories.schema.ts` |
-| 7 | Phase 7 (Breakdown) | Phase 8 (Implementation) | `_context/planning/stories/*.md` → implementation files | structured + code | `create-stories` | `dev-story`, `quick-dev` | **high** | `stories-to-implementation.schema.ts` |
+| 5 | Phase 6 (Architecture) | Phase 7 (Breakdown) | `_context/sacred/architecture.md` → `_context/implementation/stories/ST-*.md` | structured | `architecture-design` | `story-slice` | med | — |
+| 6 | Phase 7 (Breakdown) — intra | Phase 7 (Breakdown) — intra | `_context/implementation/stories/ST-*.md` → `_context/implementation/story-graph.yaml` (+ `waves.yaml`/`schedule.yaml` via `coldpress waves`) | structured | `story-slice` | `story-graph` | med | — |
+| 7 | Phase 7 (Breakdown) | Phase 8 (Implementation) | `_context/implementation/stories/ST-*.md` → implementation files | structured + code | `story-slice` | `dev-story`, `quick-dev` | **high** | `stories-to-implementation.schema.ts` |
 | 8 | Phase 8 (Implementation) | Phase 9 (Deployment) | `_context/implementation/*.md` + code → deployment gate | prose + code | `dev-story`, `code-review` | `readiness-check` | med | — |
 | 9 | Phase 9 (Deployment) | Phase 10 (Operate) | deployment manifest + operational telemetry | structured | `deploy` | `sprint-status`, `correct-course`, `incident-response` | med | — |
 | 10 | Phase 10 (Operate) | Phase 11 (Evolve) | `_context/audit/sprint-status-*.md`, `_context/planning/course-correction-*.md`, ops-deltas | prose + structured | `sprint-status`, `correct-course`, `incident-response` | `retrospective` (Step 0 ops-deltas reconciliation) | low → med (ops-deltas) | `schemas/handoffs/ops-delta.schema.json` |
 | 11 | Phase 11 (Evolve) | Next-iteration Phase 1 (Bootstrap) | `_context/audit/retrospective-v{latest}.md` + `_context/planning/product-evolution-backlog-v{latest}.md` + `_context/planning/innovation-strategy-v{latest}.md` → copied to `_input/prior-iteration/` for next-iteration `intake` Step 1 | prose | `retrospective`, `product-evolution`, `innovation-strategy` → `phase-transition` (with `is_final_phase: true`) | next-iteration `intake` | low | — |
 | 12 | Phase 3 (Tech Stack) | Phase 1 (Bootstrap) — re-invocation | `coldpress.yaml stack_pack` (now actually written by `stack-locking` Step 4 — Part 3 Wave 2.3) | structured | `stack-locking` | `intake` Step 5 graph-prime re-run (to re-index with stack-pack-aware context) | low | — |
 
-**Count:** 12 handoffs total — 10 inter-phase (entries 1, 2, 3, 5, 7, 8, 9, 10, 11, 12) + 2 high-stakes intra-phase (entries 4, 6). Entry 12 is a *re-invocation* edge — Phase 3 completion reactivates part of Phase 1 rather than progressing forward. Entry 11 is the inter-iteration edge — Phase 11 closure copies outputs to `_input/prior-iteration/` for the next iteration's Phase 1. Numbering matches the 11-phase Shape A lifecycle (v0.3.0-alpha).
+**Count:** 12 handoffs total — 11 inter-phase (entries 1–5, 7–12) + 1 intra-phase (entry 6). Two are high-stakes with typed Zod sidecars (entries 4 and 7); the rest are prose/structured with human-review gates. Entry 12 is a *re-invocation* edge — Phase 3 completion reactivates part of Phase 1 rather than progressing forward. Entry 11 is the inter-iteration edge — Phase 11 closure copies outputs to `_input/prior-iteration/` for the next iteration's Phase 1. Numbering matches the 11-phase Shape A lifecycle (v0.3.0-alpha).
 
 **Phase 2 → 3 expansion (Wave 4.8):** Entry 2 now lists the full artefact set produced by Phase 2 Discovery, including the synthesize-research + validate-idea + personas + product-brief outputs and the supersessions audit log. The `phase-transition` skill now writes the formal handoff artefact for entries 1 and 2 (replaces the manual intake step-06 prose handoff for entry 1).
 
@@ -50,12 +50,12 @@ Entry 12 (Phase 3 → Phase 1 re-invocation) is a Butler skill handoff. It is *a
 
 - **Phase 3 stack-lock exit hook → `coldpress update --post-phase-3`** (runs outside a Butler session). This CLI call regenerates stack-pack skill wrappers and runs `coldpress doctor --stack`; it's a mechanical step wired by the Phase 3 stack-locking exit hook. See [`src/commands/update.ts runPostPhase3`](../src/commands/update.ts). Wired 2026-04-24 in Part 3 Wave 4.9: `stack-locking` Step 6 exit-hook-prompt prompts the user to run the command; `coldpress update --post-phase-3` writes `post_phase_3_update_ran: true` to `.coldpress/local-config.yaml`; Butler detects the flag on next turn to unlock env-provision.
 
-**High-stakes subset** (entries 4, 5, 6, 7) matches §3.8's v1 Zod whitelist:
+**High-stakes subset** (entries 4, 7) matches §3.8's v1 Zod whitelist:
 
 - PRD → architecture
-- architecture → PERT
-- PERT → stories
 - stories → implementation
+
+The old PERT bridge (architecture → PERT, PERT → stories) was excised in v0.4 — architecture → stories is now direct via `story-slice`, and the wave plan is computed by `coldpress waves` over the story graph rather than a sacred PERT chart.
 
 ---
 
@@ -76,7 +76,7 @@ produced_at: "2026-04-23T15:00:00Z"
 - **Dedup**: when multiple producers could have emitted a file, the consumer can disambiguate by producer.
 - **Audit**: the registry + `produced_by` together form the complete provenance chain for every artefact.
 
-Subagents that produce high-stakes handoffs (entries 4-7) additionally emit a typed sidecar — `<artefact>.meta.json` — validated against the schemas in [`schemas/handoffs/`](../schemas/handoffs/) on both write (by producer) and read (by consumer).
+Subagents that produce high-stakes handoffs (entries 4 and 7) additionally emit a typed sidecar — `<artefact>.meta.json` — validated against the schemas in [`schemas/handoffs/`](../schemas/handoffs/) on both write (by producer) and read (by consumer).
 
 Implementation note: per-skill emission of `produced_by` is wired up in Wave 4 Lifecycle Alignment. Block L of Wave 3 publishes the registry + the 4 high-stakes schemas; Wave 4 threads the emission + validation through every producing + consuming skill's step-files.
 
@@ -100,10 +100,10 @@ This mirrors the Wave 1 `governance/sacred-docs.md` §7 *Structural Migrations* 
 
 **Open Question #4** (brief-sourced, Wave 3 scoping): "which handoffs qualify as high-stakes?"
 
-**Resolution:** the v1 whitelist is the four artefact transitions listed above (entries 4-7). Criteria used:
+**Resolution:** the v1 whitelist is the two artefact transitions listed above (entries 4 and 7). Criteria used:
 
 1. **Downstream non-obviousness.** A schema drift in these handoffs propagates to artefacts that are themselves sacred or near-sacred — catching at the boundary is far cheaper than catching mid-implementation.
-2. **Machine-readability feasible.** Each of these handoffs produces a structured artefact (PRD, architecture, PERT, stories) that a Zod schema can meaningfully validate. The prose-only inter-phase handoffs (entries 1-3, 8-11) don't benefit from machine validation yet — human review at the phase boundary remains the gate.
+2. **Machine-readability feasible.** Each of these handoffs produces a structured artefact (PRD, stories) that a Zod schema can meaningfully validate. The remaining prose/structured handoffs (entries 1–3, 5, 6, 8–12) don't benefit from machine validation yet — human review at the phase boundary remains the gate.
 3. **Expand only if demand proves out.** Adding schemas is cheaper than retracting them; start tight.
 
 This resolves the question. Any future high-stakes additions need their own registry entry + schema + reference here.

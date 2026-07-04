@@ -2,7 +2,7 @@
 
 > Zero to a running project in 10 minutes. This guide assumes you have Claude Code installed and a terminal open.
 
-> **Hello Butler.** Butler is your main agent — the orchestrator running in your Claude Code session, with the 11 subagents on call when their expertise is needed. Type `Hello Butler` in any session and Butler responds with `let's begin` (fresh project) or `where are we` (resumes from state). Full reference: [`butler.md`](butler.md).
+> **Hello Butler.** Butler is your main agent — the orchestrator running in your Claude Code session, with the 8 subagents on call when their expertise is needed. Type `Hello Butler` in any session and Butler responds with `let's begin` (fresh project) or `where are we` (resumes from state). Full reference: [`butler.md`](butler.md).
 
 ---
 
@@ -57,7 +57,7 @@ The scaffold confirms the target directory and then:
 
 1. Copies the template tree into `./my-awesome-project/` with placeholders filled (including 5 `_input/` subfolders — `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/` — each with a README explaining what belongs there).
 2. Copies the framework files into `./my-awesome-project/coldpress-os/`.
-3. Generates ~128 `.claude/skills/` wrappers pointing at canonical skills.
+3. Writes `.claude/settings.json` to auto-enable the coldpress skill **plugin** (a local directory marketplace) — the plugin ships the full skill library, so there are no per-skill wrappers to generate.
 4. Generates interop outputs: `AGENTS.md`, `.cursor/rules/`, `.roomodes`, `.openhands/microagents/`, `.clinerules/`.
 5. Runs `git init` + makes an initial commit (`chore: coldpress init scaffold`) + installs the pre-commit secret-scan hook (`scripts/check-secrets.sh` → `.git/hooks/pre-commit`).
 6. Records the project in `~/.coldpress/registry.json` (opt out with `COLDPRESS_NO_REGISTRY=1`).
@@ -77,8 +77,8 @@ ls -a
 .
 ├── .claude/
 │   ├── SYSTEM.md              # Butler's directive
-│   ├── agents/                # 11 subagent definitions
-│   └── skills/                # ~128 thin-wrapper SKILL.md files
+│   ├── settings.json          # Auto-enables the coldpress skill plugin
+│   └── agents/                # 8 subagent definitions
 ├── .clinerules/               # Cline / Roo compat
 ├── .cursor/rules/             # Cursor .mdc rules (one per subagent)
 ├── .cursorrules               # Legacy Cursor fallback
@@ -130,12 +130,11 @@ Other common entry points:
 | "Lock the tech stack" | `@architect` / `stack-locking` | 3 |
 | "Provision the dev environment" | `@developer` / `env-provision` | 3 |
 | "Create the PRD" | `@pm` / `create-prd` | 4 |
-| "Create architecture" | `@architect` / `create-architecture` | 4 |
-| "Break into epics and stories" | `@pm` + `@scrum-master` | 5 |
-| "Dev this story" | `@developer` (standard) | 6 |
-| "Quick-dev this feature" | `@developer` (quick) | 6 |
-| "Run code review" | `@qa` / `code-review` | 6 |
-| "Check deployment readiness" | `@qa` / `readiness-check` | 7 |
+| "Author the architecture" | `@architect` / `architecture-design` | 6 |
+| "Break into stories" | `@pm` / `story-slice` → `story-graph` → `coldpress waves` | 7 |
+| "Dev this story" | `@developer` (plan mode) | 8 |
+| "Verify this story" | `@verifier` (clean-room, Butler-dispatched) | 8 |
+| "Check deployment readiness" | `@devops` / `readiness` | 9 |
 
 ---
 
@@ -144,8 +143,8 @@ Other common entry points:
 Coldpress-os's subagents delegate to Anthropic's first-party Agent Skills where they overlap (document generation, MCP server scaffolding, webapp testing, skill creation). Install the two Anthropic marketplace plugins inside Claude Code:
 
 ```
-/plugin install document-skills@anthropic-agent-skills    # for @communicator (DOCX / PDF / PPTX / XLSX)
-/plugin install example-skills@anthropic-agent-skills     # for @qa / @architect / @valet
+/plugin install document-skills@anthropic-agent-skills    # DOCX / PDF / PPTX / XLSX (forkable creative/export skills)
+/plugin install example-skills@anthropic-agent-skills     # webapp-testing (@verifier) / mcp-builder (@architect)
 ```
 
 See [`docs/anthropic-skill-wrapping-audit.md`](anthropic-skill-wrapping-audit.md) for the full delegation table and licence hygiene notes.

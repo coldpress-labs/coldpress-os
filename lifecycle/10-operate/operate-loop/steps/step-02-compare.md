@@ -1,7 +1,7 @@
 ---
 step_number: 2
 step_name: "Compare Against Plan"
-step_goal: "Compare actual progress against PERT chart and sprint goals"
+step_goal: "Compare actual progress against the computed story graph / waves and sprint goals"
 halts_for_input: false
 next_step: "step-03-recommend.md"
 ---
@@ -9,7 +9,7 @@ next_step: "step-03-recommend.md"
 ## Instructions
 
 1. **Load the plan:**
-   - Read `_context/sacred/pert-chart.md` (SACRED) — expected wave schedule and critical path
+   - Read `_context/implementation/story-graph.yaml` + `coldpress waves` output — the expected wave schedule and critical path
    - Read `_context/tracking/sprint-plan.yaml` — current sprint scope and goals
 
 2. **Calculate velocity:**
@@ -17,9 +17,9 @@ next_step: "step-03-recommend.md"
    - Story points (if tracked) completed vs planned
    - Trend: accelerating, steady, or decelerating compared to previous sprints
 
-3. **PERT comparison:**
+3. **Wave comparison (story graph):**
    - Current wave: expected vs actual
-   - Stories on critical path: on track, at risk, or blocked?
+   - Stories on the computed critical path: on track, at risk, or blocked?
    - Parallel streams: any that have stalled?
 
 4. **Sprint goal assessment:**

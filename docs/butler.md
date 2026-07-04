@@ -6,24 +6,23 @@
 
 ## What Butler is
 
-**Butler is the framework's main agent** — your default Claude Code session running with `CLAUDE.md` loaded as its directive. Butler is the orchestrator: it routes your intent to the right skill, dispatches subagents (`@analyst`, `@architect`, `@pm`, `@ux-designer`, `@developer`, `@qa`, `@scrum-master`, `@devops`, `@reviewer`, `@communicator`, `@valet`) when their expertise is needed, enforces sacred-doc governance, runs phase exit gates, and emits handoff artefacts between phases.
+**Butler is the framework's main agent** — your default Claude Code session running with `CLAUDE.md` loaded as its directive. Butler is the orchestrator: it routes your intent to the right skill, dispatches subagents (`@analyst`, `@architect`, `@pm`, `@ux-designer`, `@developer`, `@verifier`, `@devops`, `@reviewer`) when their expertise is needed, enforces sacred-doc governance, runs phase exit gates, and emits handoff artefacts between phases.
 
-Butler is not a subagent — Butler is the *main session*. The 11 subagents are dispatched *by* Butler when a phase calls for them.
+Butler is not a subagent — Butler is the *main session*. The 8 subagents are dispatched *by* Butler when a phase calls for them.
 
 ```
 You → Butler (main Claude Code session, CLAUDE.md as directive)
             ├─ @analyst        (Phase 2 — Discovery)
             ├─ @architect      (Phases 3 + 6 — Tech Stack, Architecture)
-            ├─ @pm             (Phases 4 + 7 — Planning, Breakdown)
+            ├─ @pm             (Phases 4 + 7 — Planning, Breakdown → coldpress waves)
             ├─ @ux-designer    (Phase 5 — Design)
-            ├─ @scrum-master   (Phase 7 sub — sprint planning)
-            ├─ @developer      (Phase 8 — Implementation)
-            ├─ @qa             (Phase 8 sub — Testing)
+            ├─ @developer      (Phase 8 — Implementation, plan mode)
+            ├─ @verifier       (Phase 8 — clean-room verification; Butler-dispatched only)
             ├─ @devops         (Phases 9 + 10 — Deployment, Operate)
-            ├─ @reviewer       (Phase 11 — Evolve)
-            ├─ @communicator   (cross-cutting — docs, narratives)
-            └─ @valet          (meta — framework evolution)
+            └─ @reviewer       (Phase 11 — Evolve)
 ```
+
+> v0.4 roster surgery: `@qa` → `@verifier`; `@scrum-master` (→ `@pm` + `coldpress waves`), `@communicator` (→ forkable creative skills), and `@valet` (→ the framework-internal loop) were removed.
 
 You can rename Butler at Phase 1 intake (`butler.display_name` in `coldpress.yaml` — e.g. `"Jeeves"`, `"Alfred Jr."`). The framework-internal role is always "Butler"; the display name is your private branding.
 
@@ -152,4 +151,5 @@ You can always inspect the gate result before transitioning: `Butler, show me th
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 2.0 | 2026-07-04 | Butler (v0.4 post-audit F2) | Public-accuracy pass: the dispatch tree is now the **8** subagents (qa→verifier; scrum-master/communicator/valet removed) with a roster-surgery note; @pm breakdown routes through `coldpress waves`; @verifier documented as Butler-only clean-room dispatch. |
 | 1.0 | 2026-05-17 | ColdPress Labs | Initial Butler reference. Codifies the "Hello Butler — let's begin / where are we" canonical entry point. Documents the 11-subagent dispatch tree (post-Shape A), cadence modes, routing patterns, gate behaviour, customisation hooks. Linked from README + every public-facing doc as the orchestrator reference. |

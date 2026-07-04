@@ -36,8 +36,8 @@ claude   # or: use the Agent SDK
 
 - `coldpress.yaml` — project configuration (Phase-1 fields only; later phases write back as you progress)
 - `CLAUDE.md` — framework routing for Butler (your main Claude Code session)
-- `.claude/agents/` — 11 subagent definitions (analyst, pm, ux-designer, architect, developer, qa, scrum-master, communicator, reviewer, devops, valet)
-- `.claude/skills/` — ~128 thin wrappers pointing at canonical skills (built from 85 atomic + 67 lifecycle SKILL.md sources)
+- `.claude/agents/` — 8 subagent definitions (analyst, architect, pm, ux-designer, developer, verifier, devops, reviewer)
+- `.claude/settings.json` — auto-enables the coldpress skill **plugin** (a local directory marketplace); the plugin ships the full skill library, so there are no per-skill wrappers to generate
 - `_context/` — produced artefacts (planning, design, implementation, testing, tracking, handoffs, audit, sacred docs)
 - `_input/` — raw inputs, legacy refs, vendor drops, assets
 - `secure/` — credential manifest + pre-commit secret-scan hook
@@ -77,9 +77,9 @@ coldpress --version               Print installed version
 | 4 | **Planning** | @pm | PRD authoring + section-scoped re-validation (PRD-only post-split) |
 | 5 | **Design** *(new)* | @ux-designer | UX spec, brand guidelines, prototype, narrative, design-deltas |
 | 6 | **Architecture** *(new)* | @architect | Sacred architecture.md + ADRs incl. REQUIRED ADRs for flagged design-deltas (silent-divergence guard) |
-| 7 | **Breakdown** | @pm + @scrum-master | Epics, stories, parallelization strategy, PERT chart |
-| 8 | **Implementation** | @developer + @qa | Dev-story, code-review, QA automation, wave orchestration |
-| 9 | **Deployment** | @devops | Readiness checks, security scan, dep audit, observability, deploy |
+| 7 | **Breakdown** | @pm | Epics, story-slice (contracts keyed to architecture), story-graph → computed waves (`coldpress waves`) |
+| 8 | **Implementation** | @developer + @verifier | Dev-story (plan mode), clean-room verification vs spec + tokens, wave orchestration |
+| 9 | **Deployment** | @devops | Readiness hard-checklist (SBOM, headers, budgets, license), deploy packs (staging → human-gated prod) |
 | 10 | **Operate** | @devops | Sprint status, correct-course, incident-response, ops-deltas |
 | 11 | **Evolve** *(final)* | @reviewer | Retrospective, product evolution, innovation strategy → next-iteration Phase 1 |
 
@@ -87,47 +87,45 @@ coldpress --version               Print installed version
 
 ## Subagents
 
-11 subagents under Shape A. Two added in v0.3.0-alpha (`@reviewer`, `@devops`) take Phase 11 and Phases 9–10 respectively.
+**8 subagents + Butler.** Butler is your main Claude Code session (not a file); it dispatches the 8 specialists, each with its own context window, tool allowlist, and model.
 
 | Slug | Model | Primary phases | Role |
 |------|-------|----------------|------|
-| `analyst` | sonnet | 2 | Research, personas, idea validation, synthesis, product brief |
-| `architect` | opus | 3, 6 | Tech stack (P3); sacred architecture + ADRs incl. silent-divergence-guard (P6) |
-| `pm` | sonnet | 4, 7 | PRD lifecycle (P4); epic oversight + breakdown (P7) |
-| `ux-designer` | sonnet | 5 | UX design spec, brand guidelines, prototypes, narrative |
-| `scrum-master` | haiku | 7 | Sprint planning (sub-dispatched from @pm at P7) |
-| `developer` | sonnet | 8 | Implementation (standard or quick mode) |
-| `qa` | sonnet | 8 | Testing (rapid or strategic mode); sub-dispatched from @developer |
-| `devops` | sonnet | 9, 10 | Deployment (P9 ship-path) → operate (P10 steady-state); two phase-modes |
-| `reviewer` | opus | 11 | Retrospective, product evolution, innovation strategy (final phase) |
-| `communicator` | sonnet | cross-cutting | Documentation, narratives, presentations |
-| `valet` | sonnet | meta | Framework evolution, meta skills |
+| `analyst` | sonnet | 2 | Research, personas, idea validation (against explicit kill criteria), product brief with outcome metrics |
+| `architect` | opus | 3, 6 | Stack + deploy lock, walking skeleton (P3); sacred architecture + ADRs, three-way keyed, silent-divergence guard (P6) |
+| `pm` | sonnet | 4, 7 | Slice-able PRD (P4); story-graph breakdown — owns/produces/consumes + estimates → `coldpress waves` (P7) |
+| `ux-designer` | sonnet | 5 | tokens.json, styleguide + live `/styleguide` route, ux-spec keyed to requirements, perf/a11y budgets |
+| `developer` | sonnet | 8 | Implementation one story at a time in plan mode, red stubs → green within the packet boundary. Does **not** self-verify |
+| `verifier` | sonnet | 8 (Butler-dispatched only) | **Clean-room** verification vs spec + tokens — dispatched only by Butler with spec + acceptance + diff, never the developer's reasoning. Read-only. **Replaces the old `@qa`** |
+| `devops` | sonnet | 9, 10 | Readiness (SBOM/headers/budgets), staging → human-gated prod via the deploy pack (P9); steady-state ops digests (P10) |
+| `reviewer` | opus | 11 | Evidence-linked retrospective — every claim cites a run-log event ID (final phase) |
 
-Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolded project. Pattern 7 transitions (19 transition records) formalise agent boundaries at phase entry / exit / sub-phase / reconciliation handoffs.
+Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolded project.
+
+> **v0.4 roster surgery:** `@qa` → `@verifier` (structurally independent, Butler-only dispatch); `@scrum-master` (wave planning → `@pm` + `coldpress waves`), `@communicator` (→ forkable creative skills), and `@valet` (→ the framework-internal loop) were removed.
 
 ## Key concepts
 
 - **Subagents** are real Claude Code agents with independent context windows, tools, and models. Butler (your main session) dispatches them via the Agent tool. Not prompt-persona costume changes.
 - **Skills** are the atomic unit of work. Each is self-contained with frontmatter + step-files + references.
 - **Stack packs** are pluggable skill sets for specific technology stacks. Six ship in-tree at v0.3.0-alpha: `vibe-coder-fullstack` (Convex + Next.js + Clerk), `cli-npm-publishable` (TypeScript + tsup + Vitest), `browser-extension` (WXT + Manifest V3), `static-single-page`, `static-multipage-blog` (Astro variants), and `seo-pack` (cross-archetype audit/content/local/schema/technical). Activated via `stack_pack:` in `coldpress.yaml` after Phase-3 stack-locking.
-- **Sacred documents** — `_context/sacred/{context,tech-stack,prd,architecture,pert-chart}.md` — are protected by governance change workflows in `coldpress-os/governance/`.
+- **Sacred documents** — `_context/sacred/{context,tech-stack,prd,architecture}.md` — are protected by governance change workflows and the `sacred-guard` hook. (The full lane uses this five-doc-minus-one set; the **lite lane** — the default — uses a single `spec.md`.)
 - **`_context/` vs `_input/`** — produced artefacts vs material fed into the project. Inputs are not written by any skill.
 
 ## Architecture
 
 ```
 @coldpress/core/
-├── src/              # CLI + generators (TypeScript)
-├── template/         # Scaffolded into consumer projects (11-subagent set)
-├── lifecycle/        # 11-phase Shape A skill organisation (67 SKILL.md)
-├── skills/           # ~85 atomic reusable skills + 6 stack packs
+├── src/              # CLI + generators + enforcement hooks + trace/waves/evals (TypeScript)
+├── template/         # Scaffolded into consumer projects (8-subagent set + plugin auto-enable)
+├── lifecycle/        # 11-phase Shape A + lite-lane skill organisation
+├── skills/           # atomic reusable skills + 6 stack packs
 ├── agents/           # Subagent schema + registry
-├── schemas/          # ~30 JSON / Zod schemas (sacred docs, handoffs, audit, design)
-├── orchestrator/     # Parallelization engine specs
+├── schemas/          # JSON / Zod schemas (sacred docs, handoffs, audit, design, deploy, evals)
 ├── governance/       # Sacred-doc change workflows + 4 reconciliation options
-├── data/             # Portable knowledge assets (CSV/YAML, method playbook)
+├── data/             # Portable knowledge assets (CSV/YAML method playbook, profiles, deploy packs, taxonomy)
 ├── templates/        # Document / design / infrastructure / prompt-snippet templates
-├── plugin/           # Claude Code plugin marketplace tree (~128 spec-compliant SKILL.md)
+├── plugin/           # Claude Code plugin marketplace tree (133 spec-compliant SKILL.md)
 └── docs/             # Framework documentation
 ```
 
@@ -154,7 +152,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 
 ## How it relates to other tools
 
-- **[Anthropic Agent Skills](https://agentskills.io/specification)** — *compatible + complementary.* Coldpress-os's skills conform to the Agent Skills SKILL.md spec (emitted to `plugin/skills/`). Installable as a Claude Code plugin via `/plugin marketplace add coldpress-labs/coldpress-os`. We wrap Anthropic's first-party skills where they overlap with our subagents (`docx` / `pdf` / `pptx` / `xlsx` under `@communicator`, `webapp-testing` under `@qa`, `mcp-builder` under `@architect`, `skill-creator` under `@valet`). See [`docs/agent-skills-compatibility.md`](docs/agent-skills-compatibility.md).
+- **[Anthropic Agent Skills](https://agentskills.io/specification)** — *compatible + complementary.* Coldpress-os's skills conform to the Agent Skills SKILL.md spec (emitted to `plugin/skills/`). Installable as a Claude Code plugin via `/plugin marketplace add coldpress-labs/coldpress-os`. We wrap Anthropic's first-party skills where they overlap with ours (`docx` / `pdf` / `pptx` / `xlsx` under the forkable creative/export skills, `webapp-testing` under `@verifier`, `mcp-builder` under `@architect`). See [`docs/agent-skills-compatibility.md`](docs/agent-skills-compatibility.md).
 - **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** — *lineage.* Coldpress-os is a soft-fork of BMAD v6.2.2 (pinned upstream, no rebase — cherry-pick only). Full attribution in [`NOTICE.md`](./NOTICE.md).
 - **GitHub Copilot Workspace** — *shared spine, richer expansion.* Both implement Spec → Plan → Implement → Review. Coldpress-os expands the 4-stage spine into 11 phases (Shape A) with sacred-doc governance and typed inter-phase handoffs. See [`docs/spec-plan-implement-review-mapping.md`](docs/spec-plan-implement-review-mapping.md).
 - **[Graphify](https://github.com/safishamsi/graphify)** — *optional external backend (lineage).* Formerly vendored as the indexer + retrieval core; retired from the core in v0.4. Retrieval/traceability is now the native `coldpress trace`, and AST code-indexing is an optional brownfield-pack capability that can call Graphify (or an equivalent) as an on-demand external install — never re-vendored. See [`NOTICE.md`](./NOTICE.md) §4.
@@ -171,7 +169,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 | [Agent Skills compatibility](docs/agent-skills-compatibility.md) | How coldpress-os fits the Anthropic Agent Skills ecosystem |
 | [Template Registry](docs/templates-registry.md) | Every template — by category, phase, consuming skill |
 | [Skill Discovery Index](docs/skill-index.md) | Every skill grouped by phase + cross-cutting utilities |
-| [Subagent × Phase Matrix](docs/subagent-phase-matrix.md) | 11-subagent × 11-phase reference — which subagents do what in which phases |
+| [Subagent × Phase Matrix](docs/subagent-phase-matrix.md) | 8-subagent × 11-phase reference — which subagents do what in which phases |
 | [Phase → Subfolder Mapping](docs/phase-subfolder-mapping.md) | Canonical `_context/*` destinations per phase |
 | [`coldpress.yaml` schema](docs/coldpress-yaml-schema.md) | Per-field phase ownership + write-back contract |
 | [Interop generator](docs/interop-generator.md) | AGENTS.md, Cursor, Roo, OpenHands, Cline — spec + tool translation |
@@ -198,7 +196,7 @@ coldpress-os stands on the shoulders of four open-source projects, each of which
 - **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** by [BMad Code, LLC](https://github.com/bmad-code-org) — the core agent-skill-workflow architecture, document templates, and most utility and review skills. coldpress-os is a direct derivative of BMAD v6.2.2; this framework would not exist in its current form without theirs.
 - **[Creative Intelligence Suite (CIS)](https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite)** by BMad Code, LLC — contributes the brainstorming, design-thinking, problem-solving, innovation-strategy, and storytelling workflows used across Discovery and Planning.
 - **[BMAD-METHOD-WDS (Whiteport Design System)](https://github.com/whiteport-collective/BMAD-METHOD-WDS)** by [Mårten Angner](https://angner.com) / [Whiteport Collective](https://whiteport.com) — contributes the opinionated UX design workflow (wds-0 through wds-8), design templates, trigger maps, and scenario-driven design methodology powering the `ux-designer` subagent.
-- **[Graphify](https://github.com/safishamsi/graphify)** by [Safi Shamsi](https://github.com/safishamsi) — the indexer + retrieval core behind coldpress-os's knowledge graph. Graphify v4 is vendored verbatim at [`graph/vendor/graphify/`](./graph/vendor/graphify/) and provides tree-sitter-based AST indexing across 20+ languages plus markdown/document ingestion with graph extraction.
+- **[Graphify](https://github.com/safishamsi/graphify)** by [Safi Shamsi](https://github.com/safishamsi) — the original indexer + retrieval core behind coldpress-os's knowledge graph. Graphify was vendored through v0.3 and **retired from the core in v0.4**: retrieval/traceability is now the native `coldpress trace`, and tree-sitter AST code-indexing is an optional brownfield-pack capability that can call Graphify (or an equivalent) as an on-demand external install — never re-vendored. See [`NOTICE.md`](./NOTICE.md) §4.
 
 "BMad", "BMad Method", "BMad Core", "Whiteport", and "Whiteport Design System" are trademarks of their respective owners. coldpress-os is an independent project and is not affiliated with or endorsed by any of the above.
 

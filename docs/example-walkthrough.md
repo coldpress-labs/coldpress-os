@@ -24,7 +24,7 @@ Every session starts the same way. Open Claude Code in your project directory an
 Hello Butler
 ```
 
-Butler is your main agent — the orchestrator that routes your intent to the right skill, dispatches the 11 subagents when their expertise is needed, runs gates, and writes handoff artefacts. (See [`butler.md`](butler.md) for the full reference.)
+Butler is your main agent — the orchestrator that routes your intent to the right skill, dispatches the 8 subagents when their expertise is needed, runs gates, and writes handoff artefacts. (See [`butler.md`](butler.md) for the full reference.)
 
 On a fresh project Butler runs `orient` + `intake`. On a returning session it reads state and reports `where are we`. The rest of this walkthrough is just real exchanges with Butler across all 11 phases.
 
@@ -55,7 +55,7 @@ Hello Butler
 2. Prompts for slug + user name (only the ones not provided as flags).
 3. Copies the template tree (including 5 `_input/` subfolders: `assets/`, `vendor/`, `raw/`, `legacy/`, `reference/` — each with a README explaining purpose).
 4. Copies the coldpress-os framework into `coldpress-os/`.
-5. Generates ~128 `.claude/skills/` wrappers + interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline).
+5. Installs the Claude Code skills plugin (`plugin/skills/`, auto-enabled by the scaffolded `.claude/settings.json`) + interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline).
 6. Runs `git init` + initial commit (with fallback identity if git isn't globally configured) + installs the pre-commit secret-scan hook.
 
 ### What happens in-session (Butler's Phase 1)
@@ -80,8 +80,9 @@ taskpulse/
 ├── coldpress-os/              # Framework (copied, not a submodule)
 ├── .claude/
 │   ├── SYSTEM.md              # Butler's directive
-│   ├── agents/                # 11 subagent definitions
-│   └── skills/                # ~128 skill wrappers
+│   ├── agents/                # 8 subagent definitions
+│   └── settings.json          # Auto-enables the skills plugin
+├── plugin/skills/             # Skills plugin (auto-enabled via .claude/settings.json)
 ├── .coldpress/
 │   ├── graph/graph.json       # Primed knowledge graph
 │   └── local-config.yaml      # phase_1_completed: true
@@ -340,7 +341,7 @@ Run prototype                # optional — only if archetype calls for it
 
 ### Design-deltas — the first instance of the forward-carry quartet
 
-During Phase 5, @ux-designer may surface design-deltas — places where the design intent diverges from the PRD or PERT chart. Each delta resolves at Phase 5 exit (in @pm scope) via four reconciliation options:
+During Phase 5, @ux-designer may surface design-deltas — places where the design intent diverges from the PRD. Each delta resolves at Phase 5 exit (in @pm scope) via four reconciliation options:
 
 | Option | Effect |
 |---|---|
@@ -426,13 +427,13 @@ Then:
 
 ```
 Run create-stories               # @pm → per-story files
-Run parallelization-strategy     # @scrum-master sub-dispatched → PERT chart
-Run sprint-planning              # @scrum-master → sprint grouping
+Run story-slice                  # @pm → story-graph.yaml (nodes + dependency edges)
+coldpress waves                  # CLI → computes waves / critical path / schedule
 ```
 
-The **@scrum-master** (haiku — fast + organisational) is sub-dispatched by @pm. PERT chart includes mandatory Dependency DAG (Mermaid) + Wave Grouping Table + Critical Path Table — all forcing-function artefacts per §6.7 prompt-patterns.
+**@pm** builds the story graph. The `coldpress waves` scheduler then computes the wave grouping, critical path, and schedule from `story-graph.yaml` — Dependency DAG (Mermaid) + Wave Grouping Table + Critical Path Table are the forcing-function artefacts per §6.7 prompt-patterns.
 
-**Sacred output:** `_context/sacred/pert-chart.md` — Fifth sacred document.
+**Output:** `story-graph.yaml` — the dependency graph the scheduler reads. Not a sacred doc; the sacred set stays four (context, tech-stack, PRD, architecture).
 
 ### Your wave plan might look like
 
@@ -496,8 +497,8 @@ Tests:
 After implementation, run reviews:
 
 ```
-Run code-review                # @qa sub-dispatched, reviews per story
-Run qa-automation              # @qa generates/runs test suites
+Run code-review                # Butler dispatches @verifier (clean-room, read-only), reviews per story
+Run qa-automation              # @verifier (clean-room, read-only) exercises the test suites
 ```
 
 ### For parallel stories (Wave 1)
@@ -646,20 +647,20 @@ Next iteration's Phase 1 `intake` skill detects `_input/prior-iteration/` and re
 
 | Phase | Name | Owner | Key Outputs | Sacred? |
 |-------|------|-------|-------------|---------|
-| 1 | Bootstrap | butler | Project structure, `coldpress.yaml`, 11 agent wrappers, seed `context.md` | seed |
+| 1 | Bootstrap | butler | Project structure, `coldpress.yaml`, 8 agent definitions, seed `context.md` | seed |
 | 2 | Discovery | @analyst | `context.md` (authored), research, idea-validation, product-brief | context: ✓ |
 | 3 | Tech Stack | @architect | `tech-stack.md`, ADRs, stack-selection-summary, baselines | tech-stack: ✓ |
 | 4 | Planning | @pm | `prd.md` + meta.json sidecar | prd: ✓ |
 | 5 | **Design** | @ux-designer | ux-design-spec, brand-guidelines, design-deltas | distillates |
 | 6 | **Architecture** | @architect | `architecture.md` (REQUIRED ADRs for flagged-deltas), arch-deltas | architecture: ✓ |
-| 7 | Breakdown | @pm + @scrum-master | epics, stories, `pert-chart.md`, sprint plan | pert: ✓ |
-| 8 | Implementation | @developer + @qa | Application code, tests, implementation-deltas | — |
+| 7 | Breakdown | @pm | epics, stories, `story-graph.yaml`, computed waves (`coldpress waves`) | — |
+| 8 | Implementation | @developer + @verifier | Application code, tests, implementation-deltas | — |
 | 9 | Deployment | @devops | Readiness report, deployed application, deploy-log | — |
 | 10 | Operate | @devops | sprint-status, course-corrections, incident postmortems, ops-deltas | — |
 | 11 | Evolve *(final)* | @reviewer | retrospective, product-evolution-backlog, innovation-strategy → next iteration | — |
 
-**Total sacred documents:** 5 (context, tech-stack, PRD, architecture, PERT)
-**Total subagents available:** 11 (analyst, architect, pm, ux-designer, scrum-master, developer, qa, devops, reviewer, communicator, valet)
+**Total sacred documents:** 4 (context, tech-stack, PRD, architecture)
+**Total subagents available:** 8 (analyst, architect, pm, ux-designer, developer, verifier, devops, reviewer)
 **Forward-carry deltas:** design-deltas (P5) · architecture-deltas (P6→P7) · implementation-deltas (P8→P11) · ops-deltas (P10→P11)
 
 ---

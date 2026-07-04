@@ -43,7 +43,7 @@ This line lands in the README intro and every public-facing positioning doc.
 | Industry stage | Coldpress-os phases | What lands in each |
 |---------------|---------------------|--------------------|
 | **Spec** | 1 — Bootstrap<br>2 — Discovery | Project scaffold + initial context. Discovery produces the first sacred doc (`context.md`) + constraint / domain / market / persona research + product brief. |
-| **Plan** | 3 — Tech Stack<br>4 — Planning *(PRD-only)*<br>5 — **Design** *(NEW)*<br>6 — **Architecture** *(NEW)*<br>7 — Breakdown | Stack evaluation + locking; PRD; UX-design-spec + brand-guidelines + prototype; sacred architecture + ADRs (with silent-divergence guard for flagged design-deltas); epics + stories + PERT chart. Four of the five sacred docs land here (tech-stack, PRD, architecture, PERT). |
+| **Plan** | 3 — Tech Stack<br>4 — Planning *(PRD-only)*<br>5 — **Design** *(NEW)*<br>6 — **Architecture** *(NEW)*<br>7 — Breakdown | Stack evaluation + locking; PRD; UX-design-spec + brand-guidelines + prototype; sacred architecture + ADRs (with silent-divergence guard for flagged design-deltas); epics + stories + story graph (`story-graph.yaml` + `coldpress waves` plan). Three of the four sacred docs land here (tech-stack, PRD, architecture); the fourth, `context.md`, lands in Spec. |
 | **Implement** | 8 — Implementation | Code. Dev-story workflow, wave orchestration, code review + audit, QA automation, testing skills. |
 | **Review** | 9 — Deployment<br>10 — Operate<br>11 — Evolve *(final)* | Deployment readiness gates + rollout, in-flight operations + course correction + incident response, post-release retrospectives + product evolution + innovation strategy. |
 
