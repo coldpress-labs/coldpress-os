@@ -2,7 +2,7 @@
   "$schema": "https://agentskills.io/marketplace.schema.json",
   "name": "coldpress-os",
   "displayName": "ColdPress OS",
-  "version": "0.3.0-alpha",
+  "version": "0.4.0-alpha",
   "description": "AI-native development framework — 11-phase Shape A lifecycle (Bootstrap → Discovery → Tech Stack → Planning → Design → Architecture → Breakdown → Implementation → Deployment → Operate → Evolve) with 11 subagents, atomic skills, sacred-doc governance, forward-carry quartet, Pattern 7 typed agent transitions, silent-divergence guard, and inter-iteration cycle.",
   "author": {
     "name": "ColdPress Labs",

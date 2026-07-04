@@ -9,6 +9,38 @@ import {
   validateName,
 } from "./skill-spec.js";
 
+/**
+ * Skill names that intentionally differ from their parent directory (WS11 S1.3).
+ * The spec's default is name === parent-dir, but pack/lane sub-skills are
+ * deliberately namespaced with their pack/lane prefix so their names are globally
+ * unique across the plugin — a generic parent dir (`quickstart`, `audit`,
+ * `build`, …) would otherwise collide (exactly the bug that silently dropped the
+ * three stack-pack quickstarts before they were renamed `<pack>-quickstart`).
+ * These are correct-by-design, so the name-parent-mismatch warning is suppressed
+ * for them. Add a name here when a new pack/lane sub-skill is intentionally
+ * namespaced; leave it off to let the warning catch accidental drift.
+ */
+const INTENTIONAL_NAME_MISMATCHES = new Set<string>([
+  // stack-pack roots + quickstarts (dir `quickstart`, namespaced by pack)
+  "browser-extension-pack",
+  "browser-extension-quickstart",
+  "cli-npm-publishable-quickstart",
+  "vibe-coder-fullstack-quickstart",
+  "static-single-page-quickstart",
+  "static-multipage-blog-quickstart",
+  // seo capability-pack sub-skills (dirs audit/content/local/schema/technical)
+  "seo-audit",
+  "seo-content",
+  "seo-local",
+  "seo-schema",
+  "seo-technical",
+  // lite-lane phase skills (dirs spec/build/verify/ship)
+  "lite-spec",
+  "lite-build",
+  "lite-verify",
+  "lite-ship",
+]);
+
 export interface SourceSkill {
   /** skill name — primary key in the emitted plugin */
   name: string;
@@ -173,7 +205,11 @@ async function parseSkillFile(sourcePath: string, sourceRel: string): Promise<So
   // the spec requires name = parent-dir-name.
   const parentDir = basename(dirname(sourcePath));
   const issues: ValidationIssue[] = [];
-  if (frontmatter.name && frontmatter.name !== parentDir) {
+  if (
+    frontmatter.name &&
+    frontmatter.name !== parentDir &&
+    !INTENTIONAL_NAME_MISMATCHES.has(frontmatter.name)
+  ) {
     issues.push({
       severity: "warning",
       code: "name-parent-mismatch",

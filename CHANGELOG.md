@@ -10,6 +10,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Recovered 3 silently-dropped stack-pack quickstarts (S1.3)** — the
+  `cli-npm-publishable`, `vibe-coder-fullstack`, `static-single-page`, and
+  `static-multipage-blog` quickstart skills all declared `name: quickstart`, so
+  first-wins dedup emitted only one and dropped the other three from the plugin.
+  Renamed each to `<pack>-quickstart` (matching `browser-extension-quickstart`);
+  the plugin now emits 146 skills (was 143). `pack.yaml` references these by path,
+  so no routing changed. Added a `name-parent-mismatch` allow-list to the skill
+  generator for the intentionally pack/lane-namespaced sub-skills (the four
+  quickstarts, `browser-extension-*`, `seo-*`, `lite-*`), so the build is
+  warning-clean while genuine accidental drift is still caught.
+- **Single-sourced the version → 0.4.0-alpha (S1.4)** — `package.json`,
+  `.claude-plugin/marketplace.json`, and the generated plugin manifests now all
+  read `0.4.0-alpha` (was split 0.3.2 / 0.3.0 / docs-0.4.0). `coldpress --help`
+  says "8 subagents" (was 11). Still unreleased — no tag/publish. (S5 will make
+  the marketplace manifest generated-from-package.json so the version can't
+  re-drift.)
 - **Gate checks now run (S1.1)** — the eight acceptance-check verbs the phase-gate
   runner spawns (`config-check`, `validate-adrs`, `validate-pack-match`,
   `validate-yaml-block`, `validate-schema-latest`, `validate-schema`,
