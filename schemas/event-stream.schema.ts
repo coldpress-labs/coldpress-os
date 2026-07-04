@@ -145,6 +145,23 @@ export const GateOverrideObservationSchema = z.object({
   agent: z.string().optional(),
 });
 
+/**
+ * Verifier verdict observation — emitted by `coldpress verdict record` when the
+ * clean-room verifier delivers a verdict (WS10-A4/A5). Carries the verdict's
+ * `taxonomy_tags` so `coldpress evolve` counts the failure classes — the change
+ * that turns the failure leaderboard live (nothing wrote tags before).
+ */
+export const VerdictObservationSchema = z.object({
+  ...BASE,
+  kind: z.literal("verdict"),
+  story_id: z.string().min(1),
+  verdict: z.enum(["pass", "fail"]),
+  /** The model that verified (opus for security stories). */
+  model: z.string().optional(),
+  /** Failure-taxonomy class ids from the verdict's findings. */
+  taxonomy_tags: z.array(z.string()).optional(),
+});
+
 // ─── Meta event ───────────────────────────────────────────────────
 
 export const CondensationSchema = z.object({
@@ -201,6 +218,7 @@ export const EventSchema = z.discriminatedUnion("kind", [
   GatePassObservationSchema,
   GateFailObservationSchema,
   GateOverrideObservationSchema,
+  VerdictObservationSchema,
   CondensationSchema,
   SessionBoundaryObservationSchema,
 ]);
@@ -214,6 +232,7 @@ export type GateEvaluateAction = z.infer<typeof GateEvaluateActionSchema>;
 export type GatePassObservation = z.infer<typeof GatePassObservationSchema>;
 export type GateFailObservation = z.infer<typeof GateFailObservationSchema>;
 export type GateOverrideObservation = z.infer<typeof GateOverrideObservationSchema>;
+export type VerdictObservation = z.infer<typeof VerdictObservationSchema>;
 export type Condensation = z.infer<typeof CondensationSchema>;
 export type SessionBoundaryObservation = z.infer<typeof SessionBoundaryObservationSchema>;
 

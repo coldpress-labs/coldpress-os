@@ -25,6 +25,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 import type { ErrorObject, ValidateFunction } from "ajv";
 import addFormats from "ajv-formats";
 import { parse as parseYaml } from "yaml";
+import { designSchemaForPath } from "../../schemas/design/index.js";
 import { packageRoot } from "../utils/paths.js";
 
 export interface SchemaValidationIssue {
@@ -280,13 +281,36 @@ export async function validateDocSchema(
     return { ok: false, issues: ajvIssuesToIssues(validator.errors), schema_used: relSchemaPath };
   }
 
-  // 3. No schema found
+  // 3. Try the F6 design data-file registry (tokens.json / budgets.yaml /
+  //    styleguide.yaml). These are DATA files (JSON/YAML), not markdown docs —
+  //    validate the whole parsed body via the registered Zod parser (WS10-A2/C2).
+  const design = designSchemaForPath(docPath.replace(/\\/g, "/"));
+  if (design) {
+    const raw = await readFile(docPath, "utf8");
+    let body: unknown;
+    try {
+      body = docPath.endsWith(".json") ? JSON.parse(raw) : parseYaml(raw);
+    } catch (e) {
+      return { ok: false, issues: [{ path: "(file)", message: `Unparseable design artefact: ${e instanceof Error ? e.message : String(e)}` }] };
+    }
+    const result = design.schema.safeParse(body);
+    if (result.success) {
+      return { ok: true, frontmatter: body as Record<string, unknown>, schema_used: `design/${design.path.split("/").pop()}` };
+    }
+    return {
+      ok: false,
+      schema_used: `design/${design.path.split("/").pop()}`,
+      issues: result.error.issues.map((i) => ({ path: i.path.join(".") || "(root)", message: i.message, keyword: i.code })),
+    };
+  }
+
+  // 4. No schema found
   return {
     ok: false,
     issues: [
       {
         path: "(file)",
-        message: `No schema registered for: ${basename(docPath)}. Register it in SACRED_DOC_SCHEMAS (by basename) or PATH_PATTERN_SCHEMAS (by path pattern).`,
+        message: `No schema registered for: ${basename(docPath)}. Register it in SACRED_DOC_SCHEMAS (by basename), PATH_PATTERN_SCHEMAS (by path pattern), or the design registry (schemas/design/index.ts).`,
       },
     ],
   };

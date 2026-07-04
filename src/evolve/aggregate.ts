@@ -55,6 +55,11 @@ export function aggregateEvolve(input: AggregateInput): EvolveReport {
   let totalTokens = 0;
 
   for (const e of events) {
+    // Verifier verdicts carry the failure-taxonomy tags that turn this
+    // leaderboard live (WS10-A4). A fail verdict's tags are the failure classes.
+    if (e.kind === "verdict") {
+      for (const tag of e.taxonomy_tags ?? []) bump(failureCounts, tag, 1);
+    }
     if (e.kind === "session-boundary") {
       for (const tag of e.taxonomy_tags ?? []) bump(failureCounts, tag, 1);
       const t = e.tokens?.total ?? (e.tokens ? (e.tokens.input ?? 0) + (e.tokens.output ?? 0) : 0);

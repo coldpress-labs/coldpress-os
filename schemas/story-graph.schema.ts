@@ -58,7 +58,15 @@ export const StorySchema = z
     /** True when the story touches a security-registry path. */
     security_registry: z.boolean().optional(),
   })
-  .strict();
+  .strict()
+  // Cross-check (WS10-A3): a story flagged as touching a security-registry path
+  // MUST carry risk: high (→ P8 solo dispatch + opus verify). This mechanizes the
+  // story-slice risk-forcing rule so a mis-authored graph is rejected, not
+  // silently under-protected.
+  .refine((s) => s.security_registry !== true || s.risk === "high", {
+    message: "a security_registry story must be risk: high (forced dispatch + opus verify)",
+    path: ["risk"],
+  });
 export type Story = z.infer<typeof StorySchema>;
 
 export const EdgeSchema = z
