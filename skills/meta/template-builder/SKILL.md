@@ -6,11 +6,11 @@ category: "meta"
 agent: "butler"
 phases: [meta]
 inputs:
-  - "../../templates/"
+  - "../../authoring/"
   - "template purpose and requirements"
 outputs:
   - artifact: "Template File"
-    location: "../../templates/{category}/{template-name}.md"
+    location: "../../authoring/{category}/{template-name}.md"
     format: "markdown"
 version: "1.0"
 ---
@@ -29,7 +29,7 @@ Creates or edits document templates (PRD, architecture, story, etc.) and infrast
 
 ## Prerequisites
 
-- Existing templates directory: `../../templates/`
+- Existing templates directory: `../../authoring/`
 - Clear purpose and requirements for the template
 
 ## Process

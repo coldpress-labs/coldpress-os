@@ -20,7 +20,7 @@ Creates or edits document templates (PRD, architecture, story, etc.) and infrast
 
 ## Prerequisites
 
-- Existing templates directory: `../../templates/`
+- Existing templates directory: `../../authoring/`
 - Clear purpose and requirements for the template
 
 ## Process

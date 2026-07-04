@@ -22,14 +22,14 @@ Use case: client-archetype deliverables where the client must edit the document 
 ## Output Artifacts
 
 1. **Source DOCX** at `_context/exports/<source-slug>-v{N}.docx` — Word-compatible, heading hierarchy → Heading 1/2/3 styles, code blocks → Courier monospace, tables → Word tables
-2. **Reference style file** (optional) — `templates/documents/word-reference.docx` for custom corporate style; pandoc `--reference-doc=...` flag
+2. **Reference style file** (optional) — `authoring/documents/word-reference.docx` for custom corporate style; pandoc `--reference-doc=...` flag
 
 ## Prerequisites
 
 - Source markdown file path passed by caller
 - For pandoc engine: `pandoc` binary on PATH (preferred)
 - For docx npm engine: `docx` package in dev-deps + structured input
-- For corporate styling: optional `templates/documents/word-reference.docx` (Word file with style definitions)
+- For corporate styling: optional `authoring/documents/word-reference.docx` (Word file with style definitions)
 
 ## Process
 
@@ -40,7 +40,7 @@ Use case: client-archetype deliverables where the client must edit the document 
      --from markdown \
      --to docx \
      --output _context/exports/<slug>-v{N}.docx \
-     [--reference-doc=templates/documents/word-reference.docx] \
+     [--reference-doc=authoring/documents/word-reference.docx] \
      --toc \
      --table-of-contents
    ```

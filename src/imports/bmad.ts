@@ -6,7 +6,7 @@
  * Output: coldpress-os-shaped equivalents:
  *   - `.claude/agents/<slug>.md` — frontmatter + body
  *   - `skills/meta/bmad-imports/<module>/<workflow>/SKILL.md`
- *   - `templates/imports/<module>/<name>.md` (with attribution header)
+ *   - `authoring/imports/<module>/<name>.md` (with attribution header)
  *   - ATTRIBUTION.md listing what was imported + what was dropped.
  *
  * Explicit non-goal: full behavioural fidelity. The adapter is lossy;
@@ -398,7 +398,7 @@ function renderWorkflowSkill(opts: RenderWorkflowOptions): string {
 }
 
 /**
- * BMAD `templates/` → `templates/imports/<module>/`. Straight file copy
+ * BMAD `templates/` → `authoring/imports/<module>/`. Straight file copy
  * with an attribution header prepended to text files.
  */
 async function importTemplates(
@@ -411,7 +411,7 @@ async function importTemplates(
   const templatesDir = join(src, "templates");
   if (!(await dirExists(templatesDir))) return [];
 
-  const targetBase = join(target, "coldpress-os/templates/imports", moduleSlug);
+  const targetBase = join(target, "coldpress-os/authoring/imports", moduleSlug);
   await mkdir(targetBase, { recursive: true });
 
   const results: ImportedTemplate[] = [];

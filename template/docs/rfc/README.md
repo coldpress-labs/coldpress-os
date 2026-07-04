@@ -9,11 +9,11 @@ Contrast with ADRs: an ADR records a decided direction; an RFC proposes one. Onc
 Copy the template from coldpress-os:
 
 ```bash
-cp coldpress-os/templates/governance/rfc-amendment.md docs/rfc/$(printf "%04d" <next-n>)-<slug>.md
+cp coldpress-os/authoring/governance/rfc-amendment.md docs/rfc/$(printf "%04d" <next-n>)-<slug>.md
 ```
 
 Then edit: motivation, detailed design, drawbacks, alternatives, open questions.
 
 ## Template
 
-See `coldpress-os/templates/governance/rfc-amendment.md` for the full structure.
+See `coldpress-os/authoring/governance/rfc-amendment.md` for the full structure.

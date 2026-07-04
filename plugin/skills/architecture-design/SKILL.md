@@ -45,7 +45,7 @@ The mitigation converts silent PRD↔design divergence into auditable architectu
 
 ## Output
 
-`_context/sacred/architecture.md` — sacred system architecture document. Sections (per template at `templates/documents/architecture.md`): Overview / System Architecture / Component / Data Flow / NFRs / ADR-Index. Schema-validated.
+`_context/sacred/architecture.md` — sacred system architecture document. Sections (per template at `authoring/documents/architecture.md`): Overview / System Architecture / Component / Data Flow / NFRs / ADR-Index. Schema-validated.
 
 `_context/sacred/architecture.meta.json` — sidecar handoff to Phase 7. Fields: component_count, integration_count, nfr_axes_addressed, adrs_authored, brownfield_modules_handled, flagged_deltas_resolved.
 
@@ -74,11 +74,11 @@ Two sections of the output carry FORCING-FUNCTION markers. Skip either and the `
 
 ### 1. Component Interaction Diagram (MANDATORY)
 
-Every architecture.md MUST carry a `mermaid graph LR` / `graph TD` block depicting the top-level component interactions. A text-only description ("component A calls B which queues to C") is INSUFFICIENT. The diagram is the reviewable artefact. Copy the scaffold from `templates/prompt-snippets/forcing-function-mermaid.md`.
+Every architecture.md MUST carry a `mermaid graph LR` / `graph TD` block depicting the top-level component interactions. A text-only description ("component A calls B which queues to C") is INSUFFICIENT. The diagram is the reviewable artefact. Copy the scaffold from `authoring/prompt-snippets/forcing-function-mermaid.md`.
 
 ### 2. Failure Mode Enumeration (MANDATORY)
 
-Every architecture.md MUST carry a failure-mode table with at least 5 rows covering the top-3 NFR axes. Columns: `Scenario` / `Probability` / `Impact` / `Mitigation`. An empty cell is a fail. Copy the scaffold from `templates/prompt-snippets/forcing-function-table.md`.
+Every architecture.md MUST carry a failure-mode table with at least 5 rows covering the top-3 NFR axes. Columns: `Scenario` / `Probability` / `Impact` / `Mitigation`. An empty cell is a fail. Copy the scaffold from `authoring/prompt-snippets/forcing-function-table.md`.
 
 ## Output Contract
 
@@ -88,7 +88,7 @@ Emit exactly one Markdown document with this structure:
 
 1. `# Architecture — <project.name>` as the first line.
 2. YAML frontmatter: `sacred: true`, `version: "1.0"`, `governance: "requires-review"`, `workflowType: "architecture"`, `approvers[]`, `adr_references[]`, `inputDocuments[]` (MUST include the PRD path).
-3. Sections 1-N per `templates/documents/architecture.md`, each starting with `## <N>. <Section name>`.
+3. Sections 1-N per `authoring/documents/architecture.md`, each starting with `## <N>. <Section name>`.
 4. The mandatory Component Interaction Diagram (Mermaid) under Architecture Overview.
 5. The mandatory Failure Mode Enumeration table under NFR.
 6. Each section opens with the italicised meta-description (Pattern 1).

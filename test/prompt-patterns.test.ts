@@ -95,7 +95,7 @@ describe("§6.7 prompt patterns — high-stakes skill coverage", () => {
         const body = await readFile(join(repoRoot, skill.path), "utf8");
         const cites =
           body.includes("docs/prompt-patterns.md") ||
-          body.includes("templates/prompt-snippets/") ||
+          body.includes("authoring/prompt-snippets/") ||
           body.includes("§6.7");
         expect(cites, `${skill.label} should reference §6.7 provenance`).toBe(
           true,
@@ -116,14 +116,14 @@ describe("prompt-snippets library", () => {
 
   it("ships all 5 canonical snippets", async () => {
     const { readdir } = await import("node:fs/promises");
-    const files = await readdir(join(repoRoot, "templates/prompt-snippets"));
+    const files = await readdir(join(repoRoot, "authoring/prompt-snippets"));
     expect(files.sort()).toEqual([...EXPECTED_SNIPPETS].sort());
   });
 
   it("every snippet carries a coldpress-os HTML-comment provenance header", async () => {
     for (const snippet of EXPECTED_SNIPPETS) {
       const body = await readFile(
-        join(repoRoot, "templates/prompt-snippets", snippet),
+        join(repoRoot, "authoring/prompt-snippets", snippet),
         "utf8",
       );
       expect(body, `${snippet}: starts with a <!-- comment marker`).toMatch(

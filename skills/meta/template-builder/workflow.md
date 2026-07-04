@@ -1,6 +1,6 @@
 ---
 workflow_version: "1.0"
-output_file: "../../templates/{category}/{template-name}.md"
+output_file: "../../authoring/{category}/{template-name}.md"
 total_steps: 3
 resume_from: "frontmatter"
 ---

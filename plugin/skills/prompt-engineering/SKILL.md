@@ -8,7 +8,7 @@ version: "1.0"
 
 ## Purpose
 
-Meta skill for authoring + iterating prompts inside skills. Coldpress-os skills contain prompts at three levels: **system prompts** (subagent definitions in `template/.claude/agents/*.md`), **step instructions** (per-step `.md` files), **forcing functions** (`templates/prompt-snippets/*.md` reusable blocks). All three need craft applied — this skill is the canonical workflow for that craft.
+Meta skill for authoring + iterating prompts inside skills. Coldpress-os skills contain prompts at three levels: **system prompts** (subagent definitions in `template/.claude/agents/*.md`), **step instructions** (per-step `.md` files), **forcing functions** (`authoring/prompt-snippets/*.md` reusable blocks). All three need craft applied — this skill is the canonical workflow for that craft.
 
 Applies six best practices: (1) concrete examples preferred over abstract instructions; (2) output-format contracts (specify exact structure expected); (3) role-priming (clear identity statement); (4) refusal handling (what NOT to do, when to halt); (5) chain-of-thought scaffolds (numbered steps when reasoning order matters); (6) explicit input-state assumptions.
 
@@ -17,19 +17,19 @@ Applies six best practices: (1) concrete examples preferred over abstract instru
 1. New skill being authored — pair with `skill-builder` for prompt portions
 2. Existing skill underperforming — user reports "the skill doesn't reliably do X"; iterate the prompt
 3. New subagent being defined — system prompt for `template/.claude/agents/<slug>.md`
-4. New forcing function template — adding to `templates/prompt-snippets/`
+4. New forcing function template — adding to `authoring/prompt-snippets/`
 5. Adversarial review surfaces a prompt-quality issue (e.g., model hallucinated when prompt was ambiguous)
 
 ## Output Artifacts
 
 1. **Authored / revised prompt** in the target file (subagent definition / step file / snippet)
 2. **Prompt rationale** at `_context/audit/prompt-changes-{date}.md` — before/after diff + which best-practice was applied + expected behaviour change
-3. **Forcing-function additions** to `templates/prompt-snippets/` (if a reusable pattern emerges from this iteration)
+3. **Forcing-function additions** to `authoring/prompt-snippets/` (if a reusable pattern emerges from this iteration)
 4. **A/B test recommendation** (when iterating an underperforming prompt) — sketch alternative phrasings + which to try first
 
 ## Prerequisites
 
-- `templates/prompt-snippets/` exists with the existing forcing-function library (attention-preamble, output-contract, forcing-function-mermaid, forcing-function-table, review-cot-triangle)
+- `authoring/prompt-snippets/` exists with the existing forcing-function library (attention-preamble, output-contract, forcing-function-mermaid, forcing-function-table, review-cot-triangle)
 - Target file (skill / agent / snippet) is identified
 - Memory `feedback_simpler_v1` applies — prefer simpler v1 over architecturally elegant v3
 
@@ -49,7 +49,7 @@ Applies six best practices: (1) concrete examples preferred over abstract instru
 4. **Step 4 — Surface ambiguities to user** — anything the original prompt assumed without stating
 5. **Step 5 — Author revised prompt**; emit before/after diff
 6. **Step 6 — Document rationale** at `_context/audit/prompt-changes-{date}.md`
-7. **Step 7 — If pattern is reusable**, propose new `templates/prompt-snippets/<name>.md` (reviewed by `prompt-governance` before merge)
+7. **Step 7 — If pattern is reusable**, propose new `authoring/prompt-snippets/<name>.md` (reviewed by `prompt-governance` before merge)
 
 ## Activation-Gate Checklist
 
@@ -69,7 +69,7 @@ This skill authors; `prompt-governance` (sibling skill) reviews + tracks portfol
 
 ## Source Attribution
 
-Pattern adapted from `alirezarezvani/claude-skills` (MIT) `prompt-engineer-toolkit` skill + best-practices distillation from Anthropic Claude prompt engineering docs. Implementation original to coldpress-os; integrates with existing `templates/prompt-snippets/` library + `skills/utilities/advanced-elicitation/`.
+Pattern adapted from `alirezarezvani/claude-skills` (MIT) `prompt-engineer-toolkit` skill + best-practices distillation from Anthropic Claude prompt engineering docs. Implementation original to coldpress-os; integrates with existing `authoring/prompt-snippets/` library + `skills/utilities/advanced-elicitation/`.
 
 ---
 

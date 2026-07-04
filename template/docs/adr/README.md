@@ -33,5 +33,5 @@ Tooling is optional — a plain editor works too.
 
 ## Related governance
 
-- Semantic validation: `coldpress-os/templates/governance/policies/prd_has_adr.rego`
-- RFC template (for larger, in-progress proposals): `coldpress-os/templates/governance/rfc-amendment.md`
+- Semantic validation: `coldpress-os/authoring/governance/policies/prd_has_adr.rego`
+- RFC template (for larger, in-progress proposals): `coldpress-os/authoring/governance/rfc-amendment.md`

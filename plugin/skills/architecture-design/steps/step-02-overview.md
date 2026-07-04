@@ -19,7 +19,7 @@ Author the system overview + component architecture. Method playbook Tier-1: `br
 
 ### 2. Initialise output document
 
-Create `_context/sacred/architecture.md` from `templates/documents/architecture.md`:
+Create `_context/sacred/architecture.md` from `authoring/documents/architecture.md`:
 
 ```yaml
 ---
