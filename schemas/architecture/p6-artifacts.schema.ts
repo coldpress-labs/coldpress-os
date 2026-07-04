@@ -88,3 +88,83 @@ export const IntegrationInventorySchema = z
   })
   .strict();
 export type IntegrationInventory = z.infer<typeof IntegrationInventorySchema>;
+
+// ─── Security registry (P6, WS10-A3) ───────────────────────────────
+// _context/architecture/security-registry.yaml. Enumerates the security-
+// sensitive code paths so P7 story-slice can FORCE risk:high on any story
+// whose owns/produces globs intersect one (→ P8 solo dispatch + opus verify),
+// and `waves` can exclude them from team-mode parallelism. A missing registry
+// means "no security-sensitive paths declared" — which the P6 gate should make
+// a deliberate statement, not a silent default (see the security thread).
+
+export const SecurityCategoryEnum = z.enum([
+  "authn",
+  "authz",
+  "secrets",
+  "pii",
+  "payment",
+  "crypto",
+  "input-validation",
+  "session",
+  "access-control",
+  "other",
+]);
+export type SecurityCategory = z.infer<typeof SecurityCategoryEnum>;
+
+export const SecurityRegistryEntrySchema = z
+  .object({
+    /** Glob for the security-sensitive path(s). Story owns/produces globs are intersected against these. */
+    path: z.string().min(1),
+    category: SecurityCategoryEnum,
+    /** Why this path is security-sensitive (audit trail). */
+    reason: z.string().min(1),
+    /** Architecture component id this path belongs to (keys to architecture.md). */
+    component: z.string().optional(),
+  })
+  .strict();
+export type SecurityRegistryEntry = z.infer<typeof SecurityRegistryEntrySchema>;
+
+export const SecurityRegistrySchema = z
+  .object({
+    entries: z.array(SecurityRegistryEntrySchema),
+  })
+  .strict();
+export type SecurityRegistry = z.infer<typeof SecurityRegistrySchema>;
+
+// ─── Threat model (P6, WS10-A3) ────────────────────────────────────
+// _context/architecture/threat-model.yaml. STRIDE-per-component threats +
+// mitigations. Each threat keys to an architecture component and (ideally) to
+// a security-registry path that carries its mitigation.
+
+export const StrideCategoryEnum = z.enum([
+  "spoofing",
+  "tampering",
+  "repudiation",
+  "information-disclosure",
+  "denial-of-service",
+  "elevation-of-privilege",
+]);
+export type StrideCategory = z.infer<typeof StrideCategoryEnum>;
+
+export const ThreatSchema = z
+  .object({
+    id: z.string().regex(/^T-\d+$/),
+    /** Architecture component the threat targets. */
+    component: z.string().min(1),
+    category: StrideCategoryEnum,
+    description: z.string().min(1),
+    mitigation: z.string().min(1),
+    /** Residual risk after the mitigation. */
+    residual_risk: z.enum(["low", "medium", "high"]).default("low"),
+    /** The security-registry path(s) where the mitigation lives (optional cross-ref). */
+    security_registry_paths: z.array(z.string()).optional(),
+  })
+  .strict();
+export type Threat = z.infer<typeof ThreatSchema>;
+
+export const ThreatModelSchema = z
+  .object({
+    threats: z.array(ThreatSchema),
+  })
+  .strict();
+export type ThreatModel = z.infer<typeof ThreatModelSchema>;
