@@ -15,7 +15,7 @@ Structural validation only. Semantic / cross-document policy ("the PRD must refe
 
 ## When to Use
 
-- Inside write-back steps of `@pm create-prd`, `@architect create-architecture`, `@analyst create-context`, `@architect create-tech-stack`, `@architect create-pert-chart` — before committing the sacred doc, validate the frontmatter.
+- Inside write-back steps of `@pm create-prd`, `@architect create-architecture`, `@analyst create-context`, `@architect create-tech-stack` — before committing the sacred doc, validate the frontmatter.
 - As an acceptance check at Phase 3/4/5 gates (`validate-schema` referenced from `gate.json` `skill_ref`).
 - Ad-hoc `coldpress governance validate-schema <path>` (CLI subcommand wires in a future block).
 
@@ -24,7 +24,7 @@ Structural validation only. Semantic / cross-document policy ("the PRD must refe
 - `coldpress` CLI on PATH (Ajv ships with the package; no separate install).
 - Sacred doc exists at the expected path.
 
-## The 5 registered sacred-doc schemas
+## The 4 registered sacred-doc schemas
 
 | Doc id | Schema file | Canonical path |
 |--------|-------------|----------------|
@@ -32,7 +32,8 @@ Structural validation only. Semantic / cross-document policy ("the PRD must refe
 | `tech-stack` | `schemas/sacred-docs/tech-stack.schema.json` | `_context/sacred/tech-stack.md` |
 | `prd` | `schemas/sacred-docs/prd.schema.json` | `_context/sacred/prd.md` |
 | `architecture` | `schemas/sacred-docs/architecture.schema.json` | `_context/sacred/architecture.md` |
-| `pert-chart` | `schemas/sacred-docs/pert-chart.schema.json` | `_context/sacred/pert-chart.md` |
+
+(The `pert-chart` sacred doc + schema were retired in v0.4 — the computed story graph + `coldpress waves` superseded it.)
 
 Adding a new sacred doc means:
 1. Ship a new JSON Schema under `schemas/sacred-docs/<id>.schema.json`.
