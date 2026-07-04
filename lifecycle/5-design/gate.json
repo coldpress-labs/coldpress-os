@@ -94,7 +94,7 @@
       "skill_ref": "skills/reviews/a11y-audit",
       "condition": "archetype in [design-led, WDS]",
       "artefact_path": "_context/audit/a11y-audit-v*.md",
-      "remediation": "Run `@qa a11y-audit` (Phase 5 mode). Brand-token contrast failures forward-carry as design-deltas → reconcile via `phase-transition` step-02a back to `brand-guidelines` for re-tokenisation."
+      "remediation": "Run `@verifier a11y-audit` (Phase 5 mode). Brand-token contrast failures forward-carry as design-deltas → reconcile via `phase-transition` step-02a back to `brand-guidelines` for re-tokenisation."
     }
   ],
   "next_phase": "6-architecture"

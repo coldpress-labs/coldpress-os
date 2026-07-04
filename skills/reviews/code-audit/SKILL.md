@@ -40,21 +40,16 @@ Performs a comprehensive code audit on a completed story or defined scope. Runs 
    - **File list:** Use provided paths directly
    - **Epic-level:** Aggregate all stories in the epic, audit each, then roll up
 
-   **Graph-first scope derivation (preferred when a graph exists).** For story-level audits, find code modules linked to the story via `implements` edges:
+   **Trace-based scope derivation (preferred).** For story-level audits, find the code modules implementing the story via its blast radius. The trace graph is derived in-memory on each call, so there is no index to prime first:
 
    ```bash
-   # 1. Find the story node by label (or use --id if you have the story id).
-   STORY=$(coldpress graph query --dir-role _context/planning --format json \
-     | jq -r '.data[] | select(.label | test("^Story 1\\.3")) | .id' | head -1)
-
-   # 2. Code modules implementing the story.
-   coldpress graph query --neighbors "$STORY" --relation implements --format json \
-     | jq -r '.data[] | select(.coldpress.node_type == "CodeModule") | .source_file'
+   # Code modules implementing the story (blast radius of the story node).
+   coldpress trace impact <story-id>
    ```
 
-   On exit code `0`: the emitted paths are the audit scope. On exit code `2` (no graph): fall back to git-diff / ls-based derivation. On exit code `1`: surface the error and halt.
+   The reported code modules are the audit scope. If `coldpress trace impact` surfaces nothing (or errors), fall back to git-diff / ls-based derivation.
 
-   For epic-level audits, compose: enumerate stories in the epic via `coldpress graph query --neighbors <epic-id>`, then union their implementing code modules.
+   For epic-level audits, run `coldpress trace impact <epic-id>` and union the implementing code modules across the epic's stories.
 
 2. **Run automated checks** across all in-scope files:
    - TypeScript compilation errors (`tsc --noEmit`)

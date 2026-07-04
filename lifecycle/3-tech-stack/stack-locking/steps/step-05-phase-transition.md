@@ -8,7 +8,7 @@ next_step: null
 
 ## Goal
 
-Close out Phase 3 cleanly. Invoke `phase-transition` (Part 2 cross-cutting skill) for gate-check, graph rebuild, and handoff log. Then prompt the user to run the Phase 3 exit hook CLI command.
+Close out Phase 3 cleanly. Invoke `phase-transition` (Part 2 cross-cutting skill) for gate-check and handoff log. Then prompt the user to run the Phase 3 exit hook CLI command.
 
 ## Instructions
 
@@ -24,7 +24,6 @@ Warn checks surface as informational — proceed.
 
 Run `skills/governance/phase-transition/` workflow:
 - Step 1: Gate check pass (Stage 1 already ran above — confirm pass)
-- Step 2: Graph rebuild prompt (if graph stale — user confirms `coldpress graph rebuild`)
 - Step 3a: Distillate regen check — if `stack-selection-summary-v{N}.md` or `product-brief-v{N}.md` upstream artefacts changed since last regen, prompt regen
 - Step 4: Write `_context/handoffs/phase-3-to-4-{date}.md` — summarise Phase 3 outputs for Phase 4 consumption
 

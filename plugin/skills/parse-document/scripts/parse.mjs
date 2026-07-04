@@ -418,7 +418,6 @@ async function main() {
   process.stdout.write(`▸ backend: ${backendUsed}\n`);
   process.stdout.write(`▸ input:   ${args.input} (${statSync(inputAbs).size} bytes)\n`);
   process.stdout.write(`▸ output:  ${relative(projectRoot, outputAbs)} (${size} bytes)\n`);
-  process.stdout.write(`▸ run \`coldpress graph rebuild\` to index.\n`);
   process.exit(0);
 }
 

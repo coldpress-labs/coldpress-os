@@ -68,7 +68,7 @@
       "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/handoffs/phase-4-to-5-*.md",
-      "remediation": "Invoke `phase-transition` at Phase 4 exit to trigger graph rebuild + handoff log write."
+      "remediation": "Invoke `phase-transition` at Phase 4 exit to write the handoff log."
     }
   ],
   "next_phase": "5-design"

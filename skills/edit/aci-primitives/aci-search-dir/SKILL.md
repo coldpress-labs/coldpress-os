@@ -33,7 +33,7 @@ Port SWE-agent's *search_dir* primitive. Naïve grep over a large repo returns h
 
 - Finding a single specific file by name. Use `aci-find-file`.
 - Whole-repo statistics (count occurrences across N files). Use `Grep` with `output_mode: count`.
-- Searching the graph instead of disk. Use `coldpress graph query` (Block N + CC).
+- Querying the derived trace graph instead of disk. Use `coldpress trace` (`why` / `impact` / `orphans`).
 
 ## Process
 

@@ -32,7 +32,7 @@ Five outputs across the incident lifecycle: timeline (live), mitigation actions,
    - **Findings & action-items** — what-went-well / what-didn't, then assignable action-items (owner agent + the `E#` that motivates each).
 3. **Runbook entry** at `_context/operations/runbooks/{slug}.md` — codified resolution steps for next time (search-first shortcut)
 4. **Ops-deltas** at `_context/handoffs/phase-10-ops-deltas-wip-{date}.md` (per `schemas/handoffs/ops-delta.schema.json`) — if user-impact significant or repeat pattern, forward-carry to Phase 11 retrospective
-5. **Action-items list** — assignable items for @developer / @qa / @architect / @pm depending on root-cause class
+5. **Action-items list** — assignable items for @developer / @verifier / @architect / @pm depending on root-cause class
 6. **Failure-taxonomy tag** (WS8 → WS7 loop) — the postmortem tags the root cause with a `data/failure-taxonomy.yaml` class id (e.g. `secret-exposure`, `hidden-dependency`, `schema-violation`). The tag rides the ops-delta / run-log so **`coldpress evolve`** counts it and the **valet-loop** can turn a recurring incident into a golden eval + fix. Every incident must also add a **pinning test** before its fix merges (test-integrity).
 
 ## Prerequisites

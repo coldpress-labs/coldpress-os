@@ -34,7 +34,7 @@ DevOps is a single agent with two phase modes — Phase 9 ship-path discipline a
 - SLO tracking and alert tuning
 - Capacity / cost monitoring
 - Operational cadence (operate-loop, mid-iteration adjustments)
-- Production-impacting fixes via the dev-story → wave-orchestration loop
+- Production-impacting fixes via the dev-story → `coldpress waves` loop
 - Surfacing ops-deltas for Phase 11 retrospective
 
 ## Lifecycle Mapping

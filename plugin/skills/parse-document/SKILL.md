@@ -14,14 +14,13 @@ Convert a raw document — PDF, DOCX, PPTX, XLSX, image, HTML, or AI conversatio
 - **Accurate path — Docling (IBM, MIT):** scanned PDFs, complex tables, images, layout-sensitive content. Downloads ~500MB–1GB of ML models on first use.
 - **AI conversation path — stdlib-only:** ChatGPT / Claude / generic AI conversation exports (JSON or markdown). Detected by content sniff, not extension — the adapter preserves turn structure (`## Turn N — User / Assistant`) and renders tool-use blocks as fenced code so Graphify clusters turns as distinct nodes instead of one mega-blob.
 
-Output markdown lives at `_input/.parsed/<original-filename>.md` so Graphify picks it up on the next `coldpress graph rebuild` pass without any manual bookkeeping.
+Output markdown lives at `_input/.parsed/<original-filename>.md` where downstream Discovery steps read it directly — no index rebuild or manual bookkeeping needed.
 
 ## When to Use
 
 - "ingest this PDF / DOCX / image"
 - "parse the brief in `_input/raw/`"
 - As part of `@analyst`'s Phase-2 Discovery workflow when raw documents land in `_input/`
-- Before `coldpress graph rebuild` so the graph indexer has parsed prose to work with
 
 ## Prerequisites
 
@@ -58,7 +57,7 @@ If Python or either adapter is missing, the Node entry surfaces a clear install 
 
 4. **Write the output** to `_input/.parsed/<name>.md` (directory auto-created). Skip if the destination exists unless `--force` is set.
 
-5. **Report** the backend used, the input path, the output path, and the output size. The Analyst (or user) reviews the markdown for ingest quality before the next `coldpress graph rebuild`.
+5. **Report** the backend used, the input path, the output path, and the output size. The Analyst (or user) reviews the markdown for ingest quality.
 
 ## Licence hygiene
 
@@ -78,7 +77,6 @@ node coldpress-os/skills/ingest/parse-document/scripts/parse.mjs _input/raw/stak
 # ▸ backend: docling (fell back from markitdown — output was < 200 chars)
 # ▸ input:   _input/raw/stakeholder-interview.pdf (1.2 MB)
 # ▸ output:  _input/.parsed/raw/stakeholder-interview.md (14 KB)
-# ▸ run `coldpress graph rebuild` to index.
 ```
 
 ## Failure modes
