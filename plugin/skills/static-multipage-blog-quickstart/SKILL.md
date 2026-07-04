@@ -1,18 +1,8 @@
 ---
-name: "static-multipage-blog-quickstart"
+name: static-multipage-blog-quickstart
 description: "Initialize a static-multipage-blog project: Astro + Vercel + MDX + Tailwind + RSS feed + sitemap + llms.txt + blog post template"
-type: "workflow"
-category: "stack-packs/static-multipage-blog"
-agent: "developer"
-phases: [3]
-inputs:
-  cold_file_reads:
-    - "coldpress.yaml"
-    - "_context/sacred/tech-stack.md"
-outputs:
-  - artifact: "Initialized Astro multipage blog project"
-    location: "./"
-    format: "directory"
+license: MIT
+compatibility: Invoked by @developer in Phase 3
 version: "1.0"
 ---
 

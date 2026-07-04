@@ -1,5 +1,5 @@
 ---
-name: "quickstart"
+name: "cli-npm-publishable-quickstart"
 description: "Initialize a cli-npm-publishable project: TypeScript + tsup + bin entry + Vitest + changesets + GitHub Actions release workflow"
 type: "workflow"
 category: "stack-packs/cli-npm-publishable"

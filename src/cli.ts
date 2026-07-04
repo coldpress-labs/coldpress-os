@@ -43,7 +43,7 @@ const program = new Command();
 
 program
   .name("coldpress")
-  .description("AI-native development framework — 11-phase Shape A lifecycle, 11 subagents, atomic skills.")
+  .description("AI-native development framework — 11-phase Shape A lifecycle, 8 subagents, atomic skills.")
   .version(pkg.version, "-v, --version", "output the current version");
 
 program

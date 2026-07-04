@@ -1,18 +1,8 @@
 ---
-name: "static-single-page-quickstart"
+name: static-single-page-quickstart
 description: "Initialize a static-single-page project: Astro + Cloudflare Pages + Tailwind + baseline files (sitemap, llms.txt, robots.txt)"
-type: "workflow"
-category: "stack-packs/static-single-page"
-agent: "developer"
-phases: [3]
-inputs:
-  cold_file_reads:
-    - "coldpress.yaml"
-    - "_context/sacred/tech-stack.md"
-outputs:
-  - artifact: "Initialized Astro project with Cloudflare Pages config + Tailwind + baseline files"
-    location: "./"
-    format: "directory"
+license: MIT
+compatibility: Invoked by @developer in Phase 3
 version: "1.0"
 ---
 

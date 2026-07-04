@@ -1,15 +1,8 @@
 ---
-name: "vibe-coder-fullstack-quickstart"
-description: "Initialize a new Convex project with best-practice configuration"
-type: "workflow"
-category: "stack-packs/vibe-coder-fullstack"
-phases: [3]
-inputs:
-  - "project name and requirements"
-outputs:
-  - artifact: "Initialized Convex Project"
-    location: "project root"
-    format: "project files"
+name: vibe-coder-fullstack-quickstart
+description: Initialize a new Convex project with best-practice configuration
+license: MIT
+compatibility: Phase 3
 version: "1.0"
 ---
 
