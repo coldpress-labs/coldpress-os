@@ -6,7 +6,7 @@ version: "1.0"
 
 # Governance (§5.2)
 
-> The sacred docs (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md`) are the load-bearing artefacts of a coldpress-os project — downstream skills consume them as contracts. Before this protocol, their frontmatter was prose-regulated. This doc specifies the governance layer: Ajv validates shape; Conftest validates semantics; ADRs anchor decisions; RFCs propose them.
+> The sacred docs (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`) are the load-bearing artefacts of a coldpress-os project — downstream skills consume them as contracts. (The lite lane collapses these to a single `spec.md`.) Before this protocol, their frontmatter was prose-regulated. This doc specifies the governance layer: Ajv validates shape; Conftest validates semantics; ADRs anchor decisions; RFCs propose them.
 
 **Source decision:** [framework-audit-2026-04-23.md §9](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md) + [oss-integration-survey-2026-04-22.md Tier 1 §1.5](../../../lab-hq-projects/hq-p001-coldpress-os/docs/oss-integration-survey-2026-04-22.md).
 
@@ -18,7 +18,7 @@ version: "1.0"
 
 `skills/governance/validate-schema` validates sacred-doc YAML frontmatter against per-doc JSON Schemas. Runs in-process via [Ajv](https://github.com/ajv-validator/ajv) (MIT) — no subprocess, no install.
 
-**Five schemas shipped** at `schemas/sacred-docs/`:
+**Four schemas shipped** at `schemas/sacred-docs/`:
 
 | Sacred doc | Schema |
 |------------|--------|
@@ -26,7 +26,8 @@ version: "1.0"
 | `_context/sacred/tech-stack.md` | `tech-stack.schema.json` |
 | `_context/sacred/prd.md` | `prd.schema.json` |
 | `_context/sacred/architecture.md` | `architecture.schema.json` |
-| `_context/sacred/pert-chart.md` | `pert-chart.schema.json` |
+
+(The `pert-chart` sacred doc + schema were retired in v0.4 — the computed story graph + `coldpress waves` superseded PERT.)
 
 Each schema requires at minimum:
 - `sacred: true` (const — the marker)
@@ -34,7 +35,7 @@ Each schema requires at minimum:
 - `governance: "requires-review" | "locked" | "draft"`
 - `workflowType` pinned to the doc kind (`"prd"`, `"architecture"`, etc.)
 
-Doc-specific fields (PRD's `adr_references[]`, architecture's `approvers[]`, pert's `waves[]`) layer on top. `additionalProperties: true` leaves room for project-specific extensions.
+Doc-specific fields (PRD's `adr_references[]`, architecture's `approvers[]`) layer on top. `additionalProperties: true` leaves room for project-specific extensions.
 
 ### 2. `validate-sacred-doc` — semantic (Conftest + Rego)
 
@@ -42,7 +43,8 @@ Doc-specific fields (PRD's `adr_references[]`, architecture's `approvers[]`, per
 
 - "PRDs must reference ≥1 ADR" (`prd_has_adr.rego`)
 - "Architecture.md changes must list ≥1 approver" (`architecture_has_approvers.rego`)
-- "PERT chart must reference architecture.md as an input" (`pert_references_architecture.rego`)
+
+(The `pert_references_architecture.rego` policy was retired with the PERT sacred doc in v0.4.)
 
 Policies ship at `templates/governance/policies/`. Adding one: drop a new `.rego` file; no registry update needed.
 
@@ -130,5 +132,5 @@ No policy in coldpress-os is load-bearing in a way a project can't override.
 
 ## Orchestration context
 
-> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 11 Shape A subagents (analyst · architect · pm · ux-designer · scrum-master · developer · qa · devops · reviewer · communicator · valet) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
+> **Hello Butler.** Butler is coldpress-os's main orchestrator agent — your default Claude Code session running with `CLAUDE.md` as its directive. Butler dispatches the 8 Shape A subagents (analyst · architect · pm · ux-designer · developer · verifier · devops · reviewer) and runs the phase gates. The protocol / spec / schema documented above is invoked by Butler (or by a Butler-dispatched subagent) at the relevant phase. See [`butler.md`](butler.md) for the orchestrator reference and the canonical `Hello Butler` entry point.
 
