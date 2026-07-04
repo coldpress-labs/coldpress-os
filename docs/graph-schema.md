@@ -79,7 +79,7 @@ Coldpress-os adds a `coldpress` namespace object to each node for framework-awar
 | `node_type` | Description | Typical `source_file` |
 |-------------|-------------|-----------------------|
 | `Document` | Prose markdown, not sacred | `_context/planning/*.md`, `_context/design/*.md` |
-| `SacredDoc` | Governed sacred document | `_context/sacred/{context,tech-stack,prd,architecture,pert-chart}.md` |
+| `SacredDoc` | Governed sacred document | `_context/sacred/{context,tech-stack,prd,architecture}.md` |
 | `Artefact` | Structured output with schema | `_context/tracking/sprint-status.yaml`, `_context/audit/*.md` |
 | `CodeModule` | File-level code unit | `src/**/*.{ts,py,go,...}` |
 | `CodeSymbol` | Intra-file symbol (class, function, method) | derived from `source_file` + `source_location` |

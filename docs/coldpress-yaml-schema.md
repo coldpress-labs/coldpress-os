@@ -118,7 +118,7 @@ agents:
   developer:
     mode: ""                        # written by Phase 3 stack-locking
                                     # standard | quick
-  qa:
+  verifier:
     depth: ""                       # written by Phase 3 stack-locking
                                     # rapid | strategic
   ux-designer:
@@ -134,10 +134,9 @@ sacred_docs:
   tech_stack: "_context/sacred/tech-stack.md"   # written by Phase 3 stack-locking
   prd: "_context/sacred/prd.md"                 # written by Phase 4 create-prd
   architecture: "_context/sacred/architecture.md" # written by Phase 4 create-architecture
-  pert: "_context/sacred/pert-chart.md"         # written by Phase 5 parallelization-strategy
 ```
 
-Framework defaults for all five paths live in `governance/sacred-docs.md` §2. Consumer projects only write these fields if they override the default location — which is rare and governed by §7 *Structural Migrations*.
+Framework defaults for all four paths live in `governance/sacred-docs.md` §2. Consumer projects only write these fields if they override the default location — which is rare and governed by §7 *Structural Migrations*.
 
 ### Phase 3+ (optional) — Stack-pack overrides
 
@@ -240,7 +239,7 @@ Every intake step writes `partial_completion` before starting its work; on clean
 
 ## See also
 
-- `governance/sacred-docs.md` §2 — the canonical five sacred documents and their paths.
+- `governance/sacred-docs.md` §2 — the canonical four sacred documents and their paths.
 - `docs/stack-pack-guide.md` — authoring stack packs and their override shape.
 - `docs/phase-i-implementation-plan.md` §1.9 — the rationale for the config-vs-output redesign.
 - `schemas/baselines.schema.json` — JSON schema for the `baselines:` block.

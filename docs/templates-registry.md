@@ -35,7 +35,6 @@ See also [`templates/README.md`](../templates/README.md) for the per-subdir disp
 | `tech-stack.md` | document | Phase 3 (Tech Stack) | `stack-locking` (implicit reference) | stack summary, rationale, ADRs | sacred-doc template |
 | `prd.md` | document | Phase 4 (Planning) | `create-prd` (explicit reference) | executive summary, goals, NFRs, constraints, out-of-scope | sacred-doc template |
 | `architecture.md` | document | Phase 6 (Architecture) | `architecture-design` (explicit reference) | architectural drivers, components, diagrams, NFR allocation | sacred-doc template |
-| `pert-chart.md` | document | Phase 7 (Breakdown) | `parallelization-strategy` (implicit reference) | epics, dependencies, wave assignments | sacred-doc template |
 | `ux-design-spec.md` | document | Phase 5 (Design) | `ux-design` (explicit reference) | scenarios, wireframes, design-system refs | in active use |
 | `epic.md` | document | Phase 7 (Breakdown) | `create-epics` (implicit reference) | epic summary, story list, component impact | in active use |
 | `story.md` | document | Phase 7 (Breakdown) → Phase 8 (Implementation) | `create-stories`, `dev-story` | file scope, acceptance criteria, test coverage | in active use |
@@ -74,7 +73,7 @@ See also [`templates/README.md`](../templates/README.md) for the per-subdir disp
 | `skill.md` | infrastructure | Shape of a new coldpress-os skill | `skill-builder` (explicit reference) |
 | `workflow.md` | infrastructure | Shape of a new workflow SKILL | `workflow-builder` (explicit reference) |
 
-**Wave 4 disposition:** relocate to `docs/contributor/` or `install/contributor-templates/`. Current location blurs "shipped-to-consumer" with "framework-authoring-reference." **No relocation this block** — the meta skills (`@valet`-owned) need their step-files updated in tandem with any move.
+**Wave 4 disposition:** relocate to `docs/contributor/` or `install/contributor-templates/`. Current location blurs "shipped-to-consumer" with "framework-authoring-reference." **No relocation this block** — the meta skills (framework-internal-meta-owned) need their step-files updated in tandem with any move.
 
 ---
 

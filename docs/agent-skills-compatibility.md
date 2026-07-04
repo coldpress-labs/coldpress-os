@@ -10,7 +10,7 @@ version: "1.0"
 
 This doc is the one-surface reference for how coldpress-os fits into the Anthropic Agent Skills ecosystem — what's compatible, what's complementary, and what's deliberately different.
 
-> **Hello Butler.** Butler is the framework's main orchestrator (the default Claude Code session running with CLAUDE.md as its directive — see [`butler.md`](butler.md)). Butler dispatches the 11 subagents and runs the gates between Shape A's 11 phases. Anthropic Agent Skills compatibility is at the *skill* layer — Butler and the orchestration spine sit on top.
+> **Hello Butler.** Butler is the framework's main orchestrator (the default Claude Code session running with CLAUDE.md as its directive — see [`butler.md`](butler.md)). Butler dispatches the 8 subagents and runs the gates between Shape A's 11 phases. Anthropic Agent Skills compatibility is at the *skill* layer — Butler and the orchestration spine sit on top.
 
 **Source decisions:**
 - [anthropic-skills-analysis-2026-04-23.md](../../../lab-hq-projects/hq-p001-coldpress-os/docs/anthropic-skills-analysis-2026-04-23.md) — format / distribution / vocabulary strategy.
@@ -37,7 +37,7 @@ Coldpress-os keeps its richer internal step-file format as the source of truth (
 name: code-review
 description: Review code changes with parallel review layers and structured triage
 license: MIT
-compatibility: Invoked by @qa in Phase 6
+compatibility: Invoked by @verifier in Phase 6
 version: "1.0"
 ---
 ```
@@ -67,7 +67,7 @@ Installs the full coldpress-os skill library (~128 spec-compliant SKILL.md files
 
 ### 3. Runtime — Claude Code CLI **and** Agent SDK
 
-The `.claude/` tree coldpress-os scaffolds — 11 subagent definitions in `.claude/agents/*.md` + ~128 skill wrappers in `.claude/skills/*/SKILL.md` — loads unchanged under two runtimes:
+The `.claude/` tree coldpress-os scaffolds — 8 subagent definitions in `.claude/agents/*.md` + ~128 skill wrappers in `.claude/skills/*/SKILL.md` — loads unchanged under two runtimes:
 
 - **Claude Code CLI** (`claude` in the terminal) — interactive dev-time.
 - **`@anthropic-ai/claude-agent-sdk`** — programmatic, used for CI pipelines and automated workflows.
@@ -82,10 +82,10 @@ Anthropic ships first-party skills that overlap with specific coldpress-os subag
 
 | Anthropic skill | Delegating subagent | Licence | Action |
 |----|----|----|----|
-| `docx`, `pdf`, `pptx`, `xlsx` | `@communicator` | Source-available (not OSS) | Install via `document-skills@anthropic-agent-skills` plugin; never vendor source |
+| `docx`, `pdf`, `pptx`, `xlsx` | forkable creative/export skills | Source-available (not OSS) | Install via `document-skills@anthropic-agent-skills` plugin; never vendor source |
 | `mcp-builder` | `@architect` | Apache-2.0 | Install via `example-skills@anthropic-agent-skills`; invoke when a project needs a bespoke MCP server |
-| `webapp-testing` | `@qa` | Apache-2.0 | Install via `example-skills`; use for Playwright E2E flows |
-| `skill-creator` | `@valet` | Apache-2.0 | Reference as canonical meta-skill pattern (bundled-agent pattern: flatten — see audit doc) |
+| `webapp-testing` | `@verifier` | Apache-2.0 | Install via `example-skills`; use for Playwright E2E flows |
+| `skill-creator` | framework-internal meta loop | Apache-2.0 | Reference as canonical meta-skill pattern (bundled-agent pattern: flatten — see audit doc) |
 | `claude-api` | `@developer` | Apache-2.0 | Install via `example-skills`; invoke when building against Claude API directly |
 
 `coldpress init` prints the two `/plugin install` commands in the post-scaffold message — every new coldpress-os project starts with the full Anthropic companion skill set.
@@ -97,9 +97,9 @@ Anthropic ships first-party skills that overlap with specific coldpress-os subag
 | Concept | Agent Skills | Coldpress-os addition |
 |---------|--------------|----------------------|
 | **Skill** | Atomic capability unit. Anthropic spec. | Same. Coldpress-os skills ARE Agent Skills at the emission layer. |
-| **Subagent** | Not in the spec. Runtime concept — Claude Code supports subagents via `.claude/agents/*.md`. | Coldpress-os ships **11 canonical subagents** with specific phase ownership + tool allowlists (analyst, architect, pm, ux-designer, scrum-master, developer, qa, devops, reviewer, communicator, valet). |
+| **Subagent** | Not in the spec. Runtime concept — Claude Code supports subagents via `.claude/agents/*.md`. | Coldpress-os ships **8 canonical subagents** with specific phase ownership + tool allowlists (analyst, architect, pm, ux-designer, developer, verifier, devops, reviewer). |
 | **Phase** | Not in the spec. | Coldpress-os ships an **11-phase Shape A SDLC** (Bootstrap → Discovery → Tech Stack → Planning → Design → Architecture → Breakdown → Implementation → Deployment → Operate → Evolve). Each phase has an entry gate + exit conditions. |
-| **Sacred document** | Not in the spec. | Five governance-protected artefacts (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md`) with formal change workflows. |
+| **Sacred document** | Not in the spec. | Four governance-protected artefacts (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`) with formal change workflows. |
 | **Typed handoff** | Not in the spec. | Four high-stakes inter-phase handoffs validated by Zod schemas on both write and read. |
 | **Stack pack** | Not in the spec. | Pluggable skill set for a specific technology stack — six ship in-tree at v0.3.0-alpha (vibe-coder-fullstack, cli-npm-publishable, browser-extension, static-single-page, static-multipage-blog, seo-pack). |
 | **Forward-carry quartet** | Not in the spec. | Four delta instances (design / architecture / implementation / ops) carry late-surfacing constraints across phase boundaries with structured reconciliation. New in v0.3.0-alpha Shape A. |

@@ -1,6 +1,6 @@
 # Subagent Customization Guide — coldpress-os
 
-> How to configure, override, and extend the 9 default subagents for your project.
+> How to configure, override, and extend the 8 default subagents for your project.
 
 ---
 
@@ -17,8 +17,6 @@ agents:
     mode: "full"        # full | brief | creative | strategic
   developer:
     mode: "standard"    # standard | quick
-  qa:
-    depth: "rapid"      # rapid | strategic
   ux-designer:
     mode: "standard"    # standard | full-spec
 ```
@@ -41,12 +39,9 @@ agents:
 | `standard` | Story-driven. TDD. Full ceremony — reads story spec, creates implementation plan, writes tests first, implements, runs tests, creates handoff artifact. |
 | `quick` | Lean spec. Rapid implementation. Minimal docs. For well-understood tasks where ceremony adds overhead. |
 
-**QA:**
+**Verifier:**
 
-| Mode | Behavior |
-|------|----------|
-| `rapid` | Coverage-first. Generates tests pragmatically. Focuses on the happy path + critical edge cases. |
-| `strategic` | Risk-based. ATDD. CI/CD governance. NFR assessment. Full test strategy for high-stakes features. |
+The verifier has no user-facing modes. It is read-only and structurally-independent — dispatched only by Butler with the spec, acceptance criteria, diff, and run access, never the developer's reasoning. It confirms a story meets its spec and cannot edit code, so there is nothing to tune via `coldpress.yaml`.
 
 **UX Designer:**
 
@@ -117,7 +112,7 @@ You are the Architect — the project's technical authority.
 
 ## Adding a Custom Subagent
 
-For specialized needs not covered by the 9 defaults.
+For specialized needs not covered by the 8 defaults.
 
 ### Step 1: Create the Agent File
 
@@ -209,7 +204,7 @@ Verify Butler dispatches correctly and the agent runs with the right model and t
 |---------------|---------------|
 | **Cost-sensitive project** | Use `sonnet` for all agents. It handles most tasks well. |
 | **Architecture-heavy project** | Keep `architect` on `opus` for deeper reasoning. |
-| **Fast iteration / prototyping** | Use `haiku` for organizational agents (scrum-master), `sonnet` for everything else. |
+| **Fast iteration / prototyping** | Use `sonnet` broadly; reserve `opus` (architect, reviewer) for deep reasoning. |
 | **Complex multi-step reasoning** | Consider `opus` for agents doing long-form analysis (analyst in strategic mode). |
 
 ### Model Capabilities
@@ -226,9 +221,9 @@ Verify Butler dispatches correctly and the agent runs with the right model and t
 
 | Pattern | Tools | Use For |
 |---------|-------|---------|
-| **Read-only** | `Read, Grep, Glob` | Reviewers, analyzers, scrum-master |
+| **Read-only** | `Read, Grep, Glob` | Reviewers, analyzers, verifier |
 | **Read + execute** | `Read, Grep, Glob, Bash` | Researchers, architects (running tests/checks) |
-| **Full write** | `Read, Grep, Glob, Bash, Edit, Write` | Developers, PMs (producing documents), QA |
+| **Full write** | `Read, Grep, Glob, Bash, Edit, Write` | Developers, PMs (producing documents), DevOps |
 | **Minimal** | `Read` | Lightweight advisory agents |
 
 Be deliberate. An agent with `Write` access can create files — only grant it when the agent's job requires producing artifacts.
@@ -242,11 +237,11 @@ Butler can dispatch multiple subagents concurrently when their work is independe
 Safe parallel pairs:
 - `@architect` + `@ux-designer` (different domains, same phase)
 - `@developer` + `@developer` (different stories in the same wave)
-- `@analyst` + `@communicator` (research + documentation)
+- `@reviewer` + `@verifier` (independent read-only passes over the same code)
 
 Unsafe (sequential required):
 - `@pm` then `@architect` (architecture depends on PRD)
-- `@developer` then `@qa` (tests depend on implementation)
+- `@developer` then `@verifier` (verification depends on implementation)
 
 ---
 

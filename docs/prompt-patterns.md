@@ -16,9 +16,9 @@ version: "1.0"
 
 | # | Pattern | Problem it solves | Applied in |
 |---|---------|-------------------|------------|
-| 1 | **Inline section-level meta-descriptions** | Authors skip or misunderstand what a template section is for. | All 5 sacred-doc templates + high-stakes skill Process sections |
+| 1 | **Inline section-level meta-descriptions** | Authors skip or misunderstand what a template section is for. | All 4 sacred-doc templates + high-stakes skill Process sections |
 | 2 | **"ATTENTION" preamble** | Agents treat formatting requirements as suggestions; machine-parsed outputs (story-graph.yaml, epic sharding) arrive malformed. | `story-graph`, epic/story shard skills, any skill with downstream schema consumers |
-| 3 | **Forcing-function artefacts** | Agents skim / skip analysis; skipped work is invisible in the output. | Architecture diagram (mandatory Mermaid), PERT DAG (mandatory table), review rubric (mandatory row per criterion) |
+| 3 | **Forcing-function artefacts** | Agents skim / skip analysis; skipped work is invisible in the output. | Architecture diagram (mandatory Mermaid), story-graph DAG (mandatory table), review rubric (mandatory row per criterion) |
 | 4 | **Tripartite code-review CoT scaffold** | Review becomes vibes-based; no line citations, no threshold gate. | `code-review`, `@reviewer` rubric-grounding |
 | 5 | **Closing "Output Contract" block** | Output format drifts between runs because the spec is stated once at the top + forgotten by generation time. | Every machine-consumed skill output |
 
@@ -46,13 +46,13 @@ targets are vibes, not requirements.*
 
 **Why italic:** visually distinct from body prose, doesn't collide with quote blocks, renders cleanly in both Markdown viewers and agent prompts.
 
-**Applied in:** sacred-doc templates (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md`), Process sections of high-stakes skills.
+**Applied in:** sacred-doc templates (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`), Process sections of high-stakes skills.
 
 ---
 
 ## Pattern 2 — "ATTENTION" preamble with numbered imperatives
 
-For skills whose output is parsed downstream (PERT DAG → wave grouping, epics → stories), ambiguity in formatting breaks the consumer. Prepend an ATTENTION block with 3-6 numbered imperatives stating the non-negotiables.
+For skills whose output is parsed downstream (story-graph → wave grouping, epics → stories), ambiguity in formatting breaks the consumer. Prepend an ATTENTION block with 3-6 numbered imperatives stating the non-negotiables.
 
 **Canonical form:**
 
@@ -166,7 +166,7 @@ Save the artefact to `_context/sacred/prd.md`. Confirm the save in the chat.
 
 **Placement:** last section of the skill's body, immediately before the Version Control table. Restates what the top said; the repetition is load-bearing.
 
-**Applied in:** every skill with a machine-parsed downstream consumer — 5 sacred-doc authoring skills, PERT / epic / story shards, reviewer rubric emission.
+**Applied in:** every skill with a machine-parsed downstream consumer — 4 sacred-doc authoring skills, story-graph / epic / story shards, reviewer rubric emission.
 
 ---
 
@@ -293,4 +293,4 @@ transition:
 
 - [`reviewer-subagent.md`](reviewer-subagent.md) — Block EE; Pattern 4 (tripartite CoT) is the review-grounding core of `ReviewRubric.RubricRow.evidence`.
 - [`aci-primitives.md`](aci-primitives.md) — Block HH sibling; the ACI two-fail budget is another prompt-adjacent discipline (verifier feedback between edits).
-- [`handoff-schema-spec.md`](handoff-schema-spec.md) — Wave 2; the 4 high-stakes handoff schemas benefit from Pattern 5 closing contracts at the emitter end.
+- [`handoff-schema-spec.md`](handoff-schema-spec.md) — Wave 2; the 2 high-stakes handoff schemas benefit from Pattern 5 closing contracts at the emitter end.

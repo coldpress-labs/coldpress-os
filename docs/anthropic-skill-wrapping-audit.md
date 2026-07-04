@@ -8,7 +8,7 @@ version: "1.0"
 
 > Where coldpress-os delegates to Anthropic's canonical skills — by domain, by subagent, and by licence. Wrap rather than reimplement.
 
-> **Hello Butler.** Butler (the main orchestrator, see [`butler.md`](butler.md)) dispatches the 11 subagents and routes them to the appropriate wrapped Anthropic skill via the `/plugin install` companion commands.
+> **Hello Butler.** Butler (the main Claude Code session, see [`butler.md`](butler.md)) dispatches the 8 subagents and routes them to the appropriate wrapped Anthropic skill via the `/plugin install` companion commands.
 
 Anthropic ships a growing catalogue of first-party Agent Skills at [anthropics/skills](https://github.com/anthropics/skills). Where those skills overlap with coldpress-os's lifecycle, we wrap them via the Claude Code plugin marketplace rather than building parallel implementations.
 
@@ -18,10 +18,10 @@ Anthropic ships a growing catalogue of first-party Agent Skills at [anthropics/s
 
 | Anthropic skill | Delegating subagent | License | Install command | coldpress-os stance |
 |---|---|---|---|---|
-| `docx`, `pdf`, `pptx`, `xlsx` | `@communicator` | **Source-available (NOT OSS)** | `/plugin install document-skills@anthropic-agent-skills` | Wrap via marketplace install. **Never vendor source.** |
+| `docx`, `pdf`, `pptx`, `xlsx` | forkable creative/export skills | **Source-available (NOT OSS)** | `/plugin install document-skills@anthropic-agent-skills` | Wrap via marketplace install. **Never vendor source.** |
 | `mcp-builder` | `@architect` | Apache-2.0 | `/plugin install example-skills@anthropic-agent-skills` | Invoke when a project needs a bespoke MCP server. |
-| `webapp-testing` | `@qa` | Apache-2.0 | `/plugin install example-skills@anthropic-agent-skills` | Invoke for Playwright E2E flows before building ad-hoc test rigs. |
-| `skill-creator` | `@valet` | Apache-2.0 | `/plugin install example-skills@anthropic-agent-skills` | Reference as canonical meta-skill pattern. See bundled-agent note below. |
+| `webapp-testing` | `@verifier` | Apache-2.0 | `/plugin install example-skills@anthropic-agent-skills` | Invoke for Playwright E2E flows before building ad-hoc test rigs. |
+| `skill-creator` | framework-internal meta loop | Apache-2.0 | `/plugin install example-skills@anthropic-agent-skills` | Reference as canonical meta-skill pattern. See bundled-agent note below. |
 | `claude-api` | `@developer` | Apache-2.0 | `/plugin install example-skills@anthropic-agent-skills` | Invoke when a project builds against the Claude API directly. |
 
 Two marketplace plugins cover all five skills:
@@ -51,7 +51,7 @@ Everything else in Anthropic's `example-skills` set is Apache-2.0 — the usual 
 
 Anthropic's canonical `skill-creator` skill ships with its own `agents/` subdirectory (`analyzer.md`, `comparator.md`, `grader.md`) — one skill with a mini-crew of helpers inside. This is valid per the Agent Skills spec and expressive for self-contained workflows.
 
-**Coldpress-os flattens**. Our architecture is top-level subagents invoking flat skills; introducing a second agent layer inside skills fragments the dispatch model and makes subagent boundaries harder to reason about. When `@valet` scaffolds a new coldpress-os skill from a template that includes bundled-agent content, the expectation is:
+**Coldpress-os flattens**. Our architecture is top-level subagents invoking flat skills; introducing a second agent layer inside skills fragments the dispatch model and makes subagent boundaries harder to reason about. When the framework-internal meta loop scaffolds a new coldpress-os skill from a template that includes bundled-agent content, the expectation is:
 
 - Fold helper-agent prompts into the skill body or `references/`.
 - Preserve the functional capability; lose the nested agent layer.
@@ -65,9 +65,9 @@ This is a coldpress-os-specific stance. Projects using coldpress-os can install 
 
 Coldpress-os ships ~85 atomic skills (built into ~128 spec-compliant SKILL.md wrappers in `plugin/skills/`). This audit covers the five Anthropic skills with clear 1:1 delegation. A full sweep of remaining coldpress-os skills against Anthropic's expanding catalogue is pending — additions land here as they're confirmed. Expected candidates:
 
-- Possible overlap with Anthropic's future testing / QA skills → `@qa`.
+- Possible overlap with Anthropic's future testing / QA skills → `@verifier`.
 - Possible overlap with Anthropic's future CI/CD skills → existing `skills/ops/ci-cd-setup/` could delegate.
-- Possible overlap with Anthropic's future documentation skills beyond the four formats → `@communicator`.
+- Possible overlap with Anthropic's future documentation skills beyond the four formats → the forkable creative/export skills.
 
 Audits are additive — when a new Anthropic skill ships, this doc gets a row, the relevant subagent `.md` gains an "External Skills" reference, and (if needed) the coldpress-os equivalent is retired or reframed as wrapper.
 

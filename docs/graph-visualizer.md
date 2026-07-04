@@ -35,15 +35,15 @@ Exit codes: `0` (rendered), `1` (unknown subgraph / schema error), `2` (no graph
 
 ### `sacred-doc-lineage`
 
-SacredDoc nodes (`context`, `tech-stack`, `prd`, `architecture`, `pert-chart`) and the `descends_from` / `references` edges between them. Tree layout.
+SacredDoc nodes (`context`, `tech-stack`, `prd`, `architecture`) and the `descends_from` / `references` edges between them. Tree layout.
 
-**Use case:** verify sacred-doc provenance — does architecture descend from PRD? does PERT reference architecture? Visual audit of the governance chain.
+**Use case:** verify sacred-doc provenance — does architecture descend from PRD? does the story graph reference architecture? Visual audit of the governance chain.
 
 ### `prd-to-impl`
 
 Forward traversal from every SacredDoc that looks like a PRD, walking `references` + `implements` + `descends_from` edges into epics → stories → CodeModules. Tree layout.
 
-**Use case:** trace "which code implements which requirement?" end-to-end. Mirror of a PERT-chart drill-down in graph form.
+**Use case:** trace "which code implements which requirement?" end-to-end. Mirror of a `coldpress trace impact` drill-down in graph form.
 
 ### `promotion-status`
 

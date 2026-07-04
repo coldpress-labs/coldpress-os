@@ -1,7 +1,7 @@
 # Flow Map — coldpress-os
 
 > Visual mapping: Phases → Skills → Subagents → Outputs.
-> Single pipeline. 11 subagents (Shape A v0.3.0-alpha). Unified orchestration.
+> Single pipeline. 8 subagents (Shape A v0.3.0-alpha). Unified orchestration.
 
 > **Hello Butler.** Butler (the main orchestrator, see [`butler.md`](butler.md)) walks this map at dispatch time — invoking the right skill at the right phase and handing off to subagents via the Agent tool.
 
@@ -13,7 +13,7 @@
 Pre-session (CLI):
   coldpress doctor ──────► Environment verified (Node 22+, git 2.30+, Claude Code)
   coldpress init   ──────► Project scaffolded: coldpress.yaml + .claude/ + template tree
-                           + .claude/skills/ wrappers + AGENTS.md + git init + pre-commit hook
+                           + plugin/skills/ (auto-enabled by .claude/settings.json) + AGENTS.md + git init + pre-commit hook
 
 In-session (Butler):
   orient ─────────────────► Scaffold health report + lifecycle intro
@@ -135,7 +135,7 @@ legacy-assessment ──────► legacy-migration-plan-v{N}.md (brownfiel
 
 **On-demand subagents:**
 - `@analyst` (creative mode — problem-solving, storytelling, innovation-strategy)
-- `@communicator` (narrative mode — pitch narratives, presentation mode — stakeholder decks)
+- forkable creative/export skills (pitch narratives, stakeholder decks; docx/pdf/pptx/xlsx exports) — no dedicated subagent
 
 **Gate:** PRD validated → sacred. UX-design and architecture now belong to Phase 5 (Design) and Phase 6 (Architecture) respectively under Shape A.
 
@@ -197,27 +197,25 @@ diagram-creator ────────► supporting Mermaid diagrams (on-dema
 ```
 create-epics ───────────► epics/ directory
   Subagent: @pm
-  Support: @scrum-master
   Template: templates/documents/epic.md
 
 create-stories ─────────► stories within epics
   Subagent: @pm
   Template: templates/documents/story.md
 
-parallelization-strategy ► pert-chart.md [SACRED]
-  Subagent: @scrum-master
-  Orchestrator: DAG → topological sort → waves
-  Template: templates/documents/pert-chart.md
+story-slice ────────────► story-graph.yaml
+  Subagent: @pm
+  Story graph: story nodes + dependency edges (not sacred)
 
-sprint-planning ────────► sprint-plan.yaml
-  Subagent: @scrum-master
+[user runs: coldpress waves]
+  Computes wave grouping + critical path + schedule from story-graph.yaml
 
 implementation-readiness ► readiness-report.md
-  Subagent: @qa
+  Subagent: @verifier (clean-room, read-only)
   Cross-checks all planning artifacts
 ```
 
-**Gate:** PERT chart accepted → becomes sacred. Implementation readiness passed.
+**Gate:** Story graph authored. Implementation readiness passed.
 
 ---
 
@@ -234,17 +232,16 @@ code-review ────────────► review-report.md
   Multiple perspectives (skill-driven, no single agent)
 
 qa-automation ──────────► automated tests
-  Subagent: @qa (rapid mode)
+  Subagent: @verifier (clean-room, read-only)
 
 test-design ────────────► test-plan.md
-  Subagent: @qa (strategic mode)
+  Subagent: @verifier (clean-room, read-only)
 
 test-framework ─────────► test scaffold
-  Subagent: @qa (strategic mode)
+  Subagent: @verifier (clean-room, read-only)
 
 wave-orchestration ─────► Wave execution tracking
-  Subagent: @scrum-master
-  Orchestrator: execute parallel waves from PERT
+  Butler orchestrates parallel waves from the coldpress waves schedule
 ```
 
 **Gate per wave:** All stories in wave complete, reviewed, tested → advance to next wave
@@ -312,14 +309,14 @@ innovation-strategy ────► innovation-strategy-v{N}.md
 | 1 — Bootstrap | butler | — |
 | 2 — Discovery | @analyst | @ux-designer (personas) |
 | 3 — Tech Stack | @architect | @developer (env-provision); brainstorming + innovation-strategy creative routers |
-| 4 — Planning | @pm | @analyst, @communicator |
-| 5 — **Design** | @ux-designer | @communicator (narrative) |
+| 4 — Planning | @pm | @analyst; forkable creative/export skills |
+| 5 — **Design** | @ux-designer | forkable creative skills (narrative) |
 | 6 — **Architecture** | @architect | — |
-| 7 — Breakdown | @pm, @scrum-master | @qa |
-| 8 — Implementation | @developer, @qa | @scrum-master |
-| 9 — Deployment | @devops | @qa |
-| 10 — Operate | @devops | @communicator (document-project) |
-| 11 — Evolve | @reviewer | @analyst, @communicator |
+| 7 — Breakdown | @pm | @verifier |
+| 8 — Implementation | @developer, @verifier | — |
+| 9 — Deployment | @devops | @verifier |
+| 10 — Operate | @devops | document-project (skill) |
+| 11 — Evolve | @reviewer | @analyst; forkable creative/export skills |
 
 ---
 

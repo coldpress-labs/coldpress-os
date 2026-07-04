@@ -64,7 +64,7 @@ Evaluator: dispatches to `skill_ref`. Skill exit code → check status (0 = pass
 
 ### `kind: "human"`
 
-A named approver (user, `@qa`, `@architect`, etc.) must sign off. Not a phase blocker by default — but sign-off is recorded in `.coldpress/signoffs/` for audit.
+A named approver (user, `@verifier`, `@architect`, etc.) must sign off. Not a phase blocker by default — but sign-off is recorded in `.coldpress/signoffs/` for audit.
 
 ```json
 {

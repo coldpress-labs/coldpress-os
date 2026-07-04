@@ -60,7 +60,7 @@ coldpress update                 # regen interop outputs in this project
 **Causes & Fixes:**
 
 1. **Agent definition missing.** Check `.claude/agents/` has the agent file (e.g., `analyst.md`). If empty, re-run `coldpress init --retrofit` (non-destructive layering) to repopulate the template tree.
-2. **Wrong agent slug.** Agent filenames must match their `name` field exactly. The 9 valid slugs are: `analyst`, `pm`, `ux-designer`, `architect`, `developer`, `qa`, `scrum-master`, `communicator`, `valet`.
+2. **Wrong agent slug.** Agent filenames must match their `name` field exactly. The 8 valid slugs are: `analyst`, `architect`, `pm`, `ux-designer`, `developer`, `verifier`, `devops`, `reviewer`.
 3. **Model not available.** If the agent requires `opus` (like `architect`) and your Claude plan doesn't include it, change the model to `sonnet` in the agent file's frontmatter.
 
 ---
@@ -86,7 +86,7 @@ coldpress update                 # regen interop outputs in this project
 
 ### "Governance blocks my edit"
 
-**Symptoms:** You try to edit `context.md`, `tech-stack.md`, PRD, `architecture.md`, or the PERT chart and Butler refuses or redirects.
+**Symptoms:** You try to edit `context.md`, `tech-stack.md`, PRD, or `architecture.md` and Butler refuses or redirects.
 
 **This is by design.** Sacred documents are protected because changes cascade through downstream artifacts. The fix is to use the change workflow:
 
@@ -96,7 +96,6 @@ coldpress update                 # regen interop outputs in this project
 | tech-stack.md | "Run tech-stack change workflow" |
 | PRD | "Run PRD change workflow" |
 | architecture.md | "Run architecture change workflow" |
-| PERT chart | "Run PERT change workflow" |
 
 Each workflow guides you through: describe the change → impact analysis → downstream check → approval → execute → cascade → log.
 
@@ -118,7 +117,6 @@ Documents are freely editable while being created. They become sacred the moment
 | tech-stack.md | Phase 3 stack-locking workflow completes |
 | PRD | Phase 4 create-prd passes validation |
 | architecture.md | Phase 4 create-architecture completes |
-| PERT chart | Phase 5 parallelization-strategy completes |
 
 Before that, edit freely.
 
@@ -222,7 +220,7 @@ See the [Subagent Customization Guide](subagent-customization.md). The short ver
 | Agent | Level | Scope |
 |-------|-------|-------|
 | **Alfred** | Estate (labs-coldpress) | Sees all Labs and Projects. Routes cross-Lab work. |
-| **Butler** | Project (your devSandbox) | Manages one project's lifecycle. Dispatches 11 subagents (Shape A). See [`butler.md`](butler.md) for the orchestrator reference. |
+| **Butler** | Project (your devSandbox) | Manages one project's lifecycle. Dispatches 8 subagents (Shape A). See [`butler.md`](butler.md) for the orchestrator reference. |
 
 If you're working inside a project, you're talking to Butler. If you're working in the labs-coldpress repo itself, you're talking to Alfred.
 

@@ -71,7 +71,7 @@ Every ACI loop has a hard ceiling of **2 corrective attempts** at any single ste
 
 Escalation paths:
 - Emit `<NEED_INFO>` per Block AA — typically `architecture-unclear` or `acceptance-criteria-unclear`.
-- Hand back to @scrum-master via the standard handoff protocol.
+- Hand back to @pm via the standard handoff protocol.
 - For @reviewer: produce the rubric row as `status: fail, severity: high` with the verifier output as `evidence` — DO NOT keep iterating.
 
 Why a hard cap: agents asked to "keep trying" on a stubborn failure rarely converge. The compute spent on corrective attempts past 2 is better spent escalating to a higher-context decision.
