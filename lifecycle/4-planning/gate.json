@@ -63,6 +63,16 @@
       "remediation": "Run `outcome-contract` (P4): author outcomes.yaml — each P0/P1 requirement links a target (activation/conversion/task-completion/latency/SEO/cost) + its measurement source (analytics event, uptime probe, search console, revenue report)."
     },
     {
+      "id": "prd-security-section-if-tier",
+      "description": "SECURITY-TIER GATE (WS10-E3). For a T1/T2 project (revenue/PII), the PRD MUST contain a security requirements section (a `## Security` heading or explicit security NFRs). Below T1, `security_tier` was informational all the way to P9 — this makes it bite at P4, where the requirement is cheap to add. Condition: `coldpress.yaml security_tier in [T1, T2]`.",
+      "kind": "conditional",
+      "severity": "block",
+      "condition": "security_tier in [T1, T2]",
+      "skill_ref": "lifecycle/4-planning/validate-prd",
+      "artefact_path": "_context/sacred/prd.md",
+      "remediation": "Add a security section to the PRD: authn/authz model, data-classification + PII handling, threat surface, and the security NFRs. For T0 this check is skipped; for T1/T2 it blocks. The section seeds the P6 `security-registry` + `threat-model`."
+    },
+    {
       "id": "phase-transition-ran",
       "description": "`_context/handoffs/phase-4-to-5-{date}.md` exists (emitted by phase-transition invocation at Phase 4 exit)",
       "kind": "artefact-present",
