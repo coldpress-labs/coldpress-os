@@ -1,0 +1,102 @@
+# ─── Wiring manifest (WS10-G) ──────────────────────────────────────────────
+# The machine-readable registry of every cross-phase artifact: who PRODUCES it,
+# who CONSUMES it, and which schema validates it. `coldpress doctor --wiring`
+# (+ a CI job) asserts every consumed artifact has a producer, every path
+# resolves, and every referenced schema exists — turning the system-integration
+# audit's whole "consumer built, producer missing" class into a permanent check.
+#
+# Validated against schemas/wiring.schema.ts. producer/consumers/schema are
+# repo-relative paths. producer: null is an EXPLICIT known-gap marker.
+artifacts:
+  # ── Outcome contract (P4 → P6/P9/P10/P11) ──
+  - path: "_context/planning/outcomes.yaml"
+    note: "The measurable definition of success (P4 block-gate)."
+    schema: "schemas/planning-artefacts/outcomes.schema.ts"
+    producer: "lifecycle/4-planning/outcome-contract"
+    consumers:
+      - "lifecycle/4-planning/gate.json"
+      - "lifecycle/6-architecture/analytics-plan"
+      - "lifecycle/10-operate/ops-check"
+      - "lifecycle/11-evolve/retrospective"
+      - "src/commands/outcomes.ts"
+
+  # ── Design system (P5 → P8/P9) ──
+  - path: "_context/design/tokens.json"
+    note: "The design-token enforcement contract."
+    schema: "schemas/design/tokens.schema.ts"
+    producer: "lifecycle/5-design/design-tokens"
+    consumers:
+      - "src/design/tokens-build.ts"
+      - "src/design/visual-verify.ts"
+      - "lifecycle/5-design/styleguide"
+      - "lifecycle/9-deployment/readiness"
+  - path: "_context/design/styleguide.yaml"
+    note: "The /styleguide route + visual-baseline manifest."
+    schema: "schemas/design/styleguide.schema.ts"
+    producer: "lifecycle/5-design/styleguide"
+    consumers:
+      - "skills/testing/visual-verify"
+  - path: "_context/design/budgets.yaml"
+    note: "Perf + a11y budgets (P9 readiness G12)."
+    schema: "schemas/design/budgets.schema.ts"
+    producer: "lifecycle/5-design/budgets"
+    consumers:
+      - "lifecycle/9-deployment/readiness"
+
+  # ── Security thread (P6 → P7/P8) ──
+  - path: "_context/architecture/security-registry.yaml"
+    note: "Security-sensitive paths — forces risk:high downstream."
+    schema: "schemas/architecture/p6-artifacts.schema.ts"
+    producer: "lifecycle/6-architecture/security-registry"
+    consumers:
+      - "lifecycle/7-breakdown/story-slice"
+      - "lifecycle/8-implementation/dev-story"
+      - "src/waves/compute.ts"
+  - path: "_context/architecture/threat-model.yaml"
+    note: "STRIDE-per-component threats + mitigations."
+    schema: "schemas/architecture/p6-artifacts.schema.ts"
+    producer: "lifecycle/6-architecture/threat-model"
+    consumers:
+      - "lifecycle/9-deployment/readiness"
+      - "lifecycle/8-implementation/verify-story"
+
+  # ── Story graph + tracking (P7 → P8/P10/P11) ──
+  - path: "_context/implementation/story-graph.yaml"
+    note: "Typed dependency graph; coldpress waves computes the schedule."
+    schema: "schemas/story-graph.schema.ts"
+    producer: "lifecycle/7-breakdown/story-graph"
+    consumers:
+      - "src/waves/compute.ts"
+      - "src/trace/build.ts"
+      - "lifecycle/8-implementation/dev-story"
+  - path: "_context/tracking/sprint-status.yaml"
+    note: "The single unified story-tracking artefact (WS10-B2)."
+    schema: "schemas/tracking/sprint-status.schema.json"
+    producer: "lifecycle/7-breakdown/story-graph"
+    consumers:
+      - "lifecycle/8-implementation/dev-story"
+      - "lifecycle/10-operate/operate-loop"
+      - "lifecycle/9-deployment/readiness"
+      - "lifecycle/11-evolve/retrospective"
+  - path: "_context/implementation/stories/ST-*.md"
+    note: "The atomic story contracts."
+    producer: "lifecycle/7-breakdown/story-slice"
+    consumers:
+      - "lifecycle/8-implementation/dev-story"
+      - "skills/testing/acceptance-stubs"
+
+  # ── Verification loop (P8) ──
+  - path: "_context/handoffs/HND-*.yaml"
+    note: "Per-story handoff packet; boundary-guard reads owns/forbidden."
+    schema: "schemas/handoff.schema.ts"
+    producer: "skills/governance/phase-transition"
+    consumers:
+      - "src/hooks/boundary-guard.ts"
+      - "lifecycle/8-implementation/dev-story"
+  - path: "_context/audit/verdicts/{story}-verdict.yaml"
+    note: "Clean-room verifier verdict; taxonomy tags feed evolve (WS10-A4)."
+    schema: "schemas/operations/verifier-verdict.schema.ts"
+    producer: "lifecycle/8-implementation/verify-story"
+    consumers:
+      - "src/commands/verdict.ts"
+      - "src/evolve/aggregate.ts"
