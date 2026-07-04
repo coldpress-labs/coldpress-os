@@ -2,8 +2,11 @@
  * Hook registry — maps `coldpress hook <name>` to its handler (§4.4, WS1).
  *
  * WS1 hooks land here one at a time as they are built. WS2+ hooks
- * (boundary-guard, deploy-gate, next-task) register here when their upstream
- * machinery (handoff packets, deploy packs) exists.
+ * (boundary-guard, deploy-gate) register here as their upstream machinery
+ * (handoff packets, deploy packs) lands — both are now live. (The once-planned
+ * `next-task` hook is NOT built: story sequencing is driven by the computed
+ * `coldpress waves` schedule + `sprint-status.yaml`, which `dev-story` reads
+ * directly — a push-a-suggestion hook would duplicate that. WS10-C3.)
  */
 
 import { boundaryGuardHandler } from "./boundary-guard.js";
