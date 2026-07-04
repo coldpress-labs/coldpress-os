@@ -14,7 +14,7 @@ inputs:
   cold_file_reads:
     - "_context/handoffs/phase-8-to-9-{date}.md"
     - "secure/manifest.yaml"
-    - "_context/design/budgets.yaml"
+    - "_context/design/budgets.yaml (schema: schemas/design/budgets.schema.ts — the Lighthouse/CWV + a11y contract, G12)"
   existence_checks:
     - "wave-status-final == true"
     - "phase-8-to-9 handoff exists"

@@ -8,6 +8,7 @@ tools: ["Read", "Bash"]
 inputs:
   - "the story's rendered UI (preview URL or /styleguide route)"
   - "_context/design/tokens.json + tokens.css"
+  - "_context/design/styleguide.yaml (schema: schemas/design/styleguide.schema.ts — the /styleguide route + visual-baseline manifest)"
 outputs:
   - artifact: "used-styles report + verdict"
     location: "_context/design/used-styles.json + _context/audit/visual-verify-{story}.md"

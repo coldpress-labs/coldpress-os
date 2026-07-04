@@ -8,9 +8,13 @@ pre_picked:
   manifest_version: "v3"
   styling: "Tailwind"
   package_manager: "pnpm"
-  testing: "Vitest"
   source_control: "GitHub-private"
-  targets: ["Chrome", "Firefox"]
+  targets: "Chrome, Firefox"
+# Test architecture seeded into the project's testing.yaml — L0-L7 shape (audit F6).
+testing:
+  layers:
+    L0: { tools: ["tsc"] }      # static
+    L1: { tools: ["vitest"] }   # unit
 overrideable: true
 baselines_out_of_box:
   - security

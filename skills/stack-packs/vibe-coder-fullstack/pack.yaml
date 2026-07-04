@@ -20,7 +20,12 @@ pre_picked:
   styling: "Tailwind"
   package_manager: "pnpm"
   source_control: "GitHub-private"
-  testing: "Vitest + Playwright"
+# Test architecture seeded into the project's testing.yaml — L0-L7 shape (audit F6).
+testing:
+  layers:
+    L0: { tools: ["tsc"] }         # static
+    L1: { tools: ["vitest"] }      # unit
+    L4: { tools: ["playwright"] }  # e2e
 overrideable: true
 baselines_out_of_box:
   - accessibility

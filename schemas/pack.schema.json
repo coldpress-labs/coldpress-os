@@ -52,6 +52,28 @@
       "pattern": "^skills/stack-packs/.*/quickstart$",
       "description": "Relative path to this pack's quickstart skill (no trailing slash)."
     },
+    "testing": {
+      "type": "object",
+      "description": "Test architecture this pack seeds into the project's testing.yaml, declared in the L0-L7 layer shape (schemas/testing.schema.ts) rather than as a free-text tool string (audit F6). Each present layer names the tools that run it.",
+      "required": ["layers"],
+      "additionalProperties": false,
+      "properties": {
+        "layers": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "enum": ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7"] },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "tools": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "threshold": { "type": ["string", "number"] }
+            },
+            "required": ["tools"]
+          }
+        }
+      }
+    },
     "description": { "type": "string" },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" }
   },

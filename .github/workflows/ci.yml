@@ -74,3 +74,66 @@ jobs:
         # committed. Run `npm run check:drift` locally and commit the output to
         # fix. Supersedes the separate build:skills + `git diff plugin/` steps.
         run: npm run check:drift
+
+  pack-smoke:
+    name: Packaging smoke (pack → prod-install → init → plugin bootstrap)
+    # Audit F3: restores the pre-overhaul packaging smoke — the check that caught
+    # both v0.3.x production-only packaging bugs. Now load-bearing because
+    # distribution is the plugin. `npm pack` the real tarball, install it
+    # PRODUCTION-ONLY into a throwaway project, `coldpress init`, and assert the
+    # plugin actually bootstraps. A runtime import of a devDependency or a file
+    # missing from `files[]` fails here, not in a user's `npm i -g`.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Pack + clean-install + init smoke
+        run: npm run smoke:pack
+
+  evals:
+    name: Evals runner (built CLI × shipped golden corpus)
+    # Audit F3: `coldpress evals` existed but CI never ran it. This exercises the
+    # BUILT dist/cli.js against the shipped `evals/` corpus end-to-end — catching
+    # a broken evals CLI, a build-wiring regression, or a corpus that fails to
+    # parse (the corpus's schema validity is separately covered by `npm test`).
+    # Pass/fail of the golden tasks is workspace-dependent (they assert a live
+    # project's _context artefacts), so the gate is "the runner scored every
+    # task", not "every task passed".
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Build CLI
+        run: npm run build
+      - name: Run the evals CLI over the shipped corpus
+        run: |
+          # Exit 1 is expected here (tasks assert a live project's artefacts,
+          # absent in the framework repo) — capture output and gate on the
+          # RUNNER having scored every task, not on pass/fail.
+          node dist/cli.js evals --dir evals --json > evals-out.json || true
+          node --input-type=module -e "
+            import fs from 'node:fs';
+            const r = JSON.parse(fs.readFileSync('evals-out.json','utf8'));
+            const n = r.results?.length ?? 0;
+            if (n < 8) { console.error('::error::evals CLI scored '+n+' tasks, expected >= 8 (broken runner or corpus?)'); process.exit(1); }
+            for (const t of r.results) {
+              if (!Array.isArray(t.checks) || t.checks.length === 0) {
+                console.error('::error::eval task '+t.task_id+' produced no check results — the runner did not execute it'); process.exit(1);
+              }
+            }
+            console.log('✓ evals CLI ran the shipped corpus: '+n+' tasks scored ('+r.passed+' pass / '+r.failed+' fail vs the framework repo — pass/fail is workspace-dependent).');
+          "
