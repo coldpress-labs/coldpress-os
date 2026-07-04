@@ -17,6 +17,7 @@
     "templates",
     "schemas",
     "docs",
+    "!docs/overhaul",
     "plugin",
     "evals",
     "coldpress.yaml",

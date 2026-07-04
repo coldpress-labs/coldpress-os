@@ -94,6 +94,13 @@ describe("end-to-end scaffold (template + framework + plugin)", () => {
       await expect(stat(join(targetDir, relPath))).resolves.toBeTruthy();
     }
 
+    // The framework's internal overhaul workspace (execution ledger + working
+    // notes) must NEVER be copied into a consumer project — it is framework-repo
+    // state, not framework content (WS11 S2).
+    await expect(stat(join(targetDir, "coldpress-os/docs/overhaul"))).rejects.toThrow();
+    // …but other framework docs still ship into the project.
+    await expect(stat(join(targetDir, "coldpress-os/docs/butler.md"))).resolves.toBeTruthy();
+
     // Skills ship via the self-contained plugin — NOT init-time wrappers (WS5-C,
     // §8 item 8). No `.claude/skills/` wrapper tree is generated.
     await expect(stat(join(targetDir, ".claude/skills"))).rejects.toThrow();

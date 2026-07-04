@@ -10,6 +10,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Internal overhaul workspace no longer ships (S2)** — `docs/overhaul/` (the
+  execution ledger + working notes) was shipping in the npm tarball and being
+  copied into every scaffolded project. Excluded it from both `package.json`
+  `files:` (`!docs/overhaul`) and the `coldpress init` framework-copy, so client
+  projects and the published package no longer carry the framework's internal
+  work-tracking state.
 - **Framework repo has a directive at last (S3.6-1)** — added
   `coldpress-os/CLAUDE.md`, the framework repo's first-ever `CLAUDE.md`. Framework
   sessions previously inherited the Project-root (Andy) directive and contributors
