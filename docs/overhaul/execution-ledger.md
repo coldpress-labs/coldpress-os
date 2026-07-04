@@ -23,8 +23,15 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS7 | Evals & the loop | 🟢 closed | `overhaul/ws7-evals-loop` | 2026-07-03 |
 | WS8 | Operate with substance | 🟢 closed | `overhaul/ws8-operate` | 2026-07-03 |
 | WS9 | Profiles, proposal mode & compounding | 🟢 closed | `overhaul/ws9-profiles` | 2026-07-03 |
+| WS10 | Connective tissue (system-integration audit) | 🟢 closed | `overhaul/ws10-*` | 2026-07-04 |
+| WS11 | Structure & Diet (structure-hygiene audit) | 🟡 in progress | `overhaul/ws11-*` | — |
 
 Legend: ⚪ not started · 🟡 in progress · 🟢 green/closed · 🔴 blocked/amber
+
+**WS11** executes `../docs/structure-hygiene-audit-2026-07-04.md` (v1.2) in §S7 order
+(S1 bugs → S2 hygiene → S3/S3.5 deletions → S5 regen → S4 wire-or-archive → S6 scaffold
+diet → guards). Step-group progress: **S1.a+b 🟢** (`overhaul/ws11-s1-gate-runtime`,
+D38–D39). Remaining: S1.c/d, S1.e (CLAUDE.md draft), S2–S6, guards.
 
 **All WS0–WS9 merged to main (2026-07-03).** Post-overhaul work landed on main since:
 D7 dep-hygiene, PERT-schema-chain excision + D18 close, D10 BMAD adopts sweep,
@@ -44,6 +51,8 @@ pass (audit F2/F3/F6).
 
 | # | Type | Summary | Status |
 |---|------|---------|--------|
+| D38 | WS11-S1.1 (gate-check verbs) | Audit S1.1: the WS10-C1 gate-runner (`src/gate/run.ts`) evaluates each `gate.json` check by **spawning `coldpress <verb>` as a CLI subprocess**, but the eight acceptance-check verbs it invokes were never registered in `src/cli.ts` — every block-severity check failed as "unknown command" (the check functions sat tested-but-unreachable in `src/gate/checks/`). Because run.ts re-execs the CLI, the fix had to be **verb registration** (importing the functions into run.ts wouldn't help). Added `src/commands/gate-checks.ts` (8 thin wrappers: run the check in the project cwd, print ✓/✗, return exit code) + 8 `program.command()` registrations. Verb→function map ground-truthed against the actual `command:` strings across every phase gate.json (all 8 live in `lifecycle/3-tech-stack/gate.json`). **Two tactical sub-corrections (logged, proceeded):** **D38-t1** — `validate-yaml-block` resolves `--schema` under `packageRoot/schemas/<rel>`, but gate.json authors write `--schema schemas/<name>` (package-root-relative), which doubled to `packageRoot/schemas/schemas/<name>` → ENOENT; the CLI wrapper strips a single leading `schemas/` so both spellings resolve. **D38-t2** — `validate-schema-latest`'s `--schema` is ignored by the implementation (schema derived from the resolved doc); the option is accepted for gate.json parity and a comment marks it decorative. Tests: a **build-free source invariant** (every gate.json command verb is CLI-registered — catches the class for any future gate) + an **end-to-end** test spawning `dist/cli.js` for representative verbs incl. the t1 schema case. `frontmatter-check` is exported but invoked by no gate.json, so it is not a required verb. | **applied (`overhaul/ws11-s1-gate-runtime`)** |
+| D39 | WS11-S1.2 (gate phase-id parsing) | Audit S1.2: `coldpress gate check <phase>` did `runGateCheck(Number(phase))`, so `1-bootstrap` and `lite:spec` both parsed to `NaN` → "no gate.json found for phase NaN" in a fresh scaffold. Added `PhaseRef` + `parsePhaseRef(number\|string)` in `src/gate/run.ts`: full lane (`3` / `3-tech-stack` / `1-bootstrap` → leading int) vs lite lane (`lite:spec` / `lite/build` → slug). `findGateJson` is now lane-aware (`lifecycle/<n>-*/gate.json` or `lifecycle/lite/<slug>/gate.json`); `runGate` accepts `number\|string` (backward-compatible with the numeric test callers) and threads the label; `GateRunReport.phase` widened `number → string` (only consumer is display + the gate_id fallback — no test asserts it). CLI passes the raw string; `runGateCheck`/`runGateEnter` parse-and-error with a helpful message on an unparseable id. Lite phases ship no gate.json (the lane drops sequencing) → honest "no gate for this phase"; `gate enter` on a lite phase is a no-op (no fresh-for-phase keys to stamp). +9 tests (parse + lane routing + label threading). | **applied (`overhaul/ws11-s1-gate-runtime`)** |
 | D35 | WS10-C1 (gate-runner) | Audit C1: `src/gate/checks/*` (8 CLI-wired check functions) had ZERO runtime callers — nothing read a phase's `gate.json` and RAN its `command`s; acceptance checks were "executed by agents reading prose". Built `src/gate/run.ts` (the engine): reads `lifecycle/<phase>/gate.json`, runs each check's command via the CLI (resolving `{date}`/`{latest}` placeholders by globbing the `-v<N>` family), existence-checks `artefact-present` paths, and surfaces human/skill_ref-only/unresolvable checks as **pending** (never a fabricated pass); exits 1 iff a block-severity check failed. `coldpress gate check <phase>` + `gate enter <phase>` (C6 — stamps `phase_<n>_started_at`, the fresh-for-phase key `file-exists-after` reads; `LocalConfig` gained a `phase_<n>_started_at` index signature). Wired into `evaluate-phase-gate`. Verified live vs the real P3 gate. +10 tests. | **applied (`overhaul/ws10-c-skills`)** |
 | D36 | WS10-C3 (client-timeline + next-task) | Audit C3: `coldpress waves` emits `docs/generated/schedule.yaml` but it had NO consumer — the `client-timeline` skill (§5 P7/G8, "most revenue-relevant subsystem") was never built. Built `lifecycle/7-breakdown/client-timeline` (agent: pm): reads the computed critical path + per-story o/m/p and emits an **85%-confidence PERT date** (`Σte + z·√Σσ²`, z≈1.04) + a pre-ranked scope-cut list; the same math backs `proposal`'s G8-lite pre-sales timeline. Registered `schedule.yaml` in the wiring manifest (→ 12 artifacts). **next-task RESOLVED (deleted, not built):** story sequencing is the computed `coldpress waves` schedule + `sprint-status.yaml` (which `dev-story` reads); the registry comment + agent-team-demo repointed. | **applied** |
 | D37 | WS10-C7 (integration-story) | Audit C7: `coldpress waves` auto-generates `IN-<n>` integration stories per wave + git-guard reserves the integration branch for them, but NO skill implemented the sequential-merge procedure (`wave-orchestration` retired without a successor). Built `lifecycle/8-implementation/integration-story` (agent: developer): contract-first sequential merge of a wave's verified story branches, fast suite after each merge, merge-conflict-as-integration-finding (not rebased away), then the full suite over the integrated wave; green = wave integrates (sprint-status marked done), red = a finding to @developer. Gives the emitted-and-guarded IN-* stories their executor. | **applied** |
@@ -946,3 +955,24 @@ Green: typecheck, **1010 tests**, lint, drift, build.
 **WS10 — the connective-tissue punch list — is now fully executed** (A + B + C + D + G; deltas D26–D37). The audit's thesis trace (packet → boundary-guard → visual-verify → re-dispatch → taxonomy tag → framework patch) is mechanically runnable end to end, and `coldpress wiring check` guards the whole cross-phase artifact graph in CI so the "consumer built, producer missing" class cannot recur.
 
 **Next:** the §12 ship gate (v0.4.0) — the runtime demos on a live estate project (validation projects 1 + 2), which now exercise every repaired seam. Then tag/publish.
+
+---
+
+## WS11 — Structure & Diet (structure-hygiene audit, 2026-07-04)
+
+The fourth audit (`../docs/structure-hygiene-audit-2026-07-04.md` v1.2) swept the
+**structure** of both trees — the framework repo and what `coldpress init`
+delivers — for not-needed / orphaned / stale / to-archive / unconnected items.
+Verdict: two functional bugs disguised as structure, an internal-state leak into
+every client project, ~20 dead items, ~50 shipping-but-unconsumed template files,
+and a 6.4 MB scaffold delivering a fraction-used framework. WS11 executes the §S7
+punch list in order.
+
+### WS11-S1.a+b — gate runtime bugs — COMPLETE (2026-07-04, branch `overhaul/ws11-s1-gate-runtime`, deltas D38–D39)
+
+- **S1.1** ✓ the eight gate-check verbs are CLI-registered (`src/commands/gate-checks.ts`) — every block-severity `gate.json` check ran as "unknown command" before; the runner spawns the CLI so registration (not in-process import) was the fix. Two sub-corrections: schema-path double-prefix stripped (D38-t1); decorative `--schema` on `validate-schema-latest` documented (D38-t2). Source-invariant + spawned e2e tests.
+- **S1.2** ✓ lane-aware phase-id parsing (`parsePhaseRef`) — `1-bootstrap` and `lite:spec` no longer parse to `NaN`; full + lite lanes route to the right gate.json; unparseable ids error helpfully; `gate enter` is lane-aware.
+
+**Green:** typecheck, **1035 tests** (+25 over the WS10 close), lint:frontmatter, check:drift, build. No tags/publishes.
+
+**Next in WS11:** S1.c (quickstart renames + mismatch allow-list) + S1.d (version single-source + `--help` "8 subagents") on `overhaul/ws11-s1-cli-hygiene`; then S1.e (framework-repo CLAUDE.md — **draft for user approval before merge**); then S2 package hygiene, S3/S3.5 deletions + staleness lint, S5 regeneration, S4 wire-or-archive, S6 scaffold diet, and the §S7.7 structure guard.
