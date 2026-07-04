@@ -1,5 +1,5 @@
 import { access, cp, mkdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { frameworkDirs, frameworkFiles, packageRoot, templateDir } from "./paths.js";
 
 export interface ScaffoldOptions {
@@ -88,6 +88,11 @@ export async function copyFramework(targetDir: string): Promise<void> {
       // templates / docs) is what scopes the copy — no real need for an
       // exclusion list inside those whitelisted trees.
       if (source.endsWith(".DS_Store")) return false;
+      // Never copy the framework's internal overhaul workspace (the execution
+      // ledger + working notes) into a consumer project — it is framework-repo
+      // state, not framework content (WS11 S2). Mirror this in package.json
+      // `files:` so it also stays out of the npm tarball.
+      if (source.includes(`${sep}docs${sep}overhaul`)) return false;
       return true;
     },
   };
