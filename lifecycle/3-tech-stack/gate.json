@@ -129,6 +129,24 @@
       "command": "coldpress config-check post_phase_3_update_ran --expected true",
       "path_pattern": ".coldpress/local-config.yaml",
       "remediation": "Run `coldpress update --post-phase-3` in your terminal to regenerate skill wrappers for the locked stack pack. Return to Butler and confirm."
+    },
+    {
+      "id": "walking-skeleton-deployed",
+      "stage": 2,
+      "description": "★ NON-NEGOTIABLE (both lanes). A hello-world walking skeleton is deployed to staging through the entire locked stack + deploy pack and smokes green — the single best de-risking step for 'deploy anywhere' (WS10-A6). Gate key: `gates.p3.walking_skeleton_deployed: true` in .coldpress/state.yaml.",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "lifecycle/3-tech-stack/walking-skeleton",
+      "remediation": "Run `@architect walking-skeleton`: scaffold a hello-world, build it with the locked stack, deploy to staging via the selected deploy pack, and smoke it. It sets `gates.p3.walking_skeleton_deployed`. Never cut — this proves the pipeline before any feature is built."
+    },
+    {
+      "id": "license-scan-clean",
+      "stage": 2,
+      "description": "The locked dependency set passes the licence policy (no GPL/AGPL/SSPL in client-shipped code) — run at lock time so a licence problem surfaces while swapping a dependency is still cheap (re-run at P9 readiness). Gate key: `gates.p3.license_scan_clean: true`.",
+      "kind": "automated",
+      "severity": "block",
+      "skill_ref": "lifecycle/3-tech-stack/walking-skeleton",
+      "remediation": "The `walking-skeleton` skill runs the licence scan over the locked deps and sets `gates.p3.license_scan_clean`. Resolve any GPL/AGPL/SSPL dependency (swap it, or move it out of client-shipped code) before Phase 4."
     }
   ],
   "next_phase": "4-planning"

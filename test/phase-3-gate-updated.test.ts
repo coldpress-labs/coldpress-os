@@ -14,6 +14,8 @@ interface CheckEntry {
   severity: string;
   kind: string;
   command?: string;
+  skill_ref?: string;
+  schema_ref?: string;
   path_pattern?: string;
   remediation: string;
 }
@@ -31,10 +33,10 @@ describe("Phase 3 gate.json — Wave 4 structure", () => {
     gate = JSON.parse(readFileSync(GATE_PATH, "utf8")) as GateJson;
   });
 
-  it("has exactly 12 acceptance_checks", () => {
-    // Was 13 before v0.4 WS0 removed the stage-2 graph-freshness check
-    // (§8 item 1, Graphify retired).
-    expect(gate.acceptance_checks).toHaveLength(12);
+  it("has exactly 14 acceptance_checks", () => {
+    // 12 before WS10-A6 added the two ★ walking-skeleton gate keys
+    // (walking-skeleton-deployed + license-scan-clean, both stage-2).
+    expect(gate.acceptance_checks).toHaveLength(14);
   });
 
   it("has 10 stage-1 checks", () => {
@@ -42,17 +44,18 @@ describe("Phase 3 gate.json — Wave 4 structure", () => {
     expect(stage1).toHaveLength(10);
   });
 
-  it("has 2 stage-2 checks", () => {
+  it("has 4 stage-2 checks", () => {
     const stage2 = gate.acceptance_checks.filter((c) => c.stage === 2);
-    expect(stage2).toHaveLength(2);
+    expect(stage2).toHaveLength(4);
   });
 
-  it("stage-2 checks include env-provisioned, post-phase-3-update-ran (graph-freshness removed v0.4 WS0)", () => {
+  it("stage-2 checks include env-provisioned + the WS10-A6 walking-skeleton keys", () => {
     const stage2Ids = gate.acceptance_checks
       .filter((c) => c.stage === 2)
       .map((c) => c.id);
     expect(stage2Ids).toContain("env-provisioned");
-    expect(stage2Ids).toContain("post-phase-3-update-ran");
+    expect(stage2Ids).toContain("walking-skeleton-deployed");
+    expect(stage2Ids).toContain("license-scan-clean");
     expect(stage2Ids).not.toContain("graph-freshness");
   });
 
@@ -62,10 +65,11 @@ describe("Phase 3 gate.json — Wave 4 structure", () => {
     }
   });
 
-  it("every automated check has a command field", () => {
+  it("every automated check has a command, skill_ref, or schema_ref", () => {
     for (const check of gate.acceptance_checks) {
       if (check.kind === "automated") {
-        expect(check.command, `check ${check.id} missing command`).toBeTruthy();
+        const hasEvaluator = check.command || check.skill_ref || check.schema_ref;
+        expect(hasEvaluator, `check ${check.id} has no evaluator`).toBeTruthy();
       }
     }
   });
