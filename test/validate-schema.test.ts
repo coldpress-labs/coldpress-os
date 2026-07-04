@@ -9,11 +9,13 @@ import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { mkdir } from "node:fs/promises";
 import {
   SACRED_DOC_SCHEMAS,
   _resetValidatorCache,
   extractFrontmatter,
   sacredDocIdFromPath,
+  validateDocSchema,
   validateSacredDocSchema,
 } from "../src/governance/validate-schema";
 
@@ -33,6 +35,42 @@ async function writeDoc(name: string, frontmatter: string, body = "# doc"): Prom
   await writeFile(path, `---\n${frontmatter}\n---\n\n${body}\n`, "utf8");
   return path;
 }
+
+async function writeData(rel: string, contents: string): Promise<string> {
+  const path = join(workDir, rel);
+  await mkdir(join(path, ".."), { recursive: true });
+  await writeFile(path, contents, "utf8");
+  return path;
+}
+
+describe("validateDocSchema — F6 design data-file registry (WS10-C2)", () => {
+  it("routes _context/design/budgets.yaml to the Zod budgets schema + accepts a valid one", async () => {
+    const p = await writeData(
+      "_context/design/budgets.yaml",
+      "performance: { lcp_ms: 1800, cls: 0.1 }\nweight: { js_kb: 150 }\naccessibility: { wcag_level: AA }\n",
+    );
+    const result = await validateDocSchema(p);
+    expect(result.ok, JSON.stringify(result)).toBe(true);
+    expect(result.schema_used).toBe("design/budgets.yaml");
+  });
+
+  it("rejects an invalid budgets.yaml with Zod issues", async () => {
+    const p = await writeData("_context/design/budgets.yaml", "performance: { lcp_ms: -1, cls: 0.1 }\nweight: { js_kb: 150 }\naccessibility: { wcag_level: ZZ }\n");
+    const result = await validateDocSchema(p);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.issues.length).toBeGreaterThan(0);
+  });
+
+  it("routes tokens.json + styleguide.yaml through the registry too", async () => {
+    const tokens = await writeData(
+      "_context/design/tokens.json",
+      JSON.stringify({ typography: { families: { sans: "Inter" }, sizes: { base: "1rem" } }, color: { roles: { primary: { light: "#3b82f6" } } }, spacing: { "1": "4px" } }),
+    );
+    expect((await validateDocSchema(tokens)).ok).toBe(true);
+    const sg = await writeData("_context/design/styleguide.yaml", "sections: [{ id: buttons, title: Buttons, components: [Button] }]\nbaselines: { dir: baselines }\n");
+    expect((await validateDocSchema(sg)).ok).toBe(true);
+  });
+});
 
 describe("SACRED_DOC_SCHEMAS", () => {
   it("covers the 4 canonical sacred docs (PERT retired)", () => {
