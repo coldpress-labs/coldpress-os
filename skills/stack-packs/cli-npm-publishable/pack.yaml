@@ -14,11 +14,15 @@ archetype_fits:
 pre_picked:
   runtime: "Node >= 20"
   build: "tsup"
-  testing: "Vitest"
   ci: "GitHub Actions"
   release: "changesets"
   package_manager: "pnpm"
   source_control: "GitHub-private"
+# Test architecture seeded into the project's testing.yaml — L0-L7 shape (audit F6).
+testing:
+  layers:
+    L0: { tools: ["tsc"] }      # static
+    L1: { tools: ["vitest"] }   # unit
 overrideable: true
 baselines_out_of_box:
   - security
