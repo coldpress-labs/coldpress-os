@@ -45,7 +45,7 @@ Giskard's native `issues[]` output is normalised to the §5.1 `ScanResult` schem
      --format json \
      --output <tmp>/giskard-raw.json
    ```
-3. Normalise Giskard's JSON output (shape documented in [`src/llm-gates/normalize-giskard.ts`](../../../src/llm-gates/normalize-giskard.ts)) to a `ScanResult`. Each `issue` becomes one `Finding`:
+3. Run `coldpress llm-normalize giskard <giskard-raw.json> --target <name> --fail-severity <sev> --out _context/audit/security/giskard-{date}.json` to convert Giskard's JSON output to a `ScanResult` (normalizer: [`src/llm-gates/normalize-giskard.ts`](../../../src/llm-gates/normalize-giskard.ts)). Each `issue` becomes one `Finding`:
    ```
    id:         giskard.<group>.<detector>
    severity:   <mapped from Giskard level, raised to fail_severity floor>

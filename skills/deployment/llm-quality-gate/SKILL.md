@@ -45,7 +45,7 @@ Emits one `ScanResult` at `_context/audit/security/deepeval-{date}.json`. The Ph
      --format json \
      --metrics <metric1>,<metric2>,…
    ```
-3. Normalise DeepEval's JSON output (shape documented in [`src/llm-gates/normalize-deepeval.ts`](../../../src/llm-gates/normalize-deepeval.ts)) to a `ScanResult`. Each failing metric on each test case becomes one `Finding`:
+3. Run `coldpress llm-normalize deepeval <deepeval-raw.json> --target <name> --fail-severity <sev> --out _context/audit/security/deepeval-{date}.json` to convert DeepEval's JSON output to a `ScanResult` (normalizer: [`src/llm-gates/normalize-deepeval.ts`](../../../src/llm-gates/normalize-deepeval.ts)). Each failing metric on each test case becomes one `Finding`:
    ```
    id:         deepeval.<metric>.<test_name>
    severity:   <eval.deepeval.fail_severity>   (default "high")

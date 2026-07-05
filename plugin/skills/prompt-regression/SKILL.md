@@ -34,7 +34,7 @@ Promptfoo's native output is normalised to the §5.1 `ScanResult` schema. A fail
      --config <config_path> \
      --output <tmp>/promptfoo-raw.json
    ```
-3. Normalise Promptfoo's JSON output (shape documented in [`src/llm-gates/normalize-promptfoo.ts`](../../../src/llm-gates/normalize-promptfoo.ts)) to a `ScanResult`. Each failing row (`success: false` or `gradingResult.pass: false`) becomes one `Finding`:
+3. Run `coldpress llm-normalize promptfoo <promptfoo-raw.json> --target <name> --fail-severity <sev> --out _context/audit/security/promptfoo-{date}.json` to convert Promptfoo's JSON output to a `ScanResult` (normalizer: [`src/llm-gates/normalize-promptfoo.ts`](../../../src/llm-gates/normalize-promptfoo.ts)). Each failing row (`success: false` or `gradingResult.pass: false`) becomes one `Finding`:
    ```
    id:         promptfoo.<provider>.<prompt-label>
    severity:   <eval.promptfoo.fail_severity>   (default "medium")

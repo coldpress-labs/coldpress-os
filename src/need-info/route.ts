@@ -8,6 +8,12 @@
  * item 2). Tests enforce the coverage invariant (every kind has a route).
  *
  * Budget-exhaustion ALWAYS routes to human, regardless of this table.
+ *
+ * WS11 S4 decision (wire-or-archive): **kept, no CLI verb.** `<NEED_INFO>` is a
+ * conversational protocol — Butler parses/routes it in-context (parse.ts +
+ * route.ts + budget.ts are the canonical, tested implementation and the single
+ * source of truth for routing). A `coldpress need-info` CLI verb would add a
+ * seam the protocol doesn't use.
  */
 
 import type { NeedInfoKind } from "../../schemas/need-info.schema.js";

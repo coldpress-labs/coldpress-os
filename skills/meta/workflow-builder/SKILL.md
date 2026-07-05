@@ -4,6 +4,7 @@ description: "Build, convert, and analyze workflow definitions with step files"
 type: "workflow"
 category: "meta"
 agent: "butler"
+on-demand: true   # WS11 S4: valet-invoked meta tool (no lifecycle route) -- audited keep
 phases: [meta]
 inputs:
   - "../../docs/step-file-spec.md"

@@ -88,9 +88,10 @@ export const PATH_PATTERN_SCHEMAS: Array<{ pattern: RegExp; schemaPath: string }
 
   // ── WS1-E: wire previously-orphaned schemas by their artifact output path ──
   // Paths mirror each producing skill's `output_file` frontmatter. Ambiguous /
-  // WS2-owned schemas (story, stories-index, handoffs/*, dev-story-output,
-  // legacy-migration-plan, prototype-manifest, prd-amendment) are deferred to
-  // their workstreams — see the execution ledger (WS1-E).
+  // WS2-owned schemas (story, stories-index, handoffs/*, legacy-migration-plan,
+  // prototype-manifest, prd-amendment) are deferred to their workstreams — see
+  // the execution ledger (WS1-E). (dev-story-output was dropped in WS11 S4 — no
+  // producer ever materialised.)
 
   // Design (P5) — _context/design/* and the planning-side design-brief.
   { pattern: /_context[\\/]design[\\/]brand-guidelines-v\d+\.md$/, schemaPath: "design/brand-guidelines.schema.json" },
