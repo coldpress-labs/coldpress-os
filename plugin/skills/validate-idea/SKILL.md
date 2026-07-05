@@ -28,7 +28,7 @@ Output is versioned — `idea-validation-v{N}.md`. Re-running (e.g., after Step 
 | `team` | 1-6 core + 7 stakeholder + 9 summary (9 steps total) |
 | `client-project` | 1-6 core + 7 stakeholder + 8 client + 9 summary (10 steps total) |
 
-Butler reads `team_shape` at skill dispatch (via `condition-reader` helper, Wave 3.9) and passes the conditional flags as skill inputs. Skills don't re-read local-config.
+Butler reads `team_shape` at skill dispatch and passes the conditional flags as skill inputs. Skills don't re-read local-config.
 
 ## When to Use
 

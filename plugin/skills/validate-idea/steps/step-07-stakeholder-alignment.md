@@ -11,7 +11,7 @@ next_step: "step-08-client-alignment.md"
 
 ### 1. Fires only for team + client-project
 
-If `team_shape == solo`, Butler routes past this step per Step 6 navigation. This file is not read in solo mode. The skill's Butler-orchestration layer (per Wave 3.9 condition-reader) handles the routing.
+If `team_shape == solo`, Butler routes past this step per Step 6 navigation. This file is not read in solo mode. The skill's Butler-orchestration layer (dispatch-time flag resolution) handles the routing.
 
 ### 2. Identify stakeholders
 

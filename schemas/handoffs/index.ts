@@ -6,10 +6,8 @@
  */
 
 export * from "./prd-to-architecture.schema.js";
-export * from "./stories-to-implementation.schema.js";
 
 import { PrdToArchitectureSchema } from "./prd-to-architecture.schema.js";
-import { StoriesToImplementationSchema } from "./stories-to-implementation.schema.js";
 
 /**
  * Registry of all high-stakes handoff schemas, keyed by a stable id.
@@ -21,7 +19,6 @@ import { StoriesToImplementationSchema } from "./stories-to-implementation.schem
  */
 export const HANDOFF_SCHEMAS = {
   "prd-to-architecture": PrdToArchitectureSchema,
-  "stories-to-implementation": StoriesToImplementationSchema,
 } as const;
 
 export type HandoffId = keyof typeof HANDOFF_SCHEMAS;

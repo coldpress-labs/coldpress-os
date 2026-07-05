@@ -30,7 +30,7 @@ Last cheap-pivot window before Phase 3 commits to a stack. 6 core steps (always 
 1. **Load one step at a time.** Never read ahead.
 2. **Complete each step fully** before proceeding.
 3. **Tier 1 methods are mandatory** in every step. Advanced-elicitation bias methods are optional.
-4. **Conditional steps fire on Butler-passed flags** (not on skill-internal config reads). Butler invokes `condition-reader` at dispatch and passes `team_shape` as an input flag.
+4. **Conditional steps fire on Butler-passed flags** (not on skill-internal config reads). Butler resolves the conditional flags (e.g. `team_shape`) at dispatch and passes them as skill inputs.
 5. **Output is versioned** — never overwrite. Re-run from Step 9 "revise" produces `v{N+1}`.
 6. **Step 9 always runs.** Even if Steps 1-6 look clean, the summary + audit-log entry are structural — the log proves the skill was exercised and captures the decision trail.
 7. **Party-mode is opt-in only.** Surfaced at Step 9 critical-weakness branch. User confirms; never auto-runs.

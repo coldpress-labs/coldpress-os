@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   HANDOFF_SCHEMAS,
   PrdToArchitectureSchema,
-  StoriesToImplementationSchema,
 } from "../schemas/handoffs";
 import { validateHandoff } from "../src/handoffs/validate";
 
@@ -10,7 +9,6 @@ describe("HANDOFF_SCHEMAS registry", () => {
   it("exposes the high-stakes handoff schemas keyed by id (PERT bridge excised)", () => {
     expect(Object.keys(HANDOFF_SCHEMAS).sort()).toEqual([
       "prd-to-architecture",
-      "stories-to-implementation",
     ]);
   });
 });
@@ -107,65 +105,6 @@ describe("PrdToArchitectureSchema", () => {
 
   it("parseable via the schema directly too", () => {
     expect(() => PrdToArchitectureSchema.parse(validPayload)).not.toThrow();
-  });
-});
-
-// ────────────────────────────────────────────────────────────────────
-// stories-to-implementation
-// ────────────────────────────────────────────────────────────────────
-
-describe("StoriesToImplementationSchema", () => {
-  const validPayload = {
-    schema_version: 1,
-    produced_by: "story-slice",
-    produced_at: "2026-04-23T18:00:00Z",
-    project_slug: "my-project",
-    story_id: "E1.S1",
-    epic_id: "E1",
-    wave: 1,
-    upstream_graph_path: "_context/implementation/story-graph.yaml",
-    summary: "Add email/password signup flow",
-    file_scope: [
-      {
-        path: "src/features/auth/signup.ts",
-        intent: "create",
-        why: "Implements AC-01",
-      },
-    ],
-    test_coverage_targets: [
-      {
-        scope: "unit",
-        target: "90% branch coverage on signup.ts",
-        measurement: "vitest run --coverage",
-      },
-    ],
-    acceptance_criteria_ids: ["AC-01", "AC-02"],
-  };
-
-  it("accepts a well-formed payload", () => {
-    expect(validateHandoff("stories-to-implementation", validPayload).ok).toBe(true);
-  });
-
-  it("rejects invalid file intent", () => {
-    const bad = {
-      ...validPayload,
-      file_scope: [{ ...validPayload.file_scope[0], intent: "relocate" }],
-    };
-    expect(validateHandoff("stories-to-implementation", bad).ok).toBe(false);
-  });
-
-  it("rejects empty file_scope", () => {
-    const bad = { ...validPayload, file_scope: [] };
-    expect(validateHandoff("stories-to-implementation", bad).ok).toBe(false);
-  });
-
-  it("rejects empty test coverage targets — every story must declare how it's verified", () => {
-    const bad = { ...validPayload, test_coverage_targets: [] };
-    expect(validateHandoff("stories-to-implementation", bad).ok).toBe(false);
-  });
-
-  it("parseable via schema directly", () => {
-    expect(() => StoriesToImplementationSchema.parse(validPayload)).not.toThrow();
   });
 });
 
