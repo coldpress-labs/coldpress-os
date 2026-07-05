@@ -10,6 +10,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Retired Conftest/Rego governance; folded into phase gates** — the two sacred-doc
+  policies ("a PRD must reference ≥1 ADR", "an architecture doc must name ≥1
+  approver") were Rego policies meant for the external Conftest binary, but nothing
+  ever ran them. Replaced with a `coldpress validate-frontmatter-min` gate check
+  wired into the Phase-4 and Phase-6 exit gates — same enforcement, at the right
+  moment (phase completion), with no external tool for consumers to install. The
+  `.rego` policies and the `validate-sacred-doc` skill were removed.
+
 - **`coldpress doctor --structure` — a standing structure guard (§S7.7)** — turns
   the structure-hygiene audit into a CI check (like the wiring manifest did for
   producer/consumer seams): every shipped `files:` path exists, every `data/` file
