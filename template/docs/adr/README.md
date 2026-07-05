@@ -17,7 +17,7 @@ See [0000-use-adr.md](./0000-use-adr.md) for the seed decision.
 
 ## Why ADRs
 
-PRDs reference ADRs (frontmatter `adr_references[]`). Conftest enforces the link: no PRD merges without at least one ADR anchor. Rationale: design decisions that don't survive in git history invite re-litigation and silent drift.
+PRDs reference ADRs (frontmatter `adr_references[]`). The Phase-4 exit gate enforces the link: the gate blocks without at least one ADR anchor. Rationale: design decisions that don't survive in git history invite re-litigation and silent drift.
 
 ## Optional tooling
 
@@ -33,5 +33,5 @@ Tooling is optional — a plain editor works too.
 
 ## Related governance
 
-- Semantic validation: `coldpress-os/authoring/governance/policies/prd_has_adr.rego`
+- Semantic validation: the Phase-4 exit gate (`coldpress validate-frontmatter-min _context/sacred/prd.md adr_references --min 1`)
 - RFC template (for larger, in-progress proposals): `coldpress-os/authoring/governance/rfc-amendment.md`

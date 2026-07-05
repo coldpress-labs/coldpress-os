@@ -13,7 +13,7 @@
  * research outputs and distillates (via `schemaIdFromPath`).
  *
  * Structural validation only — "required fields present, correct types,
- * valid enums". Semantic checks are Conftest/Rego territory (`validate-sacred-doc`).
+ * valid enums". Semantic policy checks (e.g. PRD references ≥1 ADR) run at the phase-exit gates (`validate-frontmatter-min`).
  *
  * Pure function; no disk access outside `readFile(docPath)` and the
  * schema file itself.

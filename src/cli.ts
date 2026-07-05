@@ -23,6 +23,7 @@ import {
   runValidateSchema,
   runFileExistsAfter,
   runGateCheckSupersessions,
+  runValidateFrontmatterMin,
 } from "./commands/gate-checks.js";
 import { runStatusLine } from "./commands/statusline.js";
 import { runTokensBuild } from "./commands/tokens.js";
@@ -455,6 +456,14 @@ program
   .option("--after-key <key>", "local-config key holding the phase-start timestamp", "phase_3_started_at")
   .action(async (opts: { afterKey?: string }) => {
     process.exit(await runGateCheckSupersessions(opts));
+  });
+
+program
+  .command("validate-frontmatter-min <doc> <field>")
+  .description("Gate check: assert a doc's frontmatter array <field> has ≥ --min items (folds the retired Conftest governance policies into phase gates).")
+  .option("--min <n>", "minimum item count", "1")
+  .action(async (doc: string, field: string, opts: { min?: string }) => {
+    process.exit(await runValidateFrontmatterMin(doc, field, opts));
   });
 
 program

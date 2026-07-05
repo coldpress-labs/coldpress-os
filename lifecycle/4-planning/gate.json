@@ -79,6 +79,14 @@
       "severity": "block",
       "artefact_path": "_context/handoffs/phase-4-to-5-*.md",
       "remediation": "Invoke `phase-transition` at Phase 4 exit to write the handoff log."
+    },
+    {
+      "id": "prd-references-adr",
+      "description": "The PRD `_context/sacred/prd.md` references at least one ADR (`adr_references[]`). Folds the retired Conftest `prd_has_adr` policy into the Phase-4 exit gate — planning documents anchor to a decision record; no orphaned requirements.",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress validate-frontmatter-min _context/sacred/prd.md adr_references --min 1",
+      "remediation": "Add at least one `adr_references: [\"ADR-NNNN\"]` entry to the PRD frontmatter, linking the decision record(s) the requirements anchor to."
     }
   ],
   "next_phase": "5-design"
