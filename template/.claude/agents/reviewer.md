@@ -35,7 +35,7 @@ Butler does **not** dispatch you directly. The orchestrator invokes you at phase
 
 ## Output — structured JSON rubric
 
-Emit JSON matching `coldpress-os/schemas/reviewer-rubric.schema.ts`:
+Emit JSON matching the `reviewer-rubric` schema (shipped with `@coldpress/core`; the CLI enforces it — the schema source isn't copied into the project):
 
 ```json
 {

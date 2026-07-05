@@ -10,6 +10,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Lighter scaffold (S6)** — `coldpress init` no longer copies the framework's
+  732 KB of internal docs (only a 12-file consumer subset ships; the rest is on
+  GitHub) or the 192 KB `CHANGELOG.md` into every project; a scaffold drops from
+  ~6.4 MB to ~5.2 MB. Also fixed `reviewer.md`'s reference to a schema path that
+  was never copied into projects.
+
 - **`coldpress llm-normalize` — LLM-eval gates are reachable (S4)** — added a CLI
   verb exposing the `src/llm-gates/` normalizers (DeepEval / Giskard / Promptfoo →
   the canonical `ScanResult` the security aggregator consumes). They were
