@@ -56,7 +56,7 @@ Options:
    current document; revisit before Phase 5 entry. Deferred resolution.
 
 Note: if you accept + log or flag, the gap will appear in the Phase 4 handoff log so
-Phase 5 create-epics can account for it.
+Phase 5 story-slice can account for it.
 ```
 
 **Fill-in guidance:**
@@ -186,7 +186,7 @@ PRD-targeted gaps NEVER offer re-entry to Phase 4. Always offer reconciliation a
 |-----------------|-----------|-----------|
 | Code can't fulfill story AC because PRD ambiguous | implementation-deltas reconciliation at Phase 8 EXIT | reconciliation |
 | Code reveals architecture component missing | Phase 6 architecture re-entry OR architecture-delta forward-carry | re-entry OR reconciliation |
-| Story scope exceeds reasonable wave time | Phase 7 sprint-planning re-entry | re-entry (split story OR re-balance waves) |
+| Story scope exceeds reasonable wave time | Phase 7 coldpress waves re-entry | re-entry (split story OR re-balance waves) |
 | ADR contradicts implementation choice | supersede-check raise; new ADR | supersede-check |
 | Tech-stack library missing for story | Phase 3 ADR amendment | re-entry |
 | Test-coverage target unrealistic | Phase 7 story re-author | re-entry |
@@ -256,7 +256,7 @@ The decision table is enforced at the step-file level, not by a central orchestr
 
 **Supersessions log:** Accepted supersessions (Option 1) are appended to `_context/audit/supersessions-{date}.md` following the format spec at [`docs/supersessions-log-spec.md`](../supersessions-log-spec.md).
 
-**Handoff log:** All surfaced gaps (Options 1, 2, 3) are recorded in the Phase 4 handoff log written by `phase-transition`. Phase 5 `create-epics` reads this log to surface unresolved gaps before epic authoring begins.
+**Handoff log:** All surfaced gaps (Options 1, 2, 3) are recorded in the Phase 4 handoff log written by `phase-transition`. Phase 5 `story-slice` reads this log to surface unresolved gaps before epic authoring begins.
 
 ---
 

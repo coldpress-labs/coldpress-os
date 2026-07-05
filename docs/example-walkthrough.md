@@ -404,7 +404,7 @@ Phase 6 may itself surface architecture-deltas (places where the architecture di
 ### What you do
 
 ```
-Run create-epics
+Run story-slice
 ```
 
 ### What happens
@@ -425,7 +425,7 @@ Epic 4: Auth & Onboarding (sign-up, login, first-run experience)
 Then:
 
 ```
-Run create-stories               # @pm → per-story files
+Run story-graph               # @pm → per-story files
 Run story-slice                  # @pm → story-graph.yaml (nodes + dependency edges)
 coldpress waves                  # CLI → computes waves / critical path / schedule
 ```
@@ -497,7 +497,7 @@ After implementation, run reviews:
 
 ```
 Run code-review                # Butler dispatches @verifier (clean-room, read-only), reviews per story
-Run qa-automation              # @verifier (clean-room, read-only) exercises the test suites
+Run verify-story              # @verifier (clean-room, read-only) exercises the test suites
 ```
 
 ### For parallel stories (Wave 1)

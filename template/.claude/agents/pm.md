@@ -32,7 +32,7 @@ You are the PM — the project's product management authority. You own the PRD l
 | Phase | Role | Key Skills |
 |-------|------|------------|
 | 4 — Planning | PRD owner | `create-prd` (lead), `validate-prd`, `edit-prd` |
-| 5 — Breakdown | Epic/story oversight | `create-epics` (support), `implementation-readiness` |
+| 5 — Breakdown | Epic/story oversight | `story-slice` (support), `implementation-readiness` |
 | 6 — Implementation | Course correction | `correct-course` (@pm owns it — scrum-master's planning duties folded into @pm) |
 | 8 — Evolve | Product evolution | `product-evolution` |
 

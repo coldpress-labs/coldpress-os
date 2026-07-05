@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://coldpressai.com/schemas/planning-artefacts/epic.json",
   "title": "Epics frontmatter",
-  "description": "Structural contract for `_context/planning/epics-v{N}.md`. Produced by Phase 7 `create-epics`; consumed by `create-stories`. Validated-distillate.",
+  "description": "Structural contract for `_context/planning/epics-v{N}.md`. Produced by Phase 7 `story-slice`; consumed by `story-graph`. Validated-distillate.",
   "type": "object",
   "required": ["schema", "phase", "version", "sources", "epics", "created_at", "status", "distillate"],
   "properties": {

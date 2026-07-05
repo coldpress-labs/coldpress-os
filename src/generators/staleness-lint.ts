@@ -31,22 +31,12 @@ const SCAN_DIRS = [
 const SCAN_EXT = /\.(md|ya?ml|json)$/;
 
 /**
- * Hand-maintained tabular catalogs scheduled for GENERATION in WS11 S5. They
- * carry known stale rows (retired agents / PERT) until the `build:registries`
- * generator regenerates them; skip-listed here so the lint is green now, and
- * REMOVE from this set when S5 makes each one generated + drift-checked.
+ * (WS11 S5b) The registry + tabular-doc catalogs were content-rewritten against
+ * the current tree and REMOVED from the skip-list — the lint now guards them too.
+ * The set is intentionally empty: no shipped file is exempt from the staleness
+ * check any more (bar the genuinely-historical files below).
  */
-const S5_REGEN_TARGETS = new Set([
-  "REGISTRY.md",
-  "TEMPLATES-REGISTRY.md",
-  "docs/flow-map.md",
-  "docs/skill-index.md",
-  "docs/subagent-phase-matrix.md",
-  "docs/decision-trees.md",
-  "docs/phase-subfolder-mapping.md",
-  "docs/spec-plan-implement-review-mapping.md",
-  "docs/handoff-registry.md",
-]);
+const S5_REGEN_TARGETS = new Set<string>([]);
 
 /** Whole files that are legitimately historical — skipped entirely. */
 function isHistoricalFile(rel: string): boolean {
@@ -68,6 +58,8 @@ const DENYLIST: Array<{ re: RegExp; label: string }> = [
   { re: /wave-orchestration/, label: "retired wave-orchestration skill" },
   { re: /coldpress graph\b/, label: "removed `coldpress graph` verb" },
   { re: /\b11 (subagents|Shape A subagents)\b/i, label: "stale 11-subagent count" },
+  // Retired skill NAMES (WS4/WS5 surgery) — must not appear as live skill references.
+  { re: /(?<![\w-])(create-epics|create-stories|qa-automation|parallelization-strategy|shard-doc|distillator|sprint-planning)(?![\w-])/, label: "retired skill name" },
 ];
 
 /**

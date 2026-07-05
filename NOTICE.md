@@ -52,7 +52,7 @@ extends:
 - Several **document and planning templates** (product brief, PRD, architecture,
   story structures)
 - Core **lifecycle patterns** for planning → breakdown → implementation
-- A number of **utility and review skills** (e.g., `distillator`, `shard-doc`,
+- A number of **utility and review skills** (e.g., `docs`,
   `index-docs`, `advanced-elicitation`, most code/test review skills)
 
 coldpress-os departs from upstream BMAD in the following ways:

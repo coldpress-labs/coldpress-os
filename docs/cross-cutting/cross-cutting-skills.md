@@ -80,7 +80,7 @@ A future audit should **only flag**: (a) two canonicals with the same name; (b) 
 | Storytelling | `skills/creative/storytelling/` | `butler` | `lifecycle/<N>/<router-name>/` | phase-owner (e.g., `ux-designer` in Phase 5) |
 | Review (adversarial-review, editorial-prose, editorial-structure) | `skills/reviews/<name>/` | `qa` (most cases) or `reviewer` | (rarely needs a router) | n/a |
 | Governance (phase-transition, validate-schema, supersede-check) | `skills/governance/<name>/` | varies | n/a | n/a |
-| Utility (party-mode, distillator, advanced-elicitation) | `skills/utilities/<name>/` | varies | n/a | n/a |
+| Utility (party-mode, docs, advanced-elicitation) | `skills/utilities/<name>/` | varies | n/a | n/a |
 
 **Rule of thumb:** the canonical's `agent:` is the **domain owner** ("who would naturally lead this kind of work") regardless of phase. The router's `agent:` is the **phase owner** ("who is leading this phase").
 
@@ -167,9 +167,9 @@ When auditing agent-ownership:
 | `decision-logger` ⭐NEW | `skills/utilities/decision-logger/` | pm | [2-11] |
 | `advanced-elicitation` | `skills/utilities/advanced-elicitation/` | (any) | (any) |
 | `party-mode` | `skills/utilities/party-mode/` | (all 11 dispatched) | (any) |
-| `distillator` | `skills/utilities/distillator/` | (any) | (any) |
+| `docs` | `skills/utilities/docs/` | (any) | (any) |
 | `index-docs` | `skills/utilities/index-docs/` | (any) | (any) |
-| `shard-doc` | `skills/utilities/shard-doc/` | (any) | (any) |
+| `docs` | `skills/utilities/docs/` | (any) | (any) |
 | `document-project` | `skills/utilities/document-project/` | butler | [10] |
 
 ### Ops skills (cross-phase deployment + operations)

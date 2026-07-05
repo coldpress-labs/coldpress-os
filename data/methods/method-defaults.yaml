@@ -303,12 +303,12 @@ phase_7:
       vibe-coder-lean: [acceptance_criteria]
       design-led: [user_stories, job_stories]
       WDS: [user_stories, bdd_scenarios, acceptance_criteria]
-    create-stories:
+    story-slice:
       step-02-decompose: [user_stories, job_stories, bdd_scenarios, acceptance_criteria]
   problem_solving:
     bias: heavy
     methods: [first_principles, scenario_planning, failure_mode_analysis, root_cause]
-    parallelization-strategy:
+    story-graph:
       step-02-dependencies: [first_principles]
       step-03-critical-path: [scenario_planning]
     implementation-readiness:
@@ -316,19 +316,19 @@ phase_7:
   brainstorming:
     bias: medium
     methods: [round_robin, mind_mapping]
-    create-epics:
+    story-slice:
       step-02-decompose: [round_robin, mind_mapping]
-    sprint-planning:
+    story-graph:
       step-01-assignments: [round_robin]
   advanced_elicitation:
     bias: medium
     triggers: [vague_acceptance_criteria, vague_story_scope]
-    create-stories:
+    story-slice:
       step-02-decompose: [scenario_walkthrough]
   design_thinking:
     bias: low
     primary_stages: [define]
-    create-epics:
+    story-slice:
       step-02-decompose: [define]
 
 # ============================================================================
@@ -342,7 +342,7 @@ phase_8:
     dev-story:
       step-02-implement: [first_principles]
       step-04-debug: [root_cause, five_whys]
-    qa-automation:
+    verify-story:
       step-02-test-design: [failure_mode_analysis]
     code-review:
       step-02-review: [scenario_planning]

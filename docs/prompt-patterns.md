@@ -68,7 +68,7 @@ For skills whose output is parsed downstream (story-graph → wave grouping, epi
 
 **Why numbered:** imperatives in a list resist paraphrase the way prose advice doesn't. "Exactly these columns" survives truncation; "the output should have the columns …" doesn't.
 
-**Applied in:** `story-graph` (story-graph.yaml shape), epic/story sharding (downstream consumer: sprint-planning), any skill whose output feeds a Zod schema validator.
+**Applied in:** `story-graph` (story-graph.yaml shape), epic/story sharding (downstream consumer: coldpress waves), any skill whose output feeds a Zod schema validator.
 
 ---
 

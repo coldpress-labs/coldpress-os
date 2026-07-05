@@ -162,7 +162,7 @@ Bob (Scrum Master): "{user_name}, we typically run retrospectives after all stor
 
 1. Complete remaining stories before running retrospective (recommended)
 2. Continue with partial retrospective (not ideal, but possible)
-3. Run sprint-planning to refresh story tracking
+3. Run coldpress waves to refresh story tracking
    </output>
 
 <ask if="{{non_interactive}} == false">Continue with incomplete epic? (yes/no)</ask>
