@@ -10,6 +10,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Registries + reference docs rewritten to the current tree (S5b)** — `REGISTRY.md`,
+  `TEMPLATES-REGISTRY.md`, and the reference docs (skill-index, flow-map, decision-trees,
+  handoff-registry, subagent-phase-matrix, example-walkthrough, and others) carried
+  pre-surgery content (retired skill names + agents). Rewrote them to the current 8
+  agents / current skill names / 4 sacred docs, and extended the staleness lint to
+  guard every one of them (the skip-list is now empty) plus the retired skill names —
+  so this class of doc rot can't recur.
+
 - **Retired Conftest/Rego governance; folded into phase gates** — the two sacred-doc
   policies ("a PRD must reference ≥1 ADR", "an architecture doc must name ≥1
   approver") were Rego policies meant for the external Conftest binary, but nothing
