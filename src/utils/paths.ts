@@ -56,7 +56,6 @@ export const frameworkDirs = [
   "skills",
   "governance",
   "data",
-  "agents",
   "authoring",
   "docs",
   "plugin",

@@ -18,7 +18,7 @@ This project uses **coldpress-os** at `coldpress-os/`.
 
 - Registry: `coldpress-os/REGISTRY.md`
 - Lifecycle: `coldpress-os/lifecycle/`
-- Agents: `coldpress-os/agents/`
+- Agents: `.claude/agents/`
 - Skills: `coldpress-os/skills/`
 - Project config: `./coldpress.yaml`
 

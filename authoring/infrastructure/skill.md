@@ -14,7 +14,7 @@ name: "{skill-name}"
 description: "{One-line trigger phrase. Sub-1024 chars. Used by Claude to decide when to invoke.}"
 type: "{simple|workflow|reference|router}"
 category: "{category}"          # e.g., creative, reviews, governance, utilities, meta, ops, lifecycle, stack-packs
-agent: "{agent-slug}"            # primary owner: analyst|pm|ux-designer|architect|developer|qa|scrum-master|communicator|reviewer|devops|valet
+agent: "{agent-slug}"            # primary owner: analyst|architect|developer|devops|pm|reviewer|ux-designer|verifier
 phase: <N>                       # for lifecycle skills (single-phase) — integer 1-11
 phases: [<N>, <M>, ...]          # for cross-cutting skills (multi-phase) — array
 license: "MIT"                   # MUST be present; coldpress-os is MIT
@@ -164,7 +164,7 @@ The 10KB cap forces clean separation between the skill's contract (SKILL.md) and
 
 ### Authoring helper
 
-For new skills, run `@valet skill-builder` (the meta skill that walks through this standard interactively and emits a compliant scaffold).
+For new skills, run the `skill-builder` skill (the meta skill that walks through this standard interactively and emits a compliant scaffold).
 
 ---
 

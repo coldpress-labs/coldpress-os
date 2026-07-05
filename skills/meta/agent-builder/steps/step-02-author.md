@@ -12,7 +12,7 @@ Produce a complete agent definition.
 
 ## Instructions
 
-1. **Load agent schema** from `../../../agents/_schema.md`.
+1. **Load agent schema** from `../../../docs/agent-schema.md`.
 2. **For Create:** Generate all required sections per schema.
 3. **For Edit:** Apply requested changes to existing definition.
 4. **For Analyze:** Generate compliance report for all agents.

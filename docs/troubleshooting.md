@@ -207,7 +207,7 @@ The Convex pack (`skills/stack-packs/vibe-coder-fullstack/`) is the reference im
 
 See the [Subagent Customization Guide](subagent-customization.md). The short version:
 
-1. Create `.claude/agents/{slug}.md` following `agents/_schema.md`
+1. Create `.claude/agents/{slug}.md` following `docs/agent-schema.md`
 2. Add the agent to Butler's routing table in `.claude/SYSTEM.md`
 3. Reference it in relevant skills
 

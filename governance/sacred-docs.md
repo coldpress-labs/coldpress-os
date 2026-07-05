@@ -21,7 +21,6 @@ A document is sacred when:
 | 2 | **tech-stack.md** | Phase 3 (Tech Stack) | `_context/sacred/tech-stack.md` | context.md, evaluation | Architecture, implementation, deployment, CI/CD |
 | 3 | **PRD** | Phase 4 (Planning) | `_context/sacred/prd.md` | context.md, product brief | Architecture, UX, epics, stories |
 | 4 | **architecture.md** | Phase 4 (Planning) | `_context/sacred/architecture.md` | PRD, tech-stack.md | Epics, stories, implementation |
-| 5 | **PERT chart** | Phase 5 (Breakdown) | `_context/sacred/pert-chart.md` | Epics, dependencies | Sprint planning, wave execution, timelines |
 
 ---
 
@@ -76,9 +75,8 @@ context.md
 ├── PRD
 │   ├── architecture.md
 │   │   ├── epics
-│   │   │   ├── stories
-│   │   │   └── PERT chart
-│   │   │       └── sprint planning
+│   │   │   └── stories
+│   │   │       └── wave plan (`coldpress waves`)
 │   │   └── implementation patterns
 │   ├── UX design spec
 │   └── epics
@@ -106,7 +104,6 @@ Documents become sacred at the moment they are **completed through their produci
 | tech-stack.md | Phase 3 stack-locking workflow completes |
 | PRD | Phase 4 create-prd workflow completes and passes validation |
 | architecture.md | Phase 4 create-architecture workflow completes |
-| PERT chart | Phase 5 parallelization-strategy workflow completes |
 
 ---
 

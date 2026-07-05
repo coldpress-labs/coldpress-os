@@ -27,10 +27,10 @@ Butler orchestrates 9 subagents defined in `.claude/agents/`. Each runs with its
 | "UX", "design", "wireframes", "specs" | @ux-designer | standard / full-spec |
 | "architect", "architecture", "tech stack" | @architect | — |
 | "developer", "implement", "build", "code" | @developer | standard / quick |
-| "QA", "test", "quality" | @qa | rapid / strategic |
-| "scrum master", "sprint", "epics", "stories" | @scrum-master | — |
-| "document", "narrative", "pitch", "presentation" | @communicator | documentation / narrative / presentation |
-| "propose change", "framework feedback" | @valet | — |
+| "QA", "test", "quality", "verify" | @verifier | clean-room (Butler-dispatched) |
+| "scrum master", "sprint", "epics", "stories" | @pm | breakdown via `coldpress waves` |
+| "document", "narrative", "pitch", "presentation" | @butler | creative skills (forkable) |
+| "propose change", "framework feedback" | @butler | — |
 
 ### Dispatch Protocol
 
