@@ -282,24 +282,6 @@ fi
 
 **Why exit code 2 vs 1 matters:** skills use the `2` signal as a soft "not warmed up yet — do it the slow way." Exit `1` means something broke and guessing would produce bad output. Keep the distinction; don't collapse them into "anything non-zero means fall back."
 
-### When to migrate a skill to graph-first
-
-- **Yes:** the skill enumerates project artefacts (sacred docs, code modules, reviews) — graph queries are orders of magnitude faster than glob + read.
-- **Yes:** the skill composes a cross-artefact query (code implementing a story, tests covering a module) — the graph's edge data gives you that for free.
-- **No:** the skill writes or edits a specific known file (e.g., `create-prd` writing `_context/sacred/prd.md`) — graph adds nothing; direct write is correct.
-- **No:** the skill needs real-time file content (not just enumeration) — the graph carries metadata, not file bodies.
-
-### Skills currently using the pattern
-
-- `skills/utilities/index-docs` — graph-first for `_context/*` enumeration; falls back to direct scan.
-- `skills/reviews/code-audit` — graph-first scope derivation via `--neighbors <story> --relation implements`; falls back to git-diff / ls.
-
-Additional migrations land as we identify context-gathering skills that benefit. See [`docs/graph-query.md`](graph-query.md) for the full query API.
-
-### Pattern documentation
-
-`docs/graph-query.md` is the authoritative reference for the command surface and output shape. When you add a new skill that uses graph-first, list it in `docs/graph-query.md` §"Graph-first pattern — who uses it."
-
 ---
 
 ### Version Control

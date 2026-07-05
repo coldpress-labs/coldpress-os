@@ -551,7 +551,7 @@ async function writeAttribution(
     "",
     "- [ ] Review every imported agent in `.claude/agents/bmad-*.md`; tighten tools + model + persona.",
     "- [ ] Port each imported workflow from its BMAD step files into coldpress-os-native SKILL.md Process sections.",
-    "- [ ] Verify imported templates conform to the coldpress-os template registry (see `docs/templates-registry.md`).",
+    "- [ ] Verify imported templates conform to the coldpress-os template registry (see `TEMPLATES-REGISTRY.md`).",
     "- [ ] Remove the `@coldpress-os:imported-from=bmad` markers from any file you've finalised.",
     "- [ ] Decide whether this ATTRIBUTION.md stays in the tree for audit (recommended) or is archived once the imports are finalised.",
     "",

@@ -142,7 +142,7 @@ Options:
 
 Exit codes: `0` rendered (possibly empty), `2` run not found, `1` malformed stream / other error.
 
-**No write-side CLI.** Event emission is an orchestrator-integration concern — `EventStreamWriter` is the programmatic API. Block DD ships schema + persistence + read-side CLI; **runtime wiring into skills + phase-gate evaluator is deferred to Wave 6 orchestrator follow-up work** (§6.5 checkpointer + later).
+**No write-side CLI.** Event emission is an orchestrator-integration concern — `EventStreamWriter` is the programmatic API. Block DD ships schema + persistence + read-side CLI; **runtime wiring into skills + phase-gate evaluator is deferred to Wave 6 orchestrator follow-up work** (a future resumable-runs mechanism).
 
 ---
 
@@ -180,8 +180,8 @@ Future extension: add `need-info-emit` / `need-info-resolve` event kinds so NEED
 
 ## What's NOT in this protocol
 
-- **Runtime wiring into skills / subagents.** Block DD ships the persistence substrate. Orchestrator follow-up work (§6.5 checkpointer etc.) wires actual event emissions from skill execution.
-- **Snapshot / rewind.** `seq` is monotonic but we don't persist intermediate artefact state alongside — rewinding to `seq=N` doesn't restore the filesystem. Snapshots are a §6.5 concern (LangGraph checkpointer).
+- **Runtime wiring into skills / subagents.** Block DD ships the persistence substrate. Orchestrator follow-up work wires actual event emissions from skill execution.
+- **Snapshot / rewind.** `seq` is monotonic but we don't persist intermediate artefact state alongside — rewinding to `seq=N` doesn't restore the filesystem. Snapshots are future work (a LangGraph-checkpointer-style mechanism).
 - **Cross-run correlation.** Each run is self-contained. No `parent_run_id`; no run-tree.
 - **Event deletion / GC.** Runs accumulate. A future housekeeping skill might prune runs older than N days; not in Block DD.
 - **Concurrent writers.** One writer per run. Multi-writer would need leader election or a separate log-shipping layer; not needed for v1.
@@ -212,6 +212,5 @@ Breaking change. Needs:
 ## See also
 
 - [phase-gate-protocol.md](phase-gate-protocol.md) — §5.0 gate protocol; gate evaluations become `gate-*` events.
-- [graph-visualizer.md](graph-visualizer.md) — §6.1 visualizer; Block CC sibling in Wave 6.
 - [need-info-protocol.md](need-info-protocol.md) — §5.4 NEED_INFO; future event-kind integration point.
 - Project Dashboard (§6.10) doc — ships with Block GG; Stats tab consumer.

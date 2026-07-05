@@ -35,7 +35,7 @@ If any required file is missing (product-brief or context.md), HaltError with cl
 
 ### 3. Check `_input/vendor/` contents
 
-Enumerate files in `_input/vendor/`. For each, record: filename, apparent topic (infer from filename/path). These will be used in Step 3 for graph-query-first candidate derivation.
+Enumerate files in `_input/vendor/`. For each, record: filename, apparent topic (infer from filename/path). These will be used in Step 3 for evidence-first candidate derivation.
 
 If `_input/vendor/` is empty: note "No vendor docs pre-loaded — Step 3 will rely on T2 catalog + T3 web-search."
 

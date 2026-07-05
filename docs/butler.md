@@ -131,7 +131,7 @@ You can always inspect the gate result before transitioning: `Butler, show me th
 
 - **Display name** — `butler.display_name` in `coldpress.yaml` (Phase 1).
 - **Routing overrides** — edit `template/.claude/SYSTEM.md` in your project to add or override routing rules. See [`subagent-customization.md`](subagent-customization.md).
-- **Adding a custom subagent** — drop a `.md` file into `.claude/agents/`. Butler picks it up on next reload. Skill catalogue in `data/agents/skill-catalog.csv` documents the convention.
+- **Adding a custom subagent** — drop a `.md` file into `.claude/agents/`. Butler picks it up on next reload.
 
 ---
 

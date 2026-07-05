@@ -104,7 +104,7 @@ When introducing a new cross-cutting skill:
 2. Author canonical at `skills/<category>/<name>/`. Frontmatter: `phases: [N, M, ...]`, `agent: <domain-owner>`.
 3. If a phase has natural router framing: author router at `lifecycle/<N>/<router-name>/`. Frontmatter: `phase: N`, `agent: <phase-owner>`. Workflow delegates to canonical.
 4. Document in REGISTRY.md under the **right phase** sub-section (the canonical lists ALL phases it spans; the router lists only its own phase).
-5. Add an entry in `data/agents/skill-catalog.csv` for both canonical and any routers — the `primary_agent` column reflects each skill's own `agent:`.
+5. No manual catalog step — skills are auto-discovered by `build:skills`; each skill's own `agent:` frontmatter is authoritative.
 
 ---
 

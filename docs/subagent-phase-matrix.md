@@ -96,7 +96,7 @@ Derived from `template/.claude/agents/*.md` frontmatter. Tools matter because th
 ## See also
 
 - [`docs/skill-index.md`](skill-index.md) — companion Skill Discovery Index (skills by phase).
-- [`docs/templates-registry.md`](templates-registry.md) — companion Template Registry.
+- [`TEMPLATES-REGISTRY.md`](../TEMPLATES-REGISTRY.md) — companion Template Registry.
 - [`docs/architecture.md`](architecture.md) §Subagents — narrative overview.
 - [`template/.claude/agents/`](../template/.claude/agents/) — canonical subagent definitions.
 - [`REGISTRY.md`](../REGISTRY.md) §Subagents — framework-level subagent index.

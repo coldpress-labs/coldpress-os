@@ -16,8 +16,7 @@ Ensure the skill is valid and registered.
 2. **Validate workflow.md** if it exists (step index matches actual step files).
 3. **Validate step files** (sequential numbering, next_step references valid).
 4. **Create skill directory** and write all files.
-5. **Update skill-catalog.csv** with the new skill.
-6. **Present confirmation.**
+5. **Present confirmation.** (The skill is auto-discovered by `build:skills`/`check:drift` — no manual catalog to update.)
 
 ## Output
 

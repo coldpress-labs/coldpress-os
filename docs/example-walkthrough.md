@@ -11,7 +11,7 @@
 - **Type:** web_app
 - **Domain:** productivity / saas
 - **Archetype:** Production
-- **Pattern:** A (three-tier, see [`archetypes-guide.md`](archetypes-guide.md))
+- **Pattern:** A (three-tier)
 - **Stack pack:** `vibe-coder-fullstack` (auto-matched in Phase 3 stack-discovery-sync)
 
 ---

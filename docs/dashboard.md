@@ -130,7 +130,6 @@ No framework-level glue. The dashboard is intentionally cheap to extend.
 
 ## See also
 
-- [`graph-visualizer.md`](graph-visualizer.md) — Block CC; Graph tab embeds via `/graph/<subgraph>.html`.
 - [`event-stream.md`](event-stream.md) — Block DD; Stats tab reads skill counts from EventStream.
 - [`phase-gate-protocol.md`](phase-gate-protocol.md) — §5.0; Status + To-dos tabs surface gate evaluations + blockers.
 - [`reviewer-subagent.md`](reviewer-subagent.md) — Block EE; Sanity tab surfaces failing reviews.

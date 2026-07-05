@@ -292,5 +292,4 @@ transition:
 ## See also
 
 - [`reviewer-subagent.md`](reviewer-subagent.md) — Block EE; Pattern 4 (tripartite CoT) is the review-grounding core of `ReviewRubric.RubricRow.evidence`.
-- [`aci-primitives.md`](aci-primitives.md) — Block HH sibling; the ACI two-fail budget is another prompt-adjacent discipline (verifier feedback between edits).
 - [`handoff-schema-spec.md`](handoff-schema-spec.md) — Wave 2; the 2 high-stakes handoff schemas benefit from Pattern 5 closing contracts at the emitter end.

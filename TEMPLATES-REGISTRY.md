@@ -1,6 +1,6 @@
 # Templates Registry
 
-> Single registry of authoring templates indexed by phase × artefact-type. Companion to `REGISTRY.md` (skills + agents) and `data/agents/skill-catalog.csv` (skills tabular). Templates live under `coldpress-os/authoring/` (canonical) and `coldpress-os/template/.claude/agents/` (subagent definitions).
+> Single registry of authoring templates indexed by phase × artefact-type. Companion to `REGISTRY.md` (skills + agents). Templates live under `coldpress-os/authoring/` (canonical) and `coldpress-os/template/.claude/agents/` (subagent definitions).
 >
 > **Closes audit punch-list §3.2 / Tier 3.2** — framework-audit Wave 4 §4.7 carry-forward; system review §3.2 ([docs/system-review-2026-05-02.md](../docs/system-review-2026-05-02.md)).
 

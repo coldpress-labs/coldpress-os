@@ -221,7 +221,7 @@ Add `skills/stack-packs/{pack-name}/` with skills following the skill schema.
 Add to `template/.claude/agents/{name}.md` following Claude Code subagent format. Update `agents/_schema.md`, `data/agents/agent-roster.csv`, and `REGISTRY.md`.
 
 ### New Skills
-Add `skills/{category}/{skill-name}/` following the skill schema. Update `data/agents/skill-catalog.csv`.
+Add `skills/{category}/{skill-name}/` following the skill schema.; the plugin regenerates via `build:skills`.
 
 ### New Lifecycle Sub-phases
 Add subdirectories to existing `lifecycle/{N}-{phase}/` directories.

@@ -121,7 +121,7 @@ Edit `renderAgent()` in `src/imports/bmad.ts`. Current defaults (model `sonnet`,
 ## See also
 
 - [skill-index.md](skill-index.md) — global skill registry; imported skills appear under `skills/meta/bmad-imports/`.
-- [templates-registry.md](templates-registry.md) — global template registry; imported templates appear under `authoring/imports/`.
+- [`TEMPLATES-REGISTRY.md`](../TEMPLATES-REGISTRY.md) — global template registry; imported templates appear under `authoring/imports/`.
 - [agent-skills-compatibility.md](agent-skills-compatibility.md) — coldpress-os's outbound agent-format generator (the reverse direction: coldpress-os → AGENTS.md / Cursor / etc.).
 
 ---
