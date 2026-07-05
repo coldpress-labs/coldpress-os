@@ -346,10 +346,11 @@ program
   .description("Verify the local environment: Node, package manager, git, Claude Code CLI")
   .option("--stack", "also verify stack-specific tools (reads coldpress.yaml stack_pack)")
   .option("--wiring", "also run the wiring-manifest check (every cross-phase artifact has a producer + resolvable consumers/schema)")
+  .option("--structure", "also run the structure check (shipped dirs exist, data files have readers, skills are routed or on-demand, no internal-state leak)")
   .option("--verbose", "show extra detail on every check")
-  .action(async (opts: { stack?: boolean; wiring?: boolean; verbose?: boolean }) => {
+  .action(async (opts: { stack?: boolean; wiring?: boolean; structure?: boolean; verbose?: boolean }) => {
     try {
-      const { exitCode } = await runDoctor({ stack: opts.stack, wiring: opts.wiring, verbose: opts.verbose });
+      const { exitCode } = await runDoctor({ stack: opts.stack, wiring: opts.wiring, structure: opts.structure, verbose: opts.verbose });
       process.exit(exitCode);
     } catch (err) {
       console.error(pc.red(`doctor failed: ${err instanceof Error ? err.message : String(err)}`));

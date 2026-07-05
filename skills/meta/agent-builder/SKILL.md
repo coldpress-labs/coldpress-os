@@ -4,6 +4,7 @@ description: "Build, edit, or analyze agent definitions for the coldpress-os fra
 type: "workflow"
 category: "meta"
 agent: "butler"
+on-demand: true
 phases: [meta]
 inputs:
   - "../../docs/agent-schema.md"
