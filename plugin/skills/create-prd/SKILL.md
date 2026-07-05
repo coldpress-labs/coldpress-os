@@ -49,7 +49,7 @@ This skill follows a multi-step guided workflow.
 You must emit exactly one Markdown document with this structure:
 
 1. `# Product Requirements Document — <project.name>` as the first line.
-2. YAML frontmatter with fields: `sacred: true`, `version: "1.0"`, `created` (ISO date), `last_modified` (ISO date), `governance: "requires-review"`, `workflowType: "prd"`, `stepsCompleted: []`, `inputDocuments: []`, `adr_references: []` (at least one ADR id matching `^ADR-\d{4}$` per the `prd_has_adr` Rego policy in Block Y).
+2. YAML frontmatter with fields: `sacred: true`, `version: "1.0"`, `created` (ISO date), `last_modified` (ISO date), `governance: "requires-review"`, `workflowType: "prd"`, `stepsCompleted: []`, `inputDocuments: []`, `adr_references: []` (at least one ADR id matching `^ADR-\d{4}$` enforced at the Phase-4 exit gate via `coldpress validate-frontmatter-min`).
 3. Sections 1 through 12 in the order specified by `authoring/documents/prd.md`, each starting with `## <N>. <Section name>`.
 4. Each section opens with the italicised meta-description inherited from the template (Pattern 1) — replace the placeholder prose, never delete the description.
 5. No additional top-level sections. No trailing "Closing Thoughts" / "Summary" / "Notes" block.

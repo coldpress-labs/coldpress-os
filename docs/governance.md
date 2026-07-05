@@ -1,12 +1,12 @@
 ---
 name: governance
-description: Sacred-doc governance layer — Ajv structural validation + Conftest semantic policies + ADR/RFC scaffolding
+description: Sacred-doc governance layer — Ajv structural validation + phase-gate semantic policies + ADR/RFC scaffolding
 version: "1.0"
 ---
 
 # Governance (§5.2)
 
-> The sacred docs (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`) are the load-bearing artefacts of a coldpress-os project — downstream skills consume them as contracts. (The lite lane collapses these to a single `spec.md`.) Before this protocol, their frontmatter was prose-regulated. This doc specifies the governance layer: Ajv validates shape; Conftest validates semantics; ADRs anchor decisions; RFCs propose them.
+> The sacred docs (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`) are the load-bearing artefacts of a coldpress-os project — downstream skills consume them as contracts. (The lite lane collapses these to a single `spec.md`.) Before this protocol, their frontmatter was prose-regulated. This doc specifies the governance layer: Ajv validates shape; phase-gate checks validate semantics; ADRs anchor decisions; RFCs propose them.
 
 **Source decision:** framework-audit-2026-04-23.md §9 + oss-integration-survey-2026-04-22.md Tier 1 §1.5.
 
@@ -37,18 +37,22 @@ Each schema requires at minimum:
 
 Doc-specific fields (PRD's `adr_references[]`, architecture's `approvers[]`) layer on top. `additionalProperties: true` leaves room for project-specific extensions.
 
-### 2. `validate-sacred-doc` — semantic (Conftest + Rego)
+### 2. Phase-gate semantic policy checks
 
-`skills/governance/validate-sacred-doc` enforces **cross-field** and **cross-document** policies via [Conftest](https://github.com/open-policy-agent/conftest) (Apache-2.0) running [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/). Examples:
+**Cross-field** semantic policies — "the array must be non-empty" rules that the
+always-on structural schema deliberately can't enforce (the schema-validate hook
+*blocks* writes, so requiring them would reject an in-progress doc) — run at the
+**phase-exit gates** via `coldpress validate-frontmatter-min`:
 
-- "PRDs must reference ≥1 ADR" (`prd_has_adr.rego`)
-- "Architecture.md changes must list ≥1 approver" (`architecture_has_approvers.rego`)
+- "PRDs must reference ≥1 ADR" — Phase-4 exit gate (`validate-frontmatter-min _context/sacred/prd.md adr_references --min 1`)
+- "Architecture.md must name ≥1 approver" — Phase-6 exit gate (`validate-frontmatter-min _context/sacred/architecture.md approvers --min 1`)
 
-(The `pert_references_architecture.rego` policy was retired with the PERT sacred doc in v0.4.)
+This is the WS11 fold of the retired Conftest/Rego policies: same rules, enforced
+at the right moment (phase completion), with no external policy-engine dependency
+for consumers to install.
 
-Policies ship at `authoring/governance/policies/`. Adding one: drop a new `.rego` file; no registry update needed.
-
-**Run order:** structural first, semantic second. A doc that fails structural validation can't be meaningfully checked for semantics.
+**Run order:** structural first (the schema-validate hook, on every write),
+semantic at the gate (phase exit).
 
 ---
 
@@ -62,9 +66,8 @@ Every coldpress-os project ships with `docs/adr/` seeded by `coldpress init`:
 ### The enforcement loop
 
 1. PRD frontmatter carries `adr_references: ["ADR-NNNN", …]`.
-2. Ajv's `prd.schema.json` requires each entry to match `^ADR-\d{4}$`.
-3. Conftest's `prd_has_adr.rego` requires the array to be non-empty.
-4. Phase-4 gate (`lifecycle/4-planning/gate.json`) runs both as `acceptance_check` entries.
+2. Ajv's `prd.schema.json` requires each entry to match `^ADR-\d{4}$` (structural).
+3. The Phase-4 gate (`lifecycle/4-planning/gate.json`) runs `validate-frontmatter-min … adr_references --min 1` as a block-severity `acceptance_check` — the array must be non-empty at phase exit.
 
 Outcome: a PRD can never land without anchoring to at least one ADR. Re-litigating a PRD's direction means re-examining the linked ADR — no lost context.
 
@@ -105,17 +108,15 @@ An accepted RFC produces an ADR; the RFC itself stays in `docs/rfc/` as the exte
 1. Author `schemas/sacred-docs/<id>.schema.json` (JSON Schema draft 2020-12).
 2. Register it in `SACRED_DOC_SCHEMAS` in `src/governance/validate-schema.ts`.
 3. Add a row to `validate-schema/SKILL.md` "registered sacred-doc schemas" table.
-4. Optional: ship Rego policies enforcing semantics.
+4. Optional: add a phase-gate semantic check (below) enforcing a non-empty array.
 
 ### Adding a semantic policy
 
-Drop a new `.rego` file under `authoring/governance/policies/`. Use `package sacred_doc`; any `deny[msg]` rule triggers a Conftest failure. No registry update required — Conftest globs the whole directory.
-
-### Relaxing a policy for a specific project
-
-The shipped Rego policies are **suggested defaults**. Consumer projects can:
-1. Drop in their own `.rego` policies in a project-local `authoring/governance/policies-local/`.
-2. Override the Conftest invocation to point at the local dir instead of (or in addition to) the framework's.
+Add a check to the owning phase's `lifecycle/<phase>/gate.json` — for a "field
+must have ≥N items" rule, use `coldpress validate-frontmatter-min <doc> <field> --min <N>`
+(block-severity). The check runs at phase exit, so it enforces completion without
+blocking in-progress edits. (This replaced the earlier Conftest/Rego layer in
+WS11 — same enforcement, no external policy-engine dependency.)
 
 No policy in coldpress-os is load-bearing in a way a project can't override.
 

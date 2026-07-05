@@ -20,7 +20,7 @@ version: "1.0"
 
 Validate that a sacred document's YAML frontmatter conforms to the canonical shape — required fields present, types correct, enums respected, version strings parse. Backed by [Ajv](https://github.com/ajv-validator/ajv) (MIT, in-process JS — no subprocess, no install), so it runs anywhere the `coldpress` CLI does.
 
-Structural validation only. Semantic / cross-document policy ("the PRD must reference at least one ADR", "architecture.md changes must list approvers") is Conftest/Rego territory — see sibling skill `validate-sacred-doc`.
+Structural validation only. Semantic / cross-document policy ("the PRD must reference at least one ADR", "architecture.md changes must list approvers") is enforced at the P4/P6 phase-exit gates via `coldpress validate-frontmatter-min`.
 
 ## When to Use
 

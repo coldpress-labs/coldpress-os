@@ -29,6 +29,7 @@ import {
   validateSchemaLatest,
   fileExistsAfter,
   checkSupersessions,
+  frontmatterMin,
 } from "../gate/checks/index.js";
 import { validateDocSchema, type SchemaValidationIssue } from "../governance/validate-schema.js";
 
@@ -124,5 +125,16 @@ export async function runFileExistsAfter(
 
 export async function runGateCheckSupersessions(opts: { afterKey?: string }): Promise<number> {
   const r = await checkSupersessions(process.cwd(), opts.afterKey ?? "phase_3_started_at");
+  return report(r.ok, r.message);
+}
+
+export async function runValidateFrontmatterMin(
+  doc: string,
+  field: string,
+  opts: { min?: string },
+): Promise<number> {
+  const min = Number(opts.min ?? "1");
+  if (!Number.isFinite(min) || min < 0) return report(false, `validate-frontmatter-min: invalid --min "${opts.min}".`);
+  const r = await frontmatterMin(process.cwd(), doc, field, min);
   return report(r.ok, r.message);
 }

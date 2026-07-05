@@ -16,7 +16,7 @@
     "adr_references": {
       "type": "array",
       "items": { "type": "string", "pattern": "^ADR-\\d{4}$" },
-      "description": "ADR ids the PRD aligns with (Conftest enforces at-least-one for merges)."
+      "description": "ADR ids the PRD aligns with (the Phase-4 exit gate enforces at-least-one)."
     },
     "supersedes": {
       "type": "array",

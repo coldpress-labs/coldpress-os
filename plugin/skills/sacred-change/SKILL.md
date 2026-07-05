@@ -11,7 +11,7 @@ version: "1.0"
 ## Purpose
 
 Sacred documents (`_context/sacred/{context,tech-stack,prd,architecture}.md`) are
-foundational — a change ripples across many downstream deliverables. This skill is
+foundational â a change ripples across many downstream deliverables. This skill is
 the **single** protected change process for all of them (it replaces the five
 per-doc `governance/*-change/workflow.md` prose workflows, which shared one
 skeleton).
@@ -22,7 +22,7 @@ change record at `_context/audit/sacred-changes/`. Prose governance an agent cou
 skip is now a gate an agent cannot skip. (Run `coldpress hook sacred-guard
 --explain` for the hook's contract.)
 
-> PERT charts are **no longer sacred** (desanctified in v0.4 — the story-graph +
+> PERT charts are **no longer sacred** (desanctified in v0.4 â the story-graph +
 > derived waves replace them), so there is no PERT change workflow.
 
 ## When it runs
@@ -46,7 +46,7 @@ Which sacred doc, and what severity?
 
 ### 2. Impact analysis (per target doc)
 
-**context.md** — the root; changes ripple widest:
+**context.md** â the root; changes ripple widest:
 
 | Downstream | Check for |
 |---|---|
@@ -90,10 +90,10 @@ whether a downstream owner (`@architect`, `@pm`) must re-review before proceedin
 
 ### 4. Approval (human gate)
 Present the change, severity, and every downstream impact. The human explicitly
-approves or rejects. **This is a human gate** — Butler does not self-approve a
+approves or rejects. **This is a human gate** â Butler does not self-approve a
 sacred change.
 
-### 5. Emit the approved change record ★ (this is what unblocks the edit)
+### 5. Emit the approved change record â (this is what unblocks the edit)
 
 Write `_context/audit/sacred-changes/CHG-{doc}-{seq}.yaml`, validating against
 `schemas/sacred-change.schema.ts`:
@@ -122,8 +122,8 @@ Every story it lists must have its acceptance re-run before it counts as done
 again. Then cascade the downstream updates identified in Step 2 (architecture,
 code patterns, CI/CD, `coldpress.yaml`, epics/stories) as separate, in-scope work.
 
-> The full requirement→story blast radius activates once P4/P6 artifacts carry
-> requirement IDs (WS4 keying) — the mechanism (`coldpress trace impact`) is wired now.
+> The full requirementâstory blast radius activates once P4/P6 artifacts carry
+> requirement IDs (WS4 keying) â the mechanism (`coldpress trace impact`) is wired now.
 
 ### 7. Log
 Add a Version Control entry to the sacred doc. Set the change record's `status`
@@ -134,7 +134,7 @@ to `applied` once the edit + cascade are complete (audit trail).
 - One record authorizes one document's change. Editing two sacred docs needs two
   records.
 - Escape hatch (logged): `COLDPRESS_OVERRIDE="sacred-guard:<reason>"` bypasses the
-  hook once, loudly — for genuine emergencies, not routine edits.
-- Semantic policy checks on the edited doc still run via `validate-sacred-doc`
-  (Conftest/Rego); structural shape via `validate-schema`. This skill governs the
+  hook once, loudly â for genuine emergencies, not routine edits.
+- Semantic policy checks (PRD references ≥1 ADR, architecture names ≥1 approver)
+  run at the P4/P6 exit gates (`validate-frontmatter-min`); structural shape via `validate-schema`. This skill governs the
   *right to change*; those validate the *result*.

@@ -101,7 +101,7 @@ A `handoff-shape-unclear` NEED_INFO with `context_refs` pointing at a specific s
 
 ### Sacred-doc governance (§5.2)
 
-`validate-sacred-doc` Rego policies can reject a sacred doc whose frontmatter admits ambiguity (missing `approvers[]` on architecture.md). A subagent that would otherwise blunder past the missing field SHOULD emit `<NEED_INFO>` with `kind: architecture-unclear`.
+The Phase-6 exit gate rejects an architecture.md missing `approvers[]`. A subagent that would otherwise blunder past the missing field SHOULD emit `<NEED_INFO>` with `kind: architecture-unclear`.
 
 ---
 

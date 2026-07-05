@@ -15,12 +15,12 @@
     "inputDocuments": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Should include the PRD path; Conftest enforces upstream-reference integrity."
+      "description": "Should include the PRD path."
     },
     "approvers": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Named approvers for architectural changes. Conftest gates architecture.md mutations on at-least-one approver."
+      "description": "Named approvers for architectural changes. The Phase-6 exit gate requires at-least-one approver."
     },
     "adr_references": {
       "type": "array",

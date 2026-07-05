@@ -21,3 +21,6 @@ export type { FrontmatterCheckResult } from "./frontmatter-check.js";
 
 export { validateSchemaLatest } from "./validate-schema-latest.js";
 export type { ValidateSchemaLatestResult } from "./validate-schema-latest.js";
+
+export { frontmatterMin } from "./frontmatter-min.js";
+export type { FrontmatterMinResult } from "./frontmatter-min.js";

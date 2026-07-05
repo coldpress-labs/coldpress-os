@@ -112,6 +112,14 @@
       "severity": "block",
       "command": "coldpress trace orphans --strict",
       "remediation": "Run `coldpress trace orphans` and resolve each finding: map the requirement to a component, add the missing ADR, or resolve the delta."
+    },
+    {
+      "id": "architecture-has-approver",
+      "description": "The architecture doc `_context/sacred/architecture.md` names at least one approver (`approvers[]`). Folds the retired Conftest `architecture_has_approvers` policy into the Phase-6 exit gate — every material architecture change lands with an accountable approver.",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress validate-frontmatter-min _context/sacred/architecture.md approvers --min 1",
+      "remediation": "Add at least one named approver to the architecture.md frontmatter `approvers[]`."
     }
   ],
   "next_phase": "7-breakdown"
