@@ -1,7 +1,7 @@
 ---
 step_number: 3
 step_name: "Derive Candidates"
-step_goal: "Build a tiered candidate list per decision-area, evidence-bound and graph-query-first"
+step_goal: "Build a tiered candidate list per decision-area, evidence-bound and evidence-first"
 halts_for_input: false
 next_step: "step-04-shortlist.md"
 ---

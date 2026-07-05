@@ -21,7 +21,7 @@ Creates, edits, or analyzes agent persona definitions following the coldpress-os
 
 ## Prerequisites
 
-- Agent schema: `../../agents/_schema.md`
+- Agent schema: `../../docs/agent-schema.md`
 - Agent roster: `../../data/agents/agent-roster.csv`
 
 ## Process

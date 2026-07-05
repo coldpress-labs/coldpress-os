@@ -9,11 +9,8 @@ license: "MIT"
 version: "1.1"
 updated: "2026-05-03"
 inputs:
-  graph_queries:
-    - "skill-catalog rows (existing skills inventory)"
   cold_file_reads:
     - "../_schema.md"
-    - "../../data/agents/skill-catalog.csv"
     - "../../authoring/infrastructure/skill.md"
   existence_checks:
     - "authoring/infrastructure/skill.md (authoring standard reference)"
@@ -25,14 +22,11 @@ outputs:
   - artifact: "Workflow + steps (if type=workflow)"
     location: "../{category}/{skill-name}/{workflow.md, steps/}"
     format: "markdown"
-  - artifact: "Updated skill catalog"
-    location: "../../data/agents/skill-catalog.csv"
-    format: "csv"
 ---
 
 ## Purpose
 
-Creates or edits skill definitions following the **coldpress-os SKILL-AUTHORING-STANDARD v0.3.0-alpha** (`authoring/infrastructure/skill.md`). Generates SKILL.md, workflow.md, and step files as needed. Validates against the standard pre-emit. Updates the skill catalog CSV. Refuses to emit skills missing required frontmatter or exceeding the 10KB body cap.
+Creates or edits skill definitions following the **coldpress-os SKILL-AUTHORING-STANDARD v0.3.0-alpha** (`authoring/infrastructure/skill.md`). Generates SKILL.md, workflow.md, and step files as needed. Validates against the standard pre-emit. (Skills are auto-discovered by `build:skills` — no manual catalog to update.) Refuses to emit skills missing required frontmatter or exceeding the 10KB body cap.
 
 ## When to Use (Proactive Triggers)
 
@@ -46,13 +40,11 @@ Creates or edits skill definitions following the **coldpress-os SKILL-AUTHORING-
 
 1. **SKILL.md** at `../{category}/{skill-name}/SKILL.md` — conforming to authoring standard
 2. **workflow.md + steps/** at same dir (if `type: workflow`) — multi-step orchestration
-3. **Updated `data/agents/skill-catalog.csv`** — new row for the skill (slug, category, agent, phase(s), license, version)
-4. **Pre-emit validation report** at `_context/audit/skill-builder-validation-{date}.md` — checks the new/edited SKILL.md against the standard before commit
+3. **Pre-emit validation report** at `_context/audit/skill-builder-validation-{date}.md` — checks the new/edited SKILL.md against the standard before commit
 
 ## Prerequisites
 
 - Skill schema reference: `../_schema.md`
-- Skill catalog: `../../data/agents/skill-catalog.csv`
 - **Authoring standard:** `../../authoring/infrastructure/skill.md` (canonical reference; load this first)
 
 ## Process

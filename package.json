@@ -13,7 +13,6 @@
     "skills",
     "governance",
     "data",
-    "agents",
     "authoring",
     "schemas",
     "docs",
@@ -43,7 +42,8 @@
     "typecheck": "tsc --noEmit",
     "smoke:pack": "bash scripts/ci/pack-smoke.sh",
     "evals": "node dist/cli.js evals --dir evals",
-    "prepublishOnly": "npm run typecheck && npm run build && npm test"
+    "prepublishOnly": "npm run typecheck && npm run build && npm test",
+    "lint:staleness": "tsx src/generators/staleness-lint.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.9.0",

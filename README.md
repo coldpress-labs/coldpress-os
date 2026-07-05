@@ -167,7 +167,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 | [Architecture](docs/architecture.md) | Internal technical reference |
 | [Spec → Plan → Implement → Review mapping](docs/spec-plan-implement-review-mapping.md) | 11-phase Shape A lifecycle grouped under the industry-standard spine |
 | [Agent Skills compatibility](docs/agent-skills-compatibility.md) | How coldpress-os fits the Anthropic Agent Skills ecosystem |
-| [Template Registry](docs/templates-registry.md) | Every template — by category, phase, consuming skill |
+| [Template Registry](TEMPLATES-REGISTRY.md) | Every template — by category, phase, consuming skill |
 | [Skill Discovery Index](docs/skill-index.md) | Every skill grouped by phase + cross-cutting utilities |
 | [Subagent × Phase Matrix](docs/subagent-phase-matrix.md) | 8-subagent × 11-phase reference — which subagents do what in which phases |
 | [Phase → Subfolder Mapping](docs/phase-subfolder-mapping.md) | Canonical `_context/*` destinations per phase |

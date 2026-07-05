@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://coldpressai.com/schemas/audit/course-correction.json",
   "title": "Course Correction (Phase 10)",
-  "description": "Phase 10 course-correction record. Validated-distillate. Authored by @devops (or @scrum-master for sprint-cadence corrections) when operational state diverges from plan and a mid-iteration adjustment is required. Surfaces ops-deltas as side-effect. Lives at `_context/audit/course-correction-v{N}.md`.",
+  "description": "Phase 10 course-correction record. Validated-distillate. Authored by @devops (or @pm for cadence corrections) when operational state diverges from plan and a mid-iteration adjustment is required. Surfaces ops-deltas as side-effect. Lives at `_context/audit/course-correction-v{N}.md`.",
   "type": "object",
   "required": ["schema", "phase", "version", "author_agent", "status", "created_at", "trigger", "diagnosis", "decision", "actions"],
   "properties": {
     "schema": { "const": "schemas/audit/course-correction.json" },
     "phase": { "const": 10 },
     "version": { "type": "integer", "minimum": 1 },
-    "author_agent": { "type": "string", "enum": ["@devops", "@scrum-master", "@developer"] },
+    "author_agent": { "type": "string", "enum": ["@devops", "@pm", "@developer"] },
     "status": { "type": "string", "enum": ["draft", "validated", "superseded"] },
     "created_at": { "type": "string", "format": "date-time" },
     "trigger": {

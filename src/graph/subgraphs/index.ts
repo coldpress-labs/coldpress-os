@@ -12,7 +12,7 @@
  *   - deps                    (CodeModule import graph)
  *
  * Adding a new subgraph: author a builder here, register in
- * SUBGRAPH_REGISTRY, update `docs/graph-visualizer.md` §"Canonical views".
+ * SUBGRAPH_REGISTRY.
  */
 
 import type { Graph } from "../index.js";

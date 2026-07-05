@@ -31,7 +31,7 @@ version: "2.0"
 
 Evaluates technology options for a single decision area (one run per area). Reads the stack shortlist entry for the area to determine which tier applies, then follows the appropriate path: T1 fast-path (pack pre-pick, minimal rubric) or T2/T3 full 6-dimension rubric walk. Produces a versioned, schema-validated ADR.
 
-**6-dimension rubric:** fit / cost / team-familiarity / ecosystem-maturity / lock-in / vibe-fit. Weights tuned per `user.team_shape` + `project_shape` + `product_type` (via condition-reader).
+**6-dimension rubric:** fit / cost / team-familiarity / ecosystem-maturity / lock-in / vibe-fit. Weights tuned per `user.team_shape` + `project_shape` + `product_type` (resolved at dispatch).
 
 ## When to Use
 

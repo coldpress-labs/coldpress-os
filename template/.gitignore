@@ -1,8 +1,8 @@
 # ─── Coldpress runtime state ───────────────────────────────────────
-# .coldpress/ holds the graph index, caches, and other machine-local
-# state that Butler / Graphify create on first use. Never committed;
-# never shipped with the template (dirs are lazy-materialised at
-# init time, not pre-stubbed).
+# .coldpress/ holds machine-local runtime state — runs/ (EventStream
+# run-logs), state.yaml, local-config.yaml, and gate sign-offs — that the
+# framework creates on first use. Never committed; never shipped with the
+# template (dirs are lazy-materialised at init time, not pre-stubbed).
 .coldpress/
 
 # ─── Environment / secrets ─────────────────────────────────────────

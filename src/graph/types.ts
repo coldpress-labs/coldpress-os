@@ -4,7 +4,7 @@
  * The base shape is NetworkX node-link format (`networkx.readwrite.json_graph`).
  * Coldpress-os extends every node with a `coldpress` namespace carrying
  * framework-aware metadata (`node_type`, `env_tag`, `dir_role`, optional
- * `governance`). See docs/graph-schema.md for the full spec.
+ * `governance`).
  */
 
 import { z } from "zod";

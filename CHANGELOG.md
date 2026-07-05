@@ -10,6 +10,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **Dead-code + dead-doc purge, content-stale fixes, staleness lint (S3)** —
+  removed the confirmed-dead modules (checkpoint, tool-signature, condition-reader,
+  graph enrich/secure-manifest/dot/mermaid renderers, two dead schemas) with their
+  paired tests; deleted dead data (skill-catalog.csv, tea-index.csv, design/stacks,
+  aci-primitives) and dead docs (graph-query/schema/visualizer, archetypes-guide,
+  templates-registry, checkpointer, graph-first-context). Fixed the content-stale
+  surfaces to the 8-agent / 4-sacred-doc reality (agent schema rewritten + moved to
+  `docs/agent-schema.md`; the empty `agents/` dir no longer ships). Added a
+  **staleness lint** (`npm run lint:staleness`, CI-enforced) — a retired-token
+  denylist over shipped docs/skills/schemas that catches content rot
+  reference-integrity checks miss; it surfaced and fixed real schema-enum bugs
+  (retired agents in live validation schemas).
+
 - **`templates/` → `authoring/`; ~51 orphaned templates pruned (S2 §8.14)** —
   resolved the long-standing `template/` (scaffold source) vs `templates/`
   (authoring meta-templates) name collision by renaming the latter to

@@ -41,6 +41,12 @@ jobs:
         # `agent:` (the post-§4.5 roster + Butler), and a valid `type`.
         run: npm run lint:frontmatter
 
+      - name: Lint staleness (retired-token denylist)
+        # Catches content rot reference-integrity misses: retired agents cited as
+        # live routing, the desanctified PERT chart, removed `coldpress graph`, and
+        # the old "11 subagents" count — across shipped docs/skills/schemas (WS11 S3).
+        run: npm run lint:staleness
+
       - name: Build CLI
         run: npm run build
 

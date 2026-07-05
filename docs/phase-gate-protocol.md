@@ -21,7 +21,7 @@ version: "1.0"
 | **1. Schema** | Zod definitions for `PhaseGate` + `AcceptanceCheck` + `GateEvaluation` | [`schemas/phase-gate.schema.ts`](../schemas/phase-gate.schema.ts) |
 | **2. Per-phase gate JSON** | One `gate.json` per phase defining exit criteria | `lifecycle/<N>-<phase-dir>/gate.json` (9 files, one per phase) |
 | **3. Evaluator skill** | Runs the checks, emits structured result | [`skills/governance/evaluate-phase-gate/`](../skills/governance/evaluate-phase-gate/) |
-| **4. Orchestrator integration** | Phase transitions gated on evaluator pass | Wired into `wave-orchestration` phase-transition logic |
+| **4. Orchestrator integration** | Phase transitions gated on evaluator pass | Wired into `phase-transition` logic |
 
 ---
 
@@ -123,7 +123,7 @@ Consumers (skills, orchestrator, the `coldpress` CLI) read this structure direct
 Phase transitions are gated on evaluator pass:
 
 ```
-wave-orchestration finishes Wave N of Phase 8
+`coldpress waves` / integration-story finishes Wave N of Phase 8
   ↓
 evaluate-phase-gate (phase=6)
   ↓

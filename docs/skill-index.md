@@ -272,7 +272,7 @@ This index reflects the **current** state. Block V of Wave 4 assigns explicit `s
 
 ## See also
 
-- [`docs/templates-registry.md`](templates-registry.md) — companion Template Registry.
+- [`TEMPLATES-REGISTRY.md`](../TEMPLATES-REGISTRY.md) — companion Template Registry.
 - [`docs/subagent-phase-matrix.md`](subagent-phase-matrix.md) — which subagents are active in which phases.
 - [`REGISTRY.md`](../REGISTRY.md) — high-level framework registry.
 - [`docs/decision-trees.md`](decision-trees.md) — "which skill for which intent" routing.

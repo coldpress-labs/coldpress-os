@@ -10,7 +10,7 @@
     "phase": { "const": 8 },
     "story_id": { "type": "string", "pattern": "^story-[0-9]{3,}$" },
     "version": { "type": "integer", "minimum": 1 },
-    "reviewer": { "const": "@qa" },
+    "reviewer": { "const": "@verifier" },
     "status": { "type": "string", "enum": ["pass", "fail", "in-review"] },
     "findings": {
       "type": "array",

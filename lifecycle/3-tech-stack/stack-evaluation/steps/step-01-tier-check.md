@@ -63,7 +63,7 @@ Proceed to Step 2 with the catalog's `curated_top` entries as the candidate list
 
 **Condition:** `tier: T3` in shortlist entry (no catalog entry, or user rejected all T2 options)
 
-Proceed to Step 2 with the graph-query + web-search candidate universe (from the shortlist evidence brief).
+Proceed to Step 2 with the web-search candidate universe (from the shortlist evidence brief).
 
 ---
 

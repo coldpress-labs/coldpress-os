@@ -32,13 +32,13 @@ Audit filed **2026-04-23** as part of Wave 1 §1.8 (Phase I framework-audit foll
 
 ## `templates/documents/` — partially wired
 
-**Files:** `adr.md`, `architecture.md`, `context.md`, `epic.md`, `pert-chart.md`, `prd.md`, `retrospective.md`, `sprint-status.yaml`, `story.md`, `tech-stack.md`, `ux-design-spec.md`.
+**Files:** `adr.md`, `architecture.md`, `context.md`, `epic.md`, `prd.md`, `retrospective.md`, `sprint-status.yaml`, `story.md`, `tech-stack.md`, `ux-design-spec.md`.
 **Lifecycle references (direct):**
 - `lifecycle/4-planning/create-architecture/steps/step-04-finalize.md` — uses `architecture.md`
 - `lifecycle/4-planning/create-ux-design/steps/step-04-spec.md` — uses `ux-design-spec.md`
 - Additional referential links in `docs/flow-map.md`.
 
-**Status:** partially wired. The five sacred-doc templates (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`, `pert-chart.md`) are *conceptually* the reference shape of each sacred document, but only two are cited by their authoring skill's step files today. The other three are reference-only in the lifecycle code path.
+**Status:** partially wired. The four sacred-doc templates (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`) are *conceptually* the reference shape of each sacred document, but only two are cited by their authoring skill's step files today. The other two are reference-only in the lifecycle code path.
 **Disposition at Wave 4 §4.7:** connect every sacred-doc authoring skill to its template explicitly so the Template Registry is complete. Non-sacred doc templates (`epic.md`, `story.md`, `retrospective.md`, `sprint-status.yaml`, `adr.md`) likely stay in this folder and gain explicit step-file references.
 
 ---

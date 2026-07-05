@@ -55,7 +55,6 @@ At `authoring/governance/policies/`:
 |-------------|------------------|
 | `prd_has_adr.rego` | `workflowType == "prd"` docs MUST have ≥1 `adr_references[]` entry matching `^ADR-\d{4}$`. |
 | `architecture_has_approvers.rego` | `workflowType == "architecture"` docs MUST have ≥1 `approvers[]` entry. |
-| `pert_references_architecture.rego` | `workflowType == "pert-chart"` docs MUST list `architecture.md` under `inputDocuments[]`. |
 
 Adding a new policy: drop a new `.rego` file under `authoring/governance/policies/`, restart Conftest. No registry update required.
 
