@@ -57,9 +57,11 @@ export const frameworkDirs = [
   "governance",
   "data",
   "authoring",
-  "docs",
   "plugin",
 ] as const;
+// NOTE: `docs/` is NOT copied wholesale (732 KB of framework-internal docs per
+// project — WS11 S6). `copyFramework` copies only the CONSUMER_DOCS subset; the
+// rest stays on GitHub.
 
 /**
  * Top-level framework files that accompany the framework dirs into the
@@ -70,9 +72,33 @@ export const frameworkFiles = [
   "LICENSE",
   "NOTICE.md",
   "README.md",
-  "CHANGELOG.md",
   "REGISTRY.md",
   "CONTRIBUTING.md",
   "CODE_OF_CONDUCT.md",
   "SECURITY.md",
+] as const;
+// NOTE: `CHANGELOG.md` is deliberately NOT copied into consumer projects
+// (192 KB of framework release history per project — WS11 S6). It ships in the
+// npm package + lives on GitHub.
+
+/**
+ * The framework docs worth shipping into each consumer project (WS11 S6). The
+ * scaffold's CLAUDE.md/SYSTEM.md reference butler/decision-trees/flow-map/
+ * need-info-protocol; the rest are consumer-useful references (governance, the
+ * secure pattern, quick-start, troubleshooting, glossary, agent + subagent
+ * customization). Everything else in `docs/` stays framework-internal (on GitHub).
+ */
+export const consumerDocs = [
+  "butler.md",
+  "decision-trees.md",
+  "flow-map.md",
+  "need-info-protocol.md",
+  "governance.md",
+  "secure-pattern.md",
+  "quick-start.md",
+  "troubleshooting.md",
+  "glossary.md",
+  "agent-schema.md",
+  "subagent-customization.md",
+  "phase-gate-protocol.md",
 ] as const;

@@ -98,8 +98,12 @@ describe("end-to-end scaffold (template + framework + plugin)", () => {
     // notes) must NEVER be copied into a consumer project — it is framework-repo
     // state, not framework content (WS11 S2).
     await expect(stat(join(targetDir, "coldpress-os/docs/overhaul"))).rejects.toThrow();
-    // …but other framework docs still ship into the project.
+    // …but the consumer-docs subset still ships (WS11 S6).
     await expect(stat(join(targetDir, "coldpress-os/docs/butler.md"))).resolves.toBeTruthy();
+    // Scaffold diet (WS11 S6): CHANGELOG.md is not copied, and only the consumer
+    // docs subset ships (not the 732 KB of framework-internal docs).
+    await expect(stat(join(targetDir, "coldpress-os/CHANGELOG.md"))).rejects.toThrow();
+    await expect(stat(join(targetDir, "coldpress-os/docs/security-gate.md"))).rejects.toThrow();
 
     // Skills ship via the self-contained plugin — NOT init-time wrappers (WS5-C,
     // §8 item 8). No `.claude/skills/` wrapper tree is generated.

@@ -1,6 +1,6 @@
 import { access, cp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { join, sep } from "node:path";
-import { frameworkDirs, frameworkFiles, packageRoot, templateDir } from "./paths.js";
+import { consumerDocs, frameworkDirs, frameworkFiles, packageRoot, templateDir } from "./paths.js";
 
 export interface ScaffoldOptions {
   projectName: string;
@@ -107,6 +107,16 @@ export async function copyFramework(targetDir: string): Promise<void> {
     const src = join(packageRoot, file);
     if (!(await exists(src))) continue;
     await cp(src, join(frameworkTarget, file));
+  }
+
+  // Consumer docs subset (WS11 S6) — the scaffold-referenced + consumer-useful
+  // docs only, not the 732 KB of framework-internal docs. The rest is on GitHub.
+  const docsTarget = join(frameworkTarget, "docs");
+  await mkdir(docsTarget, { recursive: true });
+  for (const doc of consumerDocs) {
+    const src = join(packageRoot, "docs", doc);
+    if (!(await exists(src))) continue;
+    await cp(src, join(docsTarget, doc));
   }
 }
 
