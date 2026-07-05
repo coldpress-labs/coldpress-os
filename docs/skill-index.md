@@ -8,7 +8,7 @@ version: "1.0"
 
 > The skill tree is organized by category (`creative/`, `ops/`, `reviews/`, etc.) — good for authoring, bad for discovery. When a subagent needs the right skill for Phase N, it wants "skills active in Phase N" not "ops skills." This index fills that gap.
 
-**Source decision:** [framework-audit-2026-04-23.md §1 "Discoverability gap"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md).
+**Source decision:** framework-audit-2026-04-23.md §1 "Discoverability gap".
 
 **How to use:**
 - Looking for the canonical skill for a phase → scan the "Primary in phase X" section.

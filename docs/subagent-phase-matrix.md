@@ -10,7 +10,7 @@ version: "2.0"
 
 > **Hello Butler.** Butler (the main Claude Code session) reads this matrix at dispatch time to decide which subagent to invoke for a given phase + skill combination.
 
-**Source decision:** [framework-audit-2026-04-23.md "Discoverability gap"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md).
+**Source decision:** framework-audit-2026-04-23.md "Discoverability gap".
 
 **Axes:** 8 subagents (rows) × 11 phases (columns, Shape A — Design (P5) and Architecture (P6) split out from old P4; old phases 5-9 cascade-renamed to 7-11; @devops added for P9+P10 in two phase-modes; @reviewer added for P11).
 **Cell contents:** primary role in that phase + skills invoked, or `—` for "not active."

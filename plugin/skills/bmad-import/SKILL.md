@@ -13,7 +13,7 @@ Translate a [BMAD](https://github.com/bmadcode/BMAD-METHOD) module (orchestrator
 
 **Explicit non-goal: full behavioural fidelity.** BMAD's runtime orchestration (task-file dispatch, inter-agent message passing, `<commands>` blocks) does not carry over. Imported outputs are structural placeholders with the original prose preserved; **review + port step-level behaviour manually** before relying on them.
 
-**Source decision:** [tier3-positioning-brief-2026-04-22.md §8.3](../../../lab-hq-projects/hq-p001-coldpress-os/docs/tier3-positioning-brief-2026-04-22.md) — the bmad-import bridge is strategic: it gives BMAD users a one-time off-ramp into coldpress-os without forcing them to re-author from scratch.
+**Source decision:** tier3-positioning-brief-2026-04-22.md §8.3 — the bmad-import bridge is strategic: it gives BMAD users a one-time off-ramp into coldpress-os without forcing them to re-author from scratch.
 
 ## When to Use
 

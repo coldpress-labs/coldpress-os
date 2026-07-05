@@ -8,7 +8,7 @@ version: "1.0"
 
 > Before this protocol, security review at Phase 9 was prose — "@qa does an OWASP top-10 walk". Prose is unauditable; scanners give signal but only if they speak the same schema. This doc specifies the §5.1 classical security stack: five scanners, one schema, one aggregator — composed into a single `acceptance_check` inside `lifecycle/9-deployment/gate.json`.
 
-**Source decision:** [framework-audit-2026-04-23.md §5.1](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md) + [oss-integration-survey-2026-04-22.md Tier 1 §1.4](../../../lab-hq-projects/hq-p001-coldpress-os/docs/oss-integration-survey-2026-04-22.md).
+**Source decision:** framework-audit-2026-04-23.md §5.1 + oss-integration-survey-2026-04-22.md Tier 1 §1.4.
 
 ---
 

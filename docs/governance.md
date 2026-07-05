@@ -8,7 +8,7 @@ version: "1.0"
 
 > The sacred docs (`context.md`, `tech-stack.md`, `prd.md`, `architecture.md`) are the load-bearing artefacts of a coldpress-os project — downstream skills consume them as contracts. (The lite lane collapses these to a single `spec.md`.) Before this protocol, their frontmatter was prose-regulated. This doc specifies the governance layer: Ajv validates shape; Conftest validates semantics; ADRs anchor decisions; RFCs propose them.
 
-**Source decision:** [framework-audit-2026-04-23.md §9](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md) + [oss-integration-survey-2026-04-22.md Tier 1 §1.5](../../../lab-hq-projects/hq-p001-coldpress-os/docs/oss-integration-survey-2026-04-22.md).
+**Source decision:** framework-audit-2026-04-23.md §9 + oss-integration-survey-2026-04-22.md Tier 1 §1.5.
 
 ---
 

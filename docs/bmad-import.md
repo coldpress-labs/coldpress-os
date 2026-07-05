@@ -8,7 +8,7 @@ version: "1.0"
 
 > BMAD (`BMAD-METHOD`) and coldpress-os are adjacent frameworks with overlapping intent and divergent conventions. Users who've invested in BMAD modules — CIS, WDS, `bmm`, or custom — shouldn't have to re-author from scratch when switching. This doc specifies a one-way, lossy, auditable off-ramp.
 
-**Source decision:** [tier3-positioning-brief-2026-04-22.md §8.3](../../../lab-hq-projects/hq-p001-coldpress-os/docs/tier3-positioning-brief-2026-04-22.md) + [bmad-family-positioning-brief-2026-04-23.md](../../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) §Q5.
+**Source decision:** tier3-positioning-brief-2026-04-22.md §8.3 + bmad-family-positioning-brief-2026-04-23.md §Q5.
 
 ---
 
@@ -95,7 +95,7 @@ Written at `coldpress-os/skills/meta/bmad-imports/<module>/ATTRIBUTION.md` on ev
 
 ## Why not MetaGPT import
 
-Per the [BMAD-family positioning brief §Q5](../../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md), MetaGPT encodes agents as Python classes with inline prompts and hard-coded orchestration. It is adapter-hostile: there is no declarative surface to translate. Porting would require a full Python-class-to-coldpress-agent semantic transpiler, which is out of scope and likely always will be. **MetaGPT inbound is deferred indefinitely.**
+Per the BMAD-family positioning brief §Q5, MetaGPT encodes agents as Python classes with inline prompts and hard-coded orchestration. It is adapter-hostile: there is no declarative surface to translate. Porting would require a full Python-class-to-coldpress-agent semantic transpiler, which is out of scope and likely always will be. **MetaGPT inbound is deferred indefinitely.**
 
 Separately, MetaGPT's valuable ideas (prompt patterns, `<NEED_INFO>` style dehallucination) are ported as discrete patterns, not as a wholesale import bridge — see Block AA (`<NEED_INFO>` protocol, §5.4) and the prompt-pattern migrations in Wave 6.
 

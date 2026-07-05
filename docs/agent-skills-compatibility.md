@@ -13,8 +13,8 @@ This doc is the one-surface reference for how coldpress-os fits into the Anthrop
 > **Hello Butler.** Butler is the framework's main orchestrator (the default Claude Code session running with CLAUDE.md as its directive — see [`butler.md`](butler.md)). Butler dispatches the 8 subagents and runs the gates between Shape A's 11 phases. Anthropic Agent Skills compatibility is at the *skill* layer — Butler and the orchestration spine sit on top.
 
 **Source decisions:**
-- [anthropic-skills-analysis-2026-04-23.md](../../../lab-hq-projects/hq-p001-coldpress-os/docs/anthropic-skills-analysis-2026-04-23.md) — format / distribution / vocabulary strategy.
-- [fourth-pass-oss-survey-2026-04-23.md §2.13](../../../lab-hq-projects/hq-p001-coldpress-os/docs/fourth-pass-oss-survey-2026-04-23.md) — Agent SDK compatibility declaration.
+- anthropic-skills-analysis-2026-04-23.md — format / distribution / vocabulary strategy.
+- fourth-pass-oss-survey-2026-04-23.md §2.13 — Agent SDK compatibility declaration.
 
 ---
 
