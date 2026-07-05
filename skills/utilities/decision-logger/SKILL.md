@@ -4,6 +4,7 @@ description: "Lightweight ADR companion. Capture non-architectural decisions (pr
 type: "simple"
 category: "utilities"
 agent: "pm"
+on-demand: true   # WS11 S4: invoked directly (no lifecycle route) — audited keep
 phases: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 license: "MIT"
 version: "1.0"

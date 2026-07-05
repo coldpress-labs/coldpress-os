@@ -1,8 +1,11 @@
 /**
  * Validate a handoff sidecar against the schema declared in the registry.
  *
- * Used internally by skills (via a future `coldpress validate-handoff`
- * command — wiring to the CLI surface lands in a later Wave 3 block / Wave 4).
+ * WS11 S4 decision (wire-or-archive): **kept as the typed programmatic API.**
+ * It validates a handoff packet against `HANDOFF_SCHEMAS` *by handoff id*; the
+ * `schema-validate` hook already covers *path-based* doc/data validation via
+ * `validateDocSchema`, so a separate `coldpress validate-handoff` CLI verb would
+ * be redundant. Handoff-authoring skills import this directly.
  * Public API:
  *
  *   validateHandoff("prd-to-architecture", sidecar) → ValidationResult

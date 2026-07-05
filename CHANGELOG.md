@@ -10,6 +10,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **`coldpress llm-normalize` — LLM-eval gates are reachable (S4)** — added a CLI
+  verb exposing the `src/llm-gates/` normalizers (DeepEval / Giskard / Promptfoo →
+  the canonical `ScanResult` the security aggregator consumes). They were
+  tested-but-unreachable, so `verify_pack: llm-app` and the Phase-9 LLM gate skills
+  had no code path to the normalization they describe; those skills now invoke the
+  verb. Also resolved the rest of the wire-or-archive audit: dropped the orphaned
+  `dev-story-output` schema (no producer), and documented the kept modules
+  (need-info protocol, handoff validator, supersession flow) + marked the on-demand
+  utility skills with an explicit `on-demand: true` frontmatter marker.
+
 - **Dead-code + dead-doc purge, content-stale fixes, staleness lint (S3)** —
   removed the confirmed-dead modules (checkpoint, tool-signature, condition-reader,
   graph enrich/secure-manifest/dot/mermaid renderers, two dead schemas) with their

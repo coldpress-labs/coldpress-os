@@ -32,6 +32,7 @@ import { runWaves } from "./commands/waves.js";
 import { type InitInput, runInit } from "./commands/init.js";
 import { runRunInspect, runRunList } from "./commands/run.js";
 import { runSecurityAggregate } from "./commands/security.js";
+import { runLlmNormalize } from "./commands/llm-normalize.js";
 import { runUpdate } from "./commands/update.js";
 import { packageRoot } from "./utils/paths.js";
 
@@ -453,6 +454,16 @@ program
   .option("--after-key <key>", "local-config key holding the phase-start timestamp", "phase_3_started_at")
   .action(async (opts: { afterKey?: string }) => {
     process.exit(await runGateCheckSupersessions(opts));
+  });
+
+program
+  .command("llm-normalize <tool> <raw-file>")
+  .description("Normalize a native LLM-eval tool's output (deepeval|giskard|promptfoo) into a ScanResult the security aggregator consumes (§5.5, verify_pack: llm-app).")
+  .option("--target <name>", "the eval target name recorded in the ScanResult", "llm-app")
+  .option("--fail-severity <sev>", "severity assigned to failing metrics: critical|high|medium|low|info", "high")
+  .option("--out <path>", "write the ScanResult here (default: stdout)")
+  .action((tool: string, rawFile: string, opts: { target?: string; failSeverity?: string; out?: string }) => {
+    process.exit(runLlmNormalize(tool, rawFile, opts));
   });
 
 program
