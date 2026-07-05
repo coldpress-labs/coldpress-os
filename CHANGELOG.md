@@ -10,6 +10,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
+- **`coldpress doctor --structure` — a standing structure guard (§S7.7)** — turns
+  the structure-hygiene audit into a CI check (like the wiring manifest did for
+  producer/consumer seams): every shipped `files:` path exists, every `data/` file
+  has a reader, every skill is routed or explicitly `on-demand: true`, and no
+  framework-internal state leaks into the package or a scaffold. Enforced by a test
+  so a future regression fails the build.
+
 - **Lighter scaffold (S6)** — `coldpress init` no longer copies the framework's
   732 KB of internal docs (only a 12-file consumer subset ships; the rest is on
   GitHub) or the 192 KB `CHANGELOG.md` into every project; a scaffold drops from
