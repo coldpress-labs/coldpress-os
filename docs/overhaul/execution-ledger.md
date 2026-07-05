@@ -24,7 +24,7 @@ framework repo (`coldpress-os/`). Executor: **Butler**. Protocol: plan §0.1 (bi
 | WS8 | Operate with substance | 🟢 closed | `overhaul/ws8-operate` | 2026-07-03 |
 | WS9 | Profiles, proposal mode & compounding | 🟢 closed | `overhaul/ws9-profiles` | 2026-07-03 |
 | WS10 | Connective tissue (system-integration audit) | 🟢 closed | `overhaul/ws10-*` | 2026-07-04 |
-| WS11 | Structure & Diet (structure-hygiene audit) | 🟡 in progress | `overhaul/ws11-*` | — |
+| WS11 | Structure & Diet (structure-hygiene audit) | 🟢 closed | `overhaul/ws11-*` | 2026-07-05 |
 
 Legend: ⚪ not started · 🟡 in progress · 🟢 green/closed · 🔴 blocked/amber
 
@@ -46,16 +46,21 @@ dropped, 4 keeps documented) · **S6a 🟢** (`overhaul/ws11-s6-scaffold-diet`, 
 docs subset + CHANGELOG drop + reviewer fix; 6.4→5.2 MB; skills/ + lane-aware
 lifecycle = S6b, deferred for ripple-safe design) · **§S7.7 guards 🟢**
 (`overhaul/ws11-s7-guards`, D52 — `doctor --structure` + CI-enforced structure test).
-**WS11 core is executed** (S1–S4, S5a, S6a, guards). Remaining deferrals: S5b
-(registry catalog rewrite), S6b (skills/ trim + lane-aware lifecycle), Conftest Q.
+**WS11 CLOSED (2026-07-05).** S1–S4, S5a, S6a, and the §S7.7 structure guard all
+applied + merged (D38–D53), and the Conftest open question resolved (D53 — retire +
+gate-fold). Two items carry past the close: **S5b** (registry/tabular-doc content
+rewrite — a **pre-tag** docs item, executed in D55) and **S6b** (skills/ trim +
+lane-aware lifecycle — a post-v0.4.0 optimization, deferred by design). See the
+open-items register (`../docs/open-items-register-2026-07-05.md`).
 
-**All WS0–WS9 merged to main (2026-07-03).** Post-overhaul work landed on main since:
+**All WS0–WS11 merged to main.** Post-overhaul work landed on main across the cycle:
 D7 dep-hygiene, PERT-schema-chain excision + D18 close, D10 BMAD adopts sweep,
-optional deploy packs (netlify + self-hosted), and the post-audit **Fix pass**
-(F1 agent-routing · F4 CHANGELOG + this board · F5 small builds · F7 leftovers) —
-see the post-overhaul sections at the foot of this ledger. Remaining before v0.4.0
-tag: the §12 runtime demos (need a live estate project) + the docs/public-accuracy
-pass (audit F2/F3/F6).
+optional deploy packs (netlify + self-hosted), the post-audit **Fix pass** (F1–F7 —
+all applied: F2/F3/F6 = D23/D24/D25), WS10 connective tissue (D26–D37), and WS11
+structure & diet (D38–D53). **Remaining before the v0.4.0 tag:** S5b (the
+registry/tabular-doc rewrite — D55) + the **§12 runtime demos** via the two
+validation projects (the only true ship-gate blocker; all machinery built + wired +
+CI-guarded).
 
 ---
 
@@ -67,6 +72,7 @@ pass (audit F2/F3/F6).
 
 | # | Type | Summary | Status |
 |---|------|---------|--------|
+| D54 | Close-out §A (ledger bookkeeping) | Post-WS11 close-out per `../docs/open-items-register-2026-07-05.md` §A. (1) Status board: WS11 🟡 in progress → **🟢 closed** (2026-07-05). (2) Rewrote the stale intro header — it still listed "the docs/public-accuracy pass (audit F2/F3/F6)" as pre-tag-remaining, but F2/F3/F6 = D23/D24/D25 (applied); corrected the pre-tag remainder to **S5b (D55) + the §12 validation projects**, and the merge line to "All WS0–WS11 merged." (3) Struck the resolved "Conftest Q" from the WS11 progress note (D53). Bookkeeping only; no code. | **applied (`overhaul/ws11-closeout`)** |
 | D53 | WS11 open-Q resolved — Conftest/rego governance: **retire + gate-fold** | The §8.14 open question (finish wiring Conftest or retire). Investigation: the 2 rego policies (`prd_has_adr`, `architecture_has_approvers` — "PRD refs ≥1 ADR", "architecture names ≥1 approver") were **never executed** (no code invokes Conftest — inert), Conftest is an external Go binary consumers would have to install, and the JSON schemas deliberately left `adr_references`/`approvers` optional *because* Conftest was meant to enforce the "≥1". **User walkthrough → chose retire-and-fold; then a second finding surfaced a fork:** folding "≥1" into the always-on base schema is unsafe because the `schema-validate` **PostToolUse hook denies the write** (`kind: "deny"`) — a base-schema `required` would block saving an in-progress PRD/architecture before its ADRs/approvers exist. **User chose "retire + gate-check fold"** (preserve the rules at phase-exit timing). Built `validate-frontmatter-min <doc> <field> --min <n>` gate verb (`src/gate/checks/frontmatter-min.ts` + wrapper + registration) + added block-severity checks to `4-planning/gate.json` (prd adr_references ≥1) + `6-architecture/gate.json` (architecture approvers ≥1) — same enforcement, correct moment, no external dependency. Deleted the 2 `.rego` files + the `validate-sacred-doc` skill (Conftest was its only engine; plugin 142→141) + the empty `policies/` dir. Repointed **every** Conftest/rego/validate-sacred-doc reference (sacred-change + validate-schema skills, create-prd, `docs/governance.md` §2 + enforcement-loop + extending sections, scaffolded `template/docs/adr/{0000-use-adr,README}`, `need-info-protocol`, the prd/architecture schema descriptions, the `validate-schema.ts` comment). +5 tests. `rfc-amendment.md` kept (RFC template, not Conftest). **Green:** typecheck, **924 tests**, check:drift, lint:frontmatter, lint:staleness, build. | **applied (`overhaul/ws11-conftest-retire`)** |
 | D52 | WS11-§S7.7 (structure guard) | Audit §S7.7: convert the structure-hygiene findings into a standing guard (as the wiring manifest did for producer/consumer seams). Built `src/structure/check.ts` (`checkStructure(): CheckResult[]`) + wired into `coldpress doctor --structure`, with four invariants: (1) every `package.json` `files:` path exists on disk (catches a dir removed but left in `files:` — how stale `agents/` lingered); (2) every `data/` file has a reader (basename/stem **or containing-dir** reference — many skills load a whole `data/<x>/` dir); (3) every `skills/` skill has an inbound route OR `on-demand: true` (pack skills are pack-routed and skipped); (4) no framework-internal state (`docs/overhaul`) leaks into the npm package (`files:` has `!docs/overhaul`) or the scaffold (`frameworkDirs` doesn't copy `docs/` wholesale; `consumerDocs` names no internal doc) — guards the S2 fix. Tuned out three false-positive classes on first run: dir-level data consumption, pack-routed skills, and inline-comment `on-demand:` markers (the frontmatter parser now strips ` # …`). Marked `agent-builder` `on-demand: true` (the last genuine meta-tool orphan; template-/workflow-builder already were). CI-enforced via `test/structure-check.test.ts` (asserts zero error + zero warning findings), so a future regression fails `npm test`. **Green:** typecheck, **919 tests** (+3), check:drift, lint:frontmatter, lint:staleness, build. Live tree: 16 shipped paths, 36 data files, 81 `skills/` skills — all clean. | **applied (`overhaul/ws11-s7-guards`)** |
 | D51 | WS11-S6a (scaffold diet — safe trims) + **ripple findings** | Audit S6 (post-install diet, baseline 6.4 MB). **Done (safe, no ripple):** (1) **docs subset** — `docs/` (732 KB, 45 files) is no longer copied wholesale; `copyFramework` copies only the 12-file `consumerDocs` set (butler/decision-trees/flow-map/need-info-protocol — scaffold-referenced — + governance/secure-pattern/quick-start/troubleshooting/glossary/agent-schema/subagent-customization/phase-gate-protocol); the rest stays on GitHub. (2) **CHANGELOG.md not copied** (192 KB/project — removed from `frameworkFiles`). (3) **reviewer.md schemas ref** repointed (it pointed at `coldpress-os/schemas/` which is never copied — now prose: "shipped with `@coldpress/core`, CLI-enforced"). Scaffold **6.4 MB → 5.2 MB** verified via a real `init`; +2 regression assertions (CHANGELOG absent, non-consumer doc absent). **Findings (why the two biggest trims are NOT in this pass — the audit's one-liners hid ripples):** (a) **`skills/` source (~1.1 MB) is not purely redundant** — the plugin flattens skills by name (`plugin/skills/<name>/`) while source is categorized (`skills/<cat>/<name>/`), so the 4 SYSTEM.md/CLAUDE.md category-path refs can't be prefix-swapped; and `bmad-import`/`skill-builder` **author INTO** the source tree (the plugin is read-only generated), so it's the skill-authoring write target. (b) **lane-aware `lifecycle/` (~1.2 MB)** is coupled to SYSTEM.md, which routes to the full-lane `lifecycle/1-11`; trimming for lite requires a **lane-aware SYSTEM.md** (a bigger, `init`-critical change). Both deferred to a focused **S6b** (not rushed — breaking `coldpress init` would be worse than the size). data/testing (44 KB) left copied — its `teach-me-testing`/`test-review` consumers would break for a 44 KB gain. **Green:** typecheck, **916 tests**, check:drift, scaffold test. | **applied (`overhaul/ws11-s6-scaffold-diet`); S6 partial** |
