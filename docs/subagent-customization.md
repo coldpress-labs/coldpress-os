@@ -245,45 +245,6 @@ Unsafe (sequential required):
 
 ---
 
-## Advanced: Graph-first context gathering
-
-Starting in v0.3, skills that gather project context (sacred docs, code modules, reviews) prefer the Graphify-built knowledge graph over direct filesystem reads when it's warm. The pattern is small and reproducible — if you're authoring a new skill or customising an existing one, follow it.
-
-### The three-step contract
-
-Skills that need project context shell out to `coldpress graph query` via the Bash tool, then fall back to direct reads on exit code `2` (no graph yet):
-
-```bash
-# Step 1 — try the graph.
-coldpress graph query --node-type SacredDoc --format json > /tmp/q.json
-RC=$?
-
-if [ $RC -eq 0 ]; then
-    # Step 2 — use the graph result. data[].source_file is the canonical
-    # path list; each hit carries enriched metadata (env_tag, dir_role,
-    # community id) you'd otherwise re-derive.
-    jq -r '.data[].source_file' /tmp/q.json | while read path; do
-        # ... process path ...
-    done
-
-elif [ $RC -eq 2 ]; then
-    # Step 3 — no graph yet; fall back to direct scan.
-    ls _context/sacred/*.md | while read path; do
-        # ... same processing ...
-    done
-
-else
-    # Exit 1 = schema error / unexpected failure. Don't fall back — surface
-    # the error to the user so they can fix the graph, not paper over it.
-    echo "coldpress graph query failed (exit $RC)" >&2
-    exit 1
-fi
-```
-
-**Why exit code 2 vs 1 matters:** skills use the `2` signal as a soft "not warmed up yet — do it the slow way." Exit `1` means something broke and guessing would produce bad output. Keep the distinction; don't collapse them into "anything non-zero means fall back."
-
----
-
 ### Version Control
 
 | Version | Date | Author | Changes |

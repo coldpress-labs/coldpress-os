@@ -14,7 +14,6 @@ inputs:
     - "adrs"
     - "epics-v{latest}"
     - "stories-index"
-    - "pert-chart"
     - "sprint-status-v{latest}"
     - "prototype-manifest"
     - "legacy-migration-plan-v{latest}"
@@ -25,7 +24,6 @@ inputs:
     - "all per-story files (validation traversal)"
   existence_checks:
     - "sprint-status-v{latest} exists"
-    - "pert-chart sacred + locked"
 outputs:
   - artifact: "Implementation Readiness Report"
     location: "_context/audit/implementation-readiness-v{N}.md"

@@ -68,7 +68,6 @@ See `gate.json` (9 acceptance checks — was 11, undercounted as "10" even befor
 - `architecture-locked` re-verified
 - `epics-validated`
 - `stories-validated` (per-story files + index)
-- `pert-chart-sacred` (PERT is sacred-doc)
 - `sprint-status-validated`
 - **`implementation-readiness-pass`** (9-point structured checklist)
 - `prd-user-story-coverage-complete`

@@ -70,8 +70,7 @@ Butler runs two skills when you open Claude Code for the first time:
   2. **Shape determination** — inspects `_input/legacy/` to classify `project_shape` as `greenfield` or `brownfield`.
   3. **Intent seed** — asks for one sentence describing the project; writes `_context/sacred/context.md` with frontmatter + `status: seed`.
   4. **Working mode** — four quick questions: preferred IDEs, cadence (silent/summary/verbose), team shape (solo/team/client-project), Butler's display name.
-  5. **Graph prime** — runs `coldpress graph rebuild`; warn-not-block on failure (orient retries next session).
-  6. **Gate and route** — runs the 6-check Phase 1 exit gate; on pass, writes a handoff artefact and dispatches `@analyst pre-project-interview` (Phase 2).
+  5. **Gate and route** — runs the 6-check Phase 1 exit gate; on pass, writes a handoff artefact and dispatches `@analyst` (Phase 2).
 
 ### What you have after Phase 1
 

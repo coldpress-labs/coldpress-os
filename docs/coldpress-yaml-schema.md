@@ -231,10 +231,6 @@ Validated by `src/utils/local-config-validator.ts`. Read/write helpers in `src/u
 
 Every intake step writes `partial_completion` before starting its work; on clean exit, it calls `clearStepMarker()`. If a step crashes mid-way, the marker persists, and on next Butler boot `orient` Step 0 reads it and resumes at `step_id`. Safe by construction because each step's first action re-checks its preconditions.
 
-### Graph-prime failure recovery
-
-`intake` Step 5 (`graph-prime`) is *warn-not-block*: if `coldpress graph rebuild` fails, Step 5 writes `needs_graph_rebuild: true` + `graph_rebuild_error: "<reason>"` and continues. On next session, `orient` Step 0 sees the flag, surfaces the error, and prompts retry — on success it clears both fields.
-
 ---
 
 ## See also
