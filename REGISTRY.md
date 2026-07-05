@@ -1,31 +1,34 @@
 # REGISTRY.md — coldpress-os
 
-> Auto-generated registry of all agents, skills, lifecycle phases, and data assets.
-> Source of truth for what exists in this framework.
+> Registry of all agents, skills, lifecycle phases, and data assets — the source
+> of truth for what exists in this framework.
 >
-> **Do not edit manually.** Regenerate with `install/generate-registry.md`.
+> Hand-maintained. The agent roster is derived to `data/agents/agent-roster.csv`
+> (`build:roster`); the staleness lint (`npm run lint:staleness`, CI-enforced)
+> guards this file against retired-agent / PERT / removed-command rot.
 
 ---
 
-## Subagents (11)
+## Subagents (8)
 
-> Consolidated from 19 legacy personas, plus post-schema additions (@reviewer, @devops). Each subagent runs as an independent Claude Code agent with its own context window. Defined in `template/.claude/agents/`.
+> The v0.4 roster (post-surgery). Each subagent runs as an independent Claude Code
+> agent with its own context window. Defined in `template/.claude/agents/`.
 
-| Subagent | Slug | Model | Primary Phases | Merges |
-|----------|------|-------|----------------|--------|
-| Analyst | `analyst` | sonnet | 2, 4 | vera, moxie, nova, leni, iggy, crux |
-| PM | `pm` | sonnet | 4, 7 | rex |
-| UX Designer | `ux-designer` | sonnet | 5 | iris, lyla |
-| Architect | `architect` | opus | 3, 6 | arch, crux (tech) |
-| Developer | `developer` | sonnet | 8 | cody, blitz |
-| QA | `qa` | sonnet | 8, 9 | abby, zane |
-| Scrum Master | `scrum-master` | haiku | 7, 10 | atlas |
-| Communicator | `communicator` | sonnet | 4, 10 | granger, quill, kai |
-| Reviewer | `reviewer` | sonnet | 11 | _post-schema addition_ |
-| DevOps | `devops` | sonnet | 9, 10 | _post-schema addition_ |
-| Valet | `valet` | sonnet | meta | valet |
+| Subagent | Slug | Model | Primary Phases |
+|----------|------|-------|----------------|
+| Analyst | `analyst` | sonnet | 2 |
+| Architect | `architect` | opus | 3, 6 |
+| PM | `pm` | sonnet | 4, 7 |
+| UX Designer | `ux-designer` | sonnet | 5 |
+| Developer | `developer` | sonnet | 8 |
+| Verifier | `verifier` | sonnet | 8 |
+| DevOps | `devops` | sonnet | 9, 10 |
+| Reviewer | `reviewer` | opus | 11 |
 
-> Legacy personas were moved out of the framework in v0.1 (estate Decision #20) — they live at project level in `hq-p001-coldpress-os/legacy/agents-archive/`, not shipped with the public framework. See `agents/_schema.md` for the new subagent format.
+> v0.4 roster surgery: `@qa` → `@verifier`; `@scrum-master` → `@pm` + `coldpress waves`;
+> `@communicator` → forkable creative skills; `@valet` → the framework-internal loop.
+> The historical 19-persona files live at project level in `legacy/agents-archive/`,
+> not shipped with the public framework. See `docs/agent-schema.md` for the format.
 
 ---
 
