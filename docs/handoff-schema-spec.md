@@ -8,7 +8,7 @@ version: "1.0"
 
 > Every phase boundary in coldpress-os is a handoff. The two **high-stakes** handoffs (PRD → architecture, stories → implementation) carry a typed sidecar validated by a Zod schema; validation failure blocks the phase transition. This doc is the contract.
 
-**Source decision:** [bmad-family-positioning-brief-2026-04-23.md](../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) — MetaGPT's `cause_by` + `instruct_content` patterns ported as **convention**, not code. No pub/sub runtime.
+**Source decision:** bmad-family-positioning-brief-2026-04-23.md — MetaGPT's `cause_by` + `instruct_content` patterns ported as **convention**, not code. No pub/sub runtime.
 
 ---
 

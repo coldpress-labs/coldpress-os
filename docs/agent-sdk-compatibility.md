@@ -6,7 +6,7 @@ version: "1.0"
 
 # Agent SDK Compatibility
 
-> Coldpress-os ships its own custom DAG orchestrator (rationalised in [oss-integration-survey-2026-04-22.md](../../../lab-hq-projects/hq-p001-coldpress-os/docs/oss-integration-survey-2026-04-22.md)). Surveyed TS agent frameworks (Mastra, AgentKit, LangGraph.js, VoltAgent, BeeAI, LlamaIndex.TS) all had blockers — incompatible licensing (Mastra ELv2), excessive dep surface (LangGraph.js → LangChain), or over-engineering for our session-scoped use. But the broader ecosystem has settled on conventions; this doc tracks where we adopt them.
+> Coldpress-os ships its own custom DAG orchestrator (rationalised in oss-integration-survey-2026-04-22.md). Surveyed TS agent frameworks (Mastra, AgentKit, LangGraph.js, VoltAgent, BeeAI, LlamaIndex.TS) all had blockers — incompatible licensing (Mastra ELv2), excessive dep surface (LangGraph.js → LangChain), or over-engineering for our session-scoped use. But the broader ecosystem has settled on conventions; this doc tracks where we adopt them.
 
 ---
 

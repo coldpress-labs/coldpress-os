@@ -8,7 +8,7 @@ version: "1.0"
 
 > The five §5.1 classical scanners (Semgrep / Gitleaks / Trivy / OSV / Syft) cover code / dep / secret surfaces but are blind to LLM-specific failure modes: an agent that hallucinates facts; a prompt template that drifted since last release; a jailbreak that leaks a system prompt. This doc specifies three non-overlapping LLM gates that close that gap.
 
-**Source decision:** [fourth-pass-oss-survey-2026-04-23.md §"Wave 5 additions"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/fourth-pass-oss-survey-2026-04-23.md).
+**Source decision:** fourth-pass-oss-survey-2026-04-23.md §"Wave 5 additions".
 
 ---
 

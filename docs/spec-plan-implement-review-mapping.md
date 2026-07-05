@@ -8,7 +8,7 @@ version: "2.0"
 
 > **GitHub Copilot Workspace** popularised a 4-stage spine: **Spec → Plan → Implement → Review.** Coldpress-os groups its 11 Shape A phases under the same spine, so teams that already think in those terms can see how coldpress-os's granularity fits. Externally we speak the industry language; internally the 11 phases remain the implementation detail that justifies sacred-doc governance, typed handoffs, wave orchestration, and the forward-carry quartet.
 
-**Source decision:** [bmad-family-positioning-brief-2026-04-23.md §"Positioning threats — ranked"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) — threat #1 was Copilot Workspace capturing the SDLC-shorthand mindshare. Reconcile externally, stay distinctive internally.
+**Source decision:** bmad-family-positioning-brief-2026-04-23.md §"Positioning threats — ranked" — threat #1 was Copilot Workspace capturing the SDLC-shorthand mindshare. Reconcile externally, stay distinctive internally.
 
 > **Hello Butler — where are we?** Butler is the main orchestrator (your default Claude Code session, see [`butler.md`](butler.md)). Butler dispatches subagents per phase and runs the gates that separate the four stages below.
 

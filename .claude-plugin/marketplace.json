@@ -3,7 +3,7 @@
   "name": "coldpress-os",
   "displayName": "ColdPress OS",
   "version": "0.4.0-alpha",
-  "description": "AI-native development framework — 11-phase Shape A lifecycle (Bootstrap → Discovery → Tech Stack → Planning → Design → Architecture → Breakdown → Implementation → Deployment → Operate → Evolve) with 11 subagents, atomic skills, sacred-doc governance, forward-carry quartet, Pattern 7 typed agent transitions, silent-divergence guard, and inter-iteration cycle.",
+  "description": "AI-native development framework — 11-phase Shape A lifecycle (Bootstrap → Discovery → Tech Stack → Planning → Design → Architecture → Breakdown → Implementation → Deployment → Operate → Evolve) with 8 subagents, atomic skills, sacred-doc governance, forward-carry quartet, Pattern 7 typed agent transitions, silent-divergence guard, and inter-iteration cycle.",
   "author": {
     "name": "ColdPress Labs",
     "url": "https://coldpressai.com",
@@ -34,8 +34,8 @@
   },
   "agents": {
     "source": "template/.claude/agents/",
-    "count": 11,
-    "list": ["analyst", "pm", "ux-designer", "architect", "developer", "qa", "scrum-master", "communicator", "reviewer", "devops", "valet"]
+    "count": 8,
+    "list": ["analyst", "architect", "developer", "devops", "pm", "reviewer", "ux-designer", "verifier"]
   },
   "phases": {
     "count": 11,

@@ -8,7 +8,7 @@ version: "1.0"
 
 > Before this protocol, phase exit criteria were prose in each phase's README — "user feels confident the PRD is complete." Prose is unverifiable: different subagents and humans interpret the same sentence differently; phase transitions slip; "complete" becomes whatever the last person to look at it said. This protocol replaces prose with a structured contract — `gate.json` per phase, Zod-validated, evaluator-driven.
 
-**Source decision:** [framework-audit-2026-04-23.md §3, §9](../../../lab-hq-projects/hq-p001-coldpress-os/docs/framework-audit-2026-04-23.md) — audit flagged prose-only exit criteria as a scaling blocker.
+**Source decision:** framework-audit-2026-04-23.md §3, §9 — audit flagged prose-only exit criteria as a scaling blocker.
 
 **Supersedes:** the prose-only spec previously in `orchestrator/engine/gate-protocol.md` (retained for historical reference; this doc is the v1+ authoritative protocol).
 

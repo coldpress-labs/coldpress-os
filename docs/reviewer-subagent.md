@@ -8,7 +8,7 @@ version: "1.0"
 
 > Coldpress-os had no pure critic before this block. PRD review was an @pm side-task; story review was a @qa side-task; architecture review was an @architect side-task. Critics that can also produce tend to collapse reviewing into re-authoring. This doc specifies a dedicated pure-critic subagent with read-only tools whose only output is a structured rubric.
 
-**Source decision:** [bmad-family-positioning-brief-2026-04-23.md §"Dedicated-critic subagent audit"](../../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) — audit found no pure-critic subagent in the framework; this block fills the gap.
+**Source decision:** bmad-family-positioning-brief-2026-04-23.md §"Dedicated-critic subagent audit" — audit found no pure-critic subagent in the framework; this block fills the gap.
 
 ---
 

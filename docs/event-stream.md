@@ -8,7 +8,7 @@ version: "1.0"
 
 > Before this protocol, a coldpress-os run leaves no machine-readable trace. Sacred docs capture intent, gate-eval JSONs capture decisions, but the *execution history* — which skill ran when, which gate evaluated with what outcome, which wave started and ended — vanishes once the session ends. This doc specifies the append-only event log that fills that gap.
 
-**Source decision:** [tier3-positioning-brief-2026-04-22.md §5](../../../lab-hq-projects/hq-p001-coldpress-os/docs/tier3-positioning-brief-2026-04-22.md) — ports OpenHands' EventStream + Action/Observation/Condenser pattern as coldpress-os's execution-trace representation.
+**Source decision:** tier3-positioning-brief-2026-04-22.md §5 — ports OpenHands' EventStream + Action/Observation/Condenser pattern as coldpress-os's execution-trace representation.
 
 ---
 

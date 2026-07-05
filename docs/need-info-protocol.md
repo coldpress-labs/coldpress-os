@@ -10,7 +10,7 @@ version: "1.0"
 
 **Claim:** coldpress-os is the only BMAD-family framework with a named, protocol-level hallucination mitigation. Other frameworks rely on per-prompt discipline; we enforce it at the dispatch layer.
 
-**Source decision:** [bmad-family-positioning-brief-2026-04-23.md](../../../lab-hq-projects/hq-p001-coldpress-os/docs/bmad-family-positioning-brief-2026-04-23.md) §"ChatDev's Communicative Dehallucination protocol" (Borrow Pattern #1). Scope per 2026-04-23 user directive: all 9 subagents.
+**Source decision:** bmad-family-positioning-brief-2026-04-23.md §"ChatDev's Communicative Dehallucination protocol" (Borrow Pattern #1). Scope per 2026-04-23 user directive: all 9 subagents.
 
 ---
 
