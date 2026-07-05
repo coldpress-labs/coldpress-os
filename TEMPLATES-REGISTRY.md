@@ -82,9 +82,8 @@
 |---|---|---|
 | Epics index | `authoring/documents/epic.md` | @pm |
 | Per-story file | `authoring/documents/story.md` + `reference/orphaned-templates/design/story-file-template.md` (legacy) | @pm |
-| `_context/tracking/sprint-status-v{N}.yaml` | `authoring/documents/sprint-status.yaml` | @scrum-master (sub) |
-| `_context/sacred/pert-chart.md` | `authoring/documents/pert-chart.md` | @scrum-master |
-| Issue templates | `reference/orphaned-templates/design/issue-templates.md` | @scrum-master |
+| `_context/tracking/sprint-status-v{N}.yaml` | `authoring/documents/sprint-status.yaml` | @pm |
+| Issue templates | `reference/orphaned-templates/design/issue-templates.md` | @pm |
 
 ### Phase 8 — Implementation
 
@@ -92,7 +91,7 @@
 |---|---|---|
 | Per-story dev work | (no document template; per-story files from Phase 7 used as input) | @developer |
 | CI/CD pipeline config | `.github/workflows/*.yml` (project-level) | @developer |
-| Test result tracking | `reference/orphaned-templates/design/test-result-templates.md` | @qa (sub) |
+| Test result tracking | `reference/orphaned-templates/design/test-result-templates.md` | @verifier |
 
 ### Phase 9 — Deployment
 
@@ -167,12 +166,12 @@
 | @ux-designer | `template/.claude/agents/ux-designer.md` | 5 |
 | @architect | `template/.claude/agents/architect.md` | 3, 6 |
 | @developer | `template/.claude/agents/developer.md` | 8 |
-| @qa | `template/.claude/agents/qa.md` | 8, 9 |
-| @scrum-master | `template/.claude/agents/scrum-master.md` | 7, 10 |
-| @communicator | `template/.claude/agents/communicator.md` | 4, 10 |
+| @verifier | `template/.claude/agents/qa.md` | 8, 9 |
+| @pm | `template/.claude/agents/scrum-master.md` | 7, 10 |
+| @butler | `template/.claude/agents/communicator.md` | 4, 10 |
 | @reviewer | `template/.claude/agents/reviewer.md` | 11 |
 | @devops | `template/.claude/agents/devops.md` | 9, 10 |
-| @valet | `template/.claude/agents/valet.md` | meta |
+| @butler | `template/.claude/agents/valet.md` | meta |
 
 ---
 

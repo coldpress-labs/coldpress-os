@@ -242,7 +242,7 @@ transition:
 
 ### Wave planning — no sub-persona dispatch
 
-Breakdown wave planning is @pm-native, driven by `coldpress waves`; it no longer dispatches a separate sprint-planning persona. The former #8a/#8b `sub_phase_boundary` pair (@pm → @scrum-master → back) is retired — @pm owns the whole of Phase 7.
+Breakdown wave planning is @pm-native, driven by `coldpress waves`; it no longer dispatches a separate coldpress waves persona. The former #8a/#8b `sub_phase_boundary` pair (@pm → @scrum-master → back) is retired — @pm owns the whole of Phase 7.
 
 ### Transition #9 — Phase 7 exit (in-flight)
 
@@ -298,7 +298,7 @@ Use this checklist when retrofitting a skill or authoring a new sub-persona disp
 | Skill kind | Transition trigger | Where to emit |
 |---|---|---|
 | Phase entry-sync skill (e.g., `breakdown-entry-sync`) | none — `phase_entry` is emitted by `phase-transition` step-03 in the prior phase | n/a |
-| Sub-persona dispatch skill (e.g., `sprint-planning`, `code-review`, `test-framework`) | `sub_phase_boundary` (out + back) | first step (entry record) + last step (return record) |
+| Sub-persona dispatch skill (e.g., `coldpress waves`, `code-review`, `test-framework`) | `sub_phase_boundary` (out + back) | first step (entry record) + last step (return record) |
 | Reconciliation pass (`phase-transition/steps/step-02a-reconciliation.md`) | `reconciliation_handoff` (out + back) | already wired |
 | Phase-final emit skill (e.g., `architecture-design` last step) | none — `phase_exit` is emitted by `phase-transition` step-03 | n/a |
 
@@ -351,7 +351,7 @@ Mechanism wired in audit-fix #22a. Per-skill emission retrofit is incremental �
 | Skill | Transitions | Retrofitted |
 |---|---|---|
 | `phase-transition/steps/step-02a-reconciliation.md` | #2/#3, #6/#7, #9/#10, #12/#13, #15, #17 (multi-phase) | ✅ (audit-fix #22a) |
-| `lifecycle/7-breakdown/sprint-planning/` | #8a/#8b | ✅ (sentinel — wake #36) |
+| `lifecycle/7-breakdown/coldpress waves/` | #8a/#8b | ✅ (sentinel — wake #36) |
 | `skills/reviews/a11y-audit/` (Phase 5 invocation) | **#4.5a/#4.5b** — @ux-designer ↔ @verifier sub-persona dispatch (one pair per Phase 5 run; emitted by a11y-audit step-01 entry + step-N return) | ⏳ pending — convention documented; per-step emission deferred |
 | `skills/reviews/a11y-audit/` (Phase 8 invocation) | rides existing #11c/#11d code-review pair (no new transitions) | ✅ (no new emission needed) |
 | `lifecycle/8-implementation/test-framework/` | #11a/#11b | ⏳ pending |

@@ -10,7 +10,7 @@ version: "1.0"
 ## Purpose
 
 The Phase 7 slicer — turns the spec into **stories that are contracts**. It merges
-the old `create-epics` (grouping) and `create-stories` (atomic authoring) into one
+the old `story-slice` (grouping) and `story-graph` (atomic authoring) into one
 skill so slicing happens in a single pass. It slices the **three-way-keyed
 architecture** produced at Phase 6 — PRD requirement IDs ↔ components ↔ styleguide
 components, with ADRs locking the decisions — into stories that `story-graph` can
@@ -63,4 +63,4 @@ Five steps — see [workflow.md](workflow.md):
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2026-07-03 | Butler (v0.4 WS5-E) | NEW — merges `create-epics` + `create-stories` into one Phase 7 slicer (§5 P7). Adds the v0.4 story-as-contract metadata: `owns`/`produces`/`consumes` globs, o/m/p estimates, `risk` forced-high on security-registry paths, styleguide component refs (UI), attached analytics events, requirement-ID keying; contract-story extraction from the P6 api-contract; content-population stories from the PRD content inventory; `acceptance-stubs` integration (red by construction). Absorbs both predecessors' graph-first context load + validation. Outputs relocated to `_context/implementation/stories/ST-*.md`. |
+| 1.0 | 2026-07-03 | Butler (v0.4 WS5-E) | NEW — merges `story-slice` + `story-graph` into one Phase 7 slicer (§5 P7). Adds the v0.4 story-as-contract metadata: `owns`/`produces`/`consumes` globs, o/m/p estimates, `risk` forced-high on security-registry paths, styleguide component refs (UI), attached analytics events, requirement-ID keying; contract-story extraction from the P6 api-contract; content-population stories from the PRD content inventory; `acceptance-stubs` integration (red by construction). Absorbs both predecessors' graph-first context load + validation. Outputs relocated to `_context/implementation/stories/ST-*.md`. |

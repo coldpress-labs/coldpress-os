@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://coldpressai.com/schemas/planning-artefacts/stories-index.json",
   "title": "Stories Index",
-  "description": "Aggregated index of all per-story files. Produced by `create-stories` Step 4. Lives at `_context/implementation/stories-index.md`.",
+  "description": "Aggregated index of all per-story files. Produced by `story-graph` Step 4. Lives at `_context/implementation/stories-index.md`.",
   "type": "object",
   "required": ["schema", "phase", "version", "stories", "created_at"],
   "properties": {

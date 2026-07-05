@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://coldpressai.com/schemas/planning-artefacts/breakdown-scope.json",
   "title": "Breakdown Scope Memo frontmatter",
-  "description": "Structural contract for `_context/planning/breakdown-scope-v{N}.md`. Produced by `breakdown-entry-sync` (Phase 7 entry skill); consumed by all 5 downstream Phase 7 skills (create-epics, create-stories, parallelization-strategy, sprint-planning, implementation-readiness). Validated-distillate.",
+  "description": "Structural contract for `_context/planning/breakdown-scope-v{N}.md`. The Phase-7 breakdown scope, consumed by the Phase 7 skills (`story-slice`, `story-graph`, `client-timeline`, `implementation-readiness`). Validated-distillate.",
   "type": "object",
   "required": ["schema", "phase", "version", "sources", "created_at", "status", "distillate", "architecture_deltas"],
   "properties": {

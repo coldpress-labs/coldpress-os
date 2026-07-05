@@ -44,8 +44,8 @@
 | 4 | Planning | `lifecycle/4-planning/` | planning-entry-sync, create-prd, validate-prd, legacy-assessment, design-brief, problem-solving, storytelling |
 | 5 | Design | `lifecycle/5-design/` | _scaffolded — design-brief, ux-design, prototype, storytelling, brand-guidelines (skills land in Part 5)_ |
 | 6 | Architecture | `lifecycle/6-architecture/` | _scaffolded — architecture-design + ADR skills (land in Part 6)_ |
-| 7 | Breakdown | `lifecycle/7-breakdown/` | create-epics, create-stories, parallelization-strategy, sprint-planning, implementation-readiness |
-| 8 | Implementation | `lifecycle/8-implementation/` | dev-story, quick-dev, code-review, qa-automation, wave-orchestration, atdd, ci-pipeline, test-design, test-framework |
+| 7 | Breakdown | `lifecycle/7-breakdown/` | story-slice, story-graph, client-timeline, implementation-readiness |
+| 8 | Implementation | `lifecycle/8-implementation/` | dev-story, quick-dev, integration-story, verify-story |
 | 9 | Deployment | `lifecycle/9-deployment/` | readiness-check, env-check, security-scan, deploy, db-migration-check, dep-health-check |
 | 10 | Operate | `lifecycle/10-operate/` | correct-course, sprint-status, document-project |
 | 11 | Evolve | `lifecycle/11-evolve/` | retrospective, product-evolution, innovation-strategy |
@@ -125,58 +125,38 @@
 
 **Architecture amendment workflow:** Hybrid model per Phase 6 deep-dive Q5 — significant structural changes re-emit architecture.md (VC major bump); incremental decisions land as new ADRs referenced from § ADR Index (VC minor bump). Both routes use `governance/architecture-change/workflow.md`.
 
-### Phase 7 — Breakdown (6 — 5 existing + 1 NEW under Shape A)
+### Phase 7 — Breakdown (4)
 | Skill | Directory | Type | Phases | Agent |
 |-------|-----------|------|--------|-------|
-| breakdown-entry-sync (NEW) | `lifecycle/7-breakdown/breakdown-entry-sync/` | workflow | 7 | @pm |
-| create-epics | `lifecycle/7-breakdown/create-epics/` | workflow | 7 | @pm |
-| create-stories | `lifecycle/7-breakdown/create-stories/` | workflow | 7 | @pm |
-| parallelization-strategy | `lifecycle/7-breakdown/parallelization-strategy/` | workflow | 7 | @pm |
-| sprint-planning | `lifecycle/7-breakdown/sprint-planning/` | workflow | 7 | @scrum-master |
+| story-slice | `lifecycle/7-breakdown/story-slice/` | workflow | 7 | @pm |
+| story-graph | `lifecycle/7-breakdown/story-graph/` | workflow | 7 | @pm |
+| client-timeline | `lifecycle/7-breakdown/client-timeline/` | workflow | 7 | @pm |
 | implementation-readiness | `lifecycle/7-breakdown/implementation-readiness/` | workflow | 7 | @pm |
 
-**Architecture-deltas reconciliation (Phase 7 ENTRY mechanism per Q2):**
-- Phase 6 may surface PRD/UX gaps at architecture time → recorded as `architecture_delta` entries in phase-6-to-7 handoff
-- Phase 7 entry-sync Step 1 reconciles them at phase BOUNDARY (not exit, per Q2)
-- 4-option per delta: accept_into_prd / reject / flag_for_architecture_ADR / park_for_phase_11
-- accept_into_prd → first real consumer of `validate-prd --sections=<list>` lightweight-amendment path; bumps PRD VC
+**Architecture-deltas reconciliation (Phase 7 ENTRY mechanism):**
+- Phase 6 may surface PRD/UX gaps at architecture time → recorded as `architecture_delta` entries in the phase-6-to-7 handoff
+- Reconciled at the phase BOUNDARY, 4-option per delta: accept_into_prd / reject / flag_for_architecture_ADR / park_for_phase_11
 
-**PERT chart sacred (per Q3):** `_context/sacred/pert-chart.md` is sacred — downstream contract for Phase 8 wave-orchestration. Amendments via `governance/pert-change/`.
+**Story graph, not a PERT chart:** `story-slice` produces contract stories (owns/produces/consumes + estimates); `story-graph` builds the dependency graph, and `coldpress waves` computes the wave plan + critical path + 85%-confidence date (`client-timeline`). PERT was desanctified in v0.4 — there is no sacred PERT chart.
 
-**Per-story files (per Q4):** Stories live as individual files at `_context/implementation/stories/story-NNN-<slug>-v{N}.md`. Index at `_context/implementation/stories-index.md`. Atomic versioning + Phase 8 dev-story locks individual stories.
+**Per-story files:** Stories live as individual files at `_context/implementation/stories/story-NNN-<slug>-v{N}.md`. Index at `_context/implementation/stories-index.md`.
 
-**Archetype-conditional story granularity (per Q5):** vibe-coder-lean → thin (1-3h, AC); standard → medium (4-8h, BDD); design-led/WDS → richer with explicit UX-screen ref + brand-token use.
+**Implementation-readiness checklist:** a structured checklist verifying every Phase 8 entry condition (PRD/UX/architecture coverage; flagged-deltas resolved; stories + wave plan present; no ADR contradictions; prototype available; legacy reflected).
 
-**9-point implementation-readiness checklist (per Q6):** structured checklist verifying every Phase 8 entry condition (PRD/UX/architecture coverage; flagged-deltas resolved; PERT valid; sprint complete; no ADR contradictions; prototype available; legacy reflected).
-
-**@scrum-master sub-persona (Pattern 7 sub_phase_boundary transitions #8a + #8b):** Sprint-planning is owned by @scrum-master; @pm hands off at sprint-planning entry, @scrum-master hands back at sprint-planning exit.
-
-**Cross-cutting wire-ins active in Phase 7:**
-- `editorial-structure` — create-epics step-04, create-stories step-04, breakdown-scope-memo, implementation-readiness final report
-- `editorial-prose` — story prose polish at create-stories step-04
-- `adversarial-review` — story scope challenge; PERT critical-path challenge
-
-### Phase 8 — Implementation (9 — cascade rename of old Phase 6)
+### Phase 8 — Implementation (4)
 | Skill | Directory | Type | Phases | Agent |
 |-------|-----------|------|--------|-------|
-| wave-orchestration (entry skill per Q1) | `lifecycle/8-implementation/wave-orchestration/` | workflow (orchestrator) | 8 | @developer |
-| ci-pipeline | `lifecycle/8-implementation/ci-pipeline/` | workflow | 8 | @developer |
-| test-framework | `lifecycle/8-implementation/test-framework/` | workflow | 8 | @qa |
-| test-design | `lifecycle/8-implementation/test-design/` | workflow | 8 | @qa |
 | dev-story | `lifecycle/8-implementation/dev-story/` | workflow | 8 | @developer |
 | quick-dev | `lifecycle/8-implementation/quick-dev/` | workflow | 8 | @developer |
-| atdd | `lifecycle/8-implementation/atdd/` | workflow | 8 | @qa |
-| qa-automation | `lifecycle/8-implementation/qa-automation/` | workflow | 8 | @qa |
-| code-review | `lifecycle/8-implementation/code-review/` | workflow | 8 | @qa |
+| integration-story | `lifecycle/8-implementation/integration-story/` | workflow | 8 | @developer |
+| verify-story | `lifecycle/8-implementation/verify-story/` | workflow | 8 | @verifier |
+
+> Verification is structurally independent: `@developer` implements, `@verifier` runs the clean-room `verify-story` (Butler-dispatched only). Test-authoring + code-review live in the `reviews/` + `testing/` skill categories; `coldpress waves` emits the `IN-*` integration stories that `integration-story` merges.
 
 **Implementation-deltas reconciliation (third forward-carry instance):** Phase 8 may surface PRD/UX/architecture gaps during execution. Reconciliation at Phase 8 EXIT in phase-transition step-02a-reconciliation (extended for from_phase==8). Reuses `design-delta.schema.json`.
 
-**Archetype-conditional dev path per Q3:** vibe-coder-lean → quick-dev; standard → dev-story + ATDD; design-led/WDS → full ATDD + visual-regression + a11y.
-
-**@qa Pattern 7 sub-persona (recurring):** #11a/#11b for test-framework one-time; #11c/#11d per story for code-review.
-
 **Cross-cutting wire-ins active in Phase 8:**
-- `adversarial-review` — wired into code-review per Q6; edge-case-hunter
+- `adversarial-review` — wired into code review; edge-case-hunter
 - `editorial-prose` — code-comment polish
 - `editorial-structure` — test-spec + code-review report structure
 
@@ -264,8 +244,7 @@
 | Skill | Directory | Type | Phases |
 |-------|-----------|------|--------|
 | advanced-elicitation | `skills/utilities/advanced-elicitation/` | simple | any |
-| distillator | `skills/utilities/distillator/` | simple | any |
-| shard-doc | `skills/utilities/shard-doc/` | simple | 1, 2, 4, 7, 10 |
+| docs | `skills/utilities/docs/` | simple | 1, 2, 4, 7, 10 |
 | index-docs | `skills/utilities/index-docs/` | simple | 1, 4, 7, 10 |
 | party-mode | `skills/utilities/party-mode/` | simple | any |
 | document-project | `skills/utilities/document-project/` | workflow | 10 |
@@ -331,20 +310,20 @@
 | changelog-generator | `skills/ops/changelog-generator/` | 9, 10 | @devops | alirezarezvani (MIT) |
 | secrets-vault-manager | `lifecycle/9-deployment/secrets-vault-manager/` | 9 | @devops | alirezarezvani (MIT) |
 | observability-designer | `lifecycle/9-deployment/observability-designer/` | 9 | @devops | alirezarezvani (MIT) |
-| decision-logger | `skills/utilities/decision-logger/` | 2-11 | @scrum-master | alirezarezvani (MIT) |
-| (U05) SKILL-AUTHORING-STANDARD | `templates/infrastructure/skill.md` + `skills/meta/skill-builder/` v1.1 | meta | @valet | alirezarezvani (MIT) |
+| decision-logger | `skills/utilities/decision-logger/` | 2-11 | @pm | alirezarezvani (MIT) |
+| (U05) SKILL-AUTHORING-STANDARD | `authoring/infrastructure/skill.md` + `skills/meta/skill-builder/` v1.1 | meta | @butler | alirezarezvani (MIT) |
 
 #### Tier 1 — High-value adds (7+)
 
 | Skill | Path | Phase(s) | Owner agent | Source |
 |---|---|---|---|---|
 | diagram-creator | `lifecycle/6-architecture/diagram-creator/` | 6 | @architect | mhattingpete (Apache-2.0) |
-| a11y-audit | `skills/reviews/a11y-audit/` | 5, 8 | @qa | alirezarezvani (MIT) |
+| a11y-audit | `skills/reviews/a11y-audit/` | 5, 8 | @verifier | alirezarezvani (MIT) |
 | design-data CSVs | `data/design/` (colors/typography/styles/stacks) | 5 | @ux-designer (consumer) | nextlevelbuilder (MIT) |
 | dependency-auditor | `lifecycle/9-deployment/dependency-auditor/` | 9 | @devops | alirezarezvani (MIT) |
 | codebase-onboarding | `lifecycle/1-bootstrap/codebase-onboarding/` | 1 | @analyst | alirezarezvani+mhattingpete |
-| prompt-engineering | `skills/meta/prompt-engineering/` | meta | @valet | alirezarezvani (MIT) |
-| prompt-governance | `skills/meta/prompt-governance/` | meta | @valet | alirezarezvani (MIT) |
+| prompt-engineering | `skills/meta/prompt-engineering/` | meta | @butler | alirezarezvani (MIT) |
+| prompt-governance | `skills/meta/prompt-governance/` | meta | @butler | alirezarezvani (MIT) |
 | incident-response | `lifecycle/10-operate/incident-response/` | 10 | @devops | alirezarezvani (MIT) |
 
 #### Tier 2 — Stack-pack + emitters + marketplace (8)
@@ -353,14 +332,14 @@
 |---|---|---|---|---|
 | seo-pack (top-level) | `skills/capability-packs/seo-pack/` | 3, 5, 8, 9, 10 | @architect (router) | AgriciDaniel (MIT) |
 | seo-pack/audit | `skills/capability-packs/seo-pack/audit/` | 3, 5, 9, 10 | @devops | AgriciDaniel (MIT) |
-| seo-pack/content | `skills/capability-packs/seo-pack/content/` | 5 | @communicator | AgriciDaniel (MIT) |
+| seo-pack/content | `skills/capability-packs/seo-pack/content/` | 5 | @butler | AgriciDaniel (MIT) |
 | seo-pack/schema | `skills/capability-packs/seo-pack/schema/` | 8 | @developer | AgriciDaniel (MIT) |
 | seo-pack/local | `skills/capability-packs/seo-pack/local/` | 5, 8 | @ux-designer | AgriciDaniel (MIT) |
 | seo-pack/technical | `skills/capability-packs/seo-pack/technical/` | 8, 9 | @devops | AgriciDaniel (MIT) |
-| pdf-generator | `skills/creative/pdf-generator/` | 4, 5, 8, 10, 11 | @communicator | anthropics/skills (reference only) |
-| docx-generator | `skills/creative/docx-generator/` | 4, 5, 11 | @communicator | anthropics/skills (reference only) |
-| pptx-generator | `skills/creative/pptx-generator/` | 4, 10, 11 | @communicator | anthropics/skills + nextlevelbuilder |
-| xlsx-generator | `skills/creative/xlsx-generator/` | 7, 9, 10, 11 | @communicator | anthropics/skills (reference only) |
+| pdf-generator | `skills/creative/pdf-generator/` | 4, 5, 8, 10, 11 | @butler | anthropics/skills (reference only) |
+| docx-generator | `skills/creative/docx-generator/` | 4, 5, 11 | @butler | anthropics/skills (reference only) |
+| pptx-generator | `skills/creative/pptx-generator/` | 4, 10, 11 | @butler | anthropics/skills + nextlevelbuilder |
+| xlsx-generator | `skills/creative/xlsx-generator/` | 7, 9, 10, 11 | @butler | anthropics/skills (reference only) |
 
 **Plus build artefacts (not skills):**
 - `plugin/plugin.json` v0.2.0-alpha → v0.3.0-alpha refresh
@@ -386,7 +365,7 @@
 
 | Category | Directory | Count |
 |----------|-----------|-------|
-| Documents | `templates/documents/` | 11 (context, tech-stack, prd, architecture, ux-design-spec, epic, story, adr, sprint-status, pert-chart, retrospective) |
+| Documents | `authoring/documents/` | 11 (context, tech-stack, prd, architecture, ux-design-spec, epic, story, adr, sprint-status, retrospective) |
 | Design | `templates/design/` | 48 (WDS template set) |
 | Infrastructure | `templates/infrastructure/` | 6 (CLAUDE.md, SYSTEM.md, cursorrules, agent, skill, workflow) |
 | Contracts | `templates/contracts/` | 3 (contract, service-agreement, pitch) |

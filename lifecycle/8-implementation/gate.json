@@ -26,7 +26,7 @@
       "kind": "automated",
       "severity": "block",
       "artefact_path": "_context/implementation/stories/",
-      "remediation": "Butler orchestrates the remaining stories per `coldpress waves` (wave-orchestration retired).",
+      "remediation": "Butler orchestrates the remaining stories per `coldpress waves` (integration-story retired).",
       "skill_ref": "lifecycle/8-implementation/dev-story"
     },
     {
@@ -50,7 +50,7 @@
       "description": "CI pipeline green; per-story test_coverage_targets met",
       "kind": "automated",
       "severity": "block",
-      "remediation": "Run qa-automation per story until coverage met.",
+      "remediation": "Run verify-story per story until coverage met.",
       "skill_ref": "skills/testing/test-automation"
     },
     {

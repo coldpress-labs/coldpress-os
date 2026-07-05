@@ -62,7 +62,7 @@ _context/
 ├── planning/
 │   ├── research/       # domain / market / technical (constraint) research outputs
 │   ├── creative/       # brainstorm, design-thinking, problem-solving, storytelling, innovation-strategy, presentation
-│   ├── distillates/    # distillator outputs
+│   ├── distillates/    # docs outputs
 │   ├── adr-*.md        # architecture decision records (flat in planning)
 │   ├── epics.md
 │   ├── design-brief-*.md

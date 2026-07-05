@@ -115,11 +115,9 @@ Primary:
 Primary:
 | Skill | Category | Invoking subagent | Status |
 |-------|----------|-------------------|--------|
-| `breakdown-entry-sync` | lifecycle | pm | active (architecture-deltas reconciliation) |
-| `create-epics` | lifecycle | pm | active |
-| `create-stories` | lifecycle | pm | active |
-| `parallelization-strategy` | lifecycle | pm | active |
-| `sprint-planning` | lifecycle | pm | active |
+| `story-slice` | lifecycle | pm | active |
+| `story-graph` | lifecycle | pm | active (→ `coldpress waves` computes the wave plan) |
+| `client-timeline` | lifecycle | pm | active |
 | `implementation-readiness` | lifecycle | pm | active |
 
 ---
@@ -133,7 +131,7 @@ Primary:
 | `quick-dev` | lifecycle | developer | active |
 | `code-review` | reviews | verifier | active |
 | `code-audit` | reviews | verifier | active |
-| `wave-orchestration` | lifecycle | pm | active |
+| `integration-story` | lifecycle | pm | active |
 
 Testing skills (primary in Phase 8, also Phase 9):
 | Skill | Category | Status |
@@ -222,10 +220,10 @@ Utility skills that sit outside the phase spine. Invoked on demand by a user req
 
 | Skill | Category | Typical invoker | Status |
 |-------|----------|-----------------|--------|
-| `distillator` | utility | analyst | ad-hoc (forward-carry: wire into Phase 2 Discovery — tracked in phase-ii-implementation-plan Forward carries) |
+| `docs` | utility | analyst | ad-hoc (forward-carry: wire into Phase 2 Discovery — tracked in phase-ii-implementation-plan Forward carries) |
 | `advanced-elicitation` | utility | analyst | forward-carry — wire into Phase 2 Discovery (Part 2 of the Phase II plan) |
 | `index-docs` | utility | butler (intake), any | wire-in-phase-1 (invoked by `intake` Step 1 after material solicitation) |
-| `shard-doc` | utility | butler (intake) | wire-in-phase-1 (invoked by `intake` Step 1 for large `_input/raw/` files > 50KB) |
+| `docs` | utility | butler (intake) | wire-in-phase-1 (invoked by `intake` Step 1 for large `_input/raw/` files > 50KB) |
 | `party-mode` | utility | any | ad-hoc (creative assist, not lifecycle-critical) |
 | `parse-document` | ingest | analyst | active — routes PDF / Office / image / AI-conversation inputs to markdown. Replaces the retired `pdf-deep-parser` (whose PDF coverage is absorbed by parse-document's Docling adapter). |
 | `teach-me-testing` | utility | any | ad-hoc (onboarding / education) |

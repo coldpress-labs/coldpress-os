@@ -60,7 +60,7 @@ validate-idea ──────────► _context/planning/idea-validatio
 
 synthesize-research ────► _context/planning/research-synthesis-v1.md
   Subagent: @analyst
-  Wires: distillator + adversarial-review + editorial-structure
+  Wires: docs + adversarial-review + editorial-structure
 
 product-brief ──────────► _context/planning/product-brief-v1.md
   Subagent: @analyst
@@ -195,11 +195,11 @@ diagram-creator ────────► supporting Mermaid diagrams (on-dema
 ## Phase 7: Breakdown *(cascade rename — was old Phase 5)*
 
 ```
-create-epics ───────────► epics/ directory
+story-slice ───────────► epics/ directory
   Subagent: @pm
   Template: authoring/documents/epic.md
 
-create-stories ─────────► stories within epics
+story-graph ─────────► stories within epics
   Subagent: @pm
   Template: authoring/documents/story.md
 
@@ -231,7 +231,7 @@ quick-dev ──────────────► Rapid implementation
 code-review ────────────► review-report.md
   Multiple perspectives (skill-driven, no single agent)
 
-qa-automation ──────────► automated tests
+verify-story ──────────► automated tests
   Subagent: @verifier (clean-room, read-only)
 
 test-design ────────────► test-plan.md
@@ -240,7 +240,7 @@ test-design ────────────► test-plan.md
 test-framework ─────────► test scaffold
   Subagent: @verifier (clean-room, read-only)
 
-wave-orchestration ─────► Wave execution tracking
+integration-story ─────► Wave execution tracking
   Butler orchestrates parallel waves from the coldpress waves schedule
 ```
 

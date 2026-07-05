@@ -34,7 +34,7 @@ The wave schedule is **computed at Phase 7** by `coldpress waves` (from `story-g
 | `dev-story` | workflow | @developer | Per-story execution; reads story.archetype_granularity per Q2 |
 | `quick-dev` | workflow | @developer | Light dev for vibe-coder-lean per Q3 |
 | `atdd` | workflow | @developer | Per-story ATDD authoring; standard / WDS only per Q3 |
-| `qa-automation` | workflow | @developer | Per-wave automated testing |
+| `verify-story` | workflow | @developer | Per-wave automated testing |
 | `code-review` | workflow | @verifier | Per-story; adversarial-review wire-in per Q6 |
 
 ## Recommended flow
@@ -58,7 +58,7 @@ The wave schedule is **computed at Phase 7** by `coldpress waves` (from `story-g
        ├──→ test-design (per-story strategy)
        ├──→ atdd (if standard / WDS)
        ├──→ implement code
-       ├──→ qa-automation (run tests)
+       ├──→ verify-story (run tests)
        ├──→ code-review (@verifier sub-transition; recurring per story)
         │
         ▼
@@ -80,7 +80,7 @@ The wave schedule is **computed at Phase 7** by `coldpress waves` (from `story-g
 
 Phase 5 design-deltas reconcile at Phase 5 EXIT. Phase 7 architecture-deltas reconcile at Phase 7 ENTRY (mirror — caught at boundary of next phase). Phase 8 implementation-deltas reconcile at Phase 8 EXIT (mirror of Phase 5; deltas surface during execution; reconcile at the same phase's exit).
 
-Schema reuses `design-delta.schema.json` with `source_skill: dev-story | quick-dev | code-review | qa-automation`. 4 reconciliation_options. accept_into_prd → `validate-prd --sections` lightweight amendment (well-trodden path by Phase 8). flag_for_architecture_ADR at Phase 8 should be RARE — silent-divergence guard breach signal; re-enter Phase 6.
+Schema reuses `design-delta.schema.json` with `source_skill: dev-story | quick-dev | code-review | verify-story`. 4 reconciliation_options. accept_into_prd → `validate-prd --sections` lightweight amendment (well-trodden path by Phase 8). flag_for_architecture_ADR at Phase 8 should be RARE — silent-divergence guard breach signal; re-enter Phase 6.
 
 ## Entry conditions
 
@@ -123,5 +123,5 @@ See `data/methods/method-defaults.yaml` `phase_8:` section. Tier-1: problem_solv
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 2.0 | 2026-05-02 | Butler (Andy-coldpress-os under autonomous queue unit #12 Wave 8.1) | Phase 8 README enriched. Cascade-rename + Shape A scope refresh framing. 9 sub-skills with @qa sub-persona pattern. Recommended-flow ASCII showing wave-orchestration as entry skill (Q1) + per-story dev-story → test → code-review pattern. Implementation-deltas reconciliation explainer (third forward-carry instance). Pattern 7 fourth invocation table (7 transitions). 8 gate checks summary. |
+| 2.0 | 2026-05-02 | Butler (Andy-coldpress-os under autonomous queue unit #12 Wave 8.1) | Phase 8 README enriched. Cascade-rename + Shape A scope refresh framing. 9 sub-skills with @qa sub-persona pattern. Recommended-flow ASCII showing integration-story as entry skill (Q1) + per-story dev-story → test → code-review pattern. Implementation-deltas reconciliation explainer (third forward-carry instance). Pattern 7 fourth invocation table (7 transitions). 8 gate checks summary. |
 | 1.0 | 2026-04 (pre-Shape-A) | Alfred | Initial Phase 6 (now 8) Implementation README. |
