@@ -8,6 +8,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Ship-gate validation (validation project 1)
+
+- **Fixed: the full-lane Phase-3 exit gate could never pass.** The `stack_pack`
+  gate check read `.coldpress/local-config.yaml`, but the locked stack is recorded
+  in `coldpress.yaml` — so a correctly-locked project reported "stack_pack not
+  found" and the block-severity gate blocked every full-lane Phase-3 exit.
+  `config-check` now takes a `--file` option (defaults to local-config.yaml for
+  back-compat; `--file coldpress.yaml` reads the project config), and the gate is
+  repointed at the file that actually holds the key. Found on day one of the
+  first ship-gate validation run.
+
 ### Pre-validation hardening (dynamic-verification audit)
 
 - **schema-validate now covers the WS10-era data artefacts** — a malformed
