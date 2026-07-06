@@ -68,6 +68,16 @@ day-one finding **O8** (the full-lane Phase-3 gate could never pass) fixed via
 valet-loop in **D58**, plus four lower-severity seam findings logged for harvest
 (O2/O4/O5/O6/O7 — lane-aware `_context`, no lite phase gate, profile default too
 minimal, stack-pack↔profile hosting disagreement, no whole-file config validation).
+**Validation Project 2 is IN PROGRESS** (`lab-originals/…/originals-p004-ancient-games`,
+**full lane**, IP product — chaturanga/ancient-games collection app; log at
+`docs/overhaul/validation-project-2-log.md`). Phase 0 done: the subject was a
+**pre-overhaul (v0.3.x) scaffold**, refreshed to 0.4.0-alpha via **re-init in place**
+on branch `vp2/refresh-to-0.4.0` (removed stale scaffold, preserved `_input/` +
+`secure/`, `doctor --stack --wiring --structure` green). First finding **P0-1**: no
+supported v0.3→v0.4 upgrade path (`update` too shallow, `retrofit` non-destructive +
+collision-guarded) — a re-init was the only clean route; candidate post-0.4.0
+`coldpress upgrade`. Full-lane drive runs as the project's own Butler consumer
+session (most-faithful — real subagent dispatch).
 
 ---
 
