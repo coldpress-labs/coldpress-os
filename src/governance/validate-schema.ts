@@ -26,6 +26,7 @@ import type { ErrorObject, ValidateFunction } from "ajv";
 import addFormats from "ajv-formats";
 import { parse as parseYaml } from "yaml";
 import { designSchemaForPath } from "../../schemas/design/index.js";
+import { dataArtefactSchemaForPath } from "../../schemas/data-artefacts/index.js";
 import { packageRoot } from "../utils/paths.js";
 
 export interface SchemaValidationIssue {
@@ -317,13 +318,36 @@ export async function validateDocSchema(
     };
   }
 
+  // 3b. Try the data-artefact registry (DV1): outcomes.yaml / story-graph.yaml /
+  //     HND-*.yaml handoff packets — WS10-era Zod-schema'd DATA files that were
+  //     missing from the schema-validate routing.
+  const data = dataArtefactSchemaForPath(docPath.replace(/\\/g, "/"));
+  if (data) {
+    const raw = await readFile(docPath, "utf8");
+    let body: unknown;
+    try {
+      body = docPath.endsWith(".json") ? JSON.parse(raw) : parseYaml(raw);
+    } catch (e) {
+      return { ok: false, issues: [{ path: "(file)", message: `Unparseable data artefact: ${e instanceof Error ? e.message : String(e)}` }] };
+    }
+    const result = data.schema.safeParse(body);
+    if (result.success) {
+      return { ok: true, frontmatter: body as Record<string, unknown>, schema_used: `data-artefacts/${basename(data.path)}` };
+    }
+    return {
+      ok: false,
+      schema_used: `data-artefacts/${basename(data.path)}`,
+      issues: result.error.issues.map((i) => ({ path: i.path.join(".") || "(root)", message: i.message, keyword: i.code })),
+    };
+  }
+
   // 4. No schema found
   return {
     ok: false,
     issues: [
       {
         path: "(file)",
-        message: `No schema registered for: ${basename(docPath)}. Register it in SACRED_DOC_SCHEMAS (by basename), PATH_PATTERN_SCHEMAS (by path pattern), or the design registry (schemas/design/index.ts).`,
+        message: `No schema registered for: ${basename(docPath)}. Register it in SACRED_DOC_SCHEMAS (by basename), PATH_PATTERN_SCHEMAS (by path pattern), the design registry (schemas/design/index.ts), or the data-artefact registry (schemas/data-artefacts/index.ts).`,
       },
     ],
   };
