@@ -9,6 +9,8 @@ tools:
   - Bash
   - WebSearch
   - WebFetch
+  - Edit
+  - Write
 color: blue
 maxTurns: 20
 effort: high

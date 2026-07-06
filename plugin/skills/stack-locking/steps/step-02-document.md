@@ -14,17 +14,19 @@ Produce the comprehensive, authoritative tech stack document (pre-lock draft) an
 
 ### 1. Determine tech-stack.md version
 
-Check `_context/sacred/tech-stack.md`. If it exists with `sacred: true`: this should have gone through the change-workflow. If it exists as draft: we're continuing that draft. If absent: first authoring.
+Check `_context/sacred/tech-stack.md`. If it exists with `governance: locked` or `requires-review`: it is already locked — this should go through the change-workflow. If it exists with `governance: draft`: we're continuing that draft. If absent: first authoring.
 
-### 2. Write `_context/sacred/tech-stack.md` (DRAFT — not yet sacred)
+### 2. Write `_context/sacred/tech-stack.md` (DRAFT — schema-valid, not yet locked)
 
-**Frontmatter:**
+**Frontmatter** (schema-valid from creation — same pattern as context/prd/architecture: `sacred: true` always; the lock state is carried by `governance`, flipped to `requires-review` at Step 4, never by `sacred`):
 ```yaml
 ---
 name: "tech-stack"
-sacred: false  # locked in Step 4; never set true here
+sacred: true
+version: "0.1"          # bumped to "1.0" at lock (Step 4)
+governance: "draft"     # → "requires-review" at lock; a draft is freely editable, a locked doc is not
+workflowType: "tech-stack"
 status: "draft"
-version: "{date}"
 derived_from:
   - "_context/sacred/context.md"
   - "_context/planning/product-brief-v{N}.md"

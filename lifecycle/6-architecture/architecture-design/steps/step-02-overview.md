@@ -25,7 +25,7 @@ Create `_context/sacred/architecture.md` from `authoring/documents/architecture.
 ---
 sacred: true
 schema: schemas/sacred-docs/architecture.schema.json
-version: 1.0
+version: "1.0"
 created: <ISO date>
 last_modified: <ISO date>
 governance: draft

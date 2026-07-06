@@ -7,6 +7,8 @@ tools:
   - Grep
   - Glob
   - Bash
+  - Edit
+  - Write
 color: orange
 maxTurns: 20
 effort: high
