@@ -396,10 +396,11 @@ wiringCmd
 
 program
   .command("config-check <key>")
-  .description("Gate check: assert a .coldpress/local-config.yaml key is set (optionally equal to --expected).")
+  .description("Gate check: assert a config key is set (optionally equal to --expected). Reads .coldpress/local-config.yaml by default; --file coldpress.yaml reads the project config.")
   .option("--allow-empty-string", "treat an explicit empty string as a pass")
   .option("--expected <value>", "require the key to equal this value")
-  .action(async (key: string, opts: { allowEmptyString?: boolean; expected?: string }) => {
+  .option("--file <name>", "which config file holds the key: 'coldpress.yaml' or the default '.coldpress/local-config.yaml'")
+  .action(async (key: string, opts: { allowEmptyString?: boolean; expected?: string; file?: string }) => {
     process.exit(await runConfigCheck(key, opts));
   });
 

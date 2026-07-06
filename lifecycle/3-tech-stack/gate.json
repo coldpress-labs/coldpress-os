@@ -57,7 +57,7 @@
       "description": "`coldpress.yaml stack_pack` field is set (empty string `\"\"` is legal = no pack, generic path)",
       "kind": "automated",
       "severity": "block",
-      "command": "coldpress config-check stack_pack --allow-empty-string",
+      "command": "coldpress config-check stack_pack --allow-empty-string --file coldpress.yaml",
       "path_pattern": "coldpress.yaml",
       "remediation": "Stack-locking Step 4 writes `stack_pack` to coldpress.yaml. If missing, re-run stack-locking from step-04-lock."
     },

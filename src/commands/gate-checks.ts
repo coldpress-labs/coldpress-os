@@ -48,11 +48,12 @@ function issuesLine(issues: SchemaValidationIssue[] | undefined): string {
 
 export async function runConfigCheck(
   key: string,
-  opts: { allowEmptyString?: boolean; expected?: string },
+  opts: { allowEmptyString?: boolean; expected?: string; file?: string },
 ): Promise<number> {
   const r = await configCheck(process.cwd(), key, {
     allowEmptyString: opts.allowEmptyString,
     expected: opts.expected,
+    file: opts.file,
   });
   return report(r.ok, r.message);
 }
