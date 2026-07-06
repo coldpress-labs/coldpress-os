@@ -18,6 +18,8 @@ import {
   sacredDocIdFromPath,
   validateDocSchema,
 } from "../governance/validate-schema.js";
+import { designSchemaForPath } from "../../schemas/design/index.js";
+import { dataArtefactSchemaForPath } from "../../schemas/data-artefacts/index.js";
 import type { HookDecision, HookHandler, HookInput } from "./types.js";
 
 const EXPLAIN = `schema-validate (PostToolUse: Write|Edit)
@@ -28,11 +30,22 @@ is fixed in-loop. Files without a registered schema pass through untouched.
 Reuses src/governance/validate-schema.ts. Overridable (logged):
 COLDPRESS_OVERRIDE="schema-validate:<reason>".`;
 
-/** A file is in scope only when it lives under _context/ and has a schema. */
+/**
+ * A file is in scope only when it lives under _context/ and has a schema —
+ * checked across ALL of validateDocSchema's routing sources so the hook fires
+ * for every schema'd artefact: sacred docs, path-pattern (JSON) schemas, the
+ * design registry, and the data-artefact registry (outcomes/story-graph/handoff,
+ * DV1). If a validator can decide, the write-time hook must consult it.
+ */
 export function schemaApplies(filePath: string): boolean {
   const norm = filePath.replace(/\\/g, "/");
   if (!norm.includes("/_context/") && !norm.startsWith("_context/")) return false;
-  return Boolean(sacredDocIdFromPath(filePath) || pathPatternSchemaFromPath(filePath));
+  return Boolean(
+    sacredDocIdFromPath(filePath) ||
+      pathPatternSchemaFromPath(filePath) ||
+      designSchemaForPath(norm) ||
+      dataArtefactSchemaForPath(norm),
+  );
 }
 
 export const schemaValidateHandler: HookHandler = {

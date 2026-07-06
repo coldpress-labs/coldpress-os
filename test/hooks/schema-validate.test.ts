@@ -61,3 +61,30 @@ describe("schemaValidateHandler.run", () => {
     expect(schemaValidateHandler.explain.length).toBeGreaterThan(20);
   });
 });
+
+// ── DV1: the WS10-era data artefacts (Zod design + data-artefact registries) ──
+// One adversarial case per type so the write-time coverage can't silently
+// regress (before DV1 these all passed the hook with "no opinion").
+describe("DV1 — schema-validate covers the WS10-era data artefacts", () => {
+  const CASES: Array<{ type: string; rel: string; invalid: string }> = [
+    { type: "outcomes.yaml", rel: "_context/planning/outcomes.yaml", invalid: "not-an-outcomes-object\n" },
+    { type: "story-graph.yaml", rel: "_context/implementation/story-graph.yaml", invalid: "not-a-story-graph\n" },
+    { type: "design tokens.json", rel: "_context/design/tokens.json", invalid: "{}\n" },
+    { type: "design budgets.yaml", rel: "_context/design/budgets.yaml", invalid: "{}\n" },
+    { type: "handoff HND-*.yaml", rel: "_context/handoffs/HND-p8-developer-1.yaml", invalid: "inputs: []\n" },
+  ];
+
+  for (const c of CASES) {
+    it(`schemaApplies is true for ${c.type}`, () => {
+      expect(schemaApplies(join(dir, c.rel))).toBe(true);
+    });
+
+    it(`DENIES a malformed ${c.type} at write time`, async () => {
+      const p = join(dir, c.rel);
+      mkdirSync(join(p, ".."), { recursive: true });
+      writeFileSync(p, c.invalid, "utf8");
+      const d = await schemaValidateHandler.run({ tool_name: "Write", tool_input: { file_path: p } });
+      expect(d.kind, `${c.type} should be denied`).toBe("deny");
+    });
+  }
+});

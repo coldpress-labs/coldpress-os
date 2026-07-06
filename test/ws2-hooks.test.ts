@@ -80,6 +80,24 @@ describe("boundary-guard", () => {
     expect(boundaryGuardHandler.run({ tool_name: "Write", tool_input: { file_path: join(dir, "src/x.ts") }, cwd: dir })).toEqual({ kind: "none" });
   });
 
+  it("DV2: HND packet present but UNPARSEABLE → WARNS instead of silent allow-all", async () => {
+    mkdirSync(join(dir, "_context/handoffs"), { recursive: true });
+    // `inputs: []` violates HandoffPacketSchema (requires ≥1) — the packet won't
+    // parse, so before DV2 the boundary silently vanished with no signal.
+    writeFileSync(join(dir, "_context/handoffs", "HND-broken.yaml"), "id: HND-broken\ninputs: []\n", "utf8");
+    const d = await boundaryGuardHandler.run({
+      tool_name: "Write",
+      tool_input: { file_path: join(dir, "src/anything.ts") },
+      cwd: dir,
+      agent_type: "developer",
+    });
+    expect(d.kind).toBe("context");
+    if (d.kind === "context") {
+      expect(d.text).toContain("NOT being enforced");
+      expect(d.text).toContain("boundary-guard");
+    }
+  });
+
   it("owns allowlist (WS10-B4): ALLOWS a write inside owns, BLOCKS one outside", async () => {
     writePacket("HND-p7-developer-1", "developer", ["_context/sacred/*"], ["src/features/auth/*"]);
     // inside owns → allowed

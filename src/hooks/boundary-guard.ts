@@ -28,16 +28,41 @@ is the _context/handoffs/HND-*.yaml targeting the current agent (or the most
 recent one). No active packet → no boundary. Override (logged):
 COLDPRESS_OVERRIDE="boundary-guard:<reason>".`;
 
+/** List the `HND-*.yaml` files under cwd's handoff dir (empty if none/unreadable). */
+function handoffFiles(cwd: string): string[] {
+  const dir = join(cwd, HANDOFF_DIR);
+  if (!existsSync(dir)) return [];
+  try {
+    return readdirSync(dir).filter((f) => /^HND-.*\.ya?ml$/.test(f));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * DV2: HND packet files exist on disk but NONE parses (`HandoffPacketSchema`).
+ * `activePacket` returns undefined in this case exactly as it does when there are
+ * no packets at all — so without this signal the boundary silently vanishes. The
+ * handler turns a true here into a warning (never let enforcement disappear quietly).
+ */
+export function unparseablePacketsPresent(cwd: string): boolean {
+  const files = handoffFiles(cwd);
+  if (files.length === 0) return false;
+  const dir = join(cwd, HANDOFF_DIR);
+  return !files.some((f) => {
+    try {
+      return HandoffPacketSchema.safeParse(parseYaml(readFileSync(join(dir, f), "utf8"))).success;
+    } catch {
+      return false;
+    }
+  });
+}
+
 /** Find the active handoff packet under cwd for the given agent. */
 export function activePacket(cwd: string, agentType: string | undefined): HandoffPacket | undefined {
   const dir = join(cwd, HANDOFF_DIR);
-  if (!existsSync(dir)) return undefined;
-  let files: string[];
-  try {
-    files = readdirSync(dir).filter((f) => /^HND-.*\.ya?ml$/.test(f));
-  } catch {
-    return undefined;
-  }
+  const files = handoffFiles(cwd);
+  if (files.length === 0) return undefined;
   const packets: { packet: HandoffPacket; mtime: number }[] = [];
   for (const f of files) {
     const full = join(dir, f);
@@ -69,7 +94,20 @@ export const boundaryGuardHandler: HookHandler = {
     const cwd = input.cwd ?? process.cwd();
     const agentType = typeof input.agent_type === "string" ? input.agent_type : undefined;
     const packet = activePacket(cwd, agentType);
-    if (!packet) return { kind: "none" };
+    if (!packet) {
+      // DV2: distinguish "no delegation" (legit — no opinion) from "packets
+      // exist but none parses" (the boundary silently vanished — warn loudly).
+      if (unparseablePacketsPresent(cwd)) {
+        return {
+          kind: "context",
+          text:
+            `⚠ boundary-guard: handoff packet(s) present under ${HANDOFF_DIR}/ but none parses against ` +
+            `HandoffPacketSchema — the write-scope boundary is NOT being enforced. Fix the packet (or ` +
+            `remove it) so delegated writes are scope-checked again.`,
+        };
+      }
+      return { kind: "none" };
+    }
     const owns = packet.owns ?? [];
     // No boundary declared at all → no opinion.
     if (packet.forbidden.length === 0 && owns.length === 0) return { kind: "none" };

@@ -8,6 +8,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
+### Pre-validation hardening (dynamic-verification audit)
+
+- **schema-validate now covers the WS10-era data artefacts** — a malformed
+  `outcomes.yaml`, `story-graph.yaml`, design data file (tokens/budgets/styleguide),
+  or handoff packet is now rejected **at write time** (previously only at the
+  phase-exit gate). Added a Zod data-artefact registry and wired it into the
+  write-time hook.
+- **boundary-guard no longer fails open silently** — when handoff packets exist
+  but none parses, the guard now emits a warning ("the write-scope boundary is NOT
+  being enforced — fix the packet") instead of quietly allowing all writes.
+
 ### WS11 "Structure & Diet" — structure-hygiene audit remediation
 
 - **Registries + reference docs rewritten to the current tree (S5b)** — `REGISTRY.md`,
