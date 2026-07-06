@@ -44,9 +44,10 @@ Writing style:
 
 Fields to set:
 - `status: seed` → `status: authored`
+- `governance: "draft"` → `governance: "locked"` — **this is the signoff that engages `sacred-guard`.** Once locked, further edits require the `sacred-change` workflow (a draft doc is freely editable during authoring; a locked one is not). Keep `sacred: true` and `workflowType: "context"` from the seed.
 - `phase_owned: 1` stays (context.md is a Phase 1 artefact end-to-end)
-- Add `version: "1.0"`
-- Add `supersedes: []` (empty unless the supersede-check above added paths)
+- Bump `version: "0.1"` → `version: "1.0"`
+- `supersedes: []` (empty unless the supersede-check above added paths)
 - Add `authored_at: <ISO>` timestamp
 - Add `project_shape: greenfield | brownfield | ambiguous` (mirrors `.coldpress/local-config.yaml`)
 

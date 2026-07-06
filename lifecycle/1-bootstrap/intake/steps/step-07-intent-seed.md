@@ -32,13 +32,16 @@ Create `_context/sacred/context.md` with this shape:
 
 ```markdown
 ---
+sacred: true
+version: "0.1"
+governance: "draft"
+workflowType: "context"
 name: "context"
 description: "Project context — intent, stakeholders, problem, value proposition"
 status: "seed"
 phase_owned: 1
 seeded_by: "intake/step-07-intent-seed"
 seeded_at: "<ISO-8601>"
-version: "0.1"
 supersedes: []
 ---
 
