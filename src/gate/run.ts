@@ -120,6 +120,37 @@ function escapeRe(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+/**
+ * Does any file match `pattern` (project-relative) where `*` may appear in ANY
+ * path segment (e.g. `_context/design/prototype/*​/manifest.json`)? Plain paths
+ * with no `*` reduce to an existence check. Used by artefact-present gate checks.
+ */
+function globExists(projectDir: string, pattern: string): boolean {
+  const segs = pattern.split("/").filter(Boolean);
+  let dirs = [projectDir];
+  for (let i = 0; i < segs.length; i++) {
+    const re = new RegExp("^" + escapeRe(segs[i]!).replace(/\\\*/g, ".*") + "$");
+    const isLast = i === segs.length - 1;
+    const next: string[] = [];
+    for (const d of dirs) {
+      let entries: string[];
+      try {
+        entries = readdirSync(d);
+      } catch {
+        continue;
+      }
+      for (const e of entries) {
+        if (!re.test(e)) continue;
+        if (isLast) return true;
+        next.push(join(d, e));
+      }
+    }
+    if (next.length === 0) return false;
+    dirs = next;
+  }
+  return false;
+}
+
 export function resolvePlaceholders(command: string, projectDir: string, today: string): string | null {
   let out = command.replace(/\{date\}/g, today);
   // Resolve {latest}/{N} in a versioned path token by globbing the -v<num> family.
@@ -192,12 +223,10 @@ export function runGate(
       continue;
     }
 
-    // 2. artefact-present -> the file (glob) must exist.
+    // 2. artefact-present -> the file (glob, `*` in any segment) must exist.
     if (kind === "artefact-present" && c.artefact_path) {
       const glob = c.artefact_path;
-      const dir = resolve(projectDir, dirname(glob));
-      const pat = escapeRe(basename(glob)).replace(/\\\*/g, ".*"); // escaped star becomes .*
-      const found = existsSync(dir) && readdirSync(dir).some((f) => new RegExp("^" + pat + "$").test(f));
+      const found = globExists(projectDir, glob);
       evaluated++;
       if (!found && severity === "block") blocked = true;
       results.push({ ...base, status: found ? "pass" : "fail", detail: found ? `present: ${glob}` : `missing: ${glob}` });

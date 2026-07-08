@@ -40,7 +40,7 @@
     {
       "id": "prd-meta-sidecar",
       "description": "`_context/sacred/prd.meta.json` exists and validates against `schemas/handoffs/prd-to-architecture.schema.ts` — Phase 4→Phase 6 handoff contract",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/handoffs/prd-to-architecture.schema.ts",
       "artefact_path": "_context/sacred/prd.meta.json",

@@ -17,7 +17,7 @@
     {
       "id": "prd-locked",
       "description": "PRD `_context/sacred/prd.md` is locked (re-verified at Phase 5 exit; staleness check: prd.last_modified <= phase-4-to-5 handoff written_at, or PRD v(N+1) emitted by reconciliation pass)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/sacred/prd.md",
       "remediation": "If PRD was edited mid-Phase-5 outside the reconciliation pass, route through `phase-transition` reconciliation. If PRD-stale was caused by upstream edit, re-run Phase 5 from `design-brief` Step 0 with refreshed graph.",
@@ -30,7 +30,8 @@
       "severity": "block",
       "schema_ref": "schemas/design/design-brief.schema.json",
       "artefact_path": "_context/planning/design-brief-v*.md",
-      "remediation": "Run `@ux-designer design-brief` from Phase 5 entry."
+      "remediation": "Run `@ux-designer design-brief` from Phase 5 entry.",
+      "command": "coldpress validate-schema _context/planning/design-brief-v{latest}.md"
     },
     {
       "id": "ux-design-spec-validated",
@@ -39,7 +40,8 @@
       "severity": "block",
       "schema_ref": "schemas/design/ux-design-spec.schema.json",
       "artefact_path": "_context/design/ux-design-spec-v*.md",
-      "remediation": "Run `@ux-designer ux-design` after `design-brief` completes."
+      "remediation": "Run `@ux-designer ux-design` after `design-brief` completes.",
+      "command": "coldpress validate-schema _context/design/ux-design-spec-v{latest}.md"
     },
     {
       "id": "brand-guidelines-validated",
@@ -48,12 +50,13 @@
       "severity": "block",
       "schema_ref": "schemas/design/brand-guidelines.schema.json",
       "artefact_path": "_context/design/brand-guidelines-v*.md",
-      "remediation": "Run `@ux-designer brand-guidelines` after `design-brief` completes. Token-contrast failures resolve via revising tokens or downgrading a11y opt-in via Phase 3 baselines re-entry."
+      "remediation": "Run `@ux-designer brand-guidelines` after `design-brief` completes. Token-contrast failures resolve via revising tokens or downgrading a11y opt-in via Phase 3 baselines re-entry.",
+      "command": "coldpress validate-schema _context/design/brand-guidelines-v{latest}.md"
     },
     {
       "id": "prototype-emitted",
       "description": "`_context/design/prototype/{date}/manifest.json` exists, validates against `schemas/design/prototype-manifest.schema.json`. Manifest declares `mode` (code-skeleton | mock-spec | clickable-html) matching archetype (override-with-rationale path allowed)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/design/prototype-manifest.schema.json",
       "artefact_path": "_context/design/prototype/*/manifest.json",
@@ -62,7 +65,7 @@
     {
       "id": "design-deltas-aggregated",
       "description": "Phase 5 handoff log `phase-5-to-6-{date}.md` has a `design_deltas:` section (can be empty list `[]`). Every delta validates against `schemas/handoffs/design-delta.schema.json`",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/handoffs/design-delta.schema.json",
       "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
@@ -71,7 +74,7 @@
     {
       "id": "prd-reconciliation-resolved",
       "description": "Every `design_delta` in handoff log has `user_decision` set (one of: accept_into_prd, reject, flag_for_architecture_ADR, park_for_phase_11). For accept_into_prd deltas, PRD v(N+1) exists with bumped VC and `prd.meta.json.amendment_source: phase-5-reconciliation`",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
       "remediation": "Run `phase-transition` reconciliation pass. @pm prompts user per delta; accepted deltas trigger lightweight PRD amendment via `validate-prd --sections=<accepted_target_sections>`.",
@@ -80,7 +83,7 @@
     {
       "id": "phase-5-handoff-written",
       "description": "`_context/handoffs/phase-5-to-6-{date}.md` exists, valid against extended `phase-handoff.schema.json` (includes `design_deltas: [DesignDelta]` and optional `architecture_adrs_required: [...]` arrays)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/handoffs/phase-handoff.schema.json",
       "artefact_path": "_context/handoffs/phase-5-to-6-*.md",
