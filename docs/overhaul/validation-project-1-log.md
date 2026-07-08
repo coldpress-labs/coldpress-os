@@ -68,4 +68,42 @@ Severity: **✗ blocker** (framework can't complete the lane) · **⚠ friction*
 - [x] **Build** — COMPLETE. 5 stories (ST-1…ST-5) covering R1–R8, each acceptance-stubs-first (red→green): shell+nav+Home, MDX coffee lineup (data-driven — card count == MDX file count), Visit (milk line static), wholesale form + validated handler + Vercel endpoint (email stubbed, D-4), SEO/sitemap + on-token brand. **boundary-guard** validated on a real ST-1 packet (in-scope allow / forbidden+outside-owns deny — O14). **quality-gate** green per story and final: `astro check` 0 errors, **28 tests** (2 files), `astro build` 4 pages + sitemap. **visual-verify OK** + AA contrast green (R7). Staging smoke: all 4 routes → 200. Findings O13 (contrast validator caught a real AA fail, +), O14 (boundary-guard, +), O15 (tokens.css→app bridge gap, ⚠), O16 (visual-verify extraction friction, ⚠).
 - [x] **Verify** — COMPLETE. Clean-room independent verifier → **VERDICT: pass** (28/28 tests, gates green, 4×200 smoke, all R1–R8 met, no gamed tests). Caught 2 real minor gaps → OQ-5/OQ-6. Record: `_context/audit/verify-brew-bloom-2026-07-09.md`. Finding O17 (verifier independence works, +).
 - [x] **Ship** — COMPLETE. Staging smoke GREEN (4×200 + milk-line + form-endpoint sentinels); **deploy-gate verified both directions** (deny pre-smoke, allow post-smoke — O18); production human-triggered + **simulated** (★#1, not executed); release record `REL-2026-07-09-001.yaml`; uptime monitor defined. Finding O19 (lite scaffold lacks `_context/operations/`, ⚠).
-- [ ] **Harvest** — ⚠/✗ observations → `evals/` cases + walkthrough; ledger + §12 gate updated.
+- [x] **Harvest** — findings rolled up below; ledger delta D59; §12 gate updated. Lite-lane gaps consolidated for the post-0.4.0 S6b lane-awareness work.
+
+---
+
+## VP1 walkthrough & harvest (lite lane — COMPLETE, verdict pass)
+
+The lite lane ran end-to-end against a real build (Brew & Bloom, a coffee-roaster
+micro-site): **Spec → Build → Verify → Ship**, every wired seam exercised with the
+local `npm link`ed CLI acting exactly as a published consumer's would. Net result:
+**the lite lane works and ships**, with one real framework blocker found+fixed on
+day one and a cluster of lite/full lane-awareness gaps harvested.
+
+### What held (positive seam confirmations)
+- **O9** write-time `schema-validate` blocks a malformed design artifact live.
+- **O12** framework-native design pipeline (`tokens build` → tokens.css).
+- **O13** `tokens contrast` (VP2's O23 fix) caught a real AA fail in VP1's palette.
+- **O14** `boundary-guard` enforces the story-as-contract write-scope (owns/forbidden).
+- **O17** the clean-room verifier is independent *and* useful — it cleared the tests
+  of gaming and caught two gaps the author missed.
+- **O18** `deploy-gate` guards prod both directions (deny pre-smoke, allow post-smoke).
+
+### What to fix (harvested — eval-case candidates once addressed)
+- **✗ O8 — FIXED (D58)** full-lane P3 gate could never pass (`config-check` file). Golden test landed.
+- **⚠ lite/full `_context` lane-awareness** — O2 (full-lane subdirs in lite scaffold),
+  O10 (`spec.md` unschema'd), O11 (walking-skeleton skill reads full-lane `tech-stack.md`),
+  **O19 (lite scaffold lacks `operations/` — the ship release record has nowhere to land)**.
+  → the strongest consolidated case for the deferred **S6b lane-aware `_context`** work.
+- **⚠ no lite phase gate (O4)** — the ★ non-negotiables (walking skeleton, stack lock)
+  are honor-system in lite; candidate lightweight `gate check lite:*`.
+- **⚠ profile/pack coupling** — O5 (profile default too minimal), O6 (stack-pack hosting
+  vs profile deploy_pack disagree), O7 (no whole-file `coldpress.yaml` validation).
+- **⚠ design binding reach** — O15 (`tokens build` writes to a never-ships dir, no `--out`
+  to the app), O16 (`visual-verify` needs a heavy Playwright extraction with no lite trigger).
+
+### Eval-case status
+O8's fail-before/pass-after golden test shipped with D58. The remaining ⚠ findings
+are enhancement/lane-awareness gaps (not yet fixed), so their evals are **deferred to
+land with their fixes** (a red eval before a fix would break CI). They are catalogued
+here + in the ledger as the VP1 harvest backlog; the S6b work is their natural home.
