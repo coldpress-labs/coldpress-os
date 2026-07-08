@@ -108,7 +108,9 @@ coldpress --version | --help      Version / full command reference
 
 **8 subagents + Butler.** Butler is your main Claude Code session (not a file); it dispatches the 8 specialists, each with its own context window, tool allowlist, and model.
 
-| Slug | Model | Primary phases | Role |
+Model routing is deliberate: the deepest-reasoning phases — architecture and the evidence-linked retrospective — default to the most capable model (Opus), while high-throughput execution roles default to the fast frontier model (Sonnet) so a full lifecycle stays affordable. Every default is a one-line frontmatter override per project — see [Subagent customization](docs/subagent-customization.md).
+
+| Slug | Default model | Primary phases | Role |
 |------|-------|----------------|------|
 | `analyst` | sonnet | 2 | Research, personas, idea validation (against explicit kill criteria), product brief with outcome metrics |
 | `architect` | opus | 3, 6 | Stack + deploy lock, walking skeleton (P3); sacred architecture + ADRs, three-way keyed, silent-divergence guard (P6) |
