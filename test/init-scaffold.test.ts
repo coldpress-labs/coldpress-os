@@ -73,6 +73,12 @@ describe("end-to-end scaffold (template + framework + plugin)", () => {
       ".claude/SYSTEM.md",
       ".claude/agents/analyst.md",
       "_context/sacred/.gitkeep",
+      // VP1 O19: the operations landing spots must exist in the scaffold — the
+      // deploy-gate hook + lite-ship/Phase-9/10 skills write here (releases,
+      // acceptance, runbooks, …). Missing before, so a project's own ship
+      // release record + client-acceptance UAT had nowhere to land.
+      "_context/operations/releases/.gitkeep",
+      "_context/operations/acceptance/.gitkeep",
       "_input/assets/.gitkeep",
       "secure/manifest.yaml",
       "scripts/check-secrets.sh",
