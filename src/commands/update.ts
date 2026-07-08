@@ -95,9 +95,23 @@ async function runPostPhase3({
 }): Promise<void> {
   const stackPack = readStackPackFromYaml(yamlSource);
   if (!stackPack) {
+    // Distinguish "present but empty" (VP2 O14: the legit no-pack / `profile: custom`
+    // path — `stack_pack: ""`) from "absent" (Phase 3 stack-lock never ran).
+    const declared = /^\s*stack_pack\s*:/m.test(yamlSource);
+    if (declared) {
+      console.log(
+        pc.dim('  ↳ stack_pack: "" (custom / no pack) — no stack-pack wrappers to regenerate'),
+      );
+      await updateLocalConfig(targetDir, {
+        post_phase_3_update_ran: true,
+        post_phase_3_update_ran_at: new Date().toISOString(),
+      });
+      outro(pc.green("Post-Phase-3 update complete (no-pack path)."));
+      return;
+    }
     outro(
       pc.red(
-        "✗ --post-phase-3 requires `stack_pack` to be set in coldpress.yaml (Phase 3 stack-lock writes it).",
+        '✗ --post-phase-3 requires `stack_pack` in coldpress.yaml (Phase 3 stack-lock writes it; use "" for the no-pack path).',
       ),
     );
     process.exit(1);

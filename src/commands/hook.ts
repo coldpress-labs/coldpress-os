@@ -37,11 +37,24 @@ export interface RunHookOptions {
 async function readStdin(): Promise<string> {
   // No piped input (interactive TTY) — treat as empty payload.
   if (process.stdin.isTTY) return "";
-  const chunks: Buffer[] = [];
-  for await (const chunk of process.stdin) {
-    chunks.push(chunk as Buffer);
-  }
-  return Buffer.concat(chunks).toString("utf8");
+  // VP2 O19: a manual `coldpress hook <name>` from a non-TTY shell (no pipe) would
+  // otherwise block forever on stdin that never closes. Real hook payloads arrive +
+  // close within milliseconds, so race the read against a short timeout and degrade
+  // to an empty payload (the caller then prints a usage hint instead of hanging).
+  return new Promise<string>((resolve) => {
+    const chunks: Buffer[] = [];
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve(Buffer.concat(chunks).toString("utf8"));
+    };
+    const timer = setTimeout(finish, 2000);
+    if (typeof timer.unref === "function") timer.unref();
+    process.stdin.on("data", (c: Buffer) => chunks.push(c));
+    process.stdin.on("end", finish);
+    process.stdin.on("error", finish);
+  });
 }
 
 /**
@@ -74,6 +87,13 @@ export async function runHook(name: string, opts: RunHookOptions = {}): Promise<
         // Malformed payload — degrade to empty; handlers tolerate missing fields.
         input = {};
       }
+    } else {
+      // VP2 O19: no payload — a manual invocation, not the harness. Hint the right
+      // verb instead of silently running the handler against an empty input.
+      warn(
+        `coldpress hook ${name}: no event payload on stdin — this verb is driven by the Claude Code harness. ` +
+          `To validate a file yourself, run \`coldpress validate-schema <file>\`; for what this hook does, \`coldpress hook ${name} --explain\`.\n`,
+      );
     }
   }
 
