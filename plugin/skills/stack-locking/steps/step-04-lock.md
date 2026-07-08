@@ -8,7 +8,7 @@ next_step: "step-05-phase-transition.md"
 
 ## Goal
 
-Execute the sacred lock with the exact ordered sub-steps below. **Sub-step ordering is load-bearing (R4-5):** validate-schema fires before the governance lock (`governance: requires-review`) is written. A failed validation after the lock would permanently lock an invalid document. Never reorder. (`sacred: true` is already set from draft creation — the schema requires it and the doc is path-protected regardless; the *lock* is the `governance` flip, which is what `sacred-guard` enforces.)
+Execute the sacred lock with the exact ordered sub-steps below. **Sub-step ordering is load-bearing (R4-5):** validate-schema fires before the governance lock (`governance: locked`) is written. A failed validation after the lock would permanently lock an invalid document. Never reorder. (`sacred: true` is already set from draft creation — the schema requires it and the doc is path-protected regardless; the *lock* is the `governance` flip, which is what `sacred-guard` enforces.)
 
 ## Sub-Step Sequence
 
@@ -27,7 +27,7 @@ Only after sub-step 1 passes:
 
 1. Update `_context/sacred/tech-stack.md` frontmatter (`sacred: true` is already set; the lock is the `governance` flip):
    ```yaml
-   governance: "requires-review"   # was "draft" — this flip is the lock sacred-guard enforces
+   governance: "locked"            # was "draft" — this in-skill signoff flip is the lock (VP2 O35: sacred docs locked in-skill end at "locked", consistent with context/prd; "requires-review" is only architecture's phase-boundary review-gate)
    version: "1.0"                  # bump from draft "0.1"
    approved_by: "user"
    lock_date: "{ISO timestamp}"

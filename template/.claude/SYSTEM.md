@@ -65,6 +65,7 @@ When dispatching, include in the task prompt:
 4. **Prior artifacts:** Paths to any completed artifacts the subagent should read
 5. **Constraints:** Budget, timeline, technical constraints from prior decisions
 6. **Open questions:** Unresolved items from prior handoffs
+7. **Author incrementally — always include this (VP2 O36):** any dispatch that produces multiple artifacts must be told: *"Do NOT read everything then write at the end. Write each artifact to disk as soon as it's decided, smallest-first, saving after each — so a mid-run truncation loses nothing and can be resumed."* Big authoring dispatches (`@pm` breakdown, `@architect` decisions, `@ux-designer` design system) repeatedly hit read-all-then-truncate-with-zero-output; incremental authoring + the deliverables manifest (§3.5) are the guards. On a truncation, **resume the same agent** (its context is warm) with "stop reading, write now" rather than restarting cold.
 
 ### 3.3 Subagent Routing Table
 

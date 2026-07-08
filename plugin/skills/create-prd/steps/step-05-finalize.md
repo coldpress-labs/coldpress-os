@@ -21,7 +21,7 @@ Compile all sections into the final PRD, validate internal consistency, and writ
      version: "1.0"
      created: "{date}"
      last_modified: "{date}"
-     governance: "draft"          # author as draft (editable); flipped to requires-review at lock (step 6) AFTER sign-off. Never stamp requires-review/locked here — it freezes the PRD mid-authoring (VP2 O16).
+     governance: "draft"          # author as draft (editable); flipped to "locked" at lock (step 6) AFTER sign-off. Never stamp requires-review/locked here — it freezes the PRD mid-authoring (VP2 O16).
      workflowType: "prd"
      stepsCompleted: ["step-00", "step-01", "step-02", "step-03", "step-04", "step-05"]
      adr_references: ["{ADR-NNNN}", ...]
@@ -57,7 +57,7 @@ Compile all sections into the final PRD, validate internal consistency, and writ
 
 6. **Write to disk as draft, then lock only after sign-off:**
    - Save as `_context/sacred/prd.md` with `governance: "draft"` — the doc stays editable through the review passes (step 4) and any final changes (step 5). `sacred: true` is set from the start (schema requires it); the *lock* is the governance flip, not `sacred`.
-   - **Only after the user's final sign-off (step 5)**, flip frontmatter `governance: "draft"` → `governance: "requires-review"`. This flip is the lock `sacred-guard` enforces; post-lock edits require the `sacred-change` workflow. Locking before sign-off freezes the PRD mid-authoring (VP2 O16) — never do it.
+   - **Only after the user's final sign-off (step 5)**, flip frontmatter `governance: "draft"` → `governance: "locked"`. This flip is the lock `sacred-guard` enforces; post-lock edits require the `sacred-change` workflow. Locking before sign-off freezes the PRD mid-authoring (VP2 O16) — never do it. (VP2 O35: in-skill signoff ends at `locked`, consistent with context/tech-stack.)
 
 7. **Emit `prd.meta.json` sidecar:**
    ```json
