@@ -26,7 +26,7 @@ import {
   runValidateFrontmatterMin,
 } from "./commands/gate-checks.js";
 import { runStatusLine } from "./commands/statusline.js";
-import { runTokensBuild } from "./commands/tokens.js";
+import { runTokensBuild, runTokensContrast } from "./commands/tokens.js";
 import { runVisualVerify } from "./commands/visual-verify.js";
 import { runTrace } from "./commands/trace.js";
 import { runWaves } from "./commands/waves.js";
@@ -136,6 +136,12 @@ tokensCmd
   .description("Regenerate _context/design/tokens.css (CSS custom properties) from tokens.json — the code binding the build consumes by construction.")
   .action(() => {
     process.exit(runTokensBuild());
+  });
+tokensCmd
+  .command("contrast")
+  .description("Validate WCAG 2.1 AA contrast over tokens.json color roles (text ≥4.5:1, non-text/UI ≥3:1 per SC 1.4.11). Phase-5 gate block check (§5 P5, VP2 O23).")
+  .action(() => {
+    process.exit(runTokensContrast());
   });
 
 program

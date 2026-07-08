@@ -54,6 +54,14 @@
       "command": "coldpress validate-schema _context/design/brand-guidelines-v{latest}.md"
     },
     {
+      "id": "tokens-contrast-aa",
+      "description": "Design tokens pass WCAG 2.1 AA contrast — text ≥4.5:1, non-text/UI ≥3:1 (SC 1.4.11). VP2 O23: real validation via `coldpress tokens contrast`, not hand-rolled. Skips cleanly for non-UI projects (no tokens.json).",
+      "kind": "automated",
+      "severity": "block",
+      "command": "coldpress tokens contrast",
+      "skill_ref": "lifecycle/5-design/brand-guidelines"
+    },
+    {
       "id": "prototype-emitted",
       "description": "`_context/design/prototype/{date}/manifest.json` exists, validates against `schemas/design/prototype-manifest.schema.json`. Manifest declares `mode` (code-skeleton | mock-spec | clickable-html) matching archetype (override-with-rationale path allowed)",
       "kind": "artefact-present",
