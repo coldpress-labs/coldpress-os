@@ -27,8 +27,14 @@ rest of intake is confirm-or-override, not open-ended.
 4. **Note the overridability** to the user: *"These are starting points — you can
    change the stack, lane, tier, or anything else as we go."* A profile is defaults,
    not a cage.
-5. **None/custom** → skip the pre-fill; the later steps (lane-select, tier question,
-   stack discovery at Phase 3) gather each axis directly.
+5. **None / custom is a first-class choice, not a fallback** (VP2 O4). Many real
+   projects don't match a harvested profile (e.g. a content-heavy client-side
+   *interactive* app — game engines + a globe, static-hosted, no backend). When
+   none fits, pick **None/custom** affirmatively and say so: *"None of the presets
+   fit cleanly, so we'll set the axes directly as we go — that's expected, not a
+   gap."* Skip the pre-fill; the later steps (lane-select, tier question, stack
+   discovery at Phase 3) gather each axis directly. A custom project legitimately
+   ends with **`stack_pack: ""`** (no pack) — a valid, supported state, not an error.
 
 ## Output
 

@@ -65,10 +65,12 @@ Final prose polish before sacred-doc signoff. Sacred-docs deserve a clean final 
 
 ### 7. Present for sacred signoff — halt
 
-> Here's the authored `context.md`. This is a **sacred document** — it becomes the foundation for all downstream work. Post-signoff edits require the `sacred-change` skill (which the `sacred-guard` hook enforces), not direct edits. Review carefully.
+**Review-in-file, not in-chat** (VP2 O5): the authored doc is already on disk as `_context/sacred/context.md` (`governance: draft`, so still editable). Do **not** paste the full body into the conversation — point the user at the file to read and redline in place. The reviewed artifact should be the committed artifact.
 
-User confirms or iterates. Never auto-write. On signoff:
-- Write `_context/sacred/context.md`
+> I've written the authored `context.md` to `_context/sacred/context.md` — please open it and review. This is a **sacred document**: on your signoff I lock it (`governance: draft → locked`), after which edits require the `sacred-change` workflow (enforced by `sacred-guard`), not direct edits.
+
+User confirms or iterates (edit the on-disk draft directly while it's `draft`). Never auto-lock. On signoff:
+- Flip `_context/sacred/context.md` frontmatter `governance: draft → locked` (§4 already set the other fields)
 - Append to the intake report noting sacred signoff captured
 
 ### 8. Clean exit

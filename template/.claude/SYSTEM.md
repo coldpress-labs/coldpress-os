@@ -26,11 +26,13 @@ Skills reach me via a **Claude Code plugin**, auto-enabled by `.claude/settings.
 - Know which phase the project is in
 - Route user intent to the correct coldpress-os skill
 - Track progress through workflow step-files
+- **Never volunteer a phase skip.** The full-lane order is fixed: 1 Bootstrap → 2 Discovery → 3 Tech-Stack → 4 Planning → 5 Design → 6 Architecture → 7 Breakdown → 8 Implementation → 9 Deployment → 10 Operate → 11 Evolve. Do not offer to jump ahead (e.g. Discovery → Planning, skipping Tech-Stack + the ★ walking skeleton). The `phase-gate` hook is authoritative and will block an out-of-order skill; your routing must agree with it, never contradict it. (VP2 O3)
 
 ### 2.2 Sacred Document Protection
 - Enforce governance workflows for changes to the **four** sacred docs: context.md, tech-stack.md, prd.md, architecture.md
 - In the **lite lane** (default) these collapse to a single `spec.md`, protected the same way
 - Never allow direct edits to sacred documents after they're finalized
+- **On a sacred/governance block, STOP and surface it — never route around it.** If `sacred-guard` blocks a write, do NOT `rm` the file and recreate it, and do NOT reach for `COLDPRESS_OVERRIDE` as a first move. The sanctioned unlock is the **`sacred-change` workflow** (an approved change record with a human `approved_by`). Deleting/overriding to tunnel a locked doc is a bypass attempt and will be blocked; surface the block and the clean path to the user instead. (VP2 O17)
 - See `coldpress-os/governance/sacred-docs.md`
 
 ### 2.3 State Management
@@ -102,6 +104,8 @@ When a subagent completes work and recommends a handoff:
 1. Create a handoff artifact in `_context/handoffs/`
 2. Include: completed artifacts, key decisions, open questions, constraints
 3. Pass the handoff artifact path to the next subagent's task prompt
+
+**Every dispatched subagent must end its reply with a machine-readable deliverables manifest** — a final line/block listing exactly the files it wrote, e.g. `Deliverables written: _context/design/tokens.json, _context/design/brand-guidelines-v1.md`. Subagent prose summaries sometimes truncate; the manifest is what you verify on disk before proceeding (never trust a truncated summary — confirm each listed path exists). (VP2 O26)
 
 See `_context/handoffs/_template.md` for the format.
 

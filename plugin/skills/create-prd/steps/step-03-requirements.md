@@ -18,6 +18,7 @@ Capture all functional and non-functional requirements that the product must sat
    - Each requirement: ID, description, priority (P0/P1/P2), acceptance criteria
    - Use format: "The system shall [verb] [object] [condition]"
    - Ensure traceability to product goals
+   - **Guard against priority inflation** (VP2 O20): P0 = "v1 cannot ship without it." Every P0 forces a mandatory measurable outcome in the block-gated `outcomes.yaml`, so a bloated P0 set inflates the outcome contract. If more than ~half the FRs land at P0, re-examine: compliance/polish refinements layered on an already-P0 primitive are usually P1. Flag the P0 share to the user before finalizing.
 
 2. **Non-functional requirements — derive from active baselines:**
    From `planning-scope active_baselines` (loaded in Step 0), each confirmed baseline generates mandatory NFRs:
