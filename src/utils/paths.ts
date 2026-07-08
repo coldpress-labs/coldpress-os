@@ -55,10 +55,16 @@ export const frameworkDirs = [
   "lifecycle",
   "skills",
   "governance",
+  "schemas",
   "data",
   "authoring",
   "plugin",
 ] as const;
+// `schemas/` IS vendored (VP2 O22): lifecycle skills + gate.json checks reference
+// `schemas/…` file paths (e.g. `schemas/design/design-brief.schema.json`), so the
+// consumer scaffold must carry them — otherwise agents can't resolve the schema in
+// their own bundle and hand-roll validators / reach into the framework repo. Schemas
+// already ship in the npm tarball (package.json `files`), so this is consistent.
 // NOTE: `docs/` is NOT copied wholesale (732 KB of framework-internal docs per
 // project — WS11 S6). `copyFramework` copies only the CONSUMER_DOCS subset; the
 // rest stays on GitHub.
