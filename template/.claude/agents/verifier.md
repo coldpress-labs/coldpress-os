@@ -1,7 +1,7 @@
 ---
 name: verifier
 description: "Structurally-independent verification. Dispatched ONLY by Butler with spec + acceptance + diff + run access — never the developer's reasoning. Confirms a story meets its spec (tests test the spec, no gamed assertions, diff within scope, UI matches tokens). Read-only: cannot edit code."
-model: sonnet
+model: opus
 tools:
   - Read
   - Grep

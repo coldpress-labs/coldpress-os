@@ -41,11 +41,11 @@ Derived from `template/.claude/agents/*.md` frontmatter. Tools matter because th
 | Subagent | Model | Tool allowlist | Max turns | Effort |
 |----------|-------|----------------|-----------|--------|
 | `analyst` | sonnet | Read, Grep, Glob, Bash, WebSearch, WebFetch | 20 | high |
-| `pm` | sonnet | Read, Grep, Glob, Bash, Edit, Write | 25 | — |
+| `pm` | opus | Read, Grep, Glob, Bash, Edit, Write | 25 | — |
 | `ux-designer` | sonnet | Read, Grep, Glob, Bash, Edit, Write | 25 | — |
 | `architect` | opus | Read, Grep, Glob, Bash | 20 | high |
 | `developer` | sonnet | Read, Grep, Glob, Bash, Edit, Write | 50 | — |
-| `verifier` | sonnet | Read, Grep, Glob, Bash | 30 | — |
+| `verifier` | opus | Read, Grep, Glob, Bash | 30 | — |
 | `devops` | sonnet | Read, Grep, Glob, Bash, Edit, Write | 40 | — |
 | `reviewer` | opus | Read, Grep, Glob | 30 | high |
 

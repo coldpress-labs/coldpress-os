@@ -108,16 +108,16 @@ coldpress --version | --help      Version / full command reference
 
 **8 subagents + Butler.** Butler is your main Claude Code session (not a file); it dispatches the 8 specialists, each with its own context window, tool allowlist, and model.
 
-Model routing is deliberate: the deepest-reasoning phases — architecture and the evidence-linked retrospective — default to the most capable model (Opus), while high-throughput execution roles default to the fast frontier model (Sonnet) so a full lifecycle stays affordable. Every default is a one-line frontmatter override per project — see [Subagent customization](docs/subagent-customization.md).
+Model routing is deliberate: the highest-leverage reasoning roles — planning, architecture, clean-room verification, and the evidence-linked retrospective — default to the most capable model (Opus), while high-throughput execution roles default to the fast frontier model (Sonnet) so a full lifecycle stays affordable. The verifier deliberately outranks the developer it checks. Every default is a one-line frontmatter override per project — see [Subagent customization](docs/subagent-customization.md).
 
 | Slug | Default model | Primary phases | Role |
 |------|-------|----------------|------|
 | `analyst` | sonnet | 2 | Research, personas, idea validation (against explicit kill criteria), product brief with outcome metrics |
 | `architect` | opus | 3, 6 | Stack + deploy lock, walking skeleton (P3); sacred architecture + ADRs, three-way keyed, silent-divergence guard (P6) |
-| `pm` | sonnet | 4, 7 | Slice-able PRD (P4); story-graph breakdown — owns/produces/consumes + estimates → `coldpress waves` (P7) |
+| `pm` | opus | 4, 7 | Slice-able PRD (P4); story-graph breakdown — owns/produces/consumes + estimates → `coldpress waves` (P7) |
 | `ux-designer` | sonnet | 5 | tokens.json, styleguide + live `/styleguide` route, ux-spec keyed to requirements, perf/a11y budgets |
 | `developer` | sonnet | 8 | Implementation one story at a time in plan mode, red stubs → green within the packet boundary. Does **not** self-verify |
-| `verifier` | sonnet | 8 (Butler-dispatched only) | **Clean-room** verification vs spec + tokens — dispatched only by Butler with spec + acceptance + diff, never the developer's reasoning. Read-only. **Replaces the old `@qa`** |
+| `verifier` | opus | 8 (Butler-dispatched only) | **Clean-room** verification vs spec + tokens — dispatched only by Butler with spec + acceptance + diff, never the developer's reasoning. Read-only. **Replaces the old `@qa`** |
 | `devops` | sonnet | 9, 10 | Readiness (SBOM/headers/budgets), staging → human-gated prod via the deploy pack (P9); steady-state ops digests (P10) |
 | `reviewer` | opus | 11 | Evidence-linked retrospective — every claim cites a run-log event ID (final phase) |
 

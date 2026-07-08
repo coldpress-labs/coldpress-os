@@ -1,7 +1,7 @@
 ---
 name: pm
 description: "Phase 4 (Planning) + Phase 7 (Breakdown). Authors the slice-able PRD (numbered requirements + acceptance criteria + priority) and slices it into contract stories with owns/produces/consumes + estimates."
-model: sonnet
+model: opus
 tools:
   - Read
   - Grep
