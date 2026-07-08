@@ -58,11 +58,30 @@ See `test/agent-sdk-compat.test.ts` for the compatibility smoke test.
 ## Commands
 
 ```
+# Everyday
 coldpress init [project-name]     Scaffold a new project
+coldpress doctor                  Verify the local environment (Node, git, Claude Code CLI)
 coldpress update                  Regenerate interop outputs (AGENTS.md, Cursor, Roo, OpenHands, Cline)
+coldpress dashboard               Start the localhost project dashboard
+
+# Lifecycle
+coldpress gate check|enter        Evaluate a phase's exit gate / stamp phase entry
+coldpress waves                   Compute implementation waves from the story graph
+coldpress trace <verb> [id]       Traceability queries over schema'd artefacts
+coldpress tokens build|contrast   Design-token build + WCAG 2.1 AA contrast validation
+coldpress outcomes check          Validate outcome contracts (P4 gate)
+coldpress verdict record          Record a clean-room verifier verdict
+coldpress evals                   Run headless golden-task evals
+coldpress evolve                  Aggregate run-logs into failure/cost leaderboards
+coldpress security aggregate      Merge scanner results into the security gate
+coldpress run list|inspect        Inspect recorded orchestration runs
+coldpress wiring check            Verify the cross-phase artefact manifest
+
+# Misc
+coldpress import bmad <dir>       One-way BMAD module import
+coldpress lane-upgrade            Upgrade a lite-lane project to the full lane
 coldpress feedback                Open GitHub Issues in your browser
-coldpress upgrade                 Print upgrade instructions
-coldpress --version               Print installed version
+coldpress --version | --help      Version / full command reference
 ```
 
 ## Lifecycle phases (Shape A — v0.3.0-alpha)
@@ -125,7 +144,7 @@ Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolde
 ├── governance/       # Sacred-doc change workflows + 4 reconciliation options
 ├── data/             # Portable knowledge assets (CSV/YAML method playbook, profiles, deploy packs, taxonomy)
 ├── templates/        # Document / design / infrastructure / prompt-snippet templates
-├── plugin/           # Claude Code plugin marketplace tree (133 spec-compliant SKILL.md)
+├── plugin/           # Claude Code plugin marketplace tree (141 spec-compliant SKILL.md)
 └── docs/             # Framework documentation
 ```
 

@@ -32,8 +32,8 @@ npm install -g @coldpress/core
 Verify it's on your PATH:
 
 ```bash
-coldpress --version   # → 0.3.0-alpha (or later)
-coldpress --help      # → lists init / update / feedback / upgrade
+coldpress --version   # → 0.3.2-alpha (or later)
+coldpress --help      # → full command reference (init / doctor / gate / waves / trace / …)
 ```
 
 ---
