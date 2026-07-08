@@ -32,7 +32,7 @@
     {
       "id": "sprint-status-final",
       "description": "Every story in `_context/tracking/sprint-status.yaml` has status `done` (all waves complete). The single unified tracking artefact (WS10-B2 — replaces the retired wave-status-v{N}.md; one file, produced by story-graph, transitioned by dev-story).",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/tracking/sprint-status.schema.json",
       "artefact_path": "_context/tracking/sprint-status.yaml"
@@ -40,7 +40,7 @@
     {
       "id": "code-review-passed-all-stories",
       "description": "Per-story code-review reports exist + status: pass",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/audit/code-review.schema.json",
       "artefact_path": "_context/audit/reviews/code-review-*-v*.md"

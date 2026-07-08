@@ -27,7 +27,7 @@
     {
       "id": "architecture-md-authored",
       "description": "`_context/sacred/architecture.md` exists with `sacred: true` frontmatter, validates against `schemas/sacred-docs/architecture.schema.json`",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/sacred-docs/architecture.schema.json",
       "artefact_path": "_context/sacred/architecture.md",
@@ -36,7 +36,7 @@
     {
       "id": "architecture-meta-sidecar",
       "description": "`_context/sacred/architecture.meta.json` exists, validates against `schemas/handoffs/architecture-meta.schema.json`",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/handoffs/architecture-meta.schema.json",
       "artefact_path": "_context/sacred/architecture.meta.json",
@@ -45,7 +45,7 @@
     {
       "id": "adrs-authored",
       "description": "At least 1 ADR exists at `_context/planning/adrs/adr-NNN-*.md` from Phase 6 (some Phase 6 runs will produce many; at least 1 expected for a non-trivial project)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/planning/adrs/adr-*.md",
       "remediation": "Run `architecture-design` Step 5 — author at least one ADR for a Phase 6 architectural decision.",
@@ -90,7 +90,7 @@
     {
       "id": "phase-6-handoff-written",
       "description": "`_context/handoffs/phase-6-to-7-{date}.md` exists, valid against extended phase-handoff schema (includes `agent_transitions:` for Pattern 7; optional `architecture_deltas:` if forward-carry mechanism activated)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/handoffs/phase-handoff.schema.json",
       "artefact_path": "_context/handoffs/phase-6-to-7-*.md",

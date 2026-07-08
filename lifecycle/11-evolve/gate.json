@@ -21,7 +21,7 @@
     {
       "id": "retrospective-emitted",
       "description": "`_context/audit/retrospective-v{latest}.md` exists with status: validated; cause analysis for accept_into_phase_11_retrospective deltas",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/audit/retrospective.schema.json",
       "artefact_path": "_context/audit/retrospective-v*.md",
@@ -30,7 +30,7 @@
     {
       "id": "product-evolution-backlog-emitted",
       "description": "`_context/audit/product-evolution-backlog-v{latest}.md` exists; includes accept_into_phase_11_product_evolution deltas as backlog items",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/audit/product-evolution-backlog.schema.json",
       "artefact_path": "_context/audit/product-evolution-backlog-v*.md",
@@ -39,7 +39,7 @@
     {
       "id": "innovation-strategy-emitted",
       "description": "`_context/audit/innovation-strategy-v{latest}.md` exists; long-horizon strategic ideation",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "warn",
       "schema_ref": "schemas/audit/innovation-strategy.schema.json",
       "artefact_path": "_context/audit/innovation-strategy-v*.md",

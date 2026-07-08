@@ -17,7 +17,7 @@
     {
       "id": "architecture-locked",
       "description": "`_context/sacred/architecture.md` is locked + sacred (re-verified at Phase 7 exit)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/sacred/architecture.md",
       "remediation": "If architecture changed mid-Phase-7, re-enter Phase 6 architecture-design OR run architecture-deltas reconciliation via `phase-transition` step-02a §B.",
@@ -26,7 +26,7 @@
     {
       "id": "epics-validated",
       "description": "`_context/planning/epics-v{latest}.md` exists, validates against schema, sidecar `.meta.json` exists",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/epic.schema.json",
       "artefact_path": "_context/planning/epics-v*.md",
@@ -35,7 +35,7 @@
     {
       "id": "stories-validated",
       "description": "`_context/implementation/stories/story-NNN-*-v{N}.md` files exist (per-story files per Q4); `stories-index.md` aggregates; all schema-valid",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/story.schema.json",
       "artefact_path": "_context/implementation/stories/",
@@ -44,7 +44,7 @@
     {
       "id": "story-graph-validated",
       "description": "`_context/implementation/story-graph.yaml` exists, schema-validates, and `coldpress waves` accepts it (acyclic; every interface edge has a contract story; intra-wave ownership disjoint)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/story-graph.schema.ts",
       "artefact_path": "_context/implementation/story-graph.yaml",
@@ -53,7 +53,7 @@
     {
       "id": "sprint-status-validated",
       "description": "`_context/tracking/sprint-status.yaml` exists + validates; every story assigned to a wave (the single unified tracking artefact, WS10-B2).",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "artefact_path": "_context/tracking/sprint-status.yaml",
       "remediation": "Run `@pm story-graph` (Step 5 generates the tracking file from the computed wave assignment).",
@@ -62,7 +62,7 @@
     {
       "id": "implementation-readiness-pass",
       "description": "`_context/audit/implementation-readiness-v{latest}.md` exists; 9-point structured checklist all pass (per Q6: PRD coverage / UX coverage / architecture coverage / flagged-deltas resolved at Phase 6 / PERT valid / sprint complete / no ADR contradictions / prototype available / legacy reflected)",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/planning-artefacts/implementation-readiness.schema.json",
       "artefact_path": "_context/audit/implementation-readiness-v*.md",
@@ -79,7 +79,7 @@
     {
       "id": "phase-7-handoff-written",
       "description": "`_context/handoffs/phase-7-to-8-{date}.md` exists, valid against extended phase-handoff schema",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/handoffs/phase-handoff.schema.json",
       "artefact_path": "_context/handoffs/phase-7-to-8-*.md",

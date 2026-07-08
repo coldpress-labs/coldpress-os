@@ -19,6 +19,7 @@ import { runLogHandler } from "./run-log.js";
 import { sacredGuardHandler } from "./sacred-guard.js";
 import { schemaValidateHandler } from "./schema-validate.js";
 import { secretScanHandler } from "./secret-scan.js";
+import { stateValidateHandler } from "./state-validate.js";
 import { testIntegrityHandler } from "./test-integrity.js";
 import type { HookHandler } from "./types.js";
 
@@ -33,6 +34,7 @@ export const HOOK_HANDLERS: Record<string, HookHandler> = {
   [sacredGuardHandler.name]: sacredGuardHandler,
   [schemaValidateHandler.name]: schemaValidateHandler,
   [secretScanHandler.name]: secretScanHandler,
+  [stateValidateHandler.name]: stateValidateHandler,
   [testIntegrityHandler.name]: testIntegrityHandler,
 };
 

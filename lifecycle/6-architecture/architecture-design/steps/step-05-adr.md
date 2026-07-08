@@ -24,10 +24,11 @@ Method playbook Tier-1: `problem_solving` (first_principles, failure_mode_analys
 
 ### 2. Author REQUIRED ADRs first (silent-divergence guard priority)
 
-For each entry in queued_required_adrs (from Step 1 state), author one ADR at `_context/planning/adrs/adr-NNN-<slug>.md`. NNN = next available ADR number (continue from prior phase ADRs).
+For each entry in queued_required_adrs (from Step 1 state), author one ADR at `_context/planning/adrs/adr-NNN-<slug>.md`. NNN = next available ADR number (continue from prior phase ADRs). **Set the schema-required canonical `id: "ADR-NNNN"`** in frontmatter (zero-padded, sequential — continue from the highest `ADR-####` across Phases 3 + 6; VP2 O18). The adr schema requires it and the PRD's `adr_references` point at it — the PostToolUse `schema-validate` hook will reject an ADR without it.
 
 ```yaml
 ---
+id: "ADR-NNNN"                                # canonical id (zero-padded, sequential across Phases 3+6) — VP2 O18
 adr_number: NNN
 title: "<short architecture decision>"
 status: accepted

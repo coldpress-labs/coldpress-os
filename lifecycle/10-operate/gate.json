@@ -22,7 +22,7 @@
     {
       "id": "sprint-status-current",
       "description": "`_context/tracking/sprint-status.yaml` reflects the current iteration (the single unified tracking artefact, WS10-B2).",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/tracking/sprint-status.schema.json",
       "artefact_path": "_context/tracking/sprint-status.yaml",
@@ -31,7 +31,7 @@
     {
       "id": "course-correction-logs-up-to-date",
       "description": "Open incidents have status; closed incidents have post-mortem",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "warn",
       "schema_ref": "schemas/audit/course-correction.schema.json",
       "artefact_path": "_context/planning/course-correction-v*.md",

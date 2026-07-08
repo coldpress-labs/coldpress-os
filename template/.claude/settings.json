@@ -49,6 +49,7 @@
         "hooks": [
           { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" secret-scan" },
           { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" schema-validate" },
+          { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" state-validate" },
           { "type": "command", "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/hooks/run.mjs\" test-integrity" }
         ]
       }

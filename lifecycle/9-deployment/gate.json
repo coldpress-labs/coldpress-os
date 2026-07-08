@@ -15,7 +15,7 @@
     {
       "id": "readiness-pass",
       "description": "`_context/audit/readiness-v{latest}.md` exists with status: pass — the scripted hard checklist: build, env-vs-manifest, npm audit (high/critical) + security/scan-* suite, SBOM, security headers, license, Lighthouse vs budgets, T2 lockfile pinning",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/audit/readiness.schema.json",
       "artefact_path": "_context/audit/readiness-v*.md",
@@ -48,7 +48,7 @@
     {
       "id": "deploy-success",
       "description": "`_context/tracking/deploy-log-v{latest}.md` records deploy completion with status: success",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "schema_ref": "schemas/audit/deploy-log.schema.json",
       "artefact_path": "_context/tracking/deploy-log-v*.md",
