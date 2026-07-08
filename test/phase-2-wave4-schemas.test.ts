@@ -323,13 +323,14 @@ describe("Phase 2 gate.json structural contract (Wave 4.7)", () => {
     expect(gate.next_phase).toBe("3-tech-stack");
   });
 
-  it("has exactly 4 acceptance checks", () => {
+  it("has exactly 5 acceptance checks", () => {
     // Was 7 before v0.4 WS0 removed the graph-freshness check (§8 item 1,
     // Graphify retired — no graph staleness gate). Was 6 before WS5-B moved
-    // context-md-status-authored + context-sacred-signoff to the Phase 1 gate
-    // (pre-project-interview, which owned this transition, merged into Phase 1
-    // intake — §8 item 6).
-    expect(gate.acceptance_checks).toHaveLength(4);
+    // context-md-status-authored + context-sacred-signoff to the Phase 1 gate.
+    // Now 5: VP2 O25 added `personas-distillate` (warn) so the Phase-2→5
+    // personas artifact contract is surfaced at the gate.
+    expect(gate.acceptance_checks).toHaveLength(5);
+    expect(gate.acceptance_checks.find((c) => c.id === "personas-distillate")).toBeDefined();
   });
 
   it("no longer carries the context-authoring checks (moved to Phase 1, WS5-B)", () => {

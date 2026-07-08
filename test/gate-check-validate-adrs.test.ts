@@ -13,6 +13,7 @@ let workDir: string;
 
 function adrFrontmatter(overrides: Record<string, unknown> = {}): string {
   const base = {
+    id: "ADR-0001",
     name: "adr",
     decision_area: "database",
     phase_authored: 3,

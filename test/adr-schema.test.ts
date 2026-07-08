@@ -21,6 +21,7 @@ beforeAll(() => {
 describe("adr schema — acceptance", () => {
   it("validates a complete T2 ADR", () => {
     const doc = {
+      id: "ADR-0001",
       name: "adr",
       decision_area: "database",
       phase_authored: 3,
@@ -40,7 +41,7 @@ describe("adr schema — acceptance", () => {
 
   it("validates all three tier values", () => {
     const base = {
-      name: "adr", decision_area: "auth", phase_authored: 3, status: "accepted",
+      id: "ADR-0001", name: "adr", decision_area: "auth", phase_authored: 3, status: "accepted",
       version: "1.0", derived_from: [], options: ["Clerk", "Auth0"], chosen: "Clerk",
       rubric: { fit: 8, cost: 8, team_familiarity: 7, ecosystem: 8, lock_in: 6, vibe_fit: 9, weighted_total: 7.7 },
     };
@@ -51,7 +52,7 @@ describe("adr schema — acceptance", () => {
 
   it("validates all three status values", () => {
     const base = {
-      name: "adr", decision_area: "hosting", phase_authored: 3,
+      id: "ADR-0001", name: "adr", decision_area: "hosting", phase_authored: 3,
       version: "1.0", tier: "T3", derived_from: [], options: ["Vercel", "Fly.io"], chosen: "Vercel",
       rubric: { fit: 9, cost: 6, team_familiarity: 8, ecosystem: 9, lock_in: 4, vibe_fit: 8, weighted_total: 7.3 },
     };

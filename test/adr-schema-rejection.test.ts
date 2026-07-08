@@ -20,6 +20,7 @@ beforeAll(() => {
 
 function validAdr() {
   return {
+    id: "ADR-0001",
     name: "adr",
     decision_area: "database",
     phase_authored: 3,

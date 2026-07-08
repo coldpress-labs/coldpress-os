@@ -4,53 +4,137 @@
   "title": "Architecture Decision Record (ADR) frontmatter",
   "description": "Structural contract for `_context/planning/adrs/adr-{decision}-v{N}.md`. Produced by stack-evaluation; validated at stack-locking gate.",
   "type": "object",
-  "required": ["name", "decision_area", "phase_authored", "status", "version", "derived_from", "options", "chosen", "rubric", "tier"],
+  "required": [
+    "id",
+    "name",
+    "decision_area",
+    "phase_authored",
+    "status",
+    "version",
+    "derived_from",
+    "options",
+    "chosen",
+    "rubric",
+    "tier"
+  ],
   "properties": {
-    "name": { "const": "adr" },
-    "decision_area": { "type": "string" },
-    "phase_authored": { "type": "integer", "enum": [3, 6], "description": "Phase that authored the ADR. Phase 3 (Tech Stack) ADRs cover stack decisions; Phase 6 (Architecture) ADRs cover system architecture decisions including REQUIRED ADRs for Phase 5 flagged_for_architecture_ADR deltas." },
-    "status": { "enum": ["proposed", "accepted", "superseded"] },
-    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$" },
+    "name": {
+      "const": "adr"
+    },
+    "decision_area": {
+      "type": "string"
+    },
+    "phase_authored": {
+      "type": "integer",
+      "enum": [
+        3,
+        6
+      ],
+      "description": "Phase that authored the ADR. Phase 3 (Tech Stack) ADRs cover stack decisions; Phase 6 (Architecture) ADRs cover system architecture decisions including REQUIRED ADRs for Phase 5 flagged_for_architecture_ADR deltas."
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "accepted",
+        "superseded"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$"
+    },
     "tier": {
       "type": "string",
-      "enum": ["T1", "T2", "T3"],
+      "enum": [
+        "T1",
+        "T2",
+        "T3"
+      ],
       "description": "Candidate tier at time of evaluation: T1=pack pre-pick, T2=pre-loaded catalog, T3=graph-query+web-search."
     },
     "derived_from": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Paths to upstream artefacts (shortlist, context.md, product-brief)."
     },
     "supersedes": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "options": {
       "type": "array",
       "minItems": 2,
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "All evaluated options. Must contain at least 2."
     },
-    "chosen": { "type": "string" },
+    "chosen": {
+      "type": "string"
+    },
     "rubric": {
       "type": "object",
       "description": "6-dimension weighted evaluation rubric (0–10 per dimension).",
-      "required": ["fit", "cost", "team_familiarity", "ecosystem", "lock_in", "vibe_fit", "weighted_total"],
+      "required": [
+        "fit",
+        "cost",
+        "team_familiarity",
+        "ecosystem",
+        "lock_in",
+        "vibe_fit",
+        "weighted_total"
+      ],
       "properties": {
-        "fit": { "type": "number", "minimum": 0, "maximum": 10 },
-        "cost": { "type": "number", "minimum": 0, "maximum": 10 },
-        "team_familiarity": { "type": "number", "minimum": 0, "maximum": 10 },
-        "ecosystem": { "type": "number", "minimum": 0, "maximum": 10 },
-        "lock_in": { "type": "number", "minimum": 0, "maximum": 10 },
-        "vibe_fit": { "type": "number", "minimum": 0, "maximum": 10 },
-        "weighted_total": { "type": "number", "minimum": 0, "maximum": 10 }
+        "fit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "cost": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "team_familiarity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "ecosystem": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "lock_in": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "vibe_fit": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "weighted_total": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        }
       },
       "additionalProperties": false
     },
-    "rationale": { "type": "string" },
+    "rationale": {
+      "type": "string"
+    },
     "risks": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "resolves_design_delta": {
       "type": "string",
@@ -72,6 +156,11 @@
     "prd_amendment_deferred_reason": {
       "type": "string",
       "description": "OPTIONAL — set when resolves_design_delta is set. Why PRD wasn't amended (i.e., why the delta was flagged for architecture-ADR rather than accepted into PRD)."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^ADR-[0-9]{4}$",
+      "description": "Canonical ADR id, assigned at authoring (VP2 O18). Referenced by prd adr_references (^ADR-\\d{4}$)."
     }
   },
   "additionalProperties": true

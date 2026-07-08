@@ -98,6 +98,14 @@
       "condition": "archetype in [design-led, WDS]",
       "artefact_path": "_context/audit/a11y-audit-v*.md",
       "remediation": "Run `@verifier a11y-audit` (Phase 5 mode). Brand-token contrast failures forward-carry as design-deltas → reconcile via `phase-transition` step-02a back to `brand-guidelines` for re-tokenisation."
+    },
+    {
+      "id": "styleguide-present",
+      "description": "The /styleguide deliverable exists (styleguide manifest _context/design/styleguide.yaml and/or the live route). VP2 O24 — a stated Phase-5 deliverable that previously had no gate check and could silently vanish.",
+      "kind": "artefact-present",
+      "severity": "warn",
+      "artefact_path": "_context/design/styleguide.yaml",
+      "remediation": "Run the `styleguide` skill: emit styleguide.yaml + wire the live /styleguide route rendering from tokens.css. If deferring the live route to `prototype`, record it explicitly (owed-obligation), don't skip silently."
     }
   ],
   "next_phase": "6-architecture"

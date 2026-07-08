@@ -8,6 +8,14 @@
 # Validated against schemas/wiring.schema.ts. producer/consumers/schema are
 # repo-relative paths. producer: null is an EXPLICIT known-gap marker.
 artifacts:
+  # ── Personas (P2 → P5) — VP2 O25 ──
+  - path: "_context/planning/personas-v1.md"
+    note: "Audience distillate. Phase-5 design-brief consumes it as an entry condition; making the producer/consumer link explicit means `doctor --wiring` flags a missing producer instead of a diligent Butler catching it at Phase 5."
+    producer: "lifecycle/2-discovery/personas"
+    consumers:
+      - "lifecycle/5-design/design-brief"
+      - "lifecycle/5-design/gate.json"
+
   # ── Outcome contract (P4 → P6/P9/P10/P11) ──
   - path: "_context/planning/outcomes.yaml"
     note: "The measurable definition of success (P4 block-gate)."

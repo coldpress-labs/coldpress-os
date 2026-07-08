@@ -39,9 +39,12 @@ Check `_context/planning/adrs/` for existing `adr-{decision}-v*.md` files. Incre
 
 ### 3. Write `_context/planning/adrs/adr-{decision}-v{N}.md`
 
+**Assign a canonical `id`** (VP2 O18): `ADR-NNNN`, zero-padded, sequential across the project — the next unused number after the highest `ADR-####` already in `_context/planning/adrs/` (first ADR = `ADR-0001`). This id is **schema-required** and is what the Phase-4 PRD's `adr_references` (pattern `^ADR-\d{4}$`) points at — assign it now so it never has to be back-filled two phases later.
+
 **Frontmatter:**
 ```yaml
 ---
+id: "ADR-{NNNN}"
 name: "adr"
 decision_area: "{area}"
 phase_authored: 3

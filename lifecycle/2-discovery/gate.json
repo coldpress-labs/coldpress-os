@@ -18,7 +18,7 @@
     {
       "id": "product-brief-authored",
       "description": "`_context/planning/product-brief-v1.md` (or higher version) exists with frontmatter `status: authored`",
-      "kind": "automated",
+      "kind": "artefact-present",
       "severity": "block",
       "skill_ref": "validate-schema",
       "artefact_path": "_context/planning/product-brief-v1.md",
@@ -39,6 +39,14 @@
       "severity": "warn",
       "human_approver": "@analyst or project lead",
       "remediation": "Check `_context/audit/supersessions-*.md`. If a known conflict between `_input/` material and Phase 2 artefacts is not logged, invoke the supersede-check helper (`src/governance/supersede.ts`) for each conflicting document."
+    },
+    {
+      "id": "personas-distillate",
+      "description": "A personas distillate exists (standalone _context/planning/personas-v*.md, OR audience folded into product-brief — Phase 5 design-brief consumes it). VP2 O25.",
+      "kind": "artefact-present",
+      "severity": "warn",
+      "artefact_path": "_context/planning/personas-v*.md",
+      "remediation": "Emit _context/planning/personas-v{N}.md (the personas skill), or confirm audience is captured in product-brief-v*.md — Phase 5 needs it either way."
     }
   ],
   "next_phase": "3-tech-stack"
