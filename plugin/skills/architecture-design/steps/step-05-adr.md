@@ -26,21 +26,32 @@ Method playbook Tier-1: `problem_solving` (first_principles, failure_mode_analys
 
 For each entry in queued_required_adrs (from Step 1 state), author one ADR at `_context/planning/adrs/adr-NNN-<slug>.md`. NNN = next available ADR number (continue from prior phase ADRs). **Set the schema-required canonical `id: "ADR-NNNN"`** in frontmatter (zero-padded, sequential — continue from the highest `ADR-####` across Phases 3 + 6; VP2 O18). The adr schema requires it and the PRD's `adr_references` point at it — the PostToolUse `schema-validate` hook will reject an ADR without it.
 
+Architecture ADRs use the **same `schemas/planning-artefacts/adr.schema.json` shape as Phase-3 stack ADRs** (VP2 O34 — one ADR schema, not two). An architecture decision is still a decision-with-alternatives, so it carries `options`/`chosen`/`rubric`/`tier` like any ADR; the delta-driven fields (`resolves_design_delta`, …) are additional, documented extras layered on top.
+
 ```yaml
 ---
-id: "ADR-NNNN"                                # canonical id (zero-padded, sequential across Phases 3+6) — VP2 O18
-adr_number: NNN
-title: "<short architecture decision>"
-status: accepted
-schema: schemas/planning-artefacts/adr.schema.json
-resolves_design_delta: <delta_id>            # CRITICAL — silent-divergence guard field
-prd_section_affected: <from queued entry>
-design_decision_taken: <from queued entry>
-architecture_implication: <from queued entry>
-prd_amendment_deferred_reason: <from queued entry>
-authored_by: "@architect"
-authored_at: <ISO>
-phase: 6
+id: "ADR-NNNN"                 # canonical id (zero-padded, sequential across Phases 3+6) — VP2 O18
+name: "adr"                    # schema discriminator (all ADRs)
+decision_area: "<architecture concern, e.g. css-token-delivery | client-routing>"
+phase_authored: 6
+status: "accepted"             # accepted | proposed | superseded
+version: "1.0"
+tier: "T1"                     # T1 | T2 | T3
+derived_from:                  # upstream artefacts this decision rests on
+  - "_context/handoffs/phase-5-to-6-<date>.md"
+  - "_context/sacred/prd.md"
+  - "_context/sacred/tech-stack.md"
+options:                       # the alternatives considered
+  - "<option A>"
+  - "<option B>"
+chosen: "<the selected option>"
+rubric: { fit: 9, cost: 8, team_familiarity: 7, ecosystem: 8, lock_in: 5, vibe_fit: 8, weighted_total: 7.6 }
+supersedes: []
+# ── Architecture-ADR extras (REQUIRED for delta-driven ADRs — silent-divergence guard) ──
+resolves_design_delta: "<delta_id>"          # REQUIRED on ADRs queued from Phase-5 flagged deltas; OMIT for organic ADRs
+prd_section_affected: "<from queued entry>"
+architecture_implication: "<from queued entry>"
+prd_amendment_deferred_reason: "<from queued entry, if applicable>"
 ---
 
 # ADR-NNN: <Title>
