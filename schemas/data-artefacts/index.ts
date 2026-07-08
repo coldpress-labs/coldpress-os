@@ -13,6 +13,7 @@ import { z } from "zod";
 import { OutcomesSchema, parseOutcomes } from "../planning-artefacts/outcomes.schema.js";
 import { StoryGraphSchema, parseStoryGraph } from "../story-graph.schema.js";
 import { HandoffPacketSchema, parseHandoffPacket } from "../handoff.schema.js";
+import { PrdToArchitectureSchema } from "../handoffs/prd-to-architecture.schema.js";
 
 /** A registered data artefact: how to locate it and how to validate it. */
 export interface DataArtefactSchema {
@@ -33,6 +34,13 @@ export const DATA_ARTEFACT_SCHEMAS: Record<string, DataArtefactSchema> = {
     pattern: /_context[\\/]planning[\\/]outcomes\.ya?ml$/,
     schema: OutcomesSchema,
     parse: parseOutcomes,
+  },
+  // VP2 O32: the PRD→architecture sidecar (Zod-schema'd JSON) was never routed.
+  "prd-meta": {
+    path: "_context/sacred/prd.meta.json",
+    pattern: /_context[\\/]sacred[\\/]prd\.meta\.json$/,
+    schema: PrdToArchitectureSchema,
+    parse: (input: unknown) => PrdToArchitectureSchema.parse(input),
   },
   "story-graph": {
     path: "_context/implementation/story-graph.yaml",

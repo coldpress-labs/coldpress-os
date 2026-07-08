@@ -117,6 +117,12 @@ export const PATH_PATTERN_SCHEMAS: Array<{ pattern: RegExp; schemaPath: string }
   { pattern: /_context[\\/]planning[\\/]creative[\\/]innovation-.+\.md$/, schemaPath: "audit/innovation-strategy.schema.json" },
   { pattern: /_context[\\/]planning[\\/]sprint-change-proposal-.+\.md$/, schemaPath: "audit/course-correction.schema.json" },
   { pattern: /_context[\\/]tracking[\\/]sprint-status\.ya?ml$/, schemaPath: "tracking/sprint-status.schema.json" },
+
+  // ── VP2 O32: wire the meta-sidecar + phase-handoff schemas that existed but were
+  //    never registered (so neither the CLI verb nor the write-time hook validated
+  //    them — a "no schema, no opinion" silence that read as "clean"). ──
+  { pattern: /_context[\\/]sacred[\\/]architecture\.meta\.json$/, schemaPath: "handoffs/architecture-meta.schema.json" },
+  { pattern: /_context[\\/]handoffs[\\/]phase-\d+-to-\d+-.+\.meta\.json$/, schemaPath: "handoffs/phase-handoff.schema.json" },
 ];
 
 export function sacredDocIdFromPath(path: string): string | undefined {
@@ -183,14 +189,30 @@ async function loadValidator(docId: string): Promise<ValidateFunction> {
   return validator;
 }
 
+/**
+ * Cross-referenced handoff sub-schemas. `phase-handoff.schema.json` `$ref`s these
+ * by relative id (`design-delta.json`, `ops-delta.json`), so they must be added to
+ * the Ajv instance before a handoff schema compiles (VP2 O32). Idempotent.
+ */
+async function ensureHandoffRefs(ajv: Ajv2020): Promise<void> {
+  for (const rel of ["handoffs/design-delta.schema.json", "handoffs/ops-delta.schema.json"]) {
+    const s = JSON.parse(await readFile(resolve(packageRoot, "schemas", rel), "utf8")) as { $id?: string };
+    if (s.$id && !ajv.getSchema(s.$id)) ajv.addSchema(s);
+  }
+}
+
 async function loadValidatorByRelPath(relSchemaPath: string): Promise<ValidateFunction> {
   const cached = validatorCache.get(relSchemaPath);
   if (cached) return cached;
 
+  const ajv = getAjv();
+  // Handoff schemas $ref sibling schemas — preload them so refs resolve.
+  if (relSchemaPath.startsWith("handoffs/")) await ensureHandoffRefs(ajv);
+
   const schemaPath = resolve(packageRoot, "schemas", relSchemaPath);
   const schemaRaw = await readFile(schemaPath, "utf8");
   const schema = JSON.parse(schemaRaw) as object;
-  const validator = getAjv().compile(schema);
+  const validator = ajv.compile(schema);
   validatorCache.set(relSchemaPath, validator);
   return validator;
 }

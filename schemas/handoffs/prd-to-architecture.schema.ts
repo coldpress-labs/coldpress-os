@@ -31,6 +31,8 @@ export const NonFunctionalRequirement = z.object({
     "compliance",
     "privacy",
     "availability",
+    "reliability", // ISO 25010 — was missing (VP2 O32: surfaced when prd.meta.json got wired to routing)
+    "compatibility", // ISO 25010 — was missing (VP2 O32)
     "observability",
     "maintainability",
     "accessibility",
