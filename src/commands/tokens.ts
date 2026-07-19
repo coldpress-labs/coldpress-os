@@ -82,25 +82,46 @@ export function runTokensContrast(opts: RunTokensBuildOptions = {}): number {
     return 1;
   }
 
-  const report = checkTokenContrast(parsed.data, { theme: "light" });
-  if (report.backgrounds.length === 0) {
-    warn(
-      "tokens contrast: no background role found (expected a role named bg/surface/canvas/…) — cannot validate contrast.\n",
-    );
-    return 1;
-  }
-  for (const s of report.skipped) {
-    warn(`  ⚠ skipped ${s.role} (${s.value}) — ${s.reason}\n`);
-  }
-  if (report.failures.length > 0) {
-    warn(`tokens contrast: ${report.failures.length} failing pair(s) (WCAG 2.1 AA — text 4.5:1, non-text 3:1):\n`);
-    for (const f of report.failures) {
-      warn(`  ✗ ${f.fg} on ${f.bg}: ${f.ratio}:1 (needs ${f.required}:1, ${f.kind})\n`);
+  // VP2 O41: validate EVERY theme the tokens define. A dark-default project whose
+  // dark palette was never checked is the exact gap this closes.
+  const roles = Object.values(parsed.data.color.roles);
+  const themes: Array<"light" | "dark"> = roles.some((r) => Boolean(r.dark))
+    ? ["light", "dark"]
+    : ["light"];
+
+  let failingThemes = 0;
+  let totalPairs = 0;
+  for (const theme of themes) {
+    const report = checkTokenContrast(parsed.data, { theme });
+    if (report.backgrounds.length === 0) {
+      warn(
+        `tokens contrast [${theme}]: no opaque background role found (expected bg/surface/canvas/…) — cannot validate.\n`,
+      );
+      failingThemes++;
+      continue;
     }
-    return 1;
+    totalPairs += report.pairs.length;
+    for (const s of report.skipped) {
+      warn(`  ⚠ [${theme}] skipped ${s.role} (${s.value}) — ${s.reason}\n`);
+    }
+    if (report.failures.length > 0) {
+      failingThemes++;
+      warn(
+        `tokens contrast [${theme}]: ${report.failures.length} failing pair(s) (WCAG 2.1 AA — text 4.5:1, non-text 3:1):\n`,
+      );
+      for (const f of report.failures) {
+        warn(`  ✗ ${f.fg} on ${f.bg}: ${f.ratio}:1 (needs ${f.required}:1, ${f.kind})\n`);
+      }
+    } else {
+      write(
+        `tokens contrast [${theme}] OK — ${report.pairs.length} pair(s) across ${report.backgrounds.length} background(s), 0 failures.\n`,
+      );
+    }
   }
+
+  if (failingThemes > 0) return 1;
   write(
-    `tokens contrast OK — ${report.pairs.length} pair(s) across ${report.backgrounds.length} background(s), 0 failures ` +
+    `tokens contrast OK — ${themes.length} theme(s) (${themes.join(", ")}), ${totalPairs} pair(s), 0 failures ` +
       `(WCAG 2.1 AA: text ≥4.5:1, non-text ≥3:1).\n`,
   );
   return 0;

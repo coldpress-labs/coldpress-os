@@ -6,7 +6,14 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { checkTokenContrast, contrastRatio, parseHex, relativeLuminance } from "../src/design/contrast";
+import {
+  checkTokenContrast,
+  composite,
+  contrastRatio,
+  parseColor,
+  parseHex,
+  relativeLuminance,
+} from "../src/design/contrast";
 import { runTokensContrast } from "../src/commands/tokens";
 
 describe("WCAG math", () => {
@@ -23,6 +30,94 @@ describe("WCAG math", () => {
   it("relative luminance: white=1, black=0", () => {
     expect(relativeLuminance([255, 255, 255])).toBeCloseTo(1, 5);
     expect(relativeLuminance([0, 0, 0])).toBeCloseTo(0, 5);
+  });
+});
+
+describe("colour parsing beyond hex (VP2 O41)", () => {
+  it("parses rgb()/rgba() incl. alpha", () => {
+    expect(parseColor("rgb(1, 2, 3)")).toEqual({ r: 1, g: 2, b: 3, a: 1 });
+    expect(parseColor("rgba(36, 48, 58, 0.22)")).toEqual({ r: 36, g: 48, b: 58, a: 0.22 });
+  });
+  it("parses hsl()/hsla()", () => {
+    expect(parseColor("hsl(0, 0%, 100%)")).toEqual({ r: 255, g: 255, b: 255, a: 1 });
+    expect(parseColor("hsl(0 0% 0%)")).toEqual({ r: 0, g: 0, b: 0, a: 1 });
+    const red = parseColor("hsla(0, 100%, 50%, 0.5)");
+    expect(red?.r).toBe(255);
+    expect(red?.a).toBe(0.5);
+  });
+  it("parses #rgba / #rrggbbaa alpha hex", () => {
+    expect(parseColor("#000f")?.a).toBe(1);
+    expect(parseColor("#00000080")?.a).toBeCloseTo(0.5, 1);
+  });
+  it("composites a translucent foreground over its background", () => {
+    // 50% black over white → mid grey
+    expect(composite({ r: 0, g: 0, b: 0, a: 0.5 }, [255, 255, 255])).toEqual([128, 128, 128]);
+  });
+});
+
+describe("layer effects + translucent backgrounds (VP2 O41)", () => {
+  it("skips decorative layers (shadow/scrim/overlay) but keeps focus indicators", () => {
+    const r = checkTokenContrast(
+      tokens({
+        bg: "#ffffff",
+        "shadow-tint-umbra": "rgba(36,48,58,0.22)",
+        "overlay-scrim": "rgba(251,247,240,0.72)",
+        "focus-ring-glow": "rgba(178,58,30,0.35)",
+      }),
+    );
+    const checked = r.pairs.map((p) => p.fg);
+    expect(checked).toContain("focus-ring-glow"); // focus must still meet 3:1
+    expect(checked).not.toContain("shadow-tint-umbra");
+    expect(checked).not.toContain("overlay-scrim");
+    // and they're reported as skipped-with-reason, not silently dropped
+    expect(r.skipped.map((s) => s.role)).toEqual(expect.arrayContaining(["shadow-tint-umbra", "overlay-scrim"]));
+  });
+  it("refuses a translucent background as a contrast baseline", () => {
+    const r = checkTokenContrast(tokens({ "surface-glass": "rgba(255,255,255,0.5)", text: "#111111" }));
+    expect(r.backgrounds).not.toContain("surface-glass");
+    expect(r.skipped.some((s) => s.role === "surface-glass")).toBe(true);
+  });
+});
+
+function tokensThemed(roles: Record<string, { light: string; dark?: string }>) {
+  return {
+    typography: { families: { sans: "Inter" }, sizes: { base: "16px" } },
+    color: { roles },
+    spacing: { md: "8px" },
+  } as never;
+}
+
+describe("dual-theme validation (VP2 O41 — dark-default projects were unvalidated)", () => {
+  let dir: string;
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), "coldpress-theme-"));
+    mkdirSync(join(dir, "_context/design"), { recursive: true });
+  });
+  afterEach(() => rmSync(dir, { recursive: true, force: true }));
+  const noop = () => {};
+
+  it("fails when the DARK theme breaks contrast even though light passes", () => {
+    // light: #111 on #fff (pass) — dark: #333 on #000 (2.2:1, fail)
+    writeFileSync(
+      join(dir, "_context/design/tokens.json"),
+      JSON.stringify(
+        tokensThemed({
+          bg: { light: "#ffffff", dark: "#000000" },
+          "text-body": { light: "#111111", dark: "#333333" },
+        }),
+      ),
+      "utf8",
+    );
+    expect(runTokensContrast({ projectDir: dir, stdout: noop, stderr: noop })).toBe(1);
+  });
+
+  it("checks the dark palette independently of light", () => {
+    const r = checkTokenContrast(
+      tokensThemed({ bg: { light: "#ffffff", dark: "#000000" }, "text-body": { light: "#111111", dark: "#eeeeee" } }),
+      { theme: "dark" },
+    );
+    expect(r.theme).toBe("dark");
+    expect(r.failures).toHaveLength(0);
   });
 });
 
