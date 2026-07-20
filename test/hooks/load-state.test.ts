@@ -22,6 +22,39 @@ function writeState(yaml: string): void {
   writeFileSync(join(dir, ".coldpress", "state.yaml"), yaml, "utf8");
 }
 
+describe("summarizeState — parked-on-a-closed-gate nudge (VP2 O38)", () => {
+  const base: State = {
+    lane: "full",
+    phase: 8,
+    phase_status: "in_progress",
+    security_tier: "T0",
+    enforcement: "on",
+    iteration: 0,
+    gates: {},
+    active_stories: [],
+    deltas_open: {},
+    deploy: {},
+  };
+
+  it("warns when the CURRENT phase has already been exited, and routes to the re-entry patterns", () => {
+    const s = summarizeState({ ...base, gates: { p8: { exited: "2026-07-10", all_stories_verified: true } } });
+    expect(s).toContain("already EXITED (2026-07-10)");
+    expect(s).toContain("NEW ITERATION");
+    expect(s).toContain("phase-reentry-patterns.md");
+  });
+
+  it("stays quiet when the current phase has not been exited", () => {
+    const s = summarizeState({ ...base, gates: { p8: { all_stories_verified: false } } });
+    expect(s).not.toContain("already EXITED");
+  });
+
+  it("stays quiet once the project has advanced past the exited phase", () => {
+    // p8 exited, but we're on Phase 9 now — that's normal forward progress.
+    const s = summarizeState({ ...base, phase: 9, gates: { p8: { exited: "2026-07-10" } } });
+    expect(s).not.toContain("already EXITED");
+  });
+});
+
 describe("summarizeState", () => {
   it("produces a compact one-glance summary with the key routing facts", () => {
     const state: State = {

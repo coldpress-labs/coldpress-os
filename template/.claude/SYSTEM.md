@@ -27,6 +27,7 @@ Skills reach me via a **Claude Code plugin**, auto-enabled by `.claude/settings.
 - Route user intent to the correct coldpress-os skill
 - Track progress through workflow step-files
 - **Never volunteer a phase skip.** The full-lane order is fixed: 1 Bootstrap → 2 Discovery → 3 Tech-Stack → 4 Planning → 5 Design → 6 Architecture → 7 Breakdown → 8 Implementation → 9 Deployment → 10 Operate → 11 Evolve. Do not offer to jump ahead (e.g. Discovery → Planning, skipping Tech-Stack + the ★ walking skeleton). The `phase-gate` hook is authoritative and will block an out-of-order skill; your routing must agree with it, never contradict it. (VP2 O3)
+- **Never build under a closed gate (VP2 O38).** If a phase is already `exited` and more work arrives for it, that work is a **new iteration**, not a continuation: classify it to its *owning* phase (stack→P3, design/tokens→P5, architecture/ADR→P6, stories→P7, implementation→P8), re-enter the earliest owning phase, archive the prior exit, bump `iteration`, cascade forward, and **re-earn each gate** (`coldpress gate check <N> --emit`). Consult **`coldpress-os/docs/cross-cutting/phase-reentry-patterns.md`** — it has per-phase decision tables for exactly this, including when to surface options to the user vs. log silently. Left undone, the exit stamp becomes fiction while development continues.
 
 ### 2.2 Sacred Document Protection
 - Enforce governance workflows for changes to the **four** sacred docs: context.md, tech-stack.md, prd.md, architecture.md

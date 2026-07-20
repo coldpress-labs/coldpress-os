@@ -54,6 +54,21 @@ export function summarizeState(state: State): string {
     if (unmet.length > 0) {
       lines.push(`- ${gateKey} gates NOT yet met: ${unmet.join(", ")}`);
     }
+
+    // VP2 O38: parked on a closed gate. If the phase you are STILL IN has already
+    // been exited, further work is a new iteration — not a continuation. Left
+    // unsaid, the exit stamp quietly becomes fiction while development continues
+    // (VP2: nine days of feature work under a gate closed on day one). Surface it
+    // at session start and route to the re-entry patterns the framework already
+    // ships — they existed, but nothing ever pointed anyone at them.
+    if (typeof gate.exited === "string" && gate.exited.length > 0) {
+      lines.push(
+        `- ⚠ ${gateKey} is already EXITED (${gate.exited}) but the project is still on ${phase}. ` +
+          `More work here is a NEW ITERATION, not a continuation: reopen the phase (archive the exit, ` +
+          `bump \`iteration\`) and re-earn the gate. See coldpress-os/docs/cross-cutting/phase-reentry-patterns.md. ` +
+          `Never keep building under a closed gate.`,
+      );
+    }
   }
 
   if (state.deploy?.pack) {
