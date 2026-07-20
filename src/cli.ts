@@ -369,8 +369,9 @@ const gateCmd = program.command("gate").description("Phase-gate runner (WS10-C1)
 gateCmd
   .command("check <phase>")
   .description("Evaluate lifecycle/<phase>/gate.json — run each check's command, existence-check artefacts, surface human/agent checks as pending. Exit 1 iff a block-severity check failed.")
-  .action((phase: string) => {
-    process.exit(runGateCheck(phase));
+  .option("--emit", "also write the GateEvaluation audit artifact to _context/audit/gate-eval-phase-<N>-<date>.json (the record the dashboard reads)")
+  .action((phase: string, opts: { emit?: boolean }) => {
+    process.exit(runGateCheck(phase, { emit: opts.emit }));
   });
 gateCmd
   .command("enter <phase>")
