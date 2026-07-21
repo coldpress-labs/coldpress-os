@@ -43,7 +43,7 @@ Without this skill, phase exit was always prose — "the user feels confident th
    - `severity: "info"` → logged but does not affect pass/fail.
    - Any `pending-human` result → overall `pending-human`.
 
-4. **Emit the `GateEvaluation`** — run **`coldpress gate check <N> --emit`**. The CLI writes `_context/audit/gate-eval-phase-{N}-{date}.json` from the runner's own results, schema-checked against `schemas/phase-gate.schema.ts` §GateEvaluationSchema, and prints the report to stdout. **Do not hand-author this JSON** (VP2 O40): hand-authoring is why emission silently stopped mid-project and the dashboard's `last_gate_evaluation` froze on a stale phase. The artifact is a byproduct of running the gate, not a separate writing task.
+4. **Emit the `GateEvaluation`** — run **`coldpress gate check <N>`** (emission is the default; `--no-emit` only for read-only inspection). The CLI writes `_context/audit/gate-eval-phase-{N}-{date}.json` from the runner's own results, schema-checked against `schemas/phase-gate.schema.ts` §GateEvaluationSchema, and prints the report to stdout. **Do not hand-author this JSON** (VP2 O40): hand-authoring is why emission silently stopped mid-project and the dashboard's `last_gate_evaluation` froze on a stale phase. Making emission an opt-in flag then reproduced the same failure one phase later (VP2 O45) — so it is now the **default**. The artifact is a byproduct of running the gate, not a separate writing task.
 
 5. **Exit code:**
    - `0` — overall pass (including warn-pass-with-signoff).
