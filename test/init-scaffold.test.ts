@@ -2,11 +2,21 @@ import { spawnSync } from "node:child_process";
 import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { initGitRepo } from "../src/utils/git-init";
 import { installSecretScanHook } from "../src/utils/install-precommit-hook";
 import { assertNoCollision, copyFramework, copyTemplate, slugify } from "../src/utils/scaffold";
 import { assertValidColdpressYaml } from "../src/utils/yaml-validator";
+
+// VP2 O42 — these tests do real filesystem + `git` work (the full-scaffold case
+// copies the entire framework tree, ~1.6s idle). Vitest's silent 5s default left
+// only ~3x headroom, and both files failed once each under full-suite parallel
+// load. The flake did not reproduce in 9 consecutive clean runs, so the timeout
+// is raised rather than serializing the pool (which would slow every run to
+// chase an unreproducible symptom). If it recurs *with* this headroom, the cause
+// is not load and this should be reopened.
+vi.setConfig({ testTimeout: 30_000, hookTimeout: 30_000 });
+
 
 describe("scaffold helpers", () => {
   describe("slugify", () => {

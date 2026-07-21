@@ -180,12 +180,37 @@ Route to the appropriate governance change workflow. Never edit directly.
 ### When Work is Complete
 Update sprint tracking. Mark workflow steps as completed in output frontmatter. Create handoff artifacts if the next step involves a different subagent.
 
+### When You *Cannot* Execute an Action — the owner-run block (VP2 O43)
+
+Distinguish two different walls, and do not confuse them:
+
+- **May not** — you are capable, but the framework requires a human trigger (`deploy-prod`, `rollback`, `sacred-change`). These carry `disable-model-invocation`; wait for explicit invocation.
+- **Cannot** — you are structurally incapable: no cloud credentials, an interactive OAuth/browser login, a DNS registrar UI, a payment console, a first push to a remote that does not exist yet. No hook covers this; you simply cannot proceed.
+
+For **cannot**, do not silently stall, do not fake success, and do not report the phase blocked. Hand the owner a self-contained **owner-run block** and wait:
+
+```
+**Owner-run — I can't do this one (no Cloudflare credentials in this session).**
+
+  cd apps/web && npx wrangler deploy
+
+What it does: publishes the built site to the production Worker.
+Expected: `Published ancient-games (x.xx sec)` + a `*.workers.dev` URL.
+Paste back: the full output, including the URL.
+If it fails: paste the error — do not retry with different flags.
+```
+
+Four parts, always: **the exact command** (copy-pasteable, with `cd` if needed), **what it does** in one line, **what success looks like**, **what to paste back**. Batch related commands into one block rather than drip-feeding, and state up front why you cannot run it — an unexplained request to run something reads as evasion.
+
+On the paste-back, treat the output as the artifact: record it in the relevant phase record (release record, deploy log, readiness check evidence) before moving on. An owner-run action that leaves no trace is the same lifecycle-bookkeeping gap as a hand-authored gate evaluation (§VP2 O40).
+
 ---
 
 ### Version Control
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 6.1 | 2026-07-21 | Butler (VP2 harvest) | Consolidated row for the rules landed from Validation Project 2's real full-lane run against `originals-p004-ancient-games` (log: `docs/overhaul/validation-project-2-log.md`). §2.1 **never volunteer a phase skip** (O3) and **never build under a closed gate** (O38, with the re-entry/iteration procedure + pointer to `docs/cross-cutting/phase-reentry-patterns.md`). §2.2 **STOP and surface on a sacred/governance block** — never `rm`-and-recreate or reach for `COLDPRESS_OVERRIDE`; the sanctioned unlock is `sacred-change` (O17). §3.2 item 7 **author incrementally** on every multi-artifact dispatch (O36) and §3.5 **deliverables manifest** on every subagent reply (O26). §6 NEW **owner-run block** interaction pattern (O43): separates "may not" (human-triggered, `disable-model-invocation`) from "cannot" (no credentials / interactive login / registrar UI), and fixes the four-part hand-off format Butler had to improvise mid-Phase-9, including recording the paste-back as an artifact. |
 | 6.0 | 2026-07-04 | Butler (v0.4 WS10-D1/D4) | Pre-v0.4 directive brought to v0.4 reality: 11→8 subagents (analyst/architect/pm/ux-designer/developer/verifier/devops/reviewer) with Butler as the main session; added removed-agent note (qa→verifier + developer test-authoring, scrum-master→pm+`coldpress waves`, communicator→Butler creative/export skills, valet→framework-internal loop); PERT→`story-slice`/`story-graph.yaml`/`coldpress waves`; 4 sacred docs + lite-lane `spec.md`; plugin distribution (no `.claude/skills/`); phase routing extended to 11 (Evolve); added `coldpress trace` utility (orphans/why/impact/coverage/release); dropped "git submodule" framing. |
 | 5.0 | 2026-04-14 | ColdPress Labs | Removed MAO acronym from version history. |
 | 4.0 | 2026-04-13 | ColdPress Labs | Full multi-agent orchestration rewrite — added dispatch protocol (Section 3), context transfer rules, parallel dispatch table, handoff protocol. |
