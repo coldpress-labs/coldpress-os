@@ -112,6 +112,10 @@ export const PATH_PATTERN_SCHEMAS: Array<{ pattern: RegExp; schemaPath: string }
   { pattern: /_context[\\/]audit[\\/]code-review-.+\.md$/, schemaPath: "audit/code-review.schema.json" },
   { pattern: /_context[\\/]audit[\\/]retro-epic-.+\.md$/, schemaPath: "audit/retrospective.schema.json" },
   { pattern: /_context[\\/]audit[\\/]deployment-readiness-.+\.md$/, schemaPath: "audit/readiness.schema.json" },
+  // VP2 O44: the `readiness` skill declares `_context/audit/readiness-v{N}.md`, which the
+  // `deployment-readiness-*` pattern above never matched — so readiness reports produced
+  // exactly as specified were never validated and readiness.schema.json was dead code.
+  { pattern: /_context[\\/]audit[\\/]readiness-v\d+\.md$/, schemaPath: "audit/readiness.schema.json" },
   { pattern: /_context[\\/]tracking[\\/]deploy-.+\.md$/, schemaPath: "audit/deploy-log.schema.json" },
   { pattern: /_context[\\/]planning[\\/]product-evolution-.+\.md$/, schemaPath: "audit/product-evolution-backlog.schema.json" },
   { pattern: /_context[\\/]planning[\\/]creative[\\/]innovation-.+\.md$/, schemaPath: "audit/innovation-strategy.schema.json" },

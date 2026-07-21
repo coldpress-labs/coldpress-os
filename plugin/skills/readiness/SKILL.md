@@ -48,6 +48,32 @@ are retired — superseded here).
 may `deploy-staging`; a red check blocks. Post-deploy `smoke` + the release record
 are separate skills.
 
+**Frontmatter — must satisfy `schemas/audit/readiness.schema.json`** (VP2 O44: this
+skill previously shipped no template while the schema required nine fields, so the
+emitted report never validated). One `checks[]` entry per checklist item above:
+
+```yaml
+---
+schema: "schemas/audit/readiness.json"
+phase: 9
+version: 1                     # integer; bump per readiness run
+variant: "pre-deploy"          # pre-deploy | post-deploy
+author_agent: "@devops"
+status: "validated"            # draft | validated | superseded
+created_at: "<ISO-8601>"
+overall_status: "pass"         # pass | fail | warn
+checks:
+  - check_id: "env-check"
+    kind: "env-check"          # env-check | dep-health-check | security-scan | db-migration-check |
+                               # smoke-test | observability-baseline | rollback-plan | feature-flag-state
+    status: "pass"             # pass | fail | warn | skip
+    severity: "block"          # block | warn | info
+    summary: "env vars present and match secure/manifest.yaml"
+    evidence_ref: "_context/operations/sbom-npm-ls-<date>.json"
+    remediation: null
+---
+```
+
 ## Cross-cutting wire-ins
 
 - `secrets-vault-manager` — committed-secret scan (kept; human-confirmed).
