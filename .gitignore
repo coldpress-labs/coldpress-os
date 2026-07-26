@@ -38,3 +38,7 @@ coverage/
 # Runtime state — EventStream run-logs, graph index, local-config (never tracked;
 # tests + live CLI runs write here in the repo cwd)
 .coldpress/
+
+# Local Claude Code session data at the repo root (transcripts, caches).
+# Root-anchored on purpose — template/.claude/ ships in the scaffold and stays tracked.
+/.claude/

@@ -8,7 +8,62 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ## [Unreleased]
 
-### Ship-gate validation (validation project 1)
+_Nothing yet._
+
+---
+
+## [0.4.0-alpha] — 2026-07-26
+
+The **"Enforcement" overhaul**: every rule that was prose is now a hook, a gate,
+a schema, or a CI check. Ten workstreams (WS0–WS9) plus two audit-driven passes
+(WS10 connective tissue, WS11 structure & diet), closed by the §12 ship gate's
+**two real end-to-end validation runs**:
+
+- **Validation project 1 (lite lane)** — a multi-page Astro site: Spec → Build →
+  Verify → Ship, verdict **pass**. 19 findings harvested; the blocker fixed with
+  a golden test, the positives confirming six enforcement seams.
+- **Validation project 2 (full lane)** — a real IP product (interactive React/TS
+  app) driven through **all phase gates by the real 8-agent team**: sacred-doc
+  governance end-to-end, @verifier clean-room verification at scale, and a staged,
+  human-triggered production deploy through the cloudflare-pages deploy pack.
+  **45 findings harvested; every blocker and friction finding fixed and
+  regression-pinned** before release. Final green bar: 1003 tests.
+
+Highlights below are grouped by the pass that produced them (newest first).
+
+### Ship-gate validation (validation project 2 — full lane)
+
+The full-lane drive harvested 45 findings; the fixes that ship in this release,
+by theme:
+
+- **Sacred-doc lifecycle fixed end-to-end** — `sacred-guard` now permits designed
+  first-creation + draft authoring and protects `locked`/`requires-review` states;
+  all four sacred creation templates are schema-valid and round-trip tested; the
+  PRD template no longer freezes the doc mid-authoring; in-skill sign-off
+  standardizes on `governance: locked`; ADRs get canonical `ADR-\d{4}` ids
+  (schema-required) and both ADR templates conform to the one `adr.schema.json`.
+- **Enforcement is no longer evadable by the agents it governs** — authoring
+  agents (`@architect`, `@analyst`) route writes through Edit/Write so every
+  hook (sacred-guard, boundary-guard, secret-scan, schema-validate,
+  test-integrity) fires for them; a `state-validate` hook validates
+  `.coldpress/state.yaml` at write time; "parked on a closed gate" is detected
+  and routed to the re-entry patterns; the GateEvaluation artifact is emitted
+  **by default** on every gate run.
+- **Gates got more mechanical** — pure-existence checks across Phases 6–11
+  converted to CLI-evaluated `artefact-present`; the meta-sidecar + handoff
+  schemas are registered and validated; `readiness` reports are schema-routed
+  and templated.
+- **Design system hardened** — `coldpress tokens contrast` (WCAG luminance,
+  rgba/hsl + alpha-compositing, every declared theme, Phase-5 block gate);
+  `schemas/` vendored into the consumer bundle; styleguide-route and personas
+  wiring checks added.
+- **Consumer ergonomics** — walking-skeleton is a first-class local-first path
+  with structured deploy-debt; custom/no-profile is a documented first-class
+  intake path; incremental authoring is systemic across authoring agents; the
+  owner-run block (four-part hand-off for actions the agent *cannot* perform)
+  is part of Butler's SYSTEM.md.
+
+### Ship-gate validation (validation project 1 — lite lane)
 
 - **Fixed: the full-lane Phase-3 exit gate could never pass.** The `stack_pack`
   gate check read `.coldpress/local-config.yaml`, but the locked stack is recorded
