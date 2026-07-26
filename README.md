@@ -8,9 +8,9 @@
 
 > An AI-native development framework that drives the full lifecycle of AI-assisted software projects — from bootstrap to deployment to evolution.
 
-**coldpress-os is Agent Skills-compatible and implements the Spec → Plan → Implement → Review spine, expanded to 11 phases (Shape A — v0.3.0) with sacred-doc governance, multi-agent orchestration, and the forward-carry quartet.**
+**coldpress-os is Agent Skills-compatible and implements the Spec → Plan → Implement → Review spine — a lite lane (Spec → Build → Verify → Ship, the scaffolded default) and a full lane of 11 phases with sacred-doc governance, hook-enforced gates, multi-agent orchestration, and the forward-carry quartet.**
 
-The 11 phases: Bootstrap · Discovery · Tech Stack · Planning · **Design** · **Architecture** · Breakdown · Implementation · Deployment · Operate · Evolve. (Phases 5 & 6 added in v0.3.0-alpha — see [CHANGELOG](CHANGELOG.md#030-alpha--2026-05-03).)
+The 11 full-lane phases: Bootstrap · Discovery · Tech Stack · Planning · **Design** · **Architecture** · Breakdown · Implementation · Deployment · Operate · Evolve.
 
 **One framework. One format. Two runtimes. Pluggable stack packs.**
 
@@ -84,7 +84,7 @@ coldpress feedback                Open GitHub Issues in your browser
 coldpress --version | --help      Version / full command reference
 ```
 
-## Lifecycle phases (Shape A — v0.3.0-alpha)
+## Lifecycle phases (full lane)
 
 11 phases, structured as **Spec → Plan → Implement → Review** expanded with the forward-carry quartet and a silent-divergence guard at the Design → Architecture boundary.
 
@@ -129,7 +129,7 @@ Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolde
 
 - **Subagents** are real Claude Code agents with independent context windows, tools, and models. Butler (your main session) dispatches them via the Agent tool. Not prompt-persona costume changes.
 - **Skills** are the atomic unit of work. Each is self-contained with frontmatter + step-files + references.
-- **Stack packs** are pluggable skill sets for specific technology stacks. Six ship in-tree at v0.3.0-alpha: `vibe-coder-fullstack` (Convex + Next.js + Clerk), `cli-npm-publishable` (TypeScript + tsup + Vitest), `browser-extension` (WXT + Manifest V3), `static-single-page`, `static-multipage-blog` (Astro variants), and `seo-pack` (cross-archetype audit/content/local/schema/technical). Activated via `stack_pack:` in `coldpress.yaml` after Phase-3 stack-locking.
+- **Stack packs** are pluggable skill sets for specific technology stacks. Five ship in-tree at v0.4.0-alpha: `vibe-coder-fullstack` (Convex + Next.js + Clerk), `cli-npm-publishable` (TypeScript + tsup + Vitest), `browser-extension` (WXT + Manifest V3), and `static-single-page` / `static-multipage-blog` (Astro variants). Activated via `stack_pack:` in `coldpress.yaml` after Phase-3 stack-locking. (`seo-pack` is a **capability pack** — cross-archetype audit/content/local/schema/technical — activated independently of the stack.)
 - **Sacred documents** — `_context/sacred/{context,tech-stack,prd,architecture}.md` — are protected by governance change workflows and the `sacred-guard` hook. (The full lane uses this five-doc-minus-one set; the **lite lane** — the default — uses a single `spec.md`.)
 - **`_context/` vs `_input/`** — produced artefacts vs material fed into the project. Inputs are not written by any skill.
 
@@ -139,7 +139,7 @@ Each subagent's definition lives at `.claude/agents/<slug>.md` in your scaffolde
 @coldpress/core/
 ├── src/              # CLI + generators + enforcement hooks + trace/waves/evals (TypeScript)
 ├── template/         # Scaffolded into consumer projects (8-subagent set + plugin auto-enable)
-├── lifecycle/        # 11-phase Shape A + lite-lane skill organisation
+├── lifecycle/        # 11-phase full lane + lite-lane skill organisation
 ├── skills/           # atomic reusable skills + 6 stack packs
 ├── agents/           # Subagent schema + registry
 ├── schemas/          # JSON / Zod schemas (sacred docs, handoffs, audit, design, deploy, evals)
@@ -175,7 +175,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 
 - **[Anthropic Agent Skills](https://agentskills.io/specification)** — *compatible + complementary.* Coldpress-os's skills conform to the Agent Skills SKILL.md spec (emitted to `plugin/skills/`). Installable as a Claude Code plugin via `/plugin marketplace add coldpress-labs/coldpress-os`. We wrap Anthropic's first-party skills where they overlap with ours (`docx` / `pdf` / `pptx` / `xlsx` under the forkable creative/export skills, `webapp-testing` under `@verifier`, `mcp-builder` under `@architect`). See [`docs/agent-skills-compatibility.md`](docs/agent-skills-compatibility.md).
 - **[BMAD-METHOD](https://github.com/bmad-code-org/BMAD-METHOD)** — *lineage.* Coldpress-os is a soft-fork of BMAD v6.2.2 (pinned upstream, no rebase — cherry-pick only). Full attribution in [`NOTICE.md`](./NOTICE.md).
-- **GitHub Copilot Workspace** — *shared spine, richer expansion.* Both implement Spec → Plan → Implement → Review. Coldpress-os expands the 4-stage spine into 11 phases (Shape A) with sacred-doc governance and typed inter-phase handoffs. See [`docs/spec-plan-implement-review-mapping.md`](docs/spec-plan-implement-review-mapping.md).
+- **GitHub Copilot Workspace** — *shared spine, richer expansion.* Both implement Spec → Plan → Implement → Review. Coldpress-os expands the 4-stage spine into 11 phases (full lane) with sacred-doc governance and typed inter-phase handoffs. See [`docs/spec-plan-implement-review-mapping.md`](docs/spec-plan-implement-review-mapping.md).
 - **[Graphify](https://github.com/safishamsi/graphify)** — *optional external backend (lineage).* Formerly vendored as the indexer + retrieval core; retired from the core in v0.4. Retrieval/traceability is now the native `coldpress trace`, and AST code-indexing is an optional brownfield-pack capability that can call Graphify (or an equivalent) as an on-demand external install — never re-vendored. See [`NOTICE.md`](./NOTICE.md) §4.
 
 ## Documentation
@@ -186,7 +186,7 @@ coldpress update   # regenerate AGENTS.md / Cursor / Roo / OpenHands / Cline out
 | [Example Walkthrough](docs/example-walkthrough.md) | Full lifecycle demo with a sample project (TaskPulse) |
 | [Troubleshooting & FAQ](docs/troubleshooting.md) | Common issues and solutions |
 | [Architecture](docs/architecture.md) | Internal technical reference |
-| [Spec → Plan → Implement → Review mapping](docs/spec-plan-implement-review-mapping.md) | 11-phase Shape A lifecycle grouped under the industry-standard spine |
+| [Spec → Plan → Implement → Review mapping](docs/spec-plan-implement-review-mapping.md) | 11-phase full-lane lifecycle grouped under the industry-standard spine |
 | [Agent Skills compatibility](docs/agent-skills-compatibility.md) | How coldpress-os fits the Anthropic Agent Skills ecosystem |
 | [Template Registry](TEMPLATES-REGISTRY.md) | Every template — by category, phase, consuming skill |
 | [Skill Discovery Index](docs/skill-index.md) | Every skill grouped by phase + cross-cutting utilities |

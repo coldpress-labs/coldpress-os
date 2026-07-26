@@ -1,6 +1,10 @@
 # Example Walkthrough — Building "TaskPulse" with coldpress-os
 
-> A complete lifecycle walkthrough showing how coldpress-os drives a project from idea to deployment under **Shape A (11 phases — v0.3.0-alpha)**. Follow along or use it as a reference for what each phase produces.
+> A complete lifecycle walkthrough showing how coldpress-os drives a project from idea to deployment on the **full lane (11 phases — v0.4.0-alpha)**. Follow along or use it as a reference for what each phase produces.
+>
+> **Two lanes.** This walkthrough covers the **full lane**. The scaffolded default is the **lite lane** — four moves (Spec → Build → Verify → Ship) for projects that don't need the full ceremony; `coldpress lane-upgrade` moves a project to the full lane when it outgrows lite. See [`quick-start.md`](quick-start.md) for the lite path.
+>
+> **Validated against real builds.** TaskPulse is illustrative, but the flow below is not hypothetical: v0.4.0-alpha's ship gate required two end-to-end validation runs of exactly this machinery — a lite-lane build (a multi-page Astro site: Spec → Build → Verify → Ship, clean-room verifier pass, deploy-gate exercised in both directions) and a full-lane build (an interactive React/TypeScript app driven through all phase gates by a real agent team — plan-approved stories, `@developer` implementing wave-by-wave, the `@verifier` clean-room re-verifying every story, `@devops` shipping staging → production). Every seam this document describes was exercised, and the findings were fixed and regression-pinned before release (see [CHANGELOG](../CHANGELOG.md)).
 
 ---
 
@@ -83,7 +87,7 @@ taskpulse/
 │   └── settings.json          # Auto-enables the skills plugin
 ├── plugin/skills/             # Skills plugin (auto-enabled via .claude/settings.json)
 ├── .coldpress/
-│   ├── graph/graph.json       # Primed knowledge graph
+│   ├── state.yaml             # Orchestration state (phase / lane / gates)
 │   └── local-config.yaml      # phase_1_completed: true
 ├── _context/
 │   ├── sacred/
@@ -110,21 +114,21 @@ Phase 2 warm-starts from Phase 1 — Butler reads the intake seed rather than as
 
 ```
 # Phase-transition hands off automatically at the end of Phase 1.
-# Butler will say: "Starting Phase 2 — first up: @analyst pre-project-interview"
+# Butler will say: "Starting Phase 2 — first up: @analyst research"
 ```
 
 For solo vibe-coder (minimum viable path):
 ```
-pre-project-interview → 1-2 research skills → synthesize-research → product-brief
+research (1-2 passes) → product-brief
 ```
 
 For structured solo or team project:
 ```
-pre-project-interview → domain + market + constraint + personas (parallel) →
-validate-idea → synthesize-research → product-brief
+research (domain / market / constraints / users, as many passes as needed) +
+personas → validate-idea → product-brief
 ```
 
-### What happens — pre-project-interview
+### What happens — the discovery interview
 
 Butler dispatches **@analyst** (discovery mode). The analyst reads the seed intent from `context.md` and confirms it rather than re-asking:
 
@@ -154,13 +158,12 @@ match what you're after, or has anything shifted since Phase 1?
 ### What happens — research lane (parallel)
 
 ```
-@analyst domain-research       # → _context/planning/research/domain-research-{date}.md
-@analyst market-research       # → _context/planning/research/market-research-{date}.md
-@analyst constraint-research   # → _context/planning/research/constraint-{topic}-{date}.md
+@analyst research              # → _context/planning/research/research-{focus}-{date}.md
+                                # (one pass per focus: domain, market, constraints, ...)
 @analyst personas              # → _context/planning/personas-{date}.md
 ```
 
-Research skills query the knowledge graph first (material pre-loaded in `_input/` during intake), then supplement with web research. If a graph-first finding contradicts `_input/` material, the supersede-check fires — Butler surfaces the conflict and asks for confirmation.
+The `research` skill reads the material indexed in `_input/` first, then supplements with web research. If a new finding contradicts `_input/` material, Butler surfaces the conflict and asks for confirmation rather than silently superseding it.
 
 ### What happens — validate-idea
 
@@ -170,22 +173,20 @@ Research skills query the knowledge graph first (material pre-loaded in `_input/
 
 9 steps: problem validation, hypotheses + risks, differentiation, problem-solution fit, success metrics, prior art, and (if team) stakeholder alignment. Step 9 is a red-flag escape hatch — if the validation surfaces a critical weakness, Butler pauses before proceeding.
 
-### What happens — synthesis + brief
+### What happens — the brief
 
 ```
-@analyst synthesize-research   # → _context/planning/research-synthesis-v1.md
 @analyst product-brief         # → _context/planning/product-brief-v1.md
 ```
 
-`synthesize-research` consolidates all research + validation using Systems Thinking + Morphological Analysis, then runs `adversarial-review` + `editorial-structure` for quality. `product-brief` is a 1-2 page executive brief — a **validated distillate**, not a sacred doc. It's versioned and regeneratable.
+`product-brief` consolidates all research passes + validation into a 1-2 page executive brief — a **validated distillate**, not a sacred doc. It's versioned and regeneratable, and it names the product's **north-star metric** (the seed of the outcome contract Phase 4 formalizes).
 
 ### Phase 2 exit
 
 Butler invokes `phase-transition`:
-- Runs the Phase 2 exit gate (4 block + 3 warn checks)
-- Rebuilds the knowledge graph (or flags as stale if Graphify unavailable)
+- Runs the Phase 2 exit gate (`coldpress gate check` — block + warn checks, evaluation emitted to `_context/audit/`)
 - Writes `_context/handoffs/phase-2-to-phase-3-{date}.md`
-- Detects if product-brief is stale vs context.md + synthesis (prompts regen if so)
+- Detects if product-brief is stale vs context.md + the research corpus (prompts regen if so)
 
 ---
 
@@ -268,21 +269,31 @@ Then run `env-provision`:
 - `_context/planning/stack-selection-summary-v1.md` — Validated distillate.
 - `coldpress.yaml`: `stack_pack: vibe-coder-fullstack` + `baselines:` block written.
 
+### Step 5: deploy-select + walking-skeleton
+
+```
+Run deploy-select              # locks deploy_pack: in coldpress.yaml (e.g. vercel)
+Run walking-skeleton           # thinnest end-to-end slice, built + smoked
+```
+
+The walking skeleton is a Phase-3 exit requirement: the thinnest possible end-to-end slice of the locked stack, built for real and smoke-tested — **local-first is a first-class path** (smoke through the deploy pack's local adapter now, owe the remote staging deploy to Phase 9 as structured deploy-debt). The Phase-3 gate verifies the stack lock landed in `coldpress.yaml` and the skeleton smoked green.
+
 ---
 
-## Phase 4: Planning (PRD-only post-split)
+## Phase 4: Planning (PRD-only)
 
-Under Shape A, Phase 4 is **PRD-only** — UX and architecture moved to dedicated phases 5 and 6.
+Phase 4 is **PRD-only** — UX and architecture have their own dedicated phases (5 and 6).
 
 ### What you do
 
 ```
 Run create-prd
+Run outcome-contract
 ```
 
 ### What happens
 
-Butler dispatches **@pm**. The PM runs `planning-entry-sync` first (graph-first read of all Phase 2 + 3 outputs), then walks you through a structured PRD creation workflow:
+Butler dispatches **@pm**. The PM reads all Phase 2 + 3 outputs first, then walks you through a structured PRD creation workflow:
 
 - Core features (task CRUD, focus timer, weekly patterns)
 - User stories (as a solo creator, I want to...)
@@ -291,6 +302,8 @@ Butler dispatches **@pm**. The PM runs `planning-entry-sync` first (graph-first 
 - Success metrics (daily active usage, task completion rate)
 
 **Output:** `_context/sacred/prd.md` — Third sacred document. Plus `prd.meta.json` sidecar (the `prd-to-architecture` handoff payload — feature count, NFR axes, ADR references, brownfield modules count, baselines active).
+
+Then `outcome-contract` turns the PRD's success metrics into `_context/planning/outcomes.yaml` — the machine-readable **outcome contract** (schema-validated, block-gated at Phase-4 exit). It threads through the rest of the lifecycle: Phase 6's analytics plan maps events to it, Phase 8 instruments those events on stories, and Phase 10's ops digest reports **actual vs target** against it.
 
 ### `validate-prd --sections=<list>` for amendments
 
@@ -304,15 +317,19 @@ Emits `prd-validation-amendment-{date}.md` — a lightweight per-section amendme
 
 ---
 
-## Phase 5: Design *(NEW under Shape A)*
+## Phase 5: Design
 
-The new Design phase consolidates UX + brand work that used to be scattered. Owner: **@ux-designer**.
+The Design phase consolidates UX + brand work into one machine-verified design system. Owner: **@ux-designer**.
 
 ### What you do
 
 ```
+Run design-brief
 Run ux-design
 Run brand-guidelines
+Run design-tokens            # → tokens.json (the machine-readable design system)
+Run budgets                  # → budgets.yaml (route weight / perf budgets)
+Run styleguide               # → styleguide.md + a live /styleguide route in the app
 Run prototype                # optional — only if archetype calls for it
 ```
 
@@ -338,6 +355,15 @@ Run prototype                # optional — only if archetype calls for it
 
 5 steps: scope, voice, tokens (colour/typography/spacing), identity (logo, iconography), a11y rules. The output is a validated distillate.
 
+### The machine artifacts — tokens, budgets, styleguide
+
+Phase 5's four machine artifacts are what make the design system *enforceable* rather than aspirational:
+
+- **`tokens.json`** — every colour/type/spacing decision as data. Builds consume tokens **by construction** (the tokens-build binding), so a token edit propagates with no manual code change.
+- **`coldpress tokens contrast`** — the WCAG contrast validator runs over every declared theme (light *and* dark), alpha-composites rgba/hsl values, and **block-gates Phase-5 exit** on AA failures.
+- **`budgets.yaml`** — route-level performance budgets, verified against real builds in Phase 8.
+- **`styleguide.md` + the live `/styleguide` route** — the human-facing spec plus a rendered page in the app itself, so drift is visible.
+
 ### Design-deltas — the first instance of the forward-carry quartet
 
 During Phase 5, @ux-designer may surface design-deltas — places where the design intent diverges from the PRD. Each delta resolves at Phase 5 exit (in @pm scope) via four reconciliation options:
@@ -357,14 +383,19 @@ During Phase 5, @ux-designer may surface design-deltas — places where the desi
 
 ---
 
-## Phase 6: Architecture *(NEW under Shape A)*
+## Phase 6: Architecture
 
-The new Architecture phase is the first phase where PRD + UX-spec + brand-guidelines + tech-stack are all simultaneously available. Owner: **@architect**.
+Architecture is the first phase where PRD + UX-spec + brand-guidelines + tech-stack are all simultaneously available. Owner: **@architect**. (Phases 5 and 6 may partially overlap.)
 
 ### What you do
 
 ```
 Run architecture-design
+Run data-model                 # entities + relationships
+Run api-contract               # endpoint/interface contracts
+Run integration-inventory      # external services, failure modes, infra cost
+Run threat-model               # + security-registry for the security posture
+Run analytics-plan             # maps outcomes.yaml metrics to concrete events
 ```
 
 ### What happens
@@ -399,7 +430,7 @@ Phase 6 may itself surface architecture-deltas (places where the architecture di
 
 ---
 
-## Phase 7: Breakdown *(cascade rename — was old Phase 5)*
+## Phase 7: Breakdown
 
 ### What you do
 
@@ -425,8 +456,9 @@ Epic 4: Auth & Onboarding (sign-up, login, first-run experience)
 Then:
 
 ```
-Run story-graph               # @pm → per-story files
-Run story-slice                  # @pm → story-graph.yaml (nodes + dependency edges)
+Run story-slice                  # @pm → per-story files (contract stories)
+Run story-graph                  # @pm → story-graph.yaml (nodes + dependency edges)
+Run implementation-readiness     # per-story READY check before Phase 8
 coldpress waves                  # CLI → computes waves / critical path / schedule
 ```
 
@@ -457,7 +489,7 @@ Wave 4 (depends on Waves 1-3):
 
 ---
 
-## Phase 8: Implementation *(cascade rename — was old Phase 6)*
+## Phase 8: Implementation
 
 ### What you do
 
@@ -514,59 +546,66 @@ Phase 8 may surface implementation-deltas (places where the implementation diver
 
 ---
 
-## Phase 9: Deployment *(cascade rename — was old Phase 7)*
+## Phase 9: Deployment
 
-Owner: **@devops** (Phase 9 ship-path mode — new in v0.3.0-alpha).
+Owner: **@devops**. Deployment runs through the project's locked **deploy pack** (`deploy_pack:` in `coldpress.yaml` — e.g. vercel, cloudflare-pages, netlify, self-hosted): the pack supplies the staging/preview/prod verbs, the smoke checks, and the rollback recipe for that target.
 
 ### What you do
 
 ```
-Run readiness-check
+Run readiness
 ```
 
 ### What happens
 
 ```
-@devops readiness-check         # Phase 9 meta-aggregator
-  ✅ All stories in current sprint: implemented
-  ✅ Test coverage: 87% (target: 80%)
-  ✅ No critical security findings (security-scan, secrets-vault-manager)
-  ✅ Environment variables configured (env-check)
-  ✅ Dependency health: clean (dep-health-check, dependency-auditor)
+@devops readiness               # → _context/operations/readiness-v1.md (schema-validated)
+  ✅ All stories in current wave: verified (@verifier clean-room)
+  ✅ Security scans clean (scan-code, scan-deps-and-containers, scan-secrets)
+  ✅ Environment variables configured (env-check, secrets-vault-manager)
+  ✅ Budgets met against the production build (budgets.yaml)
   ⚠️  No error monitoring configured (observability-designer recommends Sentry free tier)
 
 Recommendation: READY TO DEPLOY with advisory on monitoring.
 ```
 
-Then:
+Then the staged ship path:
 
 ```
-Run security-scan
-Run env-check
-Run db-migration-check
-Run dep-health-check
-Run deploy                     # @devops executes deployment
+Run deploy-staging             # @devops → staging target via the deploy pack
+Run smoke                      # smoke checks against the staging URL — staging never red
+Run deploy-preview             # optional: per-story preview deployments
+Run client-acceptance          # client/UAT sign-off record (team/client projects)
+Run deploy-prod                # HUMAN-TRIGGERED, never automatic
+Run handover                   # release record + runbooks → _context/operations/
 ```
+
+**The deploy-gate hook enforces the ordering**: a prod deploy is blocked unless the same commit has a green staging smoke, and prod is always human-triggered — the framework will stage and verify autonomously, but shipping to production is your call. `rollback` rehearses the pack's rollback recipe so the first time you need it isn't the first time you've run it.
 
 ---
 
-## Phase 10: Operate *(cascade rename — was old Phase 8)*
+## Phase 10: Operate
 
-Owner: **@devops** continues from Phase 9 — no agent change at the P9 → P10 entry (Pattern 7 transition #16: same-agent phase boundary). New phase-mode: steady-state.
+Owner: **@devops** continues from Phase 9 — no agent change at the P9 → P10 boundary. Phase-mode: steady-state.
 
 ### What you do (continuous)
 
 ```
-Run sprint-status              # weekly check-in
+Run ops-check                  # point-in-time health check
+Run operate-loop               # the recurring ops digest
 ```
 
 ```
-@devops sprint-status
-  Sprint 1 in flight (4 of 10 stories complete; on track for 7-day finish)
-  Open incidents: 0
-  SLO breaches: 0
+@devops operate-loop
+  Uptime: 100% (last 7 days) | Open incidents: 0 | SLO breaches: 0
   Last deploy: 2026-04-26 (Story 1.1 + 4.1 → prod)
+
+  Outcomes (actual vs target, from outcomes.yaml):
+    daily_active_usage:    14 / 20   (70% of target, trending up)
+    task_completion_rate:  0.61 / 0.55 ✅
 ```
+
+The ops digest closes the outcome-contract loop: the metrics you committed to in Phase 4's `outcomes.yaml` are reported as **actual vs target** from real telemetry — the framework doesn't just verify that you built the thing, it measures whether the thing worked. `client-health-report` produces the client-facing version on team/client projects.
 
 When something breaks:
 
@@ -589,9 +628,9 @@ Operational findings that should change PRD, architecture, or roadmap become **o
 
 ---
 
-## Phase 11: Evolve *(FINAL — cascade rename + new owner)*
+## Phase 11: Evolve *(FINAL)*
 
-Owner: **@reviewer** (new in v0.3.0-alpha — takes over from @devops at Phase 11 entry).
+Owner: **@reviewer** (read-only — takes over from @devops at Phase 11 entry; every claim in the retrospective cites a run-log event).
 
 ### What you do (after each iteration)
 
@@ -625,38 +664,40 @@ Then:
 
 ```
 Run product-evolution          # next-iteration backlog
-Run innovation-strategy        # long-horizon ideation (optional)
+Run pack-harvest               # graduate what worked → reusable packs / a new profile
+Run framework-feedback         # learnings → coldpress-os issues (the improvement loop intake)
 ```
+
+`pack-harvest` is how solutions compound: components, configs, and patterns that proved themselves in this build graduate into stack packs, capability packs, or a new project profile — so the next project of this shape starts further ahead. `framework-feedback` sends process failures upstream to the framework's own improvement loop.
 
 ### Inter-iteration cycle — Phase 11 → next iteration's Phase 1
 
-Phase 11 is **final** under Shape A — there is no Phase 12. Instead, on closure, `phase-transition` (with `is_final_phase: true`) copies:
+Phase 11 is **final** — there is no Phase 12. Instead, on closure, `phase-transition` (with `is_final_phase: true`) copies:
 
 ```
 _context/audit/retrospective-v{latest}.md             → _input/prior-iteration/
 _context/planning/product-evolution-backlog-v1.md     → _input/prior-iteration/
-_context/planning/innovation-strategy-v1.md           → _input/prior-iteration/
 ```
 
 Next iteration's Phase 1 `intake` skill detects `_input/prior-iteration/` and reads it — brownfield-style branching that warm-starts the next cycle.
 
 ---
 
-## Summary: What Each Phase Produced (Shape A 11-phase)
+## Summary: What Each Phase Produced (full lane, 11 phases)
 
 | Phase | Name | Owner | Key Outputs | Sacred? |
 |-------|------|-------|-------------|---------|
 | 1 | Bootstrap | butler | Project structure, `coldpress.yaml`, 8 agent definitions, seed `context.md` | seed |
 | 2 | Discovery | @analyst | `context.md` (authored), research, idea-validation, product-brief | context: ✓ |
 | 3 | Tech Stack | @architect | `tech-stack.md`, ADRs, stack-selection-summary, baselines | tech-stack: ✓ |
-| 4 | Planning | @pm | `prd.md` + meta.json sidecar | prd: ✓ |
-| 5 | **Design** | @ux-designer | ux-design-spec, brand-guidelines, design-deltas | distillates |
-| 6 | **Architecture** | @architect | `architecture.md` (REQUIRED ADRs for flagged-deltas), arch-deltas | architecture: ✓ |
+| 4 | Planning | @pm | `prd.md` + meta.json sidecar, `outcomes.yaml` (outcome contract) | prd: ✓ |
+| 5 | **Design** | @ux-designer | ux-design-spec, brand-guidelines, `tokens.json`, `budgets.yaml`, styleguide + live route, design-deltas | distillates |
+| 6 | **Architecture** | @architect | `architecture.md` (REQUIRED ADRs for flagged-deltas), data-model, api-contract, analytics-plan, arch-deltas | architecture: ✓ |
 | 7 | Breakdown | @pm | epics, stories, `story-graph.yaml`, computed waves (`coldpress waves`) | — |
-| 8 | Implementation | @developer + @verifier | Application code, tests, implementation-deltas | — |
-| 9 | Deployment | @devops | Readiness report, deployed application, deploy-log | — |
-| 10 | Operate | @devops | sprint-status, course-corrections, incident postmortems, ops-deltas | — |
-| 11 | Evolve *(final)* | @reviewer | retrospective, product-evolution-backlog, innovation-strategy → next iteration | — |
+| 8 | Implementation | @developer + @verifier | Application code, tests (clean-room verified per story), implementation-deltas | — |
+| 9 | Deployment | @devops | readiness record, staging smoke, human-triggered prod deploy, release record | — |
+| 10 | Operate | @devops | ops digests (actual-vs-target outcomes), incident postmortems, ops-deltas | — |
+| 11 | Evolve *(final)* | @reviewer | retrospective, product-evolution backlog, pack-harvest, framework-feedback → next iteration | — |
 
 **Total sacred documents:** 4 (context, tech-stack, PRD, architecture)
 **Total subagents available:** 8 (analyst, architect, pm, ux-designer, developer, verifier, devops, reviewer)
@@ -678,6 +719,7 @@ Next iteration's Phase 1 `intake` skill detects `_input/prior-iteration/` and re
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 5.0 | 2026-07-26 | Butler (v0.4.0-alpha release bookkeeping) | **v0.4 refresh — the last v0.3-era public doc brought to shipped reality.** Header reframed: full lane at v0.4.0-alpha (Shape A label dropped), lite lane + `lane-upgrade` introduced, and a "validated against real builds" note added — the flow is anchored to the two §12 ship-gate validation runs (lite: Astro multi-page site; full: interactive React/TS app driven by the real agent team through clean-room verification and a staged production deploy). Body de-staled: knowledge graph/Graphify → native state + `_input/`-first reads; Phase 2 skills → `research`/`personas`/`validate-idea`/`product-brief`; Phase 3 gains `deploy-select` + `walking-skeleton` (local-first path); Phase 4 gains `outcome-contract`/`outcomes.yaml` thread; Phase 5 gains the four machine artifacts (tokens.json, `tokens contrast` block gate, budgets.yaml, styleguide + live route); Phase 6 lists the full skill set; Phase 7 label swap fixed + `implementation-readiness`; Phase 9 rewritten to the deploy-pack staged ship path (readiness → deploy-staging → smoke → human-triggered deploy-prod → handover; deploy-gate ordering); Phase 10 → `ops-check`/`operate-loop` with actual-vs-target outcomes; Phase 11 gains `pack-harvest` + `framework-feedback` (innovation-strategy ref dropped). Summary table updated to match. |
 | 4.0 | 2026-05-17 | ColdPress Labs | **Shape A rewrite for v0.3.0-alpha.** Restructured from 8 phases to 11. Old Phase 4 (Planning) split into Phase 4 (Planning, PRD-only) + Phase 5 (Design, NEW) + Phase 6 (Architecture, NEW). Old phases 5–9 cascade-renamed to 7–11. Added Hello Butler kickoff at top. Added forward-carry quartet documentation (design-deltas at P5 exit, architecture-deltas at P7 entry, implementation-deltas at P11 batch, ops-deltas at P11 retrospective). Added silent-divergence guard P5 → P6 (REQUIRED ADRs for flagged deltas). Added inter-iteration cycle P11 → next-iteration P1. Subagent count 9 → 11 (added @reviewer for P11, @devops for P9+P10). Updated phase ownership (@pm 4+7; @architect 3+6; @ux-designer 5; @devops 9+10; @reviewer 11). Updated counts (skill wrappers ~66 → ~128; sacred docs still 5). Node ≥20 → ≥22. |
 | 3.0 | 2026-04-24 | ColdPress Labs | Phase II Part 3 Wave 5.3. Phase 3 section rewritten: warm-handoff noted; 4-step flow (stack-discovery-sync with pack-match, stack-evaluation T1 fast-path + T2 rubric, stack-locking with baselines confirm + post-CLI, env-provision pack-branch); stack_pack changed from "convex" to "vibe-coder-fullstack" (pack renamed in Wave 6); summary table Phase 3 row expanded with all outputs. |
 | 2.0 | 2026-04-24 | ColdPress Labs | Phase II Part 1 Wave 5.1b. Phase 1 section rewritten for the npm-era flow: `coldpress init` (pre-session CLI) replaces the retired `project-init` + `agent-scaffold` workflow; Butler's new `orient` + `intake` skills drive in-session Phase 1 (6 intake steps enumerated). Post-Phase-1 directory tree updated to include `.coldpress/`, `_context/sacred/context.md` (seed), `_context/tracking/`, `_context/handoffs/`, `_input/` (with READMEs), `scripts/check-secrets.sh`, `secure/manifest.yaml`. |
