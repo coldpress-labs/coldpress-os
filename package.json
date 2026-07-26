@@ -1,10 +1,10 @@
 {
   "name": "@coldpress/core",
   "version": "0.4.0-alpha",
-  "description": "AI-native development framework: 11-phase lifecycle (Shape A) + lite lane, 8 subagents, plugin-distributed skills, sacred-doc governance, enforcement hooks, forward-carry quartet.",
+  "description": "AI-native development framework: lite lane (Spec → Build → Verify → Ship) + 11-phase full lane, 8 subagents, plugin-distributed skills, sacred-doc governance, enforcement hooks, forward-carry quartet.",
   "type": "module",
   "bin": {
-    "coldpress": "./dist/cli.js"
+    "coldpress": "dist/cli.js"
   },
   "files": [
     "dist",
